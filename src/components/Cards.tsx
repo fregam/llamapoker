@@ -1,3 +1,10 @@
+/**
+ * <CardFace> — one playing card (corner index + centre pip) or an empty slot, always
+ * rendered as a <button> with a screen-reader label. Clickable when onClick is given.
+ * Used by: views/PlayTool (table slots), views/Trainer.
+ * Uses: poker/cards (rank/suit decoding, names).
+ */
+
 import { Card, RANKS, SUIT_SYMBOL, SUIT_COLOR, rankOf, suitOf, cardName } from "../poker/cards";
 
 export function CardFace({
@@ -29,11 +36,13 @@ export function CardFace({
         disabled={!onClick}
         aria-label={label ?? (onClick ? "Empty slot — click to choose a card" : "Empty slot")}
       >
-        <span aria-hidden="true">+</span>
+        <span className="card-plus" aria-hidden="true">+</span>
       </button>
     );
   }
   const color = SUIT_COLOR[suitOf(card)];
+  const rank = RANKS[rankOf(card)];
+  const suit = SUIT_SYMBOL[suitOf(card)];
   return (
     <button
       type="button"
@@ -42,8 +51,11 @@ export function CardFace({
       disabled={!onClick}
       aria-label={label ?? cardName(card) + (onClick ? " — click to remove" : "")}
     >
-      <span className="card-rank" aria-hidden="true">{RANKS[rankOf(card)]}</span>
-      <span className="card-suit" aria-hidden="true">{SUIT_SYMBOL[suitOf(card)]}</span>
+      <span className="card-corner" aria-hidden="true">
+        <span className="card-rank">{rank === "T" ? "10" : rank}</span>
+        <span className="card-suit">{suit}</span>
+      </span>
+      <span className="card-pip" aria-hidden="true">{suit}</span>
     </button>
   );
 }

@@ -1,3 +1,9 @@
+/**
+ * Entry point. Mounts <App /> into #root (index.html) inside React.StrictMode
+ * and loads the single global stylesheet, styles.css.
+ * Uses: App.tsx, styles.css.
+ */
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";

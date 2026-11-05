@@ -1,7 +1,12 @@
-// Core card representation and deck utilities.
-// A card is encoded as an integer 0..51 where:
-//   rank = (card >> 2)  // 0..12  -> 2,3,4,5,6,7,8,9,T,J,Q,K,A
-//   suit = (card & 3)   // 0..3   -> clubs, diamonds, hearts, spades
+/**
+ * Core card representation and deck utilities. Everything in poker/ is plain
+ * TypeScript with no React, so it is unit-testable and worker-safe.
+ * A card is an integer 0..51:
+ *   rank = card >> 2   (0..12 → 2,3,4,5,6,7,8,9,T,J,Q,K,A)
+ *   suit = card & 3    (0..3  → clubs, diamonds, hearts, spades)
+ * Also: parsing ("As" → card), labels, screen-reader names, decks, shuffling.
+ * Used by: nearly every other file.
+ */
 
 export type Card = number;
 

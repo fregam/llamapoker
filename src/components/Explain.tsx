@@ -1,3 +1,9 @@
+/**
+ * Explanation helpers: <Explain> (a native <details> disclosure), <Formula> (a worked
+ * equation: label, expression, result) and <Term> (inline term with a tooltip).
+ * Used by: components/Readout, views/Glossary.
+ */
+
 import { ReactNode, useId } from "react";
 
 /** Accessible "How is this calculated?" disclosure (native <details>). */

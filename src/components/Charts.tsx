@@ -1,4 +1,10 @@
-// Lightweight dependency-free SVG/CSS visualizations for the calculations.
+/**
+ * Small dependency-free charts. EquityGauge (equity vs the break-even line) and
+ * PotBar (what you risk vs what you can win) are used by Readout. Donut is no longer
+ * used (Readout switched to the figures + split bar) but is kept for reuse.
+ * Used by: components/Readout.
+ * Uses: poker/odds (formatPct).
+ */
 
 import { formatPct } from "../poker/odds";
 
@@ -12,7 +18,7 @@ export interface Segment {
 export function Donut({
   segments,
   size = 168,
-  thickness = 28,
+  thickness = 10,
   center,
   centerSub,
 }: {
@@ -35,7 +41,7 @@ export function Donut({
     <div className="donut-wrap">
       <svg width={size} height={size} role="img" aria-label={`${center}. ${aria}`}>
         <g transform={`rotate(-90 ${cx} ${cy})`}>
-          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#1c2b25" strokeWidth={thickness} />
+          <circle cx={cx} cy={cy} r={r} fill="none" style={{ stroke: "var(--track)" }} strokeWidth={thickness} />
           {segments.map((s) => {
             const frac = s.value / total;
             const dash = frac * circ;
@@ -46,7 +52,7 @@ export function Donut({
                 cy={cy}
                 r={r}
                 fill="none"
-                stroke={s.color}
+                style={{ stroke: s.color }}
                 strokeWidth={thickness}
                 strokeDasharray={`${dash} ${circ - dash}`}
                 strokeDashoffset={-offset}
@@ -56,11 +62,11 @@ export function Donut({
             return el;
           })}
         </g>
-        <text x={cx} y={cy - 2} textAnchor="middle" className="donut-center">
+        <text x={cx} y={cy + 6} textAnchor="middle" className="donut-center">
           {center}
         </text>
         {centerSub && (
-          <text x={cx} y={cy + 18} textAnchor="middle" className="donut-sub">
+          <text x={cx} y={cy + 26} textAnchor="middle" className="donut-sub">
             {centerSub}
           </text>
         )}

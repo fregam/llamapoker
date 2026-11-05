@@ -1,4 +1,9 @@
-// Pot odds and drawing-odds helpers.
+/**
+ * Odds helpers. formatPct (used for every percentage in the UI) and outsToEquity
+ * (the rule of 2 and 4, shown next to the exact hit chance in Readout).
+ * potOdds() is a leftover — pot odds are now computed in poker/analyze.ts.
+ * Used by: components/Readout, components/Charts, poker/strategy, views/Trainer.
+ */
 
 export interface PotOdds {
   callAmount: number;

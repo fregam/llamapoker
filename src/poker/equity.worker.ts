@@ -1,13 +1,19 @@
-// Runs the Monte Carlo equity simulation off the main thread so the UI never
-// freezes while it computes (heavier with more opponents).
-import { equityVsRandom, EquityResult } from "./equity";
+/**
+ * Web-worker wrapper around simulate() so the UI never freezes while it computes.
+ * Message in: EquityRequest { id, hero, board, opps, iterations }.
+ * Message out: EquityResponse { id, result }. The id lets useEquity drop stale replies.
+ * Created by: hooks/useEquity (new Worker(new URL(...), { type: "module" })).
+ * Uses: poker/equity.
+ */
+
+import { simulate, EquityResult, OppRange } from "./equity";
 import { Card } from "./cards";
 
 export interface EquityRequest {
   id: number;
   hero: [Card, Card];
   board: Card[];
-  opponents: number;
+  opps: OppRange[];
   iterations: number;
 }
 export interface EquityResponse {
@@ -19,7 +25,7 @@ export interface EquityResponse {
 const ctx = self as unknown as Worker;
 
 ctx.onmessage = (e: MessageEvent<EquityRequest>) => {
-  const { id, hero, board, opponents, iterations } = e.data;
-  const result = equityVsRandom(hero, board, opponents, iterations);
+  const { id, hero, board, opps, iterations } = e.data;
+  const result = simulate(hero, board, opps, iterations);
   ctx.postMessage({ id, result } as EquityResponse);
 };

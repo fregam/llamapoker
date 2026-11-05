@@ -1,3 +1,9 @@
+/**
+ * The Glossary page: static definitions of every term the tool uses, with worked
+ * formulas. Keep it in sync when the math or terminology changes.
+ * Uses: components/Explain (Formula).
+ */
+
 import { ReactNode } from "react";
 import { Formula } from "../components/Explain";
 
@@ -13,6 +19,7 @@ function Entry({ term, children }: { term: string; id?: string; children: ReactN
 export default function Glossary() {
   return (
     <div className="glossary">
+      <h1 className="page-title">The glossary</h1>
       <p className="lead">
         Plain-language definitions for every term the tool uses. Each one shows the idea, the
         formula where there is one, and a quick example.
@@ -24,7 +31,7 @@ export default function Glossary() {
           <Entry term="Equity">
             Your share of the pot if the hand were dealt out to the end right now — in practice, your
             chance of winning the hand. 60% equity means you'd win 6 times out of 10 on average.
-            <Formula steps={[{ label: "equity", expr: "(wins + ties ÷ players) ÷ hands simulated" }]} />
+            <Formula steps={[{ label: "equity", expr: "(wins + your share of each tie) ÷ hands simulated" }]} />
             The tool estimates this by dealing the unknown cards thousands of times (a{" "}
             <em>Monte Carlo simulation</em>) and counting how often you end up best.
           </Entry>
@@ -163,9 +170,30 @@ export default function Glossary() {
             the real danger on this board.
           </Entry>
 
-          <Entry term="Random opponents">
-            The tool assumes opponents could hold any two cards. Real players fold their worst hands,
-            so against tight opponents your true equity in big pots is usually a bit lower than shown.
+          <Entry term="Opponent ranges">
+            The set of hands a player could hold given how they've played. Each opponent in the tool gets
+            a range (a preset like <em>UTG open</em> or <em>BB defend</em>, or your own grid), and the
+            simulation only deals them hands from it. <em>Any two cards</em> is the old random-opponent
+            assumption and makes your equity look better than it is against real players.
+          </Entry>
+
+          <Entry term="Split pot (ties)">
+            When players tie, only the players who tied share the pot. A two-way tie in a three-way pot
+            gives you half, not a third.
+          </Entry>
+
+          <Entry term="Effective stack & SPR">
+            The <strong>effective stack</strong> is the smaller of your stack and your opponent's, since
+            that's the most either of you can win or lose. <strong>SPR</strong> (stack-to-pot ratio) compares
+            it to the pot:
+            <Formula steps={[{ label: "SPR", expr: "effective stack ÷ pot", result: "e.g. 300 ÷ 100 = 3" }]} />
+            Low SPR (under ~3): top pair or better is usually committed. High SPR (8+): you need a strong
+            hand to play a big pot, and draws gain value from implied odds.
+          </Entry>
+
+          <Entry term="3-bet">
+            The first re-raise before the flop (the blinds count as the first bet and the open as the
+            second). You 3-bet strong hands for value and a few suited aces as bluffs.
           </Entry>
         </dl>
       </section>

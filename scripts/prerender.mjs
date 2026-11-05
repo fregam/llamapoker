@@ -1,0 +1,78 @@
+// Build step 3 of 3 (after `vite build` and the SSR build): writes one HTML file per
+// route into dist/ with the page's title, description, social tags, canonical URL and
+// structured data (JSON-LD), plus the prerendered markup for pages marked
+// `prerender: true` in src/seo.ts.
+// Also writes:
+//   dist/app.html     the empty app shell, served (with a 404) for unknown URLs
+//   dist/robots.txt   allow everything, point at the sitemap
+//   dist/sitemap.xml  only when the site URL is known
+// The site URL comes from SITE_URL, or Netlify's URL variable during Netlify builds.
+// Without it, canonical links and the sitemap are skipped (everything else still works).
+
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
+
+const DIST = "dist";
+const SSR = "dist-ssr";
+const site = (process.env.SITE_URL || process.env.URL || "").replace(/\/$/, "");
+
+const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+const template = readFileSync(join(DIST, "index.html"), "utf8");
+const { render, ROUTES, NOT_FOUND } = await import(pathToFileURL(join(process.cwd(), SSR, "entry-server.js")).href);
+
+function page(route, body, extraHead = "") {
+  const url = site ? site + (route.path === "/" ? "/" : route.path) : "";
+  // Structured data (JSON-LD) from the route's schema() in src/seo.ts.
+  const jsonLd = (route.schema ? route.schema(site) : [])
+    .map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`)
+    .join("\n    ");
+  const head = [
+    jsonLd,
+    `<meta property="og:type" content="website" />`,
+    `<meta property="og:site_name" content="LlamaPoker" />`,
+    `<meta property="og:title" content="${esc(route.title)}" />`,
+    `<meta property="og:description" content="${esc(route.description)}" />`,
+    `<meta name="twitter:card" content="summary" />`,
+    url && `<meta property="og:url" content="${url}" />`,
+    url && `<link rel="canonical" href="${url}" />`,
+    extraHead,
+  ]
+    .filter(Boolean)
+    .join("\n    ");
+  return template
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(route.title)}</title>`)
+    .replace(/<meta name="description" content="[^"]*"\s*\/?>/, `<meta name="description" content="${esc(route.description)}" />`)
+    .replace("</head>", `    ${head}\n  </head>`)
+    .replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+}
+
+function write(path, html) {
+  const dir = path === "/" ? DIST : join(DIST, path);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, "index.html"), html);
+}
+
+for (const route of ROUTES) {
+  const body = route.prerender ? render(route.path) : "";
+  write(route.path, page(route, body));
+  console.log(`  prerendered ${route.path.padEnd(10)} ${route.prerender ? "full page" : "shell + meta"}`);
+}
+
+// Unknown URLs: the app shell renders the 404 page client-side.
+writeFileSync(join(DIST, "app.html"), page(NOT_FOUND, "", `<meta name="robots" content="noindex" />`));
+
+writeFileSync(join(DIST, "robots.txt"), `User-agent: *\nAllow: /\n${site ? `\nSitemap: ${site}/sitemap.xml\n` : ""}`);
+if (site) {
+  const urls = ROUTES.map((r) => `  <url><loc>${site}${r.path === "/" ? "/" : r.path}</loc></url>`).join("\n");
+  writeFileSync(
+    join(DIST, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
+  );
+  console.log(`  sitemap.xml for ${site}`);
+} else {
+  console.log("  no SITE_URL / URL set — skipped canonical links and sitemap.xml");
+}
+
+rmSync(SSR, { recursive: true, force: true });

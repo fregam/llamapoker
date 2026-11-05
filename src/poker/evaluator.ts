@@ -1,6 +1,11 @@
-// 5- and 7-card hand evaluation.
-// evaluate5 returns a single comparable integer: higher == stronger.
-// Encoding: category in the high digits, then up to 5 tie-break ranks.
+/**
+ * 5- and 7-card hand evaluation. evaluate5 returns one comparable integer (higher =
+ * stronger): the category (0 high card … 8 straight flush) in the high digits, then up
+ * to five tie-break ranks, packed base-15. evaluate7 takes the best of the 21 five-card
+ * subsets; bestScore handles 5–7 cards. categoryOf / categoryName decode a score.
+ * Used by: poker/equity (hot loop), poker/draws, poker/analyze, components/Readout.
+ * Uses: poker/cards.
+ */
 
 import { Card, rankOf, suitOf } from "./cards";
 

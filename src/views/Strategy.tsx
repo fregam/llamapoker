@@ -1,3 +1,9 @@
+/**
+ * The Strategy page: static, street-by-street content explaining the rules that
+ * poker/strategy.ts applies. Keep its last section in sync with recommend().
+ * Uses: nothing from the app (pure content + CSS classes).
+ */
+
 import { ReactNode } from "react";
 
 function Street({ title, tag, children }: { title: string; tag: string; children: ReactNode }) {
@@ -15,6 +21,7 @@ function Street({ title, tag, children }: { title: string; tag: string; children
 export default function Strategy() {
   return (
     <div className="strategy">
+      <h1 className="page-title">No-Limit Hold'em, street by street</h1>
       <p className="lead">
         A street-by-street game plan built on the same ideas the tool uses: play position, bet when
         you're ahead, fold when the price is wrong, and put opponents on ranges rather than single
@@ -34,7 +41,7 @@ export default function Strategy() {
       <Street title="Preflop" tag="before the flop">
         <ul className="strat-list">
           <li><strong>Open-raise, don't limp.</strong> If a hand is worth playing, raise first in to take the initiative and thin the field.</li>
-          <li><strong>Use a range by seat.</strong> Tight from UTG/MP; open it up in CO and especially on the BTN. The tool flags whether your hand is in that seat's range.</li>
+          <li><strong>Use a range by seat.</strong> Tight from UTG/MP; open it up in CO and especially on the BTN. The big blind defends wide because it already has chips in. The tool flags whether your hand is in that seat's range.</li>
           <li><strong>Re-raise (3-bet) your strongest hands</strong> for value, and occasionally as a bluff with hands that block big holdings (e.g. Ax suited).</li>
           <li><strong>Respect early-position raises.</strong> A UTG raiser's range is strong — call or 3-bet only with hands that do well against it.</li>
           <li><strong>Avoid domination.</strong> Hands like KJo play badly against opening ranges that have AK, AJ, KQ. Suited and connected hands flop better.</li>
@@ -73,11 +80,13 @@ export default function Strategy() {
 
       <Street title="How the tool turns this into a move" tag="recommended">
         <ul className="strat-list">
-          <li>It checks the <strong>street</strong> and whether there's a <strong>bet to call</strong> (set the Bet field to 0 when it's checked to you).</li>
-          <li>It compares your <strong>equity</strong> to a fair share (1 ÷ players) and to the <strong>pot-odds break-even</strong>.</li>
-          <li>It reads your <strong>made hand</strong> and infers a draw when you're weak now but still have lots of equity with cards to come.</li>
-          <li>From that it picks one action — <em>open-raise, 3-bet, value bet, semi-bluff, call, pot-control check, or fold</em> — and explains why.</li>
-          <li>Treat it as a solid default, not gospel: it assumes random opponents and can't read a specific player's tendencies.</li>
+          <li>Set <strong>Action to you</strong>: preflop it's <em>Unopened</em> or <em>Facing a raise</em>; after the flop it's <em>Checked to you</em> or <em>Facing a bet</em>.</li>
+          <li><strong>Preflop</strong> it uses seat charts: the opening range when unopened, and a 3-bet range plus a calling range when facing a raise. The big blind checks its option when nobody raised.</li>
+          <li><strong>After the flop</strong> it compares your <strong>equity</strong> (against the ranges you gave each opponent) to a fair share (1 ÷ players) and to the <strong>pot-odds break-even</strong>.</li>
+          <li>It counts your real <strong>outs</strong> (flush and straight draws, and improving to two pair or trips) and semi-bluffs strong draws of 8+ outs.</li>
+          <li>When a draw is short of the price, it checks <strong>implied odds</strong>: can you realistically win enough later with what's left in the stacks?</li>
+          <li>It reads <strong>SPR</strong> (stack ÷ pot): with a low SPR and a strong hand you're committed, so it says get it in.</li>
+          <li>Treat it as a solid default, not gospel: opponent ranges don't narrow by their later actions, and it can't read a specific player's tendencies.</li>
         </ul>
       </Street>
     </div>

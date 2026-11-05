@@ -1,14 +1,62 @@
+/**
+ * "The Table" — the live tool, laid out as three columns that fit one screen:
+ * cards | seat, action, chips, opponents | the read.
+ * Owns all of the situation's state (hand, board, active slot, seat, facing a bet,
+ * pot/bet/stack, opponents). Cards can be entered three ways: the CardPicker deck,
+ * the quick-entry text box, or rank+suit hotkeys (plus B / arrows / N shortcuts).
+ * Seats depend on table size (seatsFor) and rotate like the button on "Next hand".
+ * Data flow: state → Spot → useEquity (web worker) → analyzeSpot → <Readout>.
+ * Uses: poker/cards, poker/ranges, poker/analyze, hooks/useEquity, components/Cards,
+ * CardPicker, Step, OpponentRanges, Readout.
+ */
+
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Card, RANKS, SUITS, makeCard, parseCard, cardLabel } from "../poker/cards";
+import { Card, RANKS, SUITS, makeCard, parseCard, cardLabel, remainingDeck, shuffle } from "../poker/cards";
 import { CardFace } from "../components/Cards";
-import { EquityResult } from "../poker/equity";
-import type { EquityResponse } from "../poker/equity.worker";
-import { bestScore, categoryName, categoryOf, CATEGORY_NAMES } from "../poker/evaluator";
-import { recommend } from "../poker/strategy";
-import { handLabel, rangeFor, POSITIONS, POSITION_DESC, Position } from "../poker/ranges";
-import { potOdds, formatPct } from "../poker/odds";
-import { Donut, EquityGauge, PotBar } from "../components/Charts";
-import { Explain, Formula, Term } from "../components/Explain";
+import { handLabel, rangeFor, threeBetRange, callRange, POSITIONS, POSITION_DESC, Position } from "../poker/ranges";
+import { analyzeSpot, Spot } from "../poker/analyze";
+import { useEquity } from "../hooks/useEquity";
+import { OpponentRanges, OppSetup, newOpp, oppCombos, oppsKey, describeOpps } from "../components/OpponentRanges";
+import { Readout } from "../components/Readout";
+import { Step } from "../components/Step";
+import { CardPicker } from "../components/CardPicker";
+import { Link } from "../components/Link";
+
+// Full seat names, shown on hover — most new players don't know the abbreviations yet.
+const SEAT_NAMES: Record<Position, string> = {
+  UTG: "UTG — Under the Gun: first to act before the flop",
+  MP: "MP — Middle Position (the hijack)",
+  CO: "CO — Cutoff: the seat right of the button",
+  BTN: "BTN — Button (dealer): acts last after the flop",
+  SB: "SB — Small Blind: posts half a big blind",
+  BB: "BB — Big Blind: posts one big blind, acts last before the flop",
+};
+
+// Seats that exist at a table of this size (you + opponents). Seats are named by how many
+// players act after you, so a 4-handed CO uses the same opening range as a 6-max CO.
+function seatsFor(players: number): Position[] {
+  if (players <= 2) return ["BTN", "BB"];
+  if (players === 3) return ["BTN", "SB", "BB"];
+  if (players === 4) return ["CO", "BTN", "SB", "BB"];
+  if (players === 5) return ["MP", "CO", "BTN", "SB", "BB"];
+  return POSITIONS;
+}
+function tableName(players: number): string {
+  if (players <= 2) return "Heads-up";
+  return players >= 6 ? (players === 6 ? "6-max" : `${players}-handed`) : `${players}-handed`;
+}
+// When the button moves on, your seat moves one step: BTN → CO → MP → UTG → BB → SB → BTN,
+// skipping seats this table doesn't have.
+const ROTATION: Position[] = ["BTN", "CO", "MP", "UTG", "BB", "SB"];
+function nextSeat(p: Position, seats: Position[]): Position {
+  const order = ROTATION.filter((s) => seats.includes(s));
+  return order[(order.indexOf(p) + 1) % order.length];
+}
+
+const SLOT_NAMES = {
+  hero: ["your first card", "your second card"],
+  board: ["the first flop card", "the second flop card", "the third flop card", "the turn", "the river"],
+};
 
 type Slot = { group: "hero" | "board"; index: number };
 const FILL_ORDER: Slot[] = [
@@ -49,18 +97,14 @@ function canonicalText(hero: (Card | null)[], board: (Card | null)[]): string {
 
 export default function PlayTool() {
   const [position, setPosition] = useState<Position>("BTN");
-  const [opponents, setOpponents] = useState(2);
+  const [opps, setOpps] = useState<OppSetup[]>([newOpp(), newOpp()]);
   const [hero, setHero] = useState<(Card | null)[]>([null, null]);
   const [board, setBoard] = useState<(Card | null)[]>([null, null, null, null, null]);
   const [active, setActive] = useState<Slot>({ group: "hero", index: 0 });
+  const [facing, setFacing] = useState(false);
   const [pot, setPot] = useState(100);
   const [bet, setBet] = useState(50);
-
-  const [result, setResult] = useState<EquityResult | null>(null);
-  const [computing, setComputing] = useState(false);
-  const timer = useRef<number | null>(null);
-  const worker = useRef<Worker | null>(null);
-  const reqId = useRef(0);
+  const [stack, setStack] = useState(1000);
 
   // Fast input: a quick-entry text box and per-slot rank+suit hotkeys.
   const [quick, setQuick] = useState("");
@@ -77,59 +121,34 @@ export default function PlayTool() {
   const boardCards = board.filter((c): c is Card => c !== null && c >= 0);
   const boardLegal = boardCards.length === 0 || boardCards.length >= 3;
   const canCompute = heroReady && boardLegal;
+  const heroPair: [Card, Card] | null = heroReady ? [hero[0]!, hero[1]!] : null;
+  const street = boardCards.length === 0 ? 0 : boardCards.length - 2;
 
-  // Spin up the equity worker once; it runs the heavy simulation off the main
-  // thread so the UI stays responsive. Stale results (older request id) are dropped.
+  const players = opps.length + 1;
+  const seats = seatsFor(players);
+  // If the table shrinks and your seat no longer exists, move to the earliest seat that does.
   useEffect(() => {
-    const w = new Worker(new URL("../poker/equity.worker.ts", import.meta.url), { type: "module" });
-    w.onmessage = (e: MessageEvent<EquityResponse>) => {
-      if (e.data.id !== reqId.current) return;
-      setResult(e.data.result);
-      setComputing(false);
-    };
-    worker.current = w;
-    return () => w.terminate();
-  }, []);
-
-  // Auto-recompute (debounced) whenever the situation changes — no "run" button.
-  useEffect(() => {
-    if (timer.current) window.clearTimeout(timer.current);
-    const id = ++reqId.current; // invalidate any in-flight computation
-    if (!canCompute) {
-      setResult(null);
-      setComputing(false);
-      return;
-    }
-    setComputing(true);
-    timer.current = window.setTimeout(() => {
-      worker.current?.postMessage({
-        id,
-        hero: [hero[0]!, hero[1]!],
-        board: boardCards,
-        opponents,
-        iterations: 16000,
-      });
-    }, 70);
-    return () => {
-      if (timer.current) window.clearTimeout(timer.current);
-    };
+    if (!seats.includes(position)) setPosition(seats[0]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hero, board, opponents]);
+  }, [players]);
 
-  // Keep the quick-entry box in sync with the cards when the user isn't typing in it
-  // (e.g. after clicking the palette or starting a new hand).
+  const oppRanges = useMemo(() => opps.map(oppCombos), [opps]);
+  const eqKey = `${hero.join(",")}|${boardCards.join(",")}|${oppsKey(opps)}|${canCompute}`;
+  const { result, computing } = useEquity(canCompute ? heroPair : null, boardCards, oppRanges, eqKey);
+
+  // Keep the quick-entry box in sync with the cards when the user isn't typing in it.
   useEffect(() => {
     if (editingQuick.current) return;
     setQuick(canonicalText(hero, board));
   }, [hero, board]);
 
   // Per-slot hotkeys: press a rank then a suit to fill the active slot; Backspace clears.
-  // Inactive whenever focus is in a text/number input so typing there is unaffected.
+  // Inactive whenever focus is in a text/number input or select so typing there is unaffected.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const el = e.target as HTMLElement | null;
       const tag = el?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || el?.isContentEditable) return;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el?.isContentEditable) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
 
       if (e.key === "Backspace") {
@@ -151,6 +170,26 @@ export default function PlayTool() {
         return;
       }
 
+      // Table shortcuts: N next hand, B bet / check, arrows change seat.
+      const k = e.key.toLowerCase();
+      if (k === "n") {
+        e.preventDefault();
+        setPendingRank(null);
+        newHand();
+        return;
+      }
+      if (k === "b") {
+        e.preventDefault();
+        setFacing((f) => !f);
+        return;
+      }
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault();
+        const step = e.key === "ArrowRight" ? 1 : seats.length - 1;
+        setPosition((p) => seats[(Math.max(0, seats.indexOf(p)) + step) % seats.length]);
+        return;
+      }
+
       const rankIdx = RANKS.indexOf(e.key.toUpperCase());
       if (rankIdx >= 0) {
         e.preventDefault();
@@ -168,7 +207,7 @@ export default function PlayTool() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active, pendingRank, used, hero, board]);
+  }, [active, pendingRank, used, hero, board, players]);
 
   function setSlot(slot: Slot, value: Card | null) {
     if (slot.group === "hero") {
@@ -223,295 +262,317 @@ export default function PlayTool() {
   }
 
   function newHand() {
+    setPosition((p) => nextSeat(p, seats));
     setHero([null, null]);
     setBoard([null, null, null, null, null]);
     setActive({ group: "hero", index: 0 });
+    setFacing(false);
   }
 
-  const odds = potOdds(pot, bet);
-  const players = opponents + 1;
-  const verdict = result ? (result.equity >= odds.requiredEquity ? "CALL" : "FOLD") : null;
-  const inRange = heroReady ? rangeFor(position).has(handLabel(hero[0]!, hero[1]!)) : false;
-  const heroName = heroReady ? handLabel(hero[0]!, hero[1]!) : "—";
+  // Deal random cards: your hand if it's empty, otherwise the next street.
+  // A new street means the betting starts over: default back to "checked to you".
+  const lastStreet = useRef(street);
+  useEffect(() => {
+    if (street !== lastStreet.current) {
+      lastStreet.current = street;
+      setFacing(false);
+    }
+  }, [street]);
 
-  const madeHand = (() => {
+  const allSet = heroReady && boardCards.length === 5;
+  const activeName = SLOT_NAMES[active.group][active.index];
+  const pickPrompt =
+    valueAt(active) !== null
+      ? allSet
+        ? "Every card is set. Click a card on the table to change it."
+        : `Replacing ${activeName}.`
+      : `Choose ${activeName}.`;
+
+  const nextDeal = !heroReady ? "hand" : boardCards.length < 3 ? "flop" : boardCards.length === 3 ? "turn" : boardCards.length === 4 ? "river" : null;
+  function dealNext() {
+    const deck = shuffle(remainingDeck([...used]));
+    if (nextDeal === "hand") {
+      setHero(hero.map((c) => c ?? deck.pop()!));
+      setActive({ group: "board", index: 0 });
+      return;
+    }
+    const count = nextDeal === "flop" ? 3 : 1;
+    const next = [...board];
+    let added = 0;
+    for (let i = 0; i < 5 && added < count; i++) {
+      if (next[i] === null) {
+        next[i] = deck.pop()!;
+        added++;
+      }
+    }
+    setBoard(next);
+    setFacing(false); // new street: action starts over
+  }
+
+  const heroName = heroReady ? handLabel(hero[0]!, hero[1]!) : "—";
+  const rangeTag = (() => {
     if (!heroReady) return null;
-    const cards = [hero[0]!, hero[1]!, ...boardCards];
-    if (cards.length < 5) return null;
-    return categoryName(bestScore(cards));
+    if (street === 0 && facing) {
+      if (threeBetRange(position).has(heroName)) return { good: true, text: "3-bet range" };
+      if (callRange(position).has(heroName)) return { good: true, text: "calling range" };
+      return { good: false, text: "fold vs a raise" };
+    }
+    if (position === "BB") return null;
+    return rangeFor(position).has(heroName)
+      ? { good: true, text: "in opening range" }
+      : { good: false, text: "below opening range" };
   })();
 
-  const threats = result
-    ? result.beatenBy
-        .map((c, i) => ({ name: CATEGORY_NAMES[i], frac: result.loseCount ? c / result.loseCount : 0 }))
-        .filter((t) => t.frac > 0)
-        .sort((a, b) => b.frac - a.frac)
-        .slice(0, 4)
-    : [];
-
-  const street =
-    boardCards.length === 0 ? 0 : boardCards.length === 3 ? 1 : boardCards.length === 4 ? 2 : 3;
-  const madeCategory =
-    heroReady && boardCards.length >= 3 ? categoryOf(bestScore([hero[0]!, hero[1]!, ...boardCards])) : null;
-  const reco = result
-    ? recommend({
-        street,
-        inRange,
-        equity: result.equity,
-        opponents,
-        facingBet: bet > 0,
-        requiredEquity: odds.requiredEquity,
-        madeCategory,
-        position,
-      })
+  const spot: Spot | null = heroPair
+    ? { hero: heroPair, board: boardCards, position, facingBet: facing, pot, bet, stack, opponents: opps.length }
     : null;
+  const analysis = spot && result && !result.impossible ? analyzeSpot(spot, result) : null;
+  const facingLabels = street === 0 ? ["Unopened", "Facing a raise"] : ["Checked to you", "Facing a bet"];
 
   return (
-    <div className="tool">
-      {/* ---------- INPUTS ---------- */}
-      <div className="tool-input">
-        <div className="field">
-          <div className="field-head">
-            <span className="field-label">Quick entry</span>
-            <span className="field-note">type cards — fastest</span>
+    <div className="tool tool-cockpit">
+      <h1 className="sr-only">Poker odds calculator</h1>
+      {/* ---------- CARDS ---------- */}
+      <div className="tool-input tool-cards">
+        <Step
+          num="01"
+          title="Cards"
+          aside={
+            rangeTag && (
+              <span className={rangeTag.good ? "tag tag-good" : "tag tag-warn"}>
+                {heroName} · {rangeTag.text}
+              </span>
+            )
+          }
+        >
+          <div className="table table-row">
+            <div className="table-hero" role="group" aria-label="Your two cards">
+              {[0, 1].map((i) => (
+                <div className="board-slot" key={i}>
+                  <CardFace
+                    card={hero[i]}
+                    size="md"
+                    active={active.group === "hero" && active.index === i}
+                    onClick={() => toggleSlot({ group: "hero", index: i })}
+                  />
+                  <span className="board-tick">Hand</span>
+                </div>
+              ))}
+            </div>
+            <div className="table-board" role="group" aria-label="Community cards">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <div className={i >= 3 ? "board-slot board-gap" : "board-slot"} key={i}>
+                  <CardFace
+                    card={board[i]}
+                    size="md"
+                    active={active.group === "board" && active.index === i}
+                    onClick={() => toggleSlot({ group: "board", index: i })}
+                  />
+                  <span className="board-tick">{STREET_LABEL[i]}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <input
-            className="quick-input"
-            type="text"
-            value={quick}
-            onChange={(e) => applyQuick(e.target.value)}
-            onFocus={() => {
-              editingQuick.current = true;
-            }}
-            onBlur={() => {
-              editingQuick.current = false;
-              setQuick(canonicalText(hero, board));
-            }}
-            placeholder="As Ks Td 9h 2c"
-            aria-label="Quick card entry — type your hand then the board, e.g. As Ks Td 9h 2c"
-            autoComplete="off"
-            autoCapitalize="off"
-            autoCorrect="off"
-            spellCheck={false}
-          />
-          <p className="quick-hint">
-            First two cards are your hand, the rest is the board. Or click a slot and press a rank
-            (A K Q J T 9–2) then a suit (s h d c).
+
+          <CardPicker used={used} onPick={pick} prompt={pickPrompt} disabled={allSet && valueAt(active) !== null} />
+
+          <div className="quick-wrap">
+            <input
+              className="quick-input"
+              type="text"
+              value={quick}
+              onChange={(e) => applyQuick(e.target.value)}
+              onFocus={() => {
+                editingQuick.current = true;
+              }}
+              onBlur={() => {
+                editingQuick.current = false;
+                setQuick(canonicalText(hero, board));
+              }}
+              placeholder="or type them · As Ks  Td 9h 2c"
+              aria-label="Quick card entry — type your hand then the board, e.g. As Ks Td 9h 2c"
+              autoComplete="off"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+          </div>
+          <div className="table-actions">
+            <span className="board-actions">
+              <button className="chip-btn chip-strong" onClick={newHand} title="Shortcut: N">
+                Next hand · seat → {nextSeat(position, seats)}
+              </button>
+              <button className="chip-btn" onClick={clearBoard} disabled={boardCards.length === 0}>
+                Clear board
+              </button>
+              <button className="chip-btn" onClick={dealNext} disabled={nextDeal === null}>
+                {nextDeal ? `Random ${nextDeal}` : "Board complete"}
+              </button>
+            </span>
             {pendingRank !== null && (
               <span className="pending">
-                {" "}· waiting for suit after <strong>{RANKS[pendingRank]}</strong>
+                {RANKS[pendingRank]} — now a suit: <kbd>s</kbd> <kbd>h</kbd> <kbd>d</kbd> <kbd>c</kbd>
               </span>
             )}
-          </p>
-        </div>
-
-        <div className="field">
-          <div className="field-head">
-            <span className="field-label">Position</span>
-            <span className="field-note">{POSITION_DESC[position].split("—")[1]?.trim()}</span>
           </div>
+        </Step>
+      </div>
+
+      {/* ---------- SETTINGS ---------- */}
+      <div className="tool-input tool-settings">
+        <Step
+          num="02"
+          title="Seat"
+          aside={
+            <>
+              {tableName(players)} · {POSITION_DESC[position].split("—")[1]?.trim() ?? ""}{" "}
+              <Link to="/learn/positions" className="aside-link">
+                What's this?
+              </Link>
+            </>
+          }
+        >
           <div className="seg seg-wide">
-            {POSITIONS.map((p) => (
+            {seats.map((p) => (
               <button
                 key={p}
                 className={p === position ? "seg-btn seg-active" : "seg-btn"}
                 onClick={() => setPosition(p)}
                 aria-pressed={p === position}
+                title={SEAT_NAMES[p]}
               >
                 {p}
               </button>
             ))}
           </div>
-        </div>
+        </Step>
 
-        <div className="field">
-          <span className="field-label">Opponents</span>
-          <div className="stepper">
-            <button className="step-btn" onClick={() => setOpponents((o) => Math.max(1, o - 1))} aria-label="Fewer opponents">
-              −
-            </button>
-            <span className="step-value" aria-live="polite">{opponents}</span>
-            <button className="step-btn" onClick={() => setOpponents((o) => Math.min(8, o + 1))} aria-label="More opponents">
-              +
-            </button>
+        <Step num="03" title="Action">
+          <div className="seg seg-wide">
+            {facingLabels.map((label, i) => (
+              <button
+                key={label}
+                className={facing === (i === 1) ? "seg-btn seg-active" : "seg-btn"}
+                onClick={() => setFacing(i === 1)}
+                aria-pressed={facing === (i === 1)}
+                title="Shortcut: B"
+              >
+                {label}
+              </button>
+            ))}
           </div>
-        </div>
-
-        <div className="field field-cards">
-          <div className="field-head">
-            <span className="field-label">Your hand</span>
-            {heroReady && (
-              <span className={inRange ? "tag tag-good" : "tag tag-warn"}>
-                {heroName} · {inRange ? "in opening range" : "below opening range"}
-              </span>
-            )}
-          </div>
-          <div className="slots" role="group" aria-label="Your two cards">
-            {[0, 1].map((i) => (
-              <CardFace
-                key={i}
-                card={hero[i]}
-                size="lg"
-                active={active.group === "hero" && active.index === i}
-                onClick={() => toggleSlot({ group: "hero", index: i })}
+          <div className="money-row">
+            <label className="money">
+              <span className="money-label">Pot</span>
+              <input className="num" type="number" min={0} value={pot} onChange={(e) => setPot(Math.max(0, Number(e.target.value)))} />
+            </label>
+            <label className={facing ? "money" : "money money-off"}>
+              <span className="money-label">To call</span>
+              <input
+                className="num"
+                type="number"
+                min={0}
+                value={facing ? bet : 0}
+                disabled={!facing}
+                onChange={(e) => setBet(Math.max(0, Number(e.target.value)))}
               />
-            ))}
+            </label>
+            <label className="money">
+              <span className="money-label">Your stack</span>
+              <input
+                className="num"
+                type="number"
+                min={0}
+                value={stack}
+                onChange={(e) => setStack(Math.max(0, Number(e.target.value)))}
+                title="Effective stack — the smaller of your stack and the biggest opponent's"
+              />
+            </label>
           </div>
-        </div>
+        </Step>
 
-        <div className="field field-cards">
-          <div className="field-head">
-            <span className="field-label">Board</span>
-            <button className="link-btn" onClick={clearBoard} disabled={boardCards.length === 0}>
-              clear board
-            </button>
-          </div>
-          <div className="board-slots" role="group" aria-label="Community cards">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <div className="board-slot" key={i}>
-                <CardFace
-                  card={board[i]}
-                  size="lg"
-                  active={active.group === "board" && active.index === i}
-                  onClick={() => toggleSlot({ group: "board", index: i })}
-                />
-                <span className="board-tick">{STREET_LABEL[i]}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <OpponentRanges opps={opps} onChange={setOpps} />
 
-        <div className="field field-row">
-          <div className="field">
-            <span className="field-label">Pot</span>
-            <input className="num" type="number" min={0} value={pot} onChange={(e) => setPot(Number(e.target.value))} />
-          </div>
-          <div className="field">
-            <span className="field-label">Bet to call</span>
-            <input className="num" type="number" min={0} value={bet} onChange={(e) => setBet(Number(e.target.value))} />
-          </div>
-          <button className="btn newhand-btn" onClick={newHand}>New hand</button>
-        </div>
+        <p className="shortcuts">
+          <span>
+            <kbd>A</kbd>–<kbd>2</kbd> + <kbd>s</kbd><kbd>h</kbd><kbd>d</kbd><kbd>c</kbd> card
+          </span>
+          <span>
+            <kbd>⌫</kbd> undo card
+          </span>
+          <span>
+            <kbd>B</kbd> bet / check
+          </span>
+          <span>
+            <kbd>←</kbd>
+            <kbd>→</kbd> seat
+          </span>
+          <span>
+            <kbd>N</kbd> next hand
+          </span>
+        </p>
       </div>
 
       {/* ---------- READOUT ---------- */}
       <div className="tool-output" aria-live="polite">
         {!canCompute && (
           <div className="placeholder">
-            <p className="placeholder-big">{computing ? "…" : "Pick your two cards to start"}</p>
+            <div className="placeholder-mark" aria-hidden="true">
+              <span>♠</span>
+              <span>♥</span>
+            </div>
+            <p className="placeholder-big">
+              {heroReady ? "Complete the flop" : "What are you holding?"}
+            </p>
             <p className="hint">
               {boardCards.length === 1 || boardCards.length === 2
-                ? "A board needs the full 3-card flop before odds can be shown."
-                : "Leave the board empty for preflop odds, or add the flop / turn / river as they come."}
+                ? "The board needs all three flop cards before the odds can be read."
+                : "Pick your two cards from the deck. Add the flop, turn and river as they come — or leave the board empty to read preflop."}
             </p>
+            {!heroReady && (
+              <button className="btn" onClick={dealNext}>
+                Or deal a random hand
+              </button>
+            )}
+            {!heroReady && (
+              <div className="starter">
+                <span className="figure-label">New here? Three steps</span>
+                <ol>
+                  <li>
+                    <strong>Your two cards</strong> — click them in the deck.
+                  </li>
+                  <li>
+                    <strong>Your seat</strong> — where you sit relative to the dealer button.{" "}
+                    <Link to="/learn/positions">Positions explained</Link>
+                  </li>
+                  <li>
+                    <strong>The action</strong> — did someone raise or bet before you? If so, enter the pot and the bet.
+                  </li>
+                </ol>
+                <p>
+                  Add the flop, turn and river as they come. New to the hands themselves?{" "}
+                  <Link to="/learn/hand-rankings">What beats what</Link>.
+                </p>
+              </div>
+            )}
           </div>
         )}
 
-        {canCompute && result && (
-          <>
-            {reco && (
-              <div className={`ro-card reco reco-${reco.tone}`}>
-                <div className="reco-head">
-                  <span className="reco-label">Recommended ({["Preflop", "Flop", "Turn", "River"][street]})</span>
-                  <span className="reco-action">{reco.action}</span>
-                </div>
-                <p className="reco-reason">{reco.reason}</p>
-              </div>
-            )}
+        {canCompute && !result && (
+          <div className="placeholder">
+            <p className="placeholder-big">Reading the table…</p>
+          </div>
+        )}
 
-            <div className="ro-card ro-equity">
-              <Donut
-                size={150}
-                center={formatPct(result.equity, 0)}
-                centerSub="equity"
-                segments={[
-                  { label: "Win", value: result.win, color: "#36c98a" },
-                  { label: "Tie", value: result.tie, color: "#d7b34a" },
-                  { label: "Lose", value: result.lose, color: "#e0594f" },
-                ]}
-              />
-              <div className="ro-equity-side">
-                <div className="madehand">
-                  <span className="madehand-label">{boardCards.length >= 3 ? "You currently have" : "Your hand"}</span>
-                  <strong>{madeHand ?? heroName}</strong>
-                </div>
-                <p className="ro-caption">
-                  You win this hand <strong>{formatPct(result.equity)}</strong> of the time vs{" "}
-                  {opponents} random {opponents === 1 ? "opponent" : "opponents"}{" "}
-                  {computing && <span className="recompute">updating…</span>}
-                </p>
-              </div>
-            </div>
+        {canCompute && result?.impossible && (
+          <div className="placeholder">
+            <p className="placeholder-big">Can't compute these odds</p>
+            <p className="hint">{result.impossible} Widen the range or pick a preset.</p>
+          </div>
+        )}
 
-            <div className="ro-card">
-              <div className="ro-head">
-                <span className="ro-title">Pot odds</span>
-                <span className={verdict === "CALL" ? "verdict-pill pill-call" : "verdict-pill pill-fold"}>
-                  {verdict}
-                </span>
-              </div>
-              <PotBar pot={pot} bet={bet} />
-              <EquityGauge equity={result.equity} required={odds.requiredEquity} />
-              <p className="ro-caption">
-                You need <strong>{formatPct(odds.requiredEquity)}</strong> to call ({odds.ratio}); you
-                have <strong>{formatPct(result.equity)}</strong>.
-              </p>
-            </div>
-
-            <div className="ro-card">
-              <div className="ro-head">
-                <span className="ro-title">What beats you</span>
-                <span className="ro-sub">when you lose ({formatPct(result.lose)} of hands)</span>
-              </div>
-              {threats.length === 0 ? (
-                <p className="hint">You're ahead of essentially every hand here.</p>
-              ) : (
-                <div className="threats">
-                  {threats.map((t) => (
-                    <div className="threat" key={t.name}>
-                      <span className="threat-name">{t.name}</span>
-                      <div className="threat-track">
-                        <div className="threat-fill" style={{ width: `${t.frac * 100}%` }} />
-                      </div>
-                      <span className="threat-pct">{formatPct(t.frac, 0)}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <Explain title="Show the math behind these numbers">
-              <p>
-                <strong>Equity</strong> comes from a{" "}
-                <Term def="Dealing the unknown cards at random thousands of times and counting how often you win.">
-                  Monte Carlo simulation
-                </Term>{" "}
-                of 16,000 hands. Ties split among all {players} players in the pot.
-              </p>
-              <Formula
-                steps={[
-                  {
-                    label: "equity",
-                    expr: `(${result.winCount.toLocaleString()} wins + ${result.tieCount.toLocaleString()} ties ÷ ${players}) ÷ ${result.iterations.toLocaleString()}`,
-                    result: formatPct(result.equity),
-                  },
-                ]}
-              />
-              <p>
-                <strong>Pot odds</strong> are the price of the call: chips in ÷ final pot.
-              </p>
-              <Formula
-                steps={[
-                  { label: "needed", expr: `${bet} ÷ (${pot} + ${bet} + ${bet})`, result: formatPct(odds.requiredEquity) },
-                ]}
-              />
-              <p>
-                Call when equity beats the needed number → here the math says{" "}
-                <strong>{verdict}</strong>. <strong>What beats you</strong> tallies the winning
-                opponent's hand type across your losses, so you know which cards to fear.
-              </p>
-            </Explain>
-          </>
+        {canCompute && spot && result && analysis && (
+          <Readout spot={spot} a={analysis} result={result} computing={computing} oppsText={describeOpps(opps)} />
         )}
       </div>
     </div>
