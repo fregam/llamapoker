@@ -3,11 +3,11 @@
 // structured data (JSON-LD), plus the prerendered markup for pages marked
 // `prerender: true` in src/seo.ts.
 // Also writes:
-//   dist/app.html     the empty app shell, served (with a 404) for unknown URLs
+//   dist/404.html     the empty app shell; Cloudflare Pages serves it, with a 404, for unknown URLs
 //   dist/robots.txt   allow everything, point at the sitemap
-//   dist/sitemap.xml  only when the site URL is known
-// The site URL comes from SITE_URL, or Netlify's URL variable during Netlify builds.
-// Without it, canonical links and the sitemap are skipped (everything else still works).
+//   dist/sitemap.xml
+// The site URL is https://llamapoker.com; set SITE_URL to build for another address
+// (SITE_URL="" skips canonical links and the sitemap).
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
@@ -15,7 +15,7 @@ import { pathToFileURL } from "node:url";
 
 const DIST = "dist";
 const SSR = "dist-ssr";
-const site = (process.env.SITE_URL || process.env.URL || "").replace(/\/$/, "");
+const site = (process.env.SITE_URL ?? "https://llamapoker.com").replace(/\/$/, "");
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -61,7 +61,7 @@ for (const route of ROUTES) {
 }
 
 // Unknown URLs: the app shell renders the 404 page client-side.
-writeFileSync(join(DIST, "app.html"), page(NOT_FOUND, "", `<meta name="robots" content="noindex" />`));
+writeFileSync(join(DIST, "404.html"), page(NOT_FOUND, "", `<meta name="robots" content="noindex" />`));
 
 writeFileSync(join(DIST, "robots.txt"), `User-agent: *\nAllow: /\n${site ? `\nSitemap: ${site}/sitemap.xml\n` : ""}`);
 if (site) {
@@ -72,7 +72,7 @@ if (site) {
   );
   console.log(`  sitemap.xml for ${site}`);
 } else {
-  console.log("  no SITE_URL / URL set — skipped canonical links and sitemap.xml");
+  console.log("  SITE_URL is empty — skipped canonical links and sitemap.xml");
 }
 
 rmSync(SSR, { recursive: true, force: true });

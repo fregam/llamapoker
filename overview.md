@@ -4,8 +4,8 @@ A public website for No-Limit Hold'em study: a free tool that is the lead magnet
 poker media brand (email list first; content, agents and more later). You enter your hand,
 seat, the action and what your opponents could hold; it shows the recommended move, your
 equity, the pot-odds price, your outs and what beats you. A Trainer plays full hands and
-drills with you using the same logic. All math runs in the browser. There is no backend (the
-email signup uses Netlify Forms), no router library and no state library.
+drills with you using the same logic. All math runs in the browser. There is no backend apart from one
+Cloudflare Pages Function for the email signup, no router library and no state library.
 
 **Positioning:** the public site presents it as a *study, hand-review and training* tool.
 Most online poker sites ban real-time assistance during play; keep copy consistent with that
@@ -28,7 +28,9 @@ npx vite preview # serve dist/ locally
 
 ```
 index.html              Page template: fonts (Bodoni Moda, Inter, JetBrains Mono), favicon, meta, #root
-netlify.toml            Deploy: build command, publish dist/, 404 rewrite to app shell, headers
+public/_headers         Cloudflare Pages response headers (asset caching, security), copied into dist/
+functions/api/subscribe.ts  Cloudflare Pages Function: POST /api/subscribe → Beehiiv API (keys in env)
+.node-version           Node version for the Cloudflare build (20)
 scripts/prerender.mjs   Build step: writes one HTML file per route (+ robots.txt, sitemap.xml)
 src/
   main.tsx              Browser entry: mounts <App/> (createRoot), imports styles.css
@@ -73,7 +75,7 @@ src/
     Guide.tsx           Learn-guide frame: breadcrumb, h1, lead, "next in the path", tool links; <Callout>
     RangeChart.tsx      Read-only 13×13 chart (layers: 3-bet / call / raise), used by Starting hands
     TableDiagram.tsx    SVG 6-max table: seats, dealer button, order of action pre/postflop
-    Signup.tsx          Email capture (Netlify Forms, honeypot); swap send() to change provider
+    Signup.tsx          Email capture: JSON POST to /api/subscribe (honeypot "company")
     Skyline.tsx         Decorative night-city background painted once on a <canvas> (blurred depth layers, bokeh)
 
   views/                One file per page
@@ -225,12 +227,17 @@ Hotkeys are ignored while focus is in an input or select.
   empty shell with meta. The browser then mounts with `createRoot` (replacing the static
   markup; no hydration), so components must not touch `window` during render, only in
   effects (the Dateline fills in after mount for this reason).
-- **Site URL.** Canonical links and `sitemap.xml` need the absolute URL: `SITE_URL`, or Netlify's
-  `URL` during Netlify builds. The live domain, https://llamapoker.com, is set as `SITE_URL` in `netlify.toml`. Without it they're skipped.
-- **Unknown URLs** get `dist/app.html` with a 404 status (`netlify.toml`) and render `NotFound`.
-- **Email signup** (`components/Signup.tsx`): Netlify Forms detects `<form name="letter"
-  data-netlify>` in the prerendered home HTML at deploy; submissions are a urlencoded POST to
-  `/`. In `npm run dev` it only logs. Submissions appear in the Netlify dashboard under Forms.
+- **Hosting.** Cloudflare Pages, connected to the GitHub repo (fregam/llamapoker): every push
+  to `main` runs `npm run build` and publishes `dist/`. Planned later move: a Hetzner VPS
+  (static files behind Caddy); the build output is plain files, so nothing in the app changes.
+- **Site URL.** Canonical links and `sitemap.xml` use https://llamapoker.com (default in
+  `scripts/prerender.mjs`); override with `SITE_URL`, or `SITE_URL=""` to skip them.
+- **Unknown URLs** get `dist/404.html` (the app shell), which Cloudflare Pages serves with a 404
+  status; it renders `NotFound`.
+- **Email signup** (`components/Signup.tsx` → `functions/api/subscribe.ts`): JSON POST to
+  `/api/subscribe`; the function adds the address to Beehiiv with `BEEHIIV_API_KEY` and
+  `BEEHIIV_PUBLICATION_ID` (set in the Cloudflare dashboard, never in the repo). Until those are
+  set it returns 503 and the form shows an error. In `npm run dev` the form only logs.
 ### Search strategy (who we're found by)
 
 The core persona is a **beginner**: knows how a hand is dealt, doesn't know positions or pot

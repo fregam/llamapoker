@@ -1,30 +1,25 @@
 /**
  * <Signup> — the email capture ("The LlamaPoker letter"), the lead magnet's whole point.
- * Submits to Netlify Forms: the form is in the prerendered HTML (name="letter",
- * data-netlify), so Netlify detects it at deploy time and stores submissions in the
- * site's Forms dashboard (exportable / connectable to an email platform later).
- * Submission is a urlencoded POST to "/" with form-name=letter. A hidden honeypot
- * field ("company") catches bots. In local dev there is no form backend, so it
- * pretends to succeed and logs to the console.
- * To move to a mailing-list service later, replace send() — nothing else changes.
+ * Posts JSON { email, source, company } to /api/subscribe, a Cloudflare Pages Function
+ * (functions/api/subscribe.ts) that adds the address to the Beehiiv newsletter. The hidden
+ * honeypot field ("company") catches bots. In local dev there is no function running, so
+ * it pretends to succeed and logs to the console.
+ * To change newsletter provider, change the function — this component stays the same.
  * Used by: views/Home.tsx.
  */
 
 import { FormEvent, useState } from "react";
 import { Link } from "./Link";
 
-const FORM_NAME = "letter";
-
-async function send(email: string, source: string): Promise<void> {
+async function send(email: string, source: string, company: string): Promise<void> {
   if (import.meta.env.DEV) {
     console.info("[signup] dev mode — would submit", { email, source });
     return;
   }
-  const body = new URLSearchParams({ "form-name": FORM_NAME, email, source, company: "" });
-  const res = await fetch("/", {
+  const res = await fetch("/api/subscribe", {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, source, company }),
   });
   if (!res.ok) throw new Error(`Signup failed (${res.status})`);
 }
@@ -33,12 +28,13 @@ export function Signup({ source = "home" }: { source?: string }) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
 
-  async function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!/^\S+@\S+\.\S+$/.test(email)) return setState("error");
     setState("sending");
     try {
-      await send(email.trim(), source);
+      const company = new FormData(e.currentTarget).get("company");
+      await send(email.trim(), source, typeof company === "string" ? company : "");
       setState("done");
     } catch {
       setState("error");
@@ -55,15 +51,9 @@ export function Signup({ source = "home" }: { source?: string }) {
   return (
     <form
       className="signup"
-      name={FORM_NAME}
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="company"
       onSubmit={onSubmit}
       noValidate
     >
-      <input type="hidden" name="form-name" value={FORM_NAME} />
-      <input type="hidden" name="source" value={source} />
       <p className="signup-trap" aria-hidden="true">
         <label>
           Company <input name="company" tabIndex={-1} autoComplete="off" />

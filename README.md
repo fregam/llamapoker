@@ -17,11 +17,15 @@ npx vite preview # serve the production build locally
 
 ## Deploying
 
-The site is a static build with prerendered pages, configured for Netlify (`netlify.toml`):
-connect the repo (or run `npx netlify deploy --build --prod`), and Netlify runs `npm run build`
-and publishes `dist/`. Email signups from the home page arrive in the site's **Forms**
-dashboard. The live domain (https://llamapoker.com) is set as `SITE_URL` in `netlify.toml`; set it when building anywhere else so canonical links and the sitemap
-point at the right domain.
+The site is a static build with prerendered pages, hosted on **Cloudflare Pages** and connected
+to the GitHub repo: every push to `main` runs `npm run build` and publishes `dist/`
+(build command `npm run build`, output directory `dist`). Response headers live in
+`public/_headers`; unknown URLs get `404.html`.
+
+The email signup posts to `/api/subscribe` (`functions/api/subscribe.ts`), which adds the
+address to the Beehiiv newsletter. Set `BEEHIIV_API_KEY` (secret) and `BEEHIIV_PUBLICATION_ID`
+in the Cloudflare project's settings. Canonical links and the sitemap use
+https://llamapoker.com; override with `SITE_URL` when building for another address.
 
 ## Pages
 
