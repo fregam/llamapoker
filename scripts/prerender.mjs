@@ -1,5 +1,5 @@
 // Build step 3 of 3 (after `vite build` and the SSR build): writes one HTML file per
-// route into dist/ with the page's title, description, social tags, canonical URL and
+// route into dist/ (dist/<route>.html) with the page's title, description, social tags, canonical URL and
 // structured data (JSON-LD), plus the prerendered markup for pages marked
 // `prerender: true` in src/seo.ts.
 // Also writes:
@@ -10,7 +10,7 @@
 // (SITE_URL="" skips canonical links and the sitemap).
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const DIST = "dist";
@@ -48,10 +48,12 @@ function page(route, body, extraHead = "") {
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`);
 }
 
+// "/table" → dist/table.html (not table/index.html): Cloudflare Pages serves it at /table
+// with no redirect, so the URL matches the canonical link and the sitemap exactly.
 function write(path, html) {
-  const dir = path === "/" ? DIST : join(DIST, path);
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, "index.html"), html);
+  const file = path === "/" ? join(DIST, "index.html") : join(DIST, path.slice(1) + ".html");
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, html);
 }
 
 for (const route of ROUTES) {

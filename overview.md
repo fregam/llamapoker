@@ -222,7 +222,7 @@ Hotkeys are ignored while focus is in an input or select.
 - **Navigation** uses `<Link to>` / `navigate()` from `router.ts` (History API). Pages remount
   on route change (`<main key={page}>`). `App` updates `document.title` and the description.
 - **Prerender.** `npm run build` renders every `prerender: true` route to HTML via
-  `entry-server.tsx` and writes `dist/<route>/index.html` with that route's title, description,
+  `entry-server.tsx` and writes `dist/<route>.html` (no trailing-slash redirect on Cloudflare) with that route's title, description,
   Open Graph tags and canonical URL. The Trainer is random on every load, so it ships as an
   empty shell with meta. The browser then mounts with `createRoot` (replacing the static
   markup; no hydration), so components must not touch `window` during render, only in
