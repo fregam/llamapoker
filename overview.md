@@ -31,6 +31,7 @@ index.html              Page template: fonts (Bodoni Moda, Inter, JetBrains Mono
 public/_headers         Cloudflare Pages response headers (asset caching, security), copied into dist/
 functions/api/subscribe.ts  Cloudflare Pages Function: POST /api/subscribe → Beehiiv API (keys in env)
 .node-version           Node version for the Cloudflare build (20)
+scripts/og-image.html   Source of public/og.png (link-preview image); re-render with node scripts/og-image.mjs
 scripts/prerender.mjs   Build step: writes one HTML file per route (+ robots.txt, sitemap.xml)
 src/
   main.tsx              Browser entry: mounts <App/> (createRoot), imports styles.css
