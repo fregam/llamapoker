@@ -6,7 +6,8 @@
  *                            and search engines.
  *   <Callout to label>       an inline "try it in the tool" box.
  * The breadcrumb's structured data lives in seo.ts (BreadcrumbList); this is the visible one.
- * Used by: views/Learn.tsx and every guide (HandRankings, Positions, StartingHands, PokerHelper).
+ * Used by: views/Learn.tsx and every guide (HandRankings, Positions, StartingHands, PotOdds, Outs,
+ * PokerHelper).
  * Uses: components/Link, seo (LEARN_PATH, routeFor).
  */
 

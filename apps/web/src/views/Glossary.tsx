@@ -1,11 +1,12 @@
 /**
  * The Glossary page: static definitions of every term the tool uses, with worked
  * formulas. Keep it in sync when the math or terminology changes.
- * Uses: components/Explain (Formula).
+ * Uses: components/Explain (Formula), components/Link (to the pot odds and outs guides).
  */
 
 import { ReactNode } from "react";
 import { Formula } from "../components/Explain";
+import { Link } from "../components/Link";
 
 function Entry({ term, children }: { term: string; id?: string; children: ReactNode }) {
   return (
@@ -45,7 +46,8 @@ export default function Glossary() {
                 { label: "example", expr: "(100 + 50) : 50", result: "3 : 1" },
               ]}
             />
-            3 : 1 means you risk 1 to win 3 — you only need to win 1 time in 4 to break even.
+            3 : 1 means you risk 1 to win 3 — you only need to win 1 time in 4 to break even.{" "}
+            <Link to="/learn/pot-odds">Full guide and chart</Link>.
           </Entry>
 
           <Entry term="Break-even equity (equity needed)">
@@ -80,7 +82,7 @@ export default function Glossary() {
         <dl>
           <Entry term="Outs">
             The cards still in the deck that improve you to a likely-winning hand. A flush draw has 9
-            outs (13 cards of the suit − 4 you can already see).
+            outs (13 cards of the suit − 4 you can already see). <Link to="/learn/outs">Outs chart</Link>.
           </Entry>
 
           <Entry term="Rule of 2 and 4">

@@ -57,7 +57,7 @@ src/
     draws.ts            Outs counting + named draws + exact hit chances (flop/turn)
     strategy.ts         recommend(): the decision rules → { action, tone, choice, reason }
     analyze.ts          analyzeSpot(): the one function that combines everything for the UI
-    odds.ts             formatPct, outsToEquity (rule of 2 & 4); potOdds() is an unused leftover
+    odds.ts             formatPct, outsToEquity (rule of 2 & 4); potOdds() is used by the pot odds guide (the tool computes its own in analyze.ts)
     handPlay.ts         Trainer "Full hand" engine: deal, villain play, pot/stack bookkeeping, showdown
     drills.ts           Trainer single-spot generators (mixed, preflop, call-or-fold, count the outs)
     stats.ts            Trainer stats in localStorage + findLeaks()
@@ -91,6 +91,8 @@ src/
     Positions.tsx       /learn/positions — diagram, every seat, open % computed from ranges.ts
     StartingHands.tsx   /learn/starting-hands — preflop charts generated from ranges.ts
     PokerHelper.tsx     /learn/online-poker-helper — catches "poker helper" searches; honest RTA guidance
+    PotOdds.tsx         /learn/pot-odds: the price of a call, formula, bet-size → equity-needed chart (odds.potOdds)
+    Outs.tsx            /learn/outs: counting outs, common draws, rule of 2 and 4, full outs chart (exact odds)
     Privacy.tsx         /privacy — what's stored (keep true when adding analytics/cookies)
     NotFound.tsx        404 page for unknown URLs
     PlayTool.tsx        "The Table" — the live tool (3-column, one-screen layout)
@@ -280,6 +282,6 @@ one-screen, three-column Table layout and its breakpoints (2 columns under 1180p
 - The header comment in each file and this overview, when files are added, moved or rewired.
 - `README.md` is the user-facing description of features and shortcuts.
 
-Known leftovers: `potOdds()` in `odds.ts` and `Donut` in `Charts.tsx` are unused.
+Known leftover: `Donut` in `Charts.tsx` is unused.
 Known simplifications: heads-up uses the 6-max BTN range; 7–9 player tables reuse the six
 seat names; opponent ranges don't narrow based on their later betting.

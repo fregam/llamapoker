@@ -26,6 +26,8 @@ export type PageId =
   | "starting-hands"
   | "hand-rankings"
   | "poker-helper"
+  | "pot-odds"
+  | "outs"
   | "notfound";
 
 export interface Route {
@@ -187,6 +189,34 @@ export const ROUTES: Route[] = [
     ),
   },
   {
+    path: "/learn/pot-odds",
+    page: "pot-odds",
+    name: "Pot odds",
+    title: "Pot Odds Explained — How to Calculate Them (with Chart) | LlamaPoker",
+    description:
+      "What pot odds are, the one formula to work them out, a chart of the equity you need against every bet size, and how to compare it with your odds of winning.",
+    prerender: true,
+    schema: article(
+      "/learn/pot-odds",
+      "Pot odds explained",
+      "How to calculate pot odds, the equity you need against each bet size, and when a call pays off."
+    ),
+  },
+  {
+    path: "/learn/outs",
+    page: "outs",
+    name: "Outs",
+    title: "Poker Outs Chart — How to Count Outs & the Rule of 2 and 4 | LlamaPoker",
+    description:
+      "How to count your outs in poker, the outs for every common draw, the rule of 2 and 4, and a full outs chart with your exact odds of hitting on the turn and river.",
+    prerender: true,
+    schema: article(
+      "/learn/outs",
+      "Poker outs and how to count them",
+      "Counting outs, common draws, the rule of 2 and 4 and a full outs chart with exact odds."
+    ),
+  },
+  {
     path: "/learn/online-poker-helper",
     page: "poker-helper",
     name: "Online poker helpers",
@@ -246,6 +276,8 @@ export const LEARN_PATH = [
   "/learn/hand-rankings",
   "/learn/positions",
   "/learn/starting-hands",
+  "/learn/pot-odds",
+  "/learn/outs",
   "/glossary",
   "/strategy",
   "/learn/online-poker-helper",

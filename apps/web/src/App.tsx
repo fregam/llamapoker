@@ -23,6 +23,8 @@ import Positions from "./views/Positions";
 import StartingHands from "./views/StartingHands";
 import HandRankings from "./views/HandRankings";
 import PokerHelper from "./views/PokerHelper";
+import PotOdds from "./views/PotOdds";
+import Outs from "./views/Outs";
 import { CityBackdrop } from "./components/Skyline";
 import { Link } from "./components/Link";
 import { usePath } from "./router";
@@ -83,6 +85,10 @@ function Page({ page }: { page: PageId }) {
       return <HandRankings />;
     case "poker-helper":
       return <PokerHelper />;
+    case "pot-odds":
+      return <PotOdds />;
+    case "outs":
+      return <Outs />;
     default:
       return <NotFound />;
   }
@@ -142,6 +148,8 @@ export default function App() {
             <Link to="/learn/hand-rankings">Hand rankings</Link>
             <Link to="/learn/positions">Positions</Link>
             <Link to="/learn/starting-hands">Starting hands</Link>
+            <Link to="/learn/pot-odds">Pot odds</Link>
+            <Link to="/learn/outs">Outs chart</Link>
             <Link to="/strategy">Strategy</Link>
             <Link to="/privacy">Privacy</Link>
           </span>

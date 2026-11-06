@@ -1158,6 +1158,20 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
 .rank-what { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--text-2); }
 .rank-cards { display: flex; gap: 3px; }
 .rank-freq { font-family: var(--serif); font-size: 20px; text-align: right; color: var(--text); }
+
+/* Odds tables (pot odds, outs chart): hairline rows, labels in Inter, numbers in tabular figures. */
+.odds-table { width: 100%; border-collapse: collapse; margin: 8px 0 4px; font-size: 15px; }
+.odds-table th, .odds-table td { padding: 11px 12px 11px 0; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.odds-table thead th { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); border-bottom-color: var(--rule-strong); }
+.odds-table tbody th { font-weight: 500; color: var(--text); }
+.odds-table td { color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.odds-sub { display: block; margin-top: 3px; font-size: 13px; font-weight: 400; color: var(--text-3); }
+.odds-chart tbody th { font-family: var(--serif); font-size: 18px; font-weight: 400; }
+@media (max-width: 560px) {
+  .odds-table { font-size: 13px; }
+  .odds-table th, .odds-table td { padding-right: 8px; }
+  .odds-chart thead th { letter-spacing: 0.06em; font-size: 10px; white-space: normal; }
+}
 .card-sm .card-rank { font-size: 13px; }
 .card-sm .card-corner { top: 3px; left: 4px; }
 .card-sm .card-corner .card-suit { font-size: 8px; }
