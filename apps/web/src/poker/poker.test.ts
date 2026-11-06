@@ -10,7 +10,7 @@ import { describe, it, expect } from "vitest";
 import { Card, parseCard } from "./cards";
 import { evaluate5, evaluate7, categoryOf } from "./evaluator";
 import { simulate, equityVsRandom } from "./equity";
-import { expandToken, labelCombos, rangePercent, gridLabel, Combo } from "./ranges";
+import { expandToken, labelCombos, rangePercent, gridLabel, Combo, raiserFromPresets, callRange } from "./ranges";
 import { analyzeDraws } from "./draws";
 import { recommend, RecoInput } from "./strategy";
 import { analyzeSpot } from "./analyze";
@@ -178,6 +178,22 @@ describe("strategy", () => {
     expect(recommend({ ...base, position: "BB", hand: "KTo", facingBet: true }).choice).toBe("call");
     expect(recommend({ ...base, position: "BB", hand: "AKo", facingBet: true }).choice).toBe("raise");
     expect(recommend({ ...base, position: "SB", hand: "72o", facingBet: true }).choice).toBe("fold");
+  });
+  it("big blind defends wider against a late-position raise", () => {
+    const bb = { ...base, position: "BB" as const, facingBet: true };
+    expect(recommend({ ...bb, hand: "T7o", raiser: "BTN" }).choice).toBe("call");
+    expect(recommend({ ...bb, hand: "T7o", raiser: "UTG" }).choice).toBe("fold");
+    expect(recommend({ ...bb, hand: "T7o" }).choice).toBe("fold"); // raiser unknown: tight chart
+    expect(recommend({ ...bb, hand: "72o", raiser: "BTN" }).choice).toBe("fold");
+    expect(recommend({ ...bb, hand: "A4s", raiser: "SB" }).choice).toBe("raise");
+    const late = rangePercent(callRange("BB", "BTN"));
+    expect(late).toBeGreaterThan(40);
+    expect(late).toBeLessThan(60);
+  });
+  it("reads the raiser from the opponent preset", () => {
+    expect(raiserFromPresets(["open-BTN"])).toBe("BTN");
+    expect(raiserFromPresets(["random"])).toBeUndefined();
+    expect(raiserFromPresets(["open-BTN", "open-CO"])).toBeUndefined();
   });
   it("folds a weak hand that misses the price", () => {
     expect(recommend({ ...base, street: 2, facingBet: true, equity: 0.15, requiredEquity: 0.3, madeCategory: 0 }).choice).toBe(

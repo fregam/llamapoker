@@ -3,7 +3,9 @@
  * - notation expansion: "22+", "ATs+", "JJ-99", "AJs-A9s" → hand labels ("AKs", "QQ")
  * - the 169-hand grid (gridLabel, GRID_RANKS) and combo counting (rangePercent)
  * - seat charts: RFI_TOKENS (opening ranges) and VS_RAISE_TOKENS (3-bet / call vs a
- *   raise), read through rangeFor / threeBetRange / callRange
+ *   raise), read through rangeFor / threeBetRange / callRange; BB_VS_LATE_TOKENS is the
+ *   big blind's wider defence against a CO/BTN/SB raise (pass the raiser to the getters)
+ * - raiserFromPresets: "open-BTN" opponent preset → raiser seat
  * - labelCombos / rangeCombos: labels → concrete [card, card] pairs for the simulator
  * - OPP_PRESETS: the opponent range choices shown in the Opponents dropdown
  * Seats are named by how many players act after you, so the 6-max charts also serve
@@ -133,6 +135,30 @@ export const VS_RAISE_TOKENS: Record<Position, { threeBet: string[]; call: strin
   },
 };
 
+// The big blind against a late-position raise (CO, BTN or SB). Those openers raise much wider,
+// and the BB already has 1bb in, so it calls 1.5bb to win about 5.5bb (needs ~27%): defend
+// roughly half of all hands. Against UTG/MP raises the tighter VS_RAISE_TOKENS.BB chart applies.
+export const LATE_RAISERS: Position[] = ["CO", "BTN", "SB"];
+export const BB_VS_LATE_TOKENS: { threeBet: string[]; call: string[] } = {
+  threeBet: ["TT+", "AJs+", "AQo+", "KQs", "A5s-A3s"],
+  call: [
+    "99-22", "A2s+", "K2s+", "Q4s+", "J6s+", "T6s+", "96s+", "85s+", "74s+", "63s+", "53s+", "43s",
+    "A2o+", "K8o+", "Q9o+", "J8o+", "T7o+", "97o+", "86o+", "76o", "65o",
+  ],
+};
+
+/** The raiser's seat when the only opponent is one seat's opening range ("open-BTN" → "BTN"). */
+export function raiserFromPresets(keys: string[]): Position | undefined {
+  if (keys.length !== 1 || !keys[0].startsWith("open-")) return undefined;
+  const seat = keys[0].slice(5) as Position;
+  return POSITIONS.includes(seat) ? seat : undefined;
+}
+
+/** True when the BB should use its wider defence chart against this raiser. */
+export function bbVsLate(pos: Position, raiser?: Position): boolean {
+  return pos === "BB" && raiser !== undefined && LATE_RAISERS.includes(raiser);
+}
+
 export const POSITION_DESC: Record<Position, string> = {
   UTG: "Under the Gun — first to act, play tightest.",
   MP: "Middle Position — still early, stay disciplined.",
@@ -156,10 +182,12 @@ function cached(key: string, tokens: string[]): Set<string> {
 export function rangeFor(pos: Position): Set<string> {
   return cached("rfi-" + pos, RFI_TOKENS[pos]);
 }
-export function threeBetRange(pos: Position): Set<string> {
+export function threeBetRange(pos: Position, raiser?: Position): Set<string> {
+  if (bbVsLate(pos, raiser)) return cached("3b-bb-late", BB_VS_LATE_TOKENS.threeBet);
   return cached("3b-" + pos, VS_RAISE_TOKENS[pos].threeBet);
 }
-export function callRange(pos: Position): Set<string> {
+export function callRange(pos: Position, raiser?: Position): Set<string> {
+  if (bbVsLate(pos, raiser)) return cached("call-bb-late", BB_VS_LATE_TOKENS.call);
   return cached("call-" + pos, VS_RAISE_TOKENS[pos].call);
 }
 

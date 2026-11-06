@@ -20,7 +20,7 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Card, cardLabel } from "../poker/cards";
 import { CardFace } from "../components/Cards";
-import { presetByKey } from "../poker/ranges";
+import { presetByKey, raiserFromPresets } from "../poker/ranges";
 import { analyzeSpot, Analysis, Spot } from "../poker/analyze";
 import type { EquityResult } from "../poker/equity";
 import type { Choice } from "../poker/strategy";
@@ -156,7 +156,7 @@ export default function Trainer() {
   const [left, setLeft] = useState<number | null>(null);
   const outsRef = useRef<HTMLInputElement>(null);
 
-  const spot = question.spot;
+  const spot = useMemo(() => ({ ...question.spot, raiser: raiserFromPresets(question.oppPresets) }), [question]);
   const oppRanges = useMemo(() => question.oppPresets.map((p) => oppCombos(newOpp(p))), [question]);
   const { result, resultKey, computing } = useEquity(spot.hero, spot.board, oppRanges, question.key);
   // Grade only against the full simulation for this exact question, not the quick first pass.

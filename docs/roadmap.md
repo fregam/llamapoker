@@ -6,6 +6,7 @@
   www → apex redirect), Beehiiv signup, Web Analytics, Search Console + sitemap,
   link-preview image.
 - Monorepo: `brand/`, `apps/web/`, `content/`, `agents/`, `docs/`.
+- Strategy: the big blind defends about half its hands vs a CO/BTN/SB raise (was graded too tight).
 - Brand: engraved llama mark, the Gentleman, the Read, round icon/favicon, social kit,
   new share card, Gentleman plate on the home page.
 
@@ -13,7 +14,6 @@
 
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.
-3. **Strategy fix:** the big-blind defence chart against late-position raises is too tight.
 4. **Mobile pass** on every page.
 5. **SEO guides:** "pot odds explained", an outs chart.
 6. **Launch teaser video** (Higgsfield), vertical, for TikTok and Reels.

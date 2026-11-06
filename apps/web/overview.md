@@ -195,6 +195,9 @@ A range with no possible hands returns `impossible` (shown as an error in the Re
 
 **Ranges.** Notation: `22+`, `ATs+`, `AQo+`, `JJ-99`, `AJs-A9s`. `RFI_TOKENS` holds the
 opening ranges and `VS_RAISE_TOKENS` the 3-bet / call ranges per seat (simplified, 6-max).
+The big blind uses the wider `BB_VS_LATE_TOKENS` when the raiser is CO, BTN or SB. The raiser is
+`Spot.raiser` → `RecoInput.raiser`, set by PlayTool and the Trainer through `raiserFromPresets()`
+when there is one opponent on a seat's opening range ("BTN open"); unknown raiser = tight chart.
 `OPP_PRESETS` are the dropdown choices for opponents.
 
 **Seats and table size.** In `PlayTool`, the number of opponents also sets the table size:

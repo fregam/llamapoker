@@ -20,6 +20,7 @@ export interface Spot {
   hero: [Card, Card];
   board: Card[];
   position: Position;
+  raiser?: Position; // preflop raiser's seat, when known
   facingBet: boolean;
   pot: number; // pot before the bet you're facing
   bet: number; // the bet to call
@@ -79,6 +80,7 @@ export function analyzeSpot(s: Spot, result: EquityResult | null): Analysis {
     ? recommend({
         street,
         position: s.position,
+        raiser: s.raiser,
         hand,
         facingBet: facing,
         equity: result.equity,

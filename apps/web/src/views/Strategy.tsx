@@ -81,7 +81,7 @@ export default function Strategy() {
       <Street title="How the tool turns this into a move" tag="recommended">
         <ul className="strat-list">
           <li>Set <strong>Action to you</strong>: preflop it's <em>Unopened</em> or <em>Facing a raise</em>; after the flop it's <em>Checked to you</em> or <em>Facing a bet</em>.</li>
-          <li><strong>Preflop</strong> it uses seat charts: the opening range when unopened, and a 3-bet range plus a calling range when facing a raise. The big blind checks its option when nobody raised.</li>
+          <li><strong>Preflop</strong> it uses seat charts: the opening range when unopened, and a 3-bet range plus a calling range when facing a raise. The big blind defends about half its hands against a late-position raise (cutoff, button, small blind) — when the opponent is set to that seat's opening range — and plays tighter against early raises. It checks its option when nobody raised.</li>
           <li><strong>After the flop</strong> it compares your <strong>equity</strong> (against the ranges you gave each opponent) to a fair share (1 ÷ players) and to the <strong>pot-odds break-even</strong>.</li>
           <li>It counts your real <strong>outs</strong> (flush and straight draws, and improving to two pair or trips) and semi-bluffs strong draws of 8+ outs.</li>
           <li>When a draw is short of the price, it checks <strong>implied odds</strong>: can you realistically win enough later with what's left in the stacks?</li>

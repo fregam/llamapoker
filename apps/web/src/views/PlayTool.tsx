@@ -13,7 +13,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, RANKS, SUITS, makeCard, parseCard, cardLabel, remainingDeck, shuffle } from "../poker/cards";
 import { CardFace } from "../components/Cards";
-import { handLabel, rangeFor, threeBetRange, callRange, POSITIONS, POSITION_DESC, Position } from "../poker/ranges";
+import { handLabel, rangeFor, threeBetRange, callRange, raiserFromPresets, POSITIONS, POSITION_DESC, Position } from "../poker/ranges";
 import { analyzeSpot, Spot } from "../poker/analyze";
 import { useEquity } from "../hooks/useEquity";
 import { OpponentRanges, OppSetup, newOpp, oppCombos, oppsKey, describeOpps } from "../components/OpponentRanges";
@@ -310,11 +310,13 @@ export default function PlayTool() {
   }
 
   const heroName = heroReady ? handLabel(hero[0]!, hero[1]!) : "—";
+  // One opponent on a seat's opening range ("BTN open") tells us who raised preflop.
+  const raiser = raiserFromPresets(opps.map((o) => o.preset));
   const rangeTag = (() => {
     if (!heroReady) return null;
     if (street === 0 && facing) {
-      if (threeBetRange(position).has(heroName)) return { good: true, text: "3-bet range" };
-      if (callRange(position).has(heroName)) return { good: true, text: "calling range" };
+      if (threeBetRange(position, raiser).has(heroName)) return { good: true, text: "3-bet range" };
+      if (callRange(position, raiser).has(heroName)) return { good: true, text: "calling range" };
       return { good: false, text: "fold vs a raise" };
     }
     if (position === "BB") return null;
@@ -324,7 +326,7 @@ export default function PlayTool() {
   })();
 
   const spot: Spot | null = heroPair
-    ? { hero: heroPair, board: boardCards, position, facingBet: facing, pot, bet, stack, opponents: opps.length }
+    ? { hero: heroPair, board: boardCards, position, raiser, facingBet: facing, pot, bet, stack, opponents: opps.length }
     : null;
   const analysis = spot && result && !result.impossible ? analyzeSpot(spot, result) : null;
   const facingLabels = street === 0 ? ["Unopened", "Facing a raise"] : ["Checked to you", "Facing a bet"];

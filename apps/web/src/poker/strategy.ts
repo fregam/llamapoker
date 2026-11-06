@@ -29,6 +29,7 @@ export interface Recommendation {
 export interface RecoInput {
   street: number; // 0 preflop, 1 flop, 2 turn, 3 river
   position: Position;
+  raiser?: Position; // who raised preflop, when known (widens the BB defence vs late seats)
   hand: string; // e.g. "AKs"
   facingBet: boolean;
   equity: number; // overall equity share (0..1)
@@ -49,25 +50,26 @@ export function recommend(i: RecoInput): Recommendation {
 function preflop(i: RecoInput): Recommendation {
   const eqTxt = formatPct(i.equity);
   if (i.facingBet) {
-    if (threeBetRange(i.position).has(i.hand))
+    const vs = i.raiser ? ` vs a ${i.raiser} raise` : " vs a raise";
+    if (threeBetRange(i.position, i.raiser).has(i.hand))
       return {
         action: "Re-raise (3-bet)",
         tone: "aggressive",
         choice: "raise",
-        reason: `${i.hand} is in the ${i.position} 3-bet range. Re-raise to build the pot and take the initiative (${eqTxt} vs their range).`,
+        reason: `${i.hand} is in the ${i.position} 3-bet range${vs}. Re-raise to build the pot and take the initiative (${eqTxt} vs their range).`,
       };
-    if (callRange(i.position).has(i.hand))
+    if (callRange(i.position, i.raiser).has(i.hand))
       return {
         action: "Call",
         tone: "call",
         choice: "call",
-        reason: `${i.hand} is in the ${i.position} calling range vs a raise — call and see a flop (${eqTxt} vs their range).`,
+        reason: `${i.hand} is in the ${i.position} calling range${vs} — call and see a flop (${eqTxt} vs their range).`,
       };
     return {
       action: "Fold",
       tone: "fold",
       choice: "fold",
-      reason: `${i.hand} isn't in the ${i.position} continuing range vs a raise. Fold and wait for a better spot.`,
+      reason: `${i.hand} isn't in the ${i.position} continuing range${vs}. Fold and wait for a better spot.`,
     };
   }
 

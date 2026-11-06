@@ -3,7 +3,8 @@
  * trainer use (RFI_TOKENS / VS_RAISE_TOKENS in poker/ranges), so they never disagree:
  *   - how to read hand notation and the 13×13 grid
  *   - "First in" chart per seat (pick the seat), with the share of hands
- *   - "Facing a raise" chart per seat: 3-bet / call / fold
+ *   - "Facing a raise" chart per seat: 3-bet / call / fold; for the big blind, a switch between
+ *     an early-position raiser and a late one (CO/BTN/SB, the wider BB_VS_LATE chart)
  * Prerendered with the button selected; the seat switch is client-side.
  * Uses: components/Guide, components/RangeChart, poker/ranges.
  */
@@ -18,9 +19,12 @@ const OPEN_SEATS: Position[] = ["UTG", "MP", "CO", "BTN", "SB"];
 export default function StartingHands() {
   const [openSeat, setOpenSeat] = useState<Position>("BTN");
   const [vsSeat, setVsSeat] = useState<Position>("BB");
+  // The big blind's chart depends on who raised: an early seat (tight) or a late one (wide).
+  const [bbVsLate, setBbVsLate] = useState(true);
   const open = rangeFor(openSeat);
-  const threeBet = threeBetRange(vsSeat);
-  const call = callRange(vsSeat);
+  const raiser: Position | undefined = vsSeat === "BB" && bbVsLate ? "BTN" : undefined;
+  const threeBet = threeBetRange(vsSeat, raiser);
+  const call = callRange(vsSeat, raiser);
 
   return (
     <Guide
@@ -89,16 +93,28 @@ export default function StartingHands() {
             </button>
           ))}
         </div>
+        {vsSeat === "BB" && (
+          <div className="seg chart-seats" role="group" aria-label="Who raised">
+            <button className={bbVsLate ? "seg-btn seg-active" : "seg-btn"} aria-pressed={bbVsLate} onClick={() => setBbVsLate(true)}>
+              Late raise (CO, BTN, SB)
+            </button>
+            <button className={!bbVsLate ? "seg-btn seg-active" : "seg-btn"} aria-pressed={!bbVsLate} onClick={() => setBbVsLate(false)}>
+              Early raise (UTG, MP)
+            </button>
+          </div>
+        )}
         <RangeChart
           layers={[
             { range: threeBet, className: "chart-3bet", label: "Re-raise (3-bet)" },
             { range: call, className: "chart-call", label: "Call" },
           ]}
-          caption={`What to do from ${vsSeat} when someone has raised`}
+          caption={vsSeat === "BB" ? `Big blind vs ${bbVsLate ? "a late-position" : "an early-position"} raise` : `What to do from ${vsSeat} when someone has raised`}
         />
         <p className="ro-caption">
           Someone raised before you. Re-raise (3-bet) your best hands, call with hands that play well after the flop,
-          fold everything else. The big blind defends widest because it already has a chip in and gets the best price.
+          fold everything else. The big blind defends widest because it already has a chip in and gets the best price —
+          about half of all hands against a raise from the cutoff, button or small blind, who raise wide, and far fewer
+          against an early-position raise.
           These are simplified charts for 6-max cash games at 100 big blinds — a strong default while you learn.
         </p>
       </section>
