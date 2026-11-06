@@ -18,6 +18,9 @@
    set the Beehiiv logo and email header. First posts from the Learn guides.
 6. **Launch teaser video** (Higgsfield), vertical, for TikTok and Reels.
 
+1. **Instagram Reels:** animated 40–60s explainers rendered from code (our poker engine + brand), Gentleman covers
+   via Higgsfield, 3/week. Plan and topic list: `content/research/2026-11-06-ziramium_poker.md`.
+
 ## Later
 
 - Brand email: hello@llamapoker.com (Google Workspace recommended), then Cloudflare MX records, newsletter
