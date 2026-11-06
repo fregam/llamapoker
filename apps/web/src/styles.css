@@ -902,7 +902,11 @@ kbd {
   .trainer .tool-output { padding-left: 0; }
 }
 @media (max-width: 560px) {
-  .trainer-modes .seg-btn { font-size: 10px; padding-left: 2px; padding-right: 2px; }
+  /* Phones: drills get their own row and scroll sideways instead of squeezing into the clock. */
+  .trainer-modes { flex: 1 1 100%; max-width: none; overflow-x: auto; scrollbar-width: none; }
+  .trainer-modes::-webkit-scrollbar { display: none; }
+  .trainer-modes .seg-btn { flex: 0 0 auto; font-size: 11px; padding-left: 12px; padding-right: 12px; }
+  .chart-seats .seg-btn { white-space: normal; line-height: 1.3; }
   .trainer .trainer-story { font-size: 24px; }
   .side-panel .threat { grid-template-columns: 120px 1fr 36px; }
 }
@@ -980,7 +984,7 @@ a.wordmark { display: inline-block; color: var(--paper); }
 a.btn { display: inline-flex; align-items: center; justify-content: center; }
 .colophon a { color: var(--text-2); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
 .colophon a:hover { color: var(--text); text-decoration-color: currentColor; }
-.colophon-links { display: inline-flex; gap: 16px; }
+.colophon-links { display: inline-flex; flex-wrap: wrap; gap: 10px 16px; }
 
 .sr-only {
   position: absolute;
@@ -1216,4 +1220,9 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
   .seat-pct { grid-column: 2; text-align: left; }
   .guide-next-name, .learn-name { font-size: 26px; }
   .range-chart .grid-cell { height: 24px; font-size: 8px; }
+}
+
+/* Touch screens have no keyboard: hide the shortcut hints. */
+@media (hover: none) and (pointer: coarse) {
+  .shortcuts { display: none; }
 }
