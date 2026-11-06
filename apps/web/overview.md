@@ -26,6 +26,9 @@ npx vite preview # serve dist/ locally
 
 ## Code structure
 
+Lives at `apps/web/` in the LlamaPoker monorepo. Brand colours and fonts come from
+`../../brand/tokens.css`, imported at the top of `src/styles.css`.
+
 ```
 index.html              Page template: fonts (Bodoni Moda, Inter, JetBrains Mono), favicon, meta, #root
 public/_headers         Cloudflare Pages response headers (asset caching, security), copied into dist/

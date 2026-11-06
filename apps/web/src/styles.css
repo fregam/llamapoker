@@ -1,6 +1,6 @@
 /* ==========================================================================
    styles.css — the one global stylesheet for the whole app (no CSS modules).
-   Components use these class names directly. Design tokens live on :root:
+   Components use these class names directly. Brand tokens (colours, fonts) come from brand/tokens.css at the repo root:
    ink/paper colours, three accents (sage = good, brass = neutral,
    vermilion = danger), and the fonts (Bodoni Moda for display and big numbers,
    Inter for UI and paragraphs). Bodoni is for headlines only — small text in it
@@ -9,31 +9,12 @@
    cards → readout → trainer → reading pages → responsive. The "Cockpit"
    section near the end makes the Table page fit one screen (3 columns).
    ========================================================================== */
+@import "../../../brand/tokens.css";
+
 :root {
   color-scheme: dark;
 
-  --ink: #0a0a0b;
-  --ink-2: #111113;
-  --paper: #ece7dc;
-  --text: #ece7dc;
-  --text-2: #c4bfb4;
-  --text-3: #918c83;
-  --rule: rgba(236, 231, 220, 0.12);
-  --rule-strong: rgba(236, 231, 220, 0.28);
-  --fill: rgba(236, 231, 220, 0.05);
-  --track: rgba(236, 231, 220, 0.1);
-
-  --sage: #97b293;
-  --brass: #bba47b;
-  --vermilion: #d65c40;
-
-  --win: var(--sage);
-  --tie: var(--brass);
-  --lose: var(--vermilion);
-
-  --serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
-  --sans: "Inter", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  /* Colours and fonts come from brand/tokens.css (imported above). */
 
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   font-synthesis: none;

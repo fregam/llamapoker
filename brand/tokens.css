@@ -1,0 +1,31 @@
+/* LlamaPoker brand tokens: the single source of truth for colour and type.
+   Imported by apps/web/src/styles.css; mirrored in brand/tokens.json for tools that
+   can't read CSS (agents, image prompts, Canva). Change both together.
+   Rules (see brand/README.md): colour only for meaning (sage good, brass neutral,
+   vermilion danger); Bodoni Moda for headlines and big numbers only, Inter for text. */
+:root {
+  /* Surfaces and text */
+  --ink: #0a0a0b;
+  --ink-2: #111113;
+  --paper: #ece7dc;
+  --text: #ece7dc;
+  --text-2: #c4bfb4;
+  --text-3: #918c83;
+  --rule: rgba(236, 231, 220, 0.12);
+  --rule-strong: rgba(236, 231, 220, 0.28);
+  --fill: rgba(236, 231, 220, 0.05);
+  --track: rgba(236, 231, 220, 0.1);
+
+  /* Meaning */
+  --sage: #97b293;
+  --brass: #bba47b;
+  --vermilion: #d65c40;
+  --win: var(--sage);
+  --tie: var(--brass);
+  --lose: var(--vermilion);
+
+  /* Type */
+  --serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --sans: "Inter", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
