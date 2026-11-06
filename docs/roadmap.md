@@ -9,7 +9,7 @@
 
 ## Next
 
-1. **Brand mark:** a llama logo and mascot (Higgsfield), files into `brand/logo/`.
+1. **Brand mark:** done (engraved llama mark, the Gentleman, the Read). Still to do: a simplified small icon (favicon) and putting the art on the site.
 2. **Social presence:** profile and banner images; first posts from the Learn guides.
 3. **Strategy fix:** the big-blind defence chart against late-position raises is too tight.
 4. **Mobile pass** on every page.

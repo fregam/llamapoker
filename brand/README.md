@@ -66,8 +66,31 @@ Hairline rules are paper at 12% (`--rule`) or 28% (`--rule-strong`) opacity.
 
 - **Wordmark:** "LlamaPoker" in Bodoni Moda, weight 500, slight negative tracking
   (-0.01em), in paper on ink. No outlines, shadows or effects.
-- **Mark:** a llama. To be designed; once chosen, the files go in `logo/` and are
-  described here.
+- **Mark:** `logo/llama-mark.png`, the llama head in profile, as a fine copperplate
+  engraving in paper on ink (2048 px). Use it on the website, the newsletter header,
+  banners and merch. It's detailed, so don't use it below about 64 px; small icons need a
+  simplified version (to do).
+
+## The character
+
+One llama, the same face everywhere, always in the engraving style. Never flat-cartoon,
+3D or neon.
+
+- **The Gentleman** (`assets/gentleman.png`): the main character. Dinner jacket, white dress
+  shirt, black bow tie, pocket square, holding his cards in a hoof (a hoof, never a hand).
+  Calm and slightly amused. Use him in articles, on the home page, in videos and on merch.
+- **The Read** (`assets/the-read.png`): the same llama facing you, round wire glasses and
+  bow tie, with a deadpan stare that reads you. It's the profile picture on every social
+  account and the newsletter. The idea: *the llama is reading you*, the way a good player
+  reads an opponent. Crop it as a circle around the face.
+- **Personality:** a quiet, very good player. He doesn't gloat or hype; he knows the maths
+  and he's a little amused by you. Dry wit, never mean.
+- **Making new scenes:** in Higgsfield, use `gpt_image_2_6` with `assets/gentleman.png` (or
+  the original job `e190b152-5ef0-4014-ad24-08bd51fa6a0f`) as the image reference, start the
+  prompt with "The same llama as the reference, in the exact same fine copperplate engraving
+  style with cross-hatching, cream ink (#ece7dc) on flat near-black (#0a0a0b)", then describe
+  the scene. Drafts at `quality: low` cost about 0.25 credits; finals at `high`/`2k` cost about 2.75.
+- `logo/concepts/` keeps the explored directions for reference; they are not approved for use.
 
 ## Imagery
 
@@ -91,4 +114,6 @@ with a small caps label above it. One idea per screen or slide.
 
 ## Approved assets
 
+- `logo/llama-mark.png`: the logo mark.
+- `assets/gentleman.png`: the main character. `assets/the-read.png`: the profile picture.
 - `apps/web/public/og.png`: the link-preview card (source `apps/web/scripts/og-image.html`).
