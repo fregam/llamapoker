@@ -10,6 +10,9 @@
   - Functions (`apps/web/functions/`) run the newsletter signup at `/api/subscribe`.
   - Environment: `BEEHIIV_API_KEY` (secret), `BEEHIIV_PUBLICATION_ID`.
 - **Redirects:** a Cloudflare Redirect Rule sends `www` → `llamapoker.com` (301).
+- **Newsletter:** Beehiiv publication LlamaPoker (`pub_c7930bfc-…`). Post template "The LlamaPoker Letter"
+  (`post_template_c1039d31-05b2-48b3-b1a4-ab31696a1535`): brand dark theme, header image, sections (spot of the
+  week, drill, from the journal), signed by the Gentleman. Managed through the Beehiiv MCP connector.
 - **Analytics:** Cloudflare Web Analytics (no cookies). **Search:** Google Search Console
   (Domain property), sitemap `https://llamapoker.com/sitemap.xml`.
 
