@@ -37,7 +37,11 @@ export default function Privacy() {
         <ul className="strat-list">
           <li>
             <strong>Your email — only if you join the letter.</strong> We use it to send the LlamaPoker letter and nothing
-            else. It's stored with our hosting provider's form service. We don't sell or share it.
+            else. It's stored with Beehiiv, the service that sends the letter. We don't sell or share it.
+          </li>
+          <li>
+            <strong>Anonymous visit counts.</strong> We use Cloudflare Web Analytics to see how many people visit and
+            which pages they read. It sets no cookies and doesn't identify or follow you across sites.
           </li>
           <li>
             <strong>Unsubscribing.</strong> Every email has an unsubscribe link, or reply and ask — we'll delete your
