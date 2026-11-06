@@ -6,6 +6,7 @@ Everything we publish outside the site's built-in pages, as Markdown, in the bra
 ```
 content/
   calendar.md     What's going out, when, and where
+  letters/        Newsletter issues (copy of what is in Beehiiv), one file per issue
   articles/       Long-form pieces (draft → review → published)
   social/         Posts and captions, one file per post or thread
   research/       Weekly briefs from the research agent (planned)
