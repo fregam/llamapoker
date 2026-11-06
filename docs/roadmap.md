@@ -20,6 +20,9 @@
 
 ## Later
 
+- Brand email: hello@llamapoker.com (Google Workspace recommended), then Cloudflare MX records, newsletter
+  reply-to, and a Beehiiv custom sending domain (letter@llamapoker.com).
+
 - Research agent (Reddit, X, tournament results) → weekly brief in `content/`.
 - Writing and SEO agents → draft articles for review.
 - Move hosting to a Hetzner VPS (see `docs/hosting.md`) when the backend and agents need a server.
