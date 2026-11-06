@@ -2,7 +2,7 @@
  * The home page (/): the lead magnet's landing page. Editorial layout:
  *   hero (headline, standfirst, CTAs) + a "specimen" of the read for a real spot
  *   → what's inside (Table, Trainer, Library) → how it works → the letter (email
- *   signup) → FAQ. Positioned as a study, hand-review and training tool — most online
+ *   signup, beside a plate of the brand character, public/brand/gentleman-*.webp) → FAQ. Positioned as a study, hand-review and training tool — most online
  *   poker sites forbid real-time assistance during play, and the FAQ says so plainly.
  * The specimen's numbers are what the Table shows for that exact spot (A♥5♥ on
  * K♥ 9♥ 2♣, facing 50 into 100, two random opponents); update them if the logic changes.
@@ -180,14 +180,26 @@ export default function Home() {
       </section>
 
       <section className="home-section letter" id="letter">
+        <figure className="plate">
+          <img
+            src="/brand/gentleman-640.webp"
+            srcSet="/brand/gentleman-640.webp 640w, /brand/gentleman-1100.webp 1100w"
+            sizes="(max-width: 900px) 90vw, 420px"
+            width={640}
+            height={640}
+            loading="lazy"
+            alt="The LlamaPoker llama in a dinner jacket and bow tie, holding his cards"
+          />
+          <figcaption>Plate I · The Gentleman</figcaption>
+        </figure>
         <div className="letter-copy">
           <h2 className="home-h2">The LlamaPoker letter.</h2>
           <p className="hero-standfirst">
             New drills, sharper strategy and the poker journal we're building — tournaments, the people and the ideas
             behind the game. Occasional, never spam.
           </p>
+          <Signup source="home" />
         </div>
-        <Signup source="home" />
       </section>
 
       <section className="home-section">

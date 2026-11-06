@@ -68,8 +68,7 @@ Hairline rules are paper at 12% (`--rule`) or 28% (`--rule-strong`) opacity.
   (-0.01em), in paper on ink. No outlines, shadows or effects.
 - **Mark:** `logo/llama-mark.png`, the llama head in profile, as a fine copperplate
   engraving in paper on ink (2048 px). Use it on the website, the newsletter header,
-  banners and merch. It's detailed, so don't use it below about 64 px; small icons need a
-  simplified version (to do).
+  banners and merch. It's detailed, so don't use it below about 64 px; use `logo/llama-icon.svg` there.
 
 ## The character
 
@@ -114,6 +113,18 @@ with a small caps label above it. One idea per screen or slide.
 
 ## Approved assets
 
+Everything below `social/`, `apps/web/public/og.png`, the favicons and the web images is
+**generated**: edit the source art or a template in `templates/`, then run
+`node scripts/brand-assets.mjs` from `apps/web/`. It also lifts the art's blacks to `--ink` so it sits
+on pages without a visible box.
+
+
 - `logo/llama-mark.png`: the logo mark.
 - `assets/gentleman.png`: the main character. `assets/the-read.png`: the profile picture.
-- `apps/web/public/og.png`: the link-preview card (source `apps/web/scripts/og-image.html`).
+- `logo/llama-icon.svg` (square, for favicons and app icons) and `logo/llama-icon-round.svg`
+  (round seal, transparent, for small marks on dark pages): the simplified icon. Use it below 64 px.
+- `social/avatar.png`: profile picture (the Read) for every account.
+- `social/x-banner.png` (1500×500), `social/youtube-banner.png` (2560×1440),
+  `social/newsletter-header.png` (1200×400, Beehiiv email header).
+- `apps/web/public/og.png`: the link-preview card (`templates/og.html`).
+- Social tagline: **"The llama is reading you."**

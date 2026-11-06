@@ -129,7 +129,10 @@ export default function App() {
         </main>
 
         <footer className="colophon">
-          <span>LlamaPoker</span>
+          <span className="colophon-mark">
+            <img src="/brand/llama-icon.svg" width={22} height={22} alt="" />
+            LlamaPoker
+          </span>
           <span>
             A study and training tool. Figures are Monte Carlo estimates against the ranges you choose — not financial
             advice. 18+ · Play responsibly.

@@ -1,0 +1,21 @@
+/* Shared styles for the brand templates in this folder (rendered to PNG by
+   apps/web/scripts/brand-assets.mjs). Colours come from ../tokens.css. */
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@400;500;600&display=block");
+@import url("../tokens.css");
+
+* { margin: 0; box-sizing: border-box; }
+html, body { background: var(--ink); color: var(--paper); overflow: hidden; }
+body { font-family: var(--sans); position: relative; }
+
+.mark { font-family: var(--serif); font-weight: 500; letter-spacing: -0.01em; line-height: 1; }
+.display { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02em; line-height: 0.98; }
+.display em { font-style: italic; }
+.label { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-3); }
+.lead { color: var(--text-2); line-height: 1.4; }
+.rule { border-top: 1px solid rgba(236, 231, 220, 0.14); }
+
+/* The art is pre-processed so its black matches --ink exactly (see brand-assets.mjs). */
+.art { position: absolute; display: block; object-fit: cover;
+  /* Feather the left edge so the art never shows a box against the page. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12%); mask-image: linear-gradient(to right, transparent 0, #000 12%); }
+.label { white-space: nowrap; }

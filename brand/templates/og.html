@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- Link-preview card, 1200×630 → apps/web/public/og.png. Render: node scripts/brand-assets.mjs (in apps/web). -->
+<html><head><meta charset="utf-8" /><link rel="stylesheet" href="base.css" />
+<style>
+  html, body { width: 1200px; height: 630px; }
+  .art { right: -40px; top: 0; width: 630px; height: 630px; object-position: 50% 30%; }
+  .copy { position: absolute; left: 80px; top: 64px; bottom: 64px; width: 560px; display: flex; flex-direction: column; }
+  .mark { font-size: 44px; }
+  .display { font-size: 96px; margin-top: auto; }
+  .lead { font-size: 25px; margin-top: 24px; max-width: 560px; }
+  .foot { margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; font-size: 18px; color: var(--text-3); }
+  .foot b { color: var(--paper); font-weight: 500; }
+</style></head>
+<body>
+  <img class="art" src="../.build/gentleman.png" alt="" />
+  <div class="copy">
+    <span class="mark">LlamaPoker</span>
+    <h1 class="display">Should you <em>call?</em></h1>
+    <p class="lead">Free poker odds calculator &amp; trainer. Your equity, the pot odds, your outs and the right move, explained.</p>
+    <div class="foot rule"><b>llamapoker.com</b><span>Study · Review · Train</span></div>
+  </div>
+</body></html>

@@ -6,11 +6,13 @@
   www → apex redirect), Beehiiv signup, Web Analytics, Search Console + sitemap,
   link-preview image.
 - Monorepo: `brand/`, `apps/web/`, `content/`, `agents/`, `docs/`.
+- Brand: engraved llama mark, the Gentleman, the Read, round icon/favicon, social kit,
+  new share card, Gentleman plate on the home page.
 
 ## Next
 
-1. **Brand mark:** done (engraved llama mark, the Gentleman, the Read). Still to do: a simplified small icon (favicon) and putting the art on the site.
-2. **Social presence:** profile and banner images; first posts from the Learn guides.
+1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
+   set the Beehiiv logo and email header. First posts from the Learn guides.
 3. **Strategy fix:** the big-blind defence chart against late-position raises is too tight.
 4. **Mobile pass** on every page.
 5. **SEO guides:** "pot odds explained", an outs chart.
