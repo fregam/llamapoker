@@ -56,6 +56,7 @@ for (const w of [640, 1100]) {
     .toFile(resolve(PUB, "brand", `gentleman-${w}.webp`));
 }
 copyFileSync(resolve(BRAND, "logo", "llama-icon-round.svg"), resolve(PUB, "brand", "llama-icon.svg"));
+// (The newsletter header is copied to public/brand/ after it renders, below, so Beehiiv can import it by URL.)
 
 // 3. Favicons (the square icon has its own ink background).
 const icon = resolve(BRAND, "logo", "llama-icon.svg");
@@ -68,6 +69,7 @@ await sharp(resolve(BUILD, "the-read.png")).resize(1024).png().toFile(resolve(SO
 render("x-banner.html", 1500, 500, resolve(SOCIAL, "x-banner.png"));
 render("youtube-banner.html", 2560, 1440, resolve(SOCIAL, "youtube-banner.png"));
 render("newsletter-header.html", 1200, 400, resolve(SOCIAL, "newsletter-header.png"));
+copyFileSync(resolve(SOCIAL, "newsletter-header.png"), resolve(PUB, "brand", "newsletter-header.png"));
 
 // 5. Link-preview card.
 render("og.html", 1200, 630, resolve(PUB, "og.png"));
