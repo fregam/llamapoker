@@ -9,6 +9,7 @@ brand/      Brand system: guidelines, colour and type tokens, logo, approved ass
             The source of truth; everything else uses it.
 apps/web/   llamapoker.com: odds calculator, trainer, Learn guides (React + Vite,
             prerendered, on Cloudflare Pages).
+apps/reels/ Short vertical videos (Reels, TikTok, Shorts) rendered from code with Remotion.
 content/    Articles, social posts and the content calendar (Markdown).
 agents/     Research, writing, SEO and social agents (planned).
 docs/       Vision, roadmap, decisions and runbooks (hosting, deploys).
