@@ -123,7 +123,7 @@ on pages without a visible box.
 - `assets/gentleman.png`: the main character. `assets/the-read.png`: the profile picture.
 - `logo/llama-icon.svg` (square, for favicons and app icons) and `logo/llama-icon-round.svg`
   (round seal, transparent, for small marks on dark pages): the simplified icon. Use it below 64 px.
-- `social/avatar.png`: profile picture (the Read) for every account.
+- `social/profile-picture.png`: **the profile picture for every account** (the Read, cropped close on the face so it reads at 40 px). `social/avatar.png` is the full version.
 - `social/x-banner.png` (1500×500), `social/youtube-banner.png` (2560×1440),
   `social/newsletter-header.png` (1200×400, Beehiiv email header).
 - `apps/web/public/og.png`: the link-preview card (`templates/og.html`).

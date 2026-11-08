@@ -6,7 +6,7 @@
 //   public/brand/            web images for the site (gentleman-*.webp, llama-icon.svg)
 //   public/favicon.svg, favicon-32.png, apple-touch-icon.png
 //   public/og.png            link-preview card        ← brand/templates/og.html
-//   brand/social/            avatar.png (the Read), x-banner.png, youtube-banner.png, newsletter-header.png
+//   brand/social/            profile-picture.png (the Read, face crop, use this), avatar.png (full), x-banner.png, youtube-banner.png, newsletter-header.png
 //
 // Templates are rendered with headless Chrome (fonts load from Google Fonts); set CHROME to
 // override its path. Images are processed with sharp.
@@ -66,6 +66,9 @@ await sharp(icon, { density: 300 }).resize(180, 180).png().toFile(resolve(PUB, "
 
 // 4. Social kit.
 await sharp(resolve(BUILD, "the-read.png")).resize(1024).png().toFile(resolve(SOCIAL, "avatar.png"));
+// Profile picture: a close crop on the face so the glasses and the stare still read at 40px.
+await sharp(resolve(BUILD, "the-read.png")).extract({ left: 324, top: 300, width: 1400, height: 1400 }).resize(1080).png()
+  .toFile(resolve(SOCIAL, "profile-picture.png"));
 render("x-banner.html", 1500, 500, resolve(SOCIAL, "x-banner.png"));
 render("youtube-banner.html", 2560, 1440, resolve(SOCIAL, "youtube-banner.png"));
 render("newsletter-header.html", 1200, 400, resolve(SOCIAL, "newsletter-header.png"));
