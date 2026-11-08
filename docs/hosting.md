@@ -13,6 +13,8 @@
 - **Newsletter:** Beehiiv publication LlamaPoker (`pub_c7930bfc-…`). Post template "The LlamaPoker Letter"
   (`post_template_c1039d31-05b2-48b3-b1a4-ab31696a1535`): brand dark theme, header image, sections (spot of the
   week, drill, from the journal), signed by the Gentleman. Managed through the Beehiiv MCP connector.
+- **Email:** Google Workspace on llamapoker.com. DNS: Google MX, SPF (`include:_spf.google.com`; the
+  Namecheap include can go), DKIM `google._domainkey`, DMARC `p=none` reporting to Cloudflare DMARC Management.
 - **Analytics:** Cloudflare Web Analytics (no cookies). **Search:** Google Search Console
   (Domain property), sitemap `https://llamapoker.com/sitemap.xml`.
 
