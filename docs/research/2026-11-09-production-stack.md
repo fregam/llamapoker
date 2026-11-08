@@ -33,6 +33,25 @@ what should we rent, and what does an API cost?
 - **Sound bridges cuts:** a card snap or chip clack that starts on one shot and lands on the next
   (J/L cuts) makes separate clips feel like one scene.
 
+## 1b. The viewer must be able to follow (the most important rule)
+
+What makes the best poker explainers work is teaching: every sentence of the narration is
+shown on screen at the same moment. Cards appear when the narrator names them, the range grid
+lights up when he says "3% of hands", the number counts up, the bar fills. Mood shots alone
+don't teach.
+
+So every reel has two layers:
+- **Story layer (AI video):** the Gentleman, the table, the rivals. Mood, character and the
+  emotional beat, made in Higgsfield, an API or our own GPU.
+- **Teaching layer (code-drawn graphics, Remotion + our poker engine):** the cards, range
+  grid, pot and bet chips, equity bars, outs counters and formulas, exact and in brand style,
+  timed to the narration word by word. The numbers come from the same maths as the site, so
+  they are always correct.
+
+The edit alternates and overlays the two: story shot → the idea drawn clearly → back to the
+Gentleman reacting. Each new term is explained the first time, one idea per screen, and the
+graphic always matches the words being spoken.
+
 ## 2. Direction: what to borrow from great filmmakers (techniques, not their films)
 
 Our brand is a dark, quiet card room and a deadpan gentleman who reads you. These directors'
@@ -128,8 +147,9 @@ shots.
    library (room tone, card snap, chip clack, clock, 3 lounge-noir beds).
 3. **Video:** run one head-to-head test on the same 3 shots: local Wan 2.2 5B, rented-4090
    Wan 2.2 14B, Kling 3.0 and Hailuo via API. Pick on quality per dollar.
-4. **Pipeline v2:** keyframes from our cast/set sheets → 3–5 s image-to-video shots →
-   voice-first edit in Remotion with sound design, numbers and end card.
+4. **Pipeline v2:** keyframes from our cast/set sheets → 3–5 s image-to-video shots for the
+   story layer + code-drawn teaching graphics (cards, grids, numbers) synced to the narration →
+   voice-first edit in Remotion with sound design and end card.
 5. **Hardware:** 64 GB RAM is the cheapest upgrade that makes local video practical.
 
 ## Sources
