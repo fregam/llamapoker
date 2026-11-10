@@ -164,9 +164,11 @@ shots.
 
 ## 8. Proposed content file system
 
-Text and recipes live in git; heavy media (video, audio, renders) lives outside git in a media
-folder with the same layout (E:\llamapoker-media locally, later a storage bucket such as
-Cloudflare R2), referenced from each item's `manifest.json`.
+Text and recipes live in git. Heavy media (images, video, audio, renders) lives in the monorepo's
+`media/` folder (git-ignored, same layout as `content/`, later mirrored to Cloudflare R2). Each
+item's manifest records every file with its sha256, source and prompt (see `media/README.md`,
+`scripts/media-manifest.mjs`). *Superseded in part: the library is now
+`content/library/assets.json` + `media/library/`.*
 
 ```
 content/
@@ -189,4 +191,4 @@ content/
   _templates/  brief.md, script.md, shotlist.md, publish.md
 ```
 
-Media folder mirror: `E:\llamapoker-media\reels\2026-11-08-only-aces\{keyframes,clips,audio\{vo,music,sfx},edit,renders}`.
+Media folder mirror: `media/reels/2026-11-08_only-aces/{keyframes,motion,clips,audio/{vo,music,sfx},edit,renders}`.

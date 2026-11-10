@@ -21,6 +21,13 @@
 1. **Instagram Reels:** first one built (`apps/reels`, "should-you-call"). Then 3/week.
    Original plan: animated 40–60s explainers rendered from code (our poker engine + brand), Gentleman covers
    via Higgsfield, 3/week. Plan and topic list: `content/research/2026-11-06-ziramium_poker.md`.
+   - Done: on-brand image library v02, cream engraving on black (`content/library/README.md`);
+     bake-offs 01–03 (`docs/research/2026-11-09-bakeoff-0*.md`).
+   - 2026-11-10 pivot: reels are rendered from code (Remotion) with the engraving library; AI video,
+     Blender guides and LoRA work are shelved (research kept in docs/research/).
+   - Reel 002 "Only playing aces?" rendered (content/reels/002-only-aces.md) with a cover; the
+     teaching layer (range grid, counters, chips, fold seats) lives in apps/reels/src/teaching.tsx.
+   - Next: voice-over (local TTS), post reels 001–002, then "Stop limping" and "Outs in 2 seconds".
 
 ## Later
 

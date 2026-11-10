@@ -1,0 +1,210 @@
+/**
+ * Reel 002 — "Only playing aces?" The most-watched beginner topic in the niche (research:
+ * content/research/2026-11-06-ziramium_poker.md), rebuilt from code in the brand world.
+ * Numbers from ../../../web/src/poker/ranges.ts: premium hands are 34 of 1,326 combos (2.6%),
+ * one every 39 hands; 6-max blinds cost 1.5 bb per orbit of 6 hands, so ~10 bb per wait.
+ * Beats (30fps, 42s): hook → the plan (grid) → the wait (counter, chips) → nobody pays →
+ * the fix (grid widens to the button range) → save-this cheat sheet → outro.
+ */
+
+import { AbsoluteFill, Sequence, interpolate } from "remotion";
+import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src/poker/ranges";
+import { BigNumber, Caption, Frame, PlayingCard, fadeUp, pop, useT } from "../components";
+import { ChipStack, Counter, DotRow, Engraving, RangeGrid, Seat } from "../teaching";
+import { C, SERIF } from "../theme";
+
+const PREMIUM = expandRange(["QQ+", "AKs", "AKo"]);
+const PREMIUM_PCT = rangePercent(PREMIUM); // 2.56
+const PREMIUM_COMBOS = Math.round((PREMIUM_PCT / 100) * 1326); // 34
+const WAIT = Math.round(1326 / PREMIUM_COMBOS); // 39 hands between premiums
+const BLINDS_PER_HAND = 1.5 / 6; // 6-max: SB 0.5 + BB 1 every 6 hands
+const BLINDS_LOST = Math.round(WAIT * BLINDS_PER_HAND); // 10 bb
+const BTN = rangeFor("BTN");
+const BTN_PCT = Math.round(rangePercent(BTN));
+
+export const ONLY_ACES_FRAMES = 1260;
+
+const clamp = (f: number, a: number, b: number, lo = 0, hi = 1) => interpolate(f, [a, b], [lo, hi], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+function Title({ children, top = 250, size = 150 }: { children: React.ReactNode; top?: number; size?: number }) {
+  const { frame } = useT();
+  return (
+    <div style={{ position: "absolute", top, left: 70, right: 70, textAlign: "center", fontFamily: SERIF, fontSize: size, lineHeight: 0.95, letterSpacing: "-0.02em", ...fadeUp(frame, 0, 10) }}>
+      {children}
+    </div>
+  );
+}
+
+function Hook() {
+  const { frame } = useT();
+  const drift = interpolate(frame, [0, 120], [1.02, 1.08]);
+  return (
+    <>
+      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 520, left: -60, width: 1200, height: 1010, transform: `scale(${drift})`, opacity: clamp(frame, 0, 18) }} />
+      <Title>
+        Only playing <em>aces?</em>
+      </Title>
+      <Caption text="Fold. Fold. Fold. Waiting for the big hand feels disciplined." hl={["disciplined"]} accent={C.brass} start={20} dur={55} />
+    </>
+  );
+}
+
+function ThePlan() {
+  const { frame } = useT();
+  const p = clamp(frame, 10, 50);
+  return (
+    <>
+      <Title top={200} size={100}>The plan</Title>
+      <div style={{ position: "absolute", top: 390, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+        <RangeGrid lit={PREMIUM} progress={p} color={C.brass} cell={62} dim />
+      </div>
+      <div style={{ position: "absolute", top: 1250, left: 0, right: 0, ...fadeUp(frame, 55) }}>
+        <BigNumber value={`${PREMIUM_PCT.toFixed(1)}%`} label={`${PREMIUM_COMBOS} OF 1,326 HANDS`} color={C.brass} />
+      </div>
+      <Caption text={`Aces, kings, queens, ace-king. ${PREMIUM_COMBOS} of 1,326 combos. Under 3% of hands.`} hl={["34", "3%"]} accent={C.brass} start={10} dur={60} />
+    </>
+  );
+}
+
+function TheWait() {
+  const { frame } = useT();
+  const p = clamp(frame, 15, 150);
+  const chips = 40 - BLINDS_LOST * p;
+  const acesIn = frame > 165;
+  return (
+    <>
+      <Title top={200} size={100}>The wait</Title>
+      <Counter to={WAIT} progress={p} label="HANDS BETWEEN PREMIUMS" color={C.paper} style={{ position: "absolute", top: 400, left: 0, right: 0 }} />
+      <DotRow total={WAIT + 1} filled={Math.round(p * WAIT) + (acesIn ? 1 : 0)} mark={WAIT} style={{ position: "absolute", top: 760, left: 150, right: 150 }} />
+      <div style={{ position: "absolute", top: 880, left: 150, display: "flex", alignItems: "flex-end", gap: 50 }}>
+        <ChipStack count={chips} />
+        <div style={{ paddingBottom: 40 }}>
+          <div style={{ fontFamily: SERIF, fontSize: 150, color: C.vermilion, lineHeight: 0.9, opacity: clamp(frame, 30, 45) }}>−{Math.round(BLINDS_LOST * p)} bb</div>
+          <div style={{ fontSize: 30, letterSpacing: "0.26em", color: C.text3, fontWeight: 500, marginTop: 16 }}>BLINDS PAID WHILE YOU FOLD</div>
+        </div>
+      </div>
+      {acesIn && (
+        <div style={{ position: "absolute", top: 1300, left: 620, display: "flex", gap: 14 }}>
+          {["As", "Ah"].map((c, i) => (
+            <PlayingCard key={c} card={c} size={0.6} style={{ transform: `scale(${pop(frame, 30, 165 + i * 4)})` }} />
+          ))}
+        </div>
+      )}
+      <Caption text={`One premium every ${WAIT} hands. The blinds come round anyway: ${BLINDS_LOST} big blinds, gone.`} hl={[String(WAIT), String(BLINDS_LOST), "gone"]} accent={C.vermilion} start={10} dur={70} />
+    </>
+  );
+}
+
+function NobodyPays() {
+  const { frame, fps } = useT();
+  return (
+    <>
+      <Title top={200} size={100}>Nobody pays</Title>
+      <div style={{ position: "absolute", top: 420, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 70 }}>
+        {["SEAT 1", "SEAT 2", "SEAT 3"].map((n, i) => (
+          <Seat key={n} name={n} folded frame={frame} delay={45 + i * 14} />
+        ))}
+      </div>
+      <div style={{ position: "absolute", top: 660, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16 }}>
+        {["As", "Ah"].map((c, i) => (
+          <PlayingCard key={c} card={c} size={1.05} style={{ transform: `scale(${pop(frame, fps, 4 + i * 4)})` }} />
+        ))}
+      </div>
+      <div style={{ position: "absolute", top: 985, left: 0, right: 0, textAlign: "center", fontFamily: SERIF, fontSize: 92, ...fadeUp(frame, 24) }}>
+        You raise.
+      </div>
+      <Engraving file="expr-3.png" fade={0.45} style={{ position: "absolute", top: 1060, left: 190, width: 700, height: 560, opacity: clamp(frame, 95, 115) }} />
+      <Caption text="The aces finally come. You raise. Everyone folds. After an hour of folding, nobody pays you off." hl={["everyone", "folds", "nobody"]} accent={C.vermilion} start={20} dur={80} />
+    </>
+  );
+}
+
+function TheFix() {
+  const { frame } = useT();
+  const p = clamp(frame, 20, 110);
+  const pct = Math.round(PREMIUM_PCT + (BTN_PCT - PREMIUM_PCT) * p);
+  return (
+    <>
+      <Title top={200} size={100}>From the button</Title>
+      <div style={{ position: "absolute", top: 390, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+        <RangeGrid lit={BTN} progress={p} color={C.sage} cell={62} dim />
+      </div>
+      <div style={{ position: "absolute", top: 1250, left: 0, right: 0 }}>
+        <BigNumber value={`${pct}%`} label="OF HANDS, RAISED FIRST IN" color={C.sage} />
+      </div>
+      <Caption text={`Last to act, open about ${BTN_PCT}% of hands. Tight is fine. Predictable is broke.`} hl={[`${BTN_PCT}%`, "predictable", "broke"]} start={10} dur={70} />
+    </>
+  );
+}
+
+function CheatSheet() {
+  const { frame } = useT();
+  const rows = POSITIONS.filter((p) => p !== "BB");
+  return (
+    <>
+      <Title top={200} size={100}>Save this.</Title>
+      <div style={{ position: "absolute", top: 380, left: 140, right: 140 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 30, letterSpacing: "0.24em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}` }}>
+          <span>SEAT</span>
+          <span>OPEN</span>
+        </div>
+        {rows.map((pos, i) => {
+          const pct = Math.round(rangePercent(rangeFor(pos)));
+          return (
+            <div key={pos} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "20px 0", borderBottom: `1px solid ${C.rule}`, ...fadeUp(frame, 8 + i * 8, 10) }}>
+              <span style={{ fontSize: 54, color: C.text2, letterSpacing: "0.06em" }}>{pos}</span>
+              <span style={{ display: "flex", alignItems: "baseline", gap: 24 }}>
+                <span style={{ width: 300, height: 14, background: C.ink2, border: `1px solid ${C.rule}` }}>
+                  <span style={{ display: "block", height: "100%", width: `${pct * 2}%`, background: pos === "BTN" ? C.sage : C.brass }} />
+                </span>
+                <span style={{ fontFamily: SERIF, fontSize: 84, width: 170, textAlign: "right" }}>{pct}%</span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <Caption text="Later seat, more hands. Early seat, fewer. Premiums are the floor, never the whole plan." hl={["later", "more", "floor"]} accent={C.brass} start={50} dur={60} />
+    </>
+  );
+}
+
+function Outro() {
+  const { frame } = useT();
+  return (
+    <>
+      <Engraving file="the-read.png" fade={0.3} style={{ position: "absolute", top: 150, left: 90, width: 900, height: 900, opacity: clamp(frame, 0, 14) }} />
+      <div style={{ position: "absolute", top: 1100, left: 0, right: 0, textAlign: "center", ...fadeUp(frame, 14) }}>
+        <div style={{ fontFamily: SERIF, fontSize: 92, lineHeight: 1.05 }}>
+          The llama is <em>reading you.</em>
+        </div>
+        <div style={{ marginTop: 40, fontSize: 46, color: C.text2 }}>Run any spot, free.</div>
+        <div style={{ marginTop: 18, fontSize: 56, letterSpacing: "0.06em", color: C.paper, fontWeight: 500 }}>llamapoker.com</div>
+        <div style={{ marginTop: 18, fontSize: 30, letterSpacing: "0.24em", color: C.text3 }}>LINK IN BIO</div>
+      </div>
+    </>
+  );
+}
+
+const BEATS: [number, number, () => JSX.Element][] = [
+  [0, 120, Hook],
+  [120, 180, ThePlan],
+  [300, 240, TheWait],
+  [540, 210, NobodyPays],
+  [750, 180, TheFix],
+  [930, 210, CheatSheet],
+  [1140, 120, Outro],
+];
+
+export function OnlyAces() {
+  return (
+    <Frame>
+      {BEATS.map(([from, dur, Beat]) => (
+        <Sequence key={from} from={from} durationInFrames={dur}>
+          <AbsoluteFill>
+            <Beat />
+          </AbsoluteFill>
+        </Sequence>
+      ))}
+    </Frame>
+  );
+}

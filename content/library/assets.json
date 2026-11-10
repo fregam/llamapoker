@@ -1,0 +1,516 @@
+{
+  "$comment": "Master image library. One entry per file in media/library/. Edit metadata by hand; sha256/bytes/width/height are written and verified by `node scripts/media-manifest.mjs` (add --check to verify only). References point at other entries' higgsfield_id or at the brand uploads listed in `uploads`.",
+  "defaults": {
+    "generator": "higgsfield",
+    "model": "gpt_image_2_5",
+    "params": {
+      "quality": "max",
+      "resolution": "4k",
+      "aspect_ratio": "16:9"
+    },
+    "created": "2026-11-09",
+    "cost_credits": 15
+  },
+  "uploads": {
+    "4229e15a-d531-4e3d-a96e-60fb265028a6": "brand/assets/gentleman.png",
+    "7172a8c8-82de-4e31-8531-a310867ac339": "brand/assets/the-read.png",
+    "bd0ed470-9439-4d00-add3-6af16497928c": "Reel 001 asset: rivals (walrus + heron)",
+    "21bc76c0-2c3c-488f-a786-e91f0d6b1990": "Reel 001 asset: card table",
+    "6688e327-ed86-44e7-a5d2-59d3b5da7fad": "Reel 001 asset: clock corner",
+    "65f1048d-7b5c-4c25-bc0a-1fd1ce97ab83": "Reel 001 asset: window seat",
+    "ba8baf43-0c5c-432e-bf4c-07b173f1e4be": "Reel 001 asset: chip stack",
+    "a1379fc2-eadd-4b9d-9116-f3362d47589f": "Reel 001 asset: pocket aces"
+  },
+  "assets": [
+    {
+      "id": "gentleman_proxy_v01",
+      "path": "media/library/3d/gentleman/gentleman_proxy_v01.glb",
+      "status": "retired",
+      "retired_reason": "Two-faced reconstruction: the back of the head has a second face and the back of the body shows the tuxedo front (waistcoat buttons). Built from a GPT Image sheet with arms down; superseded by a FLUX 3 A-pose 4-view sheet.",
+      "generator": "comfy-cloud",
+      "model": "Pixal3D multi-view (TRELLIS.2 texture), template 3d_pixal3d_multi_views",
+      "params": {
+        "input": "media/tests/2026-11-09_bakeoff-03/inputs/gentleman_4view_front-left-back-right.png",
+        "crop_regions": "4 panels of 1000x2160 at x=0/1000/2000/3000 (front, left, back, right)"
+      },
+      "comfy_prompt_id": "420ef588-ff63-420e-ba50-d9caa5a65241",
+      "cost_credits": 0,
+      "notes": "Built from gentleman_turnaround_v01: panels front, side (as 'left'), back, mirrored side (as 'right'). Height 0.990 m, centred on the origin, faces +Y, his right = +X. 699,950 faces, PBR texture.",
+      "sha256": "cb7a96ffc26b72608fa07a967c44d8213a04eb9b4483b2e15903106b769cede3",
+      "bytes": 57628016
+    },
+    {
+      "id": "gentleman_rig_v01",
+      "path": "media/library/3d/gentleman/gentleman_rig_v01.blend",
+      "status": "retired",
+      "retired_reason": "Built on gentleman_proxy_v01 (two-faced). The rig script and joint method stay; the rig gets rebuilt on the next proxy.",
+      "generator": "blender 5.2.3",
+      "model": "apps/blender/lib/build_gentleman_rig.py",
+      "params": {
+        "source": "gentleman_proxy_v01",
+        "faces": 60000,
+        "weights": "heat weights on a 4 mm voxel remesh, transferred by nearest surface"
+      },
+      "cost_credits": 0,
+      "notes": "25 bones (root, hips, spine, chest, neck_1/2, head, snout, ears, shoulders, arms, hooves, legs, tail). 198 of 49,666 vertices unweighted (stray fragments). Validated by apps/blender/lib/pose_test.py.",
+      "sha256": "2af1bada580078cc3bb86a38bc07b60013ce18af3500d2637dcc15d9b9955e77",
+      "bytes": 32451965
+    },
+    {
+      "id": "gentleman_proxy_v02",
+      "path": "media/library/3d/gentleman/gentleman_proxy_v02.glb",
+      "status": "master",
+      "generator": "comfy-cloud",
+      "model": "Tripo P2 multiview (template api_tripo_p2_multiview_to_model), triangles, face_limit 30000",
+      "params": {
+        "front": "media/tests/2026-11-09_bakeoff-03/inputs/gentleman_view_front_flux-3-sheet-a.png",
+        "back": "media/tests/2026-11-09_bakeoff-03/inputs/gentleman_view_back_flux-3-sheet-a.png"
+      },
+      "comfy_prompt_id": "8098833a-a7c0-4901-9cf2-a902d9163317",
+      "cost_credits": 232.1,
+      "notes": "Clean all round (no second face). Faces +X as delivered; scripts normalise with facing +X. 31,239 faces. Geometry source only: its texture comes from a paper sheet, so never render its colours.",
+      "sha256": "f422b251c1343675dc4e8d05f27c8e167cf59467125dee57c2eba445b90eabb3",
+      "bytes": 4599804
+    },
+    {
+      "id": "gentleman_rig_v02",
+      "path": "media/library/3d/gentleman/gentleman_rig_v02.blend",
+      "status": "alternate",
+      "generator": "blender 5.2.3",
+      "model": "apps/blender/lib/build_gentleman_rig.py",
+      "params": {
+        "source": "gentleman_proxy_v02",
+        "facing": "+X",
+        "weights": "region_weights + arm_boundaries (measured torso/sleeve gap)"
+      },
+      "cost_credits": 0,
+      "notes": "Skinned scan rig, superseded for blocking by gentleman_mannequin_v01 (simple shapes are better guides). Kept for reference.",
+      "sha256": "99f1d0b4cbb1eb93b6ca4da3e4ae9a314c57dc95a8785628d6357bc4400cd845",
+      "bytes": 5254503
+    },
+    {
+      "id": "gentleman_mannequin_v01",
+      "path": "media/library/3d/gentleman/gentleman_mannequin_v01.blend",
+      "status": "master",
+      "generator": "blender 5.2.3",
+      "model": "apps/blender/lib/build_mannequin.py",
+      "params": {
+        "skeleton": "apps/blender/lib/gentleman_joints.py"
+      },
+      "cost_credits": 0,
+      "notes": "THE blocking character for guide videos: 23 primitives rigidly parented to the 25-bone skeleton (no skinning). Shapes only, by design: the video model draws the real Gentleman from the library references.",
+      "sha256": "a9b94b26c78ce71bb7ab539ecef06c7544948f5024f35c301f17917ba71fa934",
+      "bytes": 278423
+    },
+    {
+      "id": "gentleman_turnaround_v01",
+      "path": "media/library/characters/gentleman/gentleman_turnaround_v01.png",
+      "status": "retired",
+      "higgsfield_id": "484f0e2d-056d-48f5-82c3-36bdf0e0a42c",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_010858_484f0e2d-056d-48f5-82c3-36bdf0e0a42c.png",
+      "references": [
+        "4229e15a-d531-4e3d-a96e-60fb265028a6",
+        "5fd42651-1c87-4709-95f9-a8affc70f1b4"
+      ],
+      "prompt": "Official character turnaround model sheet of the llama gentleman from the first reference portrait: the same face, cream curly wool mane, tall pointed ears, calm half-lidded knowing eyes, faint closed-mouth smile; black textured dinner jacket with peaked lapels and white pocket square, black waistcoat, white pleated dress shirt, black bow tie. Layout like the second reference: five full-body views in a row on plain warm paper, front, three-quarter front, side profile, three-quarter back, back, all at the same scale and standing on the same ground line. His forelimbs come out of the white shirt cuffs as woolly llama forelegs that end in slender two-toed llama hooves with dark tips, exactly like the hoof holding the cards in the portrait. Hind legs are woolly llama legs with the same two-toed hooves. Short fluffy tail. Identical proportions, outfit and colours in every view. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching on every surface, warm off-white paper, ink black with subtle muted sage and brass accents. Even, flat studio light, no text, no labels.",
+      "notes": "Second reference 5fd42651… is the 2K GPT Image 2.5 test sheet (media/tests/2026-11-09_image-model-ab/outputs/gentleman-turnaround_gpt-image-2.5_b.png).",
+      "sha256": "f5404f9ceb1943bbe90a71326cc48dd0bed119a8286047508410d342ffe6269b",
+      "bytes": 16707383,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "gentleman_turnaround_v01-alt",
+      "path": "media/library/characters/gentleman/gentleman_turnaround_v01-alt.png",
+      "status": "retired",
+      "higgsfield_id": "b0eda899-4270-4947-84d7-5f90a9efcf60",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_010859_b0eda899-4270-4947-84d7-5f90a9efcf60.png",
+      "references": [
+        "4229e15a-d531-4e3d-a96e-60fb265028a6",
+        "5fd42651-1c87-4709-95f9-a8affc70f1b4"
+      ],
+      "prompt": "Same prompt as gentleman_turnaround_v01 (generated in the same request, count 2).",
+      "sha256": "f7dba6ea262d6d3c3c520834360e509d262eedee7b36b0e8890803703f8ffeb2",
+      "bytes": 17015008,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "gentleman_expressions_v01",
+      "path": "media/library/characters/gentleman/gentleman_expressions_v01.png",
+      "status": "retired",
+      "higgsfield_id": "7e7020ce-8f0b-4475-b9a4-9bf28a7bb63f",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011205_7e7020ce-8f0b-4475-b9a4-9bf28a7bb63f.png",
+      "references": [
+        "4229e15a-d531-4e3d-a96e-60fb265028a6",
+        "484f0e2d-056d-48f5-82c3-36bdf0e0a42c"
+      ],
+      "prompt": "Expression model sheet of the llama gentleman from the references, same face, wool, ears, bow tie and dinner jacket. Six head-and-shoulders portraits in a 3x2 grid on plain warm paper, all the same scale: 1 calm half-lidded knowing look (his default), 2 slow sly smile, 3 one eyebrow raised in mild disbelief, 4 deadpan unimpressed stare straight into the viewer, 5 eyes closed in quiet satisfaction, 6 sharp focused squint, reading an opponent. Subtle, dry, understated acting, never cartoonish. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching, warm off-white paper, ink black with subtle sage and brass accents. Even light, no text, no labels.",
+      "grid": [
+        "1 knowing (default)",
+        "2 sly smile",
+        "3 raised eyebrow",
+        "4 deadpan to camera",
+        "5 eyes closed, satisfied",
+        "6 focused squint"
+      ],
+      "sha256": "e7ba62d179687c68307786b5ff5a99b7142f83b341405b8d6cb5832b0c8e8a66",
+      "bytes": 17601294,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "gentleman_poses_v01",
+      "path": "media/library/characters/gentleman/gentleman_poses_v01.png",
+      "status": "retired",
+      "higgsfield_id": "33d8cc74-ab7d-43b4-9362-c27988915150",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011205_33d8cc74-ab7d-43b4-9362-c27988915150.png",
+      "references": [
+        "4229e15a-d531-4e3d-a96e-60fb265028a6",
+        "484f0e2d-056d-48f5-82c3-36bdf0e0a42c"
+      ],
+      "prompt": "Action pose model sheet of the llama gentleman from the references, identical design, outfit and two-toed llama hooves with dark tips. Six poses in a 3x2 grid on plain warm paper, each with a simple chair or table edge: 1 seated upright at a card table, forelegs resting flat on the felt; 2 leaning back in the chair, relaxed and smug; 3 pushing a stack of poker chips forward with the flat of one hoof; 4 holding two playing cards pinched between the two toes of one hoof, exactly like the portrait; 5 straightening his bow tie with one hoof; 6 leaning forward on both elbows, staring straight at the viewer. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching, warm off-white paper, ink black with subtle sage and brass accents. Even light, no text, no labels.",
+      "grid": [
+        "1 seated upright",
+        "2 leaning back",
+        "3 pushing chips",
+        "4 holding two cards",
+        "5 bow tie",
+        "6 leaning forward, to camera"
+      ],
+      "sha256": "6b728edf08cdc0b638ec130507a6083d71f0097540219e0dae1c918b413b891c",
+      "bytes": 17675227,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "the-read_turnaround_v01",
+      "path": "media/library/characters/the-read/the-read_turnaround_v01.png",
+      "status": "retired",
+      "higgsfield_id": "f1dca03a-d771-4de1-885c-1f362eee9a15",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011053_f1dca03a-d771-4de1-885c-1f362eee9a15.png",
+      "references": [
+        "7172a8c8-82de-4e31-8531-a310867ac339",
+        "484f0e2d-056d-48f5-82c3-36bdf0e0a42c"
+      ],
+      "prompt": "Character turnaround model sheet of the llama from the first reference image, keeping exactly his face, round glasses and look, dressed and built like the llama gentleman in the second reference with the same two-toed llama hooves. Five full-body views in a row on plain warm paper at the same scale: front, three-quarter front, side profile, three-quarter back, back. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching, warm off-white paper, ink black with subtle sage and brass accents. Even light, no text, no labels.",
+      "sha256": "642f0c6c614e38541581742a6d1c735219399a314e58ee1ccd6f9b8904f88550",
+      "bytes": 17022968,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "walrus_turnaround_v01",
+      "path": "media/library/characters/walrus/walrus_turnaround_v01.png",
+      "status": "retired",
+      "higgsfield_id": "49ee0b36-6f9b-4c32-a13f-6055ee106ed8",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011053_49ee0b36-6f9b-4c32-a13f-6055ee106ed8.png",
+      "references": [
+        "bd0ed470-9439-4d00-add3-6af16497928c",
+        "484f0e2d-056d-48f5-82c3-36bdf0e0a42c"
+      ],
+      "prompt": "Character turnaround model sheet of the walrus card player from the first reference image: heavy, proud, big tusks and whiskers, in a dark three-piece suit with a watch chain, flippers. Same drawing style and scale as the llama gentleman sheet in the second reference. Five full-body views in a row on plain warm paper: front, three-quarter front, side profile, three-quarter back, back. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching, warm off-white paper, ink black with subtle sage and brass accents. Even light, no text, no labels.",
+      "notes": "Came out with a bowler hat and tweed waistcoat; keep as canon.",
+      "sha256": "7289def7831f05045c72f001776231f7d467de212ee0e19cbcc4d0d8579d6db7",
+      "bytes": 17386008,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "heron_turnaround_v01",
+      "path": "media/library/characters/heron/heron_turnaround_v01.png",
+      "status": "retired",
+      "higgsfield_id": "9b8bf9ea-817c-4eb3-af87-a42408d3f4f2",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011340_9b8bf9ea-817c-4eb3-af87-a42408d3f4f2.png",
+      "references": [
+        "bd0ed470-9439-4d00-add3-6af16497928c",
+        "49ee0b36-6f9b-4c32-a13f-6055ee106ed8"
+      ],
+      "prompt": "Character turnaround model sheet of the heron card player from the first reference image: tall, thin, nervous, long beak, in a narrow grey frock coat and cravat, wings folded like arms. Same drawing style, scale and layout as the walrus sheet in the second reference. Five full-body views in a row on plain warm paper: front, three-quarter front, side profile, three-quarter back, back. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching, warm off-white paper, ink black with subtle sage and brass accents. Even light, no text, no labels.",
+      "notes": "Came out with a pince-nez; keep as canon.",
+      "sha256": "f012bea857f333fe5926130ac29b5fe38fa9884699210d524aa31089cf60eae2",
+      "bytes": 15426069,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "card-room_plate_v01",
+      "path": "media/library/locations/card-room_plate_v01.png",
+      "status": "retired",
+      "higgsfield_id": "7c7e6fdc-931a-4173-8d3d-3d48d71d8995",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011234_7c7e6fdc-931a-4173-8d3d-3d48d71d8995.png",
+      "references": [
+        "21bc76c0-2c3c-488f-a786-e91f0d6b1990",
+        "5da1b866-be04-4b82-8fd0-ea6fcb429f28"
+      ],
+      "prompt": "Empty establishing plate of the card room from the first reference, in the same room and engraving look as the second reference: a private 19th-century gentlemen's club card room at night, one oval poker table with deep sage-green felt and a dark wood rail in the centre, six empty leather chairs, a single brass lamp hanging low over the table casting a warm pool of light, the rest of the room falling into deep ink shadow, wood panelling, framed engravings on the walls, a bar cart in the background. Wide eye-level view with space above and below so it can be cropped vertically. Fine 19th-century steel engraving, crisp black ink hatching and cross-hatching on every surface, warm paper highlights, ink black, sage felt, brass lamp light. No people, no text.",
+      "sha256": "ad613f94faccc023f44d7a71b5af4c9d4bbc514f19274e77888bfb327573f51d",
+      "bytes": 14460357,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "clock-corner_plate_v01",
+      "path": "media/library/locations/clock-corner_plate_v01.png",
+      "status": "retired",
+      "higgsfield_id": "cb198bc0-e53d-44d7-8779-cc0e5d8390b2",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011234_cb198bc0-e53d-44d7-8779-cc0e5d8390b2.png",
+      "references": [
+        "6688e327-ed86-44e7-a5d2-59d3b5da7fad",
+        "5da1b866-be04-4b82-8fd0-ea6fcb429f28"
+      ],
+      "prompt": "Empty establishing plate of the clock corner from the first reference, in the same room and engraving look as the second reference: a tall brass-faced grandfather clock against dark wood panelling, a leather armchair and a small side table with a crystal glass and a deck of cards, warm low lamp light from the left, deep ink shadows. Wide eye-level view with space above and below for a vertical crop. Fine 19th-century steel engraving, crisp black ink hatching and cross-hatching on every surface, warm paper highlights, ink black, sage and brass accents. No people, no text.",
+      "notes": "Rendered a wall-mounted pendulum clock rather than a grandfather clock; keep as canon.",
+      "sha256": "97e718e85e0466e069718e928d7b5ab89be0156542cd42c63c9ea6b53b6c3711",
+      "bytes": 15830029,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "window-seat_plate_v01",
+      "path": "media/library/locations/window-seat_plate_v01.png",
+      "status": "retired",
+      "higgsfield_id": "5da1b866-be04-4b82-8fd0-ea6fcb429f28",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011052_5da1b866-be04-4b82-8fd0-ea6fcb429f28.png",
+      "references": [
+        "65f1048d-7b5c-4c25-bc0a-1fd1ce97ab83",
+        "21bc76c0-2c3c-488f-a786-e91f0d6b1990"
+      ],
+      "prompt": "Empty establishing plate of the window seat in the same card room as the references: a tall arched window with heavy curtains, rain on the glass, the night city faintly visible outside, a cushioned window seat, moonlight from the window mixing with warm lamp light from inside. Wide eye-level view with space above and below for a vertical crop. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching on every surface, warm off-white paper highlights, ink black, sage and brass accents. No people, no text.",
+      "notes": "The skyline outside is modern (skyscrapers), which is anachronistic for the period. Accepted as noir mood; candidate for v02.",
+      "sha256": "59086fee489062e1f7e17c4c9d54af0ae55859714a465766fa1182a658120fbc",
+      "bytes": 17021157,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "props_sheet_v01",
+      "path": "media/library/props/props_sheet_v01.png",
+      "status": "retired",
+      "higgsfield_id": "c249c406-e70a-45d1-ad44-f54c9c5f0a94",
+      "source_url": "https://d8j0ntlcm91z4.cloudfront.net/user_32i87K0vO6xBlYX5lZQahfo1qmx/hf_20261109_011053_c249c406-e70a-45d1-ad44-f54c9c5f0a94.png",
+      "references": [
+        "ba8baf43-0c5c-432e-bf4c-07b173f1e4be",
+        "a1379fc2-eadd-4b9d-9116-f3362d47589f"
+      ],
+      "prompt": "Prop model sheet on plain warm paper, objects laid out neatly with space between them, all in the same style: tall and short stacks of clay poker chips in ink black, off-white, sage green, brass gold and vermilion red with engraved edge spots; a single chip seen face-on; a fanned deck of playing cards with an ornate engraved card back; the ace of spades and the ace of hearts face up; a brass dealer button; a cut-crystal whisky glass; a brass pocket watch; a small brass table lamp. Fine 19th-century steel engraving, crisp black ink line hatching and cross-hatching on every object, warm off-white paper, ink black with the chip colours as the only accents. Even light, no labels, no text other than the card indices.",
+      "notes": "Dealer button came out blank (no 'D').",
+      "sha256": "7d57fc67c5fe1d3a2b74b4fae56ee55d8bd0f4812aa0d5646f88a34574cfd5a4",
+      "bytes": 16483206,
+      "width": 3840,
+      "height": 2160,
+      "retired_reason": "Off-brand: warm-paper sheets and 19th-century club scenes. The brand is cream copperplate engraving on flat near-black, dark editorial (brand/README.md). Replaced by the on-brand library (2026-11-09)."
+    },
+    {
+      "id": "gentleman_turnaround_v02",
+      "path": "media/library/characters/gentleman/gentleman_turnaround_v02.png",
+      "status": "master",
+      "model": "flux_3_image (draft d0c5be13-9643-4d3d-bdca-c98e24133a9f) + bytedance_image_upscale 4k",
+      "params": {
+        "resolution": "2k → 4k upscale"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 5,
+      "higgsfield_id": "d93c2c51-0bb4-4751-9f4e-f5e6da8dad19",
+      "references": [
+        "4229e15a-d531-4e3d-a96e-60fb265028a6",
+        "126812b2-5a88-438b-b895-d08e609dfad5"
+      ],
+      "prompt": "The same llama as the reference, in the exact same fine copperplate engraving style with cross-hatching, cream ink (#ece7dc) on flat near-black (#0a0a0b). Character turnaround: five full-body views (front, three-quarter front, side profile, three-quarter back, back); design follows the FLUX sheet 126812b2; pure flat near-black, no paper, floor or shadows. (Full prompt: job d0c5be13.)",
+      "notes": "THE master reference for the Gentleman. Use draft id d0c5be13… as image reference (FLUX source).",
+      "sha256": "5340fd8b3335fbcf10ea29c047caf6deb1e41a791f8c2754ac47da25966cc224",
+      "bytes": 7444870,
+      "width": 4096,
+      "height": 2304
+    },
+    {
+      "id": "gentleman_expressions_v02",
+      "path": "media/library/characters/gentleman/gentleman_expressions_v02.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "81f6c63c-54bb-4997-aa64-5284c0d379fb",
+      "references": [
+        "d0c5be13-9643-4d3d-bdca-c98e24133a9f",
+        "4229e15a-d531-4e3d-a96e-60fb265028a6"
+      ],
+      "prompt": "The same llama as the reference, in the exact same fine copperplate engraving style with cross-hatching, cream ink (#ece7dc) on flat near-black (#0a0a0b). Expression sheet 3x2: 1 three-quarter knowing; 2 profile sly smile; 3 front raised eyebrow; 4 front deadpan stare; 5 three-quarter eyes closed; 6 three-quarter narrowed reading eyes.",
+      "sha256": "f263690f43dafaf4d5d947c6f1b776e82b51bedf96f4736ea2d77321a1afac28",
+      "bytes": 7421959,
+      "width": 2736,
+      "height": 1536
+    },
+    {
+      "id": "gentleman_poses_v02",
+      "path": "media/library/characters/gentleman/gentleman_poses_v02.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "ed9c7478-91b1-42f7-a596-990983ea3e77",
+      "references": [
+        "d0c5be13-9643-4d3d-bdca-c98e24133a9f",
+        "4229e15a-d531-4e3d-a96e-60fb265028a6"
+      ],
+      "prompt": "The same llama as the reference, in the exact same fine copperplate engraving style with cross-hatching, cream ink (#ece7dc) on flat near-black (#0a0a0b). Pose sheet 3x2 at a table edge: seated upright; leaning back; pushing chips; holding two cards in a hoof; bow tie; leaning forward to camera.",
+      "sha256": "d38e67948dd0727edc5f1399688c1135c32f5680ddc87de7db7e57c15bdcbcb2",
+      "bytes": 7332717,
+      "width": 2736,
+      "height": 1536
+    },
+    {
+      "id": "the-read_turnaround_v02",
+      "path": "media/library/characters/the-read/the-read_turnaround_v02.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "682a0163-dc0f-4ff2-ac99-3442fec67a11",
+      "references": [
+        "d0c5be13-9643-4d3d-bdca-c98e24133a9f",
+        "7172a8c8-82de-4e31-8531-a310867ac339"
+      ],
+      "prompt": "The same llama as the reference, in the exact same fine copperplate engraving style with cross-hatching, cream ink (#ece7dc) on flat near-black (#0a0a0b). Same body and five views as the Gentleman turnaround; only difference: small round wire glasses in every view. No trousers, no shoes.",
+      "sha256": "e7ebfc8e676176422a9ea4093a41641f002d0ec2066d719f47bde4eba52b8803",
+      "bytes": 7727185,
+      "width": 2736,
+      "height": 1536
+    },
+    {
+      "id": "walrus_turnaround_v02",
+      "path": "media/library/characters/walrus/walrus_turnaround_v02.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "df2cf333-bc50-40fb-8efd-a9d64ab84411",
+      "references": [
+        "3df922e4-780f-4441-8154-115bcee86285",
+        "d0c5be13-9643-4d3d-bdca-c98e24133a9f"
+      ],
+      "prompt": "The walrus card player (bowler hat, tusks, tweed three-piece suit, check waistcoat, watch chain, flippers) redrawn in the engraving style: cream ink on flat near-black. Five-view turnaround.",
+      "sha256": "3d4c0f37c277bbd40ff39bf17c8f7284a13f5a9ad04746766064142272501adc",
+      "bytes": 9193262,
+      "width": 2736,
+      "height": 1536
+    },
+    {
+      "id": "heron_turnaround_v02",
+      "path": "media/library/characters/heron/heron_turnaround_v02.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "eb0772c3-a553-42c9-96ec-8fcd8f58cfed",
+      "references": [
+        "8f5d98ec-679b-4ac9-8bf6-bf79d9bb744c",
+        "d0c5be13-9643-4d3d-bdca-c98e24133a9f"
+      ],
+      "prompt": "The heron card player (pince-nez, frock coat, cravat, wings folded) redrawn in the engraving style: cream ink on flat near-black. Five-view turnaround.",
+      "sha256": "b5e47a04afbc03098abb1ab906808716365fe2fc47271d0244a085257be22c9b",
+      "bytes": 7596234,
+      "width": 2736,
+      "height": 1536
+    },
+    {
+      "id": "loft-table_plate_v01",
+      "path": "media/library/locations/loft-table_plate_v01.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "f43a005b-df26-4684-a7ed-5ad95f05ea06",
+      "references": [
+        "1906c580-7872-4756-b849-9d28becb06f1",
+        "4229e15a-d531-4e3d-a96e-60fb265028a6"
+      ],
+      "prompt": "Empty poker table in a dark modern loft at night, tall windows, modern skyline, one pendant lamp, redrawn entirely as cream copperplate engraving on flat near-black; mostly negative space.",
+      "notes": "Main set. Also the style anchor for sets and props.",
+      "sha256": "efc0295e3de64de43ed48014f5632a9e177bef9e64a739615c436c4532bb5de2",
+      "bytes": 8148296,
+      "width": 2736,
+      "height": 1536
+    },
+    {
+      "id": "table-edge_plate_v01",
+      "path": "media/library/locations/table-edge_plate_v01.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "5fa1779a-4b7c-4492-a3aa-80e3c758588e",
+      "references": [
+        "f43a005b-df26-4684-a7ed-5ad95f05ea06",
+        "4229e15a-d531-4e3d-a96e-60fb265028a6"
+      ],
+      "prompt": "Near edge of a poker table with a small chip stack and two face-down engraved cards, in the loft plate engraving style; two thirds of the frame flat black above.",
+      "notes": "Insert/title plate: room above for a character or a Bodoni headline.",
+      "sha256": "961b7db40da0c848b641718886bafd3c4144f25fd89ac4f6d19260884f292eac",
+      "bytes": 7297051,
+      "width": 2736,
+      "height": 1536
+    },
+    {
+      "id": "props_sheet_v02",
+      "path": "media/library/props/props_sheet_v02.png",
+      "status": "master",
+      "model": "flux_3_image",
+      "params": {
+        "resolution": "2k",
+        "aspect_ratio": "16:9"
+      },
+      "created": "2026-11-09",
+      "cost_credits": 3,
+      "higgsfield_id": "86a9f0a6-606a-4076-991a-0d500999e26e",
+      "references": [
+        "f43a005b-df26-4684-a7ed-5ad95f05ea06",
+        "4229e15a-d531-4e3d-a96e-60fb265028a6"
+      ],
+      "prompt": "Prop sheet in the loft plate engraving style: chip stacks, chip face-on, fanned deck, ace of spades and ace of hearts (vermilion), dealer button D, crystal glass, pocket watch, on flat black.",
+      "notes": "",
+      "sha256": "c06bece68392f4028102c6ff2cbf62ec06ed2cdceb74c94ac166387816eff92d",
+      "bytes": 6367953,
+      "width": 2736,
+      "height": 1536
+    }
+  ]
+}

@@ -31,6 +31,10 @@ the way film studios do previz before shooting.
 Hero-shot fallback: if one shot (e.g. a hoof handling cards) won't come out right, render
 just that shot on a paid API (Kling 3.0 / Veo 3.1 Fast, ≈ $0.10–0.20 / s).
 
+> **Update (2026-11-09, after bake-off 02):** motion is generated, never filmed. Stage 4 is
+> Blender with a 3D proxy of the Gentleman (`2026-11-09-blender-motion.md`). Seedance is dropped
+> for cost. The options below are kept for history.
+
 ## Stage 4: motion blocking, three ways (pick per shot)
 
 1. **Act it yourself (best for acting).** Film the gesture on your phone: lean back, adjust the bow

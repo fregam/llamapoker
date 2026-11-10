@@ -10,3 +10,8 @@ credentials.json
 
 # Brand build intermediates (apps/web/scripts/brand-assets.mjs)
 brand/.build/
+
+# Media binaries live in media/ (same tree as content/), not in git.
+# Tracked instead: media/README.md and the manifests in content/ (sha256, source, prompt per file).
+media/*
+!media/README.md

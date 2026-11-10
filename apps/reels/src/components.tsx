@@ -84,13 +84,13 @@ export function Caption({ text, hl = [], accent = C.sage, start = 0, dur = 30 }:
   const shown = Math.max(1, Math.ceil(interpolate(frame, [start, start + dur], [0, words.length], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })));
   const clean = (w: string) => w.replace(/[.,?!:]/g, "").toLowerCase();
   return (
-    <div style={{ position: "absolute", left: 90, right: 90, bottom: 250, display: "flex", justifyContent: "center", opacity: frame < start ? 0 : 1 }}>
+    <div style={{ position: "absolute", left: 90, right: 90, bottom: 130, display: "flex", justifyContent: "center", opacity: frame < start ? 0 : 1 }}>
       <div
         style={{
           background: "rgba(17,17,19,0.92)",
           border: `1px solid ${C.ruleStrong}`,
           padding: "26px 40px",
-          fontSize: 50,
+          fontSize: 46,
           fontWeight: 600,
           lineHeight: 1.25,
           textAlign: "center",
