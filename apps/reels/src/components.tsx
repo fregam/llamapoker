@@ -24,7 +24,8 @@ export function fadeUp(frame: number, delay = 0, dur = 12) {
 export function Frame({ children }: { children: ReactNode }) {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
-  const read = interpolate(frame, [0, durationInFrames - 1], [0, 100], { extrapolateRight: "clamp" });
+  // Stills have one frame: no reading line there.
+  const read = durationInFrames > 1 ? interpolate(frame, [0, durationInFrames - 1], [0, 100], { extrapolateRight: "clamp" }) : 0;
   return (
     <div style={{ position: "absolute", inset: 0, background: C.ink, color: C.paper, fontFamily: SANS, overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 36, border: `1px solid ${C.rule}` }} />
