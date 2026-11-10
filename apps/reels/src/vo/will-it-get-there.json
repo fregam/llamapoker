@@ -1,0 +1,33 @@
+{
+  "voice": "Miles (Higgsfield seed_audio preset e18664a7)",
+  "lines": [
+    {
+      "file": "vo/will-it-get-there/1.wav",
+      "seconds": 6
+    },
+    {
+      "file": "vo/will-it-get-there/2.wav",
+      "seconds": 6.9
+    },
+    {
+      "file": "vo/will-it-get-there/3.wav",
+      "seconds": 8.6
+    },
+    {
+      "file": "vo/will-it-get-there/4.wav",
+      "seconds": 8.18
+    },
+    {
+      "file": "vo/will-it-get-there/5.wav",
+      "seconds": 10.3
+    },
+    {
+      "file": "vo/will-it-get-there/6.wav",
+      "seconds": 10.83
+    },
+    {
+      "file": "vo/will-it-get-there/7.wav",
+      "seconds": 9.38
+    }
+  ]
+}

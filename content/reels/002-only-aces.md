@@ -1,7 +1,7 @@
 ---
 title: Only playing aces?
 status: rendered, not posted
-channel: Instagram Reels (9:16, 42 s, burned captions, no voice-over yet)
+channel: Instagram Reels (9:16, ~60 s with voice, typeset captions, voice-over by Miles (Higgsfield seed_audio))
 date: 2026-11-10
 made_with: apps/reels (Remotion), composition `only-aces`; cover `cover-only-aces`
 files: media/reels/2026-11-10_only-aces/renders/only-aces.mp4, cover-only-aces.png
@@ -39,5 +39,18 @@ get paid. Run any spot free: link in bio.
 
 ## Next for this reel
 
-- Voice-over (local TTS shoot-out pending): the captions already carry the script.
 - Music bed added in the app when posting.
+
+## Voice-over
+
+Voice: Miles (Higgsfield seed_audio preset e18664a7). Files `apps/reels/public/vo/only-aces/<n>.wav`; the reel stretches each beat to its line.
+
+| Beat | Seconds |
+|---|---|
+| 1 | 5.68 |
+| 2 | 8.6 |
+| 3 | 8.47 |
+| 4 | 9.71 |
+| 5 | 8.47 |
+| 6 | 6.85 |
+| 7 | 8.2 |

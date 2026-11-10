@@ -107,7 +107,7 @@ export function RangeGrid({
   );
 }
 
-export function Counter({ to, progress, label, color = C.paper, size = 300, style }: { to: number; progress: number; label: string; color?: string; size?: number; style?: React.CSSProperties }) {
+export function Counter({ to, progress, label, color = C.paper, size = 220, style }: { to: number; progress: number; label: string; color?: string; size?: number; style?: React.CSSProperties }) {
   const n = Math.round(interpolate(progress, [0, 1], [0, to], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
   return (
     <div style={{ textAlign: "center", ...style }}>
@@ -117,8 +117,8 @@ export function Counter({ to, progress, label, color = C.paper, size = 300, styl
   );
 }
 
-export function ChipStack({ count, max = 40, color = C.paper, width = 170, style }: { count: number; max?: number; color?: string; width?: number; style?: React.CSSProperties }) {
-  const h = 13;
+export function ChipStack({ count, max = 40, color = C.paper, width = 130, style }: { count: number; max?: number; color?: string; width?: number; style?: React.CSSProperties }) {
+  const h = 10;
   const stackH = max * h + 24;
   return (
     <svg width={width} height={stackH} viewBox={`0 0 ${width} ${stackH}`} style={style}>

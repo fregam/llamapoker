@@ -1,0 +1,33 @@
+{
+  "voice": "Miles (Higgsfield seed_audio preset e18664a7)",
+  "lines": [
+    {
+      "file": "vo/only-aces/1.wav",
+      "seconds": 5.68
+    },
+    {
+      "file": "vo/only-aces/2.wav",
+      "seconds": 8.6
+    },
+    {
+      "file": "vo/only-aces/3.wav",
+      "seconds": 8.47
+    },
+    {
+      "file": "vo/only-aces/4.wav",
+      "seconds": 9.71
+    },
+    {
+      "file": "vo/only-aces/5.wav",
+      "seconds": 8.47
+    },
+    {
+      "file": "vo/only-aces/6.wav",
+      "seconds": 6.85
+    },
+    {
+      "file": "vo/only-aces/7.wav",
+      "seconds": 8.2
+    }
+  ]
+}

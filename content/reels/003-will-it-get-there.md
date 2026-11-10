@@ -1,7 +1,7 @@
 ---
 title: Will it get there?
 status: rendered, not posted
-channel: Instagram Reels (9:16, 40 s, typeset captions, no voice-over yet)
+channel: Instagram Reels (9:16, ~64 s with voice, typeset captions, voice-over by Miles (Higgsfield seed_audio))
 date: 2026-11-10
 made_with: apps/reels (Remotion), composition `will-it-get-there`; cover `cover-will-it-get-there`
 files: media/reels/2026-11-10_will-it-get-there/renders/
@@ -41,3 +41,17 @@ built in.
 
 **Caption:** Nine outs, two cards: your chance in two seconds. The rule of 2 and 4, and how
 close it really is. For players who chase draws by feel. Run any spot free: link in bio.
+
+## Voice-over
+
+Voice: Miles (Higgsfield seed_audio preset e18664a7). Files `apps/reels/public/vo/will-it-get-there/<n>.wav`; the reel stretches each beat to its line.
+
+| Beat | Seconds |
+|---|---|
+| 1 | 6 |
+| 2 | 6.9 |
+| 3 | 8.6 |
+| 4 | 8.18 |
+| 5 | 10.3 |
+| 6 | 10.83 |
+| 7 | 9.38 |

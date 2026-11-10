@@ -10,7 +10,7 @@
 
 import { ReactNode } from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { C, SANS, SERIF } from "./theme";
+import { C, SAFE, SANS, SERIF } from "./theme";
 
 export function pop(frame: number, fps: number, delay = 0) {
   return spring({ frame: frame - delay, fps, config: { damping: 16, stiffness: 140 } });
@@ -32,7 +32,7 @@ export function Frame({ children }: { children: ReactNode }) {
       <div
         style={{
           position: "absolute",
-          top: 84,
+          top: SAFE.top,
           left: 0,
           right: 0,
           textAlign: "center",
@@ -45,7 +45,7 @@ export function Frame({ children }: { children: ReactNode }) {
         LLAMAPOKER
       </div>
       {children}
-      <div style={{ position: "absolute", left: 36, right: 36, bottom: 36, height: 1, background: C.rule }}>
+      <div style={{ position: "absolute", left: 110, right: SAFE.right + 40, bottom: SAFE.bottom - 40, height: 1, background: C.rule }}>
         <div style={{ height: 3, marginTop: -1, width: `${read}%`, background: C.brass }} />
       </div>
     </div>
@@ -89,14 +89,14 @@ export function PlayingCard({ card, size = 1, style }: { card: string; size?: nu
  * Inter on the ink under a short accent rule. Words in  (matched without punctuation) switch
  * to Bodoni italic at display size in the accent colour, with a hairline drawing itself under them.
  */
-export function Caption({ text, hl = [], accent = C.sage, start = 0, dur = 30, bottom = 170, size = 54 }: { text: string; hl?: string[]; accent?: string; start?: number; dur?: number; bottom?: number; size?: number }) {
+export function Caption({ text, hl = [], accent = C.sage, start = 0, dur = 30, bottom = SAFE.bottom, size = 50 }: { text: string; hl?: string[]; accent?: string; start?: number; dur?: number; bottom?: number; size?: number }) {
   const frame = useCurrentFrame();
   const words = text.split(" ");
   const per = dur / words.length;
   const clean = (w: string) => w.replace(/[.,?!:;]/g, "").toLowerCase();
   const keys = hl.map(clean);
   return (
-    <div style={{ position: "absolute", left: 110, right: 110, bottom, opacity: frame < start ? 0 : 1 }}>
+    <div style={{ position: "absolute", left: 110, right: SAFE.right + 40, bottom, opacity: frame < start ? 0 : 1 }}>
       <div style={{ width: 54, height: 1, background: accent, marginBottom: 26, opacity: 0.9 }} />
       <div style={{ fontSize: size, fontWeight: 500, lineHeight: 1.3, color: C.paper, letterSpacing: "-0.005em" }}>
         {words.map((w, i) => {
@@ -115,11 +115,11 @@ export function Caption({ text, hl = [], accent = C.sage, start = 0, dur = 30, b
   );
 }
 
-export function BigNumber({ value, label, color = C.paper, style }: { value: string; label: string; color?: string; style?: React.CSSProperties }) {
+export function BigNumber({ value, label, color = C.paper, size = 200, style }: { value: string; label: string; color?: string; size?: number; style?: React.CSSProperties }) {
   return (
     <div style={{ textAlign: "center", ...style }}>
       <div style={{ fontSize: 30, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginBottom: 10 }}>{label}</div>
-      <div style={{ fontFamily: SERIF, fontSize: 260, lineHeight: 0.9, color }}>{value}</div>
+      <div style={{ fontFamily: SERIF, fontSize: size, lineHeight: 0.9, color }}>{value}</div>
     </div>
   );
 }

@@ -7,7 +7,10 @@
  * the fix (grid widens to the button range) → save-this cheat sheet → outro.
  */
 
-import { AbsoluteFill, Sequence, interpolate } from "remotion";
+import { AbsoluteFill, Audio, Sequence, interpolate, staticFile } from "remotion";
+import { beatDurations, beatStarts, VoManifest } from "../vo";
+import voJson from "../vo/only-aces.json";
+const vo = voJson as VoManifest;
 import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src/poker/ranges";
 import { BigNumber, Caption, Frame, PlayingCard, fadeUp, pop, useT } from "../components";
 import { ChipStack, Counter, DotRow, Engraving, RangeGrid, Seat } from "../teaching";
@@ -22,11 +25,10 @@ const BLINDS_LOST = Math.round(WAIT * BLINDS_PER_HAND); // 10 bb
 const BTN = rangeFor("BTN");
 const BTN_PCT = Math.round(rangePercent(BTN));
 
-export const ONLY_ACES_FRAMES = 1260;
 
 const clamp = (f: number, a: number, b: number, lo = 0, hi = 1) => interpolate(f, [a, b], [lo, hi], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
-function Title({ children, top = 250, size = 150 }: { children: React.ReactNode; top?: number; size?: number }) {
+function Title({ children, top = 350, size = 118 }: { children: React.ReactNode; top?: number; size?: number }) {
   const { frame } = useT();
   return (
     <div style={{ position: "absolute", top, left: 70, right: 70, textAlign: "center", fontFamily: SERIF, fontSize: size, lineHeight: 0.95, letterSpacing: "-0.02em", ...fadeUp(frame, 0, 10) }}>
@@ -40,7 +42,7 @@ function Hook() {
   const drift = interpolate(frame, [0, 120], [1.02, 1.08]);
   return (
     <>
-      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 520, left: -60, width: 1200, height: 1010, transform: `scale(${drift})`, opacity: clamp(frame, 0, 18) }} />
+      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 569, left: -60, width: 864, height: 727, transform: `scale(${drift})`, opacity: clamp(frame, 0, 18) }} />
       <Title>
         Only playing <em>aces?</em>
       </Title>
@@ -54,11 +56,11 @@ function ThePlan() {
   const p = clamp(frame, 10, 50);
   return (
     <>
-      <Title top={200} size={100}>The plan</Title>
-      <div style={{ position: "absolute", top: 390, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
-        <RangeGrid lit={PREMIUM} progress={p} color={C.brass} cell={62} dim />
+      <Title top={340} size={84}>The plan</Title>
+      <div style={{ position: "absolute", top: 480, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+        <RangeGrid lit={PREMIUM} progress={p} color={C.brass} cell={40} dim />
       </div>
-      <div style={{ position: "absolute", top: 1250, left: 0, right: 0, ...fadeUp(frame, 55) }}>
+      <div style={{ position: "absolute", top: 1069, left: 0, right: 0, ...fadeUp(frame, 55) }}>
         <BigNumber value={`${PREMIUM_PCT.toFixed(1)}%`} label={`${PREMIUM_COMBOS} OF 1,326 HANDS`} color={C.brass} />
       </div>
       <Caption text={`Aces, kings, queens, ace-king. ${PREMIUM_COMBOS} of 1,326 combos. Under 3% of hands.`} hl={["34", "3%"]} accent={C.brass} start={10} dur={60} />
@@ -73,20 +75,20 @@ function TheWait() {
   const acesIn = frame > 165;
   return (
     <>
-      <Title top={200} size={100}>The wait</Title>
-      <Counter to={WAIT} progress={p} label="HANDS BETWEEN PREMIUMS" color={C.paper} style={{ position: "absolute", top: 400, left: 0, right: 0 }} />
-      <DotRow total={WAIT + 1} filled={Math.round(p * WAIT) + (acesIn ? 1 : 0)} mark={WAIT} style={{ position: "absolute", top: 760, left: 150, right: 150 }} />
-      <div style={{ position: "absolute", top: 880, left: 150, display: "flex", alignItems: "flex-end", gap: 50 }}>
+      <Title top={340} size={84}>The wait</Title>
+      <Counter to={WAIT} progress={p} label="HANDS BETWEEN PREMIUMS" color={C.paper} style={{ position: "absolute", top: 487, left: 0, right: 0 }} />
+      <DotRow total={WAIT + 1}  filled={Math.round(p * WAIT) + (acesIn ? 1 : 0)} mark={WAIT} style={{ position: "absolute", top: 784, left: 150, right: 150 }} />
+      <div style={{ position: "absolute", top: 816, left: 150, display: "flex", alignItems: "flex-end", gap: 50 }}>
         <ChipStack count={chips} />
         <div style={{ paddingBottom: 40 }}>
-          <div style={{ fontFamily: SERIF, fontSize: 150, color: C.vermilion, lineHeight: 0.9, opacity: clamp(frame, 30, 45) }}>−{Math.round(BLINDS_LOST * p)} bb</div>
+          <div style={{ fontFamily: SERIF, fontSize: 120, color: C.vermilion, lineHeight: 0.9, opacity: clamp(frame, 30, 45) }}>−{Math.round(BLINDS_LOST * p)} bb</div>
           <div style={{ fontSize: 30, letterSpacing: "0.26em", color: C.text3, fontWeight: 500, marginTop: 16 }}>BLINDS PAID WHILE YOU FOLD</div>
         </div>
       </div>
       {acesIn && (
-        <div style={{ position: "absolute", top: 1300, left: 620, display: "flex", gap: 14 }}>
+        <div style={{ position: "absolute", top: 1104, left: 620, display: "flex", gap: 14 }}>
           {["As", "Ah"].map((c, i) => (
-            <PlayingCard key={c} card={c} size={0.6} style={{ transform: `scale(${pop(frame, 30, 165 + i * 4)})` }} />
+            <PlayingCard key={c} card={c} size={0.49} style={{ transform: `scale(${pop(frame, 30, 165 + i * 4)})` }} />
           ))}
         </div>
       )}
@@ -99,21 +101,21 @@ function NobodyPays() {
   const { frame, fps } = useT();
   return (
     <>
-      <Title top={200} size={100}>Nobody pays</Title>
-      <div style={{ position: "absolute", top: 420, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 70 }}>
+      <Title top={340} size={84}>Nobody pays</Title>
+      <div style={{ position: "absolute", top: 501, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 70 }}>
         {["SEAT 1", "SEAT 2", "SEAT 3"].map((n, i) => (
           <Seat key={n} name={n} folded frame={frame} delay={45 + i * 14} />
         ))}
       </div>
-      <div style={{ position: "absolute", top: 660, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16 }}>
+      <div style={{ position: "absolute", top: 665, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16 }}>
         {["As", "Ah"].map((c, i) => (
-          <PlayingCard key={c} card={c} size={1.05} style={{ transform: `scale(${pop(frame, fps, 4 + i * 4)})` }} />
+          <PlayingCard key={c} card={c} size={0.86} style={{ transform: `scale(${pop(frame, fps, 4 + i * 4)})` }} />
         ))}
       </div>
-      <div style={{ position: "absolute", top: 985, left: 0, right: 0, textAlign: "center", fontFamily: SERIF, fontSize: 92, ...fadeUp(frame, 24) }}>
+      <div style={{ position: "absolute", top: 888, left: 0, right: 0, textAlign: "center", fontFamily: SERIF, fontSize: 74, ...fadeUp(frame, 24) }}>
         You raise.
       </div>
-      <Engraving file="expr-3.png" fade={0.45} style={{ position: "absolute", top: 1060, left: 190, width: 700, height: 560, opacity: clamp(frame, 95, 115) }} />
+      <Engraving file="expr-3.png" fade={0.45} style={{ position: "absolute", top: 939, left: 190, width: 504, height: 403, opacity: clamp(frame, 95, 115) }} />
       <Caption text="The aces finally come. You raise. Everyone folds. After an hour of folding, nobody pays you off." hl={["everyone", "folds", "nobody"]} accent={C.vermilion} start={20} dur={80} />
     </>
   );
@@ -125,11 +127,11 @@ function TheFix() {
   const pct = Math.round(PREMIUM_PCT + (BTN_PCT - PREMIUM_PCT) * p);
   return (
     <>
-      <Title top={200} size={100}>From the button</Title>
-      <div style={{ position: "absolute", top: 390, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
-        <RangeGrid lit={BTN} progress={p} color={C.sage} cell={62} dim />
+      <Title top={340} size={84}>From the button</Title>
+      <div style={{ position: "absolute", top: 480, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+        <RangeGrid lit={BTN} progress={p} color={C.sage} cell={40} dim />
       </div>
-      <div style={{ position: "absolute", top: 1250, left: 0, right: 0 }}>
+      <div style={{ position: "absolute", top: 1069, left: 0, right: 0 }}>
         <BigNumber value={`${pct}%`} label="OF HANDS, RAISED FIRST IN" color={C.sage} />
       </div>
       <Caption text={`Last to act, open about ${BTN_PCT}% of hands. Tight is fine. Predictable is broke.`} hl={[`${BTN_PCT}%`, "predictable", "broke"]} start={10} dur={70} />
@@ -142,8 +144,8 @@ function CheatSheet() {
   const rows = POSITIONS.filter((p) => p !== "BB");
   return (
     <>
-      <Title top={200} size={100}>Save this.</Title>
-      <div style={{ position: "absolute", top: 380, left: 140, right: 140 }}>
+      <Title top={340} size={84}>Save this.</Title>
+      <div style={{ position: "absolute", top: 473, left: 120, right: 170 }}>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 30, letterSpacing: "0.24em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}` }}>
           <span>SEAT</span>
           <span>OPEN</span>
@@ -154,10 +156,10 @@ function CheatSheet() {
             <div key={pos} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "20px 0", borderBottom: `1px solid ${C.rule}`, ...fadeUp(frame, 8 + i * 8, 10) }}>
               <span style={{ fontSize: 54, color: C.text2, letterSpacing: "0.06em" }}>{pos}</span>
               <span style={{ display: "flex", alignItems: "baseline", gap: 24 }}>
-                <span style={{ width: 300, height: 14, background: C.ink2, border: `1px solid ${C.rule}` }}>
+                <span style={{ width: 216, height: 14, background: C.ink2, border: `1px solid ${C.rule}` }}>
                   <span style={{ display: "block", height: "100%", width: `${pct * 2}%`, background: pos === "BTN" ? C.sage : C.brass }} />
                 </span>
-                <span style={{ fontFamily: SERIF, fontSize: 84, width: 170, textAlign: "right" }}>{pct}%</span>
+                <span style={{ fontFamily: SERIF, fontSize: 67, width: 122, textAlign: "right" }}>{pct}%</span>
               </span>
             </div>
           );
@@ -172,14 +174,14 @@ function Outro() {
   const { frame } = useT();
   return (
     <>
-      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 520, left: -60, width: 1200, height: 1010, transform: "scale(1.02)", opacity: clamp(frame, 0, 12) }} />
-      <div style={{ position: "absolute", top: 230, left: 70, right: 70, textAlign: "center", ...fadeUp(frame, 6) }}>
-        <div style={{ fontFamily: SERIF, fontSize: 108, lineHeight: 1 }}>
+      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 569, left: -60, width: 864, height: 727, transform: "scale(1.02)", opacity: clamp(frame, 0, 12) }} />
+      <div style={{ position: "absolute", top: 371, left: 70, right: 70, textAlign: "center", ...fadeUp(frame, 6) }}>
+        <div style={{ fontFamily: SERIF, fontSize: 86, lineHeight: 1 }}>
           How long is <em>your</em> wait?
         </div>
         <div style={{ marginTop: 30, fontSize: 34, letterSpacing: "0.26em", color: C.text3, fontWeight: 500 }}>HONEST ANSWERS IN THE COMMENTS</div>
       </div>
-      <div style={{ position: "absolute", bottom: 130, left: 110, right: 110, ...fadeUp(frame, 30) }}>
+      <div style={{ position: "absolute", bottom: 450, left: 110, right: 160, ...fadeUp(frame, 30) }}>
         <div style={{ width: 54, height: 1, background: C.brass, marginBottom: 22 }} />
         <div style={{ fontSize: 44, color: C.text2 }}>Run any spot, free.</div>
         <div style={{ marginTop: 8, fontSize: 60, letterSpacing: "0.04em", color: C.paper, fontWeight: 500 }}>llamapoker.com</div>
@@ -189,21 +191,18 @@ function Outro() {
   );
 }
 
-const BEATS: [number, number, () => JSX.Element][] = [
-  [0, 120, Hook],
-  [120, 180, ThePlan],
-  [300, 240, TheWait],
-  [540, 210, NobodyPays],
-  [750, 180, TheFix],
-  [930, 210, CheatSheet],
-  [1140, 120, Outro],
-];
+const MINIMUMS = [120, 180, 240, 210, 180, 210, 120]; // frames each beat's graphics need
+const BEATS = [Hook, ThePlan, TheWait, NobodyPays, TheFix, CheatSheet, Outro];
+const DUR = beatDurations(vo.lines.length ? vo : null, MINIMUMS);
+const START = beatStarts(DUR);
+export const ONLY_ACES_FRAMES = DUR.reduce((a, b) => a + b, 0);
 
 export function OnlyAces() {
   return (
     <Frame>
-      {BEATS.map(([from, dur, Beat]) => (
-        <Sequence key={from} from={from} durationInFrames={dur}>
+      {BEATS.map((Beat, i) => (
+        <Sequence key={i} from={START[i]} durationInFrames={DUR[i]}>
+          {vo.lines[i] && <Audio src={staticFile(vo.lines[i].file)} />}
           <AbsoluteFill>
             <Beat />
           </AbsoluteFill>
