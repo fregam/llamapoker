@@ -163,7 +163,7 @@ function CheatSheet() {
           );
         })}
       </div>
-      <Caption text="Later seat, more hands. Early seat, fewer. Premiums are the floor, never the whole plan." hl={["later", "more", "floor"]} accent={C.brass} start={50} dur={60} />
+      <Caption text="Send this to the friend who folds for an hour." hl={["hour"]} accent={C.brass} start={55} dur={40} />
     </>
   );
 }
@@ -172,14 +172,18 @@ function Outro() {
   const { frame } = useT();
   return (
     <>
-      <Engraving file="the-read.png" fade={0.3} style={{ position: "absolute", top: 150, left: 90, width: 900, height: 900, opacity: clamp(frame, 0, 14) }} />
-      <div style={{ position: "absolute", top: 1100, left: 0, right: 0, textAlign: "center", ...fadeUp(frame, 14) }}>
-        <div style={{ fontFamily: SERIF, fontSize: 92, lineHeight: 1.05 }}>
-          The llama is <em>reading you.</em>
+      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 520, left: -60, width: 1200, height: 1010, transform: "scale(1.02)", opacity: clamp(frame, 0, 12) }} />
+      <div style={{ position: "absolute", top: 230, left: 70, right: 70, textAlign: "center", ...fadeUp(frame, 6) }}>
+        <div style={{ fontFamily: SERIF, fontSize: 108, lineHeight: 1 }}>
+          How long is <em>your</em> wait?
         </div>
-        <div style={{ marginTop: 40, fontSize: 46, color: C.text2 }}>Run any spot, free.</div>
-        <div style={{ marginTop: 18, fontSize: 56, letterSpacing: "0.06em", color: C.paper, fontWeight: 500 }}>llamapoker.com</div>
-        <div style={{ marginTop: 18, fontSize: 30, letterSpacing: "0.24em", color: C.text3 }}>LINK IN BIO</div>
+        <div style={{ marginTop: 30, fontSize: 34, letterSpacing: "0.26em", color: C.text3, fontWeight: 500 }}>HONEST ANSWERS IN THE COMMENTS</div>
+      </div>
+      <div style={{ position: "absolute", bottom: 130, left: 110, right: 110, ...fadeUp(frame, 30) }}>
+        <div style={{ width: 54, height: 1, background: C.brass, marginBottom: 22 }} />
+        <div style={{ fontSize: 44, color: C.text2 }}>Run any spot, free.</div>
+        <div style={{ marginTop: 8, fontSize: 60, letterSpacing: "0.04em", color: C.paper, fontWeight: 500 }}>llamapoker.com</div>
+        <div style={{ marginTop: 10, fontSize: 28, letterSpacing: "0.24em", color: C.text3 }}>LINK IN BIO · THE LLAMA IS READING YOU</div>
       </div>
     </>
   );

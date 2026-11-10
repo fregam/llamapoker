@@ -38,8 +38,10 @@ public/library/         Cut-outs of the on-brand library (content/library): expr
 
 1. **Hook in the first 3 seconds:** one question in Bodoni, the Gentleman reacting.
 2. **One idea,** proved with **numbers on screen** (grid, counter, bars, chips).
-3. **Captions** at the bottom, word by word, key words in sage (good), brass (neutral) or
-   vermilion (danger). The reel must make sense on mute.
+3. **Typeset captions** (no box): Inter on the ink, the key word in Bodoni italic with a hairline
+   drawing itself under it, in sage (good), brass (neutral) or vermilion (danger). Must work on mute.
+   Growth mechanics on every reel: a reading line along the bottom, a "send this to the friend who…"
+   line, comment bait at the end, and a last frame that matches the hook so it loops.
 4. **Save-worthy ending:** a one-screen cheat sheet ("Save this.").
 5. **Outro:** the Read, "The llama is reading you.", llamapoker.com, link in bio.
 
@@ -51,8 +53,9 @@ public/library/         Cut-outs of the on-brand library (content/library): expr
 |---|---|---|---|
 | `should-you-call` | Pot odds with one formula (A♥5♥ on K♥9♥2♣, 50 into 100) | 38 s | first reel, pre-library |
 | `only-aces` | Waiting for premiums costs 10 bb a wait, and nobody pays | 42 s | `content/reels/002-only-aces.md` |
+| `will-it-get-there` | Outs in two seconds: the rule of 2 and 4 vs the exact numbers | 40 s | `content/reels/003-will-it-get-there.md` |
 
-Covers: `cover-only-aces`, `cover-should-you-call`.
+Covers: `cover-only-aces`, `cover-will-it-get-there`, `cover-should-you-call`.
 
 Remotion is free for individuals and companies of up to three people; check its licence if
 the team grows.

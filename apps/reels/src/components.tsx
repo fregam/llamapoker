@@ -22,6 +22,9 @@ export function fadeUp(frame: number, delay = 0, dur = 12) {
 }
 
 export function Frame({ children }: { children: ReactNode }) {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const read = interpolate(frame, [0, durationInFrames - 1], [0, 100], { extrapolateRight: "clamp" });
   return (
     <div style={{ position: "absolute", inset: 0, background: C.ink, color: C.paper, fontFamily: SANS, overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 36, border: `1px solid ${C.rule}` }} />
@@ -41,6 +44,9 @@ export function Frame({ children }: { children: ReactNode }) {
         LLAMAPOKER
       </div>
       {children}
+      <div style={{ position: "absolute", left: 36, right: 36, bottom: 36, height: 1, background: C.rule }}>
+        <div style={{ height: 3, marginTop: -1, width: `${read}%`, background: C.brass }} />
+      </div>
     </div>
   );
 }
@@ -77,31 +83,32 @@ export function PlayingCard({ card, size = 1, style }: { card: string; size?: nu
   );
 }
 
-/** Subtitle box: words appear one by one across `dur` frames; words in `hl` get the accent colour. */
-export function Caption({ text, hl = [], accent = C.sage, start = 0, dur = 30 }: { text: string; hl?: string[]; accent?: string; start?: number; dur?: number }) {
+/**
+ * Typeset caption: no box. Words appear one by one from  across  frames, set in
+ * Inter on the ink under a short accent rule. Words in  (matched without punctuation) switch
+ * to Bodoni italic at display size in the accent colour, with a hairline drawing itself under them.
+ */
+export function Caption({ text, hl = [], accent = C.sage, start = 0, dur = 30, bottom = 170, size = 54 }: { text: string; hl?: string[]; accent?: string; start?: number; dur?: number; bottom?: number; size?: number }) {
   const frame = useCurrentFrame();
   const words = text.split(" ");
-  const shown = Math.max(1, Math.ceil(interpolate(frame, [start, start + dur], [0, words.length], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })));
-  const clean = (w: string) => w.replace(/[.,?!:]/g, "").toLowerCase();
+  const per = dur / words.length;
+  const clean = (w: string) => w.replace(/[.,?!:;]/g, "").toLowerCase();
+  const keys = hl.map(clean);
   return (
-    <div style={{ position: "absolute", left: 90, right: 90, bottom: 130, display: "flex", justifyContent: "center", opacity: frame < start ? 0 : 1 }}>
-      <div
-        style={{
-          background: "rgba(17,17,19,0.92)",
-          border: `1px solid ${C.ruleStrong}`,
-          padding: "26px 40px",
-          fontSize: 46,
-          fontWeight: 600,
-          lineHeight: 1.25,
-          textAlign: "center",
-          color: C.paper,
-        }}
-      >
-        {words.map((w, i) => (
-          <span key={i} style={{ opacity: i < shown ? 1 : 0, color: hl.includes(clean(w)) ? accent : undefined }}>
-            {w}{" "}
-          </span>
-        ))}
+    <div style={{ position: "absolute", left: 110, right: 110, bottom, opacity: frame < start ? 0 : 1 }}>
+      <div style={{ width: 54, height: 1, background: accent, marginBottom: 26, opacity: 0.9 }} />
+      <div style={{ fontSize: size, fontWeight: 500, lineHeight: 1.3, color: C.paper, letterSpacing: "-0.005em" }}>
+        {words.map((w, i) => {
+          const t = interpolate(frame, [start + i * per, start + i * per + 6], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+          const key = keys.includes(clean(w));
+          const ul = key ? interpolate(frame, [start + i * per + 6, start + i * per + 18], [0, 100], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) : 0;
+          return (
+            <span key={i} style={{ display: "inline-block", opacity: t, transform: `translateY(${(1 - t) * 10}px)`, marginRight: "0.28em", position: "relative" }}>
+              {key ? <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: size * 1.55, lineHeight: 0.8, color: accent, verticalAlign: "-0.08em" }}>{w}</span> : w}
+              {key && <span style={{ position: "absolute", left: 0, bottom: -6, height: 2, width: `${ul}%`, background: accent }} />}
+            </span>
+          );
+        })}
       </div>
     </div>
   );
