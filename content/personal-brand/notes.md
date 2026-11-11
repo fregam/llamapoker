@@ -254,3 +254,15 @@ lesson, and a hook line that could open the post.
 - **Lesson:** "free tier" is a product decision somebody else made for you. Read the condition
   before you depend on the feature.
 - **Hook:** "I open-sourced my company to get a free checkbox."
+
+## 2026-11-11 - The rule said "every media file in a manifest". 819 of 844 weren't.
+
+- **Choice:** the repo's own README demanded a manifest for every binary, and the check script
+  only ever looked at the 25 library images. Rather than soften the rule, a `--init` mode now
+  lists a whole folder (sha256, size, dimensions) so the reels and the 1.2 GB of bake-off outputs
+  are covered too, and a check finally means something.
+- **Rejected:** deleting the test outputs (they are the evidence behind the research notes);
+  leaving the rule as decoration.
+- **Lesson:** a check that only covers the easy part is a false green. Point the instrument at
+  the whole thing before trusting it.
+- **Hook:** "My integrity check said 'all 25 verified'. There were 844 files."
