@@ -267,6 +267,55 @@ lesson, and a hook line that could open the post.
   the whole thing before trusting it.
 - **Hook:** "My integrity check said 'all 25 verified'. There were 844 files."
 
+## 2026-11-11 - The command center shipped the night it was approved, with half its panels empty on purpose
+
+- **Choice:** the founder said build it. The spec's hardest rule was "real data only, no
+  decorative charts, no panels for things that don't exist yet". So the wall went live with the
+  machine, threats, approvals, the north star, channels, feed and budget, and without the map
+  and reach: no location or view data flows yet, so those panels would have been theatre.
+- **Rejected:** seeding the panels with invented numbers "so it looks finished"; a dashboard
+  library (nothing fits a phosphor screen; it is SVG and one stylesheet); a route inside the
+  public site (private surface, separate project, separate secrets).
+- **What happened:** the first run showed the real operation: two subscribers, zero letters
+  sent, no signup event in the store. Three threats, all true. The empty approvals panel is the
+  honest state of a pipeline that has no drafting agent yet.
+- **Lesson:** an instrument that shows "no data" where there is no data is worth more than one
+  that shows a pretty curve. The empty panels are the to-do list.
+- **Hook:** "I built my mission-control wall. Half of it says NO DATA. That's the point."
+
+## 2026-11-11 - The obvious fix for a slow site was not the one that worked
+
+- **Choice:** the speed test blamed "render delay". Every page was already rendered to HTML at
+  build time, yet the browser threw that HTML away and drew it again once the script arrived, and
+  the fonts came from Google behind a stylesheet that blocked the page. We switched to hydration
+  (keep the HTML, attach behaviour to it) and served the fonts ourselves. Mobile scores went from
+  82–86 to 89–96, and the first text appears about 1.5 seconds sooner in the throttled test.
+- **Surprise:** hydration alone, the fix that looked obvious from the diagnosis, barely moved the
+  number. The fonts did most of the work; hydration is the groundwork.
+- **Rejected for now:** code splitting, the textbook fix for "big bundle". Not measured, and it
+  would mean reworking the prerender; it is the next lever if production still lags.
+- **What happened:** the first check for hydration bugs reported "clean" on a deliberately
+  broken build. The test was lying: the rebuild had skipped the prerender, so there was nothing
+  to hydrate. Breaking it on purpose is what proved the check worked.
+- **Lesson:** measure each fix on its own, and before you trust a green check, make it go red once.
+- **Hook:** "I fixed the thing the speed test complained about. The score didn't move. The fonts did."
+
+## 2026-11-11 - The second video was worse, and only one person noticed
+
+- **Choice:** the founder watched reels 002 and 003 back to back and said 003 felt cheaper: the
+  sound, the pace, a number sitting on the cards. Same voice, same code, same upgrades. Measured,
+  it was real: two sentences run together with 0.02 s between them, effects at full volume where
+  002 used 70 %, and six places where one thing sat on another. 002 had been polished scene by
+  scene; 003 had only received the shared upgrades.
+- **Rejected:** fixing 003 by eye and moving on. Instead a gate every reel must pass, with the
+  approved reel as the yardstick, and a contact sheet of one frame per second.
+- **What happened:** the first version of the gate also failed the approved reel (its pause limit
+  was stricter than the founder's ear), and one of its measures turned out to count syllables, not
+  sound effects. Both were fixed by calibrating against the reel the founder liked, not against a number.
+- **Lesson:** a factory doesn't need a better first draft; it needs the first approved piece turned
+  into a ruler.
+- **Hook:** "My second video was worse than my first. Same code. Here's the checklist that fixed it."
+
 ## 2026-11-12 - Borrowed a stranger's engineering workflow, and the plans landed in public
 
 - **Choice:** installed Matt Pocock's skills (spec, tickets, TDD, a "grill me" interview) instead

@@ -30,8 +30,9 @@ Lives at `apps/web/` in the LlamaPoker monorepo. Brand colours and fonts come fr
 `../../brand/tokens.css`, imported at the top of `src/styles.css`.
 
 ```
-index.html              Page template: fonts (Bodoni Moda, Inter, JetBrains Mono), favicon, meta, #root
-public/_headers         Cloudflare Pages response headers (asset caching, security), copied into dist/
+index.html              Page template: font preloads, favicon, meta, #root
+public/fonts/           Self-hosted brand fonts (variable woff2 per subset) + their OFL licences; see src/fonts.css
+public/_headers         Cloudflare Pages response headers (asset and font caching, security), copied into dist/
 public/_redirects       Cloudflare Pages redirects: /go/<channel> bio links → the site with UTM tags (302)
 functions/api/subscribe.ts  Cloudflare Pages Function: POST /api/subscribe → Beehiiv API (keys in env);
                         maps source/channel to Beehiiv utm fields, optional Turnstile check, one JSON log line
@@ -42,7 +43,7 @@ scripts/brand-assets.mjs  Builds derived brand images from ../../brand (run by h
 public/brand/           Web copies of the brand art (gentleman-*.webp, llama-icon.svg); public/favicon*
 scripts/prerender.mjs   Build step: writes one HTML file per route (+ robots.txt, sitemap.xml)
 src/
-  main.tsx              Browser entry: mounts <App/> (createRoot), imports styles.css
+  main.tsx              Browser entry: hydrates prerendered pages (hydrateRoot) or mounts shells (createRoot); imports styles.css
   entry-server.tsx      Build-time entry: render(path) → HTML string, used by prerender.mjs
   App.tsx               Masthead + nav, routes → pages, city backdrop, colophon (compact signup unless the page has
                         one inline: INLINE_SIGNUP); sets <title>; calls attribution.remember() after mount
@@ -51,7 +52,8 @@ src/
   attribution.ts        First-touch channel (utm_* or referrer host) kept in sessionStorage for the visit; remember() / attribution()
   pages.test.tsx        Smoke tests: every route renders through entry-server with one <h1>; signup placement invariants
   content/faq.ts        Home FAQ as data (visible FAQ + FAQPage structured data)
-  styles.css            The one global stylesheet (tokens on :root, plain class names)
+  styles.css            The one global stylesheet (tokens on :root, plain class names); imports fonts.css
+  fonts.css             @font-face for the self-hosted brand fonts (public/fonts/), generated from Google's css2
   vite-env.d.ts         Vite client types (import.meta.env)
 
   poker/                Pure TypeScript game logic — no React, unit-tested, worker-safe
@@ -242,9 +244,18 @@ Hotkeys are ignored while focus is in an input or select.
 - **Prerender.** `npm run build` renders every `prerender: true` route to HTML via
   `entry-server.tsx` and writes `dist/<route>.html` (no trailing-slash redirect on Cloudflare) with that route's title, description,
   Open Graph tags and canonical URL. The Trainer is random on every load, so it ships as an
-  empty shell with meta. The browser then mounts with `createRoot` (replacing the static
-  markup; no hydration), so components must not touch `window` during render, only in
-  effects (the Dateline fills in after mount for this reason).
+  empty shell with meta. Prerendered markup carries `data-path` on `#root`; when it matches the
+  URL, `main.tsx` **hydrates** it (`hydrateRoot`, after seeding the router's server snapshot with
+  the real path), so the server HTML stays on screen instead of being painted a second time
+  after the bundle runs.
+  Empty shells and pages served for another URL mount with `createRoot`. The first browser render
+  must therefore equal the prerender: no `window`, storage, clock or randomness during render,
+  only in effects (the Dateline fills in after mount for this reason). `pages.test.tsx` renders
+  every prerendered page twice and expects identical HTML; a mismatch shows in the console as
+  React error #418/#423 and silently falls back to a full client render.
+- **Fonts** are self-hosted: `src/fonts.css` (Google's own `@font-face` blocks for the brand
+  URL, pointed at `public/fonts/`, OFL licences alongside). `index.html` preloads the latin
+  Bodoni Moda and Inter files. No request leaves for Google.
 - **Hosting.** Cloudflare Pages, connected to the GitHub repo (fregam/llamapoker): every push
   to `main` runs `npm run build` and publishes `dist/`. Planned later move: a Hetzner VPS
   (static files behind Caddy); the build output is plain files, so nothing in the app changes.

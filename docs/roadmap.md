@@ -9,17 +9,25 @@
 - 2026-11-06: llamapoker.com live on Cloudflare Pages (Namecheap domain, Cloudflare DNS,
   www → apex redirect), Beehiiv signup, Web Analytics, Search Console + sitemap,
   link-preview image.
-- Monorepo: `brand/`, `apps/web/`, `apps/reels/`, `content/`, `media/`, `scripts/`, `docs/`.
+- Monorepo: `brand/`, `apps/web/`, `apps/reels/`, `apps/wall/`, `content/`, `media/`, `scripts/`, `docs/`.
 - 2026-11-12: housekeeping. Shelved Blender code (`apps/blender/`), AI-video bake-off media,
   FLUX/ElevenLabs test media and unused reel images removed; the `agents/` placeholder folded
   into Later below. Write-ups stay in `docs/research/`; code is in git history.
 - Guides: /learn/pot-odds (formula + bet-size chart) and /learn/outs (common draws, rule of 2 and 4, full outs chart).
 - Phone pass: no sideways scrolling on any page at 390px; trainer drill tabs scroll; touch screens hide keyboard hints.
+- 2026-11-11: speed (Phase 1 item): prerendered pages hydrate instead of re-rendering; brand fonts
+  self-hosted (no Google request). Mobile Lighthouse, production vs preview: 82–86 → 89–96.
+  Code splitting not measured yet; next lever if production LCP stays near 3 s after the merge.
 - Strategy: the big blind defends about half its hands vs a CO/BTN/SB raise (was graded too tight).
 - Brand: engraved llama mark, the Gentleman, the Read, round icon/favicon, social kit,
   new share card, Gentleman plate on the home page.
 
 ## Next
+
+0. **The wall** (`apps/wall`): built 2026-11-11 night on branch `interface/wall`; deploy needs the
+   founder (second Pages project, D1, variables). Then: a Workers cron that fetches `/api/state`
+   daily (snapshots without opening it), the map once Cloudflare analytics data flows, view events
+   from a first-party beacon, the local jobs reporting (`scripts/wall-event.mjs`).
 
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.

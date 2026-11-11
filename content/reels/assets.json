@@ -353,8 +353,8 @@
     {
       "id": "media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4",
       "path": "media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4",
-      "sha256": "0932a740a6d3906c09d7a7de4de63c8240228028d80265f89147fcb0e599c93d",
-      "bytes": 17407633
+      "sha256": "77ff6464308e773234d99ccc2c0b7ce474d94ccca3ea19aa72a5d9a8c6a3c1fa",
+      "bytes": 17406620
     },
     {
       "id": "media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there_v08.mp4",
@@ -369,6 +369,20 @@
       "bytes": 1500474,
       "width": 1080,
       "height": 1350
+    },
+    {
+      "id": "media/reels/2026-11-10_will-it-get-there/renders/contact-will-it-get-there_v10.png",
+      "path": "media/reels/2026-11-10_will-it-get-there/renders/contact-will-it-get-there_v10.png",
+      "sha256": "4803fa6a7f684c7cf63e3a6fedb4607b693877f0cd5adec0d8077bc06aeeb12b",
+      "bytes": 1392352,
+      "width": 2160,
+      "height": 2688
+    },
+    {
+      "id": "media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there_v09.mp4",
+      "path": "media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there_v09.mp4",
+      "sha256": "0932a740a6d3906c09d7a7de4de63c8240228028d80265f89147fcb0e599c93d",
+      "bytes": 17407633
     }
   ]
 }

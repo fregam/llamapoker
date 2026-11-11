@@ -9,6 +9,7 @@ brand/      Brand system: guidelines, colour and type tokens, logo, approved ass
 apps/web/   llamapoker.com: odds calculator, trainer, Learn guides (React + Vite,
             prerendered, on Cloudflare Pages).
 apps/reels/ Short vertical videos (Reels, TikTok, Shorts) rendered from code with Remotion.
+apps/wall/  The command center: a private dashboard on one D1 event store (own look, not the brand).
 content/    Articles, social posts, reel scripts and the content calendar (Markdown).
 media/      Binary media mirroring content/ (git-ignored; every file listed in a manifest).
 scripts/    Repo tools: media manifests, voice and sound generation for the reels.

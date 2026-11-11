@@ -170,8 +170,12 @@ node ../../scripts/vo-comfy.mjs <id> --ref ../../media/tests/2026-11-11_vibevoic
 <comfyui-venv>/python.exe ../../scripts/vo-tighten.py <id> --max-gap 0.55 --tempo 1.0             # reads _whole.raw.wav, writes _whole.wav
 <comfyui-venv>/python.exe ../../scripts/vo-align.py <id> --split         # cuts <take>.wav, writes word times
 <comfyui-venv>/python.exe ../../scripts/vo-check.py <id>                 # same voice on every take? said the words?
+python ../../scripts/vo-breathe.py <id>                                    # every sentence end gets >= 0.5 s (a sampled read can run two together)
 node ../../scripts/vo-manifest.mjs <id> "VibeVoice-Large seed-3 ref, sampling 0.9 seed 4 (read B)"
 ```
+
+`vo-tighten` caps the long silences, `vo-breathe` sets the floor at sentence ends: reel 003 v9 had
+"thirteen hearts in it. You can" with 0.02 s between the sentences, which read as rushed.
 
 (`_whole.raw.wav` is the file `vo-tighten.py` cuts from, so the cleaned whole goes there; the
 untouched generation stays in `media/`.)
@@ -208,8 +212,26 @@ public/library/         Cut-outs of the on-brand library (content/library) in us
 
 ## Before a reel reaches the approval queue
 
-The checklist a render must pass (it grows with every round; the founder's eye and ear decide,
-measurements only narrow):
+**The gate:** `python ../../scripts/reel-check.py <id> out/<id>.mp4` must print PASS, and its
+contact sheet (`out/<id>.sheet.png`, one frame a second) must be looked at, frame by frame, for
+anything sitting on anything else. The limits are reel 002 v9, the approved reference: pause after
+every sentence ≥ 0.40 s, takes ≤ 3.5 words/s, the reel ≤ 3.2 words/s, peak ≤ −2.5 dBFS (effects at
+002's levels: plucks and reveals 0.6–0.7), quiet floor ≤ −30 dBFS. A FAIL goes back to the edit, never to the founder.
+Why: reel 003 v9 reached review rushed, busier and louder, with a docked number on a row of cards,
+and five overlaps on its sheet; each reel had only been checked by eye, and only 002 had been
+polished scene by scene. Every reel now gets that scene-by-scene pass, with 002 open beside it.
+
+Layout rules the sheet keeps catching: docked HUD numbers live in the lane y 352–470 and a scene's
+content starts at 508; a new scene's content enters ~8–10 frames after the old one starts leaving
+(`delay`), never in the same frame and place; two objects flying at once don't cross paths
+(stagger them); an object only "hands over" to another if they line up exactly, otherwise it leaves;
+positions come from the render, not from adding up paddings by hand (003's EXACTLY row was 60 px
+off, its digits through a rule line); a two-line headline needs clear air above the portrait.
+Read the detail pages (half size), not just the overview: the founder caught that rule line at
+0:42 on a sheet that had "passed".
+
+The checklist a render must also pass (it grows with every round; the founder's eye and ear
+decide, measurements only narrow):
 
 - [ ] The script reads as one argument: each line leans on the last; numbers come back as callbacks.
 - [ ] Hook: motion from frame 0, the payoff number on screen by second three, no portrait.
@@ -218,8 +240,8 @@ measurements only narrow):
 - [ ] Voice: one continuous generation, `vo-check.py` passes (same voice on every take, every word
       said), silences capped at 0.55 s, no tempo change.
 - [ ] Sound: a sound for everything that moves and nothing on the captions; the bed ducked under
-      the voice; peaks under −1 dBFS, integrated loudness about −16 LUFS.
-- [ ] Contact sheet checked against the Instagram safe area and against a reference frame.
+      the voice; `reel-check.py` sound limits pass.
+- [ ] Contact sheet checked against the Instagram safe area and side by side with 002's.
 - [ ] Ends on a save-worthy table, a comment question, then the URL; last picture = hook picture.
 - [ ] Cover rendered (1080×1350), caption written (what it explains, who it's for, "link in bio"),
       status line in `content/reels/` updated, render copied to `media/reels/.../renders/`.

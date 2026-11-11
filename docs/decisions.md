@@ -3,6 +3,37 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-11 (late night) - Every reel passes a measured gate against the approved reel before review
+
+- **What:** `scripts/reel-check.py` (pace from the word times, peak and floor from the render, a
+  one-frame-a-second contact sheet) must PASS before a reel reaches the founder; limits are reel
+  002 v9, which the founder approved. `scripts/vo-breathe.py` joins the voice chain (a floor of
+  0.5 s after every sentence, the counterpart of the 0.55 s cap). Reel 003 got the scene-by-scene
+  polish pass 002 had (v10).
+- **Why:** 003 v9 reached review rushed, louder and with six overlaps while 002 was good: the
+  system upgrades were shared, the per-reel polish was not, and nothing measured either. The
+  content factory will make reels without the founder watching each step, so quality has to be a
+  check, not a habit.
+- **Rejected:** an effect-onset limit (it counted syllables: 003 scored busier with fewer effects
+  than 002); automated overlap detection from the DOM (fragile; the sheet takes ten seconds to read).
+
+## 2026-11-11 (late night) - Site speed: hydrate the prerender and self-host the fonts; no code splitting
+
+- **What:** `main.tsx` hydrates prerendered pages instead of replacing them with `createRoot`;
+  the brand fonts are served from llamapoker.com (`apps/web/public/fonts/`) instead of Google.
+- **Why:** LCP was 87% "render delay": the browser threw the prerendered HTML away and painted
+  it again only after the bundle and the Google Fonts chain. Lighthouse mobile, production vs
+  the PR's Cloudflare preview, median of 3: home 82→92, /table 86→96, /learn/outs 83→89;
+  simulated FCP about 3.3 s → 1.4–2.1 s. In observed (unthrottled) timings the late repaint is
+  gone (home LCP 1.17 s → 0.53 s, now right after first paint). The two changes were measured
+  together on Cloudflare; locally, hydration alone barely moved the simulated LCP, so most of the
+  gain is the fonts and hydration is the groundwork. Self-hosting also stops sending every
+  visitor's IP to Google, a GDPR point the Privacy page never covered.
+- **Not done:** splitting the bundle per route. Not measured: TBT is low (0–120 ms) and lazy
+  routes prerender as fallbacks under `renderToString` unless the server entry is reworked.
+  Simulated LCP is still 2.5–3.5 s, partly the model charging the bundle; splitting is the next
+  lever if production numbers after the merge stay there.
+
 ## 2026-11-11 (night) - The repo is public
 
 - **What:** `fregam/llamapoker` went public so that `main` can have a branch-protection rule
@@ -10,6 +41,18 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
 - **Why:** the founder preferred this to paying; the history was scanned first (gitleaks over
   the full history, plus a grep for key-like strings) and is clean; secrets were never committed.
 - **Rejected:** GitHub Pro (about $4/month); deploying from CI with wrangler instead of a rule.
+
+## 2026-11-11 (night, later) - The wall built now, as its own Pages project on one D1 store
+
+- **What:** the founder said "it's time to make it"; built in `apps/wall/` ahead of the plan's
+  Phase 3 ordering, on the spec's architecture (one event store, panels as modules, real data
+  only). Its own Cloudflare Pages project with Functions and a D1 database, not a route inside
+  the site, so the private surface, its secrets and its deploys stay separate from llamapoker.com.
+  Password door now (signed cookie), Cloudflare Access as the upgrade. Snapshots written on read.
+- **Rejected:** a panel for the map and reach with placeholder data (the spec forbids it; they
+  come when location and view events exist); Analytics Engine for the first store (D1 alone covers
+  events, queue, flags and snapshots at this scale, and is SQL-queryable from the Functions);
+  a dashboard template or chart library (none fits the VFD look; everything is SVG and CSS).
 
 ## 2026-11-11 (night) - Interface build direction: Batcomputer schematic + Phosphor map and digits
 

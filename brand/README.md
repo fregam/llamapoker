@@ -61,6 +61,8 @@ Hairline rules are paper at 12% (`--rule`) or 28% (`--rule-strong`) opacity.
   letter-spacing (0.2em).
 - **JetBrains Mono**: maths and code only.
 - Google Fonts: `https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap`
+  (for tools and mockups). The website serves its own copies of exactly these files
+  (`apps/web/src/fonts.css`, `apps/web/public/fonts/`); if this URL changes, regenerate them.
 
 ## Logo
 

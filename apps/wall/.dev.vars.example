@@ -1,0 +1,6 @@
+# Copy to .dev.vars (git-ignored) for `npm run dev`. The same names go on the Pages project.
+WALL_PASSWORD=choose-a-long-passphrase
+WALL_SECRET=random-32-bytes-hex-for-signing-the-session-cookie
+WALL_INGEST_KEY=random-token-the-event-cli-uses
+BEEHIIV_API_KEY=
+BEEHIIV_PUBLICATION_ID=

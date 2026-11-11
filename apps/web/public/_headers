@@ -3,6 +3,10 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Self-hosted fonts (src/fonts.css): names are not hashed, so a month rather than immutable.
+/fonts/*
+  Cache-Control: public, max-age=2592000
+
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff

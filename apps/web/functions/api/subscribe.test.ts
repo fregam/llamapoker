@@ -133,4 +133,24 @@ describe("verifyTurnstile", () => {
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ success: false }), { status: 200 }));
     expect(await verifyTurnstile("s", "t", null, fetchMock)).toBe(false);
   });
+
+  it("tells the wall's event store about the outcome when WALL_URL and WALL_INGEST_KEY are set", async () => {
+    fetchMock.mockResolvedValue(new Response("{}", { status: 201 }));
+    const pending: Promise<unknown>[] = [];
+    const env: Env = { ...ENV, WALL_URL: "https://wall.example/", WALL_INGEST_KEY: "ingest-key" };
+    const res = await onRequestPost({ request: post({ email: "a@b.co", source: "learn.outs", channel: "ig" }), env, waitUntil: (p) => void pending.push(p) });
+    expect(res.status).toBe(200);
+    await Promise.all(pending);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const [url, init] = fetchMock.mock.calls[1] as [string, RequestInit];
+    expect(url).toBe("https://wall.example/api/event");
+    expect((init.headers as Record<string, string>).Authorization).toBe("Bearer ingest-key");
+    expect(JSON.parse(String(init.body))).toMatchObject({ kind: "signup", station: "signup", channel: "ig", subject: "learn.outs", amount: 1 });
+  });
+
+  it("never calls the wall when it is not configured", async () => {
+    fetchMock.mockResolvedValue(new Response("{}", { status: 201 }));
+    await onRequestPost({ request: post({ email: "a@b.co" }), env: ENV });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
 });
