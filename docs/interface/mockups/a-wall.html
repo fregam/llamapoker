@@ -1,0 +1,637 @@
+<!--
+  Direction A — The Wall.
+  Idea: a mission-control wall built on a strict 220 px module and hairlines only: the north star
+  as one very large Bodoni number, the machine as a rail of counts across the middle band, the feed
+  as a tall column, threats top-left, channels and an engraved map below, budget and experiments on
+  the bottom rule. Colour only for meaning. 1920×1080, no scrolling.
+  Invented data (Tuesday 3 March 2027, 19:42, about month six of the plan).
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LlamaPoker — command center (direction A: The Wall)</title>
+<meta name="viewport" content="width=1920">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../brand/tokens.css">
+<style>
+  :root { color-scheme: dark; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+  body {
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.45;
+    font-feature-settings: "tnum" 1, "cv11" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  p, ul, ol, dl, dd, h1, h2, h3 { margin: 0; padding: 0; }
+  ul, ol { list-style: none; }
+  b, strong { font-weight: 600; }
+  .good { color: var(--sage); }
+  .warn { color: var(--brass); }
+  .bad  { color: var(--vermilion); }
+  .num { font-family: var(--serif); font-weight: 400; color: var(--paper); line-height: 1; letter-spacing: -0.02em; }
+  .lbl {
+    font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--text-3); white-space: nowrap; line-height: 1.3;
+  }
+  .lbl .q { font-weight: 400; letter-spacing: .02em; text-transform: none; margin-left: 10px; }
+  kbd {
+    font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--text-2);
+    border: 1px solid var(--rule-strong); border-radius: 2px; padding: 1px 5px; line-height: 1; white-space: nowrap;
+  }
+
+  /* ---- the grid: 440 | 1100 | 380 columns, 56 | 340 | 236 | 400 | 48 rows ---- */
+  .wall {
+    display: grid; width: 1920px; height: 1080px;
+    grid-template-columns: 440px 1100px 380px;
+    grid-template-rows: 56px 340px 256px 380px 48px;
+  }
+  .panel { padding: 16px 22px 18px; min-width: 0; min-height: 0; overflow: hidden; }
+  .panel > .lbl { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+
+  /* ---- masthead ---- */
+  .mast { grid-column: 1 / 4; grid-row: 1; display: flex; align-items: center; border-bottom: 1px solid var(--rule-strong); }
+  .mast > div { display: flex; align-items: center; gap: 16px; padding: 0 22px; white-space: nowrap; }
+  .mast-l, .mast-r { flex: 1 1 0; }
+  .mast-r { justify-content: flex-end; }
+  .mast .sym { font-family: "Segoe UI Symbol", "Apple Symbols", var(--sans); }
+  .wordmark { font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: -0.01em; color: var(--paper); line-height: 1; }
+  .time { font-size: 13px; font-weight: 600; color: var(--text-2); letter-spacing: .06em; }
+  .live { font-size: 11px; font-weight: 700; letter-spacing: .22em; color: var(--sage); }
+  .pause {
+    display: inline-flex; gap: 9px; align-items: center;
+    font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--text-2);
+    border: 1px solid var(--rule-strong); border-radius: 2px; padding: 5px 10px; line-height: 1;
+  }
+  .pause kbd { border-color: var(--rule); }
+  .pause .g { font-weight: 400; letter-spacing: .02em; text-transform: none; color: var(--text-3); }
+  .keys { display: flex; gap: 14px; font-size: 12px; color: var(--text-3); letter-spacing: .02em; margin-left: 10px; white-space: nowrap; }
+  .keys span { display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+
+  /* ---- threats ---- */
+  .threats { grid-column: 1; grid-row: 2; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .th { border-left: 2px solid var(--rule-strong); padding: 6px 0 7px 14px; margin-bottom: 9px; }
+  .th.t-bad  { border-left-color: var(--vermilion); }
+  .th.t-warn { border-left-color: var(--brass); }
+  .th.t-good { border-left-color: var(--sage); }
+  .th-t { font-size: 13.5px; font-weight: 500; color: var(--paper); line-height: 1.35; }
+  .th-t .s { font-weight: 700; letter-spacing: .14em; font-size: 11px; text-transform: uppercase; margin-right: 6px; }
+  .th-f { font-size: 13px; color: var(--text-2); margin-top: 3px; line-height: 1.4; }
+  .k { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); margin-right: 6px; }
+
+  /* ---- north star ---- */
+  .north { grid-column: 2; grid-row: 2; border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; }
+  .ns { display: flex; align-items: flex-end; gap: 46px; margin-top: 8px; }
+  .ns-num { font-size: 232px; line-height: .8; letter-spacing: -0.03em; margin-left: -6px; }
+  .ns-side { display: grid; grid-template-columns: repeat(3, 150px); gap: 0 14px; padding-bottom: 12px; }
+  .fig .lbl { margin-bottom: 7px; }
+  .fig-v { font-size: 54px; line-height: .95; }
+  .fig-s { font-size: 13px; color: var(--text-2); margin-top: 7px; line-height: 1.35; }
+  .today { margin-top: auto; font-size: 15px; line-height: 1.5; color: var(--text-2); }
+  .today .do { color: var(--paper); }
+
+  /* ---- the machine ---- */
+  .machine { grid-column: 1 / 3; grid-row: 3; border-bottom: 1px solid var(--rule); padding: 0; min-height: 0; overflow: hidden; }
+  .machine-head { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 22px 0; }
+  .machine-head .meta { display: flex; gap: 22px; font-size: 12.5px; color: var(--text-3); letter-spacing: .02em; }
+  .machine-head .meta b { color: var(--text-2); font-weight: 500; }
+  .stations { position: relative; display: grid; grid-template-columns: repeat(7, 220px); height: 224px; margin-top: 8px; }
+  .st { position: relative; padding: 10px 22px 0; }
+  .st + .st { border-left: 1px solid var(--rule); }
+  .st.s-fail { box-shadow: inset 0 2px 0 var(--vermilion); }
+  .st.s-wait { box-shadow: inset 0 2px 0 var(--brass); }
+  .st-state { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); height: 16px; }
+  .st-name { font-size: 15px; font-weight: 600; color: var(--paper); margin-top: 6px; height: 22px; letter-spacing: -0.005em; }
+  .st-name .sub { font-size: 12.5px; font-weight: 400; color: var(--text-3); margin-left: 6px; letter-spacing: 0; }
+  .st-count { position: relative; height: 70px; margin-top: 8px; display: flex; align-items: flex-end; gap: 10px; }
+  .st-count .num { font-size: 64px; line-height: .86; }
+  .st-count .ring { width: 70px; height: 70px; border: 1px dashed var(--rule-strong); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-left: -4px; }
+  .st-count .ring .num { line-height: 1; margin-top: 6px; }
+  .st-count .of { font-size: 13px; color: var(--text-2); padding-bottom: 6px; line-height: 1.3; }
+  .rail { position: absolute; left: 22px; right: 22px; top: 134px; height: 1px; background: var(--rule-strong); }
+  .arrow { position: absolute; top: 127px; font-size: 12px; color: var(--text-3); background: var(--ink); padding: 0 5px; line-height: 1.2; }
+  .st-unit { font-size: 13px; color: var(--text-2); margin-top: 16px; line-height: 1.35; white-space: nowrap; }
+  .st-runs { font-size: 12.5px; color: var(--text-3); margin-top: 4px; letter-spacing: .01em; white-space: nowrap; }
+  .st-runs b { color: var(--text-2); font-weight: 500; }
+
+  /* ---- channels and map ---- */
+  .lower { grid-column: 1 / 3; grid-row: 4; display: grid; grid-template-columns: repeat(4, 220px) 660px; }
+  .ch { padding: 16px 22px 18px; border-right: 1px solid var(--rule); min-width: 0; }
+  .ch-v { font-size: 60px; line-height: .95; margin-top: 12px; }
+  .ch-u { font-size: 13px; color: var(--text-2); margin-top: 8px; white-space: nowrap; }
+  .ch-rows { margin-top: 20px; border-top: 1px solid var(--rule); }
+  .ch-rows div { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--rule); font-size: 13px; }
+  .ch-rows dt { color: var(--text-3); }
+  .ch-rows dd { color: var(--paper); font-weight: 500; white-space: nowrap; }
+  .contrib { margin-top: 16px; }
+  .contrib .lbl { margin-bottom: 9px; }
+  .contrib-t { white-space: nowrap; }
+  .bar { height: 2px; background: var(--track); }
+  .bar i { display: block; height: 100%; background: var(--paper); }
+  .contrib-t { font-size: 13px; color: var(--text-2); margin-top: 8px; }
+  .contrib-t b { color: var(--paper); }
+  .contrib-t .none { color: var(--text-3); }
+
+  .map { padding: 16px 22px 18px; min-width: 0; }
+  .map svg { display: block; width: 616px; height: 257px; margin-top: 12px; overflow: visible; }
+  .map .land { fill: url(#h0); stroke: var(--paper); stroke-opacity: .28; stroke-width: .5; stroke-linejoin: round; }
+  .map .v1 { fill: url(#h1); stroke-opacity: .55; }
+  .map .v2 { fill: url(#h2); stroke-opacity: .7; }
+  .map .v3 { fill: url(#h3); stroke-opacity: .85; }
+  .map .v4 { fill: url(#h4); stroke-opacity: 1; }
+  .map .mlab { font-family: var(--sans); font-size: 11px; font-weight: 600; fill: var(--paper); paint-order: stroke; stroke: var(--ink); stroke-width: 3px; stroke-linejoin: round; letter-spacing: .04em; }
+  .map .mlab tspan { fill: var(--text-2); font-weight: 500; }
+  .map .lead { stroke: var(--paper); stroke-opacity: .5; stroke-width: .75; fill: none; }
+  .map-list { margin-top: 12px; display: flex; justify-content: space-between; font-size: 13px; color: var(--text-2); white-space: nowrap; }
+  .map-list b { color: var(--paper); }
+  .map-list .dim { color: var(--text-3); }
+
+  /* ---- live feed ---- */
+  .feed { grid-column: 3; grid-row: 2 / 5; border-left: 1px solid var(--rule); }
+  .ev { display: grid; grid-template-columns: 44px 1fr auto; gap: 0 10px; align-items: baseline; padding: 11px 0 12px; border-bottom: 1px solid var(--rule); font-size: 13.5px; line-height: 1.38; }
+  .ev:first-of-type { border-top: 1px solid var(--rule); }
+  .feed-more { margin-top: 16px; font-size: 12.5px; color: var(--text-3); line-height: 1.5; }
+  .feed-more b { color: var(--text-2); font-weight: 500; }
+  .ev-t { color: var(--text-3); font-size: 12px; letter-spacing: .04em; }
+  .ev-x { color: var(--text-2); }
+  .ev-x b { color: var(--paper); font-weight: 500; }
+  .ev-m { font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+  .ev.e-bad .ev-x, .ev.e-bad .ev-x b { color: var(--vermilion); }
+
+  /* ---- bottom rule ---- */
+  .bottom { grid-column: 1 / 4; grid-row: 5; border-top: 1px solid var(--rule-strong); display: flex; align-items: center; justify-content: space-between; padding: 0 22px; }
+  .bottom > div { display: flex; align-items: baseline; gap: 22px; white-space: nowrap; }
+  .exp { font-size: 13px; color: var(--text-2); }
+  .exp b { color: var(--paper); font-weight: 500; }
+  .exp .st-note { color: var(--text-3); }
+  .sep { width: 1px; height: 14px; background: var(--rule-strong); align-self: center; }
+  .budget { font-size: 13px; color: var(--text-2); display: flex; align-items: baseline; gap: 12px; }
+  .budget .num { font-size: 22px; line-height: 1; }
+  .budget .bar { width: 180px; align-self: center; }
+  .budget .brk { color: var(--text-3); }
+</style>
+</head>
+<body>
+<div class="wall">
+
+  <!-- masthead -->
+  <header class="mast">
+    <div class="mast-l">
+      <span class="wordmark">LlamaPoker</span>
+      <span class="lbl">Command center</span>
+    </div>
+    <div class="mast-m">
+      <span class="lbl">Tuesday 3 March 2027</span>
+      <span class="time">19:42</span>
+    </div>
+    <div class="mast-r">
+      <span class="lbl">Outbound</span><span class="live">LIVE</span>
+      <span class="pause">Pause all <kbd class="sym">⌘⇧P</kbd> <span class="g">hold 2 s</span></span>
+      <span class="keys">
+        <span><kbd class="sym">⌘K</kbd> command</span>
+        <span><kbd>W</kbd> wall</span>
+        <span><kbd>T</kbd> time</span>
+        <span><kbd>A</kbd> approve 4</span>
+        <span><kbd class="sym">↵</kbd> open</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- threats -->
+  <section class="panel threats">
+    <div class="lbl"><span>Threats <span class="q">what needs me first</span></span><span>4 · ranked</span></div>
+    <ol>
+      <li class="th t-bad">
+        <div class="th-t"><span class="s bad">Failed</span>Instagram publisher 18:20 · token expired</div>
+        <div class="th-f"><span class="k">Fix</span>Re-authorise the Meta app (2 min) · reel 014 is held until then.</div>
+      </li>
+      <li class="th t-warn">
+        <div class="th-t"><span class="s warn">Weak</span>Reel 013 keeps 41% past 3 s · median 55%</div>
+        <div class="th-f"><span class="k">Fix</span>The hook shows the number at 4.1 s; move it under 3 s.</div>
+      </li>
+      <li class="th t-warn">
+        <div class="th-t"><span class="s warn">Slipping</span>/learn/outs position 8 → 14 for "poker outs"</div>
+        <div class="th-f"><span class="k">Fix</span>Chart and exact-odds table above the fold, two internal links.</div>
+      </li>
+      <li class="th t-good">
+        <div class="th-t"><span class="s good">In range</span>Letter bounce 0.8%</div>
+        <div class="th-f"><span class="k">Fix</span>None · watched because a rising bounce is the first sign of list trouble.</div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- north star -->
+  <section class="panel north">
+    <div class="lbl"><span>Subscribers <span class="q">north star · people on the LlamaPoker letter</span></span><span>live</span></div>
+    <div class="ns">
+      <div class="num ns-num">1,284</div>
+      <div class="ns-side">
+        <div class="fig">
+          <div class="lbl">This week</div>
+          <div class="num fig-v good">+38</div>
+          <div class="fig-s"><b class="good">+3.1%</b> on the week before</div>
+        </div>
+        <div class="fig">
+          <div class="lbl">Reach · 7 days</div>
+          <div class="num fig-v">48.2K</div>
+          <div class="fig-s">reel views · <b class="good">+12%</b></div>
+        </div>
+        <div class="fig">
+          <div class="lbl">Weekly active</div>
+          <div class="num fig-v">27%</div>
+          <div class="fig-s">342 subscribers used the tool</div>
+        </div>
+      </div>
+    </div>
+    <p class="today"><span class="k">Today</span>+9, six from reel 013 via the bio link, three from "poker outs".
+      <span class="k" style="margin-left:14px">Do</span><span class="do">Re-authorise Instagram, then approve the queue (4).</span></p>
+  </section>
+
+  <!-- the machine -->
+  <section class="machine">
+    <div class="machine-head">
+      <span class="lbl">The machine <span class="q">is the pipeline moving, and where is it stuck</span></span>
+      <div class="meta">
+        <span>letter sender <b class="good">ok</b> · 16:02</span>
+        <span>event store <b>14,882</b> events today · <b>2.1 ms</b> p95</span>
+        <span>pause switch <b>off</b></span>
+      </div>
+    </div>
+    <div class="stations">
+      <div class="rail"></div>
+      <div class="st">
+        <div class="st-state"><span class="good">ok</span> · 18:00</div>
+        <div class="st-name">Research</div>
+        <div class="st-count"><span class="num">12</span><span class="of">items<br>this week</span></div>
+        <div class="st-unit">3 new topics · 41 threads read</div>
+        <div class="st-runs">last <b>18:00</b> → next <b>Mon 06:00</b></div>
+      </div>
+      <div class="st">
+        <div class="st-state"><span class="good">ok</span> · 18:55</div>
+        <div class="st-name">Writer</div>
+        <div class="st-count"><span class="num">3</span><span class="of">drafts<br>this week</span></div>
+        <div class="st-unit">letter 017 draft → queue</div>
+        <div class="st-runs">last <b>18:55</b> → next <b>on demand</b></div>
+      </div>
+      <div class="st">
+        <div class="st-state"><span class="good">ok</span> · Sun 20:10 · my PC</div>
+        <div class="st-name">Voice · Render</div>
+        <div class="st-count"><span class="ring"><span class="num">2</span></span><span class="of">reels<br>this week</span></div>
+        <div class="st-unit">runs only while my PC is on</div>
+        <div class="st-runs">last <b>Sun 20:10</b> → next <b>Sun</b></div>
+      </div>
+      <div class="st s-wait">
+        <div class="st-state"><span class="warn">waiting on you</span></div>
+        <div class="st-name">Approval</div>
+        <div class="st-count"><span class="num warn">4</span><span class="of">to approve<br>oldest 1 day</span></div>
+        <div class="st-unit">reel 014, letter 017, 2 posts</div>
+        <div class="st-runs">press <kbd>A</kbd> to deal the queue</div>
+      </div>
+      <div class="st">
+        <div class="st-state"><span class="good">ok</span> · next Thu 18:00</div>
+        <div class="st-name">Scheduled</div>
+        <div class="st-count"><span class="num">3</span><span class="of">posts<br>queued</span></div>
+        <div class="st-unit">Thu 18:00 · Fri 18:00 · Sun</div>
+        <div class="st-runs">scheduler ran <b>12:00</b></div>
+      </div>
+      <div class="st s-fail">
+        <div class="st-state"><span class="bad">failed</span> · 18:20</div>
+        <div class="st-name">Publisher</div>
+        <div class="st-count"><span class="num bad">1</span><span class="of bad">held<br>reel 014</span></div>
+        <div class="st-unit bad">Instagram token expired</div>
+        <div class="st-runs">last <b>18:20</b> → next <b>after re-auth</b></div>
+      </div>
+      <div class="st">
+        <div class="st-state"><span class="good">ok</span> · this week</div>
+        <div class="st-name">Published</div>
+        <div class="st-count"><span class="num">5</span><span class="of">pieces<br>this week</span></div>
+        <div class="st-unit">2 reels · 1 letter · 2 posts</div>
+        <div class="st-runs">last <b>Tue 16:02</b> letter 016</div>
+      </div>
+      <span class="arrow" style="left:212px">→</span>
+      <span class="arrow" style="left:432px">→</span>
+      <span class="arrow" style="left:652px">→</span>
+      <span class="arrow" style="left:872px">→</span>
+      <span class="arrow" style="left:1092px">→</span>
+      <span class="arrow" style="left:1312px">→</span>
+    </div>
+  </section>
+
+  <!-- channels + map -->
+  <section class="lower">
+    <div class="ch">
+      <div class="lbl">Site</div>
+      <div class="num ch-v">2,910</div>
+      <div class="ch-u">visits · 7 days · <b class="good">+8%</b></div>
+      <div class="contrib">
+        <div class="lbl">To the north star</div>
+        <div class="bar"><i style="width:34%"></i></div>
+        <div class="contrib-t"><b>41 subs</b> · 34% of new</div>
+      </div>
+      <dl class="ch-rows">
+        <div><dt>Sign up</dt><dd>3.2%</dd></div>
+        <div><dt>Top page</dt><dd>/learn/outs</dd></div>
+      </dl>
+    </div>
+    <div class="ch">
+      <div class="lbl">Letter</div>
+      <div class="num ch-v">52%</div>
+      <div class="ch-u">opened · 16 sends</div>
+      <div class="contrib">
+        <div class="lbl">To the north star</div>
+        <div class="bar"></div>
+        <div class="contrib-t"><span class="none">keeps them · brings none</span></div>
+      </div>
+      <dl class="ch-rows">
+        <div><dt>Clicked</dt><dd>18%</dd></div>
+        <div><dt>Ran a spot</dt><dd>14</dd></div>
+        <div><dt>Bounce</dt><dd>0.8%</dd></div>
+      </dl>
+    </div>
+    <div class="ch">
+      <div class="lbl">Instagram</div>
+      <div class="num ch-v">48.2K</div>
+      <div class="ch-u">reel views · 7 days · <b class="good">+12%</b></div>
+      <div class="contrib">
+        <div class="lbl">To the north star</div>
+        <div class="bar"><i style="width:18%"></i></div>
+        <div class="contrib-t"><b>22 subs</b> · 18% of new</div>
+      </div>
+      <dl class="ch-rows">
+        <div><dt>Followers</dt><dd>3,420</dd></div>
+        <div><dt>Publisher</dt><dd class="bad">failed 18:20</dd></div>
+      </dl>
+    </div>
+    <div class="ch">
+      <div class="lbl">Search</div>
+      <div class="num ch-v">310</div>
+      <div class="ch-u">clicks · 28 days · <b class="good">+41%</b></div>
+      <div class="contrib">
+        <div class="lbl">To the north star</div>
+        <div class="bar"><i style="width:7%"></i></div>
+        <div class="contrib-t"><b>9 subs</b> · 7% of new</div>
+      </div>
+      <dl class="ch-rows">
+        <div><dt>Impressions</dt><dd>6.4K</dd></div>
+        <div><dt>Avg position</dt><dd>12.3</dd></div>
+      </dl>
+    </div>
+
+    <div class="map">
+      <div class="lbl" style="display:flex;justify-content:space-between"><span>Visitors <span class="q">where they are · 7 days · hatch density = share</span></span><span>2,910 visits</span></div>
+      <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" aria-label="World map, visitors by country">
+        <defs>
+          <pattern id="h0" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--paper);stroke-width:.5;stroke-opacity:.2"/></pattern>
+          <pattern id="h1" width="3.6" height="3.6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="3.6" style="stroke:var(--paper);stroke-width:.6;stroke-opacity:.5"/></pattern>
+          <pattern id="h2" width="2.8" height="2.8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="2.8" style="stroke:var(--paper);stroke-width:.6;stroke-opacity:.65"/></pattern>
+          <pattern id="h3" width="2.2" height="2.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="2.2" style="stroke:var(--paper);stroke-width:.65;stroke-opacity:.8"/></pattern>
+          <pattern id="h4" width="1.7" height="1.7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.7" style="stroke:var(--paper);stroke-width:.7;stroke-opacity:.95"/></pattern>
+        </defs>
+        <g class="land">
+<path id="c-AFG" d="M395.9 77.9L398.8 78.4L398.9 77.5L400.8 76.7L400.8 75.2L402.0 74.8L402.1 74.1L406.1 75.3L407.1 74.7L407.7 75.1L407.9 74.2L408.9 74.3L409.5 72.6L410.5 73.0L412.0 75.9L413.8 74.4L417.0 75.1L412.1 76.3L411.4 77.1L412.4 78.8L411.8 81.0L410.3 81.0L411.2 82.2L409.8 83.8L410.1 85.0L406.6 86.1L405.9 87.2L406.2 88.8L402.8 89.8L400.3 89.9L397.4 88.9L398.6 87.2L398.2 86.0L397.0 85.6L395.8 82.9L396.3 81.9L395.6 81.6L395.9 77.9Z"/>
+<path id="c-AGO" d="M327.2 156.3L329.0 160.4L331.6 160.2L332.3 158.7L333.4 158.3L334.2 158.3L334.1 158.9L336.1 158.9L336.7 166.1L339.6 165.8L339.7 169.5L336.3 169.5L336.1 175.5L338.2 178.2L335.1 179.0L331.1 178.7L330.0 177.8L323.1 178.0L322.1 177.2L319.3 177.8L320.1 172.4L322.8 166.5L321.4 162.5L322.0 161.3L320.3 157.0L322.2 156.2L327.2 156.3ZM320.7 155.9L320.3 156.1L319.8 154.7L321.0 153.5L321.6 154.2L320.7 155.9Z"/>
+<path id="c-ALB" d="M331.3 66.3L332.2 68.6L331.0 70.4L329.8 69.3L329.3 65.6L329.9 64.7L331.3 66.3Z"/>
+<path id="c-ARE" d="M383.8 99.4L387.7 99.7L390.7 96.0L391.5 98.1L390.6 98.2L390.9 99.6L390.2 100.0L389.6 102.7L384.6 101.8L383.8 99.4Z"/>
+<path id="c-ARG" class="v1" d="M209.0 248.5L204.4 247.9L202.7 243.9L204.9 246.1L209.3 247.6L209.0 248.5ZM194.1 186.8L195.2 188.2L195.6 186.7L197.5 186.7L201.1 190.2L206.3 192.6L206.7 193.5L205.5 196.3L209.0 197.1L210.3 196.8L211.5 195.4L211.6 193.7L212.3 193.4L213.3 194.5L213.4 196.0L207.9 202.2L207.9 210.1L210.2 211.7L210.3 213.0L211.4 213.9L210.6 217.2L208.5 218.2L203.7 218.4L204.9 221.9L202.7 222.8L201.0 222.1L200.6 222.6L201.3 224.4L202.5 225.0L203.2 224.4L203.9 225.4L201.8 227.1L202.1 230.0L200.7 230.0L199.8 231.0L199.9 232.3L203.3 234.1L203.4 235.7L202.0 236.7L201.8 238.9L200.5 240.5L203.2 243.4L197.6 242.8L195.9 240.4L194.2 239.8L193.3 237.9L194.2 235.9L192.9 229.9L193.5 229.5L192.3 228.5L192.5 227.7L190.6 224.8L191.0 224.4L190.0 222.2L189.8 218.6L190.5 217.9L189.1 214.3L189.9 213.1L189.5 211.5L190.0 209.7L187.7 204.3L188.3 202.4L187.8 200.6L189.8 195.9L188.9 191.4L190.6 190.5L190.7 188.1L191.9 186.4L194.1 186.8Z"/>
+<path id="c-ARM" d="M366.5 67.7L368.6 67.4L369.7 68.2L370.1 69.9L371.6 70.7L371.8 72.0L367.0 69.3L366.5 67.7Z"/>
+<path id="c-ATF" d="M400.6 236.6L402.6 237.4L401.9 238.6L399.6 238.7L400.6 236.6Z"/>
+<path id="c-AUS" d="M522.4 222.1L523.4 222.7L526.7 222.2L523.2 226.6L523.0 226.1L521.1 227.4L519.9 227.2L520.9 222.8L521.5 221.9L522.4 222.1ZM537.2 171.1L537.6 172.6L538.7 171.9L539.9 173.4L540.0 180.9L543.5 183.6L543.9 187.3L544.7 186.9L545.2 187.7L545.6 187.4L545.4 189.4L547.7 192.8L547.6 194.4L546.8 196.6L547.0 198.2L544.1 203.5L533.1 215.8L530.1 216.5L525.7 218.8L524.1 217.6L524.9 216.7L521.8 218.4L518.0 216.9L517.6 215.7L518.2 213.3L517.8 212.6L516.4 212.4L517.6 210.0L516.3 211.3L514.7 211.7L517.7 208.6L518.2 207.2L513.7 211.0L512.8 210.2L513.3 209.2L512.3 207.1L512.8 206.7L509.0 204.6L500.2 206.0L496.6 207.4L495.1 209.1L489.1 209.3L485.4 211.3L483.2 211.3L481.3 209.7L483.8 205.9L484.3 200.8L483.2 194.4L483.7 195.3L483.7 193.5L484.6 194.8L484.1 191.2L486.2 186.2L486.1 187.7L487.0 186.4L490.8 184.2L497.9 182.3L500.7 179.5L501.1 177.7L502.5 176.1L502.9 177.8L503.7 177.4L503.3 176.5L503.9 175.6L504.6 176.0L505.0 174.5L507.6 172.0L509.9 171.2L511.8 173.2L513.9 173.4L513.7 172.4L516.1 168.8L519.4 168.0L519.5 167.1L518.4 166.4L519.3 166.2L523.9 168.3L526.0 167.5L526.6 168.5L524.7 170.3L523.6 173.5L530.4 178.6L531.6 177.9L533.8 173.6L533.8 171.0L535.5 166.0L536.3 165.3L536.6 166.2L537.2 171.1Z"/>
+<path id="c-AUT" d="M324.9 54.7L324.8 55.4L324.0 55.4L323.7 57.3L321.7 57.8L318.3 57.1L317.9 56.5L316.3 57.2L314.0 56.5L314.5 55.7L315.3 56.2L317.8 55.4L319.0 55.9L318.8 54.3L319.8 53.3L320.9 53.9L322.2 53.0L324.1 53.4L324.9 54.7Z"/>
+<path id="c-AZE" d="M369.2 70.2L371.3 72.1L370.2 71.8L369.2 70.2ZM372.3 67.5L373.0 67.6L373.9 66.4L377.3 69.3L376.1 69.4L375.7 72.9L374.2 72.0L374.5 71.1L374.0 70.5L371.8 72.0L371.6 70.7L370.1 69.9L370.4 69.3L368.6 67.4L371.0 67.7L370.5 66.3L372.3 67.5Z"/>
+<path id="c-BDI" d="M348.8 153.7L348.3 150.5L349.3 150.7L349.9 149.6L350.7 149.7L351.2 151.5L348.8 153.7Z"/>
+<path id="c-BEL" d="M304.7 48.8L307.1 48.5L308.9 49.7L308.2 52.1L303.8 49.8L303.6 49.1L304.7 48.8Z"/>
+<path id="c-BEN" d="M304.5 133.4L303.1 133.6L302.8 127.9L301.3 125.4L302.4 123.4L304.7 122.1L306.0 123.2L306.3 124.9L304.5 129.1L304.5 133.4Z"/>
+<path id="c-BFA" d="M295.3 127.0L292.1 126.6L291.0 125.6L291.4 123.1L293.4 119.8L294.9 119.6L298.2 116.9L300.6 117.0L301.7 120.9L303.6 121.3L303.6 122.6L301.5 124.4L295.1 124.5L295.3 127.0Z"/>
+<path id="c-BGD" d="M451.1 103.6L451.0 106.2L448.9 102.2L447.4 102.1L447.3 104.0L445.2 103.6L444.1 99.4L443.0 98.9L444.1 97.6L442.8 96.6L443.1 95.3L445.3 96.2L445.7 97.5L449.8 98.0L448.2 100.8L449.3 101.8L449.8 100.6L451.1 103.6Z"/>
+<path id="c-BGR" d="M334.0 61.8L334.5 62.6L338.5 62.8L340.9 61.9L343.0 62.8L341.9 64.9L342.5 66.0L339.7 66.3L339.8 67.3L337.3 66.8L335.0 67.2L333.9 65.4L334.7 63.7L333.9 62.9L334.0 61.8Z"/>
+<path id="c-BHS" d="M174.0 100.3L172.7 98.8L173.3 97.6L174.0 100.3ZM174.3 95.0L172.5 95.3L172.5 94.6L174.4 94.5L174.3 95.0ZM175.7 95.0L175.1 96.3L174.5 94.2L175.7 95.0Z"/>
+<path id="c-BIH" d="M328.4 60.7L329.0 60.7L328.6 61.5L329.4 62.2L328.1 64.8L323.5 60.7L323.8 60.0L328.4 60.7Z"/>
+<path id="c-BLR" d="M333.0 44.1L335.7 43.5L335.9 42.5L336.9 41.9L336.7 41.1L338.8 40.1L342.8 41.2L342.9 42.5L346.1 45.1L344.2 45.7L345.2 47.4L344.0 47.5L343.8 48.8L336.1 47.7L333.6 48.3L333.0 44.1Z"/>
+<path id="c-BLZ" d="M153.6 111.6L154.8 110.3L155.4 110.6L154.6 114.0L153.0 115.2L153.6 111.6Z"/>
+<path id="c-BOL" d="M197.5 186.7L195.6 186.7L195.2 188.2L194.1 186.8L191.9 186.4L190.7 188.1L189.6 188.3L187.5 183.6L187.9 181.8L185.6 178.3L186.5 176.3L185.6 173.4L186.4 168.9L184.8 165.8L186.9 166.0L189.4 163.9L191.6 163.6L191.7 167.0L193.6 168.7L200.0 171.2L200.9 175.8L204.1 175.9L204.2 177.8L205.6 179.5L205.3 182.8L204.8 183.2L203.1 181.7L198.8 182.2L197.5 186.7Z"/>
+<path id="c-BRA" class="v1" d="M207.9 202.2L213.4 196.0L213.3 194.5L212.3 193.4L211.6 193.7L211.8 190.5L210.0 190.4L209.1 187.4L205.5 186.8L204.8 183.2L205.6 179.5L204.2 177.8L204.1 175.9L200.9 175.8L200.0 171.2L193.6 168.7L191.7 167.0L191.6 163.6L189.4 163.9L186.9 166.0L183.1 165.9L183.0 163.1L181.7 164.2L180.3 164.1L179.6 163.1L178.5 163.0L178.8 162.2L177.1 159.4L178.4 157.7L178.7 155.1L182.1 153.2L183.7 153.3L184.3 147.3L183.3 144.1L184.6 144.0L184.7 143.3L183.7 143.1L183.7 141.9L186.9 142.0L187.5 141.3L188.3 143.0L190.8 143.7L194.5 141.0L193.0 140.5L192.8 138.0L192.1 137.5L195.0 138.1L198.5 136.6L198.9 135.4L200.2 135.7L199.9 136.5L200.9 137.7L200.1 140.0L201.7 142.7L204.5 141.5L206.7 141.7L206.8 140.4L211.8 141.2L214.6 137.2L215.9 141.6L216.8 141.9L216.8 143.2L215.5 144.7L216.0 145.3L219.0 145.6L219.1 147.5L220.3 146.3L225.2 148.1L226.0 149.2L225.8 150.2L227.7 149.7L230.9 150.7L233.4 150.6L238.0 154.3L240.8 154.9L242.3 159.0L241.7 162.1L236.1 169.8L235.5 178.9L233.2 186.6L232.0 187.4L231.6 188.5L227.4 189.2L222.7 192.1L221.5 194.0L221.5 199.3L219.2 203.6L217.1 206.0L216.6 207.8L215.8 208.9L215.1 207.8L215.7 206.9L214.6 205.6L208.9 202.0L207.9 202.2Z"/>
+<path id="c-BRN" d="M490.1 136.6L492.1 134.9L492.0 137.0L490.9 137.6L490.1 136.6Z"/>
+<path id="c-BTN" d="M447.6 92.8L448.5 94.5L444.9 94.8L443.1 93.7L444.7 91.8L447.6 92.8Z"/>
+<path id="c-BWA" d="M342.1 180.1L345.3 183.8L345.7 185.7L348.0 186.8L344.1 189.6L341.6 193.3L339.2 193.6L337.8 192.8L334.9 195.6L333.7 195.8L333.6 194.0L332.3 191.9L332.5 186.4L334.1 186.3L334.3 179.6L338.1 178.9L338.7 179.7L341.2 178.5L342.1 180.1Z"/>
+<path id="c-CAF" d="M325.4 131.2L329.8 130.3L331.4 128.9L331.2 128.2L333.3 128.2L334.9 127.3L336.0 125.2L337.9 124.1L339.1 126.1L338.9 128.3L341.7 130.4L345.6 135.3L340.6 135.5L338.0 136.3L337.3 137.6L332.4 135.7L330.9 137.2L330.7 138.6L328.5 138.1L326.7 140.9L326.4 139.5L324.1 136.2L324.2 133.4L325.4 131.2Z"/>
+<path id="c-CAN" d="M205.8 57.5L208.2 57.7L206.7 58.6L205.0 57.8L205.6 56.7L205.8 57.5ZM210.1 52.8L206.6 51.4L208.9 51.7L210.1 52.8ZM119.6 53.9L116.8 53.4L116.0 51.5L114.8 51.2L115.0 50.2L115.4 49.8L118.5 50.7L119.6 53.9ZM219.2 50.0L217.7 51.5L218.9 50.9L219.7 51.3L219.0 52.0L222.3 52.6L221.4 53.9L222.6 53.6L222.6 55.7L221.6 57.4L220.0 57.1L220.4 55.3L218.2 56.9L217.4 56.9L218.7 56.0L217.4 55.6L212.9 55.6L214.0 54.4L213.5 53.9L217.5 49.9L220.2 48.3L220.8 48.3L219.2 50.0ZM113.9 43.9L115.4 43.8L113.3 45.8L113.4 47.3L112.8 47.3L112.5 45.0L113.4 43.7L113.9 43.9ZM193.9 28.8L190.9 29.7L192.3 28.5L193.9 28.8ZM192.9 23.9L192.7 24.6L193.5 24.3L196.1 25.8L195.7 26.6L197.3 27.1L195.8 27.6L194.0 27.2L193.8 26.4L189.6 28.2L189.8 27.2L187.9 27.4L189.6 26.6L192.1 23.7L192.9 23.9ZM206.2 21.4L204.7 21.5L206.1 19.8L208.0 20.0L206.2 21.4ZM184.3 18.3L183.1 18.8L179.7 17.8L182.6 16.6L184.3 18.3ZM190.9 17.6L189.7 19.3L192.2 18.0L192.9 19.1L191.7 20.3L192.0 21.4L196.1 18.8L197.4 17.0L200.7 17.4L201.7 18.2L199.7 19.8L200.0 20.7L196.1 22.6L193.2 22.4L189.2 25.3L185.0 26.6L182.7 28.4L178.5 30.0L174.2 33.2L172.8 35.2L174.6 35.5L173.9 38.5L176.0 38.2L182.0 41.6L185.7 41.9L184.2 45.3L184.2 47.3L185.5 49.0L188.5 46.6L189.1 43.7L188.6 42.8L191.3 41.9L194.9 39.5L195.3 36.8L194.4 35.5L196.9 33.7L198.4 29.5L204.1 29.3L206.1 31.5L208.3 31.6L206.9 35.2L208.0 35.5L208.5 36.5L210.9 35.6L214.3 32.8L216.0 38.7L215.0 39.8L217.2 41.8L220.0 42.8L220.0 44.4L221.3 45.3L220.8 47.3L213.3 50.8L204.1 50.8L195.0 57.0L203.2 52.8L205.4 52.6L206.4 53.5L204.6 54.7L204.5 58.1L206.1 59.0L208.6 58.8L210.8 56.7L210.4 58.0L211.2 58.7L209.0 59.9L201.6 63.1L200.5 63.0L200.9 61.4L203.9 59.9L199.8 60.1L199.2 59.1L200.1 56.6L198.2 55.9L193.2 60.4L188.2 60.4L184.4 63.0L181.5 63.0L180.7 63.3L180.7 64.4L174.2 66.6L173.8 65.9L176.3 63.1L177.0 59.8L175.8 58.9L175.5 57.6L174.8 57.8L174.7 56.9L170.7 54.3L165.8 54.6L162.4 53.6L162.3 52.3L161.5 53.0L121.0 53.0L118.9 50.4L116.8 49.7L118.3 47.0L117.1 46.2L118.0 44.8L117.3 43.5L120.5 40.6L119.2 39.4L119.9 36.2L119.3 33.8L115.2 35.3L114.9 33.4L112.9 32.9L130.6 17.3L134.5 18.6L144.9 16.5L145.0 17.2L147.5 16.1L148.5 17.7L151.3 16.6L150.1 17.8L154.2 17.2L157.6 18.4L160.2 18.6L161.1 19.4L158.6 20.2L160.5 20.6L165.3 20.1L165.7 21.1L167.8 20.2L167.2 19.6L168.5 19.0L171.1 18.8L172.2 20.0L175.2 20.6L179.1 20.4L179.8 19.4L181.1 19.1L182.6 19.7L181.3 21.2L185.9 18.3L184.6 16.7L188.7 13.9L190.6 14.8L190.7 16.5L188.9 17.3L190.9 17.6ZM168.7 12.1L167.3 12.8L170.4 12.3L171.1 13.1L173.3 12.3L173.8 12.8L173.1 14.3L174.4 13.7L175.2 12.1L177.4 12.1L178.0 12.8L176.5 15.3L179.1 16.8L178.4 17.5L176.3 17.6L176.5 18.3L175.6 18.8L171.9 18.2L162.0 19.2L162.1 18.4L159.6 18.2L159.4 16.9L166.0 16.3L159.8 16.0L159.8 15.4L163.2 14.8L159.8 14.4L163.7 12.7L168.7 12.1ZM180.3 11.6L178.2 12.6L177.5 11.6L180.3 11.6ZM212.2 12.1L208.1 12.6L207.2 11.7L208.3 11.1L210.8 11.3L212.2 12.1ZM200.5 12.0L200.6 13.0L202.7 11.7L206.1 11.1L206.8 12.7L205.8 13.7L210.0 12.6L213.1 14.1L212.7 14.8L215.2 14.5L215.7 15.4L218.8 16.6L219.0 18.1L216.4 18.9L220.4 20.3L221.4 21.8L223.3 21.9L219.1 24.9L216.8 22.7L215.1 22.9L214.4 23.8L216.8 26.0L216.8 27.6L215.7 28.9L211.8 27.0L213.6 30.1L208.1 28.5L207.0 27.6L207.7 27.2L204.9 25.5L200.8 26.2L200.1 25.6L201.7 24.4L206.8 24.2L210.4 20.5L208.9 19.2L206.8 18.6L207.8 18.2L205.6 16.6L202.3 17.2L194.3 16.2L193.8 15.7L195.7 15.0L194.0 15.0L195.0 13.4L198.8 11.4L202.1 11.0L200.5 12.0ZM185.6 11.0L188.9 11.1L187.0 12.3L188.1 12.9L186.6 14.3L183.1 14.8L181.1 13.0L183.8 12.7L183.6 11.7L185.6 11.0ZM192.3 12.6L188.7 13.7L189.3 12.3L191.2 10.9L196.9 10.9L192.3 12.6ZM158.3 14.7L154.3 15.5L154.5 14.8L152.7 14.0L158.5 11.2L158.5 10.3L166.7 10.4L167.7 11.5L161.8 13.0L158.3 14.7ZM194.9 9.2L193.8 9.8L191.3 9.3L194.6 8.3L194.9 9.2ZM192.4 6.8L192.5 7.5L189.9 9.2L187.9 9.4L186.9 9.1L187.9 8.3L186.0 8.4L187.3 7.3L192.4 6.8ZM180.8 7.5L180.6 8.0L183.0 7.9L180.7 9.2L173.1 10.1L171.3 10.1L171.8 9.6L174.9 9.0L168.4 8.9L173.5 7.1L178.5 8.5L178.8 7.2L180.5 6.7L181.4 6.9L180.8 7.5ZM197.2 6.3L200.0 6.7L200.5 7.2L199.6 7.7L200.9 8.4L208.3 8.1L210.6 8.7L207.4 10.1L198.6 9.9L196.1 9.4L197.2 8.0L196.8 7.4L194.0 6.8L197.2 6.3ZM174.9 5.5L171.7 7.1L164.5 7.6L171.5 5.7L174.9 5.5ZM181.5 5.4L178.0 5.4L181.2 4.8L182.4 5.0L181.5 5.4ZM183.8 4.2L180.4 4.5L182.3 3.8L183.8 4.2ZM197.5 4.9L195.1 4.9L195.9 3.8L198.4 4.4L197.5 4.9ZM193.5 4.6L193.2 5.2L188.1 4.5L189.7 4.1L188.9 3.7L189.5 3.2L193.5 3.9L193.5 4.6ZM209.4 2.7L210.2 3.2L203.2 4.7L200.7 4.0L202.5 3.1L200.0 2.6L200.1 2.1L203.8 0.9L206.2 0.8L209.5 1.9L209.4 2.7ZM232.6 -1.2L238.3 -0.4L231.6 0.6L233.8 0.6L226.0 2.5L219.5 3.2L220.7 3.4L219.8 3.6L220.0 4.3L213.6 6.1L215.0 6.7L211.3 7.6L201.9 7.2L204.8 6.2L205.4 5.2L208.4 5.7L207.9 4.8L206.4 4.5L210.9 3.1L210.0 2.6L210.3 2.0L215.9 1.7L210.0 1.7L208.7 1.3L208.0 0.1L221.9 -1.3L232.6 -1.2Z"/>
+<path id="c-CHE" d="M314.1 55.8L314.0 56.5L315.4 56.9L314.7 58.0L313.6 57.8L313.3 58.5L310.8 59.0L309.6 57.8L308.9 58.1L309.9 55.7L312.5 55.2L314.1 55.8Z"/>
+<path id="c-CHL" d="M202.7 243.9L204.4 247.9L206.7 248.0L205.7 249.2L201.2 248.3L194.3 244.3L200.3 246.5L200.6 244.4L201.6 243.7L202.7 243.9ZM188.6 185.7L189.6 188.3L191.0 188.5L190.6 190.5L188.9 191.4L189.8 195.9L187.8 200.6L188.3 202.4L187.7 204.3L190.0 209.7L189.5 211.5L189.9 213.1L189.1 214.3L190.5 217.9L189.8 218.6L190.0 222.2L191.0 224.4L190.6 224.8L192.5 227.7L192.3 228.5L193.5 229.5L192.9 229.9L194.2 235.9L193.3 237.9L194.2 239.8L195.9 240.4L197.6 242.8L202.5 243.3L201.3 243.3L199.8 244.4L200.3 246.1L193.4 243.2L189.7 236.7L189.6 234.9L190.6 233.5L188.2 233.0L189.0 231.3L188.4 228.3L190.3 228.9L189.8 225.1L188.6 224.6L188.9 226.9L187.9 226.6L186.8 220.5L187.2 219.2L185.5 215.3L186.1 215.2L186.7 206.3L185.3 199.6L185.8 197.3L185.6 185.5L184.5 179.8L185.6 178.3L186.6 179.6L187.9 181.8L187.5 183.6L188.6 185.7Z"/>
+<path id="c-CHN" d="M481.0 109.9L479.7 110.8L478.3 110.3L478.0 108.6L478.7 107.8L481.3 107.3L481.8 108.0L481.0 109.9ZM484.9 51.6L487.9 52.2L492.2 55.3L494.4 55.3L497.3 54.0L498.6 60.1L496.6 59.8L495.7 60.5L498.2 64.3L497.4 64.3L498.0 65.3L496.4 64.2L496.4 65.2L494.5 66.0L495.3 67.0L492.9 66.3L490.9 69.9L486.9 71.8L487.2 68.9L485.9 68.0L483.4 71.1L482.0 71.2L481.6 72.1L486.3 75.1L487.4 73.7L490.1 74.5L490.8 75.5L488.9 76.0L487.3 79.3L489.3 80.3L493.9 85.4L494.4 86.8L493.5 87.3L495.4 88.9L495.6 91.9L494.8 92.1L492.6 98.9L488.7 102.2L486.9 102.4L486.1 103.2L485.4 102.6L484.7 103.6L480.9 104.8L480.7 106.8L479.8 106.9L479.4 104.8L474.6 104.0L473.7 103.2L473.8 102.2L471.3 101.1L470.1 102.1L465.7 103.1L466.3 105.2L465.4 105.2L465.0 103.9L463.9 104.5L461.8 103.4L462.0 101.9L460.9 101.5L460.3 99.8L458.6 100.1L458.4 97.8L459.6 96.3L459.0 93.3L457.4 91.7L454.7 91.6L455.0 90.8L454.0 89.6L453.0 90.4L451.6 89.9L448.8 92.5L447.6 92.8L444.7 91.8L443.1 93.7L442.7 92.2L438.0 92.0L431.7 88.3L430.2 87.8L429.7 88.2L427.1 86.9L425.3 85.7L424.3 83.6L425.5 83.9L424.3 80.4L422.0 78.2L419.2 77.4L416.5 74.6L415.8 72.8L414.3 72.5L413.5 70.8L413.4 69.9L414.6 69.0L417.3 68.9L417.4 67.7L419.3 67.5L421.6 65.8L421.2 64.3L422.0 63.8L419.5 60.6L422.7 59.4L422.4 56.1L425.6 56.7L426.1 55.9L425.3 54.0L426.5 53.9L427.5 52.5L428.5 53.8L432.6 55.4L434.3 56.9L434.7 59.1L435.6 59.9L439.6 60.4L443.0 61.8L445.8 64.6L452.6 64.8L459.8 66.8L461.1 65.7L466.9 64.4L468.2 62.7L466.8 61.4L467.0 60.2L469.7 60.8L472.4 59.1L473.5 57.3L476.8 57.3L472.9 54.8L472.2 55.4L469.9 55.4L469.1 54.6L468.9 51.4L471.1 52.1L472.4 50.9L471.8 50.1L472.0 47.7L470.2 46.2L470.7 45.3L474.1 45.0L478.3 46.2L484.9 51.6Z"/>
+<path id="c-CIV" d="M295.2 135.7L292.3 135.4L287.2 136.9L287.4 134.4L285.7 133.0L286.2 129.5L287.0 129.0L286.3 126.1L288.6 126.0L289.7 125.3L290.0 126.1L291.0 125.6L292.8 127.0L294.2 126.5L295.3 127.0L295.7 129.7L294.6 133.4L295.2 135.7Z"/>
+<path id="c-CMR" d="M321.8 140.9L316.1 140.9L316.3 139.4L314.1 136.2L315.4 133.0L316.8 131.9L318.4 132.6L319.5 132.0L322.5 124.8L323.9 123.3L324.1 122.4L323.5 121.6L324.0 120.9L325.7 126.3L323.5 126.3L323.2 127.2L324.9 128.6L325.6 130.7L324.2 133.4L324.1 136.2L326.4 139.5L326.7 140.9L326.6 141.9L321.8 140.9Z"/>
+<path id="c-COD" d="M351.3 138.5L351.3 140.8L351.9 141.0L349.8 144.0L348.3 150.5L348.9 156.4L351.1 160.9L348.2 161.0L347.2 162.5L347.0 167.4L348.6 168.5L349.0 168.1L349.1 170.2L347.8 170.2L345.0 167.1L344.0 167.7L342.6 167.4L342.1 166.5L340.3 166.4L340.2 165.8L336.7 166.1L336.1 158.9L334.1 158.9L334.2 158.3L333.4 158.3L332.3 158.7L331.6 160.2L329.0 160.4L327.2 156.3L320.5 156.7L321.0 154.6L322.6 153.7L324.3 154.5L326.7 151.8L327.3 148.5L329.4 146.0L330.9 137.2L332.4 135.7L337.3 137.6L338.0 136.3L340.6 135.5L345.6 135.3L346.6 136.9L349.5 136.5L351.3 138.5Z"/>
+<path id="c-COG" d="M321.6 154.2L321.0 153.5L319.8 154.7L318.5 152.7L319.7 151.6L319.1 150.4L320.8 149.7L320.9 148.8L321.8 149.8L323.3 149.8L323.8 148.9L323.9 146.2L323.1 145.1L323.8 142.9L322.1 142.7L321.8 140.9L326.6 141.9L328.5 138.1L330.7 138.6L329.4 146.0L327.3 148.5L326.7 151.8L324.3 154.5L323.5 153.7L321.6 154.2Z"/>
+<path id="c-COL" d="M174.4 145.5L172.9 144.4L171.0 144.4L168.4 142.0L171.6 137.9L171.0 137.5L171.4 134.1L170.8 130.6L171.7 130.2L171.6 128.8L174.4 127.4L174.9 125.1L175.9 124.3L178.4 124.0L181.9 121.8L181.9 123.0L180.8 123.3L179.1 125.5L178.3 127.9L179.2 128.0L179.6 131.2L180.4 132.0L183.5 132.0L184.6 133.7L188.0 133.7L187.1 136.7L187.9 138.9L187.1 139.8L188.6 142.8L187.5 141.3L186.9 142.0L183.7 141.9L183.7 143.1L184.7 143.3L184.6 144.0L183.3 144.1L184.3 147.3L183.7 153.3L182.3 152.2L183.3 150.3L182.1 149.4L178.3 149.5L177.3 147.5L174.4 145.5Z"/>
+<path id="c-CRI" d="M162.2 129.7L159.0 126.1L158.8 127.1L157.9 126.4L157.6 124.6L158.2 124.0L160.9 124.9L161.4 124.5L163.0 127.1L162.4 127.3L162.2 129.7Z"/>
+<path id="c-CUB" d="M166.1 101.4L168.8 101.6L170.8 102.9L172.3 102.7L175.0 105.2L176.5 105.5L176.3 106.0L178.6 106.9L177.3 107.6L172.7 107.7L173.9 106.7L172.3 106.0L171.5 104.4L166.6 103.3L166.1 102.9L166.8 102.5L165.2 102.4L162.9 103.8L161.4 103.9L163.6 102.2L166.1 101.4Z"/>
+<path id="c--99" d="M351.4 78.9L354.2 77.9L353.4 79.0L351.4 78.9Z"/>
+<path id="c-CYP" d="M353.4 79.0L351.9 79.9L350.7 78.9L353.4 79.0Z"/>
+<path id="c-CZE" d="M324.8 53.8L322.2 53.0L320.9 53.9L318.2 52.0L317.7 50.7L320.5 49.2L323.4 49.9L324.1 50.8L325.3 50.5L327.4 52.1L324.8 53.8Z"/>
+<path id="c-DEU" class="v3" d="M313.8 42.2L315.3 44.0L317.5 43.1L319.1 43.8L320.3 45.3L319.9 45.8L321.5 49.2L317.7 50.7L318.2 52.0L319.8 53.3L318.8 54.3L319.0 55.9L311.0 55.6L311.8 53.0L309.0 52.2L308.5 47.9L309.7 47.2L309.7 44.9L311.4 44.8L312.3 43.9L311.9 42.2L313.8 42.2Z"/>
+<path id="c-DJI" d="M371.3 121.2L371.7 122.6L370.7 123.0L371.5 123.5L370.9 124.6L369.2 124.3L369.0 123.2L370.1 121.5L371.3 121.2Z"/>
+<path id="c-DNK" d="M317.6 41.1L316.9 42.5L315.1 40.8L317.0 40.2L317.6 41.1ZM315.0 39.6L313.4 41.3L313.8 42.2L311.9 42.2L311.2 41.3L311.7 38.5L314.4 37.4L314.0 38.9L315.0 39.6Z"/>
+<path id="c-DOM" d="M182.6 108.0L185.4 108.1L187.9 110.1L187.2 110.8L184.0 110.4L182.7 112.0L182.0 110.0L182.6 108.0Z"/>
+<path id="c-DZA" d="M319.5 100.9L309.3 108.2L305.2 109.2L305.2 108.0L286.0 93.5L286.1 90.8L291.6 88.6L294.1 86.9L294.2 85.5L297.9 84.3L298.2 83.6L296.6 78.8L298.1 77.8L302.3 76.1L308.3 75.9L309.7 75.2L313.1 75.5L312.8 79.8L311.9 80.8L312.0 82.3L314.4 84.6L315.7 89.7L315.7 95.1L315.1 95.9L316.7 99.2L317.5 98.8L319.5 100.9Z"/>
+<path id="c-ECU" d="M166.3 151.6L167.1 150.2L166.8 149.4L166.2 150.2L165.1 149.4L165.2 147.2L166.5 143.7L168.6 142.6L171.0 144.4L172.9 144.4L174.4 145.5L174.1 148.1L172.4 150.1L170.4 150.8L168.2 154.5L167.5 153.6L166.1 153.5L166.3 151.6Z"/>
+<path id="c-EGY" d="M356.0 89.5L354.6 93.0L351.7 89.0L358.0 100.0L357.8 101.6L360.1 103.7L340.8 103.7L339.5 88.5L340.0 85.6L342.2 85.6L346.1 86.9L349.3 85.6L350.4 85.9L351.0 86.8L351.3 86.2L353.8 86.7L354.6 86.3L356.0 89.5Z"/>
+<path id="c-ERI" d="M370.1 121.5L366.1 117.8L363.6 117.8L362.5 116.9L362.1 118.4L360.1 118.0L361.1 112.6L363.1 111.2L364.7 115.1L371.3 121.2L370.1 121.5Z"/>
+<path id="c-ESP" class="v4" d="M286.3 66.2L285.8 64.1L288.0 62.7L297.1 63.3L300.5 64.9L304.5 65.1L304.6 66.2L303.2 67.4L301.2 67.8L299.6 71.0L300.2 72.1L298.9 74.2L296.7 76.0L293.2 76.0L291.6 77.4L288.3 74.6L289.1 73.3L288.5 70.4L289.1 70.3L289.5 67.7L290.3 67.2L289.9 66.2L287.8 66.4L287.5 65.5L286.3 66.2Z"/>
+<path id="c-EST" d="M333.0 37.3L333.0 36.2L331.6 35.8L331.3 34.8L334.5 34.1L337.7 34.6L336.9 35.6L337.6 37.3L337.2 37.8L334.1 37.0L333.0 37.3Z"/>
+<path id="c-ETH" d="M362.5 116.9L363.6 117.8L366.1 117.8L368.8 119.8L370.1 121.5L369.0 123.2L369.2 124.3L370.9 124.6L370.6 125.2L372.5 127.8L379.4 130.1L374.8 135.7L372.7 135.8L369.7 137.8L367.9 137.1L365.9 138.7L363.5 138.4L361.3 136.8L360.2 136.8L357.7 132.7L355.8 130.6L354.7 130.5L355.3 129.4L356.2 129.4L356.8 125.1L359.3 121.4L360.1 118.0L362.1 118.4L362.5 116.9Z"/>
+<path id="c-FIN" d="M334.6 18.3L334.7 19.5L336.8 20.6L336.0 21.8L337.9 23.6L337.4 25.0L338.9 26.3L338.6 27.4L340.8 28.5L337.2 32.5L330.5 33.7L328.2 32.2L328.2 30.5L327.3 29.0L328.8 26.9L332.1 24.7L329.4 22.7L328.9 20.2L325.0 18.3L325.6 17.8L330.1 19.0L331.4 17.1L333.1 16.6L334.8 17.2L334.6 18.3Z"/>
+<path id="c-FJI" d="M593.2 177.9L593.7 178.4L593.1 179.4L591.2 179.4L592.1 178.0L593.2 177.9ZM595.1 176.9L594.0 177.3L593.9 176.6L596.5 175.5L596.3 176.4L595.1 176.9Z"/>
+<path id="c-FLK" d="M212.7 242.5L214.0 241.4L215.4 241.8L216.0 241.1L217.4 241.9L215.5 243.1L214.6 242.5L213.7 243.3L212.7 242.5Z"/>
+<path id="c-FRA" class="v2" d="M314.5 65.7L314.1 67.2L313.0 65.5L314.2 64.1L314.5 65.7ZM305.2 50.5L311.8 53.0L311.0 55.6L309.9 55.7L308.9 57.2L308.9 58.1L309.6 57.8L310.2 58.6L310.6 59.8L310.1 60.4L310.5 61.8L311.3 62.0L311.2 62.8L309.9 63.9L306.9 63.4L304.7 64.0L304.5 65.1L302.8 65.4L297.7 64.1L297.1 63.3L297.9 62.2L298.2 58.5L295.6 55.7L293.4 55.0L293.3 53.6L297.6 53.7L297.2 51.6L298.6 52.4L301.9 51.0L302.4 49.5L303.6 49.1L305.2 50.5Z"/>
+<path id="c-GAB" d="M318.5 152.7L315.7 149.2L314.7 146.6L315.8 143.3L318.8 143.2L318.8 140.9L321.6 140.8L322.1 142.7L323.8 142.9L323.1 145.1L323.9 146.2L323.8 148.9L323.3 149.8L321.8 149.8L320.9 148.8L320.8 149.7L319.1 150.4L319.7 151.6L318.5 152.7Z"/>
+<path id="c-GBR" class="v2" d="M292.1 43.0L291.3 44.2L289.4 43.9L289.5 41.9L290.6 41.9L292.1 43.0ZM296.0 35.8L294.5 37.7L297.3 37.5L295.7 40.5L297.1 40.6L298.4 42.9L299.4 43.1L300.7 45.9L302.4 46.3L301.5 47.9L302.1 48.9L300.8 49.8L295.7 49.9L292.4 51.3L291.7 50.9L295.1 48.6L292.9 48.3L292.5 47.6L294.0 47.0L293.2 46.1L293.6 44.9L295.6 45.1L295.9 44.0L294.9 42.9L293.2 42.6L293.0 40.8L292.2 41.6L291.6 39.0L293.2 35.8L296.0 35.8Z"/>
+<path id="c-GEO" d="M363.3 66.9L362.7 64.8L360.4 63.1L368.9 65.1L371.2 67.5L368.9 67.1L366.5 67.7L364.9 66.8L363.3 66.9Z"/>
+<path id="c-GHA" d="M301.8 134.0L296.7 136.3L295.2 135.7L294.6 133.4L295.7 129.7L295.1 124.5L300.0 124.4L301.2 129.5L300.9 132.1L301.8 134.0Z"/>
+<path id="c-GIN" d="M286.0 130.7L284.7 131.4L283.8 129.1L282.6 129.4L281.6 126.2L279.4 126.6L278.0 128.4L274.9 124.3L277.2 122.9L277.3 121.4L280.9 121.7L281.0 122.4L283.2 122.8L284.9 121.9L286.7 125.9L286.2 126.7L287.0 129.0L286.0 130.7Z"/>
+<path id="c-GMB" d="M272.2 120.4L272.4 119.5L274.6 119.0L277.1 119.7L272.2 120.4Z"/>
+<path id="c-GNB" d="M274.9 124.3L273.4 123.4L272.4 121.8L277.3 121.4L277.2 122.9L274.9 124.3Z"/>
+<path id="c-GNQ" d="M315.8 143.3L316.1 140.9L318.8 140.9L318.8 143.2L315.8 143.3Z"/>
+<path id="c-GRC" d="M337.1 77.8L338.0 78.4L341.3 78.6L341.1 79.1L338.9 79.3L336.9 78.6L337.1 77.8ZM340.5 66.8L339.8 68.2L336.3 68.4L337.5 69.5L336.7 69.8L335.0 68.8L336.0 71.3L335.5 71.7L337.2 73.1L337.3 74.1L335.8 73.6L336.4 74.6L335.4 74.8L336.1 76.5L333.8 75.7L331.0 70.4L332.1 68.2L337.3 66.8L339.8 67.3L339.7 66.3L340.5 66.8Z"/>
+<path id="c-GRL" d="M253.6 -0.7L262.3 -1.7L273.5 -1.7L279.3 -0.8L268.5 -0.0L277.1 -0.1L277.8 0.3L276.4 0.9L284.2 0.1L287.6 0.8L279.3 2.0L281.7 2.1L279.2 4.0L278.8 5.5L279.9 6.4L276.3 6.9L278.1 7.7L278.1 8.9L276.9 9.0L278.1 10.3L275.5 10.4L276.7 11.0L276.2 11.5L273.0 11.8L274.2 12.8L274.0 13.5L271.9 12.9L271.2 13.3L274.0 14.6L274.2 15.8L272.0 16.1L270.0 14.6L270.1 15.7L268.5 16.5L273.3 16.6L266.2 19.3L261.1 19.9L257.5 22.2L249.8 24.2L247.0 27.5L244.5 28.8L244.6 30.2L242.3 33.2L240.4 33.3L238.9 31.9L236.3 31.9L233.7 27.2L233.9 24.6L232.9 23.1L233.9 21.9L233.3 21.4L235.4 19.5L237.5 18.9L239.0 16.9L235.5 18.0L234.2 17.5L234.7 16.4L235.6 15.6L238.9 16.0L236.6 14.5L234.5 14.3L236.6 12.9L235.4 9.6L234.4 9.1L234.8 8.5L232.4 7.7L224.4 7.7L222.4 6.4L227.8 5.9L221.6 5.0L231.3 3.1L232.1 2.6L229.7 2.1L236.9 0.8L236.9 0.3L249.8 -0.5L255.1 0.4L253.1 -0.2L253.6 -0.7Z"/>
+<path id="c-GTM" d="M151.1 119.3L148.6 118.5L147.7 117.7L147.9 116.4L148.9 114.9L151.0 114.9L149.6 112.6L150.4 112.6L150.5 111.6L153.6 111.6L153.0 115.2L154.6 115.5L151.1 119.3Z"/>
+<path id="c-GUF" d="M212.5 140.4L211.0 141.3L210.8 140.8L209.2 140.8L210.1 138.3L209.3 135.9L210.2 134.3L213.7 136.6L214.0 137.3L212.5 140.4Z"/>
+<path id="c-GUY" d="M200.8 129.4L202.8 131.3L202.8 132.3L204.9 133.9L203.4 137.5L205.8 141.6L204.5 141.5L202.5 142.8L200.6 141.8L200.1 140.0L200.9 137.7L199.9 136.5L200.2 135.7L198.9 135.4L197.9 133.9L198.3 132.5L199.8 131.9L199.4 130.5L200.8 129.4Z"/>
+<path id="c-HND" d="M155.6 120.7L154.9 119.0L153.8 119.0L152.5 118.0L152.9 116.7L154.6 115.5L160.0 115.0L162.8 116.9L159.8 117.3L158.2 119.1L156.7 119.2L156.6 120.1L155.6 120.7Z"/>
+<path id="c-HRV" d="M328.0 58.7L328.9 60.0L328.4 60.7L323.8 60.0L323.5 60.7L328.0 65.1L324.1 63.2L322.2 60.3L321.3 60.0L320.9 60.8L320.4 60.2L320.4 59.5L322.8 59.6L323.4 58.1L324.5 57.6L326.2 58.7L328.0 58.7Z"/>
+<path id="c-HTI" d="M180.2 107.6L182.6 108.0L182.2 111.1L178.6 111.1L177.8 110.6L178.0 110.0L181.3 109.9L180.8 108.4L179.8 108.1L180.2 107.6Z"/>
+<path id="c-HUN" d="M323.9 57.0L324.0 55.4L324.8 55.4L324.9 54.7L326.2 55.3L330.4 53.7L332.3 54.1L333.3 55.1L331.1 58.0L327.4 59.0L323.9 57.0Z"/>
+<path id="c-IDN" d="M500.2 164.5L497.4 163.2L499.0 162.8L500.2 164.5ZM506.4 164.3L504.9 164.7L505.0 163.8L507.5 161.9L507.6 162.9L506.4 164.3ZM495.8 160.4L497.4 160.8L497.8 161.6L493.8 162.2L495.8 160.4ZM504.1 160.4L503.8 161.5L499.1 161.8L499.1 161.1L500.5 160.7L501.5 161.3L504.1 160.4ZM480.6 158.0L483.8 158.1L484.2 157.4L487.2 158.3L487.7 159.5L492.2 161.0L490.2 161.7L479.9 159.8L475.2 158.1L476.4 156.3L478.4 156.4L480.6 158.0ZM524.1 156.9L523.1 158.2L523.8 155.4L524.1 156.9ZM511.9 151.7L511.2 152.3L509.8 151.2L511.5 151.1L511.9 151.7ZM517.3 151.0L517.8 152.4L516.4 151.7L513.0 151.6L513.4 150.5L517.3 151.0ZM523.5 147.3L523.9 150.4L525.5 151.5L527.0 149.5L529.0 148.4L534.8 150.1L534.1 162.4L532.8 160.8L531.1 160.4L528.5 161.0L530.4 159.0L529.5 155.3L525.0 153.6L522.6 151.8L521.4 152.9L521.1 151.4L519.8 150.5L522.8 149.8L522.7 149.3L520.3 149.3L517.5 146.9L520.6 145.9L523.3 146.6L523.5 147.3ZM508.7 142.5L507.4 144.4L506.1 144.7L500.3 144.7L500.0 146.1L501.5 147.8L502.4 147.0L505.5 146.3L505.4 147.2L504.7 146.9L502.4 148.8L505.0 154.0L504.9 155.2L504.0 155.8L503.4 155.1L504.3 153.6L502.6 154.3L502.2 153.8L502.5 153.1L501.3 152.0L501.5 150.1L500.3 150.7L500.4 155.6L499.3 155.9L498.6 155.3L499.0 151.8L498.3 151.7L497.8 150.5L500.0 144.1L501.4 142.7L504.8 143.5L506.7 143.4L508.3 142.1L508.7 142.5ZM514.4 143.0L514.4 144.7L513.5 144.5L513.3 145.6L513.9 146.6L513.4 146.9L512.3 143.3L512.6 141.8L513.1 141.1L514.4 143.0ZM496.4 141.7L498.3 143.5L496.3 143.7L495.8 146.7L494.2 148.0L493.4 152.7L493.1 152.1L491.2 152.9L490.6 151.8L488.6 151.1L486.6 151.7L486.0 150.8L483.6 150.7L483.4 148.2L482.6 147.7L481.6 144.4L481.7 142.6L482.7 141.4L484.2 143.7L486.3 143.5L488.0 142.3L489.6 142.9L491.0 142.5L492.9 137.0L494.8 137.0L496.2 137.4L495.3 139.1L496.6 140.9L496.4 141.7ZM476.0 156.2L474.2 156.3L470.8 153.1L465.4 144.8L464.3 141.7L458.7 135.8L458.6 134.8L462.2 135.3L467.6 141.2L469.3 141.2L473.1 145.0L472.4 146.5L473.9 147.2L474.7 149.6L475.9 149.8L476.7 150.9L476.0 156.2Z"/>
+<path id="c-IND" d="M422.0 78.2L424.3 80.4L425.4 82.9L425.5 83.9L424.3 83.6L425.3 85.7L429.7 88.2L428.6 90.8L434.2 93.5L442.3 95.3L441.8 92.6L442.7 92.2L443.3 94.0L444.9 94.8L448.5 94.5L447.6 92.8L448.8 92.5L451.6 89.9L453.0 90.4L454.0 89.6L455.0 90.8L454.7 91.6L456.5 91.8L456.7 92.6L456.3 92.9L456.6 94.1L455.4 93.7L453.6 95.0L453.4 98.6L452.9 100.2L451.6 99.7L451.9 103.1L451.1 103.6L449.8 100.6L449.3 101.8L448.2 100.8L449.8 98.0L445.7 97.5L445.3 96.2L443.1 95.3L442.8 96.6L444.1 97.6L443.0 98.9L444.1 99.4L445.1 104.2L442.0 104.6L442.3 106.0L441.6 107.1L439.4 108.4L435.2 113.1L435.3 113.9L432.3 115.2L432.4 125.6L431.6 125.7L430.9 127.2L431.4 127.8L430.0 128.3L428.8 130.1L427.2 128.4L422.9 117.6L421.1 115.0L418.6 104.9L416.3 106.0L415.2 105.8L412.8 103.5L413.5 102.8L412.9 102.1L410.8 100.5L411.8 99.2L415.3 99.2L413.3 95.2L412.1 94.3L413.6 92.4L415.5 92.5L418.7 86.7L418.3 85.4L419.4 84.3L417.9 83.4L416.2 80.4L416.8 79.6L420.9 79.8L422.0 78.2Z"/>
+<path id="c-IRL" d="M291.3 44.2L291.5 45.5L290.3 47.1L287.8 48.2L285.8 47.9L287.0 46.0L286.4 44.2L289.5 41.9L289.4 43.9L291.3 44.2Z"/>
+<path id="c-IRN" d="M383.9 75.0L387.7 73.3L395.4 76.3L395.6 81.6L396.3 81.9L395.8 82.9L397.0 85.6L398.2 86.0L398.6 87.2L397.4 88.9L399.2 91.0L400.8 91.9L401.1 93.5L402.2 94.7L400.0 95.7L399.7 97.9L392.9 96.6L391.9 94.3L391.1 94.0L388.4 95.2L382.9 92.6L380.1 88.3L378.2 88.0L377.7 88.7L376.0 86.7L376.1 85.3L375.1 83.9L373.0 82.9L371.6 81.1L372.5 79.0L368.6 73.5L367.9 70.8L368.9 70.3L370.2 71.8L371.3 72.1L374.0 70.5L374.5 71.1L374.2 72.0L376.4 74.3L379.2 75.6L381.5 75.9L383.9 75.0Z"/>
+<path id="c-IRQ" d="M371.1 77.3L372.2 77.9L372.5 79.0L371.6 81.1L373.0 82.9L375.1 83.9L376.1 85.3L376.0 86.7L377.7 88.7L375.7 88.5L374.7 90.3L371.7 90.1L366.7 86.3L362.2 84.5L361.3 82.2L364.6 80.2L364.5 76.6L365.9 74.9L369.7 75.1L371.1 77.3Z"/>
+<path id="c-ISL" d="M281.9 22.6L281.5 23.6L282.8 24.7L281.0 26.0L276.0 27.5L270.9 26.7L272.3 25.9L269.6 25.1L272.0 24.3L269.4 23.9L270.5 22.9L272.4 22.6L274.2 23.7L276.2 22.9L277.7 23.3L279.9 22.4L281.9 22.6Z"/>
+<path id="c-ISR" d="M356.6 83.5L356.4 84.1L355.8 83.8L355.6 85.0L355.6 86.0L356.3 85.8L356.4 86.5L356.0 89.5L354.6 86.3L355.5 82.8L356.6 82.4L356.6 83.5Z"/>
+<path id="c-ITA" d="M324.0 73.1L323.6 76.1L319.3 74.2L319.5 73.3L324.0 73.1ZM314.1 67.5L315.0 68.8L314.9 71.3L313.6 71.8L312.5 68.0L314.1 67.5ZM318.3 57.1L320.4 57.6L320.7 59.3L319.5 59.0L318.4 59.7L318.9 62.1L323.0 66.1L324.2 66.1L324.2 66.9L328.4 69.4L328.1 70.1L325.8 68.9L325.3 70.1L326.4 70.8L326.3 71.8L325.0 73.5L324.3 73.7L324.9 71.7L323.7 69.6L317.0 65.3L315.3 62.4L313.3 61.6L311.2 62.8L311.3 62.0L310.5 61.8L310.2 58.6L313.3 58.5L313.6 57.8L315.3 57.7L315.4 56.9L317.9 56.5L318.3 57.1Z"/>
+<path id="c-JAM" d="M172.7 110.3L174.8 111.4L172.3 111.5L171.4 110.8L172.7 110.3Z"/>
+<path id="c-JOR" d="M356.4 84.1L356.6 83.5L358.4 84.2L361.3 82.2L362.2 84.5L358.9 85.7L360.7 87.6L357.8 90.1L356.0 89.5L356.4 84.1Z"/>
+<path id="c-JPN" d="M512.2 80.7L512.7 81.4L512.2 82.5L511.4 81.9L510.7 83.5L509.5 82.9L509.6 80.9L510.6 81.1L510.9 80.3L512.2 80.7ZM519.4 75.1L520.2 78.9L518.6 79.8L515.9 79.9L514.6 82.0L513.2 81.3L512.5 79.9L506.6 81.2L508.8 82.6L509.0 85.8L508.3 86.6L507.3 85.9L507.0 84.2L504.6 82.3L505.9 81.8L508.0 78.3L510.8 77.8L512.7 78.1L512.6 74.8L514.1 75.7L515.9 73.1L515.7 70.8L514.1 67.5L515.5 67.2L518.0 69.7L518.8 71.3L518.3 73.2L519.4 75.1ZM516.0 61.9L517.3 62.3L517.8 61.6L519.5 63.6L517.6 64.2L517.5 66.0L514.3 64.7L514.8 66.8L513.1 66.8L511.7 64.9L511.6 63.5L513.1 63.4L511.3 59.4L516.0 61.9Z"/>
+<path id="c-KAZ" d="M407.6 65.5L404.5 68.5L403.8 67.6L401.8 67.6L401.0 66.0L400.3 66.0L399.8 64.1L397.6 62.8L393.4 63.2L387.1 59.3L383.5 60.4L385.3 67.3L384.6 67.4L382.0 65.4L379.9 66.4L379.4 64.5L377.5 63.9L375.3 61.1L376.8 61.3L376.5 60.0L379.1 59.9L378.3 57.0L375.5 56.6L372.7 57.8L371.9 57.5L370.5 55.4L369.5 55.4L367.9 54.2L368.5 50.4L370.3 51.4L370.1 50.1L372.5 48.1L374.7 48.1L380.2 50.1L381.5 49.3L383.7 49.3L385.9 50.2L386.1 49.7L388.2 49.8L388.2 48.9L385.5 47.7L386.5 46.8L386.0 46.3L387.2 45.8L385.8 44.6L386.2 44.0L391.2 43.3L395.8 41.5L398.5 41.9L399.7 43.7L401.0 43.3L403.1 43.9L403.4 44.9L407.4 43.1L407.2 43.7L415.0 49.6L415.3 48.7L417.8 49.7L419.6 49.3L424.0 51.8L425.7 51.5L427.0 52.6L426.5 53.9L425.3 54.0L426.1 55.9L425.6 56.7L422.4 56.1L422.7 59.4L419.5 60.6L422.0 63.8L421.2 64.3L421.7 65.3L419.6 64.4L414.3 64.4L411.9 63.6L411.2 64.0L411.3 65.1L408.6 64.4L407.7 64.7L407.6 65.5Z"/>
+<path id="c-KEN" d="M368.3 146.8L369.3 148.3L367.1 150.0L365.3 154.0L362.9 152.1L362.8 151.0L356.5 147.0L356.5 145.0L358.4 141.6L356.6 137.2L358.7 134.8L359.6 135.1L360.2 136.8L361.3 136.8L363.5 138.4L365.9 138.7L367.9 137.1L369.7 137.8L368.2 139.9L368.3 146.8Z"/>
+<path id="c-KGZ" d="M407.6 65.5L407.7 64.7L408.6 64.4L411.3 65.1L411.2 64.0L411.9 63.6L414.3 64.4L419.6 64.4L421.7 65.3L419.3 67.5L417.4 67.7L417.3 68.9L415.6 68.7L413.4 69.9L413.5 70.8L410.6 71.1L406.9 70.6L406.8 69.5L410.2 69.5L411.7 68.1L407.3 66.9L408.1 65.7L407.6 65.5Z"/>
+<path id="c-KHM" d="M471.6 125.1L469.2 119.9L470.1 118.3L472.2 118.0L475.2 119.0L475.8 117.7L477.3 118.4L477.9 121.9L475.2 123.3L476.1 124.5L473.0 125.4L471.6 125.1Z"/>
+<path id="c-KOR" d="M498.4 72.3L501.8 75.8L502.8 77.9L502.7 79.0L500.5 80.1L499.2 80.3L496.6 75.9L497.6 75.6L495.8 74.0L498.4 72.3Z"/>
+<path id="c-CS-KM" d="M331.5 65.9L330.4 64.9L331.4 63.6L333.0 64.7L332.7 65.5L331.5 65.9Z"/>
+<path id="c-KWT" d="M376.8 88.6L377.8 91.3L374.7 90.3L375.7 88.5L376.8 88.6Z"/>
+<path id="c-LAO" d="M473.7 118.2L474.1 115.8L470.7 110.8L467.7 111.0L466.1 112.1L465.9 108.4L464.8 108.4L463.8 106.6L465.2 104.7L466.3 105.2L465.7 103.1L466.5 102.8L468.7 106.0L470.7 106.0L471.6 107.6L470.3 108.8L472.4 109.9L476.8 115.2L477.3 118.4L475.8 117.7L475.2 119.0L473.7 118.2Z"/>
+<path id="c-LBN" d="M356.6 82.4L355.6 82.7L356.0 81.2L356.6 79.8L357.4 79.9L357.7 80.6L356.6 82.4Z"/>
+<path id="c-LBR" d="M287.2 136.9L285.0 136.1L281.0 132.4L283.0 129.3L283.8 129.1L284.7 131.4L286.0 130.7L285.7 133.0L287.4 134.4L287.2 136.9Z"/>
+<path id="c-LBY" d="M324.2 102.0L323.0 102.7L322.1 101.7L319.5 100.9L317.5 98.8L316.7 99.2L315.1 95.9L315.7 95.1L315.8 90.5L315.2 88.0L315.9 87.5L315.8 86.0L318.1 84.1L318.2 82.6L324.2 84.3L325.0 86.0L330.5 88.1L332.0 86.7L331.5 85.3L333.0 83.5L336.3 83.6L336.9 84.4L339.6 85.0L340.9 107.4L339.0 107.4L339.0 108.2L325.8 101.0L324.2 102.0Z"/>
+<path id="c-LKA" d="M435.9 131.0L435.7 132.9L433.6 133.9L432.4 129.7L433.0 126.6L435.9 131.0Z"/>
+<path id="c-LSO" d="M346.5 199.8L347.0 200.4L346.1 201.9L344.3 203.0L343.2 201.5L345.1 199.6L345.8 199.2L346.5 199.8Z"/>
+<path id="c-LTU" d="M331.8 43.4L331.7 42.4L329.5 41.8L329.0 40.4L334.2 39.8L336.7 41.1L336.9 41.9L335.9 42.5L335.7 43.5L334.3 44.1L331.8 43.4Z"/>
+<path id="c-LVA" d="M329.0 40.4L329.4 37.9L330.6 37.3L331.9 38.7L333.0 38.6L333.0 37.3L334.1 37.0L337.9 38.2L338.8 40.1L336.7 41.1L334.2 39.8L329.0 40.4Z"/>
+<path id="c-MAR" d="M291.9 77.7L292.8 78.5L296.6 78.8L298.2 83.6L297.9 84.3L294.2 85.5L294.1 86.9L291.6 88.6L286.1 90.8L285.8 94.0L281.6 94.4L279.7 98.4L277.4 100.5L275.9 104.6L272.2 104.8L276.7 95.6L279.7 92.3L281.2 92.1L284.7 88.7L284.4 86.3L285.3 83.7L289.1 80.8L290.7 77.7L291.9 77.7Z"/>
+<path id="c-MDA" d="M339.0 54.5L340.2 54.0L342.0 54.7L344.4 57.8L342.7 57.8L342.0 59.5L341.5 57.1L339.0 54.5Z"/>
+<path id="c-MDG" d="M382.0 168.7L383.0 174.8L382.7 175.4L382.2 174.3L381.9 174.8L381.9 177.0L376.4 192.2L373.5 193.5L371.4 192.3L370.6 188.1L370.9 185.4L371.7 185.1L372.9 181.8L372.3 178.0L373.2 175.8L376.3 174.9L378.7 172.7L379.1 170.9L379.8 171.2L381.4 167.9L382.0 168.7Z"/>
+<path id="c-MEX" class="v1" d="M142.8 96.4L140.5 102.8L141.1 106.2L142.7 109.6L145.0 110.9L150.1 109.6L151.2 108.8L152.5 105.5L153.7 105.1L157.9 104.5L158.1 105.8L156.5 108.1L155.8 110.7L154.8 110.3L154.1 111.4L150.5 111.6L150.4 112.6L149.6 112.6L151.0 114.9L148.9 114.9L147.7 117.7L146.1 115.7L144.1 114.6L140.8 115.6L135.9 113.6L132.6 111.4L130.1 110.7L127.9 108.7L127.1 106.6L128.0 105.4L127.7 103.2L124.3 97.7L123.1 96.9L123.4 95.3L119.9 90.5L119.7 86.4L117.5 85.2L116.6 88.3L119.8 94.9L120.3 99.3L121.1 99.4L122.0 101.1L120.8 102.1L120.6 101.0L118.0 98.5L118.4 96.1L114.8 92.9L115.6 92.8L116.6 91.3L114.9 89.4L114.3 83.8L118.2 83.4L118.0 83.8L123.2 86.0L127.7 86.0L127.9 85.3L130.7 85.3L133.4 89.9L134.6 90.5L135.9 89.0L138.2 89.7L140.0 95.4L142.8 96.4Z"/>
+<path id="c-MKD" d="M331.3 66.3L333.9 65.4L335.0 67.2L332.1 68.2L331.3 66.3Z"/>
+<path id="c-MLI" d="M279.9 117.6L280.8 116.1L282.4 116.6L284.3 116.0L290.9 115.9L291.2 114.6L289.5 98.1L292.0 98.0L305.2 108.0L305.2 109.2L307.0 109.0L307.0 113.4L306.0 115.8L302.3 116.3L301.7 116.9L298.2 116.9L294.9 119.6L293.4 119.8L291.4 123.1L291.0 125.6L290.0 126.1L289.7 125.3L288.6 126.0L286.7 125.9L284.9 121.9L283.2 122.8L281.0 122.4L279.9 117.6Z"/>
+<path id="c-MMR" d="M462.9 107.1L460.9 108.0L459.8 110.4L462.9 114.6L462.0 116.6L463.7 119.1L464.9 122.7L463.5 126.4L462.9 120.4L460.8 114.8L459.8 113.2L457.2 115.5L455.2 114.9L454.8 110.8L453.4 107.9L451.0 106.2L450.7 104.7L451.3 104.9L451.1 103.6L451.9 103.1L451.6 99.7L452.9 100.2L453.4 98.6L453.6 95.0L455.4 93.7L456.6 94.1L456.5 91.8L457.4 91.7L459.0 93.3L459.6 96.3L458.4 97.8L458.6 100.1L460.3 99.8L460.9 101.5L462.0 101.9L461.8 103.4L463.9 104.5L465.0 103.9L465.2 104.7L462.9 107.1Z"/>
+<path id="c-MNE" d="M330.0 65.1L329.1 66.1L328.0 65.1L328.2 63.8L328.9 63.2L330.7 64.3L330.0 65.1Z"/>
+<path id="c-MNG" d="M427.5 52.5L432.6 49.8L440.9 51.7L441.6 50.4L440.4 49.4L440.8 47.5L446.2 48.9L447.3 50.3L449.9 51.0L454.3 50.7L457.6 52.5L461.0 52.8L463.8 52.0L465.1 50.7L468.9 51.4L469.1 54.6L469.9 55.4L472.2 55.4L472.9 54.8L476.8 57.3L473.5 57.3L472.4 59.1L469.7 60.8L467.0 60.2L466.8 61.4L468.2 62.7L466.9 64.4L461.1 65.7L459.8 66.8L452.6 64.8L445.8 64.6L443.0 61.8L439.6 60.4L435.6 59.9L434.7 59.1L434.3 56.9L432.6 55.4L428.5 53.8L427.5 52.5Z"/>
+<path id="c-MOZ" d="M357.2 166.9L362.1 167.0L366.9 164.6L367.3 172.9L364.9 176.7L361.5 178.4L357.0 182.5L356.8 183.8L358.0 186.8L357.6 190.7L353.5 193.0L352.7 193.7L353.0 195.6L351.8 195.6L351.8 191.1L350.8 187.2L353.4 183.5L354.1 176.7L351.4 175.1L350.0 175.1L349.8 173.1L354.9 171.5L356.9 172.7L356.6 175.7L357.6 176.9L358.9 175.2L358.9 172.7L358.3 171.4L357.1 170.8L356.7 168.3L357.2 166.9Z"/>
+<path id="c-MRT" d="M279.9 117.6L277.9 114.9L276.0 113.9L272.9 114.7L273.4 107.3L272.1 105.5L272.5 104.9L278.9 104.9L279.1 101.2L280.6 101.1L280.6 96.2L285.9 96.3L286.0 93.5L292.0 98.0L289.5 98.1L291.2 114.6L290.9 115.9L284.3 116.0L282.4 116.6L280.8 116.1L279.9 117.6Z"/>
+<path id="c-MWI" d="M357.2 166.9L356.7 168.3L357.1 170.8L358.3 171.4L358.9 172.7L358.9 175.2L357.6 176.9L356.6 175.7L356.9 172.7L354.0 171.0L355.1 168.6L355.5 165.0L354.4 162.6L356.0 162.9L357.2 166.9Z"/>
+<path id="c-MYS" d="M468.1 133.5L468.3 134.4L470.3 133.6L472.1 136.0L472.4 139.9L473.7 142.7L472.5 142.9L468.9 140.0L466.4 133.0L468.1 133.5ZM497.4 136.7L496.2 137.4L492.9 137.0L491.0 142.5L489.6 142.9L488.0 142.3L486.3 143.5L484.2 143.7L483.0 142.6L482.7 141.4L483.9 142.0L485.2 141.7L485.5 140.1L488.2 139.3L490.1 136.6L490.9 137.6L492.0 137.0L492.1 134.9L494.0 132.1L494.7 132.1L495.7 133.9L498.3 135.0L498.2 135.7L497.1 135.8L497.4 136.7Z"/>
+<path id="c-NAM" d="M326.3 199.1L324.5 196.3L323.2 186.9L319.4 179.3L319.3 177.8L322.1 177.2L323.1 178.0L330.0 177.8L331.1 178.7L335.1 179.0L339.5 177.8L341.2 178.3L338.7 179.7L338.1 178.9L334.3 179.6L334.1 186.3L332.5 186.4L332.0 198.9L329.6 200.0L327.9 199.5L327.1 198.2L326.3 199.1Z"/>
+<path id="c-NCL" d="M570.8 184.9L572.5 187.0L571.7 187.4L571.0 186.9L568.5 183.1L570.8 184.9Z"/>
+<path id="c-NER" d="M303.6 122.6L303.6 121.3L301.7 120.9L300.6 117.0L306.0 115.8L307.0 113.4L307.0 109.0L309.3 108.2L319.5 100.9L322.1 101.7L323.0 102.7L324.2 102.0L324.7 105.0L326.0 106.7L325.1 113.8L323.0 115.6L322.4 118.1L323.1 120.0L324.1 120.0L323.5 121.6L321.6 119.5L320.3 120.6L318.2 119.9L314.9 121.0L312.9 120.0L311.3 120.4L309.0 119.0L306.8 119.6L306.0 123.2L304.7 122.1L303.6 122.6Z"/>
+<path id="c-NGA" d="M314.1 136.2L309.8 137.1L307.2 133.3L304.5 133.4L304.5 129.1L306.1 126.2L306.1 121.5L306.8 119.6L309.0 119.0L311.3 120.4L312.9 120.0L314.9 121.0L318.2 119.9L320.3 120.6L322.0 119.6L324.1 122.4L323.9 123.3L322.5 124.8L319.5 132.0L318.4 132.6L316.8 131.9L315.4 133.0L314.1 136.2Z"/>
+<path id="c-NIC" d="M158.0 124.2L155.0 120.8L156.6 120.1L156.7 119.2L158.2 119.1L159.8 117.3L162.8 116.9L161.4 124.5L158.0 124.2Z"/>
+<path id="c-NLD" class="v1" d="M308.6 44.9L310.0 45.5L309.4 47.9L308.5 47.9L308.9 49.7L307.1 48.5L304.7 48.8L306.6 45.6L308.6 44.9Z"/>
+<path id="c-NOR" d="M333.2 15.0L337.3 16.1L335.9 16.5L337.4 17.5L334.6 18.3L334.8 17.2L333.1 16.6L331.4 17.1L330.1 19.0L325.6 17.8L324.2 18.3L324.2 19.4L321.9 19.1L321.7 20.0L320.5 20.0L317.2 25.3L317.7 25.9L317.4 26.5L316.1 26.5L315.4 28.1L315.7 30.3L316.6 31.2L316.4 33.2L314.8 35.4L313.9 34.3L311.3 36.4L309.5 36.8L307.6 35.9L306.5 30.1L313.4 25.8L318.1 20.4L323.0 17.1L327.5 16.5L329.0 15.3L333.2 15.0ZM326.5 5.2L324.3 5.8L322.3 5.5L322.9 5.1L322.2 4.7L324.3 4.4L326.5 5.2ZM319.0 2.6L322.7 3.7L320.2 4.2L318.7 6.7L317.4 6.7L314.9 5.9L315.8 5.4L311.8 3.8L310.9 2.7L317.6 2.2L319.0 2.6ZM326.2 1.8L328.4 2.2L327.1 2.9L324.1 3.1L317.9 1.9L326.2 1.8Z"/>
+<path id="c-NPL" d="M441.8 92.6L442.3 95.3L437.6 94.7L428.6 90.8L428.9 89.1L430.2 87.8L438.0 92.0L441.8 92.6Z"/>
+<path id="c-NZL" d="M564.4 222.3L564.2 223.1L565.8 222.3L565.7 223.1L560.4 226.9L560.2 227.8L557.2 228.5L553.4 231.6L550.3 233.0L547.0 232.2L549.3 230.1L557.5 226.3L562.9 222.4L564.7 221.5L564.4 222.3ZM572.9 213.4L572.8 215.4L573.6 214.1L573.3 216.0L574.1 216.6L577.1 216.3L574.4 219.0L573.3 219.0L566.7 223.8L566.4 223.0L568.5 221.5L568.8 220.4L567.6 219.7L569.6 218.3L571.6 215.7L571.7 210.3L572.4 210.2L573.6 211.7L572.9 213.4Z"/>
+<path id="c-OMN" d="M396.2 105.3L395.7 106.6L394.6 107.0L394.6 109.4L392.9 110.1L392.4 111.4L391.4 111.4L390.1 113.2L387.4 113.8L385.3 109.3L390.0 107.4L390.8 103.7L389.9 101.6L390.9 99.6L390.6 98.2L391.5 98.1L393.3 100.1L395.5 100.7L397.4 102.7L396.2 105.3Z"/>
+<path id="c-PAK" d="M417.0 75.1L419.2 77.4L422.0 78.2L420.9 79.8L416.8 79.6L416.2 80.4L417.9 83.4L419.4 84.3L418.3 85.4L418.7 86.7L415.5 92.5L413.6 92.4L412.1 94.3L413.3 95.2L415.3 99.2L411.8 99.2L410.8 100.5L409.6 100.0L407.5 97.2L399.7 97.9L400.0 95.7L402.2 94.7L401.1 93.5L400.8 91.9L399.2 91.0L397.4 88.9L400.3 89.9L406.2 88.8L405.9 87.2L406.6 86.1L410.1 85.0L409.8 83.8L411.2 82.2L410.3 81.0L411.8 81.0L412.4 78.8L411.4 77.1L412.1 76.3L417.0 75.1Z"/>
+<path id="c-PAN" d="M170.6 131.5L169.7 130.0L170.2 129.5L168.7 128.2L166.5 129.5L167.1 130.9L166.3 131.4L165.6 131.5L165.3 130.4L164.6 130.6L164.3 129.9L162.4 129.9L162.4 127.3L163.0 127.1L163.5 128.2L164.8 128.6L168.0 127.0L170.4 127.7L171.6 128.8L171.7 130.2L170.6 131.5Z"/>
+<path id="c-PER" d="M185.6 178.3L184.5 179.8L174.5 172.8L167.4 158.7L164.9 156.7L165.4 155.9L164.5 154.1L165.0 152.8L166.3 151.6L166.1 153.5L167.5 153.6L168.2 154.5L170.4 150.8L172.4 150.1L174.1 148.1L174.8 145.3L177.3 147.5L178.3 149.5L182.1 149.4L183.3 150.3L182.3 152.2L183.7 153.3L182.1 153.2L178.7 155.1L178.4 157.7L177.1 159.4L178.8 162.2L178.5 163.0L179.6 163.1L180.3 164.1L181.7 164.2L183.0 163.1L183.1 165.9L184.8 165.8L186.4 168.9L185.6 173.4L186.5 176.3L185.6 178.3Z"/>
+<path id="c-PHL" d="M509.9 129.3L510.3 131.6L509.9 133.3L509.1 131.4L508.4 132.4L509.0 133.8L508.6 134.6L506.6 133.5L506.0 132.2L506.5 131.3L505.4 130.4L502.9 132.2L502.6 131.6L503.2 130.0L505.0 128.8L505.7 129.6L506.9 129.1L507.1 128.3L508.3 128.2L508.1 126.8L509.5 127.6L509.9 129.3ZM505.6 125.8L504.2 128.1L503.1 126.8L503.8 124.6L504.7 124.5L504.6 125.8L505.6 124.0L505.6 125.8ZM496.7 127.6L494.6 129.4L498.0 123.7L498.4 125.3L496.7 127.6ZM501.8 122.7L503.9 123.3L504.0 124.1L502.3 125.5L501.8 122.7ZM507.7 122.2L508.4 124.3L507.1 123.8L507.8 125.6L507.0 126.0L505.9 123.5L506.9 123.6L506.8 122.9L505.6 121.5L507.2 121.5L507.7 122.2ZM500.9 120.5L500.7 122.1L498.9 119.8L500.9 120.5ZM499.1 110.3L500.2 110.8L500.6 110.3L501.5 112.9L501.3 114.5L500.4 115.1L501.0 118.1L504.8 119.2L505.3 121.5L503.2 119.6L502.8 120.3L501.6 119.2L499.3 119.0L499.7 117.8L499.2 117.3L499.1 118.0L498.1 116.9L497.4 114.3L498.1 114.9L498.1 110.3L499.1 110.3Z"/>
+<path id="c-PNG" d="M559.1 158.0L558.0 157.5L557.4 154.7L559.4 157.5L559.1 158.0ZM552.9 155.5L549.8 157.1L546.7 156.0L546.9 155.4L549.3 155.6L549.9 154.6L550.0 155.6L550.9 155.5L552.4 154.1L552.3 153.0L553.6 153.3L552.9 155.5ZM544.6 159.1L546.9 162.3L547.8 162.3L547.7 163.1L550.1 164.6L549.8 165.1L545.4 164.3L542.6 160.4L540.5 159.6L538.0 160.7L538.1 162.1L536.7 162.8L534.1 162.4L534.8 150.1L540.7 152.5L542.7 154.4L542.9 155.5L545.6 156.6L545.9 157.6L544.3 157.9L544.6 159.1ZM554.9 153.7L554.4 154.2L553.7 152.3L550.9 150.3L551.4 149.9L553.5 151.3L554.9 153.7Z"/>
+<path id="c-POL" d="M321.5 49.2L319.8 44.4L324.6 42.4L326.1 43.2L332.5 43.6L333.7 46.3L332.9 46.7L334.6 49.9L332.7 52.2L333.2 53.0L331.4 52.2L327.5 52.2L325.3 50.5L324.1 50.8L321.5 49.2Z"/>
+<path id="c-PRI" d="M191.2 110.2L192.3 110.8L191.9 111.3L189.7 111.3L189.9 110.2L191.2 110.2Z"/>
+<path id="c-PRK" d="M498.0 65.3L498.4 65.6L497.8 65.5L497.4 66.7L498.3 68.1L496.1 70.2L496.4 71.2L498.4 72.8L494.5 74.1L493.2 73.3L492.9 70.6L490.9 69.9L492.9 66.3L495.3 67.0L494.5 66.0L496.4 65.2L496.4 64.2L498.0 65.3Z"/>
+<path id="c-PRT" d="M286.3 66.2L287.5 65.5L287.8 66.4L289.9 66.2L290.3 67.2L289.5 67.7L289.1 70.3L288.5 70.4L289.1 73.3L287.8 75.7L286.1 75.6L286.3 73.0L285.3 72.1L286.6 68.3L286.3 66.2Z"/>
+<path id="c-PRY" d="M197.8 187.1L198.8 182.2L203.1 181.7L204.7 182.7L205.5 186.8L209.1 187.4L210.0 190.4L211.8 190.5L211.5 195.4L210.3 196.8L209.0 197.1L205.5 196.3L206.7 193.5L206.3 192.6L201.1 190.2L197.8 187.1Z"/>
+<path id="c-QAT" d="M382.4 98.5L382.2 97.1L382.9 95.9L383.6 97.6L383.4 98.7L382.4 98.5Z"/>
+<path id="c-ROU" d="M333.3 55.1L336.5 55.4L339.4 54.7L341.5 57.1L342.0 59.5L344.1 59.9L344.2 60.3L343.1 60.6L343.0 62.8L340.9 61.9L338.5 62.8L334.5 62.6L334.0 61.2L332.2 60.8L330.0 58.3L331.1 58.0L333.3 55.1Z"/>
+<path id="c-RUS" d="M506.6 49.8L510.6 53.1L508.0 52.5L509.1 55.1L512.8 58.3L510.9 57.2L510.9 58.6L504.2 49.5L499.8 45.2L500.4 44.4L499.1 43.6L499.5 43.3L506.6 49.8ZM331.8 43.4L327.5 43.2L327.7 42.4L329.5 41.8L331.7 42.4L331.8 43.4ZM82.2 22.4L82.4 22.8L83.9 21.6L86.9 21.8L87.2 23.3L82.6 24.2L79.3 26.2L77.0 25.1L77.8 24.3L75.1 24.3L76.5 23.1L72.0 25.0L81.9 18.5L83.8 21.3L82.2 22.4ZM513.3 15.6L511.1 15.2L511.5 14.5L513.3 15.6ZM88.4 15.5L86.7 15.6L88.5 14.5L90.7 14.9L88.4 15.5ZM465.0 11.9L460.4 11.7L461.8 10.9L465.0 11.9ZM468.9 9.1L468.5 9.7L466.5 9.5L463.0 8.5L468.9 9.1ZM461.4 8.4L462.3 9.5L456.7 9.8L453.1 8.8L452.0 7.9L461.4 8.4ZM368.3 15.7L363.7 15.7L360.7 14.6L360.1 13.8L361.1 13.4L360.6 12.6L362.2 11.3L361.0 11.1L363.0 9.8L362.3 9.1L372.2 6.7L375.4 7.0L368.8 8.8L366.2 10.3L364.4 13.2L365.3 14.5L368.3 15.7ZM416.4 6.5L417.6 7.1L421.3 6.8L426.4 8.0L427.1 8.7L424.1 10.5L428.6 10.8L430.2 11.7L431.8 11.1L442.0 12.3L440.7 11.1L445.2 11.4L455.7 15.6L454.7 14.0L457.5 14.7L464.4 14.6L461.6 13.1L462.2 12.5L474.1 13.5L481.3 15.5L488.3 15.5L494.0 17.7L502.0 17.5L506.1 18.9L506.9 18.4L503.9 16.7L515.4 17.8L518.1 18.5L528.0 25.0L527.4 25.7L525.5 25.6L533.2 29.5L530.3 29.1L527.4 30.6L526.5 32.8L527.0 33.6L523.6 32.4L521.8 33.8L520.4 33.1L520.0 33.9L517.9 33.6L519.1 36.5L521.9 37.6L524.6 40.1L523.4 40.2L524.5 41.7L525.9 42.4L524.3 43.4L525.9 45.4L524.2 45.9L525.5 47.7L525.1 49.4L515.6 41.5L513.6 39.1L512.8 37.2L514.5 36.8L514.7 32.8L515.4 31.5L513.5 29.1L512.1 29.2L513.0 30.6L512.0 32.5L508.4 30.4L505.7 31.0L505.7 33.8L508.0 34.9L503.6 35.5L502.3 34.3L500.0 34.0L499.2 34.9L490.9 35.1L488.5 42.7L490.8 42.9L494.2 44.4L494.3 43.5L495.9 43.6L499.7 45.6L504.7 54.1L504.7 58.0L503.3 63.4L501.9 64.5L499.5 63.6L498.4 65.6L497.4 64.3L498.2 64.3L497.1 62.1L495.7 60.5L496.6 59.8L498.6 60.1L497.3 54.0L494.4 55.3L492.2 55.3L487.9 52.2L484.9 51.6L478.3 46.2L476.6 45.5L474.1 45.0L470.7 45.3L470.2 46.2L472.0 47.7L471.8 50.1L472.4 50.9L471.1 52.1L465.1 50.7L463.8 52.0L461.0 52.8L457.6 52.5L454.3 50.7L449.9 51.0L447.3 50.3L446.2 48.9L440.8 47.5L440.4 49.4L441.6 50.4L440.9 51.7L432.6 49.8L427.0 52.6L425.7 51.5L424.0 51.8L419.6 49.3L417.8 49.7L415.3 48.7L415.0 49.6L407.2 43.7L407.4 43.1L403.4 44.9L403.1 43.9L401.0 43.3L399.7 43.7L398.5 41.9L395.8 41.5L391.2 43.3L386.2 44.0L385.8 44.6L387.2 45.8L386.0 46.3L386.5 46.8L385.5 47.7L388.2 48.9L388.2 49.8L386.1 49.7L385.9 50.2L383.7 49.3L381.5 49.3L380.2 50.1L374.7 48.1L372.5 48.1L370.1 50.1L370.3 51.4L368.5 50.4L367.9 54.2L369.5 55.4L370.5 55.4L372.7 57.8L369.9 61.1L373.9 66.4L373.0 67.6L372.3 67.5L368.9 65.1L360.2 63.3L354.7 60.0L355.7 59.7L356.7 58.1L355.7 57.4L357.7 56.6L356.3 56.5L356.2 55.7L358.3 55.1L358.1 51.9L350.9 50.2L350.2 49.0L349.0 48.9L349.1 48.0L348.0 47.0L345.2 47.4L344.2 45.7L346.1 45.1L342.9 42.5L342.8 41.2L338.8 40.1L337.2 37.8L337.6 37.3L336.9 35.6L338.7 33.3L337.2 32.5L340.8 28.5L338.6 27.4L338.9 26.3L337.4 25.0L337.9 23.6L336.0 21.8L336.8 20.6L334.7 19.5L334.6 18.3L338.5 17.0L344.2 18.3L350.6 20.9L351.1 22.0L348.1 23.3L341.3 22.3L343.7 23.5L344.5 25.9L347.4 26.9L346.4 25.3L347.0 24.7L350.4 25.7L351.3 25.3L350.1 24.1L352.4 22.5L355.0 23.2L355.3 22.1L353.9 21.1L354.2 20.1L352.9 19.1L356.5 19.7L357.6 20.6L356.1 20.8L356.4 21.7L357.6 22.2L359.4 21.9L359.3 20.8L365.2 18.7L366.1 18.8L365.4 19.7L367.0 19.9L371.3 18.6L373.2 19.6L374.0 18.5L372.3 17.6L372.6 17.1L376.5 17.6L383.8 19.9L384.2 19.1L380.7 17.7L378.8 15.3L380.5 12.2L383.9 12.6L384.7 13.4L384.5 14.7L386.7 16.2L387.9 18.4L389.8 19.4L389.0 22.8L390.5 23.0L391.8 22.0L392.2 20.5L390.9 19.5L390.8 18.5L389.4 18.3L388.5 17.4L388.4 15.9L385.9 14.6L387.3 13.6L386.2 12.5L388.0 13.3L388.6 14.8L390.1 15.1L388.8 14.0L390.2 13.4L395.5 14.2L392.0 11.3L398.8 10.8L397.2 10.0L397.6 9.0L402.9 7.7L406.9 7.9L410.6 7.2L410.4 6.0L412.2 5.4L416.4 6.5ZM411.9 4.6L406.5 5.1L406.2 3.3L411.5 4.0L411.9 4.6ZM352.5 1.6L349.3 2.2L346.0 1.6L352.5 1.6ZM405.4 3.8L399.9 3.6L393.9 1.9L397.4 0.8L404.1 2.5L405.4 3.8Z"/>
+<path id="c-RWA" d="M350.7 147.3L351.2 149.5L349.9 149.6L349.3 150.7L348.3 150.5L348.8 148.2L350.7 147.3Z"/>
+<path id="c-ESH" d="M285.8 94.0L285.9 96.3L280.6 96.2L280.6 101.1L279.1 101.2L278.9 104.9L272.5 104.9L272.1 105.5L272.2 104.8L275.9 104.6L277.4 100.5L279.7 98.4L281.6 94.4L285.8 94.0Z"/>
+<path id="c-SAU" d="M370.4 114.3L367.1 108.4L363.9 105.0L362.6 100.5L360.9 99.3L356.5 92.2L355.7 92.2L356.0 89.8L357.8 90.1L360.7 87.6L358.9 85.7L362.2 84.5L366.7 86.3L371.7 90.1L376.1 90.4L376.6 91.3L377.8 91.3L378.6 92.9L381.0 94.8L381.3 96.9L382.4 98.5L383.4 98.7L384.6 101.8L389.9 102.3L390.8 103.7L390.0 107.4L385.3 109.3L380.6 110.0L377.3 113.2L376.9 112.6L371.3 112.0L370.4 114.3Z"/>
+<path id="c-SDN" d="M356.4 127.3L355.0 124.9L355.0 122.2L354.2 122.1L353.1 122.6L353.7 124.3L352.0 126.7L351.2 126.9L349.7 125.8L348.1 127.4L344.4 127.3L342.8 125.5L341.6 125.8L340.7 128.3L339.7 128.9L338.9 128.3L339.1 126.1L336.9 121.3L336.3 121.4L337.9 115.6L339.4 115.7L339.0 107.4L340.9 107.4L340.8 103.7L360.1 103.7L361.5 110.0L363.1 111.2L360.6 113.2L359.9 119.6L356.8 125.1L356.4 127.3Z"/>
+<path id="c-SSD" d="M356.4 127.3L356.2 129.4L355.3 129.4L354.7 130.5L356.6 131.5L358.7 134.8L355.6 138.0L353.1 138.5L352.0 138.0L351.3 138.5L349.5 136.5L346.6 136.9L341.7 130.4L339.7 128.9L340.7 128.3L341.6 125.8L342.8 125.5L344.4 127.3L348.1 127.4L349.7 125.8L351.2 126.9L352.0 126.7L353.7 124.3L353.1 122.6L354.2 122.1L355.0 122.2L355.0 124.9L356.4 127.3Z"/>
+<path id="c-SEN" d="M272.4 119.5L270.9 117.4L273.5 114.1L276.0 113.9L277.9 114.9L279.9 117.6L280.9 121.7L272.4 121.8L272.2 120.4L277.1 119.7L275.1 119.0L272.4 119.5Z"/>
+<path id="c-SLB" d="M568.8 164.9L569.2 165.6L568.0 165.6L567.6 164.4L568.8 164.9ZM566.9 163.8L565.2 163.6L565.1 162.6L566.9 163.8ZM568.3 163.3L566.7 160.9L567.3 160.9L568.3 163.3Z"/>
+<path id="c-SLE" d="M281.0 132.4L278.5 130.5L278.0 128.4L280.2 126.2L281.6 126.2L282.6 129.4L283.0 129.3L281.0 132.4Z"/>
+<path id="c-SLV" d="M154.9 119.9L153.7 120.3L151.1 119.3L152.5 118.0L153.8 119.0L154.9 119.0L154.9 119.9Z"/>
+<path id="c--99" d="M381.2 127.3L379.4 130.1L378.0 130.1L372.5 127.8L370.6 125.2L371.5 123.5L373.2 125.5L381.1 123.6L381.2 127.3Z"/>
+<path id="c-SOM" d="M382.4 123.3L384.6 122.5L384.6 125.1L380.9 135.1L377.5 139.8L371.9 144.6L369.3 148.3L368.3 146.8L368.2 139.9L370.1 137.2L371.2 137.1L372.7 135.8L374.8 135.7L381.2 127.3L381.1 123.7L382.4 123.3Z"/>
+<path id="c-SRB" d="M331.1 59.6L333.2 61.4L334.0 61.2L333.7 62.3L334.7 63.7L333.9 65.4L332.7 65.5L333.0 64.7L331.4 63.6L330.6 64.5L328.9 63.2L329.4 62.2L328.0 58.7L330.0 58.3L331.1 59.6Z"/>
+<path id="c-SUR" d="M204.9 133.9L210.2 134.3L209.3 135.9L210.1 138.3L209.2 140.8L206.8 140.4L206.7 141.7L205.8 141.6L204.1 138.9L203.4 137.5L203.6 136.1L204.6 135.6L204.9 133.9Z"/>
+<path id="c-SVK" d="M327.4 52.1L328.8 52.6L331.4 52.2L332.8 52.9L332.0 54.3L330.4 53.7L326.2 55.3L324.7 54.0L327.4 52.1Z"/>
+<path id="c-SVN" d="M320.4 57.6L323.9 57.0L324.5 57.6L323.4 58.1L322.8 59.6L320.4 59.5L320.4 57.6Z"/>
+<path id="c-SWE" d="M327.9 23.7L326.9 24.9L327.2 25.9L323.1 28.7L322.5 31.1L325.0 33.3L324.0 35.2L322.7 35.6L321.9 40.2L320.2 40.1L319.6 41.5L318.0 41.5L314.8 35.4L316.4 33.2L316.6 31.2L315.7 30.3L315.4 28.1L316.1 26.5L317.4 26.5L317.7 25.9L317.2 25.3L320.5 20.0L321.7 20.0L321.9 19.1L324.2 19.4L324.2 18.3L328.9 20.2L329.9 23.3L327.9 23.7ZM326.2 37.0L324.8 38.9L324.6 37.7L326.2 37.0Z"/>
+<path id="c-SWZ" d="M351.8 195.6L350.4 196.7L349.5 195.6L350.2 193.7L351.5 193.9L351.8 195.6Z"/>
+<path id="c-SYR" d="M361.3 82.2L358.4 84.2L356.6 83.4L356.9 81.4L357.7 80.6L356.6 79.8L356.3 78.4L357.3 75.7L361.6 75.9L365.9 74.9L364.5 76.6L364.6 80.2L361.3 82.2Z"/>
+<path id="c-TCD" d="M324.0 120.9L324.1 120.0L323.1 120.0L322.4 118.1L323.0 115.6L325.1 113.8L326.0 106.7L324.7 105.0L324.2 102.0L325.8 101.0L339.0 108.2L339.4 115.7L337.9 115.6L336.8 118.1L336.3 121.4L336.9 121.3L337.9 124.1L336.0 125.2L334.9 127.3L333.3 128.2L331.2 128.2L331.4 128.9L329.8 130.3L327.8 131.0L327.1 130.5L325.4 131.2L324.9 128.6L323.2 127.2L323.5 126.3L325.7 126.3L324.0 120.9Z"/>
+<path id="c-TGO" d="M303.1 133.6L301.8 134.0L300.9 132.1L301.2 129.5L300.0 124.4L301.5 124.4L301.3 125.4L302.4 126.6L303.1 133.6Z"/>
+<path id="c-THA" d="M469.8 122.2L466.8 121.3L466.9 119.9L465.4 119.9L464.5 126.4L464.7 127.7L465.8 127.8L466.9 131.2L469.9 133.4L469.4 134.2L468.3 134.4L468.1 133.5L466.4 133.0L463.6 129.4L463.4 130.5L463.1 128.2L464.9 122.7L463.7 119.1L462.0 116.6L462.9 114.6L459.8 110.4L460.9 108.0L463.8 106.6L464.8 108.4L465.9 108.4L466.1 112.1L467.7 111.0L469.2 111.3L469.4 110.6L470.7 110.8L472.1 112.3L472.5 114.1L474.1 115.8L474.2 117.4L473.7 118.2L470.1 118.3L469.2 119.9L469.8 122.2Z"/>
+<path id="c-TJK" d="M408.9 69.3L408.5 69.9L406.8 69.5L406.9 70.6L413.5 70.8L414.3 72.5L415.8 72.8L416.5 74.6L413.8 74.4L412.0 75.9L410.5 73.0L409.5 72.6L408.9 74.3L407.9 74.2L407.7 75.1L405.5 75.1L405.9 73.2L405.2 71.8L404.0 71.3L404.2 70.5L405.5 70.6L406.1 68.4L408.0 67.9L407.9 68.8L408.9 69.3Z"/>
+<path id="c-TKM" d="M395.9 77.9L395.4 76.3L388.9 73.4L386.1 73.6L383.9 75.0L383.2 71.7L381.8 71.1L382.0 69.8L380.9 69.7L380.9 68.1L382.4 68.6L383.6 68.0L381.6 65.8L380.4 66.2L380.6 67.6L379.9 66.4L382.0 65.4L384.6 67.4L387.1 67.3L386.6 66.3L388.7 64.6L391.0 65.6L392.3 67.5L394.5 67.7L395.8 69.6L399.1 71.8L403.2 73.5L403.4 74.7L402.1 74.1L402.0 74.8L400.8 75.2L400.8 76.7L398.9 77.5L398.8 78.4L395.9 77.9Z"/>
+<path id="c-TLS" d="M507.5 161.9L509.2 161.1L511.5 161.0L507.6 162.9L507.5 161.9Z"/>
+<path id="c-TTO" d="M197.8 124.9L199.1 124.7L198.9 126.1L197.2 126.1L197.8 124.9Z"/>
+<path id="c-TUN" d="M315.2 88.0L314.4 84.6L312.0 82.3L311.9 80.8L312.8 79.8L313.1 75.5L314.8 74.7L315.9 74.9L315.9 75.9L317.2 75.2L316.5 76.5L317.0 79.4L316.0 80.4L316.3 81.4L318.2 82.6L318.1 84.1L315.8 86.0L315.9 87.5L315.2 88.0Z"/>
+<path id="c-TUR" d="M356.3 67.2L358.6 68.0L361.7 67.8L364.9 66.8L366.5 67.7L367.0 69.3L368.9 70.3L367.9 70.8L369.7 75.1L369.0 75.4L366.5 74.6L361.6 75.9L357.3 75.7L356.6 77.6L355.9 76.7L356.4 76.0L354.1 75.8L353.2 76.8L350.8 77.1L349.4 76.0L347.8 76.0L347.5 76.8L346.4 77.0L344.8 76.0L343.1 76.0L340.8 73.1L341.4 71.6L340.3 70.7L341.8 68.9L344.2 68.9L344.6 67.5L347.6 67.7L350.9 66.0L353.4 65.9L356.3 67.2ZM341.6 68.4L340.5 69.4L339.8 68.2L340.5 66.8L339.7 66.3L342.5 66.0L344.2 67.3L341.6 68.4Z"/>
+<path id="c-TWN" d="M497.7 99.1L496.9 103.7L495.3 100.7L496.9 97.4L497.8 98.0L497.7 99.1Z"/>
+<path id="c-TZA" d="M356.5 147.0L362.8 151.0L362.9 152.1L365.3 154.0L364.4 156.3L364.5 157.4L365.6 158.1L365.1 161.2L366.9 164.6L365.5 165.7L360.5 167.3L357.2 166.9L356.0 162.9L351.1 160.9L349.2 157.5L348.8 153.7L351.2 151.5L350.7 149.7L351.3 148.4L350.7 147.3L356.5 147.0Z"/>
+<path id="c-UGA" d="M353.1 147.1L349.3 147.7L350.1 143.2L351.9 141.0L351.3 140.8L351.3 138.5L355.6 138.0L356.6 137.2L358.4 141.6L356.5 145.0L356.5 147.0L353.1 147.1Z"/>
+<path id="c-UKR" d="M345.2 47.4L348.0 47.0L349.1 48.0L349.0 48.9L350.2 49.0L350.9 50.2L358.1 51.9L358.3 55.1L356.9 55.2L356.3 56.5L351.8 58.1L352.1 59.2L354.4 59.5L354.2 60.2L350.8 61.6L349.9 61.2L350.1 60.3L348.4 59.8L349.9 58.8L347.0 57.9L346.8 57.3L345.5 57.5L344.1 59.9L342.8 59.8L342.0 59.5L342.7 57.8L344.4 57.8L342.0 54.7L340.2 54.0L336.5 55.4L333.3 55.1L332.3 54.1L333.2 53.0L332.7 52.2L334.5 50.4L333.6 48.3L336.1 47.7L343.8 48.8L344.0 47.5L345.2 47.4Z"/>
+<path id="c-URY" d="M207.9 202.2L208.9 202.0L214.6 205.6L215.7 206.9L215.3 210.1L213.7 211.1L211.6 210.9L209.0 210.2L207.8 209.1L207.9 202.2Z"/>
+<path id="c-USA" class="v3" d="M45.0 109.2L44.4 109.2L45.0 106.9L46.4 108.4L45.0 109.2ZM162.3 52.3L162.4 53.6L165.8 54.6L170.7 54.3L174.7 56.9L174.8 57.8L175.5 57.6L175.8 58.9L177.0 59.8L176.3 63.1L173.8 65.9L174.2 66.6L180.7 64.4L180.7 63.3L181.5 63.0L184.4 63.0L188.2 60.4L193.2 60.4L198.2 55.9L200.1 56.6L199.2 59.1L199.9 60.8L194.5 62.9L192.6 65.4L192.8 66.4L193.4 66.4L193.5 65.7L193.8 66.1L193.5 66.7L187.4 68.0L190.1 68.0L186.9 68.3L184.4 71.7L183.7 70.7L183.9 72.7L181.9 75.0L182.6 73.6L182.0 72.9L182.3 71.3L181.7 73.3L180.8 73.0L181.7 73.6L181.3 78.1L179.9 79.5L175.1 82.0L170.5 85.8L169.9 88.5L170.8 94.5L169.7 97.6L168.4 97.6L167.8 96.4L166.7 92.6L167.0 90.3L165.5 88.4L163.7 89.3L162.0 87.8L157.5 88.0L156.7 88.3L156.6 90.2L154.3 90.2L153.3 89.2L150.8 89.0L148.3 89.5L143.7 92.7L142.8 96.4L142.2 96.4L140.0 95.4L138.2 89.7L135.9 89.0L134.6 90.5L133.4 89.9L130.7 85.3L127.9 85.3L127.7 86.0L123.2 86.0L118.0 83.8L118.2 83.4L114.3 83.8L113.1 81.0L110.2 79.9L109.3 69.1L111.6 64.6L115.5 59.4L117.9 54.2L119.6 54.8L119.3 56.5L121.2 53.0L161.5 53.0L162.3 52.3ZM91.0 38.5L88.9 39.1L89.4 37.9L93.1 37.1L93.1 37.6L91.0 38.5ZM79.4 33.6L78.3 33.8L77.6 33.0L80.1 32.9L79.4 33.6ZM79.8 27.0L82.7 27.8L80.9 28.3L80.3 27.7L79.0 27.8L79.8 27.0ZM117.0 15.1L116.8 15.8L119.6 15.6L119.0 15.9L120.4 16.2L130.6 17.3L112.9 32.9L114.9 33.4L115.2 35.3L119.3 33.8L119.9 36.2L119.2 39.4L120.5 40.6L119.6 41.7L118.1 42.5L117.1 41.3L118.2 39.8L117.7 38.3L118.5 36.7L115.2 36.5L114.1 36.0L113.1 34.2L110.4 33.3L108.4 33.4L105.9 31.9L104.0 32.3L102.9 33.4L96.5 34.9L102.0 31.2L93.8 34.5L93.9 35.4L91.2 36.7L81.4 40.4L69.6 43.2L85.4 37.7L88.9 35.3L85.3 36.2L85.4 35.3L84.3 35.9L84.8 35.0L81.8 35.7L83.8 34.0L83.7 33.4L81.6 33.7L81.0 32.5L82.2 31.6L82.1 30.9L83.9 29.9L87.7 28.1L93.9 27.0L94.2 25.9L96.0 25.3L89.9 25.9L88.6 25.5L88.7 23.8L95.3 22.4L96.3 22.4L95.0 23.2L97.8 23.1L98.1 22.1L97.5 21.5L97.5 20.0L96.5 19.5L98.4 18.6L100.6 18.6L106.9 16.3L115.7 14.8L117.0 15.1Z"/>
+<path id="c-UZB" d="M403.4 74.7L403.2 73.5L399.1 71.8L395.8 69.6L394.5 67.7L392.3 67.5L391.0 65.6L388.7 64.6L386.6 66.3L387.1 67.3L385.3 67.3L383.5 60.4L387.1 59.3L393.4 63.2L397.6 62.8L399.8 64.1L400.3 66.0L401.0 66.0L401.8 67.6L403.8 67.6L404.5 68.5L407.6 65.5L408.1 65.7L407.3 66.9L411.7 68.1L410.2 69.5L408.3 69.3L408.0 67.9L406.1 68.4L405.5 70.6L404.2 70.5L404.0 71.3L405.2 71.8L405.9 73.2L405.5 75.1L403.4 74.7Z"/>
+<path id="c-VEN" d="M181.9 123.0L180.8 123.6L181.2 125.5L180.4 126.6L181.0 128.1L181.7 127.9L182.1 126.6L181.7 124.5L183.8 123.7L184.2 122.2L184.7 123.5L185.9 123.6L186.9 125.3L190.2 125.1L192.4 126.2L193.4 125.1L197.4 125.0L196.0 125.5L196.5 126.4L197.8 126.5L199.0 127.5L199.3 129.0L200.8 129.4L199.4 130.5L199.8 131.9L198.3 132.5L197.9 133.9L199.1 135.9L198.5 136.6L195.0 138.1L192.1 137.5L192.8 138.0L193.0 140.5L194.5 141.0L190.8 143.7L189.5 143.8L187.1 139.8L187.9 138.9L187.1 136.7L188.0 133.7L184.6 133.7L183.5 132.0L180.4 132.0L179.6 131.2L179.7 129.3L179.2 128.0L178.3 127.9L179.1 125.5L180.8 123.3L181.9 123.0Z"/>
+<path id="c-VNM" d="M476.4 104.5L474.5 106.1L473.2 109.2L479.6 116.3L480.7 119.8L480.8 123.2L474.6 128.9L473.9 127.7L474.3 126.5L473.0 125.4L476.1 124.5L475.2 123.3L477.9 121.9L477.4 116.5L472.4 109.9L470.3 108.8L471.6 107.6L470.7 106.0L468.7 106.0L466.5 102.8L470.1 102.1L471.3 101.1L473.8 102.2L473.7 103.2L474.6 104.0L476.4 104.5Z"/>
+<path id="c-VUT" d="M575.7 173.3L575.7 174.9L574.9 174.7L575.1 172.8L575.7 173.3Z"/>
+<path id="c-PSE" d="M356.4 84.1L356.3 85.8L355.6 86.0L355.8 83.8L356.4 84.1Z"/>
+<path id="c-YEM" d="M387.4 113.8L386.2 114.3L386.0 115.7L381.8 117.4L380.4 118.7L373.1 121.4L371.9 121.3L370.3 116.5L371.3 112.0L376.9 112.6L377.3 113.2L380.6 110.0L385.3 109.3L387.4 113.8Z"/>
+<path id="c-ZAF" d="M350.5 200.4L347.9 203.9L343.4 207.9L340.7 209.2L335.6 209.1L330.8 210.9L329.0 209.6L328.4 206.7L329.0 204.9L326.3 199.1L327.1 198.2L327.9 199.5L329.6 200.0L332.0 198.9L332.3 191.9L333.6 194.0L333.7 195.8L334.9 195.6L337.8 192.8L339.2 193.6L341.6 193.3L342.1 191.8L343.0 191.6L345.6 188.2L348.7 186.9L350.8 187.2L351.8 191.1L351.5 193.9L350.2 193.7L349.5 195.6L350.4 196.7L351.8 195.6L353.0 195.6L352.2 198.6L350.5 200.4ZM346.5 199.8L345.8 199.2L345.1 199.6L343.2 201.5L344.3 203.0L346.1 201.9L347.0 200.4L346.5 199.8Z"/>
+<path id="c-ZMB" d="M354.4 162.6L355.5 165.0L355.1 168.6L354.0 171.0L354.9 171.5L349.8 173.1L349.9 174.4L347.7 175.4L344.4 179.0L340.6 177.9L338.2 178.2L336.1 175.5L336.3 169.5L339.7 169.5L339.6 165.8L342.1 166.5L342.6 167.4L345.0 167.1L347.8 170.2L349.1 170.2L349.0 168.1L348.6 168.5L347.0 167.4L347.7 161.3L350.4 160.7L354.4 162.6Z"/>
+<path id="c-ZWE" d="M350.8 187.2L348.0 186.8L345.7 185.7L345.3 183.8L342.9 181.6L341.5 178.6L344.4 179.0L347.7 175.4L349.9 174.4L350.0 175.1L351.4 175.1L354.1 176.7L353.4 183.5L350.8 187.2Z"/>
+        </g>
+        <g class="labels">
+          <path class="lead" d="M262 71 L287 70"/>
+          <text class="mlab" x="258" y="74.5" text-anchor="end">ES <tspan>31%</tspan></text>
+          <path class="lead" d="M284 31 L295 40"/>
+          <text class="mlab" x="282" y="30" text-anchor="end">UK <tspan>9%</tspan></text>
+          <path class="lead" d="M336 33 L319 46"/>
+          <text class="mlab" x="339" y="32">DE <tspan>14%</tspan></text>
+          <text class="mlab" x="160" y="80" text-anchor="middle">US <tspan>12%</tspan></text>
+          <text class="mlab" x="212" y="174" text-anchor="middle">BR <tspan>4%</tspan></text>
+        </g>
+      </svg>
+      <div class="map-list">
+        <span><b>ES</b> 31% · 912 visits · 14 subscribers</span>
+        <span class="dim">31 others 15%</span>
+      </div>
+      <div class="map-list" style="margin-top:4px">
+        <span><b>DE</b> 14% · <b>US</b> 12% · <b>UK</b> 9% · <b>FR</b> 6% · <b>NL</b> 4% · <b>BR</b> 4% · <b>AR</b> 3% · <b>MX</b> 2%</span>
+        <span class="dim">share of visits</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- live feed -->
+  <aside class="panel feed">
+    <div class="lbl"><span>Live <span class="q">what just happened</span></span><span>newest first</span></div>
+    <ol>
+      <li class="ev"><span class="ev-t">19:41</span><span class="ev-x"><b>Signup</b> from /learn/outs · search</span><span class="ev-m good">+1</span></li>
+      <li class="ev"><span class="ev-t">19:36</span><span class="ev-x"><b>Reel 013</b> passed 20,000 views</span><span></span></li>
+      <li class="ev"><span class="ev-t">19:30</span><span class="ev-x"><b>Trainer</b> 61 drills answered this hour</span><span></span></li>
+      <li class="ev"><span class="ev-t">19:12</span><span class="ev-x"><b>Signup</b> from / · instagram · bio link</span><span class="ev-m good">+1</span></li>
+      <li class="ev"><span class="ev-t">18:55</span><span class="ev-x"><b>Writer</b> finished letter 017 draft (1,140 words) → queue</span><span></span></li>
+      <li class="ev e-bad"><span class="ev-t">18:20</span><span class="ev-x"><b>Publisher failed</b> Instagram token expired · reel 014 held</span><span></span></li>
+      <li class="ev"><span class="ev-t">18:00</span><span class="ev-x"><b>Research</b> ran: 12 items, 3 new topics</span><span></span></li>
+      <li class="ev"><span class="ev-t">17:48</span><span class="ev-x"><b>Signup</b> from /table · letter</span><span class="ev-m good">+1</span></li>
+      <li class="ev"><span class="ev-t">17:30</span><span class="ev-x"><b>Cost</b> Claude €0.84 today · €23.10 this month</span><span></span></li>
+      <li class="ev"><span class="ev-t">16:02</span><span class="ev-x"><b>Letter 016</b> sent to 1,246 · 52% opened so far</span><span></span></li>
+      <li class="ev"><span class="ev-t">15:10</span><span class="ev-x"><b>Signup</b> from /learn/pot-odds · youtube</span><span class="ev-m good">+1</span></li>
+      <li class="ev"><span class="ev-t">14:44</span><span class="ev-x"><b>Search</b> "pot odds formula" · first click</span><span></span></li>
+      <li class="ev"><span class="ev-t">13:30</span><span class="ev-x"><b>Reel 013</b> saved 212 times · 1 in 94 views</span><span></span></li>
+      <li class="ev"><span class="ev-t">12:00</span><span class="ev-x"><b>Scheduler</b> 3 posts queued</span><span></span></li>
+      <li class="ev"><span class="ev-t">09:15</span><span class="ev-x"><b>Approved</b> reel 014 cover · caption v2</span><span></span></li>
+      <li class="ev"><span class="ev-t">06:00</span><span class="ev-x"><b>Research</b> ran: Reddit 41 threads · 2 ranked</span><span></span></li>
+    </ol>
+    <p class="feed-more">Shown: the events worth a sentence. The other <b>14,866</b> today (page views, drills, costs under €0.10) are in the store · <kbd>↵</kbd> opens any line down to its log.</p>
+  </aside>
+
+  <!-- bottom rule: experiments and budget -->
+  <footer class="bottom">
+    <div>
+      <span class="lbl">Experiments</span>
+      <span class="exp"><b>Hook: number vs question</b> · day 6 of 14 · 4 reels · <span class="st-note">too early to call</span></span>
+      <span class="sep"></span>
+      <span class="exp"><b>Letter: Thursday vs Sunday</b> · 3 sends · <span class="st-note">inconclusive</span></span>
+    </div>
+    <div class="budget">
+      <span class="lbl">Budget · March</span>
+      <span class="num">€61</span><span>of €150</span>
+      <span class="bar"><i style="width:41%"></i></span>
+      <span class="brk">Claude €23 · Cloudflare €0 · Beehiiv €0 · domain €1 · misc €37</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

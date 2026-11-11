@@ -3,7 +3,38 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
-## 2026-11-11 · Phase order: fix the path and the safety net before posting anything (proposed)
+## 2026-11-11 · The plan is approved; Beehiiv stays free; v8 is the reels baseline
+
+- **What:** the founder approved `docs/plan-2026-11-11.md` as written, chose to let the Beehiiv
+  trial lapse to the free plan, named v8 (not v7) the reels baseline while keeping 002 and 003
+  unapproved for posting, and asked for the interface (spec in `docs/interface.md`, three mockup
+  directions first).
+- **Why (Beehiiv):** the free plan keeps the API the signup uses; nothing paid is needed before
+  there is an audience.
+- **Rejected:** reverting v8 to v7 (the founder accepted v8 by eye).
+
+## 2026-11-11 · CI gates deploys through a branch rule, not by replacing Pages' git builds
+
+- **What:** GitHub Actions checks on PRs and `main`, plus a `main` branch-protection rule that
+  requires them. Cloudflare Pages keeps building `main` itself; rollback is its one-click
+  "rollback to deployment".
+- **Why:** no new secrets, no new moving parts, and the rule alone makes every production deploy a
+  green merge. The stronger variant (deploy from CI with wrangler) is documented for later.
+- **Rejected:** wrangler deploys from CI now (needs a Cloudflare token and turns off previews'
+  simplicity for no gain at this scale).
+
+## 2026-11-11 · Attribution without identity: UTM or referrer, session storage, mapped to Beehiiv
+
+- **What:** the landing link's utm fields (or the referrer host) are kept in `sessionStorage`
+  for the visit and sent with a signup; the function maps them to Beehiiv's utm fields and
+  logs one JSON line per outcome. The form sits on every guide, the trainer's readout and the
+  colophon, each with its own `source`.
+- **Why:** answers "which page and channel produced each signup" with no cookie, no identifier
+  and no consent banner; the Privacy page states it.
+- **Rejected:** a cookie or a stored visitor id (GDPR consent, and the brief forbids tracking
+  people); putting the form only on the home page (where search traffic never lands).
+
+## 2026-11-11 · Phase order: fix the path and the safety net before posting anything (approved)
 
 - **What:** Phase 0 of `docs/plan-2026-11-11.md`: signup on every page, welcome email, Turnstile,
   CI and branch protection, then letter 001 and the reels.

@@ -170,3 +170,22 @@ lesson, and a hook line that could open the post.
 - **Lesson:** the machine is never the bottleneck when the list is empty. Check where a viewer
   would land before you polish what they'd watch.
 - **Hook:** "I rebuilt my video pipeline seven times. My newsletter's welcome email was off."
+
+## 2026-11-11 · CI can't gate a deploy it doesn't own
+
+- **Choice:** the site deploys straight from GitHub to Cloudflare Pages on every push. The
+  obvious "safety net" is a CI job that runs the tests. But Pages builds `main` on its own the
+  moment the push lands; a red CI job changes nothing. The gate had to be a branch rule (no
+  merge without green checks), not the checks themselves. Rejected: moving the deploy into CI
+  with a token, which would have added a secret and a second deploy path for the same result.
+- **Lesson:** a check only protects what it can block. Find who actually pulls the trigger
+  before writing the test that is supposed to stop it.
+- **Hook:** "My CI was green and useless. The deploy never asked it."
+
+## 2026-11-11 · The screenshot found what the tests passed
+
+- **What happened:** the new letter form went into every guide's footer and into the site's
+  colophon. Tests green, build green. The screenshot showed two identical forms thirty pixels
+  apart on every guide. One line fixed it; a test now counts forms per page.
+- **Lesson:** render the page. A test that checks a form exists can't tell you it exists twice.
+- **Hook:** "All tests passed. The page had two signup forms."

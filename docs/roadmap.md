@@ -1,6 +1,7 @@
 # Roadmap
 
-> 2026-11-11: a phased plan is proposed in `docs/plan-2026-11-11.md` (waiting for go-ahead).
+> 2026-11-11: the phased plan in `docs/plan-2026-11-11.md` is approved; Phase 0 is in progress (CI and
+> signup-path branches pushed, welcome email drafted, interface mockups made).
 > Session state lives in `docs/state.md`, decisions in `docs/decisions.md`.
 
 ## Done

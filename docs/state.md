@@ -1,34 +1,59 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-11 (first planning session).
+the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
+
+## Approved on 2026-11-11
+
+- The plan in `docs/plan-2026-11-11.md` (phases, targets, architecture, cadence).
+- Beehiiv stays on the free plan when the trial ends (about 2026-11-18); nothing is paid.
+- Reels: **v8 is the baseline**; reels 002 and 003 are **still not approved for posting**. The two
+  quality rounds (voice, then review sheet) still apply before anything is posted.
+- The interface is wanted: spec saved as `docs/interface.md`; three directions as static mockups
+  (`docs/interface/mockups/`, renders in `media/tests/2026-11-11_interface-mockups/outputs/`),
+  the founder picks one; build only after the safety net and measurement are live.
 
 ## Waiting on the founder
 
-- **Go-ahead on `docs/plan-2026-11-11.md`** (phases, targets, architecture, cadence). Nothing is built
-  until then.
-- Decisions listed in the plan, section 5: reels baseline (v7 or v8), voice pick by ear, postal
-  address and reply-to for the letter, Beehiiv plan after the trial (ends about 2026-11-18),
-  repo visibility, cadence.
-- Accounts and keys listed in the plan, section 5.
+- **Merge order:** `ci/safety-net` first (CI, Dependabot, gitleaks, page tests, Vite 7),
+  then `site/signup-path` (which already contains the CI branch), then this docs branch
+  `plan/2026-11-11-first-session`. Each is pushed; Cloudflare builds a preview per branch
+  (`ci-safety-net.llamapoker.pages.dev`, `site-signup-path.llamapoker.pages.dev`). Until the
+  branch rule exists, merging to `main` is a production deploy: the founder merges.
+- **Branch protection** on `main` (GitHub UI, settings listed in `docs/hosting.md`, "Safety net").
+- **Beehiiv:** turn the welcome email on with `content/letters/000-welcome.md`, set a postal
+  address and a reply-to that is read; then letter 001 can go (after approving its text).
+- **Turnstile:** create a widget for llamapoker.com in the Cloudflare dashboard, set
+  `TURNSTILE_SECRET_KEY` (secret) and `VITE_TURNSTILE_SITE_KEY` (build variable) on the Pages
+  project. The code is dormant until both exist. Optional: a WAF rate-limit rule on `/api/subscribe`.
+- **Accounts:** Instagram (Creator), TikTok, YouTube (`@llamapoker` is free), X; bio link =
+  `https://llamapoker.com/go/ig` (and `/go/tt`, `/go/yt`, `/go/x`), live once the signup branch is merged.
+- **Voice round:** listen to hook A vs hook B (`apps/reels/out/voice-round/`, see
+  `docs/research/2026-11-11-voice-round-1.md`); record 60 s of your own voice if you want C.
+- **Interface:** pick a direction (A wall, B broadsheet, C table) or say what to combine.
+- Keys for Phase 1 (plan, section 5): scoped Cloudflare API token, Google service account on
+  Search Console; the `gh` CLI or a GitHub token.
 
 ## In flight
 
-- Nothing. The repo is clean at commit c69009a (reels v8) plus this session's docs.
+- Nothing running unattended. Subagents in this session produced the mockups, the voice-round
+  files and the web docs; their results are recorded in the files named above.
 
 ## Blocked
 
-- Reels 002 and 003: not posted, pending the two quality rounds (voice, review sheet) in the brief.
-- Letter 001: Beehiiv draft `post_29bfc576-…`, needs the welcome email on and the footer address
-  set before sending.
+- Letter 001 send: on the welcome email and footer address (above).
+- Reels 002/003 posting: on the two quality rounds and the founder's approval.
+- Phase 1 measurement (event store): on the Cloudflare API token and the merges above.
 
 ## Known facts worth keeping (verified 2026-11-11)
 
 - Beehiiv: 2 subscribers (both the founder's), 0 sends, welcome email off, double opt-in off, no
-  postal address, reply-to personal Gmail, sender `mail.beehiiv.com`. Pro trial day 7/14.
-- Cloudflare Web Analytics: 55 visits / 62 page views in the last 7 days.
+  postal address, reply-to personal Gmail, sender `mail.beehiiv.com`. Pro trial day 7/14. The free
+  plan keeps API access (minus the Send API), so `/api/subscribe` keeps working.
+- Cloudflare Web Analytics: 55 visits / 62 page views in the last 7 days (mostly the founder).
 - Search Console: 17 impressions, 1 click in 28 days; 3 pages indexed, 10 discovered not indexed.
 - Lighthouse mobile: performance 82–84, everything else 100. Render-blocking fonts, one bundle.
-- No CI, no `.github/`. `gh` CLI not installed on the PC.
+- `gh` CLI not installed on the PC; `git push` over HTTPS works.
 - YouTube handle `@llamapoker` is free. Other handles unverified.
-- `docs/interface.md` (referenced by the brief) does not exist.
+- `npm audit`: 0 findings in runtime dependencies; the remaining dev-tooling findings are inside the
+  Vite 7 / Vitest 3 chain with no fixed release yet (CI audits runtime only).

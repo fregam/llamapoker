@@ -1,0 +1,519 @@
+<!doctype html>
+<!--
+  Direction C — The Table
+  Idea: the whole operation drawn as one poker table seen from above, in the site's own
+  diagram language (hairline oval, seat pills). The stations sit around the oval as seats,
+  the north star is the pot in the middle, the threats are "the read" on the left, the feed
+  is "hand history" on the right, and the channels are chip stacks below.
+  Invented data: Tuesday 3 March 2027, roughly month six of the plan. Nothing here is real.
+  Static mockup, 1920×1080, no scrolling, no JavaScript.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LlamaPoker · Operations — The Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../brand/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--ink); }
+  body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    color: var(--text); font-family: var(--sans); font-size: 13px; line-height: 1.5;
+    font-feature-settings: "tnum" 1, "cv11" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wall { position: relative; width: 1920px; height: 1080px; }
+
+  /* ---------- shared primitives ---------- */
+  .label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--text-3);
+  }
+  .label-strong { color: var(--text); }
+  .sub { font-size: 12px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--text-3); }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--text-3); vertical-align: 1px; }
+  .dot-ok { background: var(--sage); }
+  .dot-wait { background: var(--brass); }
+  .dot-fail { background: var(--vermilion); }
+  .dot-idle { background: transparent; box-shadow: inset 0 0 0 1px var(--rule-strong); }
+  .good { color: var(--sage); }
+  .attn { color: var(--brass); }
+  .bad { color: var(--vermilion); }
+  kbd {
+    font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--text-2);
+    border: 1px solid var(--rule-strong); border-radius: 2px; padding: 0 5px; line-height: 16px;
+    display: inline-block; vertical-align: 0;
+  }
+  .serif { font-family: var(--serif); font-feature-settings: "pnum" 1; }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    position: absolute; top: 0; left: 32px; right: 32px; height: 54px;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--rule);
+  }
+  .mast-left { display: flex; align-items: baseline; gap: 14px; }
+  .wordmark { font-family: var(--serif); font-weight: 500; font-size: 24px; line-height: 1; letter-spacing: -0.01em; color: var(--paper); }
+  .mast-mid { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); }
+  .mast-mid b { font-weight: 500; color: var(--text-2); }
+  .mast-right { display: flex; align-items: center; gap: 22px; }
+  .switch { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); }
+  .switch .state { color: var(--sage); }
+  .switch .pause { font-weight: 500; color: var(--text-3); margin-left: 6px; }
+  .keys { display: flex; gap: 14px; font-size: 11px; letter-spacing: 0.04em; color: var(--text-3); padding-left: 22px; border-left: 1px solid var(--rule); }
+  .keys span { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* ---------- main zone ---------- */
+  .main {
+    position: absolute; top: 70px; left: 32px; right: 32px; height: 614px;
+    display: grid; grid-template-columns: 336px 1104px 368px; column-gap: 24px;
+  }
+  .col-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+
+  /* The read (threats) */
+  .threats { list-style: none; margin: 0; padding: 0; }
+  .threat { display: grid; grid-template-columns: 30px 1fr; column-gap: 10px; padding: 16px 0 17px; border-bottom: 1px solid var(--rule); }
+  .t-rank { font-family: var(--serif); font-size: 28px; line-height: 1; color: var(--text-3); padding-top: 1px; }
+  .t-head { margin: 0; font-size: 14.5px; line-height: 1.45; color: var(--text); }
+  .t-head .dot { margin-right: 8px; }
+  .t-when { color: var(--text-3); }
+  .t-fix { margin: 7px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--text-2); }
+  .t-fix b { font-weight: 600; color: var(--text); letter-spacing: 0.02em; }
+  .t-held { margin: 5px 0 0; font-size: 12px; color: var(--text-3); }
+  .t-foot { margin: 14px 0 0; font-size: 12px; line-height: 1.5; color: var(--text-3); }
+
+  /* Hand history (feed) */
+  .feed { list-style: none; margin: 0; padding: 0; font-family: var(--mono); font-size: 13px; line-height: 1.4; }
+  .feed li { display: grid; grid-template-columns: 44px 1fr; column-gap: 12px; padding: 5px 0 6px; border-bottom: 1px solid var(--rule); color: var(--text-2); }
+  .feed time { color: var(--text-3); }
+  .feed .ev-sign::before, .feed .ev-fail::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
+  .feed .ev-sign::before { background: var(--sage); }
+  .feed .ev-fail::before { background: var(--vermilion); }
+  .feed .ev-fail { color: var(--text); }
+  .feed .mark { color: var(--text); }
+  .feed .older { border-bottom: none; color: var(--text-3); font-family: var(--sans); font-size: 12px; padding-top: 8px; }
+
+  /* The table */
+  .table { position: relative; width: 1104px; height: 614px; }
+  .table svg { position: absolute; inset: 0; width: 1104px; height: 614px; }
+  .td-felt { fill: rgba(236, 231, 220, 0.025); stroke: var(--rule-strong); stroke-width: 1; }
+  .td-rail { fill: none; stroke: var(--rule); stroke-dasharray: 3 5; }
+  .td-tie { fill: none; stroke: var(--rule); stroke-width: 1; }
+  .td-corner { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; fill: var(--text-3); }
+
+  .pot {
+    position: absolute; left: 50%; top: 50%; width: 580px; transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .pot .label { display: block; }
+  .pot-row { display: flex; align-items: baseline; justify-content: center; gap: 22px; margin-top: 2px; }
+  .north { font-family: var(--serif); font-weight: 400; font-size: 136px; line-height: 0.9; letter-spacing: -4px; color: var(--paper); font-feature-settings: "pnum" 1; }
+  .north-trend { text-align: left; }
+  .north-trend .n { font-family: var(--serif); font-size: 30px; line-height: 1; color: var(--sage); font-feature-settings: "pnum" 1; }
+  .north-trend .l { margin-top: 5px; font-size: 12px; color: var(--text-3); }
+  .north-trend .l b { font-weight: 500; color: var(--sage); }
+  .pot-figs { display: flex; justify-content: center; gap: 0; margin-top: 14px; }
+  .fig { display: flex; flex-direction: column; gap: 3px; padding: 0 22px; }
+  .fig + .fig { border-left: 1px solid var(--rule); }
+  .fig .label { font-size: 11px; }
+  .fig .v { font-family: var(--serif); font-size: 32px; line-height: 1; color: var(--paper); font-feature-settings: "pnum" 1; }
+  .fig .v small { font-family: var(--sans); font-size: 12px; color: var(--text-2); margin-left: 6px; letter-spacing: 0; }
+  .fig .v .good { font-family: var(--sans); font-size: 12px; font-weight: 500; margin-left: 6px; }
+  .fig .n { font-size: 12px; color: var(--text-3); }
+  .pot-today { margin: 16px auto 0; max-width: 500px; font-size: 14px; line-height: 1.5; color: var(--text-2); }
+  .pot-today b { font-weight: 600; color: var(--text); }
+  .pot-today .do { color: var(--text); }
+  .pot-today .do b { color: var(--brass); letter-spacing: 0.02em; }
+
+  /* Seats */
+  .seat {
+    position: absolute; width: 204px; height: 66px; transform: translate(-50%, -50%);
+    border: 1px solid var(--rule-strong); border-radius: 33px; background: var(--ink);
+    padding: 11px 20px 0 20px;
+  }
+  .seat-top { display: flex; align-items: baseline; gap: 8px; }
+  .seat-top .dot { align-self: center; }
+  .seat-name { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); white-space: nowrap; }
+  .seat-n { margin-left: auto; font-family: var(--serif); font-size: 22px; line-height: 1; color: var(--paper); font-feature-settings: "pnum" 1; white-space: nowrap; }
+  .seat-n small { font-family: var(--sans); font-size: 11px; color: var(--text-3); margin-left: 4px; }
+  .seat-run { margin-top: 4px; font-size: 12px; color: var(--text-3); white-space: nowrap; }
+  .seat-run b { font-weight: 500; color: var(--text-2); }
+  .seat-cap { position: absolute; left: 50%; top: 100%; transform: translateX(-50%); margin-top: 7px; white-space: nowrap; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+  .seat-cap.above { top: auto; bottom: 100%; margin-top: 0; margin-bottom: 7px; }
+  .s-wait { border-color: var(--brass); }
+  .s-wait .seat-name, .s-wait .seat-n { color: var(--brass); }
+  .s-wait .seat-run b { color: var(--brass); }
+  .s-wait .seat-cap { color: var(--brass); }
+  .s-fail { border-color: var(--vermilion); }
+  .s-fail .seat-name, .s-fail .seat-n { color: var(--vermilion); }
+  .s-fail .seat-run { color: var(--text-2); }
+  .s-fail .seat-run b { color: var(--vermilion); font-weight: 600; }
+  .s-fail .seat-cap { color: var(--vermilion); }
+  .s-idle { border-color: var(--rule); }
+  .s-idle .seat-name { color: var(--text-2); }
+
+  /* ---------- bottom band ---------- */
+  .band {
+    position: absolute; top: 700px; left: 32px; right: 32px; height: 348px;
+    border-top: 1px solid var(--rule); padding-top: 14px;
+    display: grid; grid-template-columns: 984px 230px 270px 300px; column-gap: 24px;
+  }
+  .band > section { position: relative; }
+  .band .col-head { padding-bottom: 8px; }
+
+  /* Channels as chip stacks */
+  .channels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 16px; margin-top: 14px; }
+  .channel { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }
+  .stack { position: relative; height: 258px; border-bottom: 1px solid var(--rule-strong); }
+  .stack .chips { position: absolute; left: 2px; bottom: 0; width: 36px; display: flex; flex-direction: column-reverse; gap: 2px; }
+  .stack .chips i { display: block; height: 3px; background: var(--rule-strong); }
+  .stack .chips i.top { background: var(--text-2); }
+  .stack .count { position: absolute; left: 0; width: 40px; text-align: center; font-family: var(--serif); font-size: 20px; line-height: 1; color: var(--paper); font-feature-settings: "pnum" 1; }
+  .stack .count small { display: block; font-family: var(--sans); font-size: 11px; color: var(--text-3); margin-top: 3px; }
+  .stack .none { position: absolute; left: -4px; width: 48px; bottom: 6px; text-align: center; font-size: 11px; line-height: 1.4; color: var(--text-3); }
+  .ch-name { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+  .ch-name .label { color: var(--text); }
+  .ch-name .sub { font-size: 11px; white-space: nowrap; }
+  .ch-key { margin-top: 10px; font-family: var(--serif); font-size: 32px; line-height: 1; color: var(--paper); font-feature-settings: "pnum" 1; white-space: nowrap; }
+  .ch-key small { font-family: var(--sans); font-size: 12px; color: var(--text-2); margin-left: 6px; }
+  .ch-lines { margin: 8px 0 0; padding: 0; list-style: none; font-size: 13px; line-height: 1.5; color: var(--text-2); }
+  .ch-lines li { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; border-bottom: 1px solid var(--rule); }
+  .ch-lines li:last-child { border-bottom: none; }
+  .ch-lines span:last-child { color: var(--text-3); white-space: nowrap; }
+  .ch-lines .trend { font-weight: 500; }
+  .ch-lines .share span:first-child { color: var(--text); font-weight: 500; }
+
+  /* Budget */
+  .bud-key { margin-top: 14px; font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--paper); font-feature-settings: "pnum" 1; }
+  .bud-key small { font-family: var(--sans); font-size: 13px; color: var(--text-2); margin-left: 8px; }
+  .bar { position: relative; height: 6px; margin-top: 14px; background: var(--track); border-radius: 3px; overflow: hidden; }
+  .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 40.7%; background: var(--paper); border-radius: 3px; }
+  .bar-ticks { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--text-3); letter-spacing: 0.04em; }
+  .bud-lines { margin: 14px 0 0; padding: 0; list-style: none; font-size: 13px; line-height: 1.5; color: var(--text-2); }
+  .bud-lines li { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid var(--rule); }
+  .bud-lines li span:last-child { color: var(--text); }
+  .bud-foot { position: absolute; left: 0; right: 0; bottom: 0; font-size: 12px; line-height: 1.5; color: var(--text-3); }
+
+  /* Experiments */
+  .exps { margin: 14px 0 0; padding: 0; list-style: none; }
+  .exp { padding: 10px 0 12px; border-bottom: 1px solid var(--rule); }
+  .exp-title { font-size: 13.5px; line-height: 1.45; color: var(--text); }
+  .exp-title em { font-style: italic; font-family: var(--serif); font-size: 16px; color: var(--paper); }
+  .exp-status { margin-top: 4px; font-size: 13px; line-height: 1.5; color: var(--text-2); }
+  .exp-status b { font-weight: 500; color: var(--text-3); }
+  .exp-days { display: flex; gap: 3px; margin-top: 8px; }
+  .exp-days i { width: 15px; height: 4px; border: 1px solid var(--rule-strong); border-radius: 1px; }
+  .exp-days i.on { background: var(--text-2); border-color: var(--text-2); }
+  .exp-foot { position: absolute; left: 0; right: 0; bottom: 0; font-size: 12px; line-height: 1.5; color: var(--text-3); }
+
+  /* Map: typographic cartogram */
+  .carto { position: relative; height: 222px; margin-top: 8px; }
+  .cc { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; line-height: 1; color: var(--text-2); font-weight: 600; letter-spacing: 0.06em; }
+  .cc small { font-weight: 400; font-size: 11px; color: var(--text-3); margin-left: 4px; letter-spacing: 0.02em; }
+  .cc.lead { color: var(--paper); }
+  .cc.lead small { color: var(--text-2); }
+  .carto .sea { position: absolute; left: 50%; top: 12px; bottom: 12px; border-left: 1px dashed var(--rule); }
+  .carto .region { position: absolute; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); }
+  .map-foot { position: absolute; left: 0; right: 0; bottom: 0; font-size: 12px; line-height: 1.5; color: var(--text-3); }
+  .map-foot i { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--text-2); }
+</style>
+</head>
+<body>
+<div class="wall">
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="mast-left">
+      <span class="wordmark">LlamaPoker</span>
+      <span class="label">Operations</span>
+    </div>
+    <div class="mast-mid">Tuesday 3 March 2027 · <b>19:42</b></div>
+    <div class="mast-right">
+      <div class="switch"><span>Outbound</span><i class="dot dot-ok"></i><span class="state">Live</span><span class="pause">· pause off</span></div>
+      <div class="keys">
+        <span><kbd>⌘K</kbd> command</span>
+        <span><kbd>W</kbd> wall</span>
+        <span><kbd>T</kbd> time</span>
+        <span><kbd>A</kbd> approve</span>
+        <span><kbd>⌘⇧P</kbd> pause</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main zone: the read | the table | hand history -->
+  <div class="main">
+
+    <!-- The read -->
+    <section class="read">
+      <div class="col-head"><span class="label label-strong">The read</span><span class="sub">threats, ranked by what they cost</span></div>
+      <ol class="threats">
+        <li class="threat">
+          <span class="t-rank">1</span>
+          <div>
+            <p class="t-head"><i class="dot dot-fail"></i>Instagram publisher failed <span class="t-when">18:20</span>, token expired.</p>
+            <p class="t-fix"><b>Fix</b> re-authorise the Meta app, about 2 minutes.</p>
+            <p class="t-held">Reel 014 is held until then.</p>
+          </div>
+        </li>
+        <li class="threat">
+          <span class="t-rank">2</span>
+          <div>
+            <p class="t-head"><i class="dot dot-wait"></i>Reel 013 keeps 41% past 3 s; the median is 55%.</p>
+            <p class="t-fix"><b>Fix</b> the hook shows the number at 4.1 s. Move it under 3 s.</p>
+          </div>
+        </li>
+        <li class="threat">
+          <span class="t-rank">3</span>
+          <div>
+            <p class="t-head"><i class="dot dot-wait"></i>/learn/outs slipped from position 8 to 14 for “poker outs”.</p>
+            <p class="t-fix"><b>Fix</b> chart image and exact-odds table above the fold, two internal links.</p>
+          </div>
+        </li>
+        <li class="threat">
+          <span class="t-rank">4</span>
+          <div>
+            <p class="t-head"><i class="dot dot-ok"></i>Letter bounce 0.8%, within range.</p>
+            <p class="t-fix"><b>Fix</b> none. Watching.</p>
+          </div>
+        </li>
+      </ol>
+      <p class="t-foot">Ranked by subscribers at risk. Open a line for the evidence behind it.</p>
+    </section>
+
+    <!-- The table -->
+    <section class="table" aria-label="The machine, drawn as a poker table">
+      <svg viewBox="0 0 1104 614" role="img" aria-hidden="true">
+        <ellipse cx="552" cy="308" rx="350" ry="172" class="td-felt"/>
+        <ellipse cx="552" cy="308" rx="336" ry="158" class="td-rail"/>
+        <!-- order of play: a hairline from each seat to the next, outside the oval -->
+        <path class="td-tie" d="M 331 128 L 448 66"/>
+        <path class="td-tie" d="M 656 66 L 773 128"/>
+        <path class="td-tie" d="M 936 160 L 976 275"/>
+        <path class="td-tie" d="M 976 341 L 936 456"/>
+        <path class="td-tie" d="M 773 488 L 656 550"/>
+        <path class="td-tie" d="M 448 550 L 331 488"/>
+        <path class="td-tie" d="M 168 456 L 128 341"/>
+        <path class="td-tie" d="M 128 275 L 168 160"/>
+        <text x="4" y="14" class="td-corner">The machine · clockwise in order of play</text>
+        <text x="1100" y="14" class="td-corner" text-anchor="end">Counts are this week · open a seat for its runs and logs</text>
+      </svg>
+
+      <!-- Seats, clockwise from top-left -->
+      <div class="seat" style="left:227px; top:128px">
+        <div class="seat-top"><i class="dot dot-ok"></i><span class="seat-name">Research</span><span class="seat-n">12<small>items</small></span></div>
+        <div class="seat-run">18:00 → Mon 06:00</div>
+      </div>
+      <div class="seat" style="left:552px; top:66px">
+        <div class="seat-top"><i class="dot dot-ok"></i><span class="seat-name">Writer</span><span class="seat-n">3<small>drafts</small></span></div>
+        <div class="seat-run">18:55 → on demand</div>
+      </div>
+      <div class="seat s-idle" style="left:877px; top:128px">
+        <div class="seat-top"><i class="dot dot-idle"></i><span class="seat-name">Voice · Render</span><span class="seat-n">2<small>reels</small></span></div>
+        <div class="seat-run">Sun 20:10 → Sun · founder’s PC</div>
+      </div>
+      <div class="seat s-wait" style="left:1000px; top:308px">
+        <div class="seat-top"><i class="dot dot-wait"></i><span class="seat-name">Approval</span><span class="seat-n">4<small>items</small></span></div>
+        <div class="seat-run"><b>waiting on you</b> · oldest 1 day</div>
+        <div class="seat-cap">The action is on you</div>
+      </div>
+      <div class="seat" style="left:877px; top:488px">
+        <div class="seat-top"><i class="dot dot-ok"></i><span class="seat-name">Scheduled</span><span class="seat-n">3<small>posts</small></span></div>
+        <div class="seat-run">Thu 18:00 · Fri 18:00 · Sun</div>
+      </div>
+      <div class="seat s-fail" style="left:552px; top:550px">
+        <div class="seat-top"><i class="dot dot-fail"></i><span class="seat-name">Publisher</span><span class="seat-n">1<small>held</small></span></div>
+        <div class="seat-run"><b>Failed 18:20</b> · Instagram token expired</div>
+        <div class="seat-cap">Folded · reel 014 held</div>
+      </div>
+      <div class="seat" style="left:227px; top:488px">
+        <div class="seat-top"><i class="dot dot-ok"></i><span class="seat-name">Published</span><span class="seat-n">5<small>this week</small></span></div>
+        <div class="seat-run">2 reels · 1 letter · 2 posts</div>
+      </div>
+      <div class="seat" style="left:104px; top:308px">
+        <div class="seat-top"><i class="dot dot-ok"></i><span class="seat-name">Letter</span><span class="seat-n">1<small>sent</small></span></div>
+        <div class="seat-run">Tue 16:02 → Tue</div>
+      </div>
+
+      <!-- The pot -->
+      <div class="pot">
+        <span class="label">Subscribers · the pot</span>
+        <div class="pot-row">
+          <div class="north">1,284</div>
+          <div class="north-trend">
+            <div class="n">+38</div>
+            <div class="l">this week · <b>+3.1%</b></div>
+          </div>
+        </div>
+        <div class="pot-figs">
+          <div class="fig">
+            <span class="label">Reach</span>
+            <span class="v">48.2K<small>reel views · 7 d</small><span class="good">+12%</span></span>
+          </div>
+          <div class="fig">
+            <span class="label">Weekly active</span>
+            <span class="v">27%<small>342 used the tool</small></span>
+          </div>
+        </div>
+        <p class="pot-today"><b>Today</b> +9: six from reel 013 via the bio link, three from “poker outs”.<br><span class="do"><b>Do</b> re-authorise Instagram, then approve the queue (4).</span></p>
+      </div>
+    </section>
+
+    <!-- Hand history -->
+    <section class="history">
+      <div class="col-head"><span class="label label-strong">Hand history</span><span class="sub">14,882 events today · 2.1 ms p95</span></div>
+      <ol class="feed">
+        <li><time>19:41</time><span class="ev-sign">signup · /learn/outs · search</span></li>
+        <li><time>19:36</time><span>reel 013 passed <span class="mark">20,000</span> views</span></li>
+        <li><time>19:30</time><span>trainer: 61 drills answered this hour</span></li>
+        <li><time>19:12</time><span class="ev-sign">signup · / · instagram · bio</span></li>
+        <li><time>18:55</time><span>writer finished letter 017 draft (1,140 words) → queue</span></li>
+        <li><time>18:20</time><span class="ev-fail">publisher failed: Instagram token expired, reel 014 held</span></li>
+        <li><time>18:00</time><span>research ran: 12 items, 3 new topics</span></li>
+        <li><time>17:48</time><span class="ev-sign">signup · /table · letter</span></li>
+        <li><time>17:30</time><span>cost: Claude €0.84 today, €23.10 month</span></li>
+        <li><time>16:02</time><span>letter 016 sent to 1,246, 52% opened so far</span></li>
+        <li><time>15:10</time><span class="ev-sign">signup · /learn/pot-odds · youtube</span></li>
+        <li><time>14:44</time><span>search: "pot odds formula" first click</span></li>
+        <li><time>13:30</time><span>reel 013 saved 212 times (1 in 94 views)</span></li>
+        <li><time>12:00</time><span>scheduler: 3 posts queued</span></li>
+        <li><time>09:15</time><span>approved: reel 014 cover, caption v2</span></li>
+        <li><time>06:00</time><span>research ran: Reddit 41 threads, 2 ranked</span></li>
+      </ol>
+    </section>
+  </div>
+
+  <!-- Bottom band: channels | budget | experiments | map -->
+  <div class="band">
+
+    <!-- Channels as chip stacks -->
+    <section>
+      <div class="col-head"><span class="label label-strong">Channels</span><span class="sub">one chip per subscriber it brought · share of the pot</span></div>
+      <div class="channels">
+
+        <div class="channel">
+          <div class="stack">
+            <div class="count" style="bottom:213px">41<small>subs</small></div>
+            <div class="chips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="top"></i></div>
+          </div>
+          <div>
+            <div class="ch-name"><span class="label">Site</span><span class="sub">llamapoker.com</span></div>
+            <div class="ch-key">2,910<small>visits · 7 d</small></div>
+            <ul class="ch-lines">
+              <li><span>vs last week</span><span class="trend good">+8%</span></li>
+              <li><span>Sign up</span><span>3.2%</span></li>
+              <li class="share"><span>41 subscribers</span><span>34% of new</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="channel">
+          <div class="stack">
+            <div class="none">keeps them,<br>not a source</div>
+          </div>
+          <div>
+            <div class="ch-name"><span class="label">Letter</span><span class="sub">16 sends</span></div>
+            <div class="ch-key">52%<small>opened</small></div>
+            <ul class="ch-lines">
+              <li><span>Clicked</span><span>18%</span></li>
+              <li><span>Ran a spot</span><span>14</span></li>
+              <li><span>Bounce</span><span class="good">0.8%</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="channel">
+          <div class="stack">
+            <div class="count" style="bottom:118px">22<small>subs</small></div>
+            <div class="chips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="top"></i></div>
+          </div>
+          <div>
+            <div class="ch-name"><span class="label">Instagram</span><span class="sub">3,420 followers</span></div>
+            <div class="ch-key">48.2K<small>views · 7 d</small></div>
+            <ul class="ch-lines">
+              <li><span>vs last week</span><span class="trend good">+12%</span></li>
+              <li><span>Followers</span><span>3,420</span></li>
+              <li class="share"><span>22 subscribers</span><span>18% of new</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="channel">
+          <div class="stack">
+            <div class="count" style="bottom:53px">9<small>subs</small></div>
+            <div class="chips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="top"></i></div>
+          </div>
+          <div>
+            <div class="ch-name"><span class="label">Search</span><span class="sub">Google · 28 d</span></div>
+            <div class="ch-key">310<small>clicks · 28 d</small></div>
+            <ul class="ch-lines">
+              <li><span>vs last period</span><span class="trend good">+41%</span></li>
+              <li><span>Impressions</span><span>6.4K</span></li>
+              <li><span>Avg position</span><span>12.3</span></li>
+              <li class="share"><span>9 subscribers</span><span>7% of new</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Budget -->
+    <section>
+      <div class="col-head"><span class="label label-strong">Stack</span><span class="sub">March, ceiling €150</span></div>
+      <div class="bud-key">€61<small>of €150</small></div>
+      <div class="bar"><i></i></div>
+      <div class="bar-ticks"><span>€0</span><span>41% spent</span><span>€150</span></div>
+      <ul class="bud-lines">
+        <li><span>Claude</span><span>€23</span></li>
+        <li><span>Cloudflare</span><span>€0</span></li>
+        <li><span>Beehiiv</span><span>€0</span></li>
+        <li><span>Domain</span><span>€1</span></li>
+        <li><span>Misc</span><span>€37</span></li>
+      </ul>
+      <p class="bud-foot">Claude €0.84 today. The ceiling pauses outbound work, not the site.</p>
+    </section>
+
+    <!-- Experiments -->
+    <section>
+      <div class="col-head"><span class="label label-strong">Experiments</span><span class="sub">2 running</span></div>
+      <ul class="exps">
+        <li class="exp">
+          <div class="exp-title">Hook: <em>number</em> vs <em>question</em></div>
+          <div class="exp-status">Day 6 of 14 · 4 reels · <b>too early to call</b></div>
+          <div class="exp-days"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </li>
+        <li class="exp">
+          <div class="exp-title">Letter: <em>Thursday</em> vs <em>Sunday</em></div>
+          <div class="exp-status">3 sends · <b>inconclusive</b> · needs 6</div>
+        </li>
+      </ul>
+      <p class="exp-foot">A test is called only when the sample is big enough; until then it says so.</p>
+    </section>
+
+    <!-- Map -->
+    <section>
+      <div class="col-head"><span class="label label-strong" style="white-space:nowrap">Where they are</span><span class="sub">visitors · 7 d</span></div>
+      <div class="carto">
+        <span class="region" style="left:0; top:0">Americas</span>
+        <span class="region" style="right:0; top:0">Europe</span>
+        <span class="sea"></span>
+        <span class="cc" style="left:52px; top:70px; font-size:22px">US<small>12%</small></span>
+        <span class="cc" style="left:40px; top:112px; font-size:13px">MX<small>2%</small></span>
+        <span class="cc" style="left:100px; top:150px; font-size:15px">BR<small>4%</small></span>
+        <span class="cc" style="left:80px; top:196px; font-size:14px">AR<small>3%</small></span>
+        <span class="cc" style="left:180px; top:54px; font-size:19px">UK<small>9%</small></span>
+        <span class="cc" style="left:232px; top:66px; font-size:15px">NL<small>4%</small></span>
+        <span class="cc" style="left:264px; top:104px; font-size:24px">DE<small>14%</small></span>
+        <span class="cc" style="left:204px; top:118px; font-size:16px">FR<small>6%</small></span>
+        <span class="cc lead" style="left:196px; top:180px; font-size:40px">ES<small>31%</small></span>
+      </div>
+      <p class="map-foot">ES: 912 visits, 14 subscribers. 31 others 15%. <i>Engraving map: not enough data.</i> It is drawn once a country passes 100 visits a week.</p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
