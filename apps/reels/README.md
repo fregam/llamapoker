@@ -34,8 +34,8 @@ The voice-over is the spine. Everything on screen happens because a word was jus
    cannot drift. Write for flow: every line hands off to the next ("so", "but", "which means", a
    question the next line answers), and numbers come back as callbacks.
 2. **Voice** — one wav per take, `public/vo/<id>/<take>.wav`, generated for free on the local GPU
-   by VibeVoice-Large in ComfyUI: the whole reel in one generation, then cut into takes at the
-   aligned word boundaries (the four commands under "Voice" below). `vo-align.py` also writes when
+   by VibeVoice-Large in ComfyUI: the whole reel in one generation, cleaned and tightened, then cut
+   into takes at the aligned word boundaries (the commands under "Voice" below). `vo-align.py` also writes when
    every word is spoken (`src/vo/<id>.words.json`) and `vo-manifest.mjs` writes `src/vo/<id>.json`
    (take lengths, voiced span, word times).
 3. **Timeline** — `src/narration.ts` places every take at its real length, puts each word at its
@@ -89,7 +89,9 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   is written so each line leans on the one before (connectives, callbacks, a question answered next).
 - **Pace.** After generation, `scripts/vo-tighten.py <id> --max-gap 0.55 --tempo 1.0` cuts every
   silence longer than 0.55 s down to 0.55 s. Not shorter: at 0.3 s and +6 % tempo it stopped
-  sounding like narration. Take gaps in the script are 8–9 frames. Something moves on screen at
+  sounding like narration. Clean **before** tightening: a sampled read's raw floor sits above the
+  −42 dBFS gate, so on the uncleaned whole the rule cut nothing (0.0 s on reel 002); after
+  DeepFilterNet it cut 12 s. Take gaps in the script are 8–9 frames. Something moves on screen at
   least every two seconds (counters, dots, a Move).
 - **Length follows the script**, typically 60–85 s. The hits in the niche run 50–112 s; what matters
   is that something moves every two seconds, not that it's short.
@@ -118,8 +120,10 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   `scripts/sfx-synth.py` until ACE-Step 1.5 runs (`scripts/music-comfy.mjs`, needs the ComfyUI
   Desktop core updated). `sfx-synth.py` also regenerates a provisional effects set with the same
   names if ever needed.
-- Voice cleaning: `scripts/vo-enhance.py <id>` (DeepFilterNet 3 on the system Python 3.11, keeps
-  `<take>.raw.wav`, re-levels to −16 LUFS); `scripts/vo-denoise.py` is the dependency-free fallback.
+- Voice cleaning: `scripts/vo-enhance.py --file <in> <out>` (DeepFilterNet 3 on the system Python
+  3.11, re-levels to −16 LUFS) on the whole recording before it is tightened and cut (see "Voice");
+  `scripts/vo-enhance.py <id>` does the same per take (keeps `<take>.raw.wav`);
+  `scripts/vo-denoise.py` is the dependency-free fallback.
 
 ## Hooks
 
@@ -151,19 +155,26 @@ cd /c/Users/matia/Documents/ComfyUI && PYTHONUTF8=1 ./.venv/Scripts/python.exe \
 The voice is **not a real person**. VibeVoice invents a voice from a seed when it gets no reference;
 twelve seeds were generated on the same paragraph and measured (pitch, spread, pace, word error
 rate; we can't listen in the terminal), see `docs/research/2026-11-11-vibevoice-voice-board.md`.
-The pick is seed **3** (`.../outputs/seed-3.wav`: 121 Hz median, IQR 28, 2.42 words/s: calm, low,
-steady); seed-11 is the alternate. The voice is locked by **cloning from a 9 s cut of that take**
+The voice is seed **3** (`.../outputs/seed-3.wav`: 121 Hz median, IQR 28, 2.42 words/s: calm, low,
+steady); seed-11 is the alternate. It is locked by **cloning from a 9 s cut of that take**
 (`.../outputs/seed-3_ref.wav`, seconds 3.2–12.2: a seed alone only fixes the voice inside one
 generation, and a reference that opens with the same words as the script makes the model recite
-it, so the cut starts mid-paragraph). The **whole reel is generated in one go** (one speaker, one
-breath) and cut into takes afterwards:
+it, so the cut starts mid-paragraph). The pick since v9 is **read B**: that reference with
+**sampling at temperature 0.9, seed 4** (greedy was the earlier read A, steadier but flatter;
+the second board in the research doc has both). The **whole reel is generated in one go** (one
+speaker, one breath), cleaned, tightened and cut into takes afterwards:
 
 ```bash
-node ../../scripts/vo-comfy.mjs <id> --ref ../../media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole
+node ../../scripts/vo-comfy.mjs <id> --ref ../../media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole --sample --temperature 0.9 --seed 4
+<py311>/python.exe ../../scripts/vo-enhance.py --file public/vo/<id>/_whole.wav public/vo/<id>/_whole.raw.wav   # DeepFilterNet + −16 LUFS, first
+<comfyui-venv>/python.exe ../../scripts/vo-tighten.py <id> --max-gap 0.55 --tempo 1.0             # reads _whole.raw.wav, writes _whole.wav
 <comfyui-venv>/python.exe ../../scripts/vo-align.py <id> --split         # cuts <take>.wav, writes word times
 <comfyui-venv>/python.exe ../../scripts/vo-check.py <id>                 # same voice on every take? said the words?
-node ../../scripts/vo-manifest.mjs <id> "VibeVoice-Large seed-3 clone"
+node ../../scripts/vo-manifest.mjs <id> "VibeVoice-Large seed-3 ref, sampling 0.9 seed 4 (read B)"
 ```
+
+(`_whole.raw.wav` is the file `vo-tighten.py` cuts from, so the cleaned whole goes there; the
+untouched generation stays in `media/`.)
 
 A new voice = a new board (`vo-comfy.mjs --board`), pick by the numbers, cut a mid-paragraph
 reference, regenerate; nothing else changes. To use a human voice, record 60 s with consent and
@@ -219,8 +230,8 @@ measurements only narrow):
 | id | Topic | Length | Recipe |
 |---|---|---|---|
 | `should-you-call` | Pot odds with one formula (A♥5♥ on K♥9♥2♣, 50 into 100) | 38 s | first reel, pre-library, beat-based (to be rebuilt) |
-| `only-aces` | Waiting for premiums costs 10 bb a wait, and nobody pays | 105 s | `content/reels/002-only-aces.md` |
-| `will-it-get-there` | Outs in two seconds: the rule of 4 and 2 vs the exact numbers | 75 s | `content/reels/003-will-it-get-there.md` |
+| `only-aces` | Waiting for premiums costs 10 bb a wait, and nobody pays | 87 s | `content/reels/002-only-aces.md` |
+| `will-it-get-there` | Outs in two seconds: the rule of 4 and 2 vs the exact numbers | 65 s | `content/reels/003-will-it-get-there.md` |
 
 Covers: `cover-only-aces`, `cover-will-it-get-there`, `cover-should-you-call`.
 

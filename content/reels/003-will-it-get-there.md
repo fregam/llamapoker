@@ -1,10 +1,10 @@
 ---
 title: Will it get there?
-status: rendered (v8, the baseline since 2026-11-11), not approved for posting (two quality rounds pending: voice, review sheet)
-channel: Instagram Reels (9:16, 75 s, narration-first, one voice take per scene, local VibeVoice voice)
+status: rendered (v9, voice B), not approved for posting (review-sheet round pending)
+channel: Instagram Reels (9:16, 65 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `will-it-get-there`; script `apps/reels/src/scripts/will-it-get-there.json`; cover `cover-will-it-get-there`
-files: media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4; audio/vo/will-it-get-there_vo-whole_v04.wav (the one-take narration the scene wavs are cut from)
+files: media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4 (v9), will-it-get-there_v08.mp4; audio/vo/will-it-get-there_vo-whole_v09-B-clean-tight.wav (the one-take narration the scene wavs are cut from), will-it-get-there_A_v08/ (the previous voice)
 cost: v4 voice free (local GPU); earlier v3 voice 12.6 Higgsfield credits
 ---
 
@@ -30,6 +30,19 @@ spoken. Risers and booms on the three numbers. v7 (same night): pauses at 0.55 s
 docking moves), hook dealt in from frame 0 with a shake on the 36 %, the Gentleman centred and
 clear of the captions in the outro.
 
+## v9 (2026-11-11): voice B
+
+Only the voice changed. The founder picked the livelier read B from the voice round (reel 002's
+hook in A and B, with picture): the same seed-3 reference, sampled at temperature 0.9 with seed 4,
+instead of greedy decoding. The whole-reel B recording from the second board
+(`media/tests/2026-11-11_vibevoice-voice-board/outputs/whole-003-B-lively.wav`) went through the
+tracked chain in a new order, clean first (DeepFilterNet 3 + −16 LUFS on the whole), then the
+0.55 s pause rule, then the split into takes, alignment, `vo-check`, manifest. Script, stage,
+sound and motion are untouched; the length follows the new takes (64.6 s → 65.5 s). Steps, checks and the words the
+transcript models doubt: `docs/research/2026-11-11-voice-b-rollout.md`. The A voice (v8) is kept
+at `media/reels/2026-11-10_will-it-get-there/audio/vo/will-it-get-there_A_v08/` (takes, whole, manifest, word times) and the v8 render
+as `renders/will-it-get-there_v08.mp4`.
+
 ## Scenes
 
 | Scene | Voice says | On screen |
@@ -52,9 +65,12 @@ close it really is. For players who chase draws by feel. Run any spot free: link
 
 ## Voice-over
 
-Voice: VibeVoice-Large in the local ComfyUI, the seed-3 board voice cloned from its 9 s cut
-(as reel 002). Files `apps/reels/public/vo/will-it-get-there/<take>.wav`, one per scene, cut from
-one continuous generation. Regenerate:
-`node scripts/vo-comfy.mjs will-it-get-there --ref media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole`,
-then `scripts/vo-align.py will-it-get-there --split`, `scripts/vo-check.py will-it-get-there` and
-`node scripts/vo-manifest.mjs will-it-get-there "VibeVoice-Large seed-3 clone"`.
+Voice: VibeVoice-Large in the local ComfyUI, the seed-3 board voice cloned from its 9 s cut,
+read B since v9 (sampling at temperature 0.9, seed 4; as reel 002). Files
+`apps/reels/public/vo/will-it-get-there/<take>.wav`, one per scene, cut from one continuous
+generation. Regenerate:
+`node scripts/vo-comfy.mjs will-it-get-there --ref media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole --sample --temperature 0.9 --seed 4`,
+then `scripts/vo-enhance.py --file apps/reels/public/vo/will-it-get-there/_whole.wav apps/reels/public/vo/will-it-get-there/_whole.raw.wav`,
+`scripts/vo-tighten.py will-it-get-there --max-gap 0.55 --tempo 1.0`, `scripts/vo-align.py will-it-get-there --split`,
+`scripts/vo-check.py will-it-get-there` and
+`node scripts/vo-manifest.mjs will-it-get-there "VibeVoice-Large seed-3 ref, sampling 0.9 seed 4 (read B)"`.

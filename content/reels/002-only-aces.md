@@ -1,10 +1,10 @@
 ---
 title: Only playing aces?
-status: rendered (v8, the baseline since 2026-11-11), not approved for posting (two quality rounds pending: voice, review sheet)
-channel: Instagram Reels (9:16, 105 s, narration-first, one voice take per scene, local VibeVoice voice)
+status: rendered (v9, voice B), not approved for posting (review-sheet round pending)
+channel: Instagram Reels (9:16, 87 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `only-aces`; script `apps/reels/src/scripts/only-aces.json`; cover `cover-only-aces`
-files: media/reels/2026-11-10_only-aces/renders/only-aces.mp4, cover-only-aces.png; audio/vo/only-aces_vo-whole_v04.wav (the one-take narration the scene wavs are cut from)
+files: media/reels/2026-11-10_only-aces/renders/only-aces.mp4 (v9), only-aces_v08.mp4, cover-only-aces.png; audio/vo/only-aces_vo-whole_v09-B-clean-tight.wav (the one-take narration the scene wavs are cut from), only-aces_A_v08/ (the previous voice)
 cost: v4 voice free (local GPU); earlier v3 voice 15.3 Higgsfield credits + 3.6 for its board
 ---
 
@@ -77,6 +77,19 @@ Voice: VibeVoice-Large, locally, the seed-3 board voice cloned (see below).
 - Voice: second board for the user to pick (docs/research/2026-11-11-vibevoice-voice-board.md,
   "Second board"); the livelier read (B) is pre-generated for both reels.
 
+## v9 (2026-11-11): voice B
+
+Only the voice changed. The founder picked the livelier read B from the voice round (reel 002's
+hook in A and B, with picture): the same seed-3 reference, sampled at temperature 0.9 with seed 4,
+instead of greedy decoding. The whole-reel B recording from the second board
+(`media/tests/2026-11-11_vibevoice-voice-board/outputs/whole-002-B-lively.wav`) went through the
+tracked chain in a new order, clean first (DeepFilterNet 3 + −16 LUFS on the whole), then the
+0.55 s pause rule, then the split into takes, alignment, `vo-check`, manifest. Script, stage,
+sound and motion are untouched; the length follows the new takes (95.7 s → 87.3 s). Steps, checks and the words the
+transcript models doubt: `docs/research/2026-11-11-voice-b-rollout.md`. The A voice (v8) is kept
+at `media/reels/2026-11-10_only-aces/audio/vo/only-aces_A_v08/` (takes, whole, manifest, word times) and the v8 render
+as `renders/only-aces_v08.mp4`.
+
 ## Scenes (cues in brackets, see the script for the exact words)
 
 | Scene | Voice says | On screen |
@@ -104,10 +117,13 @@ bed in the app when posting.
 ## Voice-over
 
 Voice: VibeVoice-Large in the local ComfyUI, the board's seed-3 voice (not a real person: about
-120 Hz median, calm and low), cloned from a 9 s cut of that take, greedy decoding. Board and
-measurements: `docs/research/2026-11-11-vibevoice-voice-board.md`. Files
+120 Hz median, calm and low), cloned from a 9 s cut of that take; since v9 read B: sampling at
+temperature 0.9, seed 4 (greedy decoding was read A). Board and measurements:
+`docs/research/2026-11-11-vibevoice-voice-board.md`. Files
 `apps/reels/public/vo/only-aces/<take>.wav`, one per scene, cut from one continuous generation of
 the whole reel. Regenerate: start ComfyUI (see `apps/reels/README.md`, "Voice"), then
-`node scripts/vo-comfy.mjs only-aces --ref media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole`,
-`scripts/vo-align.py only-aces --split`, `scripts/vo-check.py only-aces`,
-`node scripts/vo-manifest.mjs only-aces "VibeVoice-Large seed-3 clone"`.
+`node scripts/vo-comfy.mjs only-aces --ref media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole --sample --temperature 0.9 --seed 4`,
+`scripts/vo-enhance.py --file apps/reels/public/vo/only-aces/_whole.wav apps/reels/public/vo/only-aces/_whole.raw.wav`,
+`scripts/vo-tighten.py only-aces --max-gap 0.55 --tempo 1.0`, `scripts/vo-align.py only-aces --split`,
+`scripts/vo-check.py only-aces`,
+`node scripts/vo-manifest.mjs only-aces "VibeVoice-Large seed-3 ref, sampling 0.9 seed 4 (read B)"`.

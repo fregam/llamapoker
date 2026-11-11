@@ -50,6 +50,10 @@
      Hit sound layer, twelve generated effects. v7: pauses restored to 0.55 s (the 0.3 s + tempo cut
      broke the narration feel), sound audit (no caption sounds, a sound per visual event), hook with
      motion from frame 0 and a shake, outro portrait centred; second voice board for the user's pick.
+   - v8: motion eases and frame depth. v9 (2026-11-11): the founder picked the livelier read B
+     (seed-3 ref, sampling 0.9, seed 4) from a hook A/B round; both reels re-cut on it, chain now
+     clean → tighten → split (docs/research/2026-11-11-voice-b-rollout.md); two spots the transcript
+     models doubt are listed there for the review-sheet round. Not approved for posting yet.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".
