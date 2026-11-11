@@ -6,7 +6,7 @@ asked for is `docs/plan-2026-11-11.md`; session state is `docs/state.md`; decisi
 
 ---
 
-Read CLAUDE.md, docs/vision.md, docs/roadmap.md, docs/hosting.md, brand/README.md, agents/README.md and apps/web/overview.md before anything else. They stay the source of truth, and their rules (study-tool positioning, 18+, approval before publishing, secrets, spending, personal-brand notes) all still apply. This brief adds to them.
+Read CLAUDE.md, docs/vision.md, docs/roadmap.md, docs/hosting.md, brand/README.md, apps/web/overview.md and the agents plan in docs/roadmap.md ("Later"; agents/README.md was folded in on 2026-11-12) before anything else. They stay the source of truth, and their rules (study-tool positioning, 18+, approval before publishing, secrets, spending, personal-brand notes) all still apply. This brief adds to them.
 
 Treat this brief as my best current thinking, not a specification. It states what I want and why, so that you can make good calls in situations it doesn't cover. Where you see a better route to the goal than the one I describe, say so and propose it. I would much rather be argued with than obeyed into a mediocre result.
 

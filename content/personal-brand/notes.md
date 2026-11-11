@@ -315,3 +315,27 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a factory doesn't need a better first draft; it needs the first approved piece turned
   into a ruler.
 - **Hook:** "My second video was worse than my first. Same code. Here's the checklist that fixed it."
+
+## 2026-11-12 - Borrowed a stranger's engineering workflow, and the plans landed in public
+
+- **Choice:** installed Matt Pocock's skills (spec, tickets, TDD, a "grill me" interview) instead
+  of inventing a planning process. Issues live as Markdown files in `.scratch/` inside the repo,
+  not in GitHub Issues. Since the repo went public the night before, every spec and ticket is
+  public too.
+- **Rejected:** GitHub Issues (one more place to look); git-ignoring `.scratch/` (plans you
+  can't version get lost).
+- **Lesson:** each decision changes what the previous one means. Going public for a free
+  checkbox also made the roadmap public.
+- **Hook:** "My to-do list is open source now. That wasn't the plan; it was a side effect."
+
+## 2026-11-12 - The integrity check had been checking the wrong file
+
+- **Choice:** cleaning out 1.2 GB of shelved experiments meant pruning the media manifests and
+  re-running the checker. Asked to update one manifest by path, it complained instead about five
+  3D files that had nothing to do with that manifest: an off-by-one in the argument parsing
+  dropped the path and fell back to the default manifest. Every earlier call had happened to put
+  a flag first, so nobody had seen it.
+- **Rejected:** just reordering the arguments and moving on.
+- **Lesson:** a tool that falls back silently answers a question you didn't ask. The tell was an
+  error about files I hadn't mentioned; read errors for what they name, not only that they failed.
+- **Hook:** "My checker failed on files I never asked it about. That was the bug."

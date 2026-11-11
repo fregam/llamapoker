@@ -9,7 +9,10 @@
 - 2026-11-06: llamapoker.com live on Cloudflare Pages (Namecheap domain, Cloudflare DNS,
   www → apex redirect), Beehiiv signup, Web Analytics, Search Console + sitemap,
   link-preview image.
-- Monorepo: `brand/`, `apps/web/`, `content/`, `agents/`, `docs/`.
+- Monorepo: `brand/`, `apps/web/`, `apps/reels/`, `apps/wall/`, `content/`, `media/`, `scripts/`, `docs/`.
+- 2026-11-12: housekeeping. Shelved Blender code (`apps/blender/`), AI-video bake-off media,
+  FLUX/ElevenLabs test media and unused reel images removed; the `agents/` placeholder folded
+  into Later below. Write-ups stay in `docs/research/`; code is in git history.
 - Guides: /learn/pot-odds (formula + bet-size chart) and /learn/outs (common draws, rule of 2 and 4, full outs chart).
 - Phone pass: no sideways scrolling on any page at 390px; trainer drill tabs scroll; touch screens hide keyboard hints.
 - 2026-11-11: speed (Phase 1 item): prerendered pages hydrate instead of re-rendering; brand fonts
@@ -71,5 +74,8 @@
 
 - Research agent (Reddit, X, tournament results) → weekly brief in `content/`.
 - Writing and SEO agents → draft articles for review.
+- Social agent → turns articles and tips into posts and reel scripts.
+- Agent rules: agents draft, a human approves before anything is published; follow
+  `brand/README.md`; keys from the environment or `credentials.json`, never the repo.
 - Move hosting to a Hetzner VPS (see `docs/hosting.md`) when the backend and agents need a server.
 - Tournament press, merch.
