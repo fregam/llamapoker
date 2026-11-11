@@ -51,6 +51,16 @@ describe("routes", () => {
   });
 });
 
+describe("hydration", () => {
+  // main.tsx hydrates prerendered pages; the browser's first render must equal the HTML.
+  // Anything random or clock-based during render would break that, so render each twice.
+  it("every prerendered page renders the same HTML twice", () => {
+    for (const r of ROUTES.filter((r) => r.prerender)) {
+      expect(render(r.path), r.path).toBe(render(r.path));
+    }
+  });
+});
+
 describe("signup path", () => {
   it("the home page carries the letter signup form", () => {
     const html = render("/");

@@ -51,7 +51,9 @@ function page(route, body, extraHead = "") {
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(route.title)}</title>`)
     .replace(/<meta name="description" content="[^"]*"\s*\/?>/, `<meta name="description" content="${esc(route.description)}" />`)
     .replace("</head>", `    ${head}\n  </head>`)
-    .replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+    // data-path tells src/main.tsx which URL the markup was rendered for: it hydrates only when
+    // that matches the address bar (a fallback page served for another URL gets a fresh render).
+    .replace('<div id="root"></div>', body ? `<div id="root" data-path="${esc(route.path)}">${body}</div>` : `<div id="root"></div>`);
 }
 
 // "/table" → dist/table.html (not table/index.html): Cloudflare Pages serves it at /table

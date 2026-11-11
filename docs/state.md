@@ -55,6 +55,8 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
   `apps/wall`, a D1 database bound as `DB`, the five variables, `wall.llamapoker.com`; then
   `WALL_URL` and `WALL_INGEST_KEY` on the llamapoker.com project, and `wall.url` /
   `wall.ingest_key` in `credentials.json`. Add the "Wall" CI check to the branch rule.
+- Site speed (PR #26) merged 2026-11-11: re-measure production Lighthouse (preview showed
+  mobile 82–86 → 89–96) and record it here.
 
 - **Repo is public since 2026-11-11 (the founder's call, to get branch protection without paying).**
   Branch rule on `main` is set: PR required, both CI checks required, enforced for admins. GitHub
@@ -90,7 +92,10 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
   plan keeps API access (minus the Send API), so `/api/subscribe` keeps working.
 - Cloudflare Web Analytics: 55 visits / 62 page views in the last 7 days (mostly the founder).
 - Search Console: 17 impressions, 1 click in 28 days; 3 pages indexed, 10 discovered not indexed.
-- Lighthouse mobile: performance 82–84, everything else 100. Render-blocking fonts, one bundle.
+- Lighthouse mobile: performance 82–84 on production, everything else 100. Render-blocking fonts,
+  one bundle. Branch `site/perf-hydrate-fonts` (PR pending merge) hydrates the prerender and
+  self-hosts the fonts. Production vs its Cloudflare preview, median of 3: home 82→92, /table
+  86→96, /learn/outs 83→89; FCP about 3.3 s → 1.4–2.1 s. Re-measure on production after the merge.
 - Media manifests (2026-11-11 night): all 843 files under `media/` are now listed
   (`content/library/assets.json`, `content/reels/assets.json`, `content/tests/assets.json`);
   `node scripts/media-manifest.mjs --init <folder> <manifest>` appends new files. `media/tests/` is

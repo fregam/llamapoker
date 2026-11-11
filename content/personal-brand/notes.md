@@ -283,6 +283,23 @@ lesson, and a hook line that could open the post.
   that shows a pretty curve. The empty panels are the to-do list.
 - **Hook:** "I built my mission-control wall. Half of it says NO DATA. That's the point."
 
+## 2026-11-11 - The obvious fix for a slow site was not the one that worked
+
+- **Choice:** the speed test blamed "render delay". Every page was already rendered to HTML at
+  build time, yet the browser threw that HTML away and drew it again once the script arrived, and
+  the fonts came from Google behind a stylesheet that blocked the page. We switched to hydration
+  (keep the HTML, attach behaviour to it) and served the fonts ourselves. Mobile scores went from
+  82–86 to 89–96, and the first text appears about 1.5 seconds sooner in the throttled test.
+- **Surprise:** hydration alone, the fix that looked obvious from the diagnosis, barely moved the
+  number. The fonts did most of the work; hydration is the groundwork.
+- **Rejected for now:** code splitting, the textbook fix for "big bundle". Not measured, and it
+  would mean reworking the prerender; it is the next lever if production still lags.
+- **What happened:** the first check for hydration bugs reported "clean" on a deliberately
+  broken build. The test was lying: the rebuild had skipped the prerender, so there was nothing
+  to hydrate. Breaking it on purpose is what proved the check worked.
+- **Lesson:** measure each fix on its own, and before you trust a green check, make it go red once.
+- **Hook:** "I fixed the thing the speed test complained about. The score didn't move. The fonts did."
+
 ## 2026-11-11 - The second video was worse, and only one person noticed
 
 - **Choice:** the founder watched reels 002 and 003 back to back and said 003 felt cheaper: the
