@@ -41,6 +41,9 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
 
 ## Waiting on the founder
 
+- **Merge PR #26** (`site/perf-hydrate-fonts`, CI green): page hydration and self-hosted fonts,
+  mobile Lighthouse 82–86 → 89–96 on the Cloudflare preview. Re-measure production after it.
+
 - **Repo is public since 2026-11-11 (the founder's call, to get branch protection without paying).**
   Branch rule on `main` is set: PR required, both CI checks required, enforced for admins. GitHub
   secret scanning and push protection are on. Consequences: every commit, the personal-brand

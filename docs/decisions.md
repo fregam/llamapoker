@@ -8,12 +8,17 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
 - **What:** `main.tsx` hydrates prerendered pages instead of replacing them with `createRoot`;
   the brand fonts are served from llamapoker.com (`apps/web/public/fonts/`) instead of Google.
 - **Why:** LCP was 87% "render delay": the browser threw the prerendered HTML away and painted
-  it again only after the bundle and the Google Fonts chain. Lighthouse mobile, local build,
-  median of 3: home 92→94, /table 90→96, /learn/outs 84→92; LCP about 3.3 s → 2.4 s. It also
-  stops sending every visitor's IP to Google, a GDPR point the Privacy page never covered.
-- **Rejected:** splitting the bundle per route. Once the paint no longer waits on JavaScript the
-  gain is small (TBT is 0–185 ms), and lazy routes prerender as fallbacks under `renderToString`
-  unless the server entry is reworked. Revisit if the bundle grows or TBT climbs.
+  it again only after the bundle and the Google Fonts chain. Lighthouse mobile, production vs
+  the PR's Cloudflare preview, median of 3: home 82→92, /table 86→96, /learn/outs 83→89;
+  simulated FCP about 3.3 s → 1.4–2.1 s. In observed (unthrottled) timings the late repaint is
+  gone (home LCP 1.17 s → 0.53 s, now right after first paint). The two changes were measured
+  together on Cloudflare; locally, hydration alone barely moved the simulated LCP, so most of the
+  gain is the fonts and hydration is the groundwork. Self-hosting also stops sending every
+  visitor's IP to Google, a GDPR point the Privacy page never covered.
+- **Not done:** splitting the bundle per route. Not measured: TBT is low (0–120 ms) and lazy
+  routes prerender as fallbacks under `renderToString` unless the server entry is reworked.
+  Simulated LCP is still 2.5–3.5 s, partly the model charging the bundle; splitting is the next
+  lever if production numbers after the merge stay there.
 
 ## 2026-11-11 (night) - The repo is public
 

@@ -246,7 +246,8 @@ Hotkeys are ignored while focus is in an input or select.
   Open Graph tags and canonical URL. The Trainer is random on every load, so it ships as an
   empty shell with meta. Prerendered markup carries `data-path` on `#root`; when it matches the
   URL, `main.tsx` **hydrates** it (`hydrateRoot`, after seeding the router's server snapshot with
-  the real path), so the first paint is the server HTML and LCP no longer waits on the bundle.
+  the real path), so the server HTML stays on screen instead of being painted a second time
+  after the bundle runs.
   Empty shells and pages served for another URL mount with `createRoot`. The first browser render
   must therefore equal the prerender: no `window`, storage, clock or randomness during render,
   only in effects (the Dateline fills in after mount for this reason). `pages.test.tsx` renders
