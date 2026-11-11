@@ -10,6 +10,9 @@ Guidance for Claude Code across the LlamaPoker monorepo.
   Image and video prompts start from `imagePromptBase` in `tokens.json`.
 - `apps/web/`: the website. It has its own `CLAUDE.md` and `overview.md`; read them before
   touching site code. Run npm commands from `apps/web/`.
+- `apps/wall/`: the command center (private, own look by decision, not the brand). Read its
+  README first: one event store under everything, panels are modules, nothing ships without its
+  panel (events in the common format + a station + its failure in threats).
 - `apps/reels/`: short vertical videos rendered from code (Remotion). Read its README for the format; numbers
   come from `apps/web/src/poker/`, colours and fonts from `brand/`.
 - `apps/blender/`: motion for the reels, written as headless Blender scripts. Read its README

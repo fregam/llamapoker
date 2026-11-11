@@ -266,3 +266,19 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a check that only covers the easy part is a false green. Point the instrument at
   the whole thing before trusting it.
 - **Hook:** "My integrity check said 'all 25 verified'. There were 844 files."
+
+## 2026-11-11 - The command center shipped the night it was approved, with half its panels empty on purpose
+
+- **Choice:** the founder said build it. The spec's hardest rule was "real data only, no
+  decorative charts, no panels for things that don't exist yet". So the wall went live with the
+  machine, threats, approvals, the north star, channels, feed and budget, and without the map
+  and reach: no location or view data flows yet, so those panels would have been theatre.
+- **Rejected:** seeding the panels with invented numbers "so it looks finished"; a dashboard
+  library (nothing fits a phosphor screen; it is SVG and one stylesheet); a route inside the
+  public site (private surface, separate project, separate secrets).
+- **What happened:** the first run showed the real operation: two subscribers, zero letters
+  sent, no signup event in the store. Three threats, all true. The empty approvals panel is the
+  honest state of a pipeline that has no drafting agent yet.
+- **Lesson:** an instrument that shows "no data" where there is no data is worth more than one
+  that shows a pretty curve. The empty panels are the to-do list.
+- **Hook:** "I built my mission-control wall. Half of it says NO DATA. That's the point."

@@ -15,6 +15,16 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
 
 ## Done since the morning (2026-11-11, evening)
 
+- **The wall is built** (`apps/wall/`, branch `interface/wall`, night): seven panels as modules on
+  one screen, one D1 event store, Beehiiv and a site probe as live sources, password door, command
+  bar, guarded kill switch, time control by daily snapshot, briefing, wall mode, phone view
+  (briefing, threats, approvals as cards). Runs locally with `npm run dev` (real Beehiiv numbers,
+  local D1). The site's signup function posts to it once `WALL_URL` and `WALL_INGEST_KEY` are set.
+  Not built, by the spec's own rule: the map and reach (no location or view data yet).
+- Housekeeping (night): the five merged remote branches deleted; auto-merge armed on the green
+  Dependabot PRs (3 merged; 15, 16, 20, 21 patch bumps; 19 Vitest 4, which clears the two
+  critical dev-only alerts; 4 and 7 asked to rebase). PR #23 (manifests, docs tidy) merged.
+
 - PR #1 (`ci/safety-net`) and PR #11 (`plan/2026-11-11-first-session`) merged by the founder;
   the signup path, `/go/<channel>` links and docs are live on llamapoker.com (checked by curl).
 - Beehiiv welcome email: published and switched on (subject "You're in. Here's the first spot.",
@@ -40,6 +50,11 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
   which fail CI) are left open for a deliberate upgrade later.
 
 ## Waiting on the founder
+
+- **Deploy the wall** (apps/wall/README.md, "Deploy"): a second Pages project with root
+  `apps/wall`, a D1 database bound as `DB`, the five variables, `wall.llamapoker.com`; then
+  `WALL_URL` and `WALL_INGEST_KEY` on the llamapoker.com project, and `wall.url` /
+  `wall.ingest_key` in `credentials.json`. Add the "Wall" CI check to the branch rule.
 
 - **Repo is public since 2026-11-11 (the founder's call, to get branch protection without paying).**
   Branch rule on `main` is set: PR required, both CI checks required, enforced for admins. GitHub

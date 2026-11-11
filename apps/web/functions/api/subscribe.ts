@@ -13,6 +13,9 @@
  *                            token (the form sends one when VITE_TURNSTILE_SITE_KEY is set at
  *                            build time). Without it, only the honeypot stands between us and
  *                            scripts, so set both once the widget exists.
+ *   WALL_URL                 optional; with WALL_INGEST_KEY, every outcome is also posted to the
+ *   WALL_INGEST_KEY          wall's event store (apps/wall, POST /api/event) so the signup
+ *                            station and the north star see it. Fire-and-forget, never blocks.
  * Until the Beehiiv variables are set it answers 503 and the form shows its error message.
  *
  * `company` is the honeypot field: real people never fill it, so a filled one is a bot
@@ -26,6 +29,8 @@ export interface Env {
   BEEHIIV_API_KEY?: string;
   BEEHIIV_PUBLICATION_ID?: string;
   TURNSTILE_SECRET_KEY?: string;
+  WALL_URL?: string;
+  WALL_INGEST_KEY?: string;
 }
 
 const json = (status: number, body: object) =>
@@ -35,6 +40,20 @@ const slug = (v: unknown, fallback = "") => String(v ?? "").toLowerCase().replac
 
 function log(event: string, props: Record<string, unknown>) {
   console.log(JSON.stringify({ event, ts: new Date().toISOString(), ...props }));
+}
+
+/** The same outcome, in the wall's common event format. Returns the request promise (or null). */
+export function wallEvent(env: Env, props: { ok: boolean; reason?: string; source: string; channel: string }): Promise<unknown> | null {
+  if (!env.WALL_URL || !env.WALL_INGEST_KEY) return null;
+  const where = props.channel ? `${props.source} (${props.channel})` : props.source;
+  const body = props.ok
+    ? { kind: "signup", station: "signup", channel: props.channel || "site", subject: props.source, amount: 1, unit: "subscriber", text: `Signup from ${where}` }
+    : { kind: props.reason === "honeypot" || props.reason === "turnstile" ? "note" : "fail", station: "signup", subject: props.source, text: `Signup ${props.reason} from ${where}` };
+  return fetch(`${env.WALL_URL.replace(/\/$/, "")}/api/event`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${env.WALL_INGEST_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  }).catch(() => undefined);
 }
 
 export async function verifyTurnstile(secret: string, token: string, ip: string | null, fetcher: typeof fetch = fetch): Promise<boolean> {
@@ -47,7 +66,11 @@ export async function verifyTurnstile(secret: string, token: string, ip: string 
   return out.success === true;
 }
 
-export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
+export const onRequestPost = async ({ request, env, waitUntil }: { request: Request; env: Env; waitUntil?: (p: Promise<unknown>) => void }) => {
+  const tell = (props: { ok: boolean; reason?: string; source: string; channel: string }) => {
+    const p = wallEvent(env, props);
+    if (p) waitUntil ? waitUntil(p) : void p;
+  };
   let data: Record<string, unknown>;
   try {
     data = (await request.json()) as Record<string, unknown>;
@@ -62,6 +85,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   if (data.company) {
     log("signup", { ok: false, reason: "honeypot", source, channel });
+    tell({ ok: false, reason: "honeypot", source, channel });
     return json(200, { ok: true }); // bot
   }
 
@@ -72,12 +96,14 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const ok = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, String(data.token ?? ""), request.headers.get("CF-Connecting-IP"));
     if (!ok) {
       log("signup", { ok: false, reason: "turnstile", source, channel });
+      tell({ ok: false, reason: "turnstile", source, channel });
       return json(403, { error: "verification failed" });
     }
   }
 
   if (!env.BEEHIIV_API_KEY || !env.BEEHIIV_PUBLICATION_ID) {
     log("signup", { ok: false, reason: "not configured", source, channel });
+    tell({ ok: false, reason: "not configured", source, channel });
     return json(503, { error: "newsletter not configured" });
   }
 
@@ -97,8 +123,10 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!res.ok) {
     log("signup", { ok: false, reason: "beehiiv", status: res.status, source, channel });
     console.error("beehiiv subscribe failed", res.status, await res.text());
+    tell({ ok: false, reason: `beehiiv ${res.status}`, source, channel });
     return json(502, { error: "newsletter error" });
   }
   log("signup", { ok: true, source, channel, medium, campaign });
+  tell({ ok: true, source, channel });
   return json(200, { ok: true });
 };
