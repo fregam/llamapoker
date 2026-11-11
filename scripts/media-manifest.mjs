@@ -5,6 +5,9 @@
 //   node scripts/media-manifest.mjs                      write facts into content/library/assets.json
 //   node scripts/media-manifest.mjs --check              verify only; exit 1 on any mismatch
 //   node scripts/media-manifest.mjs path/to/assets.json  use another manifest
+//   node scripts/media-manifest.mjs --init media/reels content/reels/assets.json
+//                                                        list every file under a folder in a new
+//                                                        manifest (id = path), then record its facts
 //
 // Paths in the manifest are relative to the repo root. No dependencies.
 import { createHash } from "node:crypto";
@@ -15,7 +18,9 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
 const check = args.includes("--check");
-const manifestPath = resolve(root, args.find((a) => !a.startsWith("--")) ?? "content/library/assets.json");
+const init = args.indexOf("--init");
+const positional = args.filter((a, i) => !a.startsWith("--") && i !== init + 1);
+const manifestPath = resolve(root, positional[0] ?? "content/library/assets.json");
 
 // Width and height from the PNG IHDR chunk or the JPEG SOF marker.
 function imageSize(buf) {
@@ -32,7 +37,16 @@ function imageSize(buf) {
   return {};
 }
 
-const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));
+const rel = (f) => relative(root, f).replaceAll("\\", "/");
+
+// --init: start a manifest from a folder. Existing entries are kept; new files are appended.
+let manifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : { assets: [] };
+if (init !== -1) {
+  const folder = resolve(root, args[init + 1]);
+  const known = new Set(manifest.assets.map((a) => a.path));
+  for (const f of walk(folder)) if (!known.has(rel(f))) manifest.assets.push({ id: rel(f), path: rel(f) });
+}
 const problems = [];
 const listed = new Set();
 
@@ -54,8 +68,7 @@ for (const asset of manifest.assets) {
 
 // Every file under the library folder(s) must be listed in the manifest.
 const dirs = new Set(manifest.assets.map((a) => resolve(root, a.path.split("/").slice(0, 2).join("/"))));
-const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));
-for (const d of dirs) if (existsSync(d)) for (const f of walk(d)) if (!listed.has(f)) problems.push(`unlisted file: ${relative(root, f).replaceAll("\\", "/")}`);
+for (const d of dirs) if (existsSync(d)) for (const f of walk(d)) if (!listed.has(f)) problems.push(`unlisted file: ${rel(f)}`);
 
 if (!check) writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 if (problems.length) { console.error(problems.join("\n")); process.exit(1); }
