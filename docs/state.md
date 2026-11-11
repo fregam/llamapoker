@@ -37,13 +37,12 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
 
 ## Waiting on the founder
 
-- **Branch protection cannot be set on this repo as it is:** GitHub returns "Upgrade to GitHub Pro
-  or make this repository public" (branch rules on private repos need Pro, about $4/month). Three
-  options, pick one: (a) GitHub Pro, then `gh api -X PUT repos/fregam/llamapoker/branches/main/protection
-  --input docs/branch-protection.json`; (b) make the repo public (the personal-brand notes and
-  research would be public too; I would not); (c) deploy from CI with wrangler and switch off
-  Pages' git builds, which gates deploys without a branch rule but needs a Cloudflare API token.
-  Until one of these, CI reports but does not block; the habit of merging only green PRs is the gate.
+- **Repo is public since 2026-11-11 (the founder's call, to get branch protection without paying).**
+  Branch rule on `main` is set: PR required, both CI checks required, enforced for admins. GitHub
+  secret scanning and push protection are on. Consequences: every commit, the personal-brand
+  notes and the research files are readable by anyone; `credentials.json` and `media/` were never
+  in git. There is no LICENSE file, so the default is all rights reserved; add one if that is not
+  the intent.
 - **Beehiiv:** set a postal address and a reply-to that is read; then letter 001 can go (after
   approving its text). Delete the two stray draft automations.
 - **Turnstile:** create a widget for llamapoker.com in the Cloudflare dashboard, set
