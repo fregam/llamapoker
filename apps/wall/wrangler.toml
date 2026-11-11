@@ -1,0 +1,12 @@
+# Cloudflare Pages project for the wall. The same bindings must exist on the Pages project in the
+# dashboard (Settings → Bindings): a D1 database named `wall` bound as DB. Variables and secrets
+# are listed in functions/_middleware.ts and functions/api/state.ts.
+name = "llamapoker-wall"
+compatibility_date = "2025-11-01"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wall"
+database_id = "replace-with-the-id-from-wrangler-d1-create"
+migrations_dir = "migrations"

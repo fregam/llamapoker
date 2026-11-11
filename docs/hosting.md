@@ -24,6 +24,13 @@
 - **Analytics:** Cloudflare Web Analytics (no cookies). **Search:** Google Search Console
   (Domain property), sitemap `https://llamapoker.com/sitemap.xml`.
 
+## The wall (planned second Pages project)
+
+`apps/wall/` deploys as its own Cloudflare Pages project (root directory `apps/wall`, build
+`npm run build`, output `dist`) with a D1 database bound as `DB` and the variables listed in
+`apps/wall/README.md`, at `wall.llamapoker.com`. Private: password door in the middleware,
+Cloudflare Access as the upgrade. Not created yet (needs the founder in the dashboard).
+
 ## Safety net
 
 - **CI** (`.github/workflows/ci.yml`): on every pull request and push to `main`, type-check, tests,

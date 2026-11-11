@@ -5903,6 +5903,22 @@
       "path": "media/tests/2026-11-11_vibevoice-voice-board/outputs/whole-003-C-lively-t07.wav",
       "sha256": "38cb1d324633750d732423c130bf47162fb317a3f62c5342120de2976e9dab89",
       "bytes": 7104078
+    },
+    {
+      "id": "media/tests/2026-11-11_interface-mockups/outputs/wall-build-desktop.png",
+      "path": "media/tests/2026-11-11_interface-mockups/outputs/wall-build-desktop.png",
+      "sha256": "49dc7ea6303a3468242919a20e0392d9ef96a2fc58af3c0f9a811cb8bf406960",
+      "bytes": 456340,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-11_interface-mockups/outputs/wall-build-phone.png",
+      "path": "media/tests/2026-11-11_interface-mockups/outputs/wall-build-phone.png",
+      "sha256": "e1271b5bb78d061a97e21e3ff400956435ab041bc5ecd206ac621db284e796b4",
+      "bytes": 53043,
+      "width": 800,
+      "height": 1100
     }
   ]
 }

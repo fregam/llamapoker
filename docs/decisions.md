@@ -42,6 +42,18 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
   the full history, plus a grep for key-like strings) and is clean; secrets were never committed.
 - **Rejected:** GitHub Pro (about $4/month); deploying from CI with wrangler instead of a rule.
 
+## 2026-11-11 (night, later) - The wall built now, as its own Pages project on one D1 store
+
+- **What:** the founder said "it's time to make it"; built in `apps/wall/` ahead of the plan's
+  Phase 3 ordering, on the spec's architecture (one event store, panels as modules, real data
+  only). Its own Cloudflare Pages project with Functions and a D1 database, not a route inside
+  the site, so the private surface, its secrets and its deploys stay separate from llamapoker.com.
+  Password door now (signed cookie), Cloudflare Access as the upgrade. Snapshots written on read.
+- **Rejected:** a panel for the map and reach with placeholder data (the spec forbids it; they
+  come when location and view events exist); Analytics Engine for the first store (D1 alone covers
+  events, queue, flags and snapshots at this scale, and is SQL-queryable from the Functions);
+  a dashboard template or chart library (none fits the VFD look; everything is SVG and CSS).
+
 ## 2026-11-11 (night) - Interface build direction: Batcomputer schematic + Phosphor map and digits
 
 - **What:** the founder took the recommendation: build on round-2 direction 2 (Batcomputer: the

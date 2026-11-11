@@ -6,6 +6,9 @@ because the single event store shapes the architecture of everything else. The r
 the roadmap reaches the interface. The design directions are in
 `docs/interface/mockups.md`.
 
+**Built on 2026-11-11 (night):** `apps/wall/` (read its README). Everything below that produces
+data today is on it; the map and reach wait for location and view events.
+
 **Change on 2026-11-11 (evening):** the founder decided the interface is **independent of the
 website brand**. Ignore "Build it from brand/README.md and brand/tokens.css" below. The look is a
 vacuum fluorescent display: black glass, phosphor light, segmented digits, glow allowed. Everything

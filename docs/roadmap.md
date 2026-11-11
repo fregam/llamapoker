@@ -21,6 +21,11 @@
 
 ## Next
 
+0. **The wall** (`apps/wall`): built 2026-11-11 night on branch `interface/wall`; deploy needs the
+   founder (second Pages project, D1, variables). Then: a Workers cron that fetches `/api/state`
+   daily (snapshots without opening it), the map once Cloudflare analytics data flows, view events
+   from a first-party beacon, the local jobs reporting (`scripts/wall-event.mjs`).
+
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.
 2. **Launch teaser video**, vertical, for TikTok and Reels, cut on the reels system (`apps/reels`).

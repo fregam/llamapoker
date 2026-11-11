@@ -1,0 +1,28 @@
+{
+  "name": "llamapoker-wall",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The LlamaPoker command center (the wall): one screen for the whole operation, read from one event store.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "tsc && vite build",
+    "migrate": "wrangler d1 migrations apply wall --local",
+    "migrate:remote": "wrangler d1 migrations apply wall --remote",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261110.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "^5.6.3",
+    "vite": "^7.3.8",
+    "vitest": "^3.2.7",
+    "wrangler": "^4.160.1"
+  }
+}

@@ -1,5 +1,9 @@
 # Interface: design directions
 
+**Built (2026-11-11, night):** `apps/wall/`. Renders of the build with the local store seeded for
+the picture: `media/tests/2026-11-11_interface-mockups/outputs/wall-build-desktop.png` (wall mode,
+1920x1080) and `wall-build-phone.png` (800 px, the three-screen phone view).
+
 ## Round 2 (2026-11-11, evening): the VFD look
 
 The founder saw round 1 and changed direction: the command center is **independent of the website
