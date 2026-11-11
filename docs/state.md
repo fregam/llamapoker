@@ -26,19 +26,24 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
 - Interface: round 2 (VFD) mockups merged; build direction decided (`docs/decisions.md`, night entry).
 - `reels/voice-b` merged (PR #12) and `interface/vfd-mockups` merged by git; all session branches deleted locally.
 
+- `gh` is logged in (as the founder) and lives at `C:\Program Files\GitHub CLI\gh.exe`; add it to PATH
+  in Git Bash with `export PATH="/c/Program Files/GitHub CLI:$PATH"`.
+- CI fixes merged (PR #14): Monte Carlo tests get 60 s on the slower runners (one timed out at 5 s);
+  gitleaks gets `pull-requests: read` (it failed on every PR with "Resource not accessible").
+- Dependabot alerts and automated security fixes enabled on the repo. Dependabot opened eight PRs:
+  the action bumps (#2, #3, #4) and the dev-tooling group (#7) are safe and were rebased for a green
+  run; the major bumps (#5 TypeScript 7 and #6 React 19 for reels, #8/#9 React 19 for the web app,
+  which fail CI) are left open for a deliberate upgrade later.
+
 ## Waiting on the founder
 
-- **`gh auth login`** on the PC (the CLI is installed at C:\Program Files\GitHub CLI but not logged
-  in, and not on PATH in a Git Bash started before the install). Once logged in, the branch rule
-  on `main` is one command (run from the repo):
-  `gh api -X PUT repos/fregam/llamapoker/branches/main/protection --input docs/branch-protection.json`
-  (file in this repo; requires the two CI checks, enforces for admins, no review requirement
-  because a solo founder cannot approve their own PR).
-- **Review-sheet round** for reel 002 (v9): the sheet with plain instructions and the scene
-  timestamps is `docs/research/2026-11-11-review-sheet-002.md`. Fill the table, I sort and fix one category.
-- **Housekeeping:** a `vite preview` server started during this session (port 4173) and an
-  esbuild service may still be running on the PC; closing them frees `node_modules` for `npm ci`.
-- **Branch protection** on `main` (GitHub UI, settings listed in `docs/hosting.md`, "Safety net").
+- **Branch protection cannot be set on this repo as it is:** GitHub returns "Upgrade to GitHub Pro
+  or make this repository public" (branch rules on private repos need Pro, about $4/month). Three
+  options, pick one: (a) GitHub Pro, then `gh api -X PUT repos/fregam/llamapoker/branches/main/protection
+  --input docs/branch-protection.json`; (b) make the repo public (the personal-brand notes and
+  research would be public too; I would not); (c) deploy from CI with wrangler and switch off
+  Pages' git builds, which gates deploys without a branch rule but needs a Cloudflare API token.
+  Until one of these, CI reports but does not block; the habit of merging only green PRs is the gate.
 - **Beehiiv:** set a postal address and a reply-to that is read; then letter 001 can go (after
   approving its text). Delete the two stray draft automations.
 - **Turnstile:** create a widget for llamapoker.com in the Cloudflare dashboard, set
