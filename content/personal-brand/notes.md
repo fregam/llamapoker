@@ -283,3 +283,19 @@ lesson, and a hook line that could open the post.
   to hydrate. Breaking it on purpose is what proved the check worked.
 - **Lesson:** measure each fix on its own, and before you trust a green check, make it go red once.
 - **Hook:** "I fixed the thing the speed test complained about. The score didn't move. The fonts did."
+
+## 2026-11-11 - The second video was worse, and only one person noticed
+
+- **Choice:** the founder watched reels 002 and 003 back to back and said 003 felt cheaper: the
+  sound, the pace, a number sitting on the cards. Same voice, same code, same upgrades. Measured,
+  it was real: two sentences run together with 0.02 s between them, effects at full volume where
+  002 used 70 %, and six places where one thing sat on another. 002 had been polished scene by
+  scene; 003 had only received the shared upgrades.
+- **Rejected:** fixing 003 by eye and moving on. Instead a gate every reel must pass, with the
+  approved reel as the yardstick, and a contact sheet of one frame per second.
+- **What happened:** the first version of the gate also failed the approved reel (its pause limit
+  was stricter than the founder's ear), and one of its measures turned out to count syllables, not
+  sound effects. Both were fixed by calibrating against the reel the founder liked, not against a number.
+- **Lesson:** a factory doesn't need a better first draft; it needs the first approved piece turned
+  into a ruler.
+- **Hook:** "My second video was worse than my first. Same code. Here's the checklist that fixed it."

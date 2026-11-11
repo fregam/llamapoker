@@ -3,6 +3,20 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-11 (late night) - Every reel passes a measured gate against the approved reel before review
+
+- **What:** `scripts/reel-check.py` (pace from the word times, peak and floor from the render, a
+  one-frame-a-second contact sheet) must PASS before a reel reaches the founder; limits are reel
+  002 v9, which the founder approved. `scripts/vo-breathe.py` joins the voice chain (a floor of
+  0.5 s after every sentence, the counterpart of the 0.55 s cap). Reel 003 got the scene-by-scene
+  polish pass 002 had (v10).
+- **Why:** 003 v9 reached review rushed, louder and with six overlaps while 002 was good: the
+  system upgrades were shared, the per-reel polish was not, and nothing measured either. The
+  content factory will make reels without the founder watching each step, so quality has to be a
+  check, not a habit.
+- **Rejected:** an effect-onset limit (it counted syllables: 003 scored busier with fewer effects
+  than 002); automated overlap detection from the DOM (fragile; the sheet takes ten seconds to read).
+
 ## 2026-11-11 (late night) - Site speed: hydrate the prerender and self-host the fonts; no code splitting
 
 - **What:** `main.tsx` hydrates prerendered pages instead of replacing them with `createRoot`;
