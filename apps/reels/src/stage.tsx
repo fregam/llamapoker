@@ -171,6 +171,20 @@ export function Move({ keys, width, exit, exitDelay = 0, dur = 14, style, childr
   );
 }
 
+/** A short camera shake when something heavy lands (a number stamps in): a few px for 8 frames. */
+export function Shake({ cue, delay = 0, px = 7, children }: { cue: string; delay?: number; px?: number; children: ReactNode }) {
+  const { since } = useNarration();
+  const f = since(cue) - delay;
+  let dx = 0;
+  let dy = 0;
+  if (f >= 0 && f < 8) {
+    const decay = 1 - f / 8;
+    dx = Math.sin(f * 5.1) * px * decay;
+    dy = Math.cos(f * 3.7) * px * 0.6 * decay;
+  }
+  return <AbsoluteFill style={{ transform: `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)` }}>{children}</AbsoluteFill>;
+}
+
 export function Stat({ value, label, color = C.paper, size = 112, align = "left", style }: { value: string; label: string; color?: string; size?: number; align?: "left" | "center" | "right"; style?: React.CSSProperties }) {
   return (
     <div style={{ textAlign: align, ...style }}>

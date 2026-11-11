@@ -62,6 +62,29 @@ Target register (the calm coach of `brand/README.md`, and the delivery of the re
 narrators): F0 median 100–140 Hz, IQR under 35, 2.2–2.6 words/s, pauses at sentence ends. For
 comparison the previous ElevenLabs preset (Mark) measured 138 Hz / IQR 41 / 2.45 words/s.
 
+## Second board: "the voice lacks natural feel" (2026-11-11, late)
+
+Same reference clip, the 40-word hook+plan paragraph, variations in how it is read
+(`outputs/natural-*.wav`), plus both reels whole in the current read (A) and the livelier one (B),
+`outputs/whole-00{2,3}-{A-current,B-lively}.wav`, for the user to pick by ear.
+
+| take | how | words/s | F0 median | F0 IQR | WER | read |
+|---|---|---|---|---|---|---|
+| natural-greedy3 | seed-3 ref, greedy (current) | 2.22 | 115 | 38 | 9.8% | steady, a little flat |
+| **natural-sample3-4** | seed-3 ref, sampling 0.9, seed 4 | 2.25 | 146 | 56 | 9.8% | **livelier: wider pitch movement, same pace** |
+| natural-greedy11 | seed-11 ref, greedy | 1.91 | 121 | 22 | 7.3% | flattest, slowest |
+| natural-cfg16 | seed-3 ref, cfg 1.6 | 2.19 | 134 | 39 | 7.3% | crisper diction, same shape |
+
+Sampling with seed 3 reproduced the greedy take exactly (the node's sampling path and the
+greedy path converge for that seed); another seed does differ. Whole reels in B: 002 at 141 Hz /
+IQR 50 / 2.39 words/s, 003 at 142 Hz / IQR 60 / 2.57 words/s, against A at IQR 38 / 43.
+"Natural" in the numbers is pitch movement (IQR 50–60) at narration pace; B is the pick on paper,
+the user's ear decides. A recorded human voice (10 s mid-sentence cut as `--ref`) remains the
+surest route to natural.
+
+Pauses: cutting silences to 0.30 s with a 6 % tempo lift made the read "not feel like a narration";
+0.55 s with no tempo change is the rule now (`vo-tighten.py --max-gap 0.55 --tempo 1.0`).
+
 ## Pipeline that came out of it
 
 1. `node scripts/vo-lines.mjs <id>` prints the takes (one continuous paragraph per scene).

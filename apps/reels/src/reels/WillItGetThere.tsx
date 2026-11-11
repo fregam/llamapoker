@@ -8,8 +8,8 @@
 import { outsToEquity } from "../../../web/src/poker/odds";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
-import { ChunkBlips, Hit, Music, Sfx } from "../sound";
-import { Enter, Move, Narration, Stat, progress, timelineFor, useNarration } from "../stage";
+import { Hit, Music, Sfx, Ticks } from "../sound";
+import { Enter, Move, Narration, Shake, Stat, progress, timelineFor, useNarration } from "../stage";
 import { Engraving } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
 import type { VoManifest } from "../vo";
@@ -62,23 +62,29 @@ function Hook() {
       <Headline cue="hook" exit="count" dur={1}>
         Will it <em>get there?</em>
       </Headline>
-      <Enter cue="hook" exit="count" delay={4} style={{ top: 600, ...row(18) }}>
-        {HAND.map((c, i) => (
-          <PlayingCard key={c} card={c} size={1.0} style={{ opacity: progress(since("hook") - 4 - i * 4, 8) }} />
-        ))}
+      {/* Motion from frame 0: the hand slams down, the flop is dealt across, the number stamps */}
+      <Enter cue="hook" exit="count" dur={1} style={{ top: 600, ...row(18) }}>
+        {HAND.map((c, i) => {
+          const t = progress(since("hook") - i * 3, 7);
+          return <PlayingCard key={c} card={c} size={1.0} style={{ opacity: t, transform: `translateY(${(1 - t) * -140}px) scale(${1.25 - 0.25 * t}) rotate(${(i ? 1 : -1) * (1 - t) * 12}deg)` }} />;
+        })}
       </Enter>
-      <Enter cue="hook" exit="count" delay={14} style={{ top: 850, ...row(14) }}>
-        {FLOP.map((c, i) => (
-          <PlayingCard key={c} card={c} size={0.8} style={{ opacity: progress(since("hook") - 14 - i * 4, 8) }} />
-        ))}
+      <Enter cue="hook" exit="count" dur={1} delay={8} style={{ top: 850, ...row(14) }}>
+        {FLOP.map((c, i) => {
+          const t = progress(since("hook") - 8 - i * 3, 6);
+          return <PlayingCard key={c} card={c} size={0.8} style={{ opacity: t, transform: `translateX(${(1 - t) * -90}px)` }} />;
+        })}
       </Enter>
       {/* The answer first: the number stamps in under the cards, then docks top right and stays
           there as the promise while the outs are counted; the big 36% takes over on "r36". */}
       <Move width={600} keys={[{ cue: "pct0", top: 1060, cx: 540, scale: 1 }, { cue: "count", top: 352, cx: HUD_RIGHT_CX, scale: 0.45 }]} exit="r36">
         <Stat value={`${RULE_FLOP}%`} label="TO GET THERE" color={C.sage} size={150} align="center" />
       </Move>
-      <Sfx cue="hook" src="sfx/deal.wav" delay={4} gain={0.8} />
-      <Sfx cue="hook" src="sfx/deal.wav" delay={14} gain={0.7} />
+      <Sfx cue="hook" src="sfx/deal.wav" gain={0.9} />
+      <Sfx cue="hook" src="sfx/deal.wav" delay={3} gain={0.8} />
+      {[8, 11, 14].map((d) => (
+        <Sfx key={d} cue="hook" src="sfx/deal.wav" delay={d} gain={0.5} />
+      ))}
       <Hit cue="pct0" riser={false} />
     </>
   );
@@ -98,15 +104,22 @@ function SoundDesign() {
   return (
     <>
       <Music src="music/bed.wav" />
-      <ChunkBlips />
+      {/* One sound per thing that moves on screen, nothing for the captions. */}
+      {/* count: scene change, the 36% docks (soft whoosh), thirteen hearts tick in, the four seen
+          ones dim (tick), the outs count to nine (ticks) and land (bell) */}
       <Sfx cue="count" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
-      <Sfx cue="count" src="sfx/shuffle.wav" gain={0.6} />
+      <Ticks cue="count" frames={26} n={13} src="sfx/tick.wav" gain={0.35} />
       <Sfx cue="seen" src="sfx/tick.wav" gain={0.6} />
-      <Sfx cue="nine" src="sfx/reveal.wav" />
+      <Ticks cue="nine" frames={14} n={9} src="sfx/tick.wav" gain={0.4} />
+      <Sfx cue="nine" src="sfx/reveal.wav" delay={14} />
+      {/* flop: the outs dock top left (soft whoosh), the board is dealt, ×4, 36% stamps */}
+      <Sfx cue="flop" src="sfx/whoosh.wav" delay={8} gain={0.3} />
       <Sfx cue="flop" src="sfx/deal.wav" delay={8} />
       <Sfx cue="x4" src="sfx/pluck.wav" />
       <Hit cue="r36" />
+      {/* turn: the turn card, 36% docks (soft whoosh), ×2, 18% stamps */}
       <Sfx cue="turn" src="sfx/deal.wav" />
+      <Sfx cue="turn" src="sfx/whoosh.wav" delay={8} gain={0.3} />
       <Sfx cue="x2" src="sfx/pluck.wav" />
       <Hit cue="r18" />
       <Sfx cue="exact" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
@@ -258,8 +271,9 @@ function Outro() {
   const drift = 1 + Math.min(0.06, Math.max(0, since("outro")) / 2400);
   return (
     <>
+      {/* The Gentleman, centred and large, the same framing as reel 002's outro */}
       <Enter cue="outro" motion="fade" dur={16} style={{ inset: 0 }}>
-        <Engraving file="expr-6.png" fade={0.4} style={{ position: "absolute", top: 640, left: 40, width: 720, height: 605, transform: `scale(${drift})` }} />
+        <Engraving file="expr-6.png" fade={0.4} style={{ position: "absolute", top: 570, left: 150, width: 780, height: 656, transform: `scale(${drift})` }} />
       </Enter>
       <Headline cue="outro" exit="cta" size={100}>
         Which draw do <em>you</em> chase?
@@ -277,12 +291,14 @@ export const WILL_IT_GET_THERE_FRAMES = timelineFor(SCRIPT, VO).total;
 export function WillItGetThere() {
   return (
     <Narration script={SCRIPT} vo={VO}>
-      <Hook />
-      <CountOuts />
-      <TheRule />
-      <Exact />
-      <CheatSheet />
-      <Outro />
+      <Shake cue="pct0">
+        <Hook />
+        <CountOuts />
+        <TheRule />
+        <Exact />
+        <CheatSheet />
+        <Outro />
+      </Shake>
       <SoundDesign />
     </Narration>
   );

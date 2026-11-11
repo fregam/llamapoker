@@ -74,9 +74,10 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   picture so the loop doesn't jump. A brass reading line fills along the bottom for the whole reel.
 - **Flow.** The voice is one continuous take per scene, never a sentence at a time, and the script
   is written so each line leans on the one before (connectives, callbacks, a question answered next).
-- **Pace.** After generation, `scripts/vo-tighten.py <id>` cuts every silence longer than 0.3 s
-  down to 0.3 s and (optionally) lifts the tempo 6 % with pitch kept; take gaps in the script are
-  8–9 frames. Something moves on screen at least every two seconds (counters, dots, a Move).
+- **Pace.** After generation, `scripts/vo-tighten.py <id> --max-gap 0.55 --tempo 1.0` cuts every
+  silence longer than 0.55 s down to 0.55 s. Not shorter: at 0.3 s and +6 % tempo it stopped
+  sounding like narration. Take gaps in the script are 8–9 frames. Something moves on screen at
+  least every two seconds (counters, dots, a Move).
 - **Length follows the script**, typically 60–85 s. The hits in the niche run 50–112 s; what matters
   is that something moves every two seconds, not that it's short.
 
@@ -88,14 +89,15 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   voice, −12 dB in the pauses between takes, −9 dB before the first word and after the last
   (hook and loop point). Ramps of 10 frames.
 - **`<Sfx cue src delay gain>`**: one effect at a spoken cue (a negative delay starts a swell
-  early so it peaks on the cue). **`<Ticks cue until n src>`**: a counter's ticks spread between
-  two cues (capped at 12 a second). **`<Hit cue>`**: a number landing = riser into it, stamp on
-  it, sub boom under it. **`<ChunkBlips>`**: a faint blip on every caption change, so the words
-  keep time even in a still moment.
-- Every reel has a `SoundDesign()` block listing its cues → sounds. Rule: one sound per change on
-  screen, the same sound for the same kind of change (tick = a count or a row, pluck = a cell
-  lighting, deal = a card, fold = a fold, chip = chips, stamp = a number landing, reveal = a result,
-  whoosh = a scene change).
+  early so it peaks on the cue). **`<Ticks cue until|frames n src>`**: ticks spread over a span
+  (a counter, dots filling, cells lighting one after another; capped at 12 a second).
+  **`<Hit cue>`**: a number landing = riser into it, stamp on it, sub boom under it; pair it with
+  `<Shake cue>` around the scenes so the frame jolts.
+- Every reel has a `SoundDesign()` block listing its cues → sounds. Rules: **one sound per thing
+  that moves on screen, and a sound for every thing that moves**; the same sound for the same kind
+  of move (tick = a count, a row, a cell; pluck = a hand lighting; deal = a card; fold = a fold;
+  chip = chips; stamp = a number landing; reveal = a result; whoosh = a scene change or an object
+  flying to its dock, softer). **Never a sound on the captions**: words are not events.
 - Files: `public/sfx/<name>.wav` (48 kHz mono, peak −6 dBFS, the hit 20 ms in so it lands on the
   cue; whooshes are swells and are placed with `delay={-10}`) and `public/music/bed.wav`. The
   effects are generated locally by MOSS-SoundEffect v2 (`scripts/sfx-moss.py`, candidates in
@@ -108,10 +110,11 @@ The voice-over is the spine. Everything on screen happens because a word was jus
 
 ## Hooks
 
-The first three seconds show the payoff, not the question alone: reel 002 stamps the cost
-(−10 bb, every wait) at the second spoken line and folds the table on the third; reel 003 stamps
-the 36 % under the cards before the explanation starts. The headline stays until the body begins.
-`<Enter motion="stamp">` is the landing move for a number (scales from 1.18 to 1 with the fade).
+Motion from frame 0 and the payoff by second three: the cards slam onto the table under the
+question (frame 0, dealt in with a drop and a twist), the number stamps in with a frame shake
+(`<Shake>`), the table folds. No portrait in the hook: the Gentleman is the outro, centred and
+large (top 600, 864 px wide), the same framing in every reel. The headline stays until the body
+begins. `<Enter motion="stamp">` is the landing move for a number (scales from 1.18 to 1).
 
 ## Instagram safe area
 
@@ -152,8 +155,8 @@ node ../../scripts/vo-manifest.mjs <id> "VibeVoice-Large seed-3 clone"
 A new voice = a new board (`vo-comfy.mjs --board`), pick by the numbers, cut a mid-paragraph
 reference, regenerate; nothing else changes. To use a human voice, record 60 s with consent and
 pass a 10 s cut of it as `--ref` (then check the transcript with `vo-check.py`). Earlier boards
-(ElevenLabs presets via Higgsfield, `media/reels/_voice-test/`) are kept for comparison: Mark
-measured 138 Hz / IQR 41 / 2.45 words/s.
+(ElevenLabs presets via Higgsfield, `media/tests/2026-11-10_voice-board-elevenlabs/`) are kept for
+comparison: Mark measured 138 Hz / IQR 41 / 2.45 words/s.
 
 ## Files
 
@@ -162,8 +165,8 @@ src/index.ts            Entry: registers Root
 src/Root.tsx            Every reel as a <Composition>, every cover as a <Still>. Add new ones here.
 src/theme.ts            Brand colours (brand/tokens.json), Bodoni Moda + Inter, canvas 1080×1920 @ 30fps, SAFE
 src/narration.ts        Script markup → timeline (line starts, word moments, caption chunks, cues)
-src/stage.tsx           Narration, Captions, Enter, Move (an object travelling across scenes), Stat, Tag, SeatRing, Ledger, useNarration
-src/sound.tsx           Music (ducked bed), Sfx, Ticks, Hit (riser+stamp+boom), ChunkBlips
+src/stage.tsx           Narration, Captions, Enter, Move (an object travelling across scenes), Shake, Stat, Tag, SeatRing, Ledger, useNarration
+src/sound.tsx           Music (ducked bed), Sfx, Ticks, Hit (riser+stamp+boom)
 public/sfx/, public/music/  Effects and the bed (see "Sound")
 src/components.tsx      Frame (kicker, hairline border, reading line), PlayingCard, legacy Caption/BigNumber
 src/teaching.tsx        Engraving (screen blend + fade), RangeGrid (ghost/hot), Counter, ChipStack, Seat, DotRow

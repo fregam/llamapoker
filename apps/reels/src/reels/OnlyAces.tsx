@@ -9,8 +9,8 @@
 import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src/poker/ranges";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
-import { ChunkBlips, Hit, Music, Sfx, Ticks } from "../sound";
-import { Enter, Ledger, Move, Narration, SeatRing, Stat, Tag, progress, timelineFor, useNarration } from "../stage";
+import { Hit, Music, Sfx, Ticks } from "../sound";
+import { Enter, Ledger, Move, Narration, SeatRing, Shake, Stat, Tag, progress, timelineFor, useNarration } from "../stage";
 import { DotRow, Engraving, RangeGrid, Seat } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
 import type { VoManifest } from "../vo";
@@ -42,7 +42,7 @@ function Gentleman({ cue, exit, dur = 16 }: { cue: string; exit?: string; dur?: 
   const drift = 1 + Math.min(0.06, Math.max(0, since(cue)) / 2400);
   return (
     <Enter cue={cue} exit={exit} motion="fade" dur={dur} style={{ inset: 0 }}>
-      <Engraving file="expr-4.png" fade={0.4} style={{ position: "absolute", top: 600, left: -60, width: 864, height: 727, transform: `scale(${drift})` }} />
+      <Engraving file="expr-4.png" fade={0.4} style={{ position: "absolute", top: 570, left: 150, width: 780, height: 656, transform: `scale(${drift})` }} />
     </Enter>
   );
 }
@@ -57,32 +57,45 @@ function Headline({ cue, exit, children, size = 118, dur = 12 }: { cue: string; 
 
 /* ---------- Hook: the question over the Gentleman, then the cost stamps in and the table folds ---------- */
 
+/* The hook is motion from frame 0: two aces slam onto the table under the question, the cost
+   stamps in with a shake on "ten", and the table folds on "nobody". No portrait here: the
+   Gentleman is the outro. */
 function Hook() {
+  const { since } = useNarration();
   return (
     <>
-      <Gentleman cue="hook" exit="cost" dur={1} />
       <Headline cue="hook" exit="grid" dur={1}>
         Only playing <em>aces?</em>
       </Headline>
-      {/* The cost stamps in centre stage, then docks into the HUD (top right) while the maths runs
-          under it, and leaves when the 2.6% needs that slot. It comes back at "paid", earned. */}
+      <Enter cue="hook" exit="grid" dur={1} style={{ top: 650, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 22 }}>
+        {["As", "Ah"].map((c, i) => {
+          const t = progress(since("hook") - i * 4, 7);
+          return <PlayingCard key={c} card={c} size={1.0} style={{ opacity: t, transform: `translateY(${(1 - t) * -140}px) scale(${1.25 - 0.25 * t}) rotate(${(i ? 1 : -1) * (1 - t) * 12}deg)` }} />;
+        })}
+      </Enter>
+      {/* The cost stamps in under the cards, then docks into the HUD (top right) while the maths
+          runs, and leaves when the 2.6% needs that slot. It comes back at "paid", earned. */}
       <Move
         width={700}
         keys={[
-          { cue: "cost", top: 640, cx: 540, scale: 1, delay: 8 },
+          { cue: "cost", top: 920, cx: 540, scale: 1 },
           { cue: "grid", top: 352, cx: 1080 - GRID_LEFT - 160, scale: 0.46 },
         ]}
         exit="pct"
       >
         <Stat value={`−${BLINDS_LOST} bb`} label="EVERY WAIT" color={C.vermilion} size={200} align="center" />
       </Move>
-      <Enter cue="nobody0" exit="grid" style={{ top: 980, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 28 }}>
+      <Enter cue="nobody0" exit="grid" style={{ top: 1200, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 28 }}>
         {[0, 1, 2].map((i) => (
           <Tag key={i} text="FOLD" color={C.vermilion} size={30} />
         ))}
       </Enter>
-      <Hit cue="cost" delay={8} riser={false} />
-      <Sfx cue="nobody0" src="sfx/fold.wav" gain={0.8} />
+      <Sfx cue="hook" src="sfx/deal.wav" gain={0.9} />
+      <Sfx cue="hook" src="sfx/deal.wav" delay={4} gain={0.8} />
+      <Hit cue="cost" riser={false} />
+      {[0, 1, 2].map((i) => (
+        <Sfx key={i} cue="nobody0" src="sfx/fold.wav" delay={i * 3} gain={0.7} />
+      ))}
     </>
   );
 }
@@ -285,32 +298,43 @@ function SoundDesign() {
   return (
     <>
       <Music src="music/bed.wav" />
-      <ChunkBlips />
+      {/* Rule: one sound per thing that moves on screen, the same sound for the same kind of
+          move, nothing for the captions. Flights of a docking object get a soft whoosh. */}
+      {/* plan: the grid appears (shuffle), four hands light (pluck each), the rest ghosts (whoosh),
+          34 stamps, 2.6% reveals; the cost docks top right (soft whoosh) */}
       <Sfx cue="grid" src="sfx/shuffle.wav" gain={0.6} />
+      <Sfx cue="grid" src="sfx/whoosh.wav" gain={0.3} />
       {["qq", "kk", "aa", "ak"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
       ))}
       <Sfx cue="dim" src="sfx/whoosh.wav" delay={-10} gain={0.5} />
       <Hit cue="n34" gain={0.8} />
       <Sfx cue="pct" src="sfx/reveal.wav" gain={0.7} />
+      {/* wait: the grid sinks (soft whoosh), the counter and dots tick, one chip pair per orbit,
+          the aces are dealt, −10 bb stamps */}
       <Sfx cue="wait" src="sfx/whoosh.wav" delay={-8} gain={0.4} />
       <Ticks cue="wait" until="n39" n={WAIT} src="sfx/tick.wav" />
-      <Sfx cue="blinds" src="sfx/chip.wav" />
+      <Ticks cue="blinds" until="paid" n={ORBITS} src="sfx/chip.wav" gain={0.8} maxPerSecond={6} />
       <Sfx cue="aces" src="sfx/deal.wav" delay={8} />
       <Sfx cue="aces" src="sfx/deal.wav" delay={12} gain={0.8} />
       <Hit cue="paid" />
+      {/* raise: chips in, three folds, the ledger lines */}
       <Sfx cue="raise" src="sfx/chip.wav" />
       {["s1", "s2", "s3"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/fold.wav" />
       ))}
       <Sfx cue="win" src="sfx/reveal.wav" gain={0.6} />
       <Hit cue="net" />
+      {/* fix: scene change (whoosh), the aces dock (soft whoosh), the grid fills cell by cell
+          (ticks following the fill), three groups flash (pluck each) */}
       <Sfx cue="btn" src="sfx/whoosh.wav" delay={-10} />
+      <Sfx cue="btn" src="sfx/whoosh.wav" delay={4} gain={0.3} />
       <Sfx cue="widen" src="sfx/reveal.wav" />
-      <Sfx cue="widen" src="sfx/shuffle.wav" delay={6} gain={0.5} />
+      <Ticks cue="widen" delay={6} frames={45} n={16} src="sfx/tick.wav" gain={0.4} maxPerSecond={12} />
       {["sc", "pp", "ax"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
       ))}
+      {/* sheet: the grid flies into its row (whoosh), four rows tick in, the BTN row stamps */}
       <Sfx cue="sheet" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       {[0, 1, 2, 4].map((i) => (
         <Sfx key={i} cue="sheet" delay={6 + i * 7} src="sfx/tick.wav" gain={0.5} />
@@ -327,13 +351,15 @@ export const ONLY_ACES_FRAMES = timelineFor(SCRIPT, VO).total;
 export function OnlyAces() {
   return (
     <Narration script={SCRIPT} vo={VO}>
-      <Hook />
-      <ThePlan />
-      <TheWait />
-      <NobodyPays />
-      <TheFix />
-      <CheatSheet />
-      <Outro />
+      <Shake cue="cost">
+        <Hook />
+        <ThePlan />
+        <TheWait />
+        <NobodyPays />
+        <TheFix />
+        <CheatSheet />
+        <Outro />
+      </Shake>
       <SoundDesign />
     </Narration>
   );

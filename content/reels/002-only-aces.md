@@ -61,8 +61,20 @@ Voice: VibeVoice-Large, locally, the seed-3 board voice cloned (see below).
   into the top-right corner and stay there through the button scene; the 38 % and its grid fly
   into the BTN row of the final table, which lands with a stamp.
 - **Sound.** Every number landing is a riser + stamp + sub boom (`<Hit>`); a shuffle when the grid
-  appears and when it widens; a faint blip on every caption change; whooshes start early so they
-  peak on the cue.
+  appears and when it widens; whooshes start early so they peak on the cue.
+
+## v7 (2026-11-11, later still): after "you made everything worse"
+
+- Pauses back: silences cut to 0.55 s, no tempo lift (the 0.3 s cut stopped sounding like
+  narration). Reel about 96 s.
+- Sound audit: nothing on the captions; a sound for everything that moves (ticks follow the button
+  grid filling cell by cell, one chip pair per orbit, each fold, each row, a soft whoosh when an
+  object flies to its dock).
+- Hook: no portrait; the two aces slam onto the table under the question from frame 0, the −10 bb
+  stamps in with a frame shake, three folds land one after another.
+- Outro: the Gentleman centred and large, clear of the captions (same framing as reel 003).
+- Voice: second board for the user to pick (docs/research/2026-11-11-vibevoice-voice-board.md,
+  "Second board"); the livelier read (B) is pre-generated for both reels.
 
 ## Scenes (cues in brackets, see the script for the exact words)
 

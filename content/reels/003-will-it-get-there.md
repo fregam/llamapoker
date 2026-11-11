@@ -25,7 +25,10 @@ with `<Move>`: the 36 % from the hook docks top right as the promise while the o
 and hands over to the big 36 %; the 9 outs shrink into the top-left HUD and stay through the rule;
 36 % and 18 % travel into the FLOP and TURN cells of THE RULE row as the table forms; the EXACTLY
 row slides down to where the flush-draw row of the cheat sheet will be and hands over when it is
-spoken. Risers and booms on the three numbers, a shuffle on the deck, blips on the captions.
+spoken. Risers and booms on the three numbers. v7 (same night): pauses at 0.55 s, sound audit
+(no caption sounds; ticks as the thirteen hearts deal in and as the outs count; soft whooshes on the
+docking moves), hook dealt in from frame 0 with a shake on the 36 %, the Gentleman centred and
+clear of the captions in the outro.
 
 ## Scenes
 

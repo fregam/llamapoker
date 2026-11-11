@@ -3,7 +3,9 @@
     <comfyui-venv>/python.exe scripts/vo-tighten.py <reel-id> [--max-gap 0.30] [--tempo 1.06]
 
 Works on public/vo/<id>/_whole.wav (the one-take recording), keeps the original as
-_whole.raw.wav, writes the tightened file back as _whole.wav. Then run the usual chain:
+_whole.raw.wav and always cuts from that, so it can be re-run with other settings; never delete
+_whole.raw.wav (the per-take <take>.raw.wav files from vo-enhance.py can go: `rm [!_]*.raw.wav`).
+The original is also archived in media/reels/<reel>/audio/vo/. Then run the usual chain:
 vo-align.py <id> --split, vo-enhance.py <id>, vo-check.py <id>, vo-manifest.mjs <id>.
 
 VibeVoice breathes generously: sentence gaps of 0.6–1.2 s. Viewers don't wait. Every silence

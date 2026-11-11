@@ -65,25 +65,14 @@ export function Hit({ cue, delay = 0, gain = 1, riser = true }: { cue: string; d
   );
 }
 
-/** A tiny blip when the caption changes: the words keep time even when nothing else moves. */
-export function ChunkBlips({ gain = 0.22, src = "sfx/blip.wav" }: { gain?: number; src?: string }) {
-  const { tl } = useNarration();
-  return (
-    <>
-      {tl.chunks.map((c, i) => (
-        <Sequence key={i} from={c.start} durationInFrames={10}>
-          <Audio src={staticFile(src)} volume={gain} />
-        </Sequence>
-      ))}
-    </>
-  );
-}
-
-/** n ticks spread evenly between two cues (a counter counting up). */
-export function Ticks({ cue, until, n, src, gain = 0.6, maxPerSecond = 12 }: { cue: string; until: string; n: number; src: string; gain?: number; maxPerSecond?: number }) {
+/**
+ * n ticks spread evenly from a cue to another cue (`until`) or over `frames`: a counter counting,
+ * dots filling, cells lighting one after another. Never on the captions: words are not events.
+ */
+export function Ticks({ cue, until, frames, n, src, gain = 0.6, maxPerSecond = 12, delay = 0 }: { cue: string; until?: string; frames?: number; n: number; src: string; gain?: number; maxPerSecond?: number; delay?: number }) {
   const { at } = useNarration();
-  const a = at(cue);
-  const b = at(until);
+  const a = at(cue) + delay;
+  const b = until ? at(until) : a + (frames ?? 30);
   const count = Math.min(n, Math.floor(((b - a) / 30) * maxPerSecond));
   if (count <= 0) return null;
   return (

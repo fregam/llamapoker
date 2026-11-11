@@ -126,8 +126,9 @@ if (has("board")) {
   const text = opt("text");
   if (!text) throw new Error("--board needs --text");
   mkdirSync(dir, { recursive: true });
+  const name = opt("name", "seed"); // output file: <name>-<seed>.wav
   for (const s of opt("seeds", "1").split(",").map(Number)) {
-    await generate({ text, seed: s, refName, prefix: `llamapoker/board/seed-${s}`, target: resolve(dir, `seed-${s}.wav`) });
+    await generate({ text, seed: s, refName, prefix: `llamapoker/board/${name}-${s}`, target: resolve(dir, `${name}-${s}.wav`) });
   }
 } else {
   if (!id) throw new Error("usage: vo-comfy.mjs <reel-id> --ref <wav> [--seed N] [--take name]  |  --board <dir> --text ... --seeds 1,2");
@@ -151,7 +152,8 @@ if (has("board")) {
     // The model tends to stop before the last turn is finished, so a throwaway sentence goes last
     // and is cut away by the split (it is not in the script, so the aligner never looks for it).
     const text = [...takes.map((tk) => tk.parts.join(" ")), "That's the whole idea. See you at the next one."].join("\n[1] ");
-    await generate({ text, seed, refName, prefix: `llamapoker/${id}/_whole`, target: resolve(outDir, "_whole.wav") });
+    // --whole-out <file> writes elsewhere (a candidate to compare) instead of replacing _whole.wav
+    await generate({ text, seed, refName, prefix: `llamapoker/${id}/_whole`, target: resolve(opt("whole-out", resolve(outDir, "_whole.wav"))) });
     process.exit(0);
   }
   for (const tk of takes) {

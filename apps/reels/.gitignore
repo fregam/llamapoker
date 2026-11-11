@@ -2,5 +2,5 @@ node_modules
 out
 public/_review
 public/vo/*/_whole.wav
-public/vo/*/_whole.raw.wav
+public/vo/*/_whole.*.wav
 public/vo/*/*.raw.wav

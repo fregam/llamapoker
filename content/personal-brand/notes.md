@@ -140,3 +140,19 @@ lesson, and a hook line that could open the post.
   hear the difference in the voice. The script's pauses between scenes shrank from 20 frames to 9.
 - **Lesson:** retention leaks in the gaps, not in the sentences.
 - **Hook:** "I made the video 11 % shorter without cutting a word."
+
+## 2026-11-11 · "You made everything worse": the round where the rules got precise
+
+- **What happened:** the previous round added a tick on every caption change (so the words would
+  "keep time"), cut every pause in the narration to 0.3 s and sped it up 6 %, put the portrait in
+  the hook, and left the range cells lighting up in silence. The user's verdict, one line:
+  everything worse. Each item was the same mistake: optimising a number (pace, density, motion)
+  instead of the experience.
+- **What changed:** sounds only for things that move, and a sound for *every* thing that moves;
+  nothing for the captions. Pauses back to 0.55 s, no tempo change: narration needs breath. The
+  portrait out of the hook and into the outro, centred and large. Cards slamming in from frame 0
+  with a frame shake on the number. A voice board with four takes for the user to pick by ear.
+- **Lesson:** retention tricks that fight the medium lose. A narration that no longer breathes
+  isn't faster, it's broken. And every rule you write down this precisely came from a complaint.
+- **Hook:** "I optimised my video for retention and my first viewer said it felt wrong. He was
+  right about all four things."
