@@ -1,7 +1,6 @@
 # LlamaPoker
 
-Everything for LlamaPoker in one repo: the website, the brand, the content and the agents
-that will grow it. The free poker tool at **https://llamapoker.com** is the front door; the
+Everything for LlamaPoker in one repo: the website, the brand, the reels and the content. The free poker tool at **https://llamapoker.com** is the front door; the
 goal is a poker media brand built around it (see `docs/vision.md`).
 
 ```
@@ -10,8 +9,10 @@ brand/      Brand system: guidelines, colour and type tokens, logo, approved ass
 apps/web/   llamapoker.com: odds calculator, trainer, Learn guides (React + Vite,
             prerendered, on Cloudflare Pages).
 apps/reels/ Short vertical videos (Reels, TikTok, Shorts) rendered from code with Remotion.
-content/    Articles, social posts and the content calendar (Markdown).
-agents/     Research, writing, SEO and social agents (planned).
+apps/wall/  The command center: a private dashboard on one D1 event store (own look, not the brand).
+content/    Articles, social posts, reel scripts and the content calendar (Markdown).
+media/      Binary media mirroring content/ (git-ignored; every file listed in a manifest).
+scripts/    Repo tools: media manifests, voice and sound generation for the reels.
 docs/       Vision, roadmap, decisions and runbooks (hosting, deploys).
 ```
 

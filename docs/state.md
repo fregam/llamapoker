@@ -1,7 +1,22 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
+the end. Last update: 2026-11-12 (skills setup and housekeeping).
+
+## Done 2026-11-12
+
+- Matt Pocock's engineering skills installed (plugin `mattpocock-skills`); repo configured in
+  `docs/agents/` (issues as Markdown in `.scratch/`). Branch `chore/agent-skills-setup`.
+- Housekeeping on `chore/repo-cleanup` (stacked on the setup branch): `apps/blender/`, `agents/`,
+  `scripts/split-sheet.mjs`, tracked `.pyc` files and 15 unused reel cut-outs removed; about
+  1.2 GB of git-ignored media deleted from the main checkout (AI-video bake-offs 01-03, FLUX and
+  image-model tests, on-brand drafts, ElevenLabs voice board, `media/library/3d/`). Manifests
+  pruned and verified (library 20, tests 56). `media-manifest.mjs` fixed: it ignored a manifest
+  path given without `--init`. Retired library images kept on purpose (11 remain; the two retired
+  3D v01 files went with `media/library/3d/`). `blip.wav` kept: `sfx-moss.py` regenerates it.
+- Until this merges, the main checkout's manifests still list the deleted files, so `--check`
+  fails there.
+- GitHub reports 5 Dependabot alerts on `main` (2 critical, 3 moderate); not looked at yet.
 
 ## Approved on 2026-11-11
 

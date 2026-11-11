@@ -15,15 +15,12 @@ Guidance for Claude Code across the LlamaPoker monorepo.
   panel (events in the common format + a station + its failure in threats).
 - `apps/reels/`: short vertical videos rendered from code (Remotion). Read its README for the format; numbers
   come from `apps/web/src/poker/`, colours and fonts from `brand/`.
-- `apps/blender/`: motion for the reels, written as headless Blender scripts. Read its README
-  first: absolute paths only, and the Gentleman faces +Y.
 - `content/`: Markdown content and the calendar. Follow the voice in `brand/README.md`.
   `content/library/` holds the permanent image references (`assets.json` manifest).
 - `media/`: binary media mirroring `content/` (git-ignored, except its README). Follow the naming
   rules in `media/README.md`. Every file must be listed in a manifest; check with
   `node scripts/media-manifest.mjs --check`. Never store project media outside the repo.
 - `scripts/`: repo-level tools (e.g. `media-manifest.mjs`).
-- `agents/`: planned automation (research, writing, SEO, social).
 - `docs/`: `vision.md` (why), `roadmap.md` (what's next), `hosting.md` (how it runs).
 
 ## Rules
@@ -42,3 +39,17 @@ Guidance for Claude Code across the LlamaPoker monorepo.
   found, a request declined, a result that surprised), append an entry there in the file's shape
   (date, choice, rejected and why, what happened, lesson, hook) as part of the same work, without
   announcing it and without being asked. Do this in every session.
+
+## Agent skills
+
+### Issue tracker
+
+Local markdown: one folder per feature under `.scratch/<feature-slug>/` (spec + numbered issue files). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five default roles (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) as a `Status:` line. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: root `GLOSSARY.md` + `docs/adr/`, alongside the existing `docs/decisions.md`. See `docs/agents/domain.md`.
