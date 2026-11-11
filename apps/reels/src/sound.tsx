@@ -45,8 +45,8 @@ export function Music({ src, gain = 1 }: { src: string; gain?: number }) {
 /** One sound effect at a cue. `gain` is linear (1 = file level, the files are cut at -18 LUFS). */
 export function Sfx({ cue, src, delay = 0, gain = 1, dur = 90 }: { cue: string; src: string; delay?: number; gain?: number; dur?: number }) {
   const { at } = useNarration();
-  const from = at(cue) + delay;
-  if (from < 0) return null;
+  // A negative delay starts a swell (whoosh) before the cue so it peaks on it.
+  const from = Math.max(0, at(cue) + delay);
   return (
     <Sequence from={from} durationInFrames={dur}>
       <Audio src={staticFile(src)} volume={gain} />

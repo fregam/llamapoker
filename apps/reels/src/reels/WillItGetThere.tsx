@@ -89,7 +89,7 @@ function SoundDesign() {
   return (
     <>
       <Music src="music/bed.wav" />
-      <Sfx cue="count" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="count" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       <Sfx cue="seen" src="sfx/tick.wav" gain={0.6} />
       <Sfx cue="nine" src="sfx/reveal.wav" />
       <Sfx cue="flop" src="sfx/deal.wav" delay={8} />
@@ -98,14 +98,14 @@ function SoundDesign() {
       <Sfx cue="turn" src="sfx/deal.wav" />
       <Sfx cue="x2" src="sfx/pluck.wav" />
       <Sfx cue="r18" src="sfx/stamp.wav" />
-      <Sfx cue="exact" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="exact" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       <Sfx cue="e35" src="sfx/reveal.wav" gain={0.7} />
       <Sfx cue="e19" src="sfx/reveal.wav" gain={0.7} />
-      <Sfx cue="sheet" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="sheet" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       {["d4", "d6", "d8", "d9", "d12", "d15"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/tick.wav" gain={0.6} />
       ))}
-      <Sfx cue="outro" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="outro" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       <Sfx cue="cta" src="sfx/reveal.wav" />
     </>
   );

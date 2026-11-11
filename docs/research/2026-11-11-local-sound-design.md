@@ -34,6 +34,20 @@ SFX). Sources: [ComfyUI blog on ACE-Step 1.5](https://blog.comfy.org/p/ace-step-
   loudnorm back to −16 LUFS. Measured on reel 003's "sheet" take: floor between words −30.4 →
   −38.9 dBFS, speech level unchanged (−15.5 dBFS), transcript unchanged.
 
+## MOSS-SoundEffect on an 8 GB card: three gotchas
+
+1. `torch.compile` is on by default and needs Triton, which Windows has no wheel for → run with
+   `TORCH_COMPILE_DISABLE=1`.
+2. The DiT loads in **float32** (1.42B params, 5.4 GB) whatever `torch_dtype` says; with the text
+   encoder (1.72B, bf16) and the VAE (0.37B, fp32) all on the GPU that is 10 GB → OOM, and with
+   the driver's system-memory fallback it "works" at 16 s per step. Fix in `scripts/sfx-moss.py`:
+   `pipe.engine.vram_management_enabled = True` (the pipeline then keeps only the stage in use
+   on the GPU) and `pipe.engine.dit.to(torch.bfloat16)`.
+3. `pipe.save_audio` goes through torchaudio 2.9, which now needs torchcodec (not installed, no
+   wheel for this setup) → the script saves the `(B, C, T)` tensor with soundfile itself.
+4. With the DiT in bf16 a 1.5 s clip takes about 25 s at 60 steps (2.4 it/s); two candidates per
+   sound, eight sounds, under ten minutes.
+
 ## Mixing rules (in `sound.tsx`)
 
 Voice at −16 LUFS. Bed −20 dB under the voice while it speaks, −12 dB in the pauses between takes,

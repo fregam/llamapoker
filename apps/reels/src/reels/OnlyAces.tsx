@@ -260,7 +260,7 @@ function SoundDesign() {
       {["qq", "kk", "aa", "ak"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
       ))}
-      <Sfx cue="dim" src="sfx/whoosh.wav" gain={0.5} />
+      <Sfx cue="dim" src="sfx/whoosh.wav" delay={-10} gain={0.5} />
       <Sfx cue="n34" src="sfx/stamp.wav" gain={0.8} />
       <Sfx cue="pct" src="sfx/reveal.wav" gain={0.7} />
       <Ticks cue="wait" until="n39" n={WAIT} src="sfx/tick.wav" />
@@ -274,16 +274,16 @@ function SoundDesign() {
       ))}
       <Sfx cue="win" src="sfx/reveal.wav" gain={0.6} />
       <Sfx cue="net" src="sfx/stamp.wav" />
-      <Sfx cue="btn" src="sfx/whoosh.wav" />
+      <Sfx cue="btn" src="sfx/whoosh.wav" delay={-10} />
       <Sfx cue="widen" src="sfx/reveal.wav" />
       {["sc", "pp", "ax"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
       ))}
-      <Sfx cue="sheet" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="sheet" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       {POSITIONS.slice(0, 5).map((_, i) => (
         <Sfx key={i} cue="sheet" delay={6 + i * 7} src="sfx/tick.wav" gain={0.5} />
       ))}
-      <Sfx cue="outro" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="outro" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       <Sfx cue="cta" src="sfx/reveal.wav" />
     </>
   );

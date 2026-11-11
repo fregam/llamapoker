@@ -83,10 +83,13 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   screen, the same sound for the same kind of change (tick = a count or a row, pluck = a cell
   lighting, deal = a card, fold = a fold, chip = chips, stamp = a number landing, reveal = a result,
   whoosh = a scene change).
-- Files: `public/sfx/<name>.wav` (48 kHz mono, peak −6 dBFS) and `public/music/bed.wav`. The
-  current set is **provisional, synthesised** by `scripts/sfx-synth.py` so the layer could be built
-  and rendered; the generated set (MOSS-SoundEffect v2 for effects, ACE-Step 1.5 for the bed, both
-  local) replaces them file for file with the same names.
+- Files: `public/sfx/<name>.wav` (48 kHz mono, peak −6 dBFS, the hit 20 ms in so it lands on the
+  cue; whooshes are swells and are placed with `delay={-10}`) and `public/music/bed.wav`. The
+  effects are generated locally by MOSS-SoundEffect v2 (`scripts/sfx-moss.py`, candidates in
+  `media/tests/2026-11-11_sfx-board/`); the bed is still the synthesised placeholder from
+  `scripts/sfx-synth.py` until ACE-Step 1.5 runs (`scripts/music-comfy.mjs`, needs the ComfyUI
+  Desktop core updated). `sfx-synth.py` also regenerates a provisional effects set with the same
+  names if ever needed.
 - Voice cleaning: `scripts/vo-enhance.py <id>` (DeepFilterNet 3 on the system Python 3.11, keeps
   `<take>.raw.wav`, re-levels to −16 LUFS); `scripts/vo-denoise.py` is the dependency-free fallback.
 

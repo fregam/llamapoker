@@ -107,3 +107,15 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a hook is not a question, it is the answer shown early enough that the viewer wants
   the proof.
 - **Hook:** "Stop asking the question in your first three seconds. Show the number."
+
+## 2026-11-11 · Four traps between "pip install" and the first sound
+
+- **What happened:** the open sound-effects model worked on the fourth attempt. It wanted a GPU
+  compiler Windows doesn't have (switch it off). It loaded its main network in full precision,
+  twice the size it needed, and the driver quietly spilled it into system memory at sixteen
+  seconds a step instead of failing (cast it down, but keep the one complex tensor complex). Its
+  own save function depended on a library that wasn't there (save the array yourself). None of
+  this is in the README. All of it took an hour, and then every effect took twenty-five seconds.
+- **Lesson:** "open source" means the model is yours to fix. Budget the hour. Write the four
+  lines down so the next person doesn't pay it again.
+- **Hook:** "Free AI models cost one hour. Here's the hour."

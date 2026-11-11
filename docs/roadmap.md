@@ -40,9 +40,11 @@
      show the payoff in the first seconds; voice cleaned with DeepFilterNet. Local generators chosen
      and downloaded: ACE-Step 1.5 Turbo (music bed, needs the ComfyUI Desktop core update) and
      MOSS-SoundEffect v2.0 (effects, needs its install run by the user).
-   - Next: generate the real bed and effects and swap them in; user listens to 002/003 v5; rebuild
-     001 "Should you call?" on this system; post 002–003; then "Stop limping", "The button is the
-     best seat".
+   - v5 rendered (002: 100 s, 003: 67 s) with the MOSS-generated effects; the bed is still the
+     synthesised placeholder.
+   - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
+     user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
+     "Stop limping", "The button is the best seat".
 
 ## Later
 
