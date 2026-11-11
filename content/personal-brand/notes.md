@@ -156,3 +156,17 @@ lesson, and a hook line that could open the post.
   isn't faster, it's broken. And every rule you write down this precisely came from a complaint.
 - **Hook:** "I optimised my video for retention and my first viewer said it felt wrong. He was
   right about all four things."
+
+## 2026-11-11 · The first planning session found the leak before the reel
+
+- **Choice:** before building anything for growth, audit the whole path from reel to welcome
+  email. Rejected: posting the three rendered reels first and "getting data" (the brief's own
+  instinct, and mine).
+- **What happened:** the site passed every technical check (types, tests, build, headers,
+  structured data, redirects). The path did not: the signup form lives on one page, the welcome
+  email in Beehiiv was switched off, the list had two subscribers and both were me, and the only
+  attribution field could say one word: "home". Search had sent seventeen impressions. A week of
+  seven reel pipeline versions sat on top of a funnel with no bottom.
+- **Lesson:** the machine is never the bottleneck when the list is empty. Check where a viewer
+  would land before you polish what they'd watch.
+- **Hook:** "I rebuilt my video pipeline seven times. My newsletter's welcome email was off."
