@@ -56,8 +56,9 @@ Voice: VibeVoice-Large, locally, the seed-3 board voice cloned (see below).
 - **Pace.** Silences inside the narration cut to 0.3 s and the tempo lifted 6 % (pitch kept):
   91 s of speech became 81 s; take gaps 8–9 frames. The whole reel is about 86 s.
 - **Continuity** (`<Move>`): the −10 bb stamped in the hook docks into the top-right HUD while the
-  grid lights, and leaves only when the 2.6 % needs the slot; the grid sinks to a faint backdrop
-  under the counter instead of cutting away; the aces, after the seats fold around them, shrink
+  grid lights, and leaves only when the 2.6 % needs the slot; the grid and its HUD leave together
+  when the counter takes the stage (v7.1: a ghosted grid under the dot row and a hanging "34" HUD
+  read as clutter); the aces, after the seats fold around them, shrink
   into the top-right corner and stay there through the button scene; the 38 % and its grid fly
   into the BTN row of the final table, which lands with a stamp.
 - **Sound.** Every number landing is a riser + stamp + sub boom (`<Hit>`); a shuffle when the grid

@@ -63,7 +63,10 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   the maths runs; the aces shrink into the corner while the button scene plays; the button grid
   flies into its own row of the final table; the 9 outs sit in the HUD through the rule; 36% and
   18% travel into the cells of the table that checks them. A viewer should never see a thing
-  vanish and an unrelated thing appear.
+  vanish and an unrelated thing appear. But a carried object lives in a **slot** (HUD corner,
+  table row), never under or beside the new focal object: a HUD number left hanging next to a big
+  counter, or a ghosted grid under a dot row, reads as clutter (the user caught both). When a
+  scene is done with an object and the next scene has no slot for it, it leaves.
 - **The Gentleman is a bookend.** Hook and outro only, full width, composited with the fade mask,
   with the headline above him. Never behind text, never mid-video as a reaction shot.
 - **The headline is only in the hook.** After it, no titles: the caption carries the words and

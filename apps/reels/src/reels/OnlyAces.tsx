@@ -111,17 +111,13 @@ function ThePlan() {
   if (since("ak") >= 0) ["AKs", "AKo"].forEach((h) => lit.add(h));
   const ghost = progress(since("dim"), 18);
   const pct = PREMIUM_PCT * progress(since("pct"), 24);
-  // The grid doesn't cut away: on "wait" it sinks to a faint backdrop (the 34 premiums still
-  // faintly lit) and the counter plays on top of it; it is gone by the time the aces land.
-  const sink = progress(since("wait"), 20);
+  // The grid and its HUD leave together on "wait"; the counter rises into the cleared stage.
   return (
     <>
-      <Enter cue="grid" exit="aces" style={{ top: 508, left: GRID_LEFT }}>
-        <div style={{ opacity: 1 - 0.88 * sink, transform: `scale(${1 - 0.04 * sink})`, transformOrigin: "top center" }}>
-          <RangeGrid lit={lit} color={C.brass} cell={58} ghost={ghost} />
-        </div>
+      <Enter cue="grid" exit="wait" style={{ top: 508, left: GRID_LEFT }}>
+        <RangeGrid lit={lit} color={C.brass} cell={58} ghost={ghost} />
       </Enter>
-      <Enter cue="n34" exit="n39" style={{ top: 352, left: GRID_LEFT }}>
+      <Enter cue="n34" exit="wait" style={{ top: 352, left: GRID_LEFT }}>
         <Stat value={`${PREMIUM_COMBOS}`} label="OF 1,326 HANDS" size={92} />
       </Enter>
       <Enter cue="pct" exit="wait" delay={8} style={{ top: 352, right: GRID_LEFT }}>
@@ -151,7 +147,7 @@ function TheWait() {
   return (
     <>
       {/* The counter rises over the sinking grid; it exits as the aces land in the same spot */}
-      <Enter cue="wait" exit="aces" delay={6} style={{ top: 430, left: 0, right: 0, textAlign: "center" }}>
+      <Enter cue="wait" exit="aces" delay={8} style={{ top: 430, left: 0, right: 0, textAlign: "center" }}>
         <div style={{ fontFamily: SERIF, fontSize: 250, lineHeight: 0.9, color: C.paper, fontVariantNumeric: "tabular-nums" }}>{n}</div>
         <div style={{ fontFamily: SANS, fontSize: 28, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginTop: 22 }}>HANDS BETWEEN PREMIUMS</div>
       </Enter>
