@@ -4,6 +4,10 @@ date: 2026-11-09
 status: plan, to test as bake-off 03
 ---
 
+> **Archived 2026-11-12.** The AI-video and Blender work was shelved on 2026-11-10. This
+> write-up is kept; the media it names was deleted and `apps/blender/` lives only in git history
+> (`git show 4b6cf69:apps/blender/README.md`).
+
 # Motion from Blender
 
 > **Update (same day, after building it):** the guide character is a **simple-shape mannequin**

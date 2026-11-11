@@ -278,3 +278,15 @@ lesson, and a hook line that could open the post.
 - **Lesson:** each decision changes what the previous one means. Going public for a free
   checkbox also made the roadmap public.
 - **Hook:** "My to-do list is open source now. That wasn't the plan; it was a side effect."
+
+## 2026-11-12 - The integrity check had been checking the wrong file
+
+- **Choice:** cleaning out 1.2 GB of shelved experiments meant pruning the media manifests and
+  re-running the checker. Pointed at a manifest by path, it quietly checked the default one
+  instead: an off-by-one in the argument parsing dropped the first path. It only "worked"
+  before because every earlier call happened to put a flag first.
+- **Rejected:** just reordering the arguments and moving on.
+- **Lesson:** a tool that falls back silently gives you green lights for the wrong question.
+  Make it fail loudly or name what it actually checked; this one prints the path, which is how
+  the bug showed up.
+- **Hook:** "My checker said '25 assets verified'. I'd asked it about a different file."

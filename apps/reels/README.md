@@ -178,9 +178,8 @@ untouched generation stays in `media/`.)
 
 A new voice = a new board (`vo-comfy.mjs --board`), pick by the numbers, cut a mid-paragraph
 reference, regenerate; nothing else changes. To use a human voice, record 60 s with consent and
-pass a 10 s cut of it as `--ref` (then check the transcript with `vo-check.py`). Earlier boards
-(ElevenLabs presets via Higgsfield, `media/tests/2026-11-10_voice-board-elevenlabs/`) are kept for
-comparison: Mark measured 138 Hz / IQR 41 / 2.45 words/s.
+pass a 10 s cut of it as `--ref` (then check the transcript with `vo-check.py`). The earlier
+ElevenLabs board (presets via Higgsfield, deleted 2026-11-12) measured Mark at 138 Hz / IQR 41 / 2.45 words/s.
 
 ## Files
 
@@ -201,9 +200,10 @@ src/vo.ts               VoManifest type
 src/covers/Cover.tsx    Instagram cover (1080×1350): Bodoni question over a library engraving
 src/reels/*.tsx         One file per reel
 public/vo/<id>/<take>.wav One voice recording per take (scene), 48 kHz mono, -16 LUFS
-public/library/         Cut-outs of the on-brand library (content/library): expr-1..6, pose-1..6,
-                        turnaround-front, loft, table-edge, props, gentleman-portrait, the-read.
-                        Blacks crushed so screen blending drops them onto ink.
+public/library/         Cut-outs of the on-brand library (content/library) in use: expr-4, expr-6,
+                        pose-4. Blacks crushed so screen blending drops them onto ink. The other
+                        cut-outs (expr-1..6, pose-1..6, loft, props, ...) were removed 2026-11-12;
+                        restore one with `git checkout d320527 -- apps/reels/public/library/<name>.png`.
 ```
 
 ## Before a reel reaches the approval queue

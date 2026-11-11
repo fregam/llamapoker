@@ -47,7 +47,6 @@ og card and the X banner (`apps/web/public/og.png`, `brand/social/x-banner.png`)
 ## History
 
 - 2026-11-09: v01 (GPT Image 2.5, warm paper, 19th-century club) retired as off-brand. The
-  FLUX paper sheets in `media/tests/2026-11-09_flux-library/` were never accepted. On-brand
-  library started in `media/tests/2026-11-09_on-brand-library/`.
-- 3D: `gentleman_proxy_v02` (Tripo P2) is the geometry master. Its texture came from a paper
-  sheet, so never render its colours; use it for shape, depth and clay passes only.
+  FLUX paper sheets were never accepted. On-brand library started as drafts in `media/tests/`.
+- 2026-11-12: the FLUX and on-brand drafts and the 3D Gentleman files (used only by the
+  shelved Blender work) were deleted; their manifest entries are in git history.

@@ -12,15 +12,12 @@ Guidance for Claude Code across the LlamaPoker monorepo.
   touching site code. Run npm commands from `apps/web/`.
 - `apps/reels/`: short vertical videos rendered from code (Remotion). Read its README for the format; numbers
   come from `apps/web/src/poker/`, colours and fonts from `brand/`.
-- `apps/blender/`: motion for the reels, written as headless Blender scripts. Read its README
-  first: absolute paths only, and the Gentleman faces +Y.
 - `content/`: Markdown content and the calendar. Follow the voice in `brand/README.md`.
   `content/library/` holds the permanent image references (`assets.json` manifest).
 - `media/`: binary media mirroring `content/` (git-ignored, except its README). Follow the naming
   rules in `media/README.md`. Every file must be listed in a manifest; check with
   `node scripts/media-manifest.mjs --check`. Never store project media outside the repo.
 - `scripts/`: repo-level tools (e.g. `media-manifest.mjs`).
-- `agents/`: planned automation (research, writing, SEO, social).
 - `docs/`: `vision.md` (why), `roadmap.md` (what's next), `hosting.md` (how it runs).
 
 ## Rules

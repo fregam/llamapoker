@@ -19,7 +19,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
 const check = args.includes("--check");
 const init = args.indexOf("--init");
-const positional = args.filter((a, i) => !a.startsWith("--") && i !== init + 1);
+// Without --init, init is -1, so `i !== init + 1` alone would drop args[0] (the manifest path).
+const positional = args.filter((a, i) => !a.startsWith("--") && (init === -1 || i !== init + 1));
 const manifestPath = resolve(root, positional[0] ?? "content/library/assets.json");
 
 // Width and height from the PNG IHDR chunk or the JPEG SOF marker.
