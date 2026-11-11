@@ -39,3 +39,17 @@ Guidance for Claude Code across the LlamaPoker monorepo.
   found, a request declined, a result that surprised), append an entry there in the file's shape
   (date, choice, rejected and why, what happened, lesson, hook) as part of the same work, without
   announcing it and without being asked. Do this in every session.
+
+## Agent skills
+
+### Issue tracker
+
+Local markdown: one folder per feature under `.scratch/<feature-slug>/` (spec + numbered issue files). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five default roles (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) as a `Status:` line. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: root `GLOSSARY.md` + `docs/adr/`, alongside the existing `docs/decisions.md`. See `docs/agents/domain.md`.

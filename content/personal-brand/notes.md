@@ -266,3 +266,15 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a check that only covers the easy part is a false green. Point the instrument at
   the whole thing before trusting it.
 - **Hook:** "My integrity check said 'all 25 verified'. There were 844 files."
+
+## 2026-11-12 - Borrowed a stranger's engineering workflow, and the plans landed in public
+
+- **Choice:** installed Matt Pocock's skills (spec, tickets, TDD, a "grill me" interview) instead
+  of inventing a planning process. Issues live as Markdown files in `.scratch/` inside the repo,
+  not in GitHub Issues. Since the repo went public the night before, every spec and ticket is
+  public too.
+- **Rejected:** GitHub Issues (one more place to look); git-ignoring `.scratch/` (plans you
+  can't version get lost).
+- **Lesson:** each decision changes what the previous one means. Going public for a free
+  checkbox also made the roadmap public.
+- **Hook:** "My to-do list is open source now. That wasn't the plan; it was a side effect."
