@@ -1,6 +1,6 @@
 ---
 title: Only playing aces?
-status: rendered (v9, voice B), not approved for posting (review-sheet round pending)
+status: v9 APPROVED for posting by the founder (2026-11-11); post on Instagram, TikTok once the account exists
 channel: Instagram Reels (9:16, 87 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `only-aces`; script `apps/reels/src/scripts/only-aces.json`; cover `cover-only-aces`
