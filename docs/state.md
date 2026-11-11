@@ -13,27 +13,35 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
   (`docs/interface/mockups/`, renders in `media/tests/2026-11-11_interface-mockups/outputs/`),
   the founder picks one; build only after the safety net and measurement are live.
 
+## Done since the morning (2026-11-11, evening)
+
+- PR #1 (`ci/safety-net`) and PR #11 (`plan/2026-11-11-first-session`) merged by the founder;
+  the signup path, `/go/<channel>` links and docs are live on llamapoker.com (checked by curl).
+- Beehiiv welcome email: published and switched on (subject "You're in. Here's the first spot.",
+  UTM source `letter`). Still missing: a real postal address (the footer shows Beehiiv's placeholder).
+- Two empty draft automations ("New Automation", "New Automation (1)") were created by stray
+  keystrokes while editing the welcome email; deleting them was blocked. Harmless; delete by hand.
+- Voice round 1: the founder picked B by ear. Reels 002/003 re-voiced as v9 on `reels/voice-b`
+  (pushed, needs a PR). Two words to confirm by ear: 002 "So save this", 003 "But say the turn".
+- Interface: round 2 (VFD) mockups on `interface/vfd-mockups` (pushed, needs a PR).
+
 ## Waiting on the founder
 
-- **Merge:** one pull request, `plan/2026-11-11-first-session` → `main`. That branch contains
-  everything from this session (it merged `site/signup-path`, which contains `ci/safety-net`):
-  CI, page and function tests, Vite 7, the signup path, the docs, the mockups. Type-check, 70
-  tests and the build pass on it. Cloudflare builds a preview per pushed branch; check the Pages
-  dashboard for its URL. Until the branch rule exists, merging to `main` is a production deploy:
-  the founder merges.
+- **Merge:** PRs for `reels/voice-b` and `interface/vfd-mockups` (both docs/media only; no site
+  code, so no deploy risk).
+- **Pick a VFD direction** (1 Phosphor, 2 Batcomputer, 3 Cluster) or say what to combine.
+- **Review-sheet round** for reel 002 (v9): watch it next to the reference "Waiting for aces?" and
+  note every moment ours feels worse, with a timestamp; I sort and fix one category.
 - **Housekeeping:** a `vite preview` server started during this session (port 4173) and an
   esbuild service may still be running on the PC; closing them frees `node_modules` for `npm ci`.
 - **Branch protection** on `main` (GitHub UI, settings listed in `docs/hosting.md`, "Safety net").
-- **Beehiiv:** turn the welcome email on with `content/letters/000-welcome.md`, set a postal
-  address and a reply-to that is read; then letter 001 can go (after approving its text).
+- **Beehiiv:** set a postal address and a reply-to that is read; then letter 001 can go (after
+  approving its text). Delete the two stray draft automations.
 - **Turnstile:** create a widget for llamapoker.com in the Cloudflare dashboard, set
   `TURNSTILE_SECRET_KEY` (secret) and `VITE_TURNSTILE_SITE_KEY` (build variable) on the Pages
   project. The code is dormant until both exist. Optional: a WAF rate-limit rule on `/api/subscribe`.
 - **Accounts:** Instagram (Creator), TikTok, YouTube (`@llamapoker` is free), X; bio link =
   `https://llamapoker.com/go/ig` (and `/go/tt`, `/go/yt`, `/go/x`), live once the signup branch is merged.
-- **Voice round:** listen to hook A vs hook B (`apps/reels/out/voice-round/`, see
-  `docs/research/2026-11-11-voice-round-1.md`); record 60 s of your own voice if you want C.
-- **Interface:** pick a direction (A wall, B broadsheet, C table) or say what to combine.
 - Keys for Phase 1 (plan, section 5): scoped Cloudflare API token, Google service account on
   Search Console; the `gh` CLI or a GitHub token.
 

@@ -214,3 +214,15 @@ lesson, and a hook line that could open the post.
   overview says where the form may appear and why there is exactly one per page.
 - **Lesson:** a placement rule you can state in one paragraph is a rule a test can hold.
 - **Hook:** "My docs are the spec and my tests check the docs, not the other way round."
+
+## 2026-11-11 - Three on-brand mockups, and the answer was "like Batman"
+
+- **What happened:** the first round of command-center designs was built, carefully, from the
+  brand book: cream on black, Bodoni numbers, hairlines. The founder's reaction: not that. The
+  wall is a private instrument, and he wanted phosphor on black glass, segmented digits, glow.
+  Round 2 took the same data and the same spec and rendered it as three VFD screens. Nothing in
+  round 1 was wasted: the spec's content was right, only the skin was.
+- **Lesson:** a brand book governs what the audience sees. The operator's own tools can want
+  the opposite of the brand, and asking "who looks at this?" before designing would have saved
+  a round.
+- **Hook:** "I designed my dashboard in my brand's colours. My founder wanted the Batcomputer."

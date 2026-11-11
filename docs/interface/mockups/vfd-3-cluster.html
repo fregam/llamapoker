@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<!--
+  LlamaPoker command center · mockup direction 3 — INSTRUMENT CLUSTER
+  Idea: the wall as the VFD dashboard of a 1980s car / hi-fi rack: segmented readouts with ghost
+  segments, block bar-meters for every rate and share, lit/unlit warning lamps, a dot-matrix
+  message display for the feed. One 1920×1080 screen, no scrolling, no JS.
+  INVENTED DATA — Tuesday 3 March 2027, 19:42. Nothing here is measured.
+-->
+<html lang="en"><head><meta charset="utf-8"><title>LlamaPoker · Command · Cluster</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&family=VT323&display=swap">
+<style>
+:root{
+  --ph:#7cf5e6; --ph-rgb:124,245,230;
+  --dim:rgba(124,245,230,.58); --faint:rgba(124,245,230,.38); --ghost:rgba(124,245,230,.085); --line:rgba(124,245,230,.22);
+  --amb:#ffb347; --amb-rgb:255,179,71;
+  --red:#ff4a4a; --red-rgb:255,74,74;
+  --ok:#5fe0b0; --ok-rgb:95,224,176;
+  --bg:#040606; --glass:#070a0b;
+  --glow-s:0 0 3px rgba(124,245,230,.55);
+  --glow-m:0 0 5px rgba(124,245,230,.8),0 0 14px rgba(124,245,230,.35);
+  --glow-l:0 0 6px rgba(124,245,230,.9),0 0 22px rgba(124,245,230,.45),0 0 60px rgba(124,245,230,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+body{
+  font-family:'VT323',monospace;color:var(--ph);
+  display:grid;grid-template-rows:44px 172px 1fr 372px 30px;gap:10px;padding:12px;
+  background:radial-gradient(ellipse at 50% 45%,#0a0e0f 0%,#060808 55%,#020303 100%);
+  position:relative;
+}
+/* glass: scanlines + vignette + reflection */
+body::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:9;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.20) 0 1px,transparent 1px 3px);}
+body::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:10;
+  background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(0,0,0,.55) 100%),
+             linear-gradient(115deg,transparent 0 38%,rgba(124,245,230,.035) 42%,rgba(124,245,230,.05) 46%,transparent 51%);}
+
+/* modules */
+.mod{position:relative;min-width:0;overflow:hidden;border:1px solid var(--line);background:var(--glass);padding:8px 10px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.6), inset 0 0 40px rgba(0,0,0,.5);}
+.mod::before,.mod::after{content:"";position:absolute;width:7px;height:7px;border-color:var(--dim);border-style:solid;pointer-events:none}
+.mod::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.mod::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+.ttl{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:13px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;text-shadow:var(--glow-s)}
+.ttl .q{font-family:'VT323';font-size:15px;letter-spacing:0;color:var(--faint);text-transform:none;text-shadow:none}
+.name{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:13px;letter-spacing:.14em;color:var(--ph);text-shadow:var(--glow-s)}
+
+/* segments */
+.seg{position:relative;display:inline-block;font-family:'DSEG7-Classic',monospace;white-space:pre;line-height:1;vertical-align:baseline}
+.seg.s14{font-family:'DSEG14-Classic',monospace}
+.seg .g{color:var(--ghost);text-shadow:none}
+.seg .l{position:absolute;left:0;top:0;color:var(--ph);text-shadow:var(--glow-m)}
+.seg.amb .l{color:var(--amb);text-shadow:0 0 5px rgba(var(--amb-rgb),.8),0 0 14px rgba(var(--amb-rgb),.35)}
+.seg.red .l{color:var(--red);text-shadow:0 0 5px rgba(var(--red-rgb),.9),0 0 16px rgba(var(--red-rgb),.45)}
+.seg.big .l{text-shadow:var(--glow-l)}
+
+/* lamps */
+.lamps{display:inline-flex;gap:4px}
+.lamp{display:inline-block;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:12px;letter-spacing:.08em;line-height:16px;height:18px;padding:0 6px;border:1px solid rgba(124,245,230,.18);color:rgba(124,245,230,.22);background:rgba(0,0,0,.5);text-align:center;min-width:40px}
+.lamp.ok{color:#0a1a14;background:var(--ok);border-color:var(--ok);box-shadow:0 0 6px rgba(var(--ok-rgb),.6),0 0 14px rgba(var(--ok-rgb),.25)}
+.lamp.amb{color:#1a1206;background:var(--amb);border-color:var(--amb);box-shadow:0 0 8px rgba(var(--amb-rgb),.8),0 0 18px rgba(var(--amb-rgb),.35)}
+.lamp.red{color:#1a0606;background:var(--red);border-color:var(--red);box-shadow:0 0 8px rgba(var(--red-rgb),.9),0 0 22px rgba(var(--red-rgb),.5)}
+
+/* meters */
+.meter{display:inline-flex;gap:2px;align-items:center;vertical-align:middle}
+.meter i{display:block;width:var(--bw);height:var(--bh);background:rgba(124,245,230,.07);border:1px solid rgba(124,245,230,.10)}
+.meter i.on{background:var(--ph);border-color:var(--ph);box-shadow:0 0 4px rgba(124,245,230,.8),0 0 9px rgba(124,245,230,.35)}
+.meter.na i{background:rgba(124,245,230,.04)}
+
+/* ===== header ===== */
+#hdr{display:flex;align-items:center;gap:18px;padding:0 14px;white-space:nowrap;border:1px solid var(--line);background:var(--glass)}
+#hdr .brand{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:16px;letter-spacing:.22em;text-shadow:var(--glow-s)}
+#hdr .brand b{color:var(--dim);font-weight:400}
+#hdr .clock{flex:none;display:flex;align-items:center;gap:10px}
+#hdr .brand,#hdr .kill{flex:none}
+#hdr .date{font-size:18px;color:var(--dim)}
+#hdr .ro{flex:none;display:flex;align-items:center;gap:8px;font-size:17px;color:var(--dim);padding-left:18px;border-left:1px solid var(--line);height:28px}
+#hdr .ro .seg{margin:0 2px}
+#hdr .sp{flex:1}
+#hdr .kill{display:flex;align-items:center;gap:8px;font-size:17px;color:var(--dim)}
+#hdr .kill span{margin-right:4px}
+#hdr .kill .lamp{font-size:13px;height:22px;line-height:20px;padding:0 12px;letter-spacing:.14em}
+
+/* ===== machine ===== */
+#machine{display:grid;grid-template-columns:repeat(6,1fr 14px) 1fr;gap:0;align-items:stretch}
+.st{padding:7px 10px 6px}
+.st header{display:flex;justify-content:space-between;align-items:center;height:20px;gap:6px}
+.st header .name{letter-spacing:.06em;white-space:nowrap}
+.st header .lamp{letter-spacing:0;padding:0 5px;min-width:30px;white-space:nowrap}
+.st header .lamps{flex:none}
+.st .count{display:flex;align-items:baseline;gap:10px;margin-top:10px;height:60px}
+.st .unit{font-size:16px;color:var(--dim);letter-spacing:.04em}
+.st .note{font-size:18px;color:var(--dim);margin-top:10px;height:20px;white-space:nowrap;overflow:hidden}
+.st .note.red{color:var(--red);text-shadow:0 0 6px rgba(var(--red-rgb),.6)}
+.st .note.amb{color:var(--amb);text-shadow:0 0 6px rgba(var(--amb-rgb),.5)}
+.st .runs{display:flex;align-items:baseline;gap:5px;margin-top:12px;white-space:nowrap;font-family:'Chakra Petch',sans-serif;font-size:12px;letter-spacing:.12em;color:var(--dim)}
+.st .runs .seg{margin-right:6px}
+.st.fail{border-color:rgba(var(--red-rgb),.7);box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),inset 0 0 50px rgba(var(--red-rgb),.14),0 0 24px rgba(var(--red-rgb),.25)}
+.st.fail::before,.st.fail::after{border-color:var(--red)}
+.st.fail .name{color:var(--red);text-shadow:0 0 6px rgba(var(--red-rgb),.6)}
+.st.wait{border-color:rgba(var(--amb-rgb),.55);box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),inset 0 0 40px rgba(var(--amb-rgb),.08)}
+.st.wait::before,.st.wait::after{border-color:var(--amb)}
+.st.wait .name{color:var(--amb);text-shadow:0 0 6px rgba(var(--amb-rgb),.5)}
+.flow{display:flex;align-items:center;justify-content:center}
+.flow span{display:block;width:0;height:0;border-left:9px solid var(--dim);border-top:7px solid transparent;border-bottom:7px solid transparent;filter:drop-shadow(0 0 4px rgba(124,245,230,.7))}
+
+/* ===== middle band ===== */
+#mid{display:grid;grid-template-columns:470px 1fr 470px;gap:10px;min-height:0;min-width:0}
+#mid>*,#bot>*,#machine>*,body>*{min-width:0}
+
+/* north star */
+#ns{display:grid;grid-template-rows:auto 1fr auto;padding:10px 16px 12px}
+#ns .main{display:grid;grid-template-columns:1fr 330px;align-items:center;gap:20px;min-width:0;overflow:hidden}
+#ns .big{display:flex;flex-direction:column;align-items:center;justify-content:center}
+#ns .big .lbl{font-family:'Chakra Petch',sans-serif;font-size:13px;letter-spacing:.3em;color:var(--dim);margin-top:10px}
+#ns .side{display:flex;flex-direction:column;gap:14px;border-left:1px solid var(--line);padding-left:20px}
+#ns .ro{display:flex;flex-direction:column;gap:3px}
+#ns .ro .k{font-family:'Chakra Petch',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--dim)}
+#ns .ro .v{display:flex;align-items:baseline;gap:8px}
+#ns .ro .v .plus{font-size:40px;line-height:1;color:var(--ph);text-shadow:var(--glow-m)}
+#ns .ro .v .u{font-size:18px;color:var(--dim)}
+#ns .ro .v .tr{font-size:18px;color:var(--ok);text-shadow:0 0 5px rgba(var(--ok-rgb),.5)}
+#ns .ro .sub{font-size:15px;color:var(--faint);display:flex;align-items:center;gap:8px}
+#ns .msg{margin-top:8px;border:1px solid var(--line);background:#030505;padding:8px 14px;box-shadow:inset 0 0 30px rgba(0,0,0,.8);font-size:24px;line-height:28px;letter-spacing:.02em}
+#ns .msg .l1{color:var(--ph);text-shadow:var(--glow-s)}
+#ns .msg .l2{color:var(--amb);text-shadow:0 0 5px rgba(var(--amb-rgb),.55)}
+#ns .msg .tag{font-family:'Chakra Petch',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--faint);margin-right:12px;vertical-align:middle}
+
+/* channels */
+#ch{display:grid;grid-template-rows:auto 1fr 1fr 1fr 1fr;gap:4px;padding:8px 12px 8px}
+.ch{min-width:0;overflow:hidden;border-top:1px solid rgba(124,245,230,.12);padding-top:6px;display:flex;flex-direction:column;justify-content:center;gap:5px}
+.ch .r1{display:flex;align-items:baseline;gap:10px;height:32px}
+.ch .r1 .name{width:104px}
+.ch .r1 .unit{font-size:15px;color:var(--dim);letter-spacing:.03em}
+.ch .r1 .trend{margin-left:auto;font-size:19px;color:var(--dim);white-space:nowrap}
+.ch .r1 .trend.up{color:var(--ok);text-shadow:0 0 5px rgba(var(--ok-rgb),.5)}
+.ch .r2{display:flex;align-items:center;gap:10px}
+.ch .r2 .lbl{font-family:'Chakra Petch',sans-serif;font-size:12px;letter-spacing:.14em;color:var(--dim);width:60px}
+.ch .r2 .val{font-size:15px;color:var(--dim);white-space:nowrap}
+.ch .r3{font-size:15px;color:var(--faint);letter-spacing:.02em}
+
+/* threats */
+#thr{display:grid;grid-template-rows:auto auto 1fr;gap:8px;padding:8px 12px 8px}
+#thr .cluster{display:flex;gap:6px;justify-content:space-between;padding:6px 0 8px;border-bottom:1px solid rgba(124,245,230,.12)}
+#thr .cluster .lamp{flex:1;height:24px;line-height:22px;font-size:12px;letter-spacing:.12em}
+#thr .list{display:flex;flex-direction:column;justify-content:space-around}
+.th{display:flex;gap:12px;align-items:flex-start;padding:4px 0}
+.th .rank{width:28px;padding-top:2px}
+.th .title{font-size:18px;line-height:20px;color:var(--ph);text-shadow:var(--glow-s)}
+.th .fix{font-size:16px;line-height:18px;color:var(--amb);margin-top:3px;text-shadow:0 0 4px rgba(var(--amb-rgb),.4)}
+.th .fix span{font-family:'Chakra Petch',sans-serif;font-size:12px;letter-spacing:.14em;color:var(--dim);text-shadow:none}
+.th.red .title{color:var(--red);text-shadow:0 0 6px rgba(var(--red-rgb),.55)}
+.th.ok .title{color:var(--dim);text-shadow:none}
+.th.ok .fix{color:var(--faint);text-shadow:none}
+
+/* ===== bottom band ===== */
+#bot{display:grid;grid-template-columns:1fr 460px 460px;gap:10px;min-height:0}
+#feed{display:grid;grid-template-rows:auto 1fr;padding:8px 12px 6px}
+#feed .disp{margin-top:6px;border:1px solid rgba(124,245,230,.14);background:#030505;box-shadow:inset 0 0 30px rgba(0,0,0,.8);padding:5px 12px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  background-image:radial-gradient(rgba(124,245,230,.05) 1px,transparent 1.2px);background-size:4px 4px}
+.ev{display:flex;gap:14px;font-size:19px;line-height:19.5px;white-space:nowrap;overflow:hidden}
+.ev .t{color:var(--dim);width:52px;flex:none}
+.ev .m{color:var(--ph);text-shadow:var(--glow-s)}
+.ev.red .m{color:var(--red);text-shadow:0 0 6px rgba(var(--red-rgb),.55)}
+.ev:first-child .m{color:#fff;text-shadow:0 0 6px rgba(124,245,230,.9),0 0 14px rgba(124,245,230,.4)}
+
+#map{display:grid;grid-template-rows:auto 1fr;padding:8px 12px 8px}
+#map .rows{display:flex;flex-direction:column;justify-content:space-around;margin-top:4px}
+#map .row{display:flex;align-items:center;gap:8px;height:26px}
+#map .cc{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:13px;letter-spacing:.1em;width:84px;white-space:nowrap;color:var(--ph);text-shadow:var(--glow-s)}
+#map .pct{font-size:14px;color:var(--faint);margin-left:-4px}
+#map .d{font-size:14px;color:var(--faint);margin-left:4px;white-space:nowrap}
+#map .meter{margin-right:6px}
+
+#exp{display:grid;grid-template-rows:auto 1fr 1fr auto;gap:6px;padding:8px 12px 8px}
+.x{border-top:1px solid rgba(124,245,230,.12);padding-top:6px;display:flex;flex-direction:column;justify-content:center;gap:5px}
+.x .r1{display:flex;align-items:center;gap:10px}
+.x .r1 .lamp{margin-left:auto;height:20px;line-height:18px;padding:0 10px}
+.x .r2{display:flex;align-items:baseline;gap:10px;font-size:15px;color:var(--dim)}
+.x .r2 .seg{margin:0 2px}
+.x .r3{font-size:15px;color:var(--faint)}
+#exp .budget{border-top:1px solid rgba(124,245,230,.12);padding-top:8px}
+#exp .budget .r1{display:flex;align-items:baseline;gap:10px}
+#exp .budget .r1 .u{font-size:17px;color:var(--dim)}
+#exp .budget .r1 .of{margin-left:auto;font-size:15px;color:var(--faint)}
+#exp .budget .r2{display:flex;align-items:center;gap:10px;margin-top:6px}
+#exp .budget .r3{font-size:15px;color:var(--faint);margin-top:5px}
+
+/* ===== footer ===== */
+#ftr{display:flex;align-items:center;gap:26px;padding:0 14px;font-size:17px;color:var(--dim);border:1px solid var(--line);background:var(--glass)}
+#ftr .k{display:inline-flex;align-items:center;gap:7px}
+#ftr kbd{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:12px;letter-spacing:.08em;color:var(--ph);border:1px solid var(--line);padding:1px 6px;line-height:14px;background:rgba(0,0,0,.6);text-shadow:var(--glow-s)}
+#ftr .sp{flex:1}
+#ftr .inv{color:var(--faint);font-size:15px;letter-spacing:.05em}
+</style></head>
+<body>
+
+<header id="hdr">
+  <div class="brand">LLAMAPOKER <b>▸ COMMAND</b></div>
+  <div class="clock"><span class="seg " style="font-size:28px"><span class="g">88:88</span><span class="l">19:42</span></span><span class="date">TUE 03 MAR 2027 · WK 09</span></div>
+  <div class="ro"><span>EVENTS TODAY</span><span class="seg " style="font-size:20px"><span class="g">88888</span><span class="l">14882</span></span><span>· P95</span><span class="seg " style="font-size:20px"><span class="g">8.8</span><span class="l">2.1</span></span><span>MS</span></div>
+  <div class="ro"><span>LETTER SENDER</span><span class="lamp ok">OK</span><span>16:02</span></div>
+  <div class="ro"><span>VOICE PC</span><span class="lamp ok">IDLE</span><span>SUN 20:10</span></div>
+  <div class="ro"><span>APPROVALS</span><span class="lamp amb">4 WAIT</span></div>
+  <div class="sp"></div>
+  <div class="kill"><span>KILL SWITCH</span><span class="lamp ok">OUTBOUND LIVE</span><span class="lamp off">PAUSED</span></div>
+</header>
+
+<div id="machine">
+  <section class="mod st  ">
+    <header><span class="name">RESEARCH</span><span class="lamps"><span class="lamp ok">OK</span><span class="lamp off">WAIT</span><span class="lamp off">FAIL</span></span></header>
+    <div class="count"><span class="seg " style="font-size:56px"><span class="g">88</span><span class="l">12</span></span><span class="unit">ITEMS</span></div>
+    <div class="note  ">3 NEW TOPICS · REDDIT 41 THREADS</div>
+    <div class="runs"><span>LAST</span><span class="seg s14 " style="font-size:12px"><span class="g">~~:~~</span><span class="l">18:00</span></span><span>NEXT</span><span class="seg s14 " style="font-size:12px"><span class="g">~~~ ~~:~~</span><span class="l">MON 06:00</span></span></div>
+  </section><div class="flow"><span></span></div>
+  <section class="mod st  ">
+    <header><span class="name">WRITER</span><span class="lamps"><span class="lamp ok">OK</span><span class="lamp off">WAIT</span><span class="lamp off">FAIL</span></span></header>
+    <div class="count"><span class="seg " style="font-size:56px"><span class="g">88</span><span class="l"> 3</span></span><span class="unit">DRAFTS</span></div>
+    <div class="note  ">LETTER 017 · 1,140 WORDS</div>
+    <div class="runs"><span>LAST</span><span class="seg s14 " style="font-size:12px"><span class="g">~~:~~</span><span class="l">18:55</span></span><span>NEXT</span><span class="seg s14 " style="font-size:12px"><span class="g">~~ ~~~~~~</span><span class="l">ON DEMAND</span></span></div>
+  </section><div class="flow"><span></span></div>
+  <section class="mod st  ">
+    <header><span class="name">VOICE·RENDER</span><span class="lamps"><span class="lamp ok">OK</span><span class="lamp off">WAIT</span><span class="lamp off">FAIL</span></span></header>
+    <div class="count"><span class="seg " style="font-size:56px"><span class="g">88</span><span class="l"> 2</span></span><span class="unit">REELS</span></div>
+    <div class="note  ">FOUNDER PC · MAY BE OFFLINE</div>
+    <div class="runs"><span>LAST</span><span class="seg s14 " style="font-size:12px"><span class="g">~~~ ~~:~~</span><span class="l">SUN 20:10</span></span><span>NEXT</span><span class="seg s14 " style="font-size:12px"><span class="g">~~~</span><span class="l">SUN</span></span></div>
+  </section><div class="flow"><span></span></div>
+  <section class="mod st  wait">
+    <header><span class="name">APPROVAL</span><span class="lamps"><span class="lamp off">OK</span><span class="lamp amb">WAIT</span><span class="lamp off">FAIL</span></span></header>
+    <div class="count"><span class="seg amb" style="font-size:56px"><span class="g">88</span><span class="l"> 4</span></span><span class="unit">ITEMS</span></div>
+    <div class="note  amb">WAITING ON YOU · OLDEST 1 DAY</div>
+    <div class="runs"><span>LAST</span><span class="seg s14 " style="font-size:12px"><span class="g">~~:~~</span><span class="l">09:15</span></span><span>NEXT</span><span class="seg s14 " style="font-size:12px"><span class="g">~~~</span><span class="l">YOU</span></span></div>
+  </section><div class="flow"><span></span></div>
+  <section class="mod st  ">
+    <header><span class="name">SCHEDULED</span><span class="lamps"><span class="lamp ok">OK</span><span class="lamp off">WAIT</span><span class="lamp off">FAIL</span></span></header>
+    <div class="count"><span class="seg " style="font-size:56px"><span class="g">88</span><span class="l"> 3</span></span><span class="unit">QUEUED</span></div>
+    <div class="note  ">THU 18:00 · FRI 18:00 · SUN</div>
+    <div class="runs"><span>LAST</span><span class="seg s14 " style="font-size:12px"><span class="g">~~:~~</span><span class="l">12:00</span></span><span>NEXT</span><span class="seg s14 " style="font-size:12px"><span class="g">~~~ ~~:~~</span><span class="l">THU 18:00</span></span></div>
+  </section><div class="flow"><span></span></div>
+  <section class="mod st fail ">
+    <header><span class="name">PUBLISHER</span><span class="lamps"><span class="lamp off">OK</span><span class="lamp off">WAIT</span><span class="lamp red">FAIL</span></span></header>
+    <div class="count"><span class="seg red" style="font-size:56px"><span class="g">88</span><span class="l"> 1</span></span><span class="unit">HELD</span></div>
+    <div class="note red ">INSTAGRAM TOKEN EXPIRED</div>
+    <div class="runs"><span>LAST</span><span class="seg s14 " style="font-size:12px"><span class="g">~~:~~</span><span class="l">18:20</span></span><span>NEXT</span><span class="seg s14 red" style="font-size:12px"><span class="g">~~~~~~</span><span class="l">HALTED</span></span></div>
+  </section><div class="flow"><span></span></div>
+  <section class="mod st  ">
+    <header><span class="name">PUBLISHED</span><span class="lamps"><span class="lamp ok">OK</span><span class="lamp off">WAIT</span><span class="lamp off">FAIL</span></span></header>
+    <div class="count"><span class="seg " style="font-size:56px"><span class="g">88</span><span class="l"> 5</span></span><span class="unit">THIS WK</span></div>
+    <div class="note  ">2 REELS · 1 LETTER · 2 POSTS</div>
+    <div class="runs"><span>LAST</span><span class="seg s14 " style="font-size:12px"><span class="g">~~:~~</span><span class="l">16:02</span></span><span>NEXT</span><span class="seg s14 " style="font-size:12px"><span class="g">~~~ ~~:~~</span><span class="l">THU 18:00</span></span></div>
+  </section></div>
+
+<div id="mid">
+  <section class="mod" id="ch">
+    <div class="ttl"><span>Channels</span><span class="q">which door brings subscribers</span></div>
+    
+  <div class="ch">
+    <div class="r1"><span class="name">SITE</span><span class="seg " style="font-size:30px"><span class="g">8888</span><span class="l">2910</span></span><span class="unit">VISITS 7D</span><span class="trend up">+8%</span></div>
+    <div class="r2"><span class="lbl">→ SUBS</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="val">34% · 41 SUBS</span></div>
+    <div class="r3">3.2% SIGN UP · 41 SUBS FROM SITE</div>
+  </div>
+  <div class="ch">
+    <div class="r1"><span class="name">LETTER</span><span class="seg " style="font-size:30px"><span class="g">8888</span><span class="l">  52</span></span><span class="unit">% OPENED</span><span class="trend ">16 SENDS</span></div>
+    <div class="r2"><span class="lbl">→ SUBS</span><span class="meter na" style="--bw:8px;--bh:12px"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="val">N/A · RETENTION CHANNEL</span></div>
+    <div class="r3">18% CLICKED · 14 RAN A SPOT · BOUNCE 0.8%</div>
+  </div>
+  <div class="ch">
+    <div class="r1"><span class="name">INSTAGRAM</span><span class="seg " style="font-size:30px"><span class="g">88.8</span><span class="l">48.2</span></span><span class="unit">K VIEWS 7D</span><span class="trend up">+12%</span></div>
+    <div class="r2"><span class="lbl">→ SUBS</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="val">18% · 22 SUBS</span></div>
+    <div class="r3">3,420 FOLLOWERS · 22 SUBS VIA BIO</div>
+  </div>
+  <div class="ch">
+    <div class="r1"><span class="name">SEARCH</span><span class="seg " style="font-size:30px"><span class="g">8888</span><span class="l"> 310</span></span><span class="unit">CLICKS 28D</span><span class="trend up">+41%</span></div>
+    <div class="r2"><span class="lbl">→ SUBS</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="val">7% · 9 SUBS</span></div>
+    <div class="r3">6.4K IMPR · POS 12.3 · 9 SUBS</div>
+  </div>
+  </section>
+
+  <section class="mod" id="ns">
+    <div class="ttl"><span>North star · Subscribers</span><span class="q">are we growing, and from where</span></div>
+    <div class="main">
+      <div class="big">
+        <span class="seg big" style="font-size:172px"><span class="g">8888</span><span class="l">1284</span></span>
+        <div class="lbl">SUBSCRIBERS · LIVE</div>
+      </div>
+      <div class="side">
+        <div class="ro"><span class="k">TREND · THIS WEEK</span>
+          <div class="v"><span class="plus">+</span><span class="seg " style="font-size:40px"><span class="g">88</span><span class="l">38</span></span><span class="u">SUBS</span><span class="tr">+3.1%</span></div></div>
+        <div class="ro"><span class="k">REACH · REEL VIEWS 7D</span>
+          <div class="v"><span class="seg " style="font-size:40px"><span class="g">88.8</span><span class="l">48.2</span></span><span class="u">K</span><span class="tr">+12%</span></div></div>
+        <div class="ro"><span class="k">WEEKLY ACTIVE</span>
+          <div class="v"><span class="seg " style="font-size:40px"><span class="g">88</span><span class="l">27</span></span><span class="u">%</span><span class="u">342 USED THE TOOL</span></div>
+          <div class="sub"><span class="meter " style="--bw:9px;--bh:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div></div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="l1"><span class="tag">TODAY</span>+9: 6 FROM REEL 013 (BIO LINK), 3 FROM "POKER OUTS".</div>
+      <div class="l2"><span class="tag">DO</span>RE-AUTH INSTAGRAM, THEN APPROVE QUEUE (4).</div>
+    </div>
+  </section>
+
+  <section class="mod" id="thr">
+    <div class="ttl"><span>Threats</span><span class="q">what breaks first, and the fix</span></div>
+    <div class="cluster"><span class="lamp red">PUBLISHER</span><span class="lamp amb">RETENTION</span><span class="lamp amb">SEARCH</span><span class="lamp ok">LETTER</span></div>
+    <div class="list">
+  <div class="th red">
+    <div class="rank"><span class="seg red" style="font-size:26px"><span class="g">8</span><span class="l">1</span></span></div>
+    <div class="txt"><div class="title">INSTAGRAM PUBLISHER FAILED 18:20 · TOKEN EXPIRED</div><div class="fix"><span>FIX ▸</span> RE-AUTHORISE META APP (2 MIN) · REEL 014 HELD</div></div>
+  </div>
+  <div class="th amb">
+    <div class="rank"><span class="seg amb" style="font-size:26px"><span class="g">8</span><span class="l">2</span></span></div>
+    <div class="txt"><div class="title">REEL 013 KEEPS 41% PAST 3 S · MEDIAN 55%</div><div class="fix"><span>FIX ▸</span> NUMBER APPEARS AT 4.1 S · MOVE IT UNDER 3 S</div></div>
+  </div>
+  <div class="th amb">
+    <div class="rank"><span class="seg amb" style="font-size:26px"><span class="g">8</span><span class="l">3</span></span></div>
+    <div class="txt"><div class="title">/learn/outs POSITION 8 → 14 FOR "POKER OUTS"</div><div class="fix"><span>FIX ▸</span> CHART IMAGE + EXACT-ODDS TABLE ABOVE FOLD · 2 INTERNAL LINKS</div></div>
+  </div>
+  <div class="th ok">
+    <div class="rank"><span class="seg " style="font-size:26px"><span class="g">8</span><span class="l">4</span></span></div>
+    <div class="txt"><div class="title">LETTER BOUNCE 0.8% · IN RANGE</div><div class="fix"><span>FIX ▸</span> NONE</div></div>
+  </div></div>
+  </section>
+</div>
+
+<div id="bot">
+  <section class="mod" id="feed">
+    <div class="ttl"><span>Live feed</span><span class="q">what just happened · newest first</span></div>
+    <div class="disp"><div class="ev "><span class="t">19:41</span><span class="m">SIGNUP  /learn/outs  ·  from search</span></div><div class="ev "><span class="t">19:36</span><span class="m">REEL 013 passed 20,000 views</span></div><div class="ev "><span class="t">19:30</span><span class="m">TRAINER 61 drills this hour</span></div><div class="ev "><span class="t">19:12</span><span class="m">SIGNUP  /  ·  from instagram  ·  bio link</span></div><div class="ev "><span class="t">18:55</span><span class="m">WRITER letter 017 draft (1,140 words) → approval queue</span></div><div class="ev red"><span class="t">18:20</span><span class="m">PUBLISHER FAILED: Instagram token expired · reel 014 held</span></div><div class="ev "><span class="t">18:00</span><span class="m">RESEARCH 12 items, 3 new topics</span></div><div class="ev "><span class="t">17:48</span><span class="m">SIGNUP  /table  ·  from letter</span></div><div class="ev "><span class="t">17:30</span><span class="m">COST Claude €0.84 today · €23.10 this month</span></div><div class="ev "><span class="t">16:02</span><span class="m">LETTER 016 sent to 1,246 · 52% opened</span></div><div class="ev "><span class="t">15:10</span><span class="m">SIGNUP  /learn/pot-odds  ·  from youtube</span></div><div class="ev "><span class="t">14:44</span><span class="m">SEARCH "pot odds formula" · first click</span></div><div class="ev "><span class="t">13:30</span><span class="m">REEL 013 saved 212× (1 in 94)</span></div><div class="ev "><span class="t">12:00</span><span class="m">SCHEDULER 3 queued</span></div><div class="ev "><span class="t">09:15</span><span class="m">APPROVED reel 014 cover</span></div><div class="ev "><span class="t">06:00</span><span class="m">RESEARCH Reddit 41 threads, 2 ranked</span></div></div>
+  </section>
+
+  <section class="mod" id="map">
+    <div class="ttl"><span>Map · Visitors 7D</span><span class="q">where they are</span></div>
+    <div class="rows">
+  <div class="row"><span class="cc">ES</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l">31</span></span><span class="pct">%</span><span class="d">912 · 14 SUBS</span></div>
+  <div class="row"><span class="cc">DE</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l">14</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">US</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l">12</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">UK</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l"> 9</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">FR</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l"> 6</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">NL</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l"> 4</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">BR</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l"> 4</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">AR</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l"> 3</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">MX</span><span class="meter " style="--bw:8px;--bh:12px"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l"> 2</span></span><span class="pct">%</span><span class="d"></span></div>
+  <div class="row"><span class="cc">31 OTHERS</span><span class="meter " style="--bw:8px;--bh:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><span class="seg " style="font-size:18px"><span class="g">88</span><span class="l">15</span></span><span class="pct">%</span><span class="d"></span></div></div>
+  </section>
+
+  <section class="mod" id="exp">
+    <div class="ttl"><span>Experiments · Budget</span><span class="q">what we are testing, what it costs</span></div>
+    <div class="x">
+      <div class="r1"><span class="name">HOOK: NUMBER VS QUESTION</span><span class="lamp amb">TOO EARLY TO CALL</span></div>
+      <div class="r2"><span>DAY</span><span class="seg " style="font-size:22px"><span class="g">88</span><span class="l">06</span></span><span>OF</span><span class="seg " style="font-size:22px"><span class="g">88</span><span class="l">14</span></span><span>·</span><span class="seg " style="font-size:22px"><span class="g">8</span><span class="l">4</span></span><span>REELS IN TEST</span></div>
+      <div class="r3"><span class="meter " style="--bw:8px;--bh:10px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span> &nbsp;NO VERDICT BEFORE DAY 14</div>
+    </div>
+    <div class="x">
+      <div class="r1"><span class="name">LETTER: THU VS SUN</span><span class="lamp amb">INCONCLUSIVE</span></div>
+      <div class="r2"><span class="seg " style="font-size:22px"><span class="g">8</span><span class="l">3</span></span><span>SENDS · NEEDS 6+ TO SEPARATE OPEN RATES</span></div>
+      <div class="r3"><span class="meter " style="--bw:8px;--bh:10px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span> &nbsp;3 OF 6 SENDS</div>
+    </div>
+    <div class="budget">
+      <div class="r1"><span class="name">BUDGET · MARCH</span><span class="seg " style="font-size:34px"><span class="g">888</span><span class="l"> 61</span></span><span class="u">€</span><span class="of">OF 150 € CEILING · 41%</span></div>
+      <div class="r2"><span class="meter " style="--bw:9px;--bh:12px"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div>
+      <div class="r3">CLAUDE 23 · CLOUDFLARE 0 · BEEHIIV 0 · DOMAIN 1 · MISC 37</div>
+    </div>
+  </section>
+</div>
+
+<footer id="ftr">
+  <span class="k"><kbd>⌘K</kbd> COMMAND</span>
+  <span class="k"><kbd>W</kbd> WALL</span>
+  <span class="k"><kbd>T</kbd> TIME · SCRUB ANY PAST DAY</span>
+  <span class="k"><kbd>A</kbd> APPROVE QUEUE (4)</span>
+  <span class="k"><kbd>⌘⇧P</kbd> PAUSE OUTBOUND</span>
+  <span class="sp"></span>
+  <span class="inv">EVERY READOUT OPENS IN PLACE · MOCKUP 3 INSTRUMENT CLUSTER · INVENTED DATA</span>
+</footer>
+
+</body></html>

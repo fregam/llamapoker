@@ -3,6 +3,25 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-11 (evening) - The interface looks like a VFD screen, not like the website
+
+- **What:** the command center is independent of the brand: black glass, phosphor light,
+  segmented digits, glow allowed ("what Batman would use"). Three new directions in
+  `docs/interface/mockups.md`, round 2. The brand-derived round 1 is kept for the record.
+- **Why:** the founder's call after seeing round 1; the wall is a private instrument, not a public
+  surface, so the brand rules for public work do not bind it.
+- **Rejected:** the editorial wall (round 1 A), even though it matched the spec's original line.
+
+## 2026-11-11 (evening) - Voice B is the reels' voice; welcome email on
+
+- **What:** the livelier read B (seed-3 reference, sampling 0.9, seed 4) won the hook test by the
+  founder's ear. Reels 002 and 003 re-voiced (v9) on branch `reels/voice-b`; the pipeline now
+  cleans before tightening (the tightening gate was blind on the sampled read's noise floor).
+  The Beehiiv welcome email is published and on, from `content/letters/000-welcome.md`, links
+  tagged `utm_source=letter`. Beehiiv stays free; v8/v9 still not approved for posting.
+- **Rejected:** regenerating B with ComfyUI (the existing whole-reel B recordings passed the
+  transcript checks); muxing B's audio under A's picture for the test (captions would drift).
+
 ## 2026-11-11 · The plan is approved; Beehiiv stays free; v8 is the reels baseline
 
 - **What:** the founder approved `docs/plan-2026-11-11.md` as written, chose to let the Beehiiv

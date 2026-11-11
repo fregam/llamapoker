@@ -1,0 +1,519 @@
+<!doctype html>
+<!--
+  LlamaPoker command center — mockup "1 — Phosphor"
+  Idea: one blue-green VFD phosphor on black glass; brightness is the whole hierarchy
+  (bright / normal / dim / ghost), failures are inverted blocks and [FLAGS], numerals are
+  segmented with their unlit segments showing. Static, 1920x1080, no scrolling, no JS.
+  Invented data: Tuesday 3 March 2027, 19:42. Nothing here is real.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LlamaPoker · Wall · Phosphor</title>
+<meta name="viewport" content="width=1920">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+:root{
+  --p:124,245,230;
+  --bright:#d2fff9;
+  --normal:#7cf5e6;
+  --dim:rgba(124,245,230,.62);
+  --faint:rgba(124,245,230,.44);
+  --ghost:rgba(124,245,230,.13);
+  --line:rgba(124,245,230,.22);
+  --ink:#02110f;
+  --bg:#030706;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+body{
+  font-family:'Share Tech Mono',monospace;font-size:13px;line-height:1.3;
+  color:var(--normal);text-shadow:0 0 3px rgba(var(--p),.45);
+  position:relative;
+}
+/* glass */
+.glass{position:absolute;inset:0;pointer-events:none;z-index:50}
+.glass.scan{background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px)}
+.glass.vig{background:radial-gradient(ellipse 70% 60% at 50% 48%,transparent 55%,rgba(0,0,0,.55) 100%)}
+.glass.refl{background:linear-gradient(112deg,rgba(255,255,255,.045) 0%,rgba(255,255,255,.012) 28%,transparent 46%)}
+
+/* brightness classes */
+.b{color:var(--bright);text-shadow:0 0 4px rgba(var(--p),.9),0 0 14px rgba(var(--p),.45)}
+.n{color:var(--normal)}
+.d{color:var(--dim);text-shadow:none}
+.f{color:var(--faint);text-shadow:none}
+.g{color:var(--ghost);text-shadow:none}
+.inv{background:var(--bright);color:var(--ink);text-shadow:none;padding:0 5px;
+     box-shadow:0 0 8px rgba(var(--p),.75),0 0 22px rgba(var(--p),.35)}
+.flag{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em}
+.lab{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+
+/* segmented numerals with unlit ghost segments */
+.s7,.s14{position:relative;display:inline-block;line-height:1;z-index:0;white-space:nowrap}
+.s7{font-family:'DSEG7-Classic',monospace}
+.s14{font-family:'DSEG14-Classic',monospace}
+.s7::before,.s14::before{content:attr(data-g);position:absolute;left:0;top:0;color:var(--ghost);text-shadow:none;z-index:-1}
+.s7.b,.s14.b{text-shadow:0 0 5px rgba(var(--p),.9),0 0 18px rgba(var(--p),.5)}
+.s7.n,.s14.n{text-shadow:0 0 3px rgba(var(--p),.6),0 0 10px rgba(var(--p),.3)}
+
+/* layout */
+.wall{position:absolute;inset:0;padding:2px 14px 0;display:grid;
+  grid-template-rows:46px 336px 236px 380px 34px;grid-template-columns:450px 980px 420px;gap:10px 10px}
+.top{grid-column:1/4}
+.machine{grid-column:1/4}
+.bottom{grid-column:1/4}
+.r3{grid-column:1/4;display:flex;gap:10px;min-width:0}
+.r3>.panel{flex:0 0 auto;min-width:0}
+.panel{position:relative;border:1px solid var(--line);padding:9px 14px 10px;overflow:hidden}
+.panel::before,.panel::after,.panel>i.k::before,.panel>i.k::after{
+  content:"";position:absolute;width:10px;height:10px;border:0 solid var(--normal);z-index:2;
+  box-shadow:0 0 4px rgba(var(--p),.5)}
+.panel::before{left:-1px;top:-1px;border-width:1px 0 0 1px}
+.panel::after{right:-1px;top:-1px;border-width:1px 1px 0 0}
+.panel>i.k::before{left:-1px;bottom:-1px;border-width:0 0 1px 1px}
+.panel>i.k::after{right:-1px;bottom:-1px;border-width:0 1px 1px 0}
+.panel>i.k{position:absolute;inset:0;pointer-events:none}
+.t{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;
+   font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-shadow:none}
+.t .q{font-family:'Share Tech Mono',monospace;letter-spacing:0;text-transform:none;color:var(--faint);font-size:12px}
+.t::before{content:"▌";color:var(--normal);margin-right:6px}
+.row{display:flex;align-items:baseline;gap:8px}
+.sp{justify-content:space-between}
+hr{border:0;border-top:1px solid var(--line);margin:8px 0}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:0 2px}
+.brand{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:14px;letter-spacing:.3em;color:var(--bright);
+  text-shadow:0 0 5px rgba(var(--p),.8),0 0 16px rgba(var(--p),.4)}
+.brand small{font-size:12px;letter-spacing:.2em;color:var(--dim);text-shadow:none;margin-left:12px}
+.clock{display:flex;align-items:baseline;gap:18px}
+.clock .s14{font-size:17px}
+.clock .s7{font-size:28px}
+.status{display:flex;align-items:center;gap:22px}
+.status .kv{color:var(--dim);text-shadow:none}
+.status .kv b{font-weight:normal;color:var(--normal);text-shadow:0 0 3px rgba(var(--p),.45)}
+.live{font-family:'Chakra Petch',sans-serif;font-weight:600;letter-spacing:.2em;font-size:14px;padding:3px 10px}
+
+/* threats */
+.th{display:flex;gap:10px;padding:11px 0;border-top:1px solid var(--line)}
+.th:first-of-type{border-top:0;padding-top:2px}
+.th .rk{flex:0 0 26px;font-size:24px;line-height:1}
+.th .tx{flex:1;min-width:0}
+.th .tx .h{margin-bottom:3px}
+.th .fx{color:var(--dim);text-shadow:none}
+.th .fx b{font-weight:normal;color:var(--normal);text-shadow:0 0 3px rgba(var(--p),.45)}
+.th .flag{margin-left:6px}
+
+/* north star */
+.ns{display:grid;grid-template-columns:590px 330px;grid-template-rows:auto 1fr auto;column-gap:30px}
+.ns>*{min-width:0}
+.ns .t{grid-column:1/3}
+.ns .huge{font-size:150px;margin:18px 0 0 6px;line-height:1}
+.ns .side{display:flex;flex-direction:column;justify-content:center;gap:22px;padding-top:4px}
+.ns .side .kv .lab{color:var(--dim);display:block;margin-bottom:3px}
+.ns .side .kv .s7{font-size:40px}
+.ns .side .kv .s14{font-size:40px}
+.ns .side .kv .u{font-size:15px;margin-left:4px}
+.ns .side .kv .tr{margin-left:10px;font-size:15px}
+.ns .line{grid-column:1/3;border-top:1px solid var(--line);padding-top:9px;font-size:15px;white-space:nowrap;letter-spacing:.01em;margin-top:2px}
+.ns .line .do{margin-left:8px}
+
+/* experiments */
+.ex .name{font-size:14px;color:var(--bright);text-shadow:0 0 4px rgba(var(--p),.7)}
+.ex .exp{padding:6px 0 10px;border-bottom:1px solid var(--line)}
+.ex .exp .row{margin-top:5px}
+.meter{position:relative;height:10px;flex:1;background:repeating-linear-gradient(90deg,var(--ghost) 0 6px,transparent 6px 8px)}
+.meter i{position:absolute;left:0;top:0;height:100%;background:repeating-linear-gradient(90deg,var(--normal) 0 6px,transparent 6px 8px);
+  filter:drop-shadow(0 0 3px rgba(var(--p),.7))}
+.meter.hot i{background:repeating-linear-gradient(90deg,var(--bright) 0 6px,transparent 6px 8px)}
+.bud .s7{font-size:34px}
+.bud .brk{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:left}
+.bud .brk span{display:block;color:var(--dim);text-shadow:none}
+.bud .brk .s7{font-size:16px;color:var(--normal)}
+
+/* machine */
+.flow{display:flex;align-items:stretch;gap:0;height:178px}
+.st{flex:1 1 0;min-width:0;border:1px solid var(--line);padding:8px 10px 8px;position:relative;display:flex;flex-direction:column}
+.st .nm{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--normal);display:flex;justify-content:space-between;align-items:baseline;white-space:nowrap}
+.st .nm .flag{font-size:12px}
+.st .cnt{margin:8px 0 2px;display:flex;align-items:baseline;gap:8px}
+.st .cnt .s7{font-size:40px}
+.st .cnt .u{color:var(--dim);text-shadow:none;letter-spacing:.08em}
+.st .rn{margin-top:auto;color:var(--dim);text-shadow:none;line-height:1.45}
+.st .rn b{font-weight:normal;color:var(--normal);text-shadow:0 0 3px rgba(var(--p),.45)}
+.st .nt{color:var(--faint);text-shadow:none;margin-top:3px}
+.st.wait{border-color:var(--normal);box-shadow:inset 0 0 0 1px rgba(var(--p),.25),0 0 10px rgba(var(--p),.25)}
+.st.fail{background:var(--bright);color:var(--ink);text-shadow:none;border-color:var(--bright);
+  box-shadow:0 0 14px rgba(var(--p),.9),0 0 40px rgba(var(--p),.5)}
+.st.fail *,.st.fail .nm,.st.fail .rn b,.st.fail .cnt .u,.st.fail .nt{color:var(--ink);text-shadow:none}
+.st.fail .s7::before{color:rgba(2,17,15,.14)}
+.st.fail .flag{background:var(--ink);color:var(--bright);padding:0 5px}
+.arr{flex:0 0 30px;position:relative;align-self:center;height:1px;background:var(--line)}
+.arr::after{content:"";position:absolute;right:-1px;top:-4px;border:4px solid transparent;border-left:7px solid var(--normal);border-right:0}
+.arr span{position:absolute;left:50%;top:-18px;transform:translateX(-50%);color:var(--normal);font-size:12px}
+.sub{flex:0 0 232px;margin-left:18px;border-left:1px solid var(--line);padding-left:16px;display:flex;flex-direction:column;justify-content:space-between}
+.sub .kv{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sub .kv .l{color:var(--dim);text-shadow:none}
+.sub .s7{font-size:18px}
+
+/* channels */
+.ch{display:grid;grid-template-columns:repeat(4,1fr);height:330px}
+.ch>div{padding:0 12px 0 14px;border-left:1px solid var(--line);display:flex;flex-direction:column}
+.ch>div:first-child{border-left:0;padding-left:2px}
+.ch .nm{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline}
+.ch .key{margin:14px 0 2px;display:flex;align-items:baseline;gap:6px}
+.ch .key .s7,.ch .key .s14{font-size:44px}
+.ch .key .u{font-size:16px}
+.ch .kl{color:var(--dim);text-shadow:none;display:flex;justify-content:space-between}
+.ch .kl .tr{color:var(--normal);text-shadow:0 0 3px rgba(var(--p),.45)}
+.ch .stat{display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid var(--line);color:var(--dim);text-shadow:none;white-space:nowrap}
+.ch .stat b{font-weight:normal;color:var(--normal);text-shadow:0 0 3px rgba(var(--p),.45)}
+.ch .stats{margin-top:12px}
+.ch .ctr{margin-top:auto}
+.ch .ctr .lab{color:var(--dim);display:block;margin-bottom:5px}
+.ch .ctr .row{align-items:center}
+.ch .ctr .s7{font-size:22px}
+.ch .ctr .pc{flex:0 0 52px;text-align:right}
+
+/* map */
+.mapbox{position:relative;width:540px;height:209px;margin:2px 0 0 -2px}
+svg.map{display:block;overflow:visible}
+svg.map .gr{stroke:rgba(var(--p),.09);stroke-width:1}
+svg.map path{fill:none;stroke-linecap:round;stroke-width:2.2}
+svg.map .m0{stroke:rgba(var(--p),.26)}
+svg.map .m1{stroke:rgba(var(--p),.62)}
+svg.map .m2{stroke:rgba(var(--p),.85)}
+svg.map .m3{stroke:#9cfff2;filter:drop-shadow(0 0 2px rgba(var(--p),.7))}
+svg.map .m4{stroke:#e2fffb;stroke-width:2.6;filter:drop-shadow(0 0 3px rgba(var(--p),1))}
+.pin{position:absolute;font-size:12px;letter-spacing:.06em;white-space:nowrap;color:var(--bright);text-shadow:0 0 4px rgba(var(--p),.8);background:rgba(3,7,6,.82);padding:0 3px;line-height:15px}
+.pin.d{color:var(--normal);text-shadow:none}
+.ret{position:absolute;width:26px;height:26px;border:1px solid var(--bright);border-radius:50%;box-shadow:0 0 6px rgba(var(--p),.6),inset 0 0 6px rgba(var(--p),.3)}
+.ret::before,.ret::after{content:"";position:absolute;background:var(--bright)}
+.ret::before{left:50%;top:-6px;width:1px;height:38px;margin-left:-.5px;opacity:.9}
+.ret::after{top:50%;left:-6px;height:1px;width:38px;margin-top:-.5px;opacity:.9}
+.geo{display:flex;gap:0;margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.geo .c{flex:1;text-align:center;border-left:1px solid var(--line)}
+.geo .c:first-child{border-left:0}
+.geo .c .cc{font-family:'Chakra Petch',sans-serif;font-weight:600;letter-spacing:.12em;color:var(--dim);text-shadow:none;font-size:12px}
+.geo .c .s7{font-size:20px;display:block;margin:3px auto 0}
+.geo .c .pc{color:var(--dim);text-shadow:none;font-size:12px}
+.lead{display:flex;justify-content:space-between;margin-top:7px;color:var(--dim);text-shadow:none}
+.lead b{font-weight:normal;color:var(--normal);text-shadow:0 0 3px rgba(var(--p),.45)}
+
+/* feed */
+.feed{list-style:none;margin:0;padding:0}
+.feed li{display:flex;gap:10px;line-height:20px;white-space:nowrap}
+.feed li .tm{color:var(--dim);text-shadow:none;flex:0 0 42px}
+.feed li.new .tm{color:var(--normal)}
+.feed li .tag{color:var(--dim);text-shadow:none}
+
+/* bottom */
+.bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:0 2px;color:var(--dim);text-shadow:none}
+.keys{display:flex;gap:26px}
+.keys .k{display:inline-block;border:1px solid var(--normal);padding:0 6px;margin-right:8px;color:var(--bright);text-shadow:0 0 4px rgba(var(--p),.7);font-size:12px;line-height:18px}
+</style>
+</head>
+<body>
+
+<div class="wall">
+
+  <!-- TOP BAR -->
+  <div class="top">
+    <div class="brand">LLAMAPOKER <small>COMMAND CENTER · WALL</small></div>
+    <div class="clock">
+      <span class="s14 n" data-g="~~~ ~~ ~~~ ~~~~">TUE 03 MAR 2027</span>
+      <span class="s7 b" data-g="88:88">19:42</span>
+    </div>
+    <div class="status">
+      <span class="kv">TIME SCRUB <b>LIVE</b></span>
+      <span class="kv">PAUSE SW <b>OFF</b></span>
+      <span class="live inv">OUTBOUND LIVE</span>
+    </div>
+  </div>
+
+  <!-- THREATS -->
+  <div class="panel threats"><i class="k"></i>
+    <div class="t">Threats <span class="q">ranked by impact · fix each</span></div>
+    <div class="th">
+      <div class="rk s7 b" data-g="8">1</div>
+      <div class="tx">
+        <div class="h b">INSTAGRAM PUBLISHER FAILED 18:20 <span class="flag inv">FAIL</span></div>
+        <div class="d">token expired · reel 014 held</div>
+        <div class="fx">FIX ▸ <b>re-authorise Meta app (2 min)</b></div>
+      </div>
+    </div>
+    <div class="th">
+      <div class="rk s7 n" data-g="8">2</div>
+      <div class="tx">
+        <div class="h n">REEL 013 KEEPS 41% PAST 3 S <span class="d">vs median 55%</span></div>
+        <div class="fx">FIX ▸ <b>number appears at 4.1 s, move it under 3 s</b></div>
+      </div>
+    </div>
+    <div class="th">
+      <div class="rk s7 n" data-g="8">3</div>
+      <div class="tx">
+        <div class="h n">/LEARN/OUTS SLIPPED 8 → 14 <span class="d">for "poker outs"</span></div>
+        <div class="fx">FIX ▸ <b>chart image + exact-odds table above the fold, two internal links</b></div>
+      </div>
+    </div>
+    <div class="th">
+      <div class="rk s7 d" data-g="8">4</div>
+      <div class="tx">
+        <div class="h d">LETTER BOUNCE 0.8% <span class="flag">[IN RANGE]</span></div>
+        <div class="fx">FIX ▸ none</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NORTH STAR -->
+  <div class="panel ns"><i class="k"></i>
+    <div class="t">North star · subscribers <span class="q">what changed today · what to do</span></div>
+    <div class="huge s7 b" data-g="8,888">1,284</div>
+    <div class="side">
+      <div class="kv"><span class="lab">This week</span><span class="u b">+</span><span class="s7 b" data-g="88">38</span><span class="tr">+3.1%</span></div>
+      <div class="kv"><span class="lab">Reach · reel views 7d</span><span class="s7 n" data-g="88.8">48.2</span><span class="u">K</span><span class="tr">+12%</span></div>
+      <div class="kv"><span class="lab">Weekly active · used the tool</span><span class="s7 n" data-g="88">27</span><span class="u">%</span><span class="tr d">342 of 1,284</span></div>
+    </div>
+    <div class="line"><span class="b">TODAY +9:</span> 6 FROM REEL 013 (BIO LINK), 3 FROM "POKER OUTS". <span class="inv do">DO</span> RE-AUTH INSTAGRAM, THEN APPROVE QUEUE (4).</div>
+  </div>
+
+  <!-- EXPERIMENTS + BUDGET -->
+  <div class="panel ex"><i class="k"></i>
+    <div class="t">Experiments · budget <span class="q">honest status · spend vs ceiling</span></div>
+    <div class="exp">
+      <div class="row sp"><span class="name">HOOK: NUMBER VS QUESTION</span><span class="flag d">[TOO EARLY TO CALL]</span></div>
+      <div class="row"><span class="d">DAY</span><span class="s7 n" data-g="88/88" style="font-size:18px">06/14</span><span class="meter"><i style="width:43%"></i></span><span class="d">4 REELS</span></div>
+    </div>
+    <div class="exp">
+      <div class="row sp"><span class="name">LETTER: THU VS SUN</span><span class="flag d">[INCONCLUSIVE]</span></div>
+      <div class="row"><span class="d">SENDS</span><span class="s7 n" data-g="8" style="font-size:18px">3</span><span class="meter"><i style="width:30%"></i></span><span class="d">NEED 6+</span></div>
+    </div>
+    <div class="bud">
+      <div class="row sp" style="margin-top:12px">
+        <span class="lab d">Spend this month</span><span class="lab d">Day 03/31</span>
+      </div>
+      <div class="row" style="margin-top:6px">
+        <span class="u n" style="font-size:20px">€</span><span class="s7 b" data-g="888">61</span>
+        <span class="d" style="font-size:16px">/</span><span class="s7 d" data-g="888">150</span>
+        <span class="meter" style="margin-left:12px"><i style="width:41%"></i></span><span class="d">41%</span>
+      </div>
+      <div class="brk">
+        <div><span>CLAUDE</span><span class="s7" data-g="88">23</span></div>
+        <div><span>CLOUDFL</span><span class="s7" data-g="88">0</span></div>
+        <div><span>BEEHIIV</span><span class="s7" data-g="88">0</span></div>
+        <div><span>DOMAIN</span><span class="s7" data-g="88">1</span></div>
+        <div><span>MISC</span><span class="s7" data-g="88">37</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE MACHINE -->
+  <div class="panel machine"><i class="k"></i>
+    <div class="t">The machine <span class="q">research → drafts → approval → scheduled → published · a failure reads from across the room</span></div>
+    <div class="flow">
+      <div class="st">
+        <div class="nm">Research <span class="flag d">[OK]</span></div>
+        <div class="cnt"><span class="s7 n" data-g="88">12</span><span class="u">ITEMS</span></div>
+        <div class="nt">3 new topics · Reddit 41 threads</div>
+        <div class="rn">LAST <b>18:00</b><br>NEXT <b>MON 06:00</b></div>
+      </div>
+      <div class="arr"><span>12</span></div>
+      <div class="st">
+        <div class="nm">Writer <span class="flag d">[OK]</span></div>
+        <div class="cnt"><span class="s7 n" data-g="88">3</span><span class="u">DRAFTS</span></div>
+        <div class="nt">letter 017 · 1,140 words</div>
+        <div class="rn">LAST <b>18:55</b><br>NEXT <b>ON DEMAND</b></div>
+      </div>
+      <div class="arr"><span>3</span></div>
+      <div class="st">
+        <div class="nm">Voice · Render <span class="flag d">[OK]</span></div>
+        <div class="cnt"><span class="s7 n" data-g="88">2</span><span class="u">REELS</span></div>
+        <div class="nt">founder's PC · offline-able</div>
+        <div class="rn">LAST <b>SUN 20:10</b><br>NEXT <b>SUN</b></div>
+      </div>
+      <div class="arr"><span>2</span></div>
+      <div class="st wait">
+        <div class="nm">Approval <span class="flag b">[ON YOU]</span></div>
+        <div class="cnt"><span class="s7 b" data-g="88">4</span><span class="u">ITEMS</span></div>
+        <div class="nt b">WAITING ON YOU · oldest 1 day</div>
+        <div class="rn">LAST <b>09:15</b> reel 014 cover<br>NEXT <b>YOU</b></div>
+      </div>
+      <div class="arr"><span>4</span></div>
+      <div class="st">
+        <div class="nm">Scheduled <span class="flag d">[OK]</span></div>
+        <div class="cnt"><span class="s7 n" data-g="88">3</span><span class="u">QUEUED</span></div>
+        <div class="nt">THU 18:00 · FRI 18:00 · SUN</div>
+        <div class="rn">LAST <b>12:00</b><br>NEXT <b>THU 18:00</b></div>
+      </div>
+      <div class="arr"><span>3</span></div>
+      <div class="st fail">
+        <div class="nm">Publisher <span class="flag">FAIL</span></div>
+        <div class="cnt"><span class="s7" data-g="88">1</span><span class="u">HELD</span></div>
+        <div class="nt">INSTAGRAM TOKEN EXPIRED</div>
+        <div class="rn">LAST <b>18:20</b> failed<br>NEXT <b>BLOCKED</b> · re-auth</div>
+      </div>
+      <div class="arr"><span>0</span></div>
+      <div class="st">
+        <div class="nm">Published <span class="flag d">[7 D]</span></div>
+        <div class="cnt"><span class="s7 n" data-g="88">5</span><span class="u">THIS WEEK</span></div>
+        <div class="nt">2 reels · 1 letter · 2 posts</div>
+        <div class="rn">LAST <b>16:02</b> letter 016<br>NEXT <b>THU 18:00</b></div>
+      </div>
+      <div class="sub">
+        <div class="kv"><span class="l">LETTER SENDER</span><span><span class="flag d">[OK]</span> <span class="s7 n" data-g="88:88">16:02</span></span></div>
+        <div class="kv"><span class="l">EVENT STORE</span><span><span class="s7 n" data-g="88,888">14,882</span> <span class="d">EV</span></span></div>
+        <div class="kv"><span class="l">P95 WRITE</span><span><span class="s7 n" data-g="8.8">2.1</span> <span class="d">MS</span></span></div>
+        <div class="kv"><span class="l">PAUSE SWITCH</span><span class="flag d">[OFF]</span></div>
+        <div class="kv"><span class="l">CLAUDE TODAY</span><span><span class="d">€</span><span class="s7 n" data-g="8.88">0.84</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="r3">
+  <!-- CHANNELS -->
+  <div class="panel" style="width:790px"><i class="k"></i>
+    <div class="t">Channels <span class="q">key number · trend · share of new subs</span></div>
+    <div class="ch">
+      <div>
+        <div class="nm">Site</div>
+        <div class="key"><span class="s7 n" data-g="8,888">2,910</span></div>
+        <div class="kl"><span>VISITS 7D</span><span class="tr">+8%</span></div>
+        <div class="stats">
+          <div class="stat"><span>SIGN-UP RATE</span><b>3.2%</b></div>
+          <div class="stat"><span>TOP PAGE</span><b>/learn/outs</b></div>
+        </div>
+        <div class="ctr"><span class="lab">New subs 7d</span>
+          <div class="row"><span class="s7 n" data-g="88">41</span><span class="meter"><i style="width:34%"></i></span><span class="pc">34%</span></div></div>
+      </div>
+      <div>
+        <div class="nm">Letter</div>
+        <div class="key"><span class="s7 n" data-g="88">52</span><span class="u">%</span></div>
+        <div class="kl"><span>OPENED · 16 SENDS</span></div>
+        <div class="stats">
+          <div class="stat"><span>CLICKED</span><b>18%</b></div>
+          <div class="stat"><span>RAN A SPOT</span><b>14</b></div>
+          <div class="stat"><span>BOUNCE</span><b>0.8%</b></div>
+        </div>
+        <div class="ctr"><span class="lab">New subs 7d</span>
+          <div class="row"><span class="s7 d" data-g="88">--</span><span class="meter"><i style="width:0"></i></span><span class="pc d">KEEPS</span></div></div>
+      </div>
+      <div>
+        <div class="nm">Instagram</div>
+        <div class="key"><span class="s7 n" data-g="88.8">48.2</span><span class="u">K</span></div>
+        <div class="kl"><span>REEL VIEWS 7D</span><span class="tr">+12%</span></div>
+        <div class="stats">
+          <div class="stat"><span>PUBLISH</span><span class="flag inv">TOKEN EXPIRED</span></div>
+          <div class="stat"><span>FOLLOWERS</span><b>3,420</b></div>
+          <div class="stat"><span>SAVES REEL 013</span><b>1 in 94</b></div>
+        </div>
+        <div class="ctr"><span class="lab">New subs 7d</span>
+          <div class="row"><span class="s7 n" data-g="88">22</span><span class="meter"><i style="width:18%"></i></span><span class="pc">18%</span></div></div>
+      </div>
+      <div>
+        <div class="nm">Search</div>
+        <div class="key"><span class="s7 n" data-g="888">310</span></div>
+        <div class="kl"><span>CLICKS 28D</span><span class="tr">+41%</span></div>
+        <div class="stats">
+          <div class="stat"><span>IMPRESSIONS</span><b>6.4K</b></div>
+          <div class="stat"><span>AVG POSITION</span><b>12.3</b></div>
+        </div>
+        <div class="ctr"><span class="lab">New subs 7d</span>
+          <div class="row"><span class="s7 n" data-g="88">9</span><span class="meter"><i style="width:7%"></i></span><span class="pc">7%</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="panel" style="width:570px"><i class="k"></i>
+    <div class="t">Where visitors are · 7d <span class="q">dot = land · brightness = share</span></div>
+    <div class="mapbox">
+      <svg class="map" viewBox="0 0 540 209" width="540" height="209" xmlns="http://www.w3.org/2000/svg">
+<line class="gr" x1="27.9" y1="0" x2="27.9" y2="209"/>
+<line class="gr" x1="74.5" y1="0" x2="74.5" y2="209"/>
+<line class="gr" x1="121.0" y1="0" x2="121.0" y2="209"/>
+<line class="gr" x1="167.6" y1="0" x2="167.6" y2="209"/>
+<line class="gr" x1="214.1" y1="0" x2="214.1" y2="209"/>
+<line class="gr" x1="260.7" y1="0" x2="260.7" y2="209"/>
+<line class="gr" x1="307.2" y1="0" x2="307.2" y2="209"/>
+<line class="gr" x1="353.8" y1="0" x2="353.8" y2="209"/>
+<line class="gr" x1="400.3" y1="0" x2="400.3" y2="209"/>
+<line class="gr" x1="446.9" y1="0" x2="446.9" y2="209"/>
+<line class="gr" x1="493.4" y1="0" x2="493.4" y2="209"/>
+<line class="gr" x1="540.0" y1="0" x2="540.0" y2="209"/>
+<line class="gr" x1="0" y1="30.7" x2="540" y2="30.7"/>
+<line class="gr" x1="0" y1="76.8" x2="540" y2="76.8"/>
+<line class="gr" x1="0" y1="122.8" x2="540" y2="122.8"/>
+<line class="gr" x1="0" y1="168.9" x2="540" y2="168.9"/>
+<path class="m0" d="M88.2 1.8h.01M99.0 1.8h.01M102.6 1.8h.01M109.8 1.8h.01M113.4 1.8h.01M117.0 1.8h.01M120.6 1.8h.01M124.2 1.8h.01M127.8 1.8h.01M131.4 1.8h.01M135.0 1.8h.01M138.6 1.8h.01M142.2 1.8h.01M145.8 1.8h.01M149.4 1.8h.01M153.0 1.8h.01M156.6 1.8h.01M160.2 1.8h.01M163.8 1.8h.01M167.4 1.8h.01M171.0 1.8h.01M174.6 1.8h.01M178.2 1.8h.01M181.8 1.8h.01M185.4 1.8h.01M189.0 1.8h.01M192.6 1.8h.01M196.2 1.8h.01M199.8 1.8h.01M203.4 1.8h.01M207.0 1.8h.01M210.6 1.8h.01M214.2 1.8h.01M217.8 1.8h.01M221.4 1.8h.01M225.0 1.8h.01M228.6 1.8h.01M232.2 1.8h.01M279.0 1.8h.01M282.6 1.8h.01M286.2 1.8h.01M289.8 1.8h.01M293.4 1.8h.01M297.0 1.8h.01M300.6 1.8h.01M408.6 1.8h.01M412.2 1.8h.01M415.8 1.8h.01M419.4 1.8h.01M73.8 5.4h.01M77.4 5.4h.01M81.0 5.4h.01M84.6 5.4h.01M88.2 5.4h.01M91.8 5.4h.01M102.6 5.4h.01M106.2 5.4h.01M109.8 5.4h.01M113.4 5.4h.01M117.0 5.4h.01M120.6 5.4h.01M124.2 5.4h.01M127.8 5.4h.01M131.4 5.4h.01M135.0 5.4h.01M138.6 5.4h.01M153.0 5.4h.01M156.6 5.4h.01M160.2 5.4h.01M163.8 5.4h.01M167.4 5.4h.01M171.0 5.4h.01M174.6 5.4h.01M178.2 5.4h.01M181.8 5.4h.01M185.4 5.4h.01M189.0 5.4h.01M192.6 5.4h.01M196.2 5.4h.01M199.8 5.4h.01M203.4 5.4h.01M207.0 5.4h.01M210.6 5.4h.01M214.2 5.4h.01M217.8 5.4h.01M221.4 5.4h.01M225.0 5.4h.01M228.6 5.4h.01M286.2 5.4h.01M354.6 5.4h.01M358.2 5.4h.01M361.8 5.4h.01M365.4 5.4h.01M405.0 5.4h.01M408.6 5.4h.01M412.2 5.4h.01M415.8 5.4h.01M419.4 5.4h.01M423.0 5.4h.01M426.6 5.4h.01M430.2 5.4h.01M433.8 5.4h.01M477.0 5.4h.01M480.6 5.4h.01M70.2 9.0h.01M73.8 9.0h.01M77.4 9.0h.01M81.0 9.0h.01M84.6 9.0h.01M88.2 9.0h.01M95.4 9.0h.01M106.2 9.0h.01M113.4 9.0h.01M117.0 9.0h.01M120.6 9.0h.01M124.2 9.0h.01M127.8 9.0h.01M131.4 9.0h.01M135.0 9.0h.01M174.6 9.0h.01M178.2 9.0h.01M181.8 9.0h.01M185.4 9.0h.01M189.0 9.0h.01M192.6 9.0h.01M196.2 9.0h.01M199.8 9.0h.01M203.4 9.0h.01M207.0 9.0h.01M210.6 9.0h.01M214.2 9.0h.01M217.8 9.0h.01M221.4 9.0h.01M225.0 9.0h.01M228.6 9.0h.01M347.4 9.0h.01M351.0 9.0h.01M354.6 9.0h.01M390.6 9.0h.01M394.2 9.0h.01M397.8 9.0h.01M401.4 9.0h.01M405.0 9.0h.01M408.6 9.0h.01M412.2 9.0h.01M415.8 9.0h.01M419.4 9.0h.01M423.0 9.0h.01M426.6 9.0h.01M430.2 9.0h.01M433.8 9.0h.01M437.4 9.0h.01M477.0 9.0h.01M480.6 9.0h.01M484.2 9.0h.01M491.4 9.0h.01M66.6 12.6h.01M70.2 12.6h.01M73.8 12.6h.01M77.4 12.6h.01M81.0 12.6h.01M84.6 12.6h.01M88.2 12.6h.01M91.8 12.6h.01M95.4 12.6h.01M106.2 12.6h.01M109.8 12.6h.01M113.4 12.6h.01M120.6 12.6h.01M124.2 12.6h.01M127.8 12.6h.01M131.4 12.6h.01M135.0 12.6h.01M138.6 12.6h.01M142.2 12.6h.01M145.8 12.6h.01M174.6 12.6h.01M178.2 12.6h.01M181.8 12.6h.01M185.4 12.6h.01M189.0 12.6h.01M192.6 12.6h.01M196.2 12.6h.01M199.8 12.6h.01M203.4 12.6h.01M207.0 12.6h.01M210.6 12.6h.01M214.2 12.6h.01M217.8 12.6h.01M221.4 12.6h.01M225.0 12.6h.01M343.8 12.6h.01M347.4 12.6h.01M369.0 12.6h.01M372.6 12.6h.01M376.2 12.6h.01M379.8 12.6h.01M383.4 12.6h.01M387.0 12.6h.01M390.6 12.6h.01M394.2 12.6h.01M397.8 12.6h.01M401.4 12.6h.01M405.0 12.6h.01M408.6 12.6h.01M412.2 12.6h.01M415.8 12.6h.01M419.4 12.6h.01M423.0 12.6h.01M426.6 12.6h.01M430.2 12.6h.01M433.8 12.6h.01M437.4 12.6h.01M441.0 12.6h.01M444.6 12.6h.01M448.2 12.6h.01M451.8 12.6h.01M455.4 12.6h.01M459.0 12.6h.01M466.2 12.6h.01M469.8 12.6h.01M473.4 12.6h.01M477.0 12.6h.01M480.6 12.6h.01M484.2 12.6h.01M487.8 12.6h.01M491.4 12.6h.01M495.0 12.6h.01M45.0 16.2h.01M48.6 16.2h.01M52.2 16.2h.01M55.8 16.2h.01M59.4 16.2h.01M63.0 16.2h.01M66.6 16.2h.01M70.2 16.2h.01M73.8 16.2h.01M77.4 16.2h.01M81.0 16.2h.01M84.6 16.2h.01M88.2 16.2h.01M91.8 16.2h.01M95.4 16.2h.01M99.0 16.2h.01M102.6 16.2h.01M109.8 16.2h.01M113.4 16.2h.01M117.0 16.2h.01M120.6 16.2h.01M124.2 16.2h.01M127.8 16.2h.01M131.4 16.2h.01M135.0 16.2h.01M138.6 16.2h.01M142.2 16.2h.01M145.8 16.2h.01M149.4 16.2h.01M153.0 16.2h.01M178.2 16.2h.01M181.8 16.2h.01M185.4 16.2h.01M189.0 16.2h.01M192.6 16.2h.01M196.2 16.2h.01M199.8 16.2h.01M203.4 16.2h.01M207.0 16.2h.01M210.6 16.2h.01M214.2 16.2h.01M217.8 16.2h.01M221.4 16.2h.01M289.8 16.2h.01M293.4 16.2h.01M297.0 16.2h.01M300.6 16.2h.01M304.2 16.2h.01M307.8 16.2h.01M311.4 16.2h.01M315.0 16.2h.01M354.6 16.2h.01M358.2 16.2h.01M361.8 16.2h.01M365.4 16.2h.01M369.0 16.2h.01M372.6 16.2h.01M376.2 16.2h.01M379.8 16.2h.01M383.4 16.2h.01M387.0 16.2h.01M390.6 16.2h.01M394.2 16.2h.01M397.8 16.2h.01M401.4 16.2h.01M405.0 16.2h.01M408.6 16.2h.01M412.2 16.2h.01M415.8 16.2h.01M419.4 16.2h.01M423.0 16.2h.01M426.6 16.2h.01M430.2 16.2h.01M433.8 16.2h.01M437.4 16.2h.01M441.0 16.2h.01M444.6 16.2h.01M448.2 16.2h.01M451.8 16.2h.01M455.4 16.2h.01M459.0 16.2h.01M462.6 16.2h.01M466.2 16.2h.01M469.8 16.2h.01M473.4 16.2h.01M477.0 16.2h.01M480.6 16.2h.01M484.2 16.2h.01M487.8 16.2h.01M491.4 16.2h.01M495.0 16.2h.01M498.6 16.2h.01M502.2 16.2h.01M505.8 16.2h.01M509.4 16.2h.01M513.0 16.2h.01M516.6 16.2h.01M520.2 16.2h.01M523.8 16.2h.01M527.4 16.2h.01M531.0 16.2h.01M534.6 16.2h.01M538.2 16.2h.01M45.0 19.8h.01M48.6 19.8h.01M52.2 19.8h.01M55.8 19.8h.01M59.4 19.8h.01M63.0 19.8h.01M66.6 19.8h.01M70.2 19.8h.01M73.8 19.8h.01M77.4 19.8h.01M81.0 19.8h.01M84.6 19.8h.01M88.2 19.8h.01M91.8 19.8h.01M95.4 19.8h.01M99.0 19.8h.01M102.6 19.8h.01M106.2 19.8h.01M109.8 19.8h.01M113.4 19.8h.01M117.0 19.8h.01M120.6 19.8h.01M124.2 19.8h.01M127.8 19.8h.01M131.4 19.8h.01M142.2 19.8h.01M149.4 19.8h.01M153.0 19.8h.01M156.6 19.8h.01M160.2 19.8h.01M163.8 19.8h.01M178.2 19.8h.01M181.8 19.8h.01M185.4 19.8h.01M189.0 19.8h.01M192.6 19.8h.01M196.2 19.8h.01M199.8 19.8h.01M203.4 19.8h.01M207.0 19.8h.01M210.6 19.8h.01M282.6 19.8h.01M286.2 19.8h.01M289.8 19.8h.01M293.4 19.8h.01M297.0 19.8h.01M300.6 19.8h.01M304.2 19.8h.01M307.8 19.8h.01M311.4 19.8h.01M315.0 19.8h.01M318.6 19.8h.01M322.2 19.8h.01M329.4 19.8h.01M333.0 19.8h.01M336.6 19.8h.01M340.2 19.8h.01M343.8 19.8h.01M347.4 19.8h.01M351.0 19.8h.01M354.6 19.8h.01M358.2 19.8h.01M361.8 19.8h.01M365.4 19.8h.01M369.0 19.8h.01M372.6 19.8h.01M376.2 19.8h.01M379.8 19.8h.01M383.4 19.8h.01M387.0 19.8h.01M390.6 19.8h.01M394.2 19.8h.01M397.8 19.8h.01M401.4 19.8h.01M405.0 19.8h.01M408.6 19.8h.01M412.2 19.8h.01M415.8 19.8h.01M419.4 19.8h.01M423.0 19.8h.01M426.6 19.8h.01M430.2 19.8h.01M433.8 19.8h.01M437.4 19.8h.01M441.0 19.8h.01M444.6 19.8h.01M448.2 19.8h.01M451.8 19.8h.01M455.4 19.8h.01M459.0 19.8h.01M462.6 19.8h.01M466.2 19.8h.01M469.8 19.8h.01M473.4 19.8h.01M477.0 19.8h.01M480.6 19.8h.01M484.2 19.8h.01M487.8 19.8h.01M491.4 19.8h.01M495.0 19.8h.01M498.6 19.8h.01M502.2 19.8h.01M505.8 19.8h.01M509.4 19.8h.01M513.0 19.8h.01M516.6 19.8h.01M520.2 19.8h.01M523.8 19.8h.01M527.4 19.8h.01M531.0 19.8h.01M534.6 19.8h.01M538.2 19.8h.01M45.0 23.4h.01M48.6 23.4h.01M52.2 23.4h.01M55.8 23.4h.01M59.4 23.4h.01M63.0 23.4h.01M66.6 23.4h.01M70.2 23.4h.01M73.8 23.4h.01M77.4 23.4h.01M81.0 23.4h.01M84.6 23.4h.01M88.2 23.4h.01M91.8 23.4h.01M95.4 23.4h.01M99.0 23.4h.01M102.6 23.4h.01M106.2 23.4h.01M109.8 23.4h.01M113.4 23.4h.01M117.0 23.4h.01M120.6 23.4h.01M124.2 23.4h.01M127.8 23.4h.01M131.4 23.4h.01M142.2 23.4h.01M145.8 23.4h.01M149.4 23.4h.01M153.0 23.4h.01M156.6 23.4h.01M160.2 23.4h.01M181.8 23.4h.01M185.4 23.4h.01M189.0 23.4h.01M192.6 23.4h.01M196.2 23.4h.01M199.8 23.4h.01M225.0 23.4h.01M228.6 23.4h.01M232.2 23.4h.01M235.8 23.4h.01M279.0 23.4h.01M282.6 23.4h.01M286.2 23.4h.01M289.8 23.4h.01M293.4 23.4h.01M300.6 23.4h.01M304.2 23.4h.01M307.8 23.4h.01M311.4 23.4h.01M315.0 23.4h.01M318.6 23.4h.01M322.2 23.4h.01M325.8 23.4h.01M329.4 23.4h.01M333.0 23.4h.01M336.6 23.4h.01M340.2 23.4h.01M343.8 23.4h.01M347.4 23.4h.01M351.0 23.4h.01M354.6 23.4h.01M358.2 23.4h.01M361.8 23.4h.01M365.4 23.4h.01M369.0 23.4h.01M372.6 23.4h.01M376.2 23.4h.01M379.8 23.4h.01M383.4 23.4h.01M387.0 23.4h.01M390.6 23.4h.01M394.2 23.4h.01M397.8 23.4h.01M401.4 23.4h.01M405.0 23.4h.01M408.6 23.4h.01M412.2 23.4h.01M415.8 23.4h.01M419.4 23.4h.01M423.0 23.4h.01M426.6 23.4h.01M430.2 23.4h.01M433.8 23.4h.01M437.4 23.4h.01M441.0 23.4h.01M444.6 23.4h.01M448.2 23.4h.01M451.8 23.4h.01M455.4 23.4h.01M459.0 23.4h.01M462.6 23.4h.01M466.2 23.4h.01M469.8 23.4h.01M473.4 23.4h.01M477.0 23.4h.01M480.6 23.4h.01M484.2 23.4h.01M487.8 23.4h.01M491.4 23.4h.01M495.0 23.4h.01M498.6 23.4h.01M502.2 23.4h.01M505.8 23.4h.01M509.4 23.4h.01M513.0 23.4h.01M516.6 23.4h.01M520.2 23.4h.01M523.8 23.4h.01M527.4 23.4h.01M531.0 23.4h.01M534.6 23.4h.01M538.2 23.4h.01M45.0 27.0h.01M48.6 27.0h.01M52.2 27.0h.01M55.8 27.0h.01M59.4 27.0h.01M63.0 27.0h.01M66.6 27.0h.01M70.2 27.0h.01M73.8 27.0h.01M77.4 27.0h.01M81.0 27.0h.01M84.6 27.0h.01M88.2 27.0h.01M91.8 27.0h.01M95.4 27.0h.01M99.0 27.0h.01M102.6 27.0h.01M106.2 27.0h.01M109.8 27.0h.01M113.4 27.0h.01M117.0 27.0h.01M131.4 27.0h.01M142.2 27.0h.01M145.8 27.0h.01M149.4 27.0h.01M153.0 27.0h.01M156.6 27.0h.01M181.8 27.0h.01M185.4 27.0h.01M189.0 27.0h.01M192.6 27.0h.01M196.2 27.0h.01M271.8 27.0h.01M275.4 27.0h.01M279.0 27.0h.01M282.6 27.0h.01M286.2 27.0h.01M289.8 27.0h.01M293.4 27.0h.01M297.0 27.0h.01M300.6 27.0h.01M304.2 27.0h.01M307.8 27.0h.01M311.4 27.0h.01M315.0 27.0h.01M318.6 27.0h.01M322.2 27.0h.01M325.8 27.0h.01M329.4 27.0h.01M333.0 27.0h.01M336.6 27.0h.01M340.2 27.0h.01M343.8 27.0h.01M347.4 27.0h.01M351.0 27.0h.01M354.6 27.0h.01M358.2 27.0h.01M361.8 27.0h.01M365.4 27.0h.01M369.0 27.0h.01M372.6 27.0h.01M376.2 27.0h.01M379.8 27.0h.01M383.4 27.0h.01M387.0 27.0h.01M390.6 27.0h.01M394.2 27.0h.01M397.8 27.0h.01M401.4 27.0h.01M405.0 27.0h.01M408.6 27.0h.01M412.2 27.0h.01M415.8 27.0h.01M419.4 27.0h.01M423.0 27.0h.01M426.6 27.0h.01M430.2 27.0h.01M433.8 27.0h.01M437.4 27.0h.01M441.0 27.0h.01M444.6 27.0h.01M448.2 27.0h.01M451.8 27.0h.01M455.4 27.0h.01M459.0 27.0h.01M462.6 27.0h.01M466.2 27.0h.01M469.8 27.0h.01M473.4 27.0h.01M477.0 27.0h.01M480.6 27.0h.01M484.2 27.0h.01M487.8 27.0h.01M491.4 27.0h.01M495.0 27.0h.01M498.6 27.0h.01M502.2 27.0h.01M505.8 27.0h.01M509.4 27.0h.01M513.0 27.0h.01M516.6 27.0h.01M520.2 27.0h.01M523.8 27.0h.01M527.4 27.0h.01M531.0 27.0h.01M534.6 27.0h.01M538.2 27.0h.01M45.0 30.6h.01M48.6 30.6h.01M52.2 30.6h.01M55.8 30.6h.01M59.4 30.6h.01M63.0 30.6h.01M66.6 30.6h.01M70.2 30.6h.01M73.8 30.6h.01M77.4 30.6h.01M81.0 30.6h.01M84.6 30.6h.01M88.2 30.6h.01M91.8 30.6h.01M95.4 30.6h.01M99.0 30.6h.01M102.6 30.6h.01M106.2 30.6h.01M109.8 30.6h.01M113.4 30.6h.01M142.2 30.6h.01M145.8 30.6h.01M149.4 30.6h.01M153.0 30.6h.01M160.2 30.6h.01M189.0 30.6h.01M192.6 30.6h.01M268.2 30.6h.01M271.8 30.6h.01M275.4 30.6h.01M279.0 30.6h.01M282.6 30.6h.01M286.2 30.6h.01M289.8 30.6h.01M297.0 30.6h.01M300.6 30.6h.01M304.2 30.6h.01M307.8 30.6h.01M311.4 30.6h.01M315.0 30.6h.01M318.6 30.6h.01M322.2 30.6h.01M325.8 30.6h.01M329.4 30.6h.01M333.0 30.6h.01M336.6 30.6h.01M340.2 30.6h.01M343.8 30.6h.01M347.4 30.6h.01M351.0 30.6h.01M354.6 30.6h.01M358.2 30.6h.01M361.8 30.6h.01M365.4 30.6h.01M369.0 30.6h.01M372.6 30.6h.01M376.2 30.6h.01M379.8 30.6h.01M383.4 30.6h.01M387.0 30.6h.01M390.6 30.6h.01M394.2 30.6h.01M397.8 30.6h.01M401.4 30.6h.01M405.0 30.6h.01M408.6 30.6h.01M412.2 30.6h.01M415.8 30.6h.01M419.4 30.6h.01M423.0 30.6h.01M426.6 30.6h.01M430.2 30.6h.01M433.8 30.6h.01M437.4 30.6h.01M441.0 30.6h.01M444.6 30.6h.01M448.2 30.6h.01M451.8 30.6h.01M455.4 30.6h.01M459.0 30.6h.01M462.6 30.6h.01M466.2 30.6h.01M469.8 30.6h.01M473.4 30.6h.01M477.0 30.6h.01M480.6 30.6h.01M484.2 30.6h.01M487.8 30.6h.01M491.4 30.6h.01M495.0 30.6h.01M498.6 30.6h.01M502.2 30.6h.01M509.4 30.6h.01M513.0 30.6h.01M516.6 30.6h.01M520.2 30.6h.01M523.8 30.6h.01M527.4 30.6h.01M55.8 34.2h.01M59.4 34.2h.01M63.0 34.2h.01M66.6 34.2h.01M70.2 34.2h.01M73.8 34.2h.01M77.4 34.2h.01M81.0 34.2h.01M84.6 34.2h.01M88.2 34.2h.01M91.8 34.2h.01M95.4 34.2h.01M99.0 34.2h.01M102.6 34.2h.01M106.2 34.2h.01M109.8 34.2h.01M113.4 34.2h.01M117.0 34.2h.01M142.2 34.2h.01M145.8 34.2h.01M149.4 34.2h.01M153.0 34.2h.01M156.6 34.2h.01M160.2 34.2h.01M163.8 34.2h.01M271.8 34.2h.01M275.4 34.2h.01M279.0 34.2h.01M282.6 34.2h.01M286.2 34.2h.01M297.0 34.2h.01M300.6 34.2h.01M304.2 34.2h.01M307.8 34.2h.01M311.4 34.2h.01M315.0 34.2h.01M318.6 34.2h.01M322.2 34.2h.01M325.8 34.2h.01M329.4 34.2h.01M333.0 34.2h.01M336.6 34.2h.01M340.2 34.2h.01M343.8 34.2h.01M347.4 34.2h.01M351.0 34.2h.01M354.6 34.2h.01M358.2 34.2h.01M361.8 34.2h.01M365.4 34.2h.01M369.0 34.2h.01M372.6 34.2h.01M376.2 34.2h.01M379.8 34.2h.01M383.4 34.2h.01M387.0 34.2h.01M390.6 34.2h.01M394.2 34.2h.01M397.8 34.2h.01M401.4 34.2h.01M405.0 34.2h.01M408.6 34.2h.01M412.2 34.2h.01M415.8 34.2h.01M419.4 34.2h.01M423.0 34.2h.01M426.6 34.2h.01M430.2 34.2h.01M433.8 34.2h.01M437.4 34.2h.01M441.0 34.2h.01M444.6 34.2h.01M448.2 34.2h.01M451.8 34.2h.01M455.4 34.2h.01M459.0 34.2h.01M462.6 34.2h.01M466.2 34.2h.01M469.8 34.2h.01M473.4 34.2h.01M477.0 34.2h.01M505.8 34.2h.01M509.4 34.2h.01M513.0 34.2h.01M59.4 37.8h.01M63.0 37.8h.01M66.6 37.8h.01M70.2 37.8h.01M73.8 37.8h.01M77.4 37.8h.01M81.0 37.8h.01M84.6 37.8h.01M88.2 37.8h.01M91.8 37.8h.01M95.4 37.8h.01M99.0 37.8h.01M102.6 37.8h.01M106.2 37.8h.01M109.8 37.8h.01M113.4 37.8h.01M117.0 37.8h.01M120.6 37.8h.01M124.2 37.8h.01M127.8 37.8h.01M131.4 37.8h.01M138.6 37.8h.01M142.2 37.8h.01M145.8 37.8h.01M149.4 37.8h.01M153.0 37.8h.01M156.6 37.8h.01M160.2 37.8h.01M163.8 37.8h.01M167.4 37.8h.01M171.0 37.8h.01M275.4 37.8h.01M279.0 37.8h.01M282.6 37.8h.01M293.4 37.8h.01M297.0 37.8h.01M300.6 37.8h.01M304.2 37.8h.01M307.8 37.8h.01M311.4 37.8h.01M315.0 37.8h.01M318.6 37.8h.01M322.2 37.8h.01M325.8 37.8h.01M329.4 37.8h.01M333.0 37.8h.01M336.6 37.8h.01M340.2 37.8h.01M343.8 37.8h.01M347.4 37.8h.01M351.0 37.8h.01M354.6 37.8h.01M358.2 37.8h.01M361.8 37.8h.01M365.4 37.8h.01M369.0 37.8h.01M372.6 37.8h.01M376.2 37.8h.01M379.8 37.8h.01M383.4 37.8h.01M387.0 37.8h.01M390.6 37.8h.01M394.2 37.8h.01M397.8 37.8h.01M401.4 37.8h.01M405.0 37.8h.01M408.6 37.8h.01M412.2 37.8h.01M415.8 37.8h.01M419.4 37.8h.01M423.0 37.8h.01M426.6 37.8h.01M430.2 37.8h.01M433.8 37.8h.01M437.4 37.8h.01M441.0 37.8h.01M444.6 37.8h.01M448.2 37.8h.01M451.8 37.8h.01M455.4 37.8h.01M459.0 37.8h.01M462.6 37.8h.01M466.2 37.8h.01M469.8 37.8h.01M473.4 37.8h.01M502.2 37.8h.01M505.8 37.8h.01M509.4 37.8h.01M513.0 37.8h.01M55.8 41.4h.01M59.4 41.4h.01M63.0 41.4h.01M66.6 41.4h.01M70.2 41.4h.01M73.8 41.4h.01M77.4 41.4h.01M81.0 41.4h.01M84.6 41.4h.01M88.2 41.4h.01M91.8 41.4h.01M95.4 41.4h.01M99.0 41.4h.01M102.6 41.4h.01M106.2 41.4h.01M109.8 41.4h.01M113.4 41.4h.01M117.0 41.4h.01M120.6 41.4h.01M124.2 41.4h.01M127.8 41.4h.01M131.4 41.4h.01M138.6 41.4h.01M142.2 41.4h.01M145.8 41.4h.01M149.4 41.4h.01M153.0 41.4h.01M156.6 41.4h.01M160.2 41.4h.01M163.8 41.4h.01M167.4 41.4h.01M171.0 41.4h.01M174.6 41.4h.01M246.6 41.4h.01M250.2 41.4h.01M286.2 41.4h.01M289.8 41.4h.01M293.4 41.4h.01M297.0 41.4h.01M300.6 41.4h.01M304.2 41.4h.01M307.8 41.4h.01M311.4 41.4h.01M315.0 41.4h.01M318.6 41.4h.01M322.2 41.4h.01M325.8 41.4h.01M329.4 41.4h.01M333.0 41.4h.01M336.6 41.4h.01M340.2 41.4h.01M343.8 41.4h.01M347.4 41.4h.01M351.0 41.4h.01M354.6 41.4h.01M358.2 41.4h.01M361.8 41.4h.01M365.4 41.4h.01M369.0 41.4h.01M372.6 41.4h.01M376.2 41.4h.01M379.8 41.4h.01M383.4 41.4h.01M387.0 41.4h.01M390.6 41.4h.01M394.2 41.4h.01M397.8 41.4h.01M401.4 41.4h.01M405.0 41.4h.01M408.6 41.4h.01M412.2 41.4h.01M415.8 41.4h.01M419.4 41.4h.01M423.0 41.4h.01M426.6 41.4h.01M430.2 41.4h.01M433.8 41.4h.01M437.4 41.4h.01M441.0 41.4h.01M444.6 41.4h.01M448.2 41.4h.01M451.8 41.4h.01M455.4 41.4h.01M459.0 41.4h.01M462.6 41.4h.01M466.2 41.4h.01M469.8 41.4h.01M473.4 41.4h.01M477.0 41.4h.01M480.6 41.4h.01M502.2 41.4h.01M505.8 41.4h.01M509.4 41.4h.01M63.0 45.0h.01M66.6 45.0h.01M70.2 45.0h.01M73.8 45.0h.01M77.4 45.0h.01M81.0 45.0h.01M84.6 45.0h.01M88.2 45.0h.01M91.8 45.0h.01M95.4 45.0h.01M99.0 45.0h.01M102.6 45.0h.01M106.2 45.0h.01M109.8 45.0h.01M113.4 45.0h.01M117.0 45.0h.01M120.6 45.0h.01M124.2 45.0h.01M127.8 45.0h.01M131.4 45.0h.01M135.0 45.0h.01M138.6 45.0h.01M142.2 45.0h.01M145.8 45.0h.01M149.4 45.0h.01M153.0 45.0h.01M156.6 45.0h.01M160.2 45.0h.01M163.8 45.0h.01M167.4 45.0h.01M171.0 45.0h.01M174.6 45.0h.01M268.2 45.0h.01M282.6 45.0h.01M286.2 45.0h.01M289.8 45.0h.01M293.4 45.0h.01M297.0 45.0h.01M300.6 45.0h.01M304.2 45.0h.01M307.8 45.0h.01M311.4 45.0h.01M315.0 45.0h.01M318.6 45.0h.01M322.2 45.0h.01M325.8 45.0h.01M329.4 45.0h.01M333.0 45.0h.01M336.6 45.0h.01M340.2 45.0h.01M343.8 45.0h.01M347.4 45.0h.01M351.0 45.0h.01M354.6 45.0h.01M358.2 45.0h.01M361.8 45.0h.01M365.4 45.0h.01M369.0 45.0h.01M372.6 45.0h.01M376.2 45.0h.01M379.8 45.0h.01M383.4 45.0h.01M387.0 45.0h.01M390.6 45.0h.01M394.2 45.0h.01M397.8 45.0h.01M401.4 45.0h.01M405.0 45.0h.01M408.6 45.0h.01M412.2 45.0h.01M415.8 45.0h.01M419.4 45.0h.01M423.0 45.0h.01M426.6 45.0h.01M430.2 45.0h.01M433.8 45.0h.01M437.4 45.0h.01M441.0 45.0h.01M444.6 45.0h.01M448.2 45.0h.01M451.8 45.0h.01M455.4 45.0h.01M459.0 45.0h.01M462.6 45.0h.01M466.2 45.0h.01M469.8 45.0h.01M473.4 45.0h.01M477.0 45.0h.01M480.6 45.0h.01M484.2 45.0h.01M66.6 48.6h.01M120.6 48.6h.01M124.2 48.6h.01M127.8 48.6h.01M131.4 48.6h.01M135.0 48.6h.01M138.6 48.6h.01M142.2 48.6h.01M145.8 48.6h.01M149.4 48.6h.01M153.0 48.6h.01M156.6 48.6h.01M160.2 48.6h.01M171.0 48.6h.01M174.6 48.6h.01M178.2 48.6h.01M282.6 48.6h.01M286.2 48.6h.01M289.8 48.6h.01M293.4 48.6h.01M297.0 48.6h.01M300.6 48.6h.01M304.2 48.6h.01M307.8 48.6h.01M311.4 48.6h.01M315.0 48.6h.01M318.6 48.6h.01M322.2 48.6h.01M325.8 48.6h.01M329.4 48.6h.01M333.0 48.6h.01M336.6 48.6h.01M340.2 48.6h.01M343.8 48.6h.01M347.4 48.6h.01M351.0 48.6h.01M354.6 48.6h.01M358.2 48.6h.01M361.8 48.6h.01M365.4 48.6h.01M369.0 48.6h.01M372.6 48.6h.01M376.2 48.6h.01M379.8 48.6h.01M383.4 48.6h.01M387.0 48.6h.01M390.6 48.6h.01M394.2 48.6h.01M397.8 48.6h.01M401.4 48.6h.01M405.0 48.6h.01M408.6 48.6h.01M412.2 48.6h.01M415.8 48.6h.01M419.4 48.6h.01M423.0 48.6h.01M426.6 48.6h.01M430.2 48.6h.01M433.8 48.6h.01M437.4 48.6h.01M441.0 48.6h.01M444.6 48.6h.01M448.2 48.6h.01M451.8 48.6h.01M455.4 48.6h.01M459.0 48.6h.01M462.6 48.6h.01M466.2 48.6h.01M469.8 48.6h.01M473.4 48.6h.01M477.0 48.6h.01M480.6 48.6h.01M131.4 52.2h.01M135.0 52.2h.01M138.6 52.2h.01M142.2 52.2h.01M145.8 52.2h.01M149.4 52.2h.01M156.6 52.2h.01M160.2 52.2h.01M163.8 52.2h.01M167.4 52.2h.01M271.8 52.2h.01M275.4 52.2h.01M279.0 52.2h.01M282.6 52.2h.01M286.2 52.2h.01M289.8 52.2h.01M293.4 52.2h.01M297.0 52.2h.01M300.6 52.2h.01M304.2 52.2h.01M307.8 52.2h.01M311.4 52.2h.01M315.0 52.2h.01M318.6 52.2h.01M322.2 52.2h.01M325.8 52.2h.01M329.4 52.2h.01M333.0 52.2h.01M336.6 52.2h.01M340.2 52.2h.01M343.8 52.2h.01M347.4 52.2h.01M351.0 52.2h.01M354.6 52.2h.01M358.2 52.2h.01M361.8 52.2h.01M365.4 52.2h.01M369.0 52.2h.01M372.6 52.2h.01M376.2 52.2h.01M379.8 52.2h.01M383.4 52.2h.01M387.0 52.2h.01M390.6 52.2h.01M394.2 52.2h.01M397.8 52.2h.01M401.4 52.2h.01M405.0 52.2h.01M408.6 52.2h.01M412.2 52.2h.01M415.8 52.2h.01M419.4 52.2h.01M423.0 52.2h.01M426.6 52.2h.01M430.2 52.2h.01M433.8 52.2h.01M437.4 52.2h.01M441.0 52.2h.01M444.6 52.2h.01M448.2 52.2h.01M451.8 52.2h.01M455.4 52.2h.01M459.0 52.2h.01M462.6 52.2h.01M466.2 52.2h.01M469.8 52.2h.01M473.4 52.2h.01M480.6 52.2h.01M135.0 55.8h.01M138.6 55.8h.01M160.2 55.8h.01M275.4 55.8h.01M279.0 55.8h.01M282.6 55.8h.01M286.2 55.8h.01M289.8 55.8h.01M293.4 55.8h.01M297.0 55.8h.01M300.6 55.8h.01M304.2 55.8h.01M322.2 55.8h.01M325.8 55.8h.01M329.4 55.8h.01M333.0 55.8h.01M340.2 55.8h.01M343.8 55.8h.01M347.4 55.8h.01M351.0 55.8h.01M354.6 55.8h.01M358.2 55.8h.01M361.8 55.8h.01M365.4 55.8h.01M369.0 55.8h.01M372.6 55.8h.01M376.2 55.8h.01M379.8 55.8h.01M383.4 55.8h.01M387.0 55.8h.01M390.6 55.8h.01M394.2 55.8h.01M397.8 55.8h.01M401.4 55.8h.01M405.0 55.8h.01M408.6 55.8h.01M412.2 55.8h.01M415.8 55.8h.01M419.4 55.8h.01M423.0 55.8h.01M426.6 55.8h.01M430.2 55.8h.01M433.8 55.8h.01M437.4 55.8h.01M441.0 55.8h.01M444.6 55.8h.01M448.2 55.8h.01M451.8 55.8h.01M455.4 55.8h.01M459.0 55.8h.01M462.6 55.8h.01M466.2 55.8h.01M469.8 55.8h.01M480.6 55.8h.01M484.2 55.8h.01M246.6 59.4h.01M275.4 59.4h.01M279.0 59.4h.01M282.6 59.4h.01M286.2 59.4h.01M289.8 59.4h.01M293.4 59.4h.01M297.0 59.4h.01M300.6 59.4h.01M304.2 59.4h.01M307.8 59.4h.01M311.4 59.4h.01M315.0 59.4h.01M318.6 59.4h.01M322.2 59.4h.01M325.8 59.4h.01M329.4 59.4h.01M333.0 59.4h.01M336.6 59.4h.01M343.8 59.4h.01M347.4 59.4h.01M351.0 59.4h.01M354.6 59.4h.01M358.2 59.4h.01M361.8 59.4h.01M365.4 59.4h.01M369.0 59.4h.01M372.6 59.4h.01M376.2 59.4h.01M379.8 59.4h.01M383.4 59.4h.01M387.0 59.4h.01M390.6 59.4h.01M394.2 59.4h.01M397.8 59.4h.01M401.4 59.4h.01M405.0 59.4h.01M408.6 59.4h.01M412.2 59.4h.01M415.8 59.4h.01M419.4 59.4h.01M423.0 59.4h.01M426.6 59.4h.01M430.2 59.4h.01M433.8 59.4h.01M437.4 59.4h.01M441.0 59.4h.01M444.6 59.4h.01M448.2 59.4h.01M451.8 59.4h.01M455.4 59.4h.01M459.0 59.4h.01M462.6 59.4h.01M480.6 59.4h.01M246.6 63.0h.01M275.4 63.0h.01M286.2 63.0h.01M293.4 63.0h.01M297.0 63.0h.01M304.2 63.0h.01M307.8 63.0h.01M311.4 63.0h.01M315.0 63.0h.01M318.6 63.0h.01M322.2 63.0h.01M325.8 63.0h.01M329.4 63.0h.01M333.0 63.0h.01M336.6 63.0h.01M343.8 63.0h.01M347.4 63.0h.01M351.0 63.0h.01M354.6 63.0h.01M358.2 63.0h.01M361.8 63.0h.01M365.4 63.0h.01M369.0 63.0h.01M372.6 63.0h.01M376.2 63.0h.01M379.8 63.0h.01M383.4 63.0h.01M387.0 63.0h.01M390.6 63.0h.01M394.2 63.0h.01M397.8 63.0h.01M401.4 63.0h.01M405.0 63.0h.01M408.6 63.0h.01M412.2 63.0h.01M415.8 63.0h.01M419.4 63.0h.01M423.0 63.0h.01M426.6 63.0h.01M430.2 63.0h.01M433.8 63.0h.01M437.4 63.0h.01M441.0 63.0h.01M444.6 63.0h.01M451.8 63.0h.01M455.4 63.0h.01M459.0 63.0h.01M477.0 63.0h.01M480.6 63.0h.01M261.0 66.6h.01M264.6 66.6h.01M268.2 66.6h.01M271.8 66.6h.01M275.4 66.6h.01M282.6 66.6h.01M297.0 66.6h.01M304.2 66.6h.01M307.8 66.6h.01M311.4 66.6h.01M315.0 66.6h.01M318.6 66.6h.01M322.2 66.6h.01M325.8 66.6h.01M329.4 66.6h.01M333.0 66.6h.01M336.6 66.6h.01M340.2 66.6h.01M343.8 66.6h.01M347.4 66.6h.01M351.0 66.6h.01M354.6 66.6h.01M358.2 66.6h.01M361.8 66.6h.01M365.4 66.6h.01M369.0 66.6h.01M372.6 66.6h.01M376.2 66.6h.01M379.8 66.6h.01M383.4 66.6h.01M387.0 66.6h.01M390.6 66.6h.01M394.2 66.6h.01M397.8 66.6h.01M401.4 66.6h.01M405.0 66.6h.01M408.6 66.6h.01M412.2 66.6h.01M415.8 66.6h.01M419.4 66.6h.01M423.0 66.6h.01M426.6 66.6h.01M430.2 66.6h.01M433.8 66.6h.01M437.4 66.6h.01M441.0 66.6h.01M444.6 66.6h.01M448.2 66.6h.01M459.0 66.6h.01M462.6 66.6h.01M473.4 66.6h.01M477.0 66.6h.01M250.2 70.2h.01M253.8 70.2h.01M257.4 70.2h.01M261.0 70.2h.01M264.6 70.2h.01M268.2 70.2h.01M271.8 70.2h.01M275.4 70.2h.01M315.0 70.2h.01M318.6 70.2h.01M322.2 70.2h.01M325.8 70.2h.01M329.4 70.2h.01M333.0 70.2h.01M336.6 70.2h.01M340.2 70.2h.01M343.8 70.2h.01M347.4 70.2h.01M351.0 70.2h.01M354.6 70.2h.01M358.2 70.2h.01M361.8 70.2h.01M365.4 70.2h.01M369.0 70.2h.01M372.6 70.2h.01M376.2 70.2h.01M379.8 70.2h.01M383.4 70.2h.01M387.0 70.2h.01M390.6 70.2h.01M394.2 70.2h.01M397.8 70.2h.01M401.4 70.2h.01M405.0 70.2h.01M408.6 70.2h.01M412.2 70.2h.01M415.8 70.2h.01M419.4 70.2h.01M423.0 70.2h.01M426.6 70.2h.01M430.2 70.2h.01M433.8 70.2h.01M437.4 70.2h.01M441.0 70.2h.01M444.6 70.2h.01M448.2 70.2h.01M459.0 70.2h.01M466.2 70.2h.01M469.8 70.2h.01M473.4 70.2h.01M477.0 70.2h.01M246.6 73.8h.01M250.2 73.8h.01M253.8 73.8h.01M257.4 73.8h.01M261.0 73.8h.01M264.6 73.8h.01M268.2 73.8h.01M271.8 73.8h.01M275.4 73.8h.01M279.0 73.8h.01M282.6 73.8h.01M293.4 73.8h.01M297.0 73.8h.01M300.6 73.8h.01M315.0 73.8h.01M318.6 73.8h.01M322.2 73.8h.01M325.8 73.8h.01M329.4 73.8h.01M333.0 73.8h.01M336.6 73.8h.01M340.2 73.8h.01M343.8 73.8h.01M347.4 73.8h.01M351.0 73.8h.01M354.6 73.8h.01M358.2 73.8h.01M361.8 73.8h.01M365.4 73.8h.01M369.0 73.8h.01M372.6 73.8h.01M376.2 73.8h.01M379.8 73.8h.01M383.4 73.8h.01M387.0 73.8h.01M390.6 73.8h.01M394.2 73.8h.01M397.8 73.8h.01M401.4 73.8h.01M405.0 73.8h.01M408.6 73.8h.01M412.2 73.8h.01M415.8 73.8h.01M419.4 73.8h.01M423.0 73.8h.01M426.6 73.8h.01M430.2 73.8h.01M433.8 73.8h.01M437.4 73.8h.01M441.0 73.8h.01M444.6 73.8h.01M448.2 73.8h.01M462.6 73.8h.01M466.2 73.8h.01M246.6 77.4h.01M250.2 77.4h.01M253.8 77.4h.01M257.4 77.4h.01M261.0 77.4h.01M264.6 77.4h.01M268.2 77.4h.01M271.8 77.4h.01M275.4 77.4h.01M279.0 77.4h.01M282.6 77.4h.01M286.2 77.4h.01M289.8 77.4h.01M293.4 77.4h.01M297.0 77.4h.01M300.6 77.4h.01M304.2 77.4h.01M307.8 77.4h.01M311.4 77.4h.01M315.0 77.4h.01M318.6 77.4h.01M322.2 77.4h.01M325.8 77.4h.01M329.4 77.4h.01M333.0 77.4h.01M336.6 77.4h.01M340.2 77.4h.01M343.8 77.4h.01M347.4 77.4h.01M351.0 77.4h.01M354.6 77.4h.01M358.2 77.4h.01M361.8 77.4h.01M365.4 77.4h.01M369.0 77.4h.01M372.6 77.4h.01M376.2 77.4h.01M379.8 77.4h.01M383.4 77.4h.01M387.0 77.4h.01M390.6 77.4h.01M394.2 77.4h.01M397.8 77.4h.01M401.4 77.4h.01M405.0 77.4h.01M408.6 77.4h.01M412.2 77.4h.01M415.8 77.4h.01M419.4 77.4h.01M423.0 77.4h.01M426.6 77.4h.01M430.2 77.4h.01M433.8 77.4h.01M437.4 77.4h.01M441.0 77.4h.01M444.6 77.4h.01M448.2 77.4h.01M239.4 81.0h.01M243.0 81.0h.01M246.6 81.0h.01M250.2 81.0h.01M253.8 81.0h.01M257.4 81.0h.01M261.0 81.0h.01M264.6 81.0h.01M268.2 81.0h.01M271.8 81.0h.01M275.4 81.0h.01M279.0 81.0h.01M282.6 81.0h.01M286.2 81.0h.01M289.8 81.0h.01M293.4 81.0h.01M297.0 81.0h.01M300.6 81.0h.01M304.2 81.0h.01M307.8 81.0h.01M311.4 81.0h.01M315.0 81.0h.01M318.6 81.0h.01M322.2 81.0h.01M325.8 81.0h.01M329.4 81.0h.01M333.0 81.0h.01M336.6 81.0h.01M343.8 81.0h.01M347.4 81.0h.01M351.0 81.0h.01M354.6 81.0h.01M358.2 81.0h.01M361.8 81.0h.01M365.4 81.0h.01M369.0 81.0h.01M372.6 81.0h.01M376.2 81.0h.01M379.8 81.0h.01M383.4 81.0h.01M387.0 81.0h.01M390.6 81.0h.01M394.2 81.0h.01M397.8 81.0h.01M401.4 81.0h.01M405.0 81.0h.01M408.6 81.0h.01M412.2 81.0h.01M415.8 81.0h.01M419.4 81.0h.01M423.0 81.0h.01M426.6 81.0h.01M430.2 81.0h.01M433.8 81.0h.01M437.4 81.0h.01M441.0 81.0h.01M444.6 81.0h.01M448.2 81.0h.01M239.4 84.6h.01M243.0 84.6h.01M246.6 84.6h.01M250.2 84.6h.01M253.8 84.6h.01M257.4 84.6h.01M261.0 84.6h.01M264.6 84.6h.01M268.2 84.6h.01M271.8 84.6h.01M275.4 84.6h.01M279.0 84.6h.01M282.6 84.6h.01M286.2 84.6h.01M289.8 84.6h.01M293.4 84.6h.01M297.0 84.6h.01M300.6 84.6h.01M304.2 84.6h.01M307.8 84.6h.01M311.4 84.6h.01M315.0 84.6h.01M318.6 84.6h.01M322.2 84.6h.01M325.8 84.6h.01M329.4 84.6h.01M333.0 84.6h.01M336.6 84.6h.01M340.2 84.6h.01M347.4 84.6h.01M354.6 84.6h.01M358.2 84.6h.01M361.8 84.6h.01M365.4 84.6h.01M369.0 84.6h.01M372.6 84.6h.01M376.2 84.6h.01M379.8 84.6h.01M383.4 84.6h.01M387.0 84.6h.01M390.6 84.6h.01M394.2 84.6h.01M397.8 84.6h.01M401.4 84.6h.01M405.0 84.6h.01M408.6 84.6h.01M412.2 84.6h.01M415.8 84.6h.01M419.4 84.6h.01M423.0 84.6h.01M426.6 84.6h.01M430.2 84.6h.01M433.8 84.6h.01M437.4 84.6h.01M441.0 84.6h.01M444.6 84.6h.01M448.2 84.6h.01M131.4 88.2h.01M135.0 88.2h.01M138.6 88.2h.01M235.8 88.2h.01M239.4 88.2h.01M243.0 88.2h.01M246.6 88.2h.01M250.2 88.2h.01M253.8 88.2h.01M257.4 88.2h.01M261.0 88.2h.01M264.6 88.2h.01M268.2 88.2h.01M271.8 88.2h.01M275.4 88.2h.01M279.0 88.2h.01M282.6 88.2h.01M286.2 88.2h.01M289.8 88.2h.01M293.4 88.2h.01M297.0 88.2h.01M300.6 88.2h.01M304.2 88.2h.01M307.8 88.2h.01M311.4 88.2h.01M315.0 88.2h.01M322.2 88.2h.01M325.8 88.2h.01M329.4 88.2h.01M333.0 88.2h.01M336.6 88.2h.01M340.2 88.2h.01M343.8 88.2h.01M347.4 88.2h.01M351.0 88.2h.01M369.0 88.2h.01M372.6 88.2h.01M376.2 88.2h.01M379.8 88.2h.01M383.4 88.2h.01M387.0 88.2h.01M390.6 88.2h.01M394.2 88.2h.01M397.8 88.2h.01M401.4 88.2h.01M405.0 88.2h.01M408.6 88.2h.01M412.2 88.2h.01M415.8 88.2h.01M419.4 88.2h.01M423.0 88.2h.01M426.6 88.2h.01M430.2 88.2h.01M433.8 88.2h.01M437.4 88.2h.01M441.0 88.2h.01M448.2 88.2h.01M142.2 91.8h.01M149.4 91.8h.01M235.8 91.8h.01M239.4 91.8h.01M243.0 91.8h.01M246.6 91.8h.01M250.2 91.8h.01M253.8 91.8h.01M257.4 91.8h.01M261.0 91.8h.01M264.6 91.8h.01M268.2 91.8h.01M271.8 91.8h.01M275.4 91.8h.01M279.0 91.8h.01M282.6 91.8h.01M286.2 91.8h.01M289.8 91.8h.01M293.4 91.8h.01M297.0 91.8h.01M300.6 91.8h.01M304.2 91.8h.01M307.8 91.8h.01M311.4 91.8h.01M315.0 91.8h.01M318.6 91.8h.01M322.2 91.8h.01M325.8 91.8h.01M329.4 91.8h.01M333.0 91.8h.01M336.6 91.8h.01M340.2 91.8h.01M343.8 91.8h.01M347.4 91.8h.01M351.0 91.8h.01M372.6 91.8h.01M376.2 91.8h.01M379.8 91.8h.01M383.4 91.8h.01M387.0 91.8h.01M390.6 91.8h.01M394.2 91.8h.01M405.0 91.8h.01M408.6 91.8h.01M412.2 91.8h.01M415.8 91.8h.01M419.4 91.8h.01M423.0 91.8h.01M426.6 91.8h.01M430.2 91.8h.01M124.2 95.4h.01M149.4 95.4h.01M153.0 95.4h.01M235.8 95.4h.01M239.4 95.4h.01M243.0 95.4h.01M246.6 95.4h.01M250.2 95.4h.01M253.8 95.4h.01M257.4 95.4h.01M261.0 95.4h.01M264.6 95.4h.01M268.2 95.4h.01M271.8 95.4h.01M275.4 95.4h.01M279.0 95.4h.01M282.6 95.4h.01M286.2 95.4h.01M289.8 95.4h.01M293.4 95.4h.01M297.0 95.4h.01M300.6 95.4h.01M304.2 95.4h.01M307.8 95.4h.01M311.4 95.4h.01M315.0 95.4h.01M318.6 95.4h.01M325.8 95.4h.01M329.4 95.4h.01M333.0 95.4h.01M336.6 95.4h.01M340.2 95.4h.01M343.8 95.4h.01M347.4 95.4h.01M376.2 95.4h.01M379.8 95.4h.01M383.4 95.4h.01M387.0 95.4h.01M390.6 95.4h.01M408.6 95.4h.01M412.2 95.4h.01M415.8 95.4h.01M419.4 95.4h.01M423.0 95.4h.01M426.6 95.4h.01M430.2 95.4h.01M448.2 95.4h.01M120.6 99.0h.01M124.2 99.0h.01M127.8 99.0h.01M131.4 99.0h.01M235.8 99.0h.01M239.4 99.0h.01M243.0 99.0h.01M246.6 99.0h.01M250.2 99.0h.01M253.8 99.0h.01M257.4 99.0h.01M261.0 99.0h.01M264.6 99.0h.01M268.2 99.0h.01M271.8 99.0h.01M275.4 99.0h.01M279.0 99.0h.01M282.6 99.0h.01M286.2 99.0h.01M289.8 99.0h.01M293.4 99.0h.01M297.0 99.0h.01M300.6 99.0h.01M304.2 99.0h.01M307.8 99.0h.01M311.4 99.0h.01M315.0 99.0h.01M318.6 99.0h.01M322.2 99.0h.01M329.4 99.0h.01M333.0 99.0h.01M336.6 99.0h.01M340.2 99.0h.01M376.2 99.0h.01M379.8 99.0h.01M383.4 99.0h.01M387.0 99.0h.01M408.6 99.0h.01M412.2 99.0h.01M415.8 99.0h.01M419.4 99.0h.01M423.0 99.0h.01M426.6 99.0h.01M430.2 99.0h.01M448.2 99.0h.01M120.6 102.6h.01M124.2 102.6h.01M127.8 102.6h.01M131.4 102.6h.01M235.8 102.6h.01M239.4 102.6h.01M243.0 102.6h.01M246.6 102.6h.01M250.2 102.6h.01M253.8 102.6h.01M257.4 102.6h.01M261.0 102.6h.01M264.6 102.6h.01M268.2 102.6h.01M271.8 102.6h.01M275.4 102.6h.01M279.0 102.6h.01M282.6 102.6h.01M286.2 102.6h.01M289.8 102.6h.01M293.4 102.6h.01M297.0 102.6h.01M300.6 102.6h.01M304.2 102.6h.01M307.8 102.6h.01M311.4 102.6h.01M315.0 102.6h.01M318.6 102.6h.01M322.2 102.6h.01M325.8 102.6h.01M329.4 102.6h.01M333.0 102.6h.01M376.2 102.6h.01M379.8 102.6h.01M383.4 102.6h.01M412.2 102.6h.01M415.8 102.6h.01M419.4 102.6h.01M423.0 102.6h.01M426.6 102.6h.01M430.2 102.6h.01M448.2 102.6h.01M451.8 102.6h.01M127.8 106.2h.01M131.4 106.2h.01M145.8 106.2h.01M149.4 106.2h.01M153.0 106.2h.01M156.6 106.2h.01M160.2 106.2h.01M163.8 106.2h.01M235.8 106.2h.01M239.4 106.2h.01M243.0 106.2h.01M246.6 106.2h.01M250.2 106.2h.01M253.8 106.2h.01M257.4 106.2h.01M261.0 106.2h.01M264.6 106.2h.01M268.2 106.2h.01M271.8 106.2h.01M275.4 106.2h.01M279.0 106.2h.01M282.6 106.2h.01M286.2 106.2h.01M289.8 106.2h.01M293.4 106.2h.01M297.0 106.2h.01M300.6 106.2h.01M304.2 106.2h.01M307.8 106.2h.01M311.4 106.2h.01M315.0 106.2h.01M318.6 106.2h.01M322.2 106.2h.01M325.8 106.2h.01M329.4 106.2h.01M333.0 106.2h.01M336.6 106.2h.01M340.2 106.2h.01M379.8 106.2h.01M383.4 106.2h.01M415.8 106.2h.01M423.0 106.2h.01M426.6 106.2h.01M451.8 106.2h.01M455.4 106.2h.01M131.4 109.8h.01M135.0 109.8h.01M138.6 109.8h.01M142.2 109.8h.01M145.8 109.8h.01M149.4 109.8h.01M153.0 109.8h.01M156.6 109.8h.01M160.2 109.8h.01M163.8 109.8h.01M167.4 109.8h.01M243.0 109.8h.01M246.6 109.8h.01M250.2 109.8h.01M253.8 109.8h.01M257.4 109.8h.01M261.0 109.8h.01M264.6 109.8h.01M268.2 109.8h.01M271.8 109.8h.01M275.4 109.8h.01M279.0 109.8h.01M282.6 109.8h.01M286.2 109.8h.01M289.8 109.8h.01M293.4 109.8h.01M297.0 109.8h.01M300.6 109.8h.01M304.2 109.8h.01M307.8 109.8h.01M311.4 109.8h.01M315.0 109.8h.01M318.6 109.8h.01M322.2 109.8h.01M325.8 109.8h.01M329.4 109.8h.01M333.0 109.8h.01M336.6 109.8h.01M379.8 109.8h.01M383.4 109.8h.01M387.0 109.8h.01M415.8 109.8h.01M451.8 109.8h.01M455.4 109.8h.01M142.2 113.4h.01M145.8 113.4h.01M149.4 113.4h.01M153.0 113.4h.01M156.6 113.4h.01M160.2 113.4h.01M163.8 113.4h.01M167.4 113.4h.01M171.0 113.4h.01M174.6 113.4h.01M243.0 113.4h.01M246.6 113.4h.01M250.2 113.4h.01M253.8 113.4h.01M257.4 113.4h.01M261.0 113.4h.01M264.6 113.4h.01M268.2 113.4h.01M271.8 113.4h.01M275.4 113.4h.01M279.0 113.4h.01M282.6 113.4h.01M286.2 113.4h.01M289.8 113.4h.01M293.4 113.4h.01M297.0 113.4h.01M300.6 113.4h.01M304.2 113.4h.01M307.8 113.4h.01M311.4 113.4h.01M315.0 113.4h.01M318.6 113.4h.01M322.2 113.4h.01M325.8 113.4h.01M329.4 113.4h.01M333.0 113.4h.01M336.6 113.4h.01M387.0 113.4h.01M415.8 113.4h.01M419.4 113.4h.01M441.0 113.4h.01M444.6 113.4h.01M455.4 113.4h.01M142.2 117.0h.01M145.8 117.0h.01M149.4 117.0h.01M153.0 117.0h.01M156.6 117.0h.01M160.2 117.0h.01M171.0 117.0h.01M174.6 117.0h.01M271.8 117.0h.01M275.4 117.0h.01M279.0 117.0h.01M282.6 117.0h.01M286.2 117.0h.01M289.8 117.0h.01M293.4 117.0h.01M297.0 117.0h.01M300.6 117.0h.01M304.2 117.0h.01M307.8 117.0h.01M311.4 117.0h.01M315.0 117.0h.01M318.6 117.0h.01M322.2 117.0h.01M325.8 117.0h.01M329.4 117.0h.01M333.0 117.0h.01M412.2 117.0h.01M415.8 117.0h.01M419.4 117.0h.01M437.4 117.0h.01M441.0 117.0h.01M444.6 117.0h.01M138.6 120.6h.01M142.2 120.6h.01M145.8 120.6h.01M149.4 120.6h.01M153.0 120.6h.01M156.6 120.6h.01M160.2 120.6h.01M275.4 120.6h.01M279.0 120.6h.01M282.6 120.6h.01M286.2 120.6h.01M289.8 120.6h.01M293.4 120.6h.01M297.0 120.6h.01M300.6 120.6h.01M304.2 120.6h.01M307.8 120.6h.01M311.4 120.6h.01M315.0 120.6h.01M318.6 120.6h.01M322.2 120.6h.01M325.8 120.6h.01M329.4 120.6h.01M415.8 120.6h.01M419.4 120.6h.01M430.2 120.6h.01M433.8 120.6h.01M437.4 120.6h.01M441.0 120.6h.01M444.6 120.6h.01M448.2 120.6h.01M459.0 120.6h.01M135.0 124.2h.01M138.6 124.2h.01M142.2 124.2h.01M145.8 124.2h.01M149.4 124.2h.01M153.0 124.2h.01M275.4 124.2h.01M279.0 124.2h.01M282.6 124.2h.01M286.2 124.2h.01M289.8 124.2h.01M293.4 124.2h.01M297.0 124.2h.01M300.6 124.2h.01M304.2 124.2h.01M307.8 124.2h.01M311.4 124.2h.01M315.0 124.2h.01M318.6 124.2h.01M322.2 124.2h.01M325.8 124.2h.01M415.8 124.2h.01M419.4 124.2h.01M423.0 124.2h.01M430.2 124.2h.01M433.8 124.2h.01M437.4 124.2h.01M441.0 124.2h.01M448.2 124.2h.01M466.2 124.2h.01M135.0 127.8h.01M138.6 127.8h.01M142.2 127.8h.01M145.8 127.8h.01M149.4 127.8h.01M279.0 127.8h.01M282.6 127.8h.01M286.2 127.8h.01M289.8 127.8h.01M293.4 127.8h.01M297.0 127.8h.01M300.6 127.8h.01M304.2 127.8h.01M307.8 127.8h.01M311.4 127.8h.01M315.0 127.8h.01M318.6 127.8h.01M322.2 127.8h.01M419.4 127.8h.01M423.0 127.8h.01M433.8 127.8h.01M437.4 127.8h.01M441.0 127.8h.01M448.2 127.8h.01M466.2 127.8h.01M469.8 127.8h.01M473.4 127.8h.01M477.0 127.8h.01M480.6 127.8h.01M484.2 127.8h.01M135.0 131.4h.01M138.6 131.4h.01M142.2 131.4h.01M145.8 131.4h.01M279.0 131.4h.01M282.6 131.4h.01M286.2 131.4h.01M289.8 131.4h.01M293.4 131.4h.01M297.0 131.4h.01M300.6 131.4h.01M304.2 131.4h.01M307.8 131.4h.01M311.4 131.4h.01M315.0 131.4h.01M318.6 131.4h.01M322.2 131.4h.01M423.0 131.4h.01M426.6 131.4h.01M448.2 131.4h.01M473.4 131.4h.01M477.0 131.4h.01M480.6 131.4h.01M484.2 131.4h.01M487.8 131.4h.01M495.0 131.4h.01M138.6 135.0h.01M142.2 135.0h.01M145.8 135.0h.01M282.6 135.0h.01M286.2 135.0h.01M289.8 135.0h.01M293.4 135.0h.01M297.0 135.0h.01M300.6 135.0h.01M304.2 135.0h.01M307.8 135.0h.01M311.4 135.0h.01M315.0 135.0h.01M318.6 135.0h.01M322.2 135.0h.01M426.6 135.0h.01M430.2 135.0h.01M433.8 135.0h.01M437.4 135.0h.01M444.6 135.0h.01M477.0 135.0h.01M480.6 135.0h.01M484.2 135.0h.01M487.8 135.0h.01M142.2 138.6h.01M145.8 138.6h.01M149.4 138.6h.01M282.6 138.6h.01M286.2 138.6h.01M289.8 138.6h.01M293.4 138.6h.01M297.0 138.6h.01M300.6 138.6h.01M304.2 138.6h.01M307.8 138.6h.01M311.4 138.6h.01M315.0 138.6h.01M318.6 138.6h.01M322.2 138.6h.01M455.4 138.6h.01M480.6 138.6h.01M491.4 138.6h.01M142.2 142.2h.01M145.8 142.2h.01M149.4 142.2h.01M153.0 142.2h.01M156.6 142.2h.01M160.2 142.2h.01M282.6 142.2h.01M286.2 142.2h.01M289.8 142.2h.01M293.4 142.2h.01M297.0 142.2h.01M300.6 142.2h.01M304.2 142.2h.01M307.8 142.2h.01M311.4 142.2h.01M315.0 142.2h.01M318.6 142.2h.01M322.2 142.2h.01M336.6 142.2h.01M466.2 142.2h.01M469.8 142.2h.01M473.4 142.2h.01M480.6 142.2h.01M145.8 145.8h.01M149.4 145.8h.01M153.0 145.8h.01M156.6 145.8h.01M160.2 145.8h.01M163.8 145.8h.01M279.0 145.8h.01M282.6 145.8h.01M286.2 145.8h.01M289.8 145.8h.01M293.4 145.8h.01M297.0 145.8h.01M300.6 145.8h.01M304.2 145.8h.01M307.8 145.8h.01M311.4 145.8h.01M315.0 145.8h.01M318.6 145.8h.01M322.2 145.8h.01M333.0 145.8h.01M336.6 145.8h.01M455.4 145.8h.01M459.0 145.8h.01M462.6 145.8h.01M466.2 145.8h.01M469.8 145.8h.01M480.6 145.8h.01M484.2 145.8h.01M149.4 149.4h.01M153.0 149.4h.01M156.6 149.4h.01M160.2 149.4h.01M163.8 149.4h.01M167.4 149.4h.01M171.0 149.4h.01M279.0 149.4h.01M282.6 149.4h.01M286.2 149.4h.01M289.8 149.4h.01M293.4 149.4h.01M297.0 149.4h.01M300.6 149.4h.01M304.2 149.4h.01M307.8 149.4h.01M311.4 149.4h.01M315.0 149.4h.01M318.6 149.4h.01M322.2 149.4h.01M329.4 149.4h.01M333.0 149.4h.01M336.6 149.4h.01M451.8 149.4h.01M455.4 149.4h.01M459.0 149.4h.01M462.6 149.4h.01M466.2 149.4h.01M469.8 149.4h.01M473.4 149.4h.01M477.0 149.4h.01M480.6 149.4h.01M484.2 149.4h.01M487.8 149.4h.01M538.2 149.4h.01M153.0 153.0h.01M156.6 153.0h.01M160.2 153.0h.01M163.8 153.0h.01M167.4 153.0h.01M282.6 153.0h.01M286.2 153.0h.01M289.8 153.0h.01M293.4 153.0h.01M297.0 153.0h.01M300.6 153.0h.01M304.2 153.0h.01M307.8 153.0h.01M311.4 153.0h.01M315.0 153.0h.01M329.4 153.0h.01M333.0 153.0h.01M336.6 153.0h.01M448.2 153.0h.01M451.8 153.0h.01M455.4 153.0h.01M459.0 153.0h.01M462.6 153.0h.01M466.2 153.0h.01M469.8 153.0h.01M473.4 153.0h.01M477.0 153.0h.01M480.6 153.0h.01M484.2 153.0h.01M487.8 153.0h.01M153.0 156.6h.01M156.6 156.6h.01M160.2 156.6h.01M163.8 156.6h.01M167.4 156.6h.01M171.0 156.6h.01M282.6 156.6h.01M286.2 156.6h.01M289.8 156.6h.01M293.4 156.6h.01M297.0 156.6h.01M300.6 156.6h.01M304.2 156.6h.01M307.8 156.6h.01M311.4 156.6h.01M315.0 156.6h.01M329.4 156.6h.01M333.0 156.6h.01M437.4 156.6h.01M441.0 156.6h.01M444.6 156.6h.01M448.2 156.6h.01M451.8 156.6h.01M455.4 156.6h.01M459.0 156.6h.01M462.6 156.6h.01M466.2 156.6h.01M469.8 156.6h.01M473.4 156.6h.01M477.0 156.6h.01M480.6 156.6h.01M484.2 156.6h.01M487.8 156.6h.01M491.4 156.6h.01M153.0 160.2h.01M171.0 160.2h.01M174.6 160.2h.01M282.6 160.2h.01M286.2 160.2h.01M289.8 160.2h.01M293.4 160.2h.01M297.0 160.2h.01M300.6 160.2h.01M304.2 160.2h.01M307.8 160.2h.01M311.4 160.2h.01M315.0 160.2h.01M329.4 160.2h.01M333.0 160.2h.01M437.4 160.2h.01M441.0 160.2h.01M444.6 160.2h.01M448.2 160.2h.01M451.8 160.2h.01M455.4 160.2h.01M459.0 160.2h.01M462.6 160.2h.01M466.2 160.2h.01M469.8 160.2h.01M473.4 160.2h.01M477.0 160.2h.01M480.6 160.2h.01M484.2 160.2h.01M487.8 160.2h.01M491.4 160.2h.01M495.0 160.2h.01M153.0 163.8h.01M171.0 163.8h.01M174.6 163.8h.01M286.2 163.8h.01M289.8 163.8h.01M293.4 163.8h.01M297.0 163.8h.01M300.6 163.8h.01M304.2 163.8h.01M307.8 163.8h.01M311.4 163.8h.01M437.4 163.8h.01M441.0 163.8h.01M444.6 163.8h.01M448.2 163.8h.01M451.8 163.8h.01M455.4 163.8h.01M459.0 163.8h.01M462.6 163.8h.01M466.2 163.8h.01M469.8 163.8h.01M473.4 163.8h.01M477.0 163.8h.01M480.6 163.8h.01M484.2 163.8h.01M487.8 163.8h.01M491.4 163.8h.01M495.0 163.8h.01M498.6 163.8h.01M149.4 167.4h.01M286.2 167.4h.01M289.8 167.4h.01M293.4 167.4h.01M297.0 167.4h.01M300.6 167.4h.01M304.2 167.4h.01M307.8 167.4h.01M441.0 167.4h.01M444.6 167.4h.01M448.2 167.4h.01M451.8 167.4h.01M455.4 167.4h.01M459.0 167.4h.01M462.6 167.4h.01M466.2 167.4h.01M469.8 167.4h.01M473.4 167.4h.01M477.0 167.4h.01M480.6 167.4h.01M484.2 167.4h.01M487.8 167.4h.01M491.4 167.4h.01M495.0 167.4h.01M498.6 167.4h.01M149.4 171.0h.01M171.0 171.0h.01M174.6 171.0h.01M289.8 171.0h.01M293.4 171.0h.01M297.0 171.0h.01M300.6 171.0h.01M304.2 171.0h.01M307.8 171.0h.01M441.0 171.0h.01M444.6 171.0h.01M448.2 171.0h.01M451.8 171.0h.01M455.4 171.0h.01M459.0 171.0h.01M462.6 171.0h.01M466.2 171.0h.01M469.8 171.0h.01M473.4 171.0h.01M477.0 171.0h.01M480.6 171.0h.01M484.2 171.0h.01M487.8 171.0h.01M491.4 171.0h.01M495.0 171.0h.01M498.6 171.0h.01M149.4 174.6h.01M171.0 174.6h.01M174.6 174.6h.01M178.2 174.6h.01M289.8 174.6h.01M293.4 174.6h.01M297.0 174.6h.01M300.6 174.6h.01M441.0 174.6h.01M444.6 174.6h.01M448.2 174.6h.01M451.8 174.6h.01M469.8 174.6h.01M473.4 174.6h.01M477.0 174.6h.01M480.6 174.6h.01M484.2 174.6h.01M487.8 174.6h.01M491.4 174.6h.01M495.0 174.6h.01M149.4 178.2h.01M477.0 178.2h.01M480.6 178.2h.01M484.2 178.2h.01M487.8 178.2h.01M491.4 178.2h.01M495.0 178.2h.01M531.0 178.2h.01M149.4 181.8h.01M480.6 181.8h.01M484.2 181.8h.01M487.8 181.8h.01M491.4 181.8h.01M531.0 181.8h.01M534.6 181.8h.01M538.2 181.8h.01M145.8 185.4h.01M149.4 185.4h.01M487.8 185.4h.01M531.0 185.4h.01M534.6 185.4h.01M145.8 189.0h.01M149.4 189.0h.01M487.8 189.0h.01M527.4 189.0h.01M531.0 189.0h.01M145.8 192.6h.01M149.4 192.6h.01M520.2 192.6h.01M523.8 192.6h.01M145.8 196.2h.01M145.8 199.8h.01M369.0 199.8h.01M145.8 203.4h.01M149.4 203.4h.01M153.0 203.4h.01M167.4 203.4h.01M149.4 207.0h.01M153.0 207.0h.01"/>
+<path class="m1" d="M268.2 41.4h.01M81.0 73.8h.01M81.0 77.4h.01M84.6 77.4h.01M88.2 77.4h.01M91.8 77.4h.01M95.4 77.4h.01M99.0 77.4h.01M84.6 81.0h.01M88.2 81.0h.01M91.8 81.0h.01M95.4 81.0h.01M99.0 81.0h.01M102.6 81.0h.01M106.2 81.0h.01M88.2 84.6h.01M91.8 84.6h.01M95.4 84.6h.01M99.0 84.6h.01M102.6 84.6h.01M106.2 84.6h.01M109.8 84.6h.01M95.4 88.2h.01M99.0 88.2h.01M102.6 88.2h.01M106.2 88.2h.01M109.8 88.2h.01M99.0 91.8h.01M102.6 91.8h.01M106.2 91.8h.01M109.8 91.8h.01M120.6 91.8h.01M124.2 91.8h.01M102.6 95.4h.01M106.2 95.4h.01M109.8 95.4h.01M113.4 95.4h.01M117.0 95.4h.01M120.6 95.4h.01M109.8 99.0h.01M113.4 99.0h.01M117.0 99.0h.01M163.8 117.0h.01M167.4 117.0h.01M181.8 117.0h.01M163.8 120.6h.01M167.4 120.6h.01M171.0 120.6h.01M174.6 120.6h.01M178.2 120.6h.01M181.8 120.6h.01M156.6 124.2h.01M160.2 124.2h.01M163.8 124.2h.01M167.4 124.2h.01M171.0 124.2h.01M174.6 124.2h.01M178.2 124.2h.01M181.8 124.2h.01M185.4 124.2h.01M189.0 124.2h.01M153.0 127.8h.01M156.6 127.8h.01M160.2 127.8h.01M163.8 127.8h.01M167.4 127.8h.01M171.0 127.8h.01M174.6 127.8h.01M178.2 127.8h.01M181.8 127.8h.01M185.4 127.8h.01M189.0 127.8h.01M192.6 127.8h.01M196.2 127.8h.01M199.8 127.8h.01M149.4 131.4h.01M153.0 131.4h.01M156.6 131.4h.01M160.2 131.4h.01M163.8 131.4h.01M167.4 131.4h.01M171.0 131.4h.01M174.6 131.4h.01M178.2 131.4h.01M181.8 131.4h.01M185.4 131.4h.01M189.0 131.4h.01M192.6 131.4h.01M196.2 131.4h.01M199.8 131.4h.01M203.4 131.4h.01M149.4 135.0h.01M153.0 135.0h.01M156.6 135.0h.01M160.2 135.0h.01M163.8 135.0h.01M167.4 135.0h.01M171.0 135.0h.01M174.6 135.0h.01M178.2 135.0h.01M181.8 135.0h.01M185.4 135.0h.01M189.0 135.0h.01M192.6 135.0h.01M196.2 135.0h.01M199.8 135.0h.01M203.4 135.0h.01M207.0 135.0h.01M153.0 138.6h.01M156.6 138.6h.01M160.2 138.6h.01M163.8 138.6h.01M167.4 138.6h.01M171.0 138.6h.01M174.6 138.6h.01M178.2 138.6h.01M181.8 138.6h.01M185.4 138.6h.01M189.0 138.6h.01M192.6 138.6h.01M196.2 138.6h.01M199.8 138.6h.01M203.4 138.6h.01M163.8 142.2h.01M167.4 142.2h.01M171.0 142.2h.01M174.6 142.2h.01M178.2 142.2h.01M181.8 142.2h.01M185.4 142.2h.01M189.0 142.2h.01M192.6 142.2h.01M196.2 142.2h.01M199.8 142.2h.01M167.4 145.8h.01M171.0 145.8h.01M174.6 145.8h.01M178.2 145.8h.01M181.8 145.8h.01M185.4 145.8h.01M189.0 145.8h.01M192.6 145.8h.01M196.2 145.8h.01M199.8 145.8h.01M174.6 149.4h.01M178.2 149.4h.01M181.8 149.4h.01M185.4 149.4h.01M189.0 149.4h.01M192.6 149.4h.01M196.2 149.4h.01M199.8 149.4h.01M171.0 153.0h.01M174.6 153.0h.01M178.2 153.0h.01M181.8 153.0h.01M185.4 153.0h.01M189.0 153.0h.01M192.6 153.0h.01M196.2 153.0h.01M199.8 153.0h.01M174.6 156.6h.01M178.2 156.6h.01M181.8 156.6h.01M185.4 156.6h.01M189.0 156.6h.01M192.6 156.6h.01M196.2 156.6h.01M156.6 160.2h.01M160.2 160.2h.01M163.8 160.2h.01M167.4 160.2h.01M178.2 160.2h.01M181.8 160.2h.01M185.4 160.2h.01M189.0 160.2h.01M156.6 163.8h.01M160.2 163.8h.01M163.8 163.8h.01M167.4 163.8h.01M178.2 163.8h.01M181.8 163.8h.01M185.4 163.8h.01M153.0 167.4h.01M156.6 167.4h.01M160.2 167.4h.01M163.8 167.4h.01M167.4 167.4h.01M171.0 167.4h.01M174.6 167.4h.01M178.2 167.4h.01M181.8 167.4h.01M153.0 171.0h.01M156.6 171.0h.01M160.2 171.0h.01M163.8 171.0h.01M167.4 171.0h.01M178.2 171.0h.01M181.8 171.0h.01M153.0 174.6h.01M156.6 174.6h.01M160.2 174.6h.01M163.8 174.6h.01M167.4 174.6h.01M153.0 178.2h.01M156.6 178.2h.01M160.2 178.2h.01M163.8 178.2h.01M167.4 178.2h.01M171.0 178.2h.01M153.0 181.8h.01M156.6 181.8h.01M160.2 181.8h.01M163.8 181.8h.01M167.4 181.8h.01M171.0 181.8h.01M153.0 185.4h.01M156.6 185.4h.01M160.2 185.4h.01M163.8 185.4h.01M153.0 189.0h.01M156.6 189.0h.01M160.2 189.0h.01M153.0 192.6h.01M156.6 192.6h.01M149.4 196.2h.01M153.0 196.2h.01M156.6 196.2h.01M149.4 199.8h.01M153.0 199.8h.01M156.6 207.0h.01"/>
+<path class="m2" d="M253.8 34.2h.01M257.4 34.2h.01M250.2 37.8h.01M253.8 37.8h.01M257.4 37.8h.01M253.8 41.4h.01M257.4 41.4h.01M261.0 41.4h.01M253.8 45.0h.01M257.4 45.0h.01M261.0 45.0h.01M264.6 45.0h.01M257.4 48.6h.01M261.0 48.6h.01M264.6 48.6h.01M268.2 48.6h.01M271.8 48.6h.01M257.4 52.2h.01M261.0 52.2h.01M264.6 52.2h.01M268.2 52.2h.01M261.0 55.8h.01M264.6 55.8h.01M268.2 55.8h.01M271.8 55.8h.01M178.2 117.0h.01"/>
+<path class="m3" d="M9.0 16.2h.01M12.6 16.2h.01M16.2 16.2h.01M19.8 16.2h.01M23.4 16.2h.01M27.0 16.2h.01M30.6 16.2h.01M34.2 16.2h.01M37.8 16.2h.01M41.4 16.2h.01M5.4 19.8h.01M9.0 19.8h.01M12.6 19.8h.01M16.2 19.8h.01M19.8 19.8h.01M23.4 19.8h.01M27.0 19.8h.01M30.6 19.8h.01M34.2 19.8h.01M37.8 19.8h.01M41.4 19.8h.01M1.8 23.4h.01M5.4 23.4h.01M9.0 23.4h.01M12.6 23.4h.01M16.2 23.4h.01M19.8 23.4h.01M23.4 23.4h.01M27.0 23.4h.01M30.6 23.4h.01M34.2 23.4h.01M37.8 23.4h.01M41.4 23.4h.01M5.4 27.0h.01M9.0 27.0h.01M12.6 27.0h.01M16.2 27.0h.01M19.8 27.0h.01M23.4 27.0h.01M27.0 27.0h.01M30.6 27.0h.01M34.2 27.0h.01M37.8 27.0h.01M41.4 27.0h.01M5.4 30.6h.01M9.0 30.6h.01M12.6 30.6h.01M16.2 30.6h.01M19.8 30.6h.01M23.4 30.6h.01M27.0 30.6h.01M30.6 30.6h.01M34.2 30.6h.01M37.8 30.6h.01M41.4 30.6h.01M16.2 34.2h.01M19.8 34.2h.01M23.4 34.2h.01M48.6 34.2h.01M52.2 34.2h.01M9.0 37.8h.01M12.6 37.8h.01M55.8 37.8h.01M271.8 41.4h.01M275.4 41.4h.01M279.0 41.4h.01M282.6 41.4h.01M271.8 45.0h.01M275.4 45.0h.01M279.0 45.0h.01M70.2 48.6h.01M73.8 48.6h.01M77.4 48.6h.01M81.0 48.6h.01M84.6 48.6h.01M88.2 48.6h.01M91.8 48.6h.01M95.4 48.6h.01M99.0 48.6h.01M102.6 48.6h.01M106.2 48.6h.01M109.8 48.6h.01M113.4 48.6h.01M117.0 48.6h.01M275.4 48.6h.01M279.0 48.6h.01M70.2 52.2h.01M73.8 52.2h.01M77.4 52.2h.01M81.0 52.2h.01M84.6 52.2h.01M88.2 52.2h.01M91.8 52.2h.01M95.4 52.2h.01M99.0 52.2h.01M102.6 52.2h.01M106.2 52.2h.01M109.8 52.2h.01M113.4 52.2h.01M117.0 52.2h.01M120.6 52.2h.01M124.2 52.2h.01M127.8 52.2h.01M153.0 52.2h.01M70.2 55.8h.01M73.8 55.8h.01M77.4 55.8h.01M81.0 55.8h.01M84.6 55.8h.01M88.2 55.8h.01M91.8 55.8h.01M95.4 55.8h.01M99.0 55.8h.01M102.6 55.8h.01M106.2 55.8h.01M109.8 55.8h.01M113.4 55.8h.01M117.0 55.8h.01M120.6 55.8h.01M124.2 55.8h.01M127.8 55.8h.01M131.4 55.8h.01M142.2 55.8h.01M145.8 55.8h.01M149.4 55.8h.01M153.0 55.8h.01M70.2 59.4h.01M73.8 59.4h.01M77.4 59.4h.01M81.0 59.4h.01M84.6 59.4h.01M88.2 59.4h.01M91.8 59.4h.01M95.4 59.4h.01M99.0 59.4h.01M102.6 59.4h.01M106.2 59.4h.01M109.8 59.4h.01M113.4 59.4h.01M117.0 59.4h.01M120.6 59.4h.01M124.2 59.4h.01M127.8 59.4h.01M131.4 59.4h.01M135.0 59.4h.01M138.6 59.4h.01M142.2 59.4h.01M145.8 59.4h.01M149.4 59.4h.01M70.2 63.0h.01M73.8 63.0h.01M77.4 63.0h.01M81.0 63.0h.01M84.6 63.0h.01M88.2 63.0h.01M91.8 63.0h.01M95.4 63.0h.01M99.0 63.0h.01M102.6 63.0h.01M106.2 63.0h.01M109.8 63.0h.01M113.4 63.0h.01M117.0 63.0h.01M120.6 63.0h.01M124.2 63.0h.01M127.8 63.0h.01M131.4 63.0h.01M135.0 63.0h.01M138.6 63.0h.01M142.2 63.0h.01M145.8 63.0h.01M73.8 66.6h.01M77.4 66.6h.01M81.0 66.6h.01M84.6 66.6h.01M88.2 66.6h.01M91.8 66.6h.01M95.4 66.6h.01M99.0 66.6h.01M102.6 66.6h.01M106.2 66.6h.01M109.8 66.6h.01M113.4 66.6h.01M117.0 66.6h.01M120.6 66.6h.01M124.2 66.6h.01M127.8 66.6h.01M131.4 66.6h.01M135.0 66.6h.01M138.6 66.6h.01M142.2 66.6h.01M73.8 70.2h.01M77.4 70.2h.01M81.0 70.2h.01M84.6 70.2h.01M88.2 70.2h.01M91.8 70.2h.01M95.4 70.2h.01M99.0 70.2h.01M102.6 70.2h.01M106.2 70.2h.01M109.8 70.2h.01M113.4 70.2h.01M117.0 70.2h.01M120.6 70.2h.01M124.2 70.2h.01M127.8 70.2h.01M131.4 70.2h.01M135.0 70.2h.01M138.6 70.2h.01M142.2 70.2h.01M84.6 73.8h.01M88.2 73.8h.01M91.8 73.8h.01M95.4 73.8h.01M99.0 73.8h.01M102.6 73.8h.01M106.2 73.8h.01M109.8 73.8h.01M113.4 73.8h.01M117.0 73.8h.01M120.6 73.8h.01M124.2 73.8h.01M127.8 73.8h.01M131.4 73.8h.01M135.0 73.8h.01M102.6 77.4h.01M106.2 77.4h.01M109.8 77.4h.01M113.4 77.4h.01M117.0 77.4h.01M120.6 77.4h.01M127.8 77.4h.01M131.4 77.4h.01M135.0 77.4h.01M109.8 81.0h.01M135.0 81.0h.01M135.0 84.6h.01M19.8 91.8h.01"/>
+<path class="m4" d="M250.2 55.8h.01M253.8 55.8h.01M257.4 55.8h.01M250.2 59.4h.01M253.8 59.4h.01M257.4 59.4h.01M261.0 59.4h.01M264.6 59.4h.01M250.2 63.0h.01M253.8 63.0h.01M257.4 63.0h.01M261.0 63.0h.01M250.2 66.6h.01M253.8 66.6h.01M257.4 66.6h.01"/>
+</svg>
+      <div class="ret" style="left:241px;top:46px"></div>
+      <div class="pin" style="left:272px;top:66px">ES 31%</div>
+      <div class="pin d" style="left:300px;top:12px">DE 14 · UK 9 · FR 6 · NL 4</div>
+      <div class="pin d" style="left:52px;top:34px">US 12%</div>
+      <div class="pin d" style="left:60px;top:92px">MX 2%</div>
+      <div class="pin d" style="left:196px;top:128px">BR 4%</div>
+      <div class="pin d" style="left:168px;top:176px">AR 3%</div>
+    </div>
+    <div class="geo">
+      <div class="c"><span class="cc">ES</span><span class="s7 b" data-g="88">31</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">DE</span><span class="s7 n" data-g="88">14</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">US</span><span class="s7 n" data-g="88">12</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">UK</span><span class="s7 n" data-g="88">9</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">FR</span><span class="s7 n" data-g="88">6</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">NL</span><span class="s7 d" data-g="88">4</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">BR</span><span class="s7 d" data-g="88">4</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">AR</span><span class="s7 d" data-g="88">3</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">MX</span><span class="s7 d" data-g="88">2</span><span class="pc">%</span></div>
+      <div class="c"><span class="cc">+31</span><span class="s7 d" data-g="88">15</span><span class="pc">%</span></div>
+    </div>
+    <div class="lead"><span>ES <b>912</b> VISITS · <b>14</b> SUBS</span><span>SPANISH-SPEAKING <b>36%</b></span><span>EU 5 <b>64%</b></span><span>AMERICAS <b>21%</b></span></div>
+  </div>
+
+  <!-- FEED -->
+  <div class="panel" style="width:490px"><i class="k"></i>
+    <div class="t">Live feed <span class="q">newest first</span></div>
+    <ul class="feed">
+      <li class="new"><span class="tm">19:41</span><span class="b">signup /learn/outs · search</span></li>
+      <li class="new"><span class="tm">19:36</span><span>reel 013 passed 20,000 views</span></li>
+      <li><span class="tm">19:30</span><span>trainer: 61 drills this hour</span></li>
+      <li><span class="tm">19:12</span><span>signup / · instagram · bio link</span></li>
+      <li><span class="tm">18:55</span><span>writer: letter 017 draft (1,140 words) → queue</span></li>
+      <li><span class="tm">18:20</span><span><span class="inv flag">FAIL</span> publisher: Instagram token expired, reel 014 held</span></li>
+      <li><span class="tm">18:00</span><span>research: 12 items, 3 new topics</span></li>
+      <li><span class="tm">17:48</span><span>signup /table · letter</span></li>
+      <li><span class="tm">17:30</span><span class="d">cost: Claude €0.84 today, €23.10 month</span></li>
+      <li><span class="tm">16:02</span><span>letter 016 sent to 1,246 · 52% opened</span></li>
+      <li><span class="tm">15:10</span><span>signup /learn/pot-odds · youtube</span></li>
+      <li><span class="tm">14:44</span><span>search: "pot odds formula" first click</span></li>
+      <li><span class="tm">13:30</span><span>reel 013 saved 212× (1 in 94)</span></li>
+      <li><span class="tm">12:00</span><span class="d">scheduler: 3 queued</span></li>
+      <li><span class="tm">09:15</span><span class="d">you approved reel 014 cover</span></li>
+      <li><span class="tm">06:00</span><span class="d">research: Reddit 41 threads, 2 ranked</span></li>
+    </ul>
+  </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom">
+    <div class="keys">
+      <span><span class="k">⌘K</span>COMMAND</span>
+      <span><span class="k">W</span>WALL MODE</span>
+      <span><span class="k">T</span>TIME SCRUB</span>
+      <span><span class="k">A</span>APPROVE QUEUE (4)</span>
+      <span><span class="k">⌘⇧P</span>PAUSE OUTBOUND</span>
+    </div>
+    <div>READS ONE EVENT STORE · WALL RENDERED 19:42:07 · LOAD 0.8 S</div>
+  </div>
+
+</div>
+
+<div class="glass scan"></div>
+<div class="glass vig"></div>
+<div class="glass refl"></div>
+</body>
+</html>

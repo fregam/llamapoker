@@ -1,0 +1,537 @@
+<!--
+  LlamaPoker command center ("the wall") — mockup direction 2: BATCOMPUTER
+  Idea: a multi-pane VFD console on black glass. Cyan phosphor carries data, amber marks
+  anything waiting on the operator, red is reserved for failures and the kill switch. The
+  machine is a wireframe schematic across the top, the north star sits in a reticle, a radar
+  scope maps visitors, a telemetry strip meters the channels, the feed is a timestamped log.
+  All data is INVENTED (Tue 3 Mar 2027, 19:42) and shared by the three mockup directions.
+  Static: 1920x1080, no scrolling, no JS. Fonts: Google Fonts + DSEG (jsdelivr).
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Operations Wall</title>
+<meta name="viewport" content="width=1920">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.css" rel="stylesheet">
+<style>
+:root{
+  --cy:#6fe3ff; --cy2:#4fd1ff; --cyd:#49a9c4; --cyf:#2a6f85;
+  --line:rgba(111,227,255,.18); --line2:rgba(111,227,255,.4);
+  --am:#ffb347; --rd:#ff4d4d; --bg:#040a0d;
+  --mono:'Share Tech Mono',Consolas,monospace; --lab:'Chakra Petch','Segoe UI',sans-serif;
+  --seg:'DSEG7-Classic',var(--mono);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+body{
+  position:relative;color:var(--cy);font:13px/1.3 var(--mono);
+  background:
+    linear-gradient(rgba(111,227,255,.045) 1px,transparent 1px) 0 0/40px 40px,
+    linear-gradient(90deg,rgba(111,227,255,.045) 1px,transparent 1px) 0 0/40px 40px,
+    radial-gradient(ellipse at 50% 42%,#08171e 0%,#050d12 55%,#020507 100%);
+}
+.scan{position:absolute;inset:0;z-index:10;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.26) 0 1px,transparent 1px 3px)}
+.glass{position:absolute;inset:0;z-index:11;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(0,0,0,.6) 100%),
+    linear-gradient(112deg,transparent 40%,rgba(200,240,255,.022) 47%,rgba(200,240,255,.03) 51%,transparent 60%)}
+
+/* panes */
+.pane{position:absolute;border:1px solid var(--line);background:rgba(6,20,27,.5);
+  --b:var(--cy);
+  background-image:
+    linear-gradient(var(--b),var(--b)),linear-gradient(var(--b),var(--b)),
+    linear-gradient(var(--b),var(--b)),linear-gradient(var(--b),var(--b)),
+    linear-gradient(var(--b),var(--b)),linear-gradient(var(--b),var(--b)),
+    linear-gradient(var(--b),var(--b)),linear-gradient(var(--b),var(--b));
+  background-repeat:no-repeat;
+  background-size:16px 2px,2px 16px,16px 2px,2px 16px,16px 2px,2px 16px,16px 2px,2px 16px;
+  background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%;
+}
+.pane>h2{position:absolute;top:7px;left:16px;font:600 12px var(--lab);letter-spacing:.2em;color:var(--cyd)}
+.pane>h2 b{color:var(--cy);font-weight:600}
+.pane>.rule{position:absolute;top:0;right:18px;height:6px;
+  background:repeating-linear-gradient(90deg,rgba(111,227,255,.35) 0 1px,transparent 1px 10px)}
+.pane>.rule::after{content:"";position:absolute;left:0;right:0;top:0;height:9px;
+  background:repeating-linear-gradient(90deg,rgba(111,227,255,.5) 0 1px,transparent 1px 50px)}
+.pane>.tag{position:absolute;top:6px;right:16px;font:12px var(--mono);color:var(--cyd);letter-spacing:.1em;background:rgba(6,20,27,.9);padding:0 4px}
+.g{text-shadow:0 0 6px rgba(111,227,255,.55),0 0 16px rgba(111,227,255,.22)}
+.ga{color:var(--am);text-shadow:0 0 6px rgba(255,179,71,.6),0 0 16px rgba(255,179,71,.25)}
+.gr{color:var(--rd);text-shadow:0 0 6px rgba(255,77,77,.6),0 0 16px rgba(255,77,77,.3)}
+.dim{color:var(--cyd)} .faint{color:var(--cyf)} .am{color:var(--am)} .rd{color:var(--rd)}
+
+/* header */
+#hdr{position:absolute;left:24px;top:14px;width:1872px;height:40px;border-bottom:1px solid var(--line)}
+#hdr .brand{position:absolute;left:0;top:6px;font:700 18px var(--lab);letter-spacing:.22em}
+#hdr .brand span{color:var(--cyd);font-weight:500;margin-left:14px;font-size:13px;letter-spacing:.24em}
+#hdr .date{position:absolute;left:760px;top:9px;width:380px;text-align:center;font:600 13px var(--lab);letter-spacing:.2em;color:var(--cyd)}
+#hdr .date .clk{font:400 22px var(--seg);color:var(--cy);letter-spacing:.06em;margin-left:14px;vertical-align:-2px;position:relative}
+#hdr .date .clk i{position:absolute;left:0;top:0;color:rgba(111,227,255,.09);font-style:normal}
+#hdr .sw{position:absolute;right:0;top:3px;height:30px;display:flex;align-items:center;gap:12px;font:600 13px var(--lab);letter-spacing:.18em}
+#hdr .sw .box{border:1px solid var(--cy);padding:5px 12px;color:var(--cy);box-shadow:0 0 10px rgba(111,227,255,.25),inset 0 0 10px rgba(111,227,255,.12)}
+#hdr .sw .box i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--cy);box-shadow:0 0 8px var(--cy);margin-right:9px;vertical-align:0}
+#hdr .sw .kill{border:1px solid rgba(255,77,77,.6);color:var(--rd);padding:5px 10px;font-size:12px}
+
+/* schematic */
+#mach{left:24px;top:62px;width:1872px;height:280px}
+#mach svg{position:absolute;left:0;top:28px;width:1872px;height:250px;overflow:visible}
+#mach .nm{font:600 12px var(--lab);letter-spacing:.18em;fill:var(--cyd)}
+#mach .st{font:600 12px var(--lab);letter-spacing:.14em;fill:var(--cy)}
+#mach .big{font:26px var(--mono);fill:var(--cy)}
+#mach .unit{font:12px var(--mono);fill:var(--cyd);letter-spacing:.08em}
+#mach .sm{font:12px var(--mono);fill:var(--cyd);letter-spacing:.04em}
+#mach .sm tspan.v{fill:var(--cy)}
+#mach .node rect.bx{fill:rgba(111,227,255,.035);stroke:rgba(111,227,255,.28);stroke-width:1}
+#mach .node path.ck{fill:none;stroke:var(--cy);stroke-width:2}
+#mach .node.am rect.bx{fill:rgba(255,179,71,.06);stroke:rgba(255,179,71,.6)}
+#mach .node.am path.ck{stroke:var(--am)} #mach .node.am .st,#mach .node.am .big,#mach .node.am .nm,#mach .node.am tspan.v{fill:var(--am)}
+#mach .node.rd rect.bx{fill:rgba(255,77,77,.07);stroke:rgba(255,77,77,.75);filter:url(#glr)}
+#mach .node.rd path.ck{stroke:var(--rd)} #mach .node.rd .st,#mach .node.rd .big,#mach .node.rd .nm,#mach .node.rd tspan.v{fill:var(--rd)}
+#mach .ln{fill:none;stroke:var(--line2);stroke-width:1.5}
+#mach .ln.stall{stroke:rgba(255,179,71,.55);stroke-dasharray:4 5}
+#mach .tap{fill:none;stroke:rgba(111,227,255,.3);stroke-width:1;stroke-dasharray:2 4}
+#mach .bus{fill:none;stroke:rgba(111,227,255,.45);stroke-width:2}
+#mach .pk rect{fill:#071d26;stroke:var(--cy);stroke-width:1;filter:url(#glc)}
+#mach .pk text{font:13px var(--mono);fill:var(--cy);text-anchor:middle}
+#mach .gate text{font:12px var(--mono);fill:var(--cyd);text-anchor:middle;letter-spacing:.08em}
+#mach .gate .sw{stroke:var(--cy);stroke-width:2.5;filter:url(#glc)}
+#mach .bustext{font:12px var(--mono);fill:var(--cyd);letter-spacing:.08em}
+#mach .bustext tspan{fill:var(--cy)}
+
+/* middle row */
+#map{left:24px;top:354px;width:520px;height:368px}
+#north{left:560px;top:354px;width:800px;height:368px}
+#tele{left:1376px;top:354px;width:520px;height:368px}
+/* bottom row */
+#feed{left:24px;top:734px;width:620px;height:298px}
+#alerts{left:660px;top:734px;width:620px;height:298px}
+#exp{left:1296px;top:734px;width:600px;height:298px}
+
+/* north star */
+#north .ret{position:absolute;left:30px;top:30px;width:370px;height:270px}
+#north .seg{position:absolute;left:28px;top:118px;width:375px;text-align:center;font:400 84px/1 var(--seg);letter-spacing:.02em}
+#north .seg i{position:absolute;left:0;right:0;top:0;color:rgba(111,227,255,.08);font-style:normal}
+#north .seg b{position:relative;font-weight:400;color:var(--cy);text-shadow:0 0 10px rgba(111,227,255,.65),0 0 30px rgba(111,227,255,.3)}
+#north .under{position:absolute;left:28px;top:216px;width:375px;text-align:center;font:600 12px var(--lab);letter-spacing:.26em;color:var(--cyd)}
+#north .tr{position:absolute;left:436px;top:34px;width:340px}
+#north .tr .main{font:34px/1 var(--mono);color:var(--cy)}
+#north .tr .main small{font:600 13px var(--lab);letter-spacing:.18em;color:var(--cyd);margin-left:10px;vertical-align:6px}
+#north .tr .up{display:inline-block;border:1px solid var(--cy);padding:2px 7px;font:14px var(--mono);margin-left:10px;vertical-align:8px}
+#north .row{border-top:1px solid var(--line);padding:7px 0 7px}
+#north .row .a{display:flex;justify-content:space-between;align-items:center}
+#north .row .b{display:flex;gap:12px;align-items:baseline;margin-top:3px;white-space:nowrap}
+#north .row .up2{border:1px solid var(--cy);padding:0 6px;font:12px var(--mono);color:var(--cy)}
+#north .row .k{font:600 12px var(--lab);letter-spacing:.18em;color:var(--cyd);width:124px;flex:none}
+#north .row .v{font:24px/1 var(--mono);color:var(--cy)}
+#north .row .s{font:12px var(--mono);color:var(--cyd)}
+#north .meter{margin-top:6px;height:8px}
+#north .line{position:absolute;left:30px;right:30px;top:300px;border-top:1px solid var(--line);padding-top:9px;font:14px/22px var(--mono);letter-spacing:.02em}
+#north .line .do{color:var(--am)}
+#north .line .do b{font:600 12px var(--lab);letter-spacing:.2em;border:1px solid var(--am);padding:2px 6px;margin-right:8px;vertical-align:1px}
+
+/* meters */
+.meter{position:relative;height:10px;background:repeating-linear-gradient(90deg,rgba(111,227,255,.14) 0 6px,transparent 6px 9px)}
+.meter i{position:absolute;left:0;top:0;bottom:0;background:repeating-linear-gradient(90deg,var(--cy) 0 6px,transparent 6px 9px);box-shadow:0 0 8px rgba(111,227,255,.35)}
+.meter.dim i{background:repeating-linear-gradient(90deg,var(--cyd) 0 6px,transparent 6px 9px);box-shadow:none}
+
+/* telemetry */
+#tele .ch{position:absolute;left:16px;right:16px;height:78px;border-top:1px solid var(--line)}
+#tele .ch .n{position:absolute;left:0;top:9px;font:600 13px var(--lab);letter-spacing:.2em;color:var(--cy)}
+#tele .ch .n small{color:var(--cyd);font-size:12px;letter-spacing:.12em;margin-left:8px}
+#tele .ch .kv{position:absolute;right:0;top:4px;font:26px/1 var(--mono);color:var(--cy);text-align:right}
+#tele .ch .kv small{font:12px var(--mono);color:var(--cyd);margin-left:6px;letter-spacing:.06em}
+#tele .ch .kv .up{display:inline-block;border:1px solid var(--cy);padding:1px 5px;font:12px var(--mono);margin-left:8px;vertical-align:8px}
+#tele .ch .sec{position:absolute;left:0;top:34px;font:12px var(--mono);color:var(--cyd);letter-spacing:.03em}
+#tele .ch .sec b{color:var(--cy);font-weight:400}
+#tele .ch .mt{position:absolute;left:0;right:0;top:56px;display:flex;align-items:center;gap:10px}
+#tele .ch .mt .k{font:600 12px var(--lab);letter-spacing:.14em;color:var(--cyd);width:150px;flex:none}
+#tele .ch .mt .meter{flex:1}
+#tele .ch .mt .v{font:13px var(--mono);color:var(--cy);width:96px;text-align:right;flex:none}
+
+/* map */
+#map .scope{position:absolute;left:20px;top:38px;width:300px;height:300px}
+#map .sweep{position:absolute;left:20px;top:38px;width:300px;height:300px;border-radius:50%;
+  background:conic-gradient(from 125deg,rgba(111,227,255,0) 0deg,rgba(111,227,255,0) 300deg,rgba(111,227,255,.28) 360deg);pointer-events:none}
+#map svg text{font:12px var(--mono);fill:var(--cy)}
+#map svg text.t{fill:var(--cyd);font-size:12px}
+#map .list{position:absolute;left:338px;top:34px;width:166px}
+#map .list .r{display:flex;align-items:center;gap:8px;height:24px;font:12px var(--mono)}
+#map .list .r .c{width:26px;font:600 12px var(--lab);letter-spacing:.1em;color:var(--cy)}
+#map .list .r .b{flex:1;height:6px;background:repeating-linear-gradient(90deg,rgba(111,227,255,.14) 0 4px,transparent 4px 6px);position:relative}
+#map .list .r .b i{position:absolute;left:0;top:0;bottom:0;background:repeating-linear-gradient(90deg,var(--cy) 0 4px,transparent 4px 6px)}
+#map .list .r .p{width:32px;text-align:right;color:var(--cy)}
+#map .list .hd{font:600 12px var(--lab);letter-spacing:.16em;color:var(--cyd);height:22px}
+#map .list .es{font:12px var(--mono);color:var(--cyd);margin:-2px 0 4px 34px}
+#map .list .es b{color:var(--cy);font-weight:400}
+
+/* feed */
+#feed .log{position:absolute;left:30px;right:16px;top:30px;font:13px/16.6px var(--mono);letter-spacing:.01em}
+#feed .log div{white-space:nowrap;overflow:hidden}
+#feed .log .t{color:var(--cyf);margin-right:10px}
+#feed .log .k{display:inline-block;width:84px;color:var(--cyd);letter-spacing:.06em}
+#feed .log .hi .k,#feed .log .hi{color:var(--cy)}
+#feed .log .fail,#feed .log .fail .k,#feed .log .fail .t{color:var(--rd)}
+#feed .log .new{position:relative;overflow:visible}
+#feed .log .new::before{content:"▶";position:absolute;left:-14px;color:var(--cy);font-size:9px;top:0}
+
+/* alerts */
+#alerts .al{position:absolute;left:16px;right:16px;height:60px;border-top:1px solid var(--line);padding:8px 0 0 58px}
+#alerts .al .rk{position:absolute;left:0;top:8px;font:22px/1 var(--mono);color:var(--cy)}
+#alerts .al .rk small{display:block;font:600 12px var(--lab);letter-spacing:.14em;color:var(--cyd);margin-top:3px}
+#alerts .al .ti{font:13px var(--mono);color:var(--cy);white-space:nowrap}
+#alerts .al .ti .sev{font:600 12px var(--lab);letter-spacing:.16em;padding:1px 6px;border:1px solid currentColor;margin-right:8px}
+#alerts .al .fx{font:12px var(--mono);color:var(--cyd);margin-top:5px;white-space:nowrap}
+#alerts .al .fx b{font:600 12px var(--lab);letter-spacing:.16em;color:var(--cyd);font-weight:600;margin-right:6px}
+#alerts .al.rd .rk,#alerts .al.rd .ti,#alerts .al.rd .ti .sev{color:var(--rd)}
+#alerts .al.am .rk,#alerts .al.am .ti .sev{color:var(--am)}
+#alerts .al.ok .rk,#alerts .al.ok .ti{color:var(--cyd)}
+
+/* experiments */
+#exp .ex{position:absolute;left:16px;right:16px;height:66px;border-top:1px solid var(--line);padding-top:8px}
+#exp .ex .n{font:13px var(--mono);color:var(--cy)}
+#exp .ex .n b{font:600 12px var(--lab);letter-spacing:.16em;color:var(--cyd);font-weight:600;margin-right:8px}
+#exp .ex .stt{position:absolute;right:0;top:8px;font:600 12px var(--lab);letter-spacing:.16em;color:var(--cyd);border:1px solid var(--cyf);padding:1px 7px}
+#exp .ex .mt{display:flex;align-items:center;gap:10px;margin-top:9px}
+#exp .ex .mt .k{font:12px var(--mono);color:var(--cyd);width:182px;flex:none}
+#exp .ex .mt .meter{flex:1}
+#exp .ex .mt .v{font:12px var(--mono);color:var(--cyd);width:150px;text-align:right;flex:none}
+#exp .bud{position:absolute;left:16px;right:16px;top:176px;border-top:1px solid var(--line);padding-top:8px}
+#exp .bud .hd{display:flex;justify-content:space-between;align-items:baseline}
+#exp .bud .hd .k{font:600 12px var(--lab);letter-spacing:.18em;color:var(--cyd)}
+#exp .bud .hd .v{font:26px/1 var(--mono);color:var(--cy)}
+#exp .bud .hd .v small{font:13px var(--mono);color:var(--cyd);margin-left:6px}
+#exp .bud .meter{margin-top:8px;height:12px}
+#exp .bud .ticks{position:relative;height:14px;font:12px var(--mono);color:var(--cyd)}
+#exp .bud .ticks span{position:absolute;top:2px}
+#exp .bud .br{font:12px/18px var(--mono);color:var(--cyd);margin-top:4px;letter-spacing:.03em}
+#exp .bud .br b{color:var(--cy);font-weight:400}
+
+/* footer */
+#ftr{position:absolute;left:24px;top:1042px;width:1872px;height:26px;border-top:1px solid var(--line);font:12px var(--mono);color:var(--cyd);letter-spacing:.06em}
+#ftr .keys{position:absolute;left:0;top:6px;display:flex;gap:22px}
+#ftr .keys kbd{font:12px var(--mono);color:var(--cy);border:1px solid var(--line2);padding:1px 6px;margin-right:6px;border-radius:2px}
+#ftr .keys .p kbd{color:var(--rd);border-color:rgba(255,77,77,.6)}
+#ftr .keys .p{color:var(--rd)}
+#ftr .r{position:absolute;right:0;top:7px}
+#ftr .r b{color:var(--cy);font-weight:400}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="brand g">LLAMAPOKER <span>OPERATIONS WALL · DESK 01</span></div>
+  <div class="date">TUE 03 MAR 2027 <span class="clk g"><i>88:88</i>19:42</span></div>
+  <div class="sw"><span class="dim">KILL SWITCH</span><span class="box g"><i></i>OUTBOUND · LIVE</span><span class="kill">⌘⇧P PAUSE</span></div>
+</header>
+
+<!-- ============ THE MACHINE ============ -->
+<section class="pane" id="mach">
+  <h2>THE MACHINE <b>· 8 STATIONS · PAUSE SWITCH OFF</b></h2><div class="rule" style="left:430px"></div>
+  <span class="tag">LAST RUN → NEXT RUN · COUNTS IN TRANSIT</span>
+  <svg viewBox="0 0 1872 250">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6fe3ff"/></marker>
+      <marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ffb347"/></marker>
+      <filter id="glc" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="glr" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+
+    <!-- flow lines -->
+    <path class="ln" d="M256 117 H330" marker-end="url(#ar)"/>
+    <path class="ln" d="M570 117 H644" marker-end="url(#ar)"/>
+    <path class="ln" d="M452 72 V30 H466" marker-end="url(#ar)"/>
+    <path class="ln" d="M706 30 H766 V68" marker-end="url(#ar)"/>
+    <path class="ln stall" d="M884 117 H958" marker-end="url(#ara)"/>
+    <path class="ln" d="M1198 117 H1212"/>
+    <g class="gate">
+      <circle cx="1213" cy="117" r="2.5" fill="#6fe3ff"/><circle cx="1241" cy="117" r="2.5" fill="#6fe3ff"/>
+      <path class="sw" d="M1213 117 L1241 117"/>
+      <text x="1227" y="104">GATE OPEN</text>
+      <text x="1227" y="140" fill="#49a9c4">⌘⇧P</text>
+    </g>
+    <path class="ln" d="M1241 117 H1272" marker-end="url(#ar)"/>
+    <circle cx="1252" cy="117" r="3" fill="#6fe3ff"/>
+    <path class="ln" d="M1252 117 V203 H1258" marker-end="url(#ar)"/>
+    <path class="ln" d="M1496 203 H1530 V117"/>
+    <circle cx="1530" cy="117" r="3" fill="#6fe3ff"/>
+    <path class="ln" d="M1512 117 H1586" marker-end="url(#ar)"/>
+
+    <!-- event-store bus + taps -->
+    <path class="tap" d="M252 162 V240"/><path class="tap" d="M566 162 V240"/><path class="tap" d="M880 162 V240"/>
+    <path class="tap" d="M1194 162 V240"/><path class="tap" d="M1508 162 V197 M1508 209 V240"/><path class="tap" d="M1822 162 V240"/>
+    <path class="tap" d="M1470 226 V240"/>
+    <path class="bus" d="M20 240 H890"/><path class="bus" d="M1186 240 H1826"/>
+    <text class="bustext" x="1038" y="244" text-anchor="middle">EVENT STORE · <tspan>14,882</tspan> TODAY · P95 <tspan>2.1 MS</tspan> · OK</text>
+
+    <!-- packets in transit -->
+    <g class="pk"><rect x="278" y="108" width="34" height="18" rx="2"/><text x="295" y="121.5">12</text></g>
+    <g class="pk"><rect x="594" y="108" width="30" height="18" rx="2"/><text x="609" y="121.5">3</text></g>
+    <g class="pk"><rect x="752" y="40" width="28" height="18" rx="2"/><text x="766" y="53.5">2</text></g>
+
+    <!-- nodes -->
+    <g class="node" transform="translate(20,72)">
+      <rect class="bx" width="236" height="90"/><path class="ck" d="M0 14V0H14 M222 0H236V14 M236 76V90H222 M14 90H0V76"/>
+      <text class="nm" x="12" y="20">RESEARCH</text><text class="st" x="224" y="20" text-anchor="end">OK</text>
+      <text class="big" x="12" y="50">12<tspan class="unit" dx="6" dy="0">ITEMS</tspan></text>
+      <text class="sm" x="12" y="68">LAST <tspan class="v">TODAY 18:00</tspan></text>
+      <text class="sm" x="12" y="84">NEXT <tspan class="v">MON 06:00</tspan></text>
+    </g>
+    <g class="node" transform="translate(334,72)">
+      <rect class="bx" width="236" height="90"/><path class="ck" d="M0 14V0H14 M222 0H236V14 M236 76V90H222 M14 90H0V76"/>
+      <text class="nm" x="12" y="20">WRITER</text><text class="st" x="224" y="20" text-anchor="end">OK</text>
+      <text class="big" x="12" y="50">3<tspan class="unit" dx="6">DRAFTS</tspan></text>
+      <text class="sm" x="12" y="68">LAST <tspan class="v">TODAY 18:55</tspan></text>
+      <text class="sm" x="12" y="84">NEXT <tspan class="v">ON DEMAND</tspan></text>
+    </g>
+    <g class="node" transform="translate(470,0)">
+      <rect class="bx" width="236" height="60"/><path class="ck" d="M0 12V0H12 M224 0H236V12 M236 48V60H224 M12 60H0V48"/>
+      <text class="nm" x="12" y="18">VOICE · RENDER</text><text class="st" x="224" y="18" text-anchor="end">OK</text>
+      <text class="sm" x="12" y="36"><tspan class="v">2 REELS</tspan> · SUN 20:10 → SUN</text>
+      <text class="sm" x="12" y="52">FOUNDER PC · MAY BE OFFLINE</text>
+    </g>
+    <g class="node am" transform="translate(648,72)">
+      <rect class="bx" width="236" height="90"/><path class="ck" d="M0 14V0H14 M222 0H236V14 M236 76V90H222 M14 90H0V76"/>
+      <text class="nm" x="12" y="20">APPROVAL</text><text class="st" x="224" y="20" text-anchor="end">[YOUR ACTION]</text>
+      <text class="big" x="12" y="50">4<tspan class="unit" dx="6">WAITING ON YOU</tspan></text>
+      <text class="sm" x="12" y="68">OLDEST <tspan class="v">1 DAY</tspan> · 017 · 014 · +2</text>
+      <text class="sm" x="12" y="84">PRESS <tspan class="v">A</tspan> TO REVIEW</text>
+    </g>
+    <g class="node" transform="translate(962,72)">
+      <rect class="bx" width="236" height="90"/><path class="ck" d="M0 14V0H14 M222 0H236V14 M236 76V90H222 M14 90H0V76"/>
+      <text class="nm" x="12" y="20">SCHEDULED</text><text class="st" x="224" y="20" text-anchor="end">OK</text>
+      <text class="big" x="12" y="50">3<tspan class="unit" dx="6">QUEUED</tspan></text>
+      <text class="sm" x="12" y="68"><tspan class="v">THU 18:00</tspan> · FRI 18:00 · SUN</text>
+      <text class="sm" x="12" y="84">ALL PASS THE GATE</text>
+    </g>
+    <g class="node rd" transform="translate(1276,72)">
+      <rect class="bx" width="236" height="90"/><path class="ck" d="M0 14V0H14 M222 0H236V14 M236 76V90H222 M14 90H0V76"/>
+      <text class="nm" x="12" y="20">PUBLISHER</text><text class="st" x="224" y="20" text-anchor="end">[FAIL]</text>
+      <text class="big" x="12" y="50">1<tspan class="unit" dx="6">HELD · REEL 014</tspan></text>
+      <text class="sm" x="12" y="68"><tspan class="v">18:20</tspan> INSTAGRAM TOKEN EXPIRED</text>
+      <text class="sm" x="12" y="84">NEXT <tspan class="v">RETRY AFTER RE-AUTH</tspan></text>
+    </g>
+    <g class="node" transform="translate(1590,72)">
+      <rect class="bx" width="236" height="90"/><path class="ck" d="M0 14V0H14 M222 0H236V14 M236 76V90H222 M14 90H0V76"/>
+      <text class="nm" x="12" y="20">PUBLISHED</text><text class="st" x="224" y="20" text-anchor="end">7 D</text>
+      <text class="big" x="12" y="50">5<tspan class="unit" dx="6">THIS WEEK</tspan></text>
+      <text class="sm" x="12" y="68"><tspan class="v">2</tspan> REELS · <tspan class="v">1</tspan> LETTER · <tspan class="v">2</tspan> POSTS</text>
+      <text class="sm" x="12" y="84">LAST <tspan class="v">TUE 16:02</tspan> LETTER 016</text>
+    </g>
+    <g class="node" transform="translate(1262,180)">
+      <rect class="bx" width="234" height="46"/><path class="ck" d="M0 12V0H12 M222 0H234V12 M234 34V46H222 M12 46H0V34"/>
+      <text class="nm" x="12" y="18">LETTER SENDER</text><text class="st" x="222" y="18" text-anchor="end">OK</text>
+      <text class="sm" x="12" y="36"><tspan class="v">TUE 16:02</tspan> · 1,246 · NEXT THU</text>
+    </g>
+  </svg>
+</section>
+
+<!-- ============ MAP ============ -->
+<section class="pane" id="map">
+  <h2>VISITORS <b>· 7 D · BY COUNTRY</b></h2><div class="rule" style="left:250px"></div>
+  <svg class="scope" viewBox="-150 -150 300 300">
+    <defs><clipPath id="cp"><circle r="148"/></clipPath>
+      <filter id="glb" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <circle r="149" fill="rgba(111,227,255,.03)" stroke="rgba(111,227,255,.45)" stroke-width="1"/>
+    <circle r="100" fill="none" stroke="rgba(111,227,255,.16)" stroke-width="1"/>
+    <circle r="50" fill="none" stroke="rgba(111,227,255,.16)" stroke-width="1"/>
+    <path d="M-149 0H149 M0 -149V149" stroke="rgba(111,227,255,.16)" stroke-width="1"/>
+    <g stroke="rgba(111,227,255,.5)" stroke-width="1">
+      <path d="M0 -149V-143 M0 149V143 M-149 0H-143 M149 0H143"/>
+      <g id="tk"><path d="M0 -149V-145"/></g>
+      <use href="#tk" transform="rotate(30)"/><use href="#tk" transform="rotate(60)"/><use href="#tk" transform="rotate(120)"/><use href="#tk" transform="rotate(150)"/><use href="#tk" transform="rotate(210)"/><use href="#tk" transform="rotate(240)"/><use href="#tk" transform="rotate(300)"/><use href="#tk" transform="rotate(330)"/>
+    </g>
+    <path clip-path="url(#cp)" d="M45 -130h.01 M50 -130h.01 M55 -130h.01 M60 -130h.01 M65 -130h.01 M35 -125h.01 M40 -125h.01 M45 -125h.01 M50 -125h.01 M55 -125h.01 M60 -125h.01 M65 -125h.01 M70 -125h.01 M75 -125h.01 M30 -120h.01 M35 -120h.01 M40 -120h.01 M45 -120h.01 M50 -120h.01 M55 -120h.01 M60 -120h.01 M65 -120h.01 M70 -120h.01 M75 -120h.01 M80 -120h.01 M20 -115h.01 M25 -115h.01 M30 -115h.01 M35 -115h.01 M40 -115h.01 M45 -115h.01 M50 -115h.01 M55 -115h.01 M60 -115h.01 M65 -115h.01 M70 -115h.01 M75 -115h.01 M80 -115h.01 M85 -115h.01 M90 -115h.01 M15 -110h.01 M20 -110h.01 M25 -110h.01 M30 -110h.01 M35 -110h.01 M40 -110h.01 M45 -110h.01 M50 -110h.01 M55 -110h.01 M60 -110h.01 M65 -110h.01 M70 -110h.01 M75 -110h.01 M80 -110h.01 M85 -110h.01 M90 -110h.01 M95 -110h.01 M15 -105h.01 M20 -105h.01 M25 -105h.01 M30 -105h.01 M35 -105h.01 M40 -105h.01 M45 -105h.01 M50 -105h.01 M55 -105h.01 M60 -105h.01 M65 -105h.01 M70 -105h.01 M75 -105h.01 M80 -105h.01 M85 -105h.01 M90 -105h.01 M95 -105h.01 M100 -105h.01 M10 -100h.01 M15 -100h.01 M20 -100h.01 M25 -100h.01 M30 -100h.01 M35 -100h.01 M40 -100h.01 M45 -100h.01 M50 -100h.01 M55 -100h.01 M65 -100h.01 M70 -100h.01 M75 -100h.01 M80 -100h.01 M85 -100h.01 M90 -100h.01 M95 -100h.01 M100 -100h.01 M105 -100h.01 M5 -95h.01 M10 -95h.01 M15 -95h.01 M20 -95h.01 M25 -95h.01 M30 -95h.01 M35 -95h.01 M40 -95h.01 M45 -95h.01 M65 -95h.01 M70 -95h.01 M75 -95h.01 M80 -95h.01 M85 -95h.01 M90 -95h.01 M95 -95h.01 M100 -95h.01 M105 -95h.01 M110 -95h.01 M5 -90h.01 M10 -90h.01 M15 -90h.01 M20 -90h.01 M25 -90h.01 M30 -90h.01 M35 -90h.01 M40 -90h.01 M60 -90h.01 M65 -90h.01 M70 -90h.01 M75 -90h.01 M80 -90h.01 M85 -90h.01 M90 -90h.01 M95 -90h.01 M100 -90h.01 M105 -90h.01 M110 -90h.01 M115 -90h.01 M-5 -85h.01 M0 -85h.01 M5 -85h.01 M10 -85h.01 M15 -85h.01 M20 -85h.01 M25 -85h.01 M30 -85h.01 M35 -85h.01 M55 -85h.01 M60 -85h.01 M65 -85h.01 M70 -85h.01 M75 -85h.01 M80 -85h.01 M85 -85h.01 M90 -85h.01 M95 -85h.01 M100 -85h.01 M105 -85h.01 M110 -85h.01 M115 -85h.01 M-15 -80h.01 M-10 -80h.01 M-5 -80h.01 M0 -80h.01 M5 -80h.01 M10 -80h.01 M15 -80h.01 M20 -80h.01 M25 -80h.01 M30 -80h.01 M50 -80h.01 M55 -80h.01 M60 -80h.01 M65 -80h.01 M70 -80h.01 M75 -80h.01 M80 -80h.01 M85 -80h.01 M90 -80h.01 M95 -80h.01 M100 -80h.01 M105 -80h.01 M110 -80h.01 M115 -80h.01 M120 -80h.01 M-20 -75h.01 M-15 -75h.01 M-10 -75h.01 M-5 -75h.01 M0 -75h.01 M5 -75h.01 M10 -75h.01 M15 -75h.01 M20 -75h.01 M25 -75h.01 M30 -75h.01 M50 -75h.01 M55 -75h.01 M60 -75h.01 M65 -75h.01 M70 -75h.01 M75 -75h.01 M80 -75h.01 M85 -75h.01 M90 -75h.01 M95 -75h.01 M100 -75h.01 M105 -75h.01 M110 -75h.01 M115 -75h.01 M120 -75h.01 M125 -75h.01 M-15 -70h.01 M-10 -70h.01 M-5 -70h.01 M0 -70h.01 M5 -70h.01 M10 -70h.01 M15 -70h.01 M20 -70h.01 M25 -70h.01 M30 -70h.01 M55 -70h.01 M60 -70h.01 M65 -70h.01 M70 -70h.01 M75 -70h.01 M80 -70h.01 M85 -70h.01 M90 -70h.01 M95 -70h.01 M100 -70h.01 M105 -70h.01 M110 -70h.01 M115 -70h.01 M120 -70h.01 M125 -70h.01 M-15 -65h.01 M-10 -65h.01 M-5 -65h.01 M0 -65h.01 M5 -65h.01 M10 -65h.01 M15 -65h.01 M20 -65h.01 M25 -65h.01 M30 -65h.01 M85 -65h.01 M90 -65h.01 M95 -65h.01 M100 -65h.01 M105 -65h.01 M110 -65h.01 M115 -65h.01 M120 -65h.01 M125 -65h.01 M-15 -60h.01 M-10 -60h.01 M-5 -60h.01 M5 -60h.01 M10 -60h.01 M15 -60h.01 M20 -60h.01 M25 -60h.01 M30 -60h.01 M65 -60h.01 M70 -60h.01 M75 -60h.01 M80 -60h.01 M85 -60h.01 M90 -60h.01 M95 -60h.01 M100 -60h.01 M105 -60h.01 M110 -60h.01 M115 -60h.01 M120 -60h.01 M125 -60h.01 M-60 -55h.01 M-10 -55h.01 M10 -55h.01 M15 -55h.01 M20 -55h.01 M25 -55h.01 M30 -55h.01 M60 -55h.01 M65 -55h.01 M70 -55h.01 M75 -55h.01 M80 -55h.01 M85 -55h.01 M90 -55h.01 M95 -55h.01 M100 -55h.01 M105 -55h.01 M110 -55h.01 M115 -55h.01 M120 -55h.01 M125 -55h.01 M-65 -50h.01 M-60 -50h.01 M10 -50h.01 M15 -50h.01 M20 -50h.01 M25 -50h.01 M60 -50h.01 M65 -50h.01 M70 -50h.01 M75 -50h.01 M80 -50h.01 M85 -50h.01 M90 -50h.01 M95 -50h.01 M100 -50h.01 M105 -50h.01 M110 -50h.01 M115 -50h.01 M120 -50h.01 M125 -50h.01 M-65 -45h.01 M-60 -45h.01 M-55 -45h.01 M-5 -45h.01 M0 -45h.01 M10 -45h.01 M15 -45h.01 M20 -45h.01 M50 -45h.01 M55 -45h.01 M60 -45h.01 M65 -45h.01 M70 -45h.01 M75 -45h.01 M80 -45h.01 M85 -45h.01 M90 -45h.01 M95 -45h.01 M100 -45h.01 M105 -45h.01 M110 -45h.01 M115 -45h.01 M120 -45h.01 M125 -45h.01 M-65 -40h.01 M-60 -40h.01 M-55 -40h.01 M-50 -40h.01 M-5 -40h.01 M0 -40h.01 M15 -40h.01 M20 -40h.01 M50 -40h.01 M55 -40h.01 M60 -40h.01 M65 -40h.01 M70 -40h.01 M75 -40h.01 M80 -40h.01 M85 -40h.01 M90 -40h.01 M95 -40h.01 M100 -40h.01 M105 -40h.01 M110 -40h.01 M115 -40h.01 M120 -40h.01 M125 -40h.01 M-65 -35h.01 M-60 -35h.01 M-55 -35h.01 M-50 -35h.01 M-5 -35h.01 M0 -35h.01 M50 -35h.01 M55 -35h.01 M60 -35h.01 M65 -35h.01 M70 -35h.01 M75 -35h.01 M80 -35h.01 M85 -35h.01 M90 -35h.01 M95 -35h.01 M100 -35h.01 M105 -35h.01 M110 -35h.01 M115 -35h.01 M120 -35h.01 M125 -35h.01 M-75 -30h.01 M-70 -30h.01 M-55 -30h.01 M-50 -30h.01 M-45 -30h.01 M-5 -30h.01 M0 -30h.01 M35 -30h.01 M40 -30h.01 M45 -30h.01 M50 -30h.01 M55 -30h.01 M60 -30h.01 M65 -30h.01 M70 -30h.01 M75 -30h.01 M80 -30h.01 M85 -30h.01 M90 -30h.01 M95 -30h.01 M100 -30h.01 M105 -30h.01 M110 -30h.01 M115 -30h.01 M120 -30h.01 M125 -30h.01 M-80 -25h.01 M-75 -25h.01 M-70 -25h.01 M-50 -25h.01 M-45 -25h.01 M-5 -25h.01 M0 -25h.01 M5 -25h.01 M10 -25h.01 M15 -25h.01 M20 -25h.01 M25 -25h.01 M30 -25h.01 M35 -25h.01 M40 -25h.01 M45 -25h.01 M50 -25h.01 M55 -25h.01 M60 -25h.01 M65 -25h.01 M70 -25h.01 M75 -25h.01 M80 -25h.01 M85 -25h.01 M90 -25h.01 M95 -25h.01 M100 -25h.01 M105 -25h.01 M110 -25h.01 M115 -25h.01 M120 -25h.01 M125 -25h.01 M-80 -20h.01 M-75 -20h.01 M-70 -20h.01 M-60 -20h.01 M-55 -20h.01 M-50 -20h.01 M-45 -20h.01 M-40 -20h.01 M-15 -20h.01 M-10 -20h.01 M-5 -20h.01 M0 -20h.01 M5 -20h.01 M10 -20h.01 M15 -20h.01 M20 -20h.01 M25 -20h.01 M30 -20h.01 M35 -20h.01 M40 -20h.01 M45 -20h.01 M50 -20h.01 M55 -20h.01 M60 -20h.01 M65 -20h.01 M70 -20h.01 M75 -20h.01 M80 -20h.01 M85 -20h.01 M90 -20h.01 M95 -20h.01 M100 -20h.01 M105 -20h.01 M110 -20h.01 M115 -20h.01 M120 -20h.01 M125 -20h.01 M-80 -15h.01 M-75 -15h.01 M-70 -15h.01 M-55 -15h.01 M-50 -15h.01 M-45 -15h.01 M-40 -15h.01 M-20 -15h.01 M-15 -15h.01 M-10 -15h.01 M-5 -15h.01 M0 -15h.01 M5 -15h.01 M10 -15h.01 M15 -15h.01 M20 -15h.01 M25 -15h.01 M30 -15h.01 M35 -15h.01 M40 -15h.01 M45 -15h.01 M50 -15h.01 M55 -15h.01 M60 -15h.01 M65 -15h.01 M70 -15h.01 M75 -15h.01 M80 -15h.01 M85 -15h.01 M90 -15h.01 M95 -15h.01 M100 -15h.01 M105 -15h.01 M110 -15h.01 M115 -15h.01 M120 -15h.01 M125 -15h.01 M-60 -10h.01 M-55 -10h.01 M-50 -10h.01 M-45 -10h.01 M-40 -10h.01 M-25 -10h.01 M-20 -10h.01 M-15 -10h.01 M-10 -10h.01 M-5 -10h.01 M0 -10h.01 M5 -10h.01 M10 -10h.01 M15 -10h.01 M20 -10h.01 M25 -10h.01 M30 -10h.01 M35 -10h.01 M40 -10h.01 M45 -10h.01 M50 -10h.01 M55 -10h.01 M60 -10h.01 M65 -10h.01 M70 -10h.01 M75 -10h.01 M80 -10h.01 M85 -10h.01 M90 -10h.01 M95 -10h.01 M100 -10h.01 M105 -10h.01 M110 -10h.01 M115 -10h.01 M120 -10h.01 M125 -10h.01 M-60 -5h.01 M-55 -5h.01 M-50 -5h.01 M-35 -5h.01 M-30 -5h.01 M-25 -5h.01 M-20 -5h.01 M-15 -5h.01 M-10 -5h.01 M-5 -5h.01 M0 -5h.01 M5 -5h.01 M10 -5h.01 M15 -5h.01 M20 -5h.01 M25 -5h.01 M30 -5h.01 M35 -5h.01 M40 -5h.01 M45 -5h.01 M50 -5h.01 M55 -5h.01 M60 -5h.01 M65 -5h.01 M70 -5h.01 M75 -5h.01 M80 -5h.01 M85 -5h.01 M90 -5h.01 M95 -5h.01 M100 -5h.01 M105 -5h.01 M110 -5h.01 M115 -5h.01 M120 -5h.01 M125 -5h.01 M-35 0h.01 M-30 0h.01 M-25 0h.01 M-20 0h.01 M-15 0h.01 M-10 0h.01 M-5 0h.01 M0 0h.01 M5 0h.01 M10 0h.01 M15 0h.01 M20 0h.01 M25 0h.01 M30 0h.01 M35 0h.01 M40 0h.01 M45 0h.01 M50 0h.01 M55 0h.01 M60 0h.01 M65 0h.01 M70 0h.01 M75 0h.01 M80 0h.01 M85 0h.01 M90 0h.01 M95 0h.01 M100 0h.01 M105 0h.01 M110 0h.01 M115 0h.01 M120 0h.01 M125 0h.01 M-45 5h.01 M-40 5h.01 M-35 5h.01 M-30 5h.01 M-25 5h.01 M-20 5h.01 M-15 5h.01 M-10 5h.01 M-5 5h.01 M0 5h.01 M5 5h.01 M10 5h.01 M15 5h.01 M20 5h.01 M25 5h.01 M30 5h.01 M35 5h.01 M40 5h.01 M45 5h.01 M50 5h.01 M55 5h.01 M60 5h.01 M65 5h.01 M70 5h.01 M75 5h.01 M80 5h.01 M85 5h.01 M90 5h.01 M95 5h.01 M100 5h.01 M105 5h.01 M110 5h.01 M115 5h.01 M120 5h.01 M125 5h.01 M-60 10h.01 M-55 10h.01 M-50 10h.01 M-45 10h.01 M-40 10h.01 M-35 10h.01 M-30 10h.01 M-25 10h.01 M-20 10h.01 M-15 10h.01 M-10 10h.01 M-5 10h.01 M0 10h.01 M5 10h.01 M10 10h.01 M15 10h.01 M20 10h.01 M25 10h.01 M30 10h.01 M35 10h.01 M40 10h.01 M45 10h.01 M50 10h.01 M55 10h.01 M60 10h.01 M65 10h.01 M70 10h.01 M75 10h.01 M80 10h.01 M85 10h.01 M90 10h.01 M95 10h.01 M100 10h.01 M105 10h.01 M110 10h.01 M115 10h.01 M120 10h.01 M125 10h.01 M-55 15h.01 M-50 15h.01 M-45 15h.01 M-40 15h.01 M-35 15h.01 M-30 15h.01 M-25 15h.01 M-20 15h.01 M-15 15h.01 M-10 15h.01 M-5 15h.01 M0 15h.01 M5 15h.01 M10 15h.01 M15 15h.01 M20 15h.01 M25 15h.01 M30 15h.01 M35 15h.01 M40 15h.01 M45 15h.01 M50 15h.01 M55 15h.01 M60 15h.01 M65 15h.01 M70 15h.01 M75 15h.01 M80 15h.01 M85 15h.01 M90 15h.01 M95 15h.01 M100 15h.01 M105 15h.01 M110 15h.01 M115 15h.01 M120 15h.01 M125 15h.01 M-50 20h.01 M-45 20h.01 M-40 20h.01 M-35 20h.01 M-30 20h.01 M-25 20h.01 M-20 20h.01 M-15 20h.01 M-10 20h.01 M-5 20h.01 M0 20h.01 M5 20h.01 M10 20h.01 M15 20h.01 M20 20h.01 M25 20h.01 M30 20h.01 M35 20h.01 M40 20h.01 M45 20h.01 M50 20h.01 M55 20h.01 M60 20h.01 M65 20h.01 M70 20h.01 M75 20h.01 M80 20h.01 M85 20h.01 M90 20h.01 M95 20h.01 M100 20h.01 M105 20h.01 M110 20h.01 M115 20h.01 M120 20h.01 M125 20h.01 M-45 25h.01 M-40 25h.01 M-35 25h.01 M-30 25h.01 M-25 25h.01 M-20 25h.01 M-15 25h.01 M-10 25h.01 M-5 25h.01 M0 25h.01 M5 25h.01 M10 25h.01 M15 25h.01 M20 25h.01 M25 25h.01 M30 25h.01 M35 25h.01 M40 25h.01 M45 25h.01 M50 25h.01 M55 25h.01 M60 25h.01 M65 25h.01 M70 25h.01 M75 25h.01 M80 25h.01 M85 25h.01 M95 25h.01 M100 25h.01 M105 25h.01 M110 25h.01 M115 25h.01 M120 25h.01 M125 25h.01 M-45 30h.01 M-40 30h.01 M-35 30h.01 M-30 30h.01 M-25 30h.01 M-20 30h.01 M-15 30h.01 M-10 30h.01 M-5 30h.01 M0 30h.01 M5 30h.01 M20 30h.01 M25 30h.01 M30 30h.01 M35 30h.01 M40 30h.01 M45 30h.01 M50 30h.01 M55 30h.01 M60 30h.01 M65 30h.01 M70 30h.01 M75 30h.01 M80 30h.01 M110 30h.01 M115 30h.01 M120 30h.01 M125 30h.01 M-45 35h.01 M-40 35h.01 M-35 35h.01 M-30 35h.01 M-25 35h.01 M-20 35h.01 M-15 35h.01 M-10 35h.01 M-5 35h.01 M0 35h.01 M5 35h.01 M10 35h.01 M25 35h.01 M30 35h.01 M35 35h.01 M40 35h.01 M45 35h.01 M50 35h.01 M55 35h.01 M60 35h.01 M65 35h.01 M70 35h.01 M75 35h.01 M-45 40h.01 M-40 40h.01 M-35 40h.01 M-30 40h.01 M-25 40h.01 M-20 40h.01 M-15 40h.01 M-10 40h.01 M0 40h.01 M5 40h.01 M10 40h.01 M25 40h.01 M30 40h.01 M35 40h.01 M40 40h.01 M45 40h.01 M50 40h.01 M55 40h.01 M60 40h.01 M65 40h.01 M70 40h.01 M75 40h.01 M-80 45h.01 M-75 45h.01 M-70 45h.01 M-65 45h.01 M-60 45h.01 M-55 45h.01 M-50 45h.01 M-45 45h.01 M-40 45h.01 M-35 45h.01 M-30 45h.01 M5 45h.01 M10 45h.01 M15 45h.01 M30 45h.01 M35 45h.01 M40 45h.01 M45 45h.01 M50 45h.01 M55 45h.01 M60 45h.01 M65 45h.01 M70 45h.01 M75 45h.01 M-80 50h.01 M-75 50h.01 M-70 50h.01 M-65 50h.01 M-60 50h.01 M-55 50h.01 M-50 50h.01 M-45 50h.01 M-40 50h.01 M-35 50h.01 M-30 50h.01 M10 50h.01 M15 50h.01 M20 50h.01 M35 50h.01 M40 50h.01 M45 50h.01 M50 50h.01 M55 50h.01 M60 50h.01 M65 50h.01 M70 50h.01 M75 50h.01 M-80 55h.01 M-75 55h.01 M-70 55h.01 M-65 55h.01 M-60 55h.01 M-55 55h.01 M-50 55h.01 M-45 55h.01 M-40 55h.01 M-35 55h.01 M15 55h.01 M20 55h.01 M25 55h.01 M40 55h.01 M45 55h.01 M50 55h.01 M55 55h.01 M60 55h.01 M65 55h.01 M70 55h.01 M75 55h.01 M105 55h.01 M110 55h.01 M115 55h.01 M120 55h.01 M-75 60h.01 M-70 60h.01 M-65 60h.01 M-60 60h.01 M-55 60h.01 M-50 60h.01 M-45 60h.01 M-40 60h.01 M20 60h.01 M25 60h.01 M30 60h.01 M45 60h.01 M50 60h.01 M55 60h.01 M60 60h.01 M65 60h.01 M70 60h.01 M75 60h.01 M80 60h.01 M85 60h.01 M90 60h.01 M95 60h.01 M100 60h.01 M105 60h.01 M110 60h.01 M115 60h.01 M120 60h.01 M125 60h.01 M130 60h.01 M-80 65h.01 M-75 65h.01 M-70 65h.01 M-65 65h.01 M-60 65h.01 M-55 65h.01 M-50 65h.01 M-45 65h.01 M25 65h.01 M30 65h.01 M35 65h.01 M45 65h.01 M50 65h.01 M55 65h.01 M60 65h.01 M70 65h.01 M75 65h.01 M80 65h.01 M85 65h.01 M90 65h.01 M95 65h.01 M100 65h.01 M105 65h.01 M110 65h.01 M115 65h.01 M120 65h.01 M125 65h.01 M130 65h.01 M-80 70h.01 M-75 70h.01 M-70 70h.01 M-65 70h.01 M-60 70h.01 M-55 70h.01 M-50 70h.01 M-45 70h.01 M25 70h.01 M45 70h.01 M50 70h.01 M70 70h.01 M75 70h.01 M80 70h.01 M85 70h.01 M90 70h.01 M95 70h.01 M100 70h.01 M105 70h.01 M110 70h.01 M115 70h.01 M120 70h.01 M125 70h.01 M-80 75h.01 M-75 75h.01 M-70 75h.01 M-65 75h.01 M-60 75h.01 M-55 75h.01 M-50 75h.01 M-45 75h.01 M25 75h.01 M50 75h.01 M55 75h.01 M70 75h.01 M75 75h.01 M80 75h.01 M85 75h.01 M90 75h.01 M95 75h.01 M100 75h.01 M105 75h.01 M110 75h.01 M115 75h.01 M120 75h.01 M125 75h.01 M-80 80h.01 M-75 80h.01 M-70 80h.01 M-65 80h.01 M-60 80h.01 M-55 80h.01 M-50 80h.01 M50 80h.01 M55 80h.01 M75 80h.01 M80 80h.01 M85 80h.01 M90 80h.01 M95 80h.01 M100 80h.01 M105 80h.01 M110 80h.01 M115 80h.01 M120 80h.01 M-65 85h.01 M-60 85h.01 M-55 85h.01 M-50 85h.01 M-15 85h.01 M-10 85h.01 M-5 85h.01 M0 85h.01 M75 85h.01 M80 85h.01 M85 85h.01 M90 85h.01 M95 85h.01 M100 85h.01 M105 85h.01 M110 85h.01 M115 85h.01 M-65 90h.01 M-35 90h.01 M-30 90h.01 M-25 90h.01 M-20 90h.01 M-15 90h.01 M-10 90h.01 M-5 90h.01 M0 90h.01 M-65 95h.01 M-60 95h.01 M-45 95h.01 M-40 95h.01 M-35 95h.01 M-30 95h.01 M-25 95h.01 M-20 95h.01 M-15 95h.01 M-10 95h.01 M-5 95h.01 M0 95h.01 M-70 100h.01 M-65 100h.01 M-60 100h.01 M-55 100h.01 M-50 100h.01 M-45 100h.01 M-40 100h.01 M-35 100h.01 M-30 100h.01 M-25 100h.01 M-20 100h.01 M-15 100h.01 M-10 100h.01 M-5 100h.01 M0 100h.01 M-75 105h.01 M-70 105h.01 M-65 105h.01 M-60 105h.01 M-55 105h.01 M-50 105h.01 M-45 105h.01 M-40 105h.01 M-35 105h.01 M-30 105h.01 M-25 105h.01 M-20 105h.01 M-15 105h.01 M-10 105h.01 M-5 105h.01 M0 105h.01 M-75 110h.01 M-70 110h.01 M-65 110h.01 M-60 110h.01 M-55 110h.01 M-50 110h.01 M-45 110h.01 M-40 110h.01 M-35 110h.01 M-30 110h.01 M-25 110h.01 M-20 110h.01 M-15 110h.01 M-10 110h.01 M-5 110h.01 M0 110h.01 M5 110h.01 M-80 115h.01 M-75 115h.01 M-70 115h.01 M-65 115h.01 M-60 115h.01 M-55 115h.01 M-50 115h.01 M-45 115h.01 M-40 115h.01 M-35 115h.01 M-30 115h.01 M-25 115h.01 M-20 115h.01 M-15 115h.01 M-10 115h.01 M-5 115h.01 M0 115h.01 M5 115h.01 M10 115h.01 M15 115h.01 M-80 120h.01 M-75 120h.01 M-70 120h.01 M-65 120h.01 M-60 120h.01 M-55 120h.01 M-50 120h.01 M-45 120h.01 M-40 120h.01 M-35 120h.01 M-30 120h.01 M-25 120h.01 M-20 120h.01 M-15 120h.01 M-10 120h.01 M-5 120h.01 M0 120h.01 M5 120h.01 M10 120h.01 M15 120h.01 M20 120h.01 M25 120h.01 M30 120h.01 M35 120h.01 M40 120h.01 M45 120h.01 M50 120h.01 M55 120h.01 M60 120h.01 M65 120h.01 M70 120h.01 M-75 125h.01 M-70 125h.01 M-65 125h.01 M-60 125h.01 M-55 125h.01 M-50 125h.01 M-45 125h.01 M-40 125h.01 M-35 125h.01 M-30 125h.01 M-25 125h.01 M-20 125h.01 M-15 125h.01 M-10 125h.01 M-5 125h.01 M0 125h.01 M5 125h.01 M10 125h.01 M15 125h.01 M20 125h.01 M25 125h.01 M30 125h.01 M35 125h.01 M40 125h.01 M45 125h.01 M50 125h.01 M55 125h.01 M60 125h.01 M65 125h.01 M70 125h.01 M75 125h.01 M-65 130h.01 M-60 130h.01 M-55 130h.01 M-50 130h.01 M-45 130h.01 M-40 130h.01 M-35 130h.01 M-30 130h.01 M-25 130h.01 M-20 130h.01 M-15 130h.01 M-10 130h.01 M-5 130h.01 M0 130h.01 M5 130h.01 M10 130h.01 M15 130h.01 M20 130h.01 M25 130h.01 M30 130h.01 M35 130h.01 M40 130h.01 M45 130h.01 M50 130h.01 M55 130h.01 M60 130h.01 M65 130h.01 M-55 135h.01 M-50 135h.01 M-45 135h.01 M-40 135h.01 M-35 135h.01 M-30 135h.01 M-25 135h.01 M-20 135h.01 M-15 135h.01 M-10 135h.01 M-5 135h.01 M0 135h.01 M5 135h.01 M10 135h.01 M15 135h.01 M20 135h.01 M25 135h.01 M30 135h.01 M35 135h.01 M40 135h.01 M45 135h.01 M50 135h.01 M55 135h.01 M-40 140h.01 M-35 140h.01 M-30 140h.01 M-25 140h.01 M-20 140h.01 M-15 140h.01 M-10 140h.01 M-5 140h.01 M0 140h.01 M5 140h.01 M10 140h.01 M15 140h.01 M20 140h.01 M25 140h.01 M30 140h.01 M35 140h.01 M40 140h.01" stroke="rgba(111,227,255,.42)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <!-- blips sized by visitors -->
+    <g filter="url(#glb)">
+      <circle cx="-57" cy="63" r="9" fill="rgba(111,227,255,.25)" stroke="#6fe3ff" stroke-width="1.5"/>
+      <circle cx="2" cy="-8" r="6" fill="rgba(111,227,255,.25)" stroke="#6fe3ff" stroke-width="1.5"/>
+      <circle cx="-48" cy="-18" r="5" fill="rgba(111,227,255,.25)" stroke="#6fe3ff" stroke-width="1.5"/>
+      <circle cx="-32" cy="20" r="4" fill="rgba(111,227,255,.25)" stroke="#6fe3ff" stroke-width="1.5"/>
+      <circle cx="-20" cy="-15" r="3.5" fill="rgba(111,227,255,.25)" stroke="#6fe3ff" stroke-width="1.5"/>
+    </g>
+    <text x="-44" y="77">ES 31%</text>
+    <text x="12" y="-12">DE 14%</text>
+    <text x="-92" y="-22">UK 9%</text>
+    <text x="-28" y="36">FR 6%</text>
+    <text x="-14" y="-30">NL 4%</text>
+    <!-- off-scope contacts on the rim, bearing from centre -->
+    <g fill="#6fe3ff">
+      <path transform="rotate(-62) translate(0,-140)" d="M0 -8 L6 2 L-6 2z"/>
+      <path transform="rotate(-92) translate(0,-140)" d="M0 -8 L6 2 L-6 2z"/>
+      <path transform="rotate(-118) translate(0,-140)" d="M0 -8 L6 2 L-6 2z"/>
+      <path transform="rotate(-140) translate(0,-140)" d="M0 -8 L6 2 L-6 2z"/>
+    </g>
+    <text x="-104" y="-52">US 12%</text>
+    <text x="-116" y="-4">MX 2%</text>
+    <text x="-108" y="47">BR 4%</text>
+    <text x="-84" y="124">AR 3%</text>
+    <text class="t" x="0" y="140" text-anchor="middle">OFF-SCOPE CONTACTS ON RIM</text>
+  </svg>
+  <div class="sweep"></div>
+  <div class="list">
+    <div class="hd">SHARE OF VISITS</div>
+    <div class="r"><span class="c">ES</span><span class="b"><i style="width:100%"></i></span><span class="p">31%</span></div>
+    <div class="es"><b>912</b> VISITS · <b>14</b> SUBS</div>
+    <div class="r"><span class="c">DE</span><span class="b"><i style="width:45%"></i></span><span class="p">14%</span></div>
+    <div class="r"><span class="c">US</span><span class="b"><i style="width:39%"></i></span><span class="p">12%</span></div>
+    <div class="r"><span class="c">UK</span><span class="b"><i style="width:29%"></i></span><span class="p">9%</span></div>
+    <div class="r"><span class="c">FR</span><span class="b"><i style="width:19%"></i></span><span class="p">6%</span></div>
+    <div class="r"><span class="c">NL</span><span class="b"><i style="width:13%"></i></span><span class="p">4%</span></div>
+    <div class="r"><span class="c">BR</span><span class="b"><i style="width:13%"></i></span><span class="p">4%</span></div>
+    <div class="r"><span class="c">AR</span><span class="b"><i style="width:10%"></i></span><span class="p">3%</span></div>
+    <div class="r"><span class="c">MX</span><span class="b"><i style="width:6%"></i></span><span class="p">2%</span></div>
+    <div class="r"><span class="c dim">+31</span><span class="b"><i style="width:48%;opacity:.5"></i></span><span class="p">15%</span></div>
+  </div>
+</section>
+
+<!-- ============ NORTH STAR ============ -->
+<section class="pane" id="north">
+  <h2>NORTH STAR <b>· SUBSCRIBERS</b></h2><div class="rule" style="left:250px"></div>
+  <span class="tag">LOCK · WEEK 09</span>
+  <svg class="ret" viewBox="0 0 370 270">
+    <g fill="none" stroke="rgba(111,227,255,.22)" stroke-width="1">
+      <circle cx="185" cy="135" r="118"/><circle cx="185" cy="135" r="92" stroke-dasharray="3 6"/>
+      <path d="M185 5V40 M185 230V265 M55 135H90 M280 135H315"/>
+      <path d="M185 17V28 M185 242V253 M67 135H78 M292 135H303" stroke="rgba(111,227,255,.6)" stroke-width="2"/>
+    </g>
+    <g fill="none" stroke="#6fe3ff" stroke-width="2">
+      <path d="M40 60V40H60 M310 40H330V60 M330 210V230H310 M60 230H40V210"/>
+    </g>
+    <g font-family="Share Tech Mono" font-size="12" fill="#49a9c4">
+      <text x="62" y="51">WEEK 09</text><text x="308" y="51" text-anchor="end">+38 / 7 D</text>
+      <text x="62" y="226">PREV WEEK 1,246</text><text x="308" y="226" text-anchor="end">+3.1%</text>
+    </g>
+  </svg>
+  <div class="seg"><i>8888</i><b>1284</b></div>
+  <div class="under">1,284 SUBSCRIBERS · ALL TIME</div>
+  <div class="tr">
+    <div class="main">+38<small>THIS WEEK</small><span class="up g">▲ 3.1%</span></div>
+    <div class="row" style="margin-top:16px"><div class="a"><span class="k">REACH</span><span class="up2">▲ 12%</span></div><div class="b"><span class="v g">48.2K</span><span class="s">REEL VIEWS / 7 D</span></div></div>
+    <div class="row"><div class="a"><span class="k">WEEKLY ACTIVE</span><span class="s">OF SUBSCRIBERS</span></div><div class="b"><span class="v g">27%</span><span class="s">342 USED THE TOOL / 7 D</span></div><div class="meter"><i style="width:27%"></i></div></div>
+    <div class="row"><div class="a"><span class="k">NEW TODAY</span></div><div class="b"><span class="v g">+9</span><span class="s">6 VIA REEL 013 · 3 VIA "POKER OUTS"</span></div></div>
+  </div>
+  <div class="line">
+    <div>TODAY +9: 6 FROM REEL 013 (BIO LINK), 3 FROM "POKER OUTS" SEARCH.</div>
+    <div class="do ga"><b>DO</b>RE-AUTH INSTAGRAM, THEN APPROVE QUEUE (4).</div>
+  </div>
+</section>
+
+<!-- ============ TELEMETRY ============ -->
+<section class="pane" id="tele">
+  <h2>CHANNELS <b>· TELEMETRY</b></h2><div class="rule" style="left:220px"></div>
+  <span class="tag">KEY · TREND · → SUBS</span>
+  <div class="ch" style="top:30px">
+    <div class="n">SITE<small>LLAMAPOKER.COM</small></div>
+    <div class="kv"><span class="g">2,910</span><small>VISITS / 7 D</small><span class="up">▲ 8%</span></div>
+    <div class="sec">SIGN-UP RATE <b>3.2%</b> · TOP PAGE <b>/learn/outs</b></div>
+    <div class="mt"><span class="k">→ SUBSCRIBERS</span><div class="meter"><i style="width:34%"></i></div><span class="v">41 · 34%</span></div>
+  </div>
+  <div class="ch" style="top:112px">
+    <div class="n">LETTER<small>BEEHIIV</small></div>
+    <div class="kv"><span class="g">52%</span><small>OPENED · 16 SENDS</small></div>
+    <div class="sec">CLICKED <b>18%</b> · RAN A SPOT <b>14</b> · BOUNCE <b>0.8%</b></div>
+    <div class="mt"><span class="k">OPEN RATE</span><div class="meter"><i style="width:52%"></i></div><span class="v">RETAINS</span></div>
+  </div>
+  <div class="ch" style="top:194px">
+    <div class="n">INSTAGRAM<small>REELS</small></div>
+    <div class="kv"><span class="g">48.2K</span><small>VIEWS / 7 D</small><span class="up">▲ 12%</span></div>
+    <div class="sec">FOLLOWERS <b>3,420</b> · PUBLISHING <b class="rd">FAILED 18:20</b></div>
+    <div class="mt"><span class="k">→ SUBSCRIBERS</span><div class="meter"><i style="width:18%"></i></div><span class="v">22 · 18%</span></div>
+  </div>
+  <div class="ch" style="top:276px">
+    <div class="n">SEARCH<small>GOOGLE</small></div>
+    <div class="kv"><span class="g">310</span><small>CLICKS / 28 D</small><span class="up">▲ 41%</span></div>
+    <div class="sec">IMPRESSIONS <b>6.4K</b> · AVG POSITION <b>12.3</b></div>
+    <div class="mt"><span class="k">→ SUBSCRIBERS</span><div class="meter"><i style="width:7%"></i></div><span class="v">9 · 7%</span></div>
+  </div>
+</section>
+
+<!-- ============ FEED ============ -->
+<section class="pane" id="feed">
+  <h2>LIVE FEED <b>· NEWEST FIRST</b></h2><div class="rule" style="left:250px"></div>
+  <span class="tag">16 EVENTS · 06:00 → 19:41</span>
+  <div class="log">
+    <div class="hi new"><span class="t">19:41</span><span class="k">SIGNUP</span>/learn/outs · from search</div>
+    <div class="hi"><span class="t">19:36</span><span class="k">REEL</span>013 passed 20,000 views</div>
+    <div><span class="t">19:30</span><span class="k">TRAINER</span>61 drills this hour</div>
+    <div class="hi"><span class="t">19:12</span><span class="k">SIGNUP</span>/ · from instagram bio link</div>
+    <div><span class="t">18:55</span><span class="k">WRITER</span>letter 017 draft (1,140 words) → approval queue</div>
+    <div class="fail"><span class="t">18:20</span><span class="k">FAILED</span>publisher: Instagram token expired, reel 014 held</div>
+    <div><span class="t">18:00</span><span class="k">RESEARCH</span>12 items, 3 new topics</div>
+    <div class="hi"><span class="t">17:48</span><span class="k">SIGNUP</span>/table · from letter</div>
+    <div><span class="t">17:30</span><span class="k">COST</span>Claude €0.84 today, €23.10 this month</div>
+    <div><span class="t">16:02</span><span class="k">LETTER</span>016 sent to 1,246 · 52% opened so far</div>
+    <div class="hi"><span class="t">15:10</span><span class="k">SIGNUP</span>/learn/pot-odds · from youtube</div>
+    <div><span class="t">14:44</span><span class="k">SEARCH</span>"pot odds formula" got its first click</div>
+    <div><span class="t">13:30</span><span class="k">REEL</span>013 saved 212× (1 in 94 viewers)</div>
+    <div><span class="t">12:00</span><span class="k">SCHEDULER</span>3 queued for the week</div>
+    <div><span class="t">09:15</span><span class="k">APPROVED</span>reel 014 cover (by you)</div>
+    <div><span class="t">06:00</span><span class="k">RESEARCH</span>Reddit: 41 threads read, 2 ranked</div>
+  </div>
+</section>
+
+<!-- ============ ALERTS ============ -->
+<section class="pane" id="alerts">
+  <h2>THREATS <b>· RANKED · ONE FIX EACH</b></h2><div class="rule" style="left:290px"></div>
+  <span class="tag">1 FAIL · 2 WATCH · 1 CLEAR</span>
+  <div class="al rd" style="top:30px">
+    <div class="rk gr">01<small>FAIL</small></div>
+    <div class="ti gr"><span class="sev">PUBLISHER</span>Instagram publisher failed 18:20 · token expired · reel 014 held</div>
+    <div class="fx"><b>FIX ▸</b>re-authorise the Meta app (2 min), the held reel goes out on its own</div>
+  </div>
+  <div class="al am" style="top:92px">
+    <div class="rk ga">02<small>WATCH</small></div>
+    <div class="ti"><span class="sev">HOOK</span>reel 013 keeps 41% past 3 s · median is 55%</div>
+    <div class="fx"><b>FIX ▸</b>the number appears at 4.1 s — move it under 3 s</div>
+  </div>
+  <div class="al am" style="top:154px">
+    <div class="rk ga">03<small>WATCH</small></div>
+    <div class="ti"><span class="sev">SEARCH</span>/learn/outs slipped 8 → 14 for "poker outs"</div>
+    <div class="fx"><b>FIX ▸</b>chart image + exact-odds table above the fold, two internal links</div>
+  </div>
+  <div class="al ok" style="top:216px">
+    <div class="rk">04<small>CLEAR</small></div>
+    <div class="ti"><span class="sev">LETTER</span>bounce 0.8% · within range</div>
+    <div class="fx"><b>FIX ▸</b>none</div>
+  </div>
+</section>
+
+<!-- ============ EXPERIMENTS + BUDGET ============ -->
+<section class="pane" id="exp">
+  <h2>EXPERIMENTS <b>· BUDGET</b></h2><div class="rule" style="left:220px"></div>
+  <span class="tag">2 RUNNING · 0 DECIDED</span>
+  <div class="ex" style="top:30px">
+    <div class="n"><b>E-01</b>HOOK: NUMBER VS QUESTION</div>
+    <div class="stt">TOO EARLY TO CALL</div>
+    <div class="mt"><span class="k">DAY 6 OF 14 · 4 REELS</span><div class="meter dim"><i style="width:43%"></i></div><span class="v">DECIDE 11 MAR</span></div>
+  </div>
+  <div class="ex" style="top:100px">
+    <div class="n"><b>E-02</b>LETTER: THU VS SUN</div>
+    <div class="stt">INCONCLUSIVE</div>
+    <div class="mt"><span class="k">3 SENDS · NEED 6</span><div class="meter dim"><i style="width:50%"></i></div><span class="v">NEXT SEND THU</span></div>
+  </div>
+  <div class="bud">
+    <div class="hd"><span class="k">MONTH SPEND · MARCH</span><span class="v"><span class="g">€61</span><small>OF €150 CEILING · 41%</small></span></div>
+    <div class="meter"><i style="width:41%"></i></div>
+    <div class="ticks"><span style="left:0">0</span><span style="left:33%">50</span><span style="left:66%">100</span><span style="right:0">€150</span></div>
+    <div class="br">CLAUDE <b>€23</b> · CLOUDFLARE <b>€0</b> · BEEHIIV <b>€0</b> · DOMAIN <b>€1</b> · MISC <b>€37</b></div>
+  </div>
+</section>
+
+<footer id="ftr">
+  <div class="keys">
+    <span><kbd>⌘K</kbd>COMMAND</span><span><kbd>W</kbd>WALL</span><span><kbd>T</kbd>TIME</span><span><kbd>A</kbd>APPROVE (4)</span><span class="p"><kbd>⌘⇧P</kbd>PAUSE OUTBOUND</span>
+  </div>
+  <div class="r">LAST EVENT <b>19:41:38</b> · STORE <b>OK</b> · 14,882 EVENTS TODAY · RENDER PC <b>ONLINE</b></div>
+</footer>
+
+<div class="scan"></div>
+<div class="glass"></div>
+</body>
+</html>
