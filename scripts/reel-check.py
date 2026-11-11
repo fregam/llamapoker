@@ -17,8 +17,9 @@ Sound (from the render's audio):
     so a faster read scores higher even with fewer effects (003 v10: 134 with ~49 effects a
     minute, 002: ~73). Effect levels are judged by the peak (plucks/reveals at 0.6-0.7) and by ear.
   - quiet floor (10th percentile of 0.4 s RMS) <= -30 dBFS     (002: -31)
-Layout: a contact sheet, one frame a second, numbered by second, for overlaps and dead spots
-(default out/<id>.sheet.png next to the render). Look at it; the numbers can't see a 36% on a card.
+Layout: an overview sheet (one frame a second, small) and detail pages (the same frames at half
+size, eight a page: out/<id>.sheet-NN.png). Read every detail page; the numbers can't see a 36% on
+a card, and the small overview can't see a rule line through a number.
 Exit code 1 if any measured check fails.
 """
 
@@ -89,22 +90,36 @@ def sound(mp4: Path, tmp: Path):
     return m, rows
 
 
-def sheet(mp4: Path, dur: float, out: Path, tmp: Path, cols: int = 10, w: int = 216):
-    frames = []
-    for s in range(int(dur) + 1):
-        p = tmp / f"f{s:03d}.png"
-        subprocess.run([str(FFMPEG), "-v", "error", "-y", "-ss", f"{min(s + 0.5, dur - 0.05):.2f}", "-i", str(mp4), "-frames:v", "1", "-vf", f"scale={w}:-1", str(p)], check=True)
-        frames.append(Image.open(p).convert("RGB"))
-    fh = frames[0].height
+def tile(frames: list, labels: list, cols: int, out: Path):
+    w, fh = frames[0].size
     rows = (len(frames) + cols - 1) // cols
     img = Image.new("RGB", (cols * w, rows * fh), (40, 40, 40))
     d = ImageDraw.Draw(img)
-    for i, f in enumerate(frames):
+    for i, (f, label) in enumerate(zip(frames, labels)):
         x, y = (i % cols) * w, (i // cols) * fh
         img.paste(f, (x, y))
-        d.rectangle([x, y, x + 34, y + 18], fill=(0, 0, 0))
-        d.text((x + 4, y + 3), f"{i}s", fill=(255, 220, 120))
+        d.rectangle([x, y, x + 46, y + 18], fill=(0, 0, 0))
+        d.text((x + 4, y + 3), label, fill=(255, 220, 120))
     img.save(out)
+
+
+def sheet(mp4: Path, dur: float, out: Path, tmp: Path) -> list[Path]:
+    """An overview (one frame a second, 216 px wide: the shape of the reel) and detail pages
+    (the same frames at 540 px, eight a page). The overview cannot show a hairline through a
+    number: reel 003 v10 passed review with 35% cut by a rule line at 0:42. Read every detail page."""
+    big = []
+    for s in range(int(dur) + 1):
+        p = tmp / f"f{s:03d}.png"
+        subprocess.run([str(FFMPEG), "-v", "error", "-y", "-ss", f"{min(s + 0.5, dur - 0.05):.2f}", "-i", str(mp4), "-frames:v", "1", "-vf", "scale=540:-1", str(p)], check=True)
+        big.append(Image.open(p).convert("RGB"))
+    labels = [f"{s}.5s" for s in range(len(big))]
+    tile([f.resize((216, f.height * 216 // 540)) for f in big], labels, 10, out)
+    pages = [out]
+    for n, i in enumerate(range(0, len(big), 8), 1):
+        page = out.with_name(out.stem + f"-{n:02d}.png")
+        tile(big[i : i + 8], labels[i : i + 8], 4, page)
+        pages.append(page)
+    return pages
 
 
 def main():
@@ -119,14 +134,15 @@ def main():
         wps, pace_fail = pace(args.reel, args.vo)
         snd, sound_fail = sound(args.mp4, tmp)
         out = args.sheet or args.mp4.with_suffix(".sheet.png")
-        sheet(args.mp4, snd["dur"], out, tmp)
+        pages = sheet(args.mp4, snd["dur"], out, tmp)
     print(f"{args.reel}: {snd['dur']:.1f} s, {wps:.2f} words/s, peak {snd['peak_db']:.1f} dBFS at {snd['peak_at']:.1f} s, "
           f"{snd['onsets_per_min']:.0f} onsets/min, floor {snd['floor_db']:.1f} dBFS")
     fails = pace_fail + sound_fail
     for r in fails:
         print("  FAIL", r)
-    print(f"  sheet: {out}")
-    print("PASS (now look at the sheet)" if not fails else f"FAIL ({len(fails)})")
+    print(f"  overview: {pages[0]}")
+    print(f"  detail:   {len(pages) - 1} pages, {pages[1].name} ... {pages[-1].name}")
+    print("PASS (now read every detail page: numbers on lines, text on text)" if not fails else f"FAIL ({len(fails)})")
     sys.exit(1 if fails else 0)
 
 

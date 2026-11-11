@@ -99,7 +99,9 @@ const HEART_STAGGER = 3; // frames between hearts (and their ticks): 2 was a 15-
 const NINE_COUNT = 30; // frames for the outs to count to nine
 const EXACT_TOP = 480;
 const EXACT_RULE_ROW_TEXT_TOP = EXACT_TOP + 44 + 24; // header, then the row's padding
-const EXACT_EXACTLY_ROW_TOP = EXACT_TOP + 44 + 164; // after THE RULE row
+// Measured on the render: THE RULE row's bottom hairline is at y 748 (header 49 + row 219). The old
+// hand sum (44 + 164) put EXACTLY 60 px high, its digits through that line (0:42, the founder caught it).
+const EXACT_EXACTLY_ROW_TOP = EXACT_TOP + 268;
 const SHEET_TOP = 440;
 
 /* ---------- Sound: the bed under everything, one effect per change on screen ---------- */
@@ -280,10 +282,10 @@ function Outro() {
   const drift = 1 + Math.min(0.06, Math.max(0, since("outro")) / 2400);
   return (
     <>
-      {/* The Gentleman, centred and large, the same framing as reel 002's outro */}
+      {/* The Gentleman, centred and large; 40 px lower than 002 so the two-line question clears the ears */}
       {/* delay 10 on both: the cheat sheet fades out first, then the bookend comes in */}
       <Enter cue="outro" motion="fade" dur={16} delay={10} style={{ inset: 0 }}>
-        <Engraving file="expr-6.png" fade={0.4} style={{ position: "absolute", top: 570, left: 150, width: 780, height: 656, transform: `scale(${drift})` }} />
+        <Engraving file="expr-6.png" fade={0.4} style={{ position: "absolute", top: 610, left: 150, width: 780, height: 656, transform: `scale(${drift})` }} />
       </Enter>
       <Headline cue="outro" exit="cta" size={100} delay={10}>
         Which draw do <em>you</em> chase?

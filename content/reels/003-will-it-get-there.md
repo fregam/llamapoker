@@ -61,6 +61,13 @@ sitting on the cards at 0:09. Measured, not placebo (same voice in both):
   board is dealt instead of flying through it.
 - **Sound:** plucks, the nine reveal and the board deals brought to 002's levels (0.7–0.8), the two
   number hits to 0.8; tick bursts slowed (hearts 3 frames apart, the count to nine over a second).
+- **Founder's review of v10, first pass:** at 0:42 a rule line ran through "35% 19%". The EXACTLY row's
+  position was a hand sum (44 + 164) and sat 60 px high; it now uses the measured row height (y 748).
+  The overview sheet (216 px a frame) could not show it, so reel-check now also writes detail pages
+  at half size, eight frames a page, all read. They found one more: the two-line outro question sat
+  on the portrait's ears (002 has the same, less visibly); the portrait moved down 40 px.
+  Shared, not fixed (founder's call, would change 002): the portrait's black box reads as a darker
+  rectangle against the lifted background in both outros.
 - **Gate:** `scripts/reel-check.py` (apps/reels/README.md, "Before a reel reaches the approval
   queue") passes 002 v9 and failed 003 v9 on seven counts.
 

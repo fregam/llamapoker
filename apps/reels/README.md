@@ -224,7 +224,11 @@ polished scene by scene. Every reel now gets that scene-by-scene pass, with 002 
 Layout rules the sheet keeps catching: docked HUD numbers live in the lane y 352–470 and a scene's
 content starts at 508; a new scene's content enters ~8–10 frames after the old one starts leaving
 (`delay`), never in the same frame and place; two objects flying at once don't cross paths
-(stagger them); an object only "hands over" to another if they line up exactly, otherwise it leaves.
+(stagger them); an object only "hands over" to another if they line up exactly, otherwise it leaves;
+positions come from the render, not from adding up paddings by hand (003's EXACTLY row was 60 px
+off, its digits through a rule line); a two-line headline needs clear air above the portrait.
+Read the detail pages (half size), not just the overview: the founder caught that rule line at
+0:42 on a sheet that had "passed".
 
 The checklist a render must also pass (it grows with every round; the founder's eye and ear
 decide, measurements only narrow):
