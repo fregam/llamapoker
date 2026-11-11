@@ -1,5 +1,9 @@
 # Roadmap
 
+> 2026-11-11: the phased plan in `docs/plan-2026-11-11.md` is approved; Phase 0 is in progress (CI and
+> signup-path branches pushed, welcome email drafted, interface mockups made).
+> Session state lives in `docs/state.md`, decisions in `docs/decisions.md`.
+
 ## Done
 
 - 2026-11-06: llamapoker.com live on Cloudflare Pages (Namecheap domain, Cloudflare DNS,

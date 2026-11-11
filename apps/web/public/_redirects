@@ -1,0 +1,11 @@
+# Cloudflare Pages redirects (copied into dist/ by Vite).
+# /go/<channel>: the one link each social bio points at. It lands on the site with UTM tags so
+# a signup can say which channel it came from (src/attribution.ts). 302, not 301, so the target
+# can change later (e.g. a channel-specific landing page) without browsers caching the old one.
+/go/ig       /?utm_source=instagram&utm_medium=social&utm_campaign=bio   302
+/go/tt       /?utm_source=tiktok&utm_medium=social&utm_campaign=bio      302
+/go/yt       /?utm_source=youtube&utm_medium=social&utm_campaign=bio     302
+/go/x        /?utm_source=x&utm_medium=social&utm_campaign=bio           302
+/go/threads  /?utm_source=threads&utm_medium=social&utm_campaign=bio     302
+/go/reddit   /?utm_source=reddit&utm_medium=community&utm_campaign=bio   302
+/go/letter   /table?utm_source=letter&utm_medium=email&utm_campaign=link 302

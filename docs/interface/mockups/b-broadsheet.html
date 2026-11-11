@@ -1,0 +1,402 @@
+<!--
+  Direction B: The Broadsheet.
+  Idea: the whole operation laid out like the front page of a serious evening paper: masthead,
+  double rule, the headline figure with its deck line, the Gentleman's lead paragraph, then ruled
+  columns (the machine as a departures board, notices, the wire) and a bottom band for the map,
+  experiments and budget. Hairlines and small caps do the structure; colour only means something.
+  Invented data: Tuesday 3 March 2027, roughly month six of the plan. Static, 1920x1080, no scrolling.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LlamaPoker · Operations · The Broadsheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../brand/tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+  body {
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.4;
+    font-feature-settings: "tnum" 1, "cv11" 1;
+    -webkit-font-smoothing: antialiased;
+    font-optical-sizing: auto;
+  }
+  ul { list-style: none; }
+
+  /* ---------- Shared primitives ---------- */
+  .lab {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-3); line-height: 1;
+  }
+  .lab b { color: var(--text-2); font-weight: 600; }
+  .serif { font-family: var(--serif); font-weight: 500; color: var(--paper); }
+  .mono { font-family: var(--mono); }
+  .good { color: var(--sage); }
+  .warn { color: var(--brass); }
+  .bad  { color: var(--vermilion); }
+  .dim  { color: var(--text-3); }
+  .t2   { color: var(--text-2); }
+  kbd {
+    display: inline-block; font-family: var(--sans); font-size: 11px; font-weight: 600; line-height: 16px;
+    color: var(--text-2); border: 1px solid var(--rule-strong); border-radius: 2px; padding: 0 5px;
+    letter-spacing: 0.04em; vertical-align: 1px;
+  }
+  .rule { border-bottom: 1px solid var(--rule); }
+
+  /* ---------- Page grid: 26 + 34 + 212 + 94 + 470 + 220 + 24 = 1080 ---------- */
+  .page {
+    width: 1920px; height: 1080px; padding: 26px 40px 24px;
+    display: grid; grid-template-rows: 34px 212px 94px 470px 220px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline;
+    padding-bottom: 8px; border-bottom: 3px double var(--rule-strong);
+  }
+  .masthead .wordmark { font-family: var(--serif); font-weight: 500; font-size: 24px; letter-spacing: -0.01em; color: var(--paper); line-height: 1; }
+  .masthead .section { margin-left: 14px; }
+  .masthead .date { text-align: center; }
+  .masthead .date b { color: var(--text); }
+  .masthead .right { text-align: right; display: flex; justify-content: flex-end; gap: 22px; align-items: baseline; }
+  .masthead .right .lab { white-space: nowrap; }
+  .masthead .live { color: var(--sage); }
+  .masthead .live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); margin-right: 7px; vertical-align: 1px; }
+
+  /* ---------- Headline band ---------- */
+  .headline { display: grid; grid-template-columns: 1fr 700px; padding: 18px 0 0; border-bottom: 1px solid var(--rule); }
+  .headline .lede { border-left: 1px solid var(--rule); padding-left: 32px; margin-left: 32px; }
+  .hero { display: flex; align-items: flex-end; gap: 36px; margin-top: 6px; }
+  .hero .big { font-family: var(--serif); font-weight: 400; font-size: 150px; line-height: 0.8; letter-spacing: -0.03em; color: var(--paper); padding-bottom: 6px; }
+  .hero .trend { padding-bottom: 12px; font-size: 15px; line-height: 1.35; color: var(--text-2); }
+  .hero .trend .n { font-family: var(--serif); font-weight: 500; font-size: 30px; line-height: 1; letter-spacing: -0.01em; display: block; margin-bottom: 4px; }
+  .fig { padding-bottom: 12px; padding-left: 32px; border-left: 1px solid var(--rule); }
+  .fig .n { font-family: var(--serif); font-weight: 400; font-size: 52px; line-height: 0.9; letter-spacing: -0.02em; color: var(--paper); margin: 10px 0 8px; }
+  .fig .s { font-size: 13px; color: var(--text-2); white-space: nowrap; }
+  .deck { margin-top: 14px; font-size: 16px; line-height: 1.4; color: var(--text-2); }
+  .deck b { color: var(--paper); font-weight: 600; }
+  .lede p { margin-top: 10px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 20px; line-height: 1.4; color: var(--paper); }
+  .lede p .t2 { font-style: normal; }
+
+  /* ---------- Channels strip (the indices) ---------- */
+  .indices { display: grid; grid-template-columns: repeat(4, 1fr); padding: 12px 0 0; border-bottom: 1px solid var(--rule); }
+  .ix { padding-right: 28px; }
+  .ix + .ix { border-left: 1px solid var(--rule); padding-left: 28px; }
+  .ix .head { display: flex; justify-content: space-between; align-items: baseline; }
+  .ix .row { display: flex; align-items: baseline; gap: 12px; margin-top: 8px; }
+  .ix .n { font-family: var(--serif); font-weight: 400; font-size: 40px; line-height: 0.9; letter-spacing: -0.02em; color: var(--paper); }
+  .ix .u { font-size: 13px; color: var(--text-2); }
+  .ix .u .tr { font-weight: 600; margin-left: 6px; }
+  .ix .d { margin-top: 7px; font-size: 13px; color: var(--text-3); white-space: nowrap; }
+  .ix .d b { color: var(--text-2); font-weight: 500; }
+
+  /* ---------- Columns band ---------- */
+  .columns { display: grid; grid-template-columns: 808px 1fr 528px; padding: 14px 0 0; border-bottom: 1px solid var(--rule); }
+  .col { min-width: 0; }
+  .col-a { padding-right: 28px; }
+  .col-b, .col-c { border-left: 1px solid var(--rule); padding-left: 28px; }
+  .col-b { padding-right: 28px; }
+  .colhead { display: flex; justify-content: space-between; align-items: baseline; height: 22px; }
+
+  /* The machine: a departures board */
+  .board { margin-top: 8px; }
+  .board .hdr, .board .st {
+    display: grid; grid-template-columns: 22px 128px 1fr 80px 88px 184px; column-gap: 10px; align-items: center;
+  }
+  .board .hdr { height: 20px; border-bottom: 1px solid var(--rule-strong); }
+  .board .hdr .lab { font-size: 11px; }
+  .board .st { height: 31px; border-bottom: 1px solid var(--rule); }
+  .board .st > div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .board .name { font-size: 14px; font-weight: 500; color: var(--paper); }
+  .board .state { font-size: 13px; color: var(--text-2); }
+  .board .state .ok { color: var(--text-3); font-weight: 600; letter-spacing: 0.14em; font-size: 11px; text-transform: uppercase; margin-right: 8px; }
+  .board .state .wait { color: var(--brass); font-weight: 600; letter-spacing: 0.14em; font-size: 11px; text-transform: uppercase; margin-right: 8px; }
+  .board .state .fail { color: var(--vermilion); font-weight: 700; letter-spacing: 0.14em; font-size: 12px; text-transform: uppercase; margin-right: 8px; }
+  .board .time { font-family: var(--mono); font-size: 13px; color: var(--text-2); }
+  .board .count { font-size: 13px; color: var(--text-3); }
+  .board .count .k { font-family: var(--serif); font-weight: 500; font-size: 22px; color: var(--paper); margin-right: 7px; letter-spacing: -0.01em; }
+  .board .count .k.warn { color: var(--brass); }
+  .board .count .k.bad { color: var(--vermilion); }
+  /* the line through the stations */
+  .board .node { position: relative; height: 100%; }
+  .board .node::before { content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 1px; background: var(--rule-strong); }
+  .board .st:first-of-type .node::before { top: 50%; }
+  .board .st.last .node::before { bottom: 50%; }
+  .board .node::after {
+    content: ""; position: absolute; left: 6px; top: 50%; width: 7px; height: 7px; margin-top: -4px; border-radius: 50%;
+    background: var(--ink); border: 1px solid var(--text-3); box-sizing: border-box;
+  }
+  .board .node.done::after { background: var(--paper); border-color: var(--paper); }
+  .board .node.wait::after { background: var(--brass); border-color: var(--brass); }
+  .board .node.fail::after { background: var(--vermilion); border-color: var(--vermilion); width: 9px; height: 9px; left: 5px; margin-top: -5px; }
+  .board .st.failed .name { color: var(--vermilion); }
+  .board .also { margin-top: 10px; }
+  .board .also .st { height: 26px; }
+  .board .also .name { font-size: 13px; font-weight: 400; color: var(--text-2); }
+  .queue { margin-top: 10px; font-size: 13px; color: var(--text-3); line-height: 1.5; }
+  .queue b { color: var(--text-2); font-weight: 500; }
+
+  /* Notices */
+  .notice { display: grid; grid-template-columns: 34px 1fr; column-gap: 10px; padding: 11px 0 11px; border-bottom: 1px solid var(--rule); }
+  .notice:last-child { border-bottom: 0; }
+  .notice .rank { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1; letter-spacing: -0.02em; padding-top: 1px; }
+  .notice h3 { font-size: 14px; font-weight: 500; line-height: 1.35; color: var(--paper); }
+  .notice .meta { margin-top: 3px; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); line-height: 1.3; }
+  .notice .fix { margin-top: 5px; font-size: 13px; line-height: 1.45; color: var(--text-2); }
+  .notice .fix b { font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 11px; color: var(--text-3); margin-right: 4px; }
+
+  /* The wire */
+  .wire { margin-top: 8px; }
+  .wire li { display: grid; grid-template-columns: 50px 1fr; align-items: baseline; height: 25px; font-family: var(--mono); font-size: 13px; color: var(--text-2); white-space: nowrap; overflow: hidden; }
+  .wire li time { color: var(--text-3); }
+  .wire li.first { color: var(--paper); }
+  .wire li .bad { font-weight: 500; }
+
+  /* ---------- Bottom band ---------- */
+  .foot { display: grid; grid-template-columns: 808px 1fr 440px; padding: 14px 0 0; }
+  .mapwrap { display: grid; grid-template-columns: 460px 1fr; column-gap: 24px; margin-top: 6px; }
+  .carto { width: 460px; height: 160px; display: block; }
+  .carto text { font-family: var(--serif); font-weight: 500; fill: var(--paper); text-anchor: middle; letter-spacing: -0.02em; }
+  .carto text.pct { font-family: var(--sans); font-weight: 600; font-size: 11px; fill: var(--text-3); letter-spacing: 0.08em; }
+  .carto line { stroke: var(--rule-strong); stroke-width: 1; }
+  .mapnote { margin-top: 2px; font-size: 12px; color: var(--text-3); }
+  .geo { width: 100%; border-collapse: collapse; margin-top: 2px; }
+  .geo td { padding: 0; height: 17px; line-height: 16px; font-size: 13px; color: var(--text-2); border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  .geo td:first-child { color: var(--paper); font-weight: 500; width: 36px; }
+  .geo td:first-child.dim { color: var(--text-3); font-weight: 400; }
+  .geo td.r { text-align: right; font-feature-settings: "tnum" 1; }
+  .geo td.r.dim { color: var(--text-3); }
+  .geo tr.es td { color: var(--paper); }
+
+  .exp { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+  .exp:last-of-type { border-bottom: 0; }
+  .exp .t { display: flex; justify-content: space-between; align-items: baseline; }
+  .exp h3 { font-size: 14px; font-weight: 500; color: var(--paper); }
+  .exp .status { font-size: 13px; color: var(--text-2); }
+  .exp .bar { position: relative; height: 1px; background: var(--track); margin: 10px 0 8px; }
+  .exp .bar i { position: absolute; left: 0; top: -1px; height: 3px; background: var(--paper); }
+  .exp .s { font-size: 13px; color: var(--text-3); }
+
+  .budget .top { display: flex; align-items: baseline; gap: 12px; margin-top: 8px; }
+  .budget .n { font-family: var(--serif); font-weight: 400; font-size: 44px; line-height: 0.9; letter-spacing: -0.02em; color: var(--paper); }
+  .budget .u { font-size: 13px; color: var(--text-2); }
+  .budget .bar { position: relative; height: 1px; background: var(--track); margin: 10px 0 6px; }
+  .budget .bar i { position: absolute; left: 0; top: -1px; height: 3px; background: var(--paper); }
+  .ledger { width: 100%; border-collapse: collapse; }
+  .ledger td { height: 23px; padding: 0; font-size: 13px; color: var(--text-2); border-bottom: 1px solid var(--rule); }
+  .ledger td.r { text-align: right; font-feature-settings: "tnum" 1; color: var(--paper); }
+  .ledger tr:last-child td { border-bottom: 0; }
+  .ledger td .dim { font-size: 12px; margin-left: 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div><span class="wordmark">LlamaPoker</span><span class="lab section">Operations · Day 182</span></div>
+    <div class="lab date">Tuesday 3 March 2027 · <b>19:42</b></div>
+    <div class="right">
+      <span class="lab">Outbound <span class="live">Live</span> · Pause <kbd>⌘⇧P</kbd></span>
+      <span class="lab"><kbd>⌘K</kbd> Command · <kbd>W</kbd> Wall · <kbd>T</kbd> Time · <kbd>A</kbd> Approve</span>
+    </div>
+  </header>
+
+  <!-- Headline: the north star -->
+  <section class="headline">
+    <div>
+      <div class="lab">Subscribers · <b>the north star</b></div>
+      <div class="hero">
+        <div class="big">1,284</div>
+        <div class="trend"><span class="n good">+38</span>this week<br><span class="dim">+3.1%</span></div>
+        <div class="fig"><div class="lab">Reach</div><div class="n">48.2K</div><div class="s">reel views, 7 days · <span class="good">+12%</span></div></div>
+        <div class="fig"><div class="lab">Weekly active</div><div class="n">27%</div><div class="s">342 subscribers used the tool</div></div>
+      </div>
+      <p class="deck"><b>Today:</b> +9, six from reel 013 via the bio link, three from “poker outs”. &nbsp;<b>Do:</b> re-authorise Instagram, then approve the queue (4).</p>
+    </div>
+    <div class="lede">
+      <div class="lab">The briefing · <b>the Gentleman</b> · 19:42</div>
+      <p>Good evening. Nine joined today, six of them from reel 013, which passed twenty thousand views at half past seven. Instagram has stopped taking our calls since 18:20; the token expired, and reel 014 is waiting on it. I would fix that first, then clear the four pieces in the queue. Letter 016 is being opened at the usual rate.</p>
+    </div>
+  </section>
+
+  <!-- Channels: four short ruled blocks -->
+  <section class="indices">
+    <div class="ix">
+      <div class="head"><span class="lab">Site</span><span class="lab"><b>41 subs · 34%</b></span></div>
+      <div class="row"><span class="n">2,910</span><span class="u">visits, 7 days<span class="tr good">+8%</span></span></div>
+      <div class="d"><b>3.2%</b> sign up · <b>41</b> subscribers this week · a third of the total</div>
+    </div>
+    <div class="ix">
+      <div class="head"><span class="lab">Letter</span><span class="lab"><b>16 sends</b></span></div>
+      <div class="row"><span class="n">52%</span><span class="u">opened, letter 016</span></div>
+      <div class="d"><b>18%</b> clicked · <b>14</b> ran a spot · bounce <b>0.8%</b></div>
+    </div>
+    <div class="ix">
+      <div class="head"><span class="lab">Instagram</span><span class="lab"><b>22 subs · 18%</b></span></div>
+      <div class="row"><span class="n">48.2K</span><span class="u">views, 7 days<span class="tr good">+12%</span></span></div>
+      <div class="d"><b>3,420</b> followers · <b>22</b> subscribers via the bio link</div>
+    </div>
+    <div class="ix">
+      <div class="head"><span class="lab">Search</span><span class="lab"><b>9 subs · 7%</b></span></div>
+      <div class="row"><span class="n">310</span><span class="u">clicks, 28 days<span class="tr good">+41%</span></span></div>
+      <div class="d"><b>6.4K</b> impressions · average position <b>12.3</b></div>
+    </div>
+  </section>
+
+  <!-- Columns: the machine, notices, the wire -->
+  <section class="columns">
+
+    <div class="col col-a">
+      <div class="colhead"><span class="lab">The machine · <b>research to published</b></span><span class="lab">Pause switch <b>off</b></span></div>
+      <div class="board">
+        <div class="hdr"><div></div><div class="lab">Station</div><div class="lab">State</div><div class="lab">Last</div><div class="lab">Next</div><div class="lab">This week</div></div>
+        <div class="st"><div class="node done"></div><div class="name">Research</div><div class="state"><span class="ok">ok</span>ran on schedule</div><div class="time">18:00</div><div class="time">Mon 06:00</div><div class="count"><span class="k">12</span>items · 3 new topics</div></div>
+        <div class="st"><div class="node done"></div><div class="name">Writer</div><div class="state"><span class="ok">ok</span>letter 017 drafted</div><div class="time">18:55</div><div class="time">on demand</div><div class="count"><span class="k">3</span>drafts</div></div>
+        <div class="st"><div class="node done"></div><div class="name">Voice · Render</div><div class="state"><span class="ok">ok</span>on the founder’s PC</div><div class="time">Sun 20:10</div><div class="time">Sun</div><div class="count"><span class="k">2</span>reels</div></div>
+        <div class="st"><div class="node wait"></div><div class="name">Approval</div><div class="state"><span class="wait">waiting on you</span></div><div class="time">09:15</div><div class="time">—</div><div class="count"><span class="k warn">4</span>waiting · oldest 1 day</div></div>
+        <div class="st"><div class="node done"></div><div class="name">Scheduled</div><div class="state"><span class="ok">ok</span>Thu · Fri · Sun</div><div class="time">12:00</div><div class="time">Thu 18:00</div><div class="count"><span class="k">3</span>posts queued</div></div>
+        <div class="st failed"><div class="node fail"></div><div class="name">Publisher</div><div class="state"><span class="fail">failed</span><span class="bad">Instagram token expired</span></div><div class="time bad">18:20</div><div class="time">held</div><div class="count"><span class="k bad">1</span>held · reel 014</div></div>
+        <div class="st last"><div class="node done"></div><div class="name">Published</div><div class="state"><span class="ok">ok</span>2 reels · 1 letter · 2 posts</div><div class="time">16:02</div><div class="time">Thu 18:00</div><div class="count"><span class="k">5</span>this week</div></div>
+        <div class="also">
+          <div class="st"><div></div><div class="name">Letter sender</div><div class="state"><span class="ok">ok</span>letter 016 to 1,246</div><div class="time">Tue 16:02</div><div class="time">Thu</div><div class="count">1 send</div></div>
+          <div class="st"><div></div><div class="name">Event store</div><div class="state"><span class="ok">ok</span>2.1 ms p95</div><div class="time">19:41</div><div class="time">live</div><div class="count">14,882 events today</div></div>
+        </div>
+      </div>
+      <p class="queue"><b>In the queue</b> <kbd>A</kbd> &nbsp;letter 017 draft · reel 015 script · post “outs in one look” · post “the pot-odds card” · <b>oldest 1 day</b></p>
+    </div>
+
+    <div class="col col-b">
+      <div class="colhead"><span class="lab">Notices · <b>ranked by what it costs</b></span></div>
+      <div class="notice">
+        <div class="rank bad">1</div>
+        <div>
+          <h3>Instagram publisher failed at 18:20: the token expired. Reel 014 is held.</h3>
+          <div class="meta bad">Failure · outbound blocked · 1 h 22 min</div>
+          <div class="fix"><b>Fix</b> Re-authorise the Meta app, about two minutes. The publisher retries on its own once the token is back.</div>
+        </div>
+      </div>
+      <div class="notice">
+        <div class="rank warn">2</div>
+        <div>
+          <h3>Reel 013 keeps 41% of viewers past three seconds; the median reel keeps 55%.</h3>
+          <div class="meta warn">Needs attention · retention</div>
+          <div class="fix"><b>Fix</b> The hook shows the number at 4.1 s. Move it under three seconds and re-cut the cover.</div>
+        </div>
+      </div>
+      <div class="notice">
+        <div class="rank warn">3</div>
+        <div>
+          <h3>/learn/outs slipped from position 8 to 14 for “poker outs”.</h3>
+          <div class="meta warn">Needs attention · search</div>
+          <div class="fix"><b>Fix</b> Chart image and the exact-odds table above the fold, plus two internal links from /table and /learn/pot-odds.</div>
+        </div>
+      </div>
+      <div class="notice">
+        <div class="rank good">4</div>
+        <div>
+          <h3>Letter bounce rate 0.8%, within range.</h3>
+          <div class="meta good">Fine · no action</div>
+          <div class="fix"><b>Fix</b> None. Watching; the alarm is set at 2%.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-c">
+      <div class="colhead"><span class="lab">The wire · <b>as it happens</b></span><span class="lab">Newest first</span></div>
+      <ul class="wire">
+        <li class="first"><time>19:41</time><span>signup from /learn/outs · search</span></li>
+        <li><time>19:36</time><span>reel 013 passed 20,000 views</span></li>
+        <li><time>19:30</time><span>trainer: 61 drills answered this hour</span></li>
+        <li><time>19:12</time><span>signup from / · instagram · bio link</span></li>
+        <li><time>18:55</time><span>writer finished letter 017 draft (1,140 words) → queue</span></li>
+        <li><time>18:20</time><span class="bad">publisher failed: Instagram token expired · reel 014 held</span></li>
+        <li><time>18:00</time><span>research ran: 12 items, 3 new topics</span></li>
+        <li><time>17:48</time><span>signup from /table · letter</span></li>
+        <li><time>17:30</time><span>cost: Claude €0.84 today, €23.10 this month</span></li>
+        <li><time>16:02</time><span>letter 016 sent to 1,246 · 52% opened so far</span></li>
+        <li><time>15:10</time><span>signup from /learn/pot-odds · youtube</span></li>
+        <li><time>14:44</time><span>search: “pot odds formula” first click</span></li>
+        <li><time>13:30</time><span>reel 013 saved 212 times (1 in 94 views)</span></li>
+        <li><time>12:00</time><span>scheduler: 3 posts queued</span></li>
+        <li><time>09:15</time><span>approved: reel 014 cover, caption v2</span></li>
+        <li><time>06:00</time><span>research ran: Reddit 41 threads, 2 ranked</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Bottom band: map, experiments, budget -->
+  <section class="foot">
+    <div class="col col-a">
+      <div class="colhead"><span class="lab">Where they are · <b>visitors, 7 days</b></span><span class="lab">Codes sized by share of visits</span></div>
+      <div class="mapwrap">
+        <div>
+          <svg class="carto" viewBox="0 0 460 160" aria-label="Typographic cartogram of visitor share">
+            <!-- a hairline meridian between the Americas and Europe -->
+            <line x1="222" y1="6" x2="222" y2="154"/>
+            <!-- Americas -->
+            <text x="100" y="62" font-size="46">US</text><text class="pct" x="100" y="77">12%</text>
+            <text x="56" y="104" font-size="22">MX</text><text class="pct" x="56" y="118">2%</text>
+            <text x="160" y="118" font-size="28">BR</text><text class="pct" x="160" y="132">4%</text>
+            <text x="128" y="152" font-size="24">AR</text><text class="pct" x="166" y="152">3%</text>
+            <!-- Europe -->
+            <text x="268" y="46" font-size="40">UK</text><text class="pct" x="268" y="61">9%</text>
+            <text x="346" y="38" font-size="26">NL</text><text class="pct" x="346" y="52">4%</text>
+            <text x="412" y="84" font-size="50">DE</text><text class="pct" x="412" y="99">14%</text>
+            <text x="252" y="98" font-size="32">FR</text><text class="pct" x="252" y="112">6%</text>
+            <text x="336" y="156" font-size="74">ES</text><text class="pct" x="408" y="156">31%</text>
+          </svg>
+          <div class="mapnote">Engraving map: not enough geo data yet · 31 others share the remaining 15%</div>
+        </div>
+        <table class="geo">
+          <tr class="es"><td>ES</td><td class="r">31%</td><td class="r">912 visits</td><td class="r">14 subs</td></tr>
+          <tr><td>DE</td><td class="r">14%</td><td class="r">407</td><td class="r dim"></td></tr>
+          <tr><td>US</td><td class="r">12%</td><td class="r">349</td><td class="r dim"></td></tr>
+          <tr><td>UK</td><td class="r">9%</td><td class="r">262</td><td class="r dim"></td></tr>
+          <tr><td>FR</td><td class="r">6%</td><td class="r">175</td><td class="r dim"></td></tr>
+          <tr><td>NL</td><td class="r">4%</td><td class="r">116</td><td class="r dim"></td></tr>
+          <tr><td>BR</td><td class="r">4%</td><td class="r">116</td><td class="r dim"></td></tr>
+          <tr><td>AR</td><td class="r">3%</td><td class="r">87</td><td class="r dim"></td></tr>
+          <tr><td>MX</td><td class="r">2%</td><td class="r">58</td><td class="r dim"></td></tr>
+          <tr><td class="dim">31 others</td><td class="r">15%</td><td class="r">428</td><td class="r dim"></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="col col-b">
+      <div class="colhead"><span class="lab">Experiments · <b>honest status</b></span></div>
+      <div class="exp">
+        <div class="t"><h3>Hook: number vs question</h3><span class="status">Too early to call</span></div>
+        <div class="bar"><i style="width: 43%"></i></div>
+        <div class="s">Day 6 of 14 · 4 reels · 2 per arm · verdict at 14 days or 8 reels</div>
+      </div>
+      <div class="exp">
+        <div class="t"><h3>Letter: Thursday vs Sunday</h3><span class="status">Inconclusive</span></div>
+        <div class="bar"><i style="width: 50%"></i></div>
+        <div class="s">3 sends of 6 · opens within 2 points of each other · keep going</div>
+      </div>
+    </div>
+
+    <div class="col col-c budget">
+      <div class="colhead"><span class="lab">Budget · <b>March</b></span><span class="lab">Ceiling €150</span></div>
+      <div class="top"><span class="n">€61</span><span class="u">spent of €150 · 41% · day 3 of 31</span></div>
+      <div class="bar"><i style="width: 41%"></i></div>
+      <table class="ledger">
+        <tr><td>Claude<span class="dim">agents, writing, research</span></td><td class="r">€23</td></tr>
+        <tr><td>Cloudflare<span class="dim">pages, DNS</span></td><td class="r">€0</td></tr>
+        <tr><td>Beehiiv<span class="dim">the letter</span></td><td class="r">€0</td></tr>
+        <tr><td>Domain</td><td class="r">€1</td></tr>
+        <tr><td>Misc<span class="dim">fonts, stock, a tool</span></td><td class="r">€37</td></tr>
+      </table>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

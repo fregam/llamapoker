@@ -195,6 +195,25 @@ public/library/         Cut-outs of the on-brand library (content/library): expr
                         Blacks crushed so screen blending drops them onto ink.
 ```
 
+## Before a reel reaches the approval queue
+
+The checklist a render must pass (it grows with every round; the founder's eye and ear decide,
+measurements only narrow):
+
+- [ ] The script reads as one argument: each line leans on the last; numbers come back as callbacks.
+- [ ] Hook: motion from frame 0, the payoff number on screen by second three, no portrait.
+- [ ] One change per caption chunk, one focal object, nothing under the caption zone (y ≥ 1320).
+- [ ] Every number and chart comes from `apps/web/src/poker/` and is checked against the Table.
+- [ ] Voice: one continuous generation, `vo-check.py` passes (same voice on every take, every word
+      said), silences capped at 0.55 s, no tempo change.
+- [ ] Sound: a sound for everything that moves and nothing on the captions; the bed ducked under
+      the voice; peaks under −1 dBFS, integrated loudness about −16 LUFS.
+- [ ] Contact sheet checked against the Instagram safe area and against a reference frame.
+- [ ] Ends on a save-worthy table, a comment question, then the URL; last picture = hook picture.
+- [ ] Cover rendered (1080×1350), caption written (what it explains, who it's for, "link in bio"),
+      status line in `content/reels/` updated, render copied to `media/reels/.../renders/`.
+- [ ] Only one thing changed since the previous approved version, and the before/after was shown.
+
 ## Reels
 
 | id | Topic | Length | Recipe |

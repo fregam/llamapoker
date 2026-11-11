@@ -156,3 +156,61 @@ lesson, and a hook line that could open the post.
   isn't faster, it's broken. And every rule you write down this precisely came from a complaint.
 - **Hook:** "I optimised my video for retention and my first viewer said it felt wrong. He was
   right about all four things."
+
+## 2026-11-11 · The first planning session found the leak before the reel
+
+- **Choice:** before building anything for growth, audit the whole path from reel to welcome
+  email. Rejected: posting the three rendered reels first and "getting data" (the brief's own
+  instinct, and mine).
+- **What happened:** the site passed every technical check (types, tests, build, headers,
+  structured data, redirects). The path did not: the signup form lives on one page, the welcome
+  email in Beehiiv was switched off, the list had two subscribers and both were me, and the only
+  attribution field could say one word: "home". Search had sent seventeen impressions. A week of
+  seven reel pipeline versions sat on top of a funnel with no bottom.
+- **Lesson:** the machine is never the bottleneck when the list is empty. Check where a viewer
+  would land before you polish what they'd watch.
+- **Hook:** "I rebuilt my video pipeline seven times. My newsletter's welcome email was off."
+
+## 2026-11-11 · CI can't gate a deploy it doesn't own
+
+- **Choice:** the site deploys straight from GitHub to Cloudflare Pages on every push. The
+  obvious "safety net" is a CI job that runs the tests. But Pages builds `main` on its own the
+  moment the push lands; a red CI job changes nothing. The gate had to be a branch rule (no
+  merge without green checks), not the checks themselves. Rejected: moving the deploy into CI
+  with a token, which would have added a secret and a second deploy path for the same result.
+- **Lesson:** a check only protects what it can block. Find who actually pulls the trigger
+  before writing the test that is supposed to stop it.
+- **Hook:** "My CI was green and useless. The deploy never asked it."
+
+## 2026-11-11 · The screenshot found what the tests passed
+
+- **What happened:** the new letter form went into every guide's footer and into the site's
+  colophon. Tests green, build green. The screenshot showed two identical forms thirty pixels
+  apart on every guide. One line fixed it; a test now counts forms per page.
+- **Lesson:** render the page. A test that checks a form exists can't tell you it exists twice.
+- **Hook:** "All tests passed. The page had two signup forms."
+
+## 2026-11-11 · The ASR said every word was right; the alignment said the "s" was missing
+
+- **Choice:** for the voice round (hook A vs the livelier B, the founder's ear decides) the
+  B clip was rendered with its own measured word times through an untracked copy of the reel,
+  instead of muxing B's audio under A's picture. Rejected: the mux, because captions drifting
+  against the voice would have biased the ear test against B.
+- **What happened:** the pause-tightening gate could not see any silence in the sampled read:
+  its noise floor sat 26 dB above the greedy read's, so "cut every gap over 0.55 s" cut nothing.
+  Cleaning first, then tightening, fixed it. Then two transcript checks disagreed: the
+  language-model ASR heard every word; the letter-level alignment put near-zero confidence on
+  the final "s" of "costs" and the "th" of "maths". The founder's ear has to settle it.
+- **Lesson:** for sampled voices, clean before you tighten. And a transcript check needs two
+  models: one autocorrects what the other hears missing.
+- **Hook:** "My speech recogniser passed the take. My aligner said the consonants were gone."
+## 2026-11-11 · The overview is the contract, the tests are its audit
+
+- **Choice:** when the signup path landed (form on every guide, the trainer and the colophon,
+  first-touch channel to Beehiiv, /go bio links, dormant Turnstile), the docs were brought up in a
+  separate pass against the code, not from the plan: every claim in overview.md was read off the
+  file it describes, and the two new test files are now listed under "things to keep in sync".
+- **Rejected:** letting the header comments carry it alone. They say what a file does; only the
+  overview says where the form may appear and why there is exactly one per page.
+- **Lesson:** a placement rule you can state in one paragraph is a rule a test can hold.
+- **Hook:** "My docs are the spec and my tests check the docs, not the other way round."

@@ -8,8 +8,14 @@
   `fregam/llamapoker`. Every push to `main` builds and deploys.
   - Root directory `apps/web`, build command `npm run build`, output directory `dist`.
   - Functions (`apps/web/functions/`) run the newsletter signup at `/api/subscribe`.
-  - Environment: `BEEHIIV_API_KEY` (secret), `BEEHIIV_PUBLICATION_ID`.
+  - Environment: `BEEHIIV_API_KEY` (secret), `BEEHIIV_PUBLICATION_ID`. Optional, for Cloudflare
+    Turnstile on the signup form: `TURNSTILE_SECRET_KEY` (secret, read by the function) and the build
+    variable `VITE_TURNSTILE_SITE_KEY` (baked into the form at build time). Turnstile stays off until
+    both are set; set them together, and redeploy after adding the site key.
 - **Redirects:** a Cloudflare Redirect Rule sends `www` → `llamapoker.com` (301).
+  `apps/web/public/_redirects` adds the bio links `/go/<channel>` (`ig`, `tt`, `yt`, `x`, `threads`,
+  `reddit`, `letter`), each a 302 to the site with `utm_source` / `utm_medium` / `utm_campaign`, so a
+  signup can say which channel it came from.
 - **Newsletter:** Beehiiv publication LlamaPoker (`pub_c7930bfc-…`). Post template "The LlamaPoker Letter"
   (`post_template_c1039d31-05b2-48b3-b1a4-ab31696a1535`): brand dark theme, header image, sections (spot of the
   week, drill, from the journal), signed by the Gentleman. Managed through the Beehiiv MCP connector.

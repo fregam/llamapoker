@@ -57,4 +57,27 @@ describe("signup path", () => {
     expect(html).toContain('class="signup"');
     expect(html).toContain('name="email"');
   });
+
+  for (const path of LEARN_PATH.filter((p) => p.startsWith("/learn/"))) {
+    it(`${path} carries the compact letter form with its own source`, () => {
+      const html = render(path);
+      expect(html).toContain('class="signup signup-compact"');
+      expect(html).toContain('name="email"');
+    });
+  }
+
+  it("the table and the glossary carry the letter form in the colophon", () => {
+    for (const path of ["/table", "/glossary", "/strategy"]) {
+      const html = render(path);
+      expect(html, path).toContain('class="colophon-letter"');
+    }
+  });
+
+  it("no prerendered page shows the form twice", () => {
+    for (const r of ROUTES.filter((x) => x.prerender)) {
+      const html = render(r.path);
+      const forms = (html.match(/<form class="signup/g) ?? []).length;
+      expect(forms, r.path).toBe(1);
+    }
+  });
 });

@@ -11,11 +11,11 @@ Cloudflare Pages Function for the email signup, no router library and no state l
 Most online poker sites ban real-time assistance during play; keep copy consistent with that
 (home FAQ, privacy page, colophon).
 
-Stack: React 18 + TypeScript + Vite 5, Vitest for tests. No other runtime dependencies.
+Stack: React 18 + TypeScript + Vite 7, Vitest 3 for tests. No other runtime dependencies.
 
 ```bash
 npm run dev      # dev server (http://localhost:5173)
-npm test         # vitest run (all tests)
+npm test         # vitest run (all tests: poker logic, page renders, the signup function)
 npx vitest run -t "flush draw"   # a single test by name
 npx tsc --noEmit # type-check only
 npm run build    # tsc → vite build → SSR build → scripts/prerender.mjs → dist/ (deployable)
@@ -32,7 +32,10 @@ Lives at `apps/web/` in the LlamaPoker monorepo. Brand colours and fonts come fr
 ```
 index.html              Page template: fonts (Bodoni Moda, Inter, JetBrains Mono), favicon, meta, #root
 public/_headers         Cloudflare Pages response headers (asset caching, security), copied into dist/
-functions/api/subscribe.ts  Cloudflare Pages Function: POST /api/subscribe → Beehiiv API (keys in env)
+public/_redirects       Cloudflare Pages redirects: /go/<channel> bio links → the site with UTM tags (302)
+functions/api/subscribe.ts  Cloudflare Pages Function: POST /api/subscribe → Beehiiv API (keys in env);
+                        maps source/channel to Beehiiv utm fields, optional Turnstile check, one JSON log line
+functions/api/subscribe.test.ts  Vitest for the function with fetch mocked: every branch and the exact Beehiiv payload
 .node-version           Node version for the Cloudflare build (20)
 scripts/brand-assets.mjs  Builds derived brand images from ../../brand (run by hand): public/og.png,
                         public/brand/*.webp, favicons, brand/social/* (templates in brand/templates/)
@@ -41,9 +44,12 @@ scripts/prerender.mjs   Build step: writes one HTML file per route (+ robots.txt
 src/
   main.tsx              Browser entry: mounts <App/> (createRoot), imports styles.css
   entry-server.tsx      Build-time entry: render(path) → HTML string, used by prerender.mjs
-  App.tsx               Masthead + nav, routes → pages, city backdrop, colophon; sets <title>
+  App.tsx               Masthead + nav, routes → pages, city backdrop, colophon (compact signup unless the page has
+                        one inline: INLINE_SIGNUP); sets <title>; calls attribution.remember() after mount
   router.ts             Tiny router: usePath(), navigate(), setServerPath() for the prerender
   seo.ts                Route table: path → page, title, description, prerender, JSON-LD schema; LEARN_PATH
+  attribution.ts        First-touch channel (utm_* or referrer host) kept in sessionStorage for the visit; remember() / attribution()
+  pages.test.tsx        Smoke tests: every route renders through entry-server with one <h1>; signup placement invariants
   content/faq.ts        Home FAQ as data (visible FAQ + FAQPage structured data)
   styles.css            The one global stylesheet (tokens on :root, plain class names)
   vite-env.d.ts         Vite client types (import.meta.env)
@@ -78,10 +84,11 @@ src/
     Charts.tsx          EquityGauge, PotBar (used); Donut (unused leftover)
     Explain.tsx         <Explain> disclosure, <Formula>, <Term> tooltip
     Link.tsx            <a href> that navigates client-side (router.ts)
-    Guide.tsx           Learn-guide frame: breadcrumb, h1, lead, "next in the path", tool links; <Callout>
+    Guide.tsx           Learn-guide frame: breadcrumb, h1, lead, "next in the path", tool links, compact signup; <Callout>
     RangeChart.tsx      Read-only 13×13 chart (layers: 3-bet / call / raise), used by Starting hands
     TableDiagram.tsx    SVG 6-max table: seats, dealer button, order of action pre/postflop
-    Signup.tsx          Email capture: JSON POST to /api/subscribe (honeypot "company")
+    Signup.tsx          Email capture: JSON POST to /api/subscribe with source + attribution (honeypot "company",
+                        optional Turnstile via VITE_TURNSTILE_SITE_KEY); `compact` variant hides once joined (localStorage)
     Skyline.tsx         Decorative night-city background painted once on a <canvas> (blurred depth layers, bokeh)
 
   views/                One file per page
@@ -96,7 +103,7 @@ src/
     Privacy.tsx         /privacy — what's stored (keep true when adding analytics/cookies)
     NotFound.tsx        404 page for unknown URLs
     PlayTool.tsx        "The Table" — the live tool (3-column, one-screen layout)
-    Trainer.tsx         Five drills, grading, shot clock, session + all-time stats and leaks
+    Trainer.tsx         Five drills, grading, shot clock, session + all-time stats and leaks; compact signup after an answer
     Strategy.tsx        Static content: the rules the tool applies
     Glossary.tsx        Static content: definitions and formulas
 ```
@@ -249,6 +256,24 @@ Hotkeys are ignored while focus is in an input or select.
   `/api/subscribe`; the function adds the address to Beehiiv with `BEEHIIV_API_KEY` and
   `BEEHIIV_PUBLICATION_ID` (set in the Cloudflare dashboard, never in the repo). Until those are
   set it returns 503 and the form shows an error. In `npm run dev` the form only logs.
+- **Signup path and attribution.** The form appears once per page: inline on the home page, at
+  the foot of every guide (`Guide.tsx`, source `guide-<slug>`), under the Trainer readout after an
+  answer (source `trainer`), and in the colophon of every other page (`App.tsx`, source
+  `foot-<page>`; `INLINE_SIGNUP` lists the pages that already have one). Compact forms disappear
+  once the visitor has joined (`lp-joined` in localStorage). Where the visitor came from is
+  recorded once per visit by `attribution.ts`: `remember()` runs after mount and keeps
+  `utm_source` / `utm_medium` / `utm_campaign` from the landing URL (or the referrer's host) in
+  sessionStorage, first touch wins, nothing stored without a channel. On submit the form sends
+  `{ email, source, channel, medium, campaign, ref, token }`; the function maps them onto Beehiiv's
+  `utm_source` (channel, default `llamapoker.com`), `utm_medium` (default `website`) and
+  `utm_campaign` (`source` or `source.campaign`), with `reactivate_existing` so a returning
+  subscriber comes back. `public/_redirects` gives each social bio one link, `/go/ig`, `/go/tt`,
+  `/go/yt`, `/go/x`, `/go/threads`, `/go/reddit`, `/go/letter`, that lands on the site with those
+  UTM tags (302, so the target can change). Cloudflare Turnstile is dormant until both keys exist:
+  `VITE_TURNSTILE_SITE_KEY` at build time makes the form load the widget on first focus and send
+  its token, `TURNSTILE_SECRET_KEY` in the function makes it verify that token (403 without one).
+  Every outcome is one JSON log line `{event: "signup", ts, ok, reason?, source, channel, …}`,
+  never the address: the first event in the common format that later events will share.
 ### Search strategy (who we're found by)
 
 The core persona is a **beginner**: knows how a hand is dealt, doesn't know positions or pot
@@ -281,6 +306,9 @@ one-screen, three-column Table layout and its breakpoints (2 columns under 1180p
   describes the formulas. Update them when the logic changes.
 - The header comment in each file and this overview, when files are added, moved or rewired.
 - `README.md` is the user-facing description of features and shortcuts.
+- `src/pages.test.tsx` when a route is added or the signup moves (it checks every prerendered page
+  renders with one `<h1>` and exactly one form); `functions/api/subscribe.test.ts` when the function's
+  branches or the Beehiiv payload change. `npm test` runs both with the poker suite.
 
 Known leftover: `Donut` in `Charts.tsx` is unused.
 Known simplifications: heads-up uses the 6-max BTN range; 7–9 player tables reuse the six

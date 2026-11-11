@@ -15,3 +15,7 @@ brand/.build/
 # Tracked instead: media/README.md and the manifests in content/ (sha256, source, prompt per file).
 media/*
 !media/README.md
+
+# Claude Code worktrees (agents working on other branches)
+.claude/worktrees/
+__pycache__/

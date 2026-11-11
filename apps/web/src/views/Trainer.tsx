@@ -27,6 +27,7 @@ import type { Choice } from "../poker/strategy";
 import { useEquity } from "../hooks/useEquity";
 import { newOpp, oppCombos, describeOpps } from "../components/OpponentRanges";
 import { Readout } from "../components/Readout";
+import { Signup } from "../components/Signup";
 import { Stats, emptyStats, loadStats, recordDecision, saveStats, findLeaks, isOk } from "../poker/stats";
 import { formatPct } from "../poker/odds";
 import { HandState, dealHand, spotOf, optionsOf, applyChoice, pretty, boardOf } from "../poker/handPlay";
@@ -490,14 +491,19 @@ export default function Trainer() {
 
         <div className="tool-output" aria-live="polite">
           {answer !== null && analysis && result ? (
-            <Readout
-              spot={spot}
-              a={analysis}
-              result={result}
-              computing={false}
-              oppsText={describeOpps(question.oppPresets.map((p) => newOpp(p)))}
-              showReco={false}
-            />
+            <>
+              <Readout
+                spot={spot}
+                a={analysis}
+                result={result}
+                computing={false}
+                oppsText={describeOpps(question.oppPresets.map((p) => newOpp(p)))}
+                showReco={false}
+              />
+              <div className="trainer-letter">
+                <Signup source="trainer" compact />
+              </div>
+            </>
           ) : (
             <SidePanel
               stats={stats}
