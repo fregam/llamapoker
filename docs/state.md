@@ -23,15 +23,19 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
   keystrokes while editing the welcome email; deleting them was blocked. Harmless; delete by hand.
 - Voice round 1: the founder picked B by ear. Reels 002/003 re-voiced as v9 on `reels/voice-b`
   (pushed, needs a PR). Two words to confirm by ear: 002 "So save this", 003 "But say the turn".
-- Interface: round 2 (VFD) mockups on `interface/vfd-mockups` (pushed, needs a PR).
+- Interface: round 2 (VFD) mockups merged; build direction decided (`docs/decisions.md`, night entry).
+- `reels/voice-b` merged (PR #12) and `interface/vfd-mockups` merged by git; all session branches deleted locally.
 
 ## Waiting on the founder
 
-- **Merge:** PRs for `reels/voice-b` and `interface/vfd-mockups` (both docs/media only; no site
-  code, so no deploy risk).
-- **Pick a VFD direction** (1 Phosphor, 2 Batcomputer, 3 Cluster) or say what to combine.
-- **Review-sheet round** for reel 002 (v9): watch it next to the reference "Waiting for aces?" and
-  note every moment ours feels worse, with a timestamp; I sort and fix one category.
+- **`gh auth login`** on the PC (the CLI is installed at C:\Program Files\GitHub CLI but not logged
+  in, and not on PATH in a Git Bash started before the install). Once logged in, the branch rule
+  on `main` is one command (run from the repo):
+  `gh api -X PUT repos/fregam/llamapoker/branches/main/protection --input docs/branch-protection.json`
+  (file in this repo; requires the two CI checks, enforces for admins, no review requirement
+  because a solo founder cannot approve their own PR).
+- **Review-sheet round** for reel 002 (v9): the sheet with plain instructions and the scene
+  timestamps is `docs/research/2026-11-11-review-sheet-002.md`. Fill the table, I sort and fix one category.
 - **Housekeeping:** a `vite preview` server started during this session (port 4173) and an
   esbuild service may still be running on the PC; closing them frees `node_modules` for `npm ci`.
 - **Branch protection** on `main` (GitHub UI, settings listed in `docs/hosting.md`, "Safety net").

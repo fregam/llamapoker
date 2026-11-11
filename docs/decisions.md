@@ -3,6 +3,15 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-11 (night) - Interface build direction: Batcomputer schematic + Phosphor map and digits
+
+- **What:** the founder took the recommendation: build on round-2 direction 2 (Batcomputer: the
+  wireframe machine schematic, cyan data / amber waiting-on-you / red failure) and take direction
+  1's dot-raster world map and ghost-segment digits; drop the radar scope; scanlines and vignette
+  as a toggle, off at the desk, on in wall mode. Build starts after the safety net and
+  measurement are live, machine diagram, threats and approvals first.
+- **Rejected:** the instrument cluster (three typefaces doing one job, map fell back to bars).
+
 ## 2026-11-11 (evening) - The interface looks like a VFD screen, not like the website
 
 - **What:** the command center is independent of the brand: black glass, phosphor light,
