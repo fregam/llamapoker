@@ -17,6 +17,23 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
 - **Rejected:** an effect-onset limit (it counted syllables: 003 scored busier with fewer effects
   than 002); automated overlap detection from the DOM (fragile; the sheet takes ten seconds to read).
 
+## 2026-11-11 (late night) - Site speed: hydrate the prerender and self-host the fonts; no code splitting
+
+- **What:** `main.tsx` hydrates prerendered pages instead of replacing them with `createRoot`;
+  the brand fonts are served from llamapoker.com (`apps/web/public/fonts/`) instead of Google.
+- **Why:** LCP was 87% "render delay": the browser threw the prerendered HTML away and painted
+  it again only after the bundle and the Google Fonts chain. Lighthouse mobile, production vs
+  the PR's Cloudflare preview, median of 3: home 82→92, /table 86→96, /learn/outs 83→89;
+  simulated FCP about 3.3 s → 1.4–2.1 s. In observed (unthrottled) timings the late repaint is
+  gone (home LCP 1.17 s → 0.53 s, now right after first paint). The two changes were measured
+  together on Cloudflare; locally, hydration alone barely moved the simulated LCP, so most of the
+  gain is the fonts and hydration is the groundwork. Self-hosting also stops sending every
+  visitor's IP to Google, a GDPR point the Privacy page never covered.
+- **Not done:** splitting the bundle per route. Not measured: TBT is low (0–120 ms) and lazy
+  routes prerender as fallbacks under `renderToString` unless the server entry is reworked.
+  Simulated LCP is still 2.5–3.5 s, partly the model charging the bundle; splitting is the next
+  lever if production numbers after the merge stay there.
+
 ## 2026-11-11 (night) - The repo is public
 
 - **What:** `fregam/llamapoker` went public so that `main` can have a branch-protection rule
