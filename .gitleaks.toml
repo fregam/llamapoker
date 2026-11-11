@@ -1,0 +1,12 @@
+# gitleaks configuration (used by .github/workflows/ci.yml). Default rules, plus the paths that
+# legitimately hold long random-looking strings (asset ids, voice ids, lockfiles).
+[extend]
+useDefault = true
+
+[allowlist]
+paths = [
+  '''package-lock\.json$''',
+  '''content/library/assets\.json$''',
+  '''content/reels/.*\.md$''',
+  '''docs/research/.*\.md$''',
+]
