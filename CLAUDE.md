@@ -34,3 +34,8 @@ Guidance for Claude Code across the LlamaPoker monorepo.
 - Spending: Higgsfield credits and any paid service cost real money; quote the cost and get
   a yes before large or repeated generations.
 - Keep `docs/roadmap.md` current when work ships or plans change.
+- **Personal brand notes:** `content/personal-brand/notes.md` is raw material for the founder's
+  personal brand. Whenever a decision is worth telling (a tool swapped, a method invented, a trap
+  found, a request declined, a result that surprised), append an entry there in the file's shape
+  (date, choice, rejected and why, what happened, lesson, hook) as part of the same work, without
+  announcing it and without being asked. Do this in every session.

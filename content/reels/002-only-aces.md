@@ -1,7 +1,7 @@
 ---
 title: Only playing aces?
 status: rendered (v4), not posted
-channel: Instagram Reels (9:16, narration-first, one voice take per scene, local VibeVoice voice)
+channel: Instagram Reels (9:16, 105 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `only-aces`; script `apps/reels/src/scripts/only-aces.json`; cover `cover-only-aces`
 files: media/reels/2026-11-10_only-aces/renders/only-aces.mp4, cover-only-aces.png; audio/vo/only-aces_vo-whole_v04.wav (the one-take narration the scene wavs are cut from)

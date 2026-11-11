@@ -1,7 +1,7 @@
 ---
 title: Will it get there?
 status: rendered (v4), not posted
-channel: Instagram Reels (9:16, narration-first, one voice take per scene, local VibeVoice voice)
+channel: Instagram Reels (9:16, 75 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `will-it-get-there`; script `apps/reels/src/scripts/will-it-get-there.json`; cover `cover-will-it-get-there`
 files: media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4; audio/vo/will-it-get-there_vo-whole_v04.wav (the one-take narration the scene wavs are cut from)

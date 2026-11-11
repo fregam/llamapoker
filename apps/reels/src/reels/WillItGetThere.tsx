@@ -106,13 +106,14 @@ function TheRule() {
   const turnIn = since("turn") >= 0;
   return (
     <>
-      <Enter cue="flop" exit="exact" style={{ top: 430, ...row(14) }}>
+      {/* delay 8: the hearts fade out first, then the board takes their place */}
+      <Enter cue="flop" exit="exact" delay={8} style={{ top: 430, ...row(14) }}>
         {FLOP.map((c) => (
           <PlayingCard key={c} card={c} size={0.85} />
         ))}
         {turnIn && <PlayingCard card={TURN} size={0.85} style={{ opacity: progress(since("turn"), 8), transform: `translateY(${(1 - progress(since("turn"), 10)) * 24}px)` }} />}
       </Enter>
-      <Enter cue="flop" exit="turn" style={{ top: 640, left: 0, right: 0 }}>
+      <Enter cue="flop" exit="turn" delay={8} style={{ top: 640, left: 0, right: 0 }}>
         <Label>TWO CARDS TO COME</Label>
       </Enter>
       <Enter cue="turn" exit="exact" delay={9} style={{ top: 640, left: 0, right: 0 }}>

@@ -100,7 +100,8 @@ function TheWait() {
   const orbitEvery = Math.max(1, (at("paid") - at("blinds")) / ORBITS);
   return (
     <>
-      <Enter cue="wait" exit="aces" style={{ top: 430, left: 0, right: 0, textAlign: "center" }}>
+      {/* delay 8: the grid fades out first, then the counter takes its place */}
+      <Enter cue="wait" exit="aces" delay={8} style={{ top: 430, left: 0, right: 0, textAlign: "center" }}>
         <div style={{ fontFamily: SERIF, fontSize: 250, lineHeight: 0.9, color: C.paper, fontVariantNumeric: "tabular-nums" }}>{n}</div>
         <div style={{ fontFamily: SANS, fontSize: 28, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginTop: 22 }}>HANDS BETWEEN PREMIUMS</div>
       </Enter>
@@ -109,7 +110,7 @@ function TheWait() {
           <PlayingCard key={c} card={c} size={1.3} style={{ transform: `translateY(${(1 - progress(since("aces") - i * 4, 10)) * 30}px)`, opacity: progress(since("aces") - i * 4, 8) }} />
         ))}
       </Enter>
-      <Enter cue="wait" exit="raise" style={{ top: 800, left: GRID_LEFT, right: GRID_LEFT }}>
+      <Enter cue="wait" exit="raise" delay={8} style={{ top: 800, left: GRID_LEFT, right: GRID_LEFT }}>
         <DotRow total={WAIT + 1} filled={n + (acesIn ? 1 : 0)} mark={WAIT} />
       </Enter>
       <Enter cue="blinds" exit="raise" style={{ top: 960, left: GRID_LEFT }}>

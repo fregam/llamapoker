@@ -139,8 +139,8 @@ public/library/         Cut-outs of the on-brand library (content/library): expr
 | id | Topic | Length | Recipe |
 |---|---|---|---|
 | `should-you-call` | Pot odds with one formula (A♥5♥ on K♥9♥2♣, 50 into 100) | 38 s | first reel, pre-library, beat-based (to be rebuilt) |
-| `only-aces` | Waiting for premiums costs 10 bb a wait, and nobody pays | ~88 s | `content/reels/002-only-aces.md` |
-| `will-it-get-there` | Outs in two seconds: the rule of 4 and 2 vs the exact numbers | ~66 s | `content/reels/003-will-it-get-there.md` |
+| `only-aces` | Waiting for premiums costs 10 bb a wait, and nobody pays | 105 s | `content/reels/002-only-aces.md` |
+| `will-it-get-there` | Outs in two seconds: the rule of 4 and 2 vs the exact numbers | 75 s | `content/reels/003-will-it-get-there.md` |
 
 Covers: `cover-only-aces`, `cover-will-it-get-there`, `cover-should-you-call`.
 
