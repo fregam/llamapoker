@@ -189,3 +189,18 @@ lesson, and a hook line that could open the post.
   apart on every guide. One line fixed it; a test now counts forms per page.
 - **Lesson:** render the page. A test that checks a form exists can't tell you it exists twice.
 - **Hook:** "All tests passed. The page had two signup forms."
+
+## 2026-11-11 · The ASR said every word was right; the alignment said the "s" was missing
+
+- **Choice:** for the voice round (hook A vs the livelier B, the founder's ear decides) the
+  B clip was rendered with its own measured word times through an untracked copy of the reel,
+  instead of muxing B's audio under A's picture. Rejected: the mux, because captions drifting
+  against the voice would have biased the ear test against B.
+- **What happened:** the pause-tightening gate could not see any silence in the sampled read:
+  its noise floor sat 26 dB above the greedy read's, so "cut every gap over 0.55 s" cut nothing.
+  Cleaning first, then tightening, fixed it. Then two transcript checks disagreed: the
+  language-model ASR heard every word; the letter-level alignment put near-zero confidence on
+  the final "s" of "costs" and the "th" of "maths". The founder's ear has to settle it.
+- **Lesson:** for sampled voices, clean before you tighten. And a transcript check needs two
+  models: one autocorrects what the other hears missing.
+- **Hook:** "My speech recogniser passed the take. My aligner said the consonants were gone."
