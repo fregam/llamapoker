@@ -20,9 +20,8 @@
 
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.
-6. **Launch teaser video** (Higgsfield), vertical, for TikTok and Reels.
-
-1. **Instagram Reels:** first one built (`apps/reels`, "should-you-call"). Then 3/week.
+2. **Launch teaser video**, vertical, for TikTok and Reels, cut on the reels system (`apps/reels`).
+3. **Instagram Reels:** first one built (`apps/reels`, "should-you-call"). Then 3/week.
    Original plan: animated 40–60s explainers rendered from code (our poker engine + brand), Gentleman covers
    via Higgsfield, 3/week. Plan and topic list: `content/research/2026-11-06-ziramium_poker.md`.
    - Done: on-brand image library v02, cream engraving on black (`content/library/README.md`);
