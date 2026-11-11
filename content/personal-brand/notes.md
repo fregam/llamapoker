@@ -282,11 +282,11 @@ lesson, and a hook line that could open the post.
 ## 2026-11-12 - The integrity check had been checking the wrong file
 
 - **Choice:** cleaning out 1.2 GB of shelved experiments meant pruning the media manifests and
-  re-running the checker. Pointed at a manifest by path, it quietly checked the default one
-  instead: an off-by-one in the argument parsing dropped the first path. It only "worked"
-  before because every earlier call happened to put a flag first.
+  re-running the checker. Asked to update one manifest by path, it complained instead about five
+  3D files that had nothing to do with that manifest: an off-by-one in the argument parsing
+  dropped the path and fell back to the default manifest. Every earlier call had happened to put
+  a flag first, so nobody had seen it.
 - **Rejected:** just reordering the arguments and moving on.
-- **Lesson:** a tool that falls back silently gives you green lights for the wrong question.
-  Make it fail loudly or name what it actually checked; this one prints the path, which is how
-  the bug showed up.
-- **Hook:** "My checker said '25 assets verified'. I'd asked it about a different file."
+- **Lesson:** a tool that falls back silently answers a question you didn't ask. The tell was an
+  error about files I hadn't mentioned; read errors for what they name, not only that they failed.
+- **Hook:** "My checker failed on files I never asked it about. That was the bug."
