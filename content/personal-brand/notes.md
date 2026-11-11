@@ -244,3 +244,13 @@ lesson, and a hook line that could open the post.
   the opposite of the brand, and asking "who looks at this?" before designing would have saved
   a round.
 - **Hook:** "I designed my dashboard in my brand's colours. My founder wanted the Batcomputer."
+
+## 2026-11-11 - The safety net cost either $4 a month or the privacy of the repo
+
+- **Choice:** a branch rule that stops untested code reaching production is free on public
+  repos and paid on private ones. The founder chose public over paying. Before flipping it:
+  a full-history secret scan and a grep for key-like strings, both clean, because a public
+  history cannot be unpublished.
+- **Lesson:** "free tier" is a product decision somebody else made for you. Read the condition
+  before you depend on the feature.
+- **Hook:** "I open-sourced my company to get a free checkbox."
