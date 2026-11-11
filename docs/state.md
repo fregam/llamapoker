@@ -25,6 +25,10 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
   (pushed, needs a PR). Two words to confirm by ear: 002 "So save this", 003 "But say the turn".
 - Interface: round 2 (VFD) mockups merged; build direction decided (`docs/decisions.md`, night entry).
 - `reels/voice-b` merged (PR #12) and `interface/vfd-mockups` merged by git; all session branches deleted locally.
+- Housekeeping (night): web and reels type-check clean, 70 web tests green. Seven merged remote
+  branches still exist on origin (`ci/safety-net`, `ci/fixes`, `docs/public-repo`,
+  `interface/vfd-mockups`, `plan/2026-11-11-first-session`, `reels/voice-b`, `site/signup-path`);
+  deleting them needs the founder (`git push origin --delete <name>`).
 
 - `gh` is logged in (as the founder) and lives at `C:\Program Files\GitHub CLI\gh.exe`; add it to PATH
   in Git Bash with `export PATH="/c/Program Files/GitHub CLI:$PATH"`.
@@ -37,13 +41,12 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
 
 ## Waiting on the founder
 
-- **Branch protection cannot be set on this repo as it is:** GitHub returns "Upgrade to GitHub Pro
-  or make this repository public" (branch rules on private repos need Pro, about $4/month). Three
-  options, pick one: (a) GitHub Pro, then `gh api -X PUT repos/fregam/llamapoker/branches/main/protection
-  --input docs/branch-protection.json`; (b) make the repo public (the personal-brand notes and
-  research would be public too; I would not); (c) deploy from CI with wrangler and switch off
-  Pages' git builds, which gates deploys without a branch rule but needs a Cloudflare API token.
-  Until one of these, CI reports but does not block; the habit of merging only green PRs is the gate.
+- **Repo is public since 2026-11-11 (the founder's call, to get branch protection without paying).**
+  Branch rule on `main` is set: PR required, both CI checks required, enforced for admins. GitHub
+  secret scanning and push protection are on. Consequences: every commit, the personal-brand
+  notes and the research files are readable by anyone; `credentials.json` and `media/` were never
+  in git. There is no LICENSE file, so the default is all rights reserved; add one if that is not
+  the intent.
 - **Beehiiv:** set a postal address and a reply-to that is read; then letter 001 can go (after
   approving its text). Delete the two stray draft automations.
 - **Turnstile:** create a widget for llamapoker.com in the Cloudflare dashboard, set
@@ -73,7 +76,10 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
 - Cloudflare Web Analytics: 55 visits / 62 page views in the last 7 days (mostly the founder).
 - Search Console: 17 impressions, 1 click in 28 days; 3 pages indexed, 10 discovered not indexed.
 - Lighthouse mobile: performance 82–84, everything else 100. Render-blocking fonts, one bundle.
-- `gh` CLI not installed on the PC; `git push` over HTTPS works.
+- Media manifests (2026-11-11 night): all 843 files under `media/` are now listed
+  (`content/library/assets.json`, `content/reels/assets.json`, `content/tests/assets.json`);
+  `node scripts/media-manifest.mjs --init <folder> <manifest>` appends new files. `media/tests/` is
+  1.2 GB of bake-off outputs with no backup; R2 mirror still pending.
 - YouTube handle `@llamapoker` is free. Other handles unverified.
 - `npm audit`: 0 findings in runtime dependencies; the remaining dev-tooling findings are inside the
   Vite 7 / Vitest 3 chain with no fixed release yet (CI audits runtime only).
