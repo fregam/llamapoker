@@ -31,8 +31,13 @@
      script JSON with per-word cues, one ElevenLabs line per script line (voice Mark, via Higgsfield),
      captions and graphics synced to the voice, one change per phrase. From the frame-by-frame
      teardown of the reference account's hits (research file, "How their hits are cut").
-   - Next: user listens to the voice and watches 002/003; rebuild 001 "Should you call?" on the v3
-     system; post 002–003; then "Stop limping", "The button is the best seat". Music bed at posting.
+   - 2026-11-11 (later): v4. Voice moved to the user's own GPU: VibeVoice-Large in the local ComfyUI
+     (free), voice picked from a measured seed board (docs/research/2026-11-11-vibevoice-voice-board.md);
+     one continuous take per scene with forced word alignment; scripts rewritten for flow.
+     A request to clone a real creator's voice was declined (no consent).
+   - Next: user listens to 002/003 v4 and the seed board (seed-3 vs seed-11); rebuild 001 "Should you
+     call?" on the v4 system; post 002–003; then "Stop limping", "The button is the best seat".
+     Music bed at posting.
 
 ## Later
 

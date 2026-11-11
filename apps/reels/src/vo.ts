@@ -1,33 +1,24 @@
 /**
- * Voice-over timing. Each reel has a manifest in src/vo/<id>.json, written by
- * `node scripts/vo-manifest.mjs <id>` from the audio files in public/vo/<id>/<n>.wav:
- *   { "voice": "...", "lines": [{ "file": "vo/<id>/1.wav", "seconds": 5.2 }, ...] }
- * A beat lasts as long as its line plus a breath, but never less than its graphics need.
+ * Voice-over manifest. Each reel has one in src/vo/<id>.json, written by
+ * `node scripts/vo-manifest.mjs <id>` from the take recordings in public/vo/<id>/<take>.wav:
+ *   { "voice": "...", "takes": [{ "name": "hook", "file": "vo/<id>/hook.wav", "seconds": 5.2, "from": 0.12, "to": 4.98 }] }
+ * `from`/`to` are where the speech starts and ends inside the file (seconds), so the words can be
+ * placed on the voiced span and not on the model's leading and trailing silence. When
+ * scripts/vo-align.py has written src/vo/<id>.words.json, the manifest also carries every word's
+ * measured start and end, and the timeline uses those instead of estimating.
  */
 
-import { FPS } from "./theme";
+export interface VoTake {
+  name: string;
+  file: string;
+  seconds: number;
+  from: number;
+  to: number;
+  /** Measured word times (seconds into the file) from scripts/vo-align.py, one per spoken word. */
+  words?: { w: string; s: number; e: number }[];
+}
 
 export interface VoManifest {
   voice: string;
-  lines: { file: string; seconds: number }[];
-}
-
-export const BREATH = 18; // frames of silence after each line
-
-/** Beat durations in frames from a manifest and the graphics' minimum lengths. */
-export function beatDurations(vo: VoManifest | null, minimums: number[]): number[] {
-  return minimums.map((min, i) => {
-    const line = vo?.lines[i];
-    return line ? Math.max(min, Math.ceil(line.seconds * FPS) + BREATH) : min;
-  });
-}
-
-export function beatStarts(durations: number[]): number[] {
-  const out: number[] = [];
-  let t = 0;
-  for (const d of durations) {
-    out.push(t);
-    t += d;
-  }
-  return out;
+  takes: VoTake[];
 }

@@ -1,39 +1,39 @@
 {
-  "voice": { "engine": "text2speech_v2/elevenlabs", "name": "Mark", "voice_id": "27c04473-84a9-4b60-a41f-c8e8458bd4f1" },
+  "voice": { "engine": "VibeVoice-Large, local ComfyUI", "name": "tbd", "ref": "" },
   "lines": [
-    { "t": "[hook]Will it *get there*?", "gap": 6 },
-    { "t": "Four hearts. | Two cards to come." },
-    { "t": "You have *two seconds* | to know your chance.", "gap": 18 },
+    { "take": "hook", "t": "[hook]Will it *get there*?" },
+    { "t": "You've got four hearts, | two cards to come," },
+    { "t": "and about *two seconds* | to know your chances.", "gap": 18 },
 
-    { "t": "[count]Thirteen hearts in the deck." },
-    { "t": "You can see [seen]*four*." },
-    { "t": "That leaves [nine]*nine* outs.", "gap": 18 },
+    { "take": "count", "t": "[count]Start with the deck: | thirteen hearts in it." },
+    { "t": "You can already see [seen]*four* of them," },
+    { "t": "which leaves [nine]*nine* | that can still save you. | Nine outs.", "gap": 18 },
 
-    { "t": "[flop]On the flop, | two cards to come." },
-    { "t": "Outs | [x4]times *four*.", "c": "sage" },
-    { "t": "Nine times four: | [r36]*thirty-six* percent.", "c": "sage" },
-    { "t": "Roughly one in three.", "c": "sage", "gap": 18 },
+    { "take": "flop", "t": "[flop]Now, on the flop, | with two cards to come," },
+    { "t": "just take your outs | and [x4]multiply by *four*.", "c": "sage" },
+    { "t": "Nine times four | is [r36]*thirty-six* percent,", "c": "sage" },
+    { "t": "so roughly | one time in three.", "c": "sage", "gap": 18 },
 
-    { "t": "[turn]The turn is a blank." },
-    { "t": "One card to come: | outs [x2]times *two*." },
-    { "t": "[r18]*Eighteen* percent.", "gap": 18 },
+    { "take": "turn", "t": "[turn]But say the turn | is a blank." },
+    { "t": "One card left now, | so it's outs [x2]times *two*:" },
+    { "t": "[r18]*eighteen* percent.", "gap": 18 },
 
-    { "t": "[exact]How close is that?" },
-    { "t": "The real numbers: | [e35]*thirty-five* | and [e19]*nineteen*.", "c": "sage" },
-    { "t": "Off by one." },
-    { "t": "Good enough | to decide in *two seconds*.", "gap": 18 },
+    { "take": "exact", "t": "[exact]And how close is that | to the truth?" },
+    { "t": "The exact numbers are | [e35]*thirty-five* | and [e19]*nineteen*.", "c": "sage" },
+    { "t": "Off by one, | either way." },
+    { "t": "Which is plenty good enough | to decide in *two seconds*.", "gap": 18 },
 
-    { "t": "[sheet]Save this." },
-    { "t": "[d4]Gutshot, | four outs." },
+    { "take": "sheet", "t": "[sheet]So save this | for the common draws:" },
+    { "t": "[d4]a gutshot, | four outs." },
     { "t": "[d6]Two overcards, | six." },
     { "t": "[d8]Open-ended, | eight." },
-    { "t": "[d9]Flush draw, | nine." },
+    { "t": "[d9]Your flush draw, | nine." },
     { "t": "[d12]Flush draw with a pair, | twelve." },
-    { "t": "[d15]Flush and straight draw, | fifteen." },
-    { "t": "Send this to the friend | who chases every *gutshot*.", "c": "vermilion", "gap": 20 },
+    { "t": "And [d15]flush and straight draw together, | fifteen." },
+    { "t": "Then send this to the friend | who chases every *gutshot*.", "c": "vermilion", "gap": 20 },
 
-    { "t": "[outro]Which draw do *you* chase?" },
-    { "t": "Wrong answers in the comments." },
-    { "t": "[cta]Run any spot free | at llama poker dot com.", "c": "sage", "gap": 12 }
+    { "take": "outro", "t": "[outro]So, which draw do *you* chase?" },
+    { "t": "Wrong answers in the comments," },
+    { "t": "and [cta]run any spot free | at llama poker dot com.", "c": "sage", "gap": 12 }
   ]
 }

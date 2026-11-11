@@ -23,20 +23,25 @@ the reel's recipe lives in `content/reels/<nnn>-<slug>.md`.
 
 The voice-over is the spine. Everything on screen happens because a word was just spoken.
 
-1. **Script** — `src/scripts/<id>.json`: one object per spoken line, with markup:
+1. **Script** — `src/scripts/<id>.json`: one object per spoken line, grouped into **takes** (one
+   continuous recording per scene, so the voice flows through the scene instead of restarting cold
+   at every sentence; the first line of a take names it: `"take": "hook"`). Markup:
    `|` splits a line into caption chunks (2–6 words, one on screen at a time), `*word*` marks the
    chunk's key word (Bodoni italic in the line's accent colour: `c` = brass | sage | vermilion),
-   `[cue]` names the moment a word is spoken so the stage can react to it. `gap` adds silence after
-   the line (frames). `node ../../scripts/vo-lines.mjs <id>` prints the lines with the markup removed:
-   that exact text is what the voice model reads, so audio and captions cannot drift.
-2. **Voice** — one audio file per line, `public/vo/<id>/<n>.mp3`, from Higgsfield
-   `text2speech_v2` with `variant: elevenlabs`, preset voice **Mark**
-   (`27c04473-84a9-4b60-a41f-c8e8458bd4f1`), 0.45 credits a line. The engine rate-limits: send
-   batches of about 10 and resubmit the 429s. Then `node ../../scripts/vo-manifest.mjs <id> "Mark"`
-   measures the files into `src/vo/<id>.json`.
-3. **Timeline** — `src/narration.ts` places every line at its real length, estimates each word's
-   moment inside the line (by letters, with pauses at punctuation) and derives the caption chunks and
-   the cue frames. Before the audio exists it assumes 2.4 words a second, so the studio preview works.
+   `[cue]` names the moment a word is spoken so the stage can react to it. `gap` on a take's last
+   line adds silence after the take (frames). `node ../../scripts/vo-lines.mjs <id>` prints the takes
+   with the markup removed: that exact text is what the voice model reads, so audio and captions
+   cannot drift. Write for flow: every line hands off to the next ("so", "but", "which means", a
+   question the next line answers), and numbers come back as callbacks.
+2. **Voice** — one wav per take, `public/vo/<id>/<take>.wav`, generated for free on the local GPU
+   by VibeVoice-Large in ComfyUI: the whole reel in one generation, then cut into takes at the
+   aligned word boundaries (the four commands under "Voice" below). `vo-align.py` also writes when
+   every word is spoken (`src/vo/<id>.words.json`) and `vo-manifest.mjs` writes `src/vo/<id>.json`
+   (take lengths, voiced span, word times).
+3. **Timeline** — `src/narration.ts` places every take at its real length, puts each word at its
+   measured moment (or estimates it by letters and punctuation when the words file is missing) and
+   derives the caption chunks and the cue frames. Before the audio exists it assumes 2.4 words a
+   second plus a pause per sentence, so the studio preview works.
 4. **Stage** — `src/stage.tsx`. `<Narration>` wraps the reel (audio + captions + cues);
    `<Enter cue="grid" exit="wait">` shows a graphic from one spoken cue until another, with a quiet
    rise-in and fade-out; `useNarration().since("cue")` drives counters and lights. `Stat`, `Tag`,
@@ -60,6 +65,8 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   colour, a 54 px accent hairline above. 2–6 words, synced to the voice.
 - **End on a save-worthy table, then comment bait, then the URL,** and the last picture is the hook's
   picture so the loop doesn't jump. A brass reading line fills along the bottom for the whole reel.
+- **Flow.** The voice is one continuous take per scene, never a sentence at a time, and the script
+  is written so each line leans on the one before (connectives, callbacks, a question answered next).
 - **Length follows the script**, typically 70–95 s. The hits in the niche run 50–112 s; what matters
   is that something moves every two seconds, not that it's short.
 
@@ -72,13 +79,38 @@ before shipping a new layout (sharp one-liner in git history: `contact-safe`).
 
 ## Voice
 
-Picked by measurement, not by name (we can't listen in the terminal). `media/reels/_voice-test/v2/`
-has the same 32-word paragraph in eight ElevenLabs presets; a numpy script measured pitch, pitch
-spread, pace and pauses. Mark: median 138 Hz, 2.45 words/s, moderate spread — the calm coach in
-`brand/README.md`. Alternatives on the board: Julian (a touch warmer), Harrison (brisker). The
-earlier seed_audio voice Miles measured 229 Hz median with a 108 Hz spread, i.e. theatrical, which
-is why it sounded wrong. Swapping voice = regenerate the lines with another `voice_id`; nothing
-else changes.
+Generated locally, for free: Microsoft **VibeVoice-Large** (7B, LLM in 4-bit, ~6.7 GB VRAM) in the
+ComfyUI Desktop install at `C:/Users/matia/Documents/ComfyUI` with the ComfyUI-VibeVoice node.
+Start the server headless (models pinned to the GPU, UTF-8 console) before generating:
+
+```bash
+cd /c/Users/matia/Documents/ComfyUI && PYTHONUTF8=1 ./.venv/Scripts/python.exe \
+  "C:/Users/matia/AppData/Local/Programs/@comfyorgcomfyui-electron/resources/ComfyUI/main.py" \
+  --base-directory "C:/Users/matia/Documents/ComfyUI" --listen 127.0.0.1 --port 8188 --disable-auto-launch --gpu-only
+```
+
+The voice is **not a real person**. VibeVoice invents a voice from a seed when it gets no reference;
+twelve seeds were generated on the same paragraph and measured (pitch, spread, pace, word error
+rate; we can't listen in the terminal), see `docs/research/2026-11-11-vibevoice-voice-board.md`.
+The pick is seed **3** (`.../outputs/seed-3.wav`: 121 Hz median, IQR 28, 2.42 words/s: calm, low,
+steady); seed-11 is the alternate. The voice is locked by **cloning from a 9 s cut of that take**
+(`.../outputs/seed-3_ref.wav`, seconds 3.2–12.2: a seed alone only fixes the voice inside one
+generation, and a reference that opens with the same words as the script makes the model recite
+it, so the cut starts mid-paragraph). The **whole reel is generated in one go** (one speaker, one
+breath) and cut into takes afterwards:
+
+```bash
+node ../../scripts/vo-comfy.mjs <id> --ref ../../media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole
+<comfyui-venv>/python.exe ../../scripts/vo-align.py <id> --split         # cuts <take>.wav, writes word times
+<comfyui-venv>/python.exe ../../scripts/vo-check.py <id>                 # same voice on every take? said the words?
+node ../../scripts/vo-manifest.mjs <id> "VibeVoice-Large seed-3 clone"
+```
+
+A new voice = a new board (`vo-comfy.mjs --board`), pick by the numbers, cut a mid-paragraph
+reference, regenerate; nothing else changes. To use a human voice, record 60 s with consent and
+pass a 10 s cut of it as `--ref` (then check the transcript with `vo-check.py`). Earlier boards
+(ElevenLabs presets via Higgsfield, `media/reels/_voice-test/`) are kept for comparison: Mark
+measured 138 Hz / IQR 41 / 2.45 words/s.
 
 ## Files
 
@@ -91,11 +123,12 @@ src/stage.tsx           Narration, Captions, Enter, Stat, Tag, SeatRing, Ledger,
 src/components.tsx      Frame (kicker, hairline border, reading line), PlayingCard, legacy Caption/BigNumber
 src/teaching.tsx        Engraving (screen blend + fade), RangeGrid (ghost/hot), Counter, ChipStack, Seat, DotRow
 src/scripts/<id>.json   The spoken script with caption/cue markup (source of truth for the voice lines)
-src/vo/<id>.json        Measured line lengths (scripts/vo-manifest.mjs)
-src/vo.ts               VoManifest type (and the older beat-based helpers used by should-you-call)
+src/vo/<id>.json        Measured takes: length, voiced span, word times (scripts/vo-manifest.mjs)
+src/vo/<id>.words.json  Word times from forced alignment (scripts/vo-align.py)
+src/vo.ts               VoManifest type
 src/covers/Cover.tsx    Instagram cover (1080×1350): Bodoni question over a library engraving
 src/reels/*.tsx         One file per reel
-public/vo/<id>/<n>.mp3  One voice line per script line
+public/vo/<id>/<take>.wav One voice recording per take (scene), 48 kHz mono, -16 LUFS
 public/library/         Cut-outs of the on-brand library (content/library): expr-1..6, pose-1..6,
                         turnaround-front, loft, table-edge, props, gentleman-portrait, the-read.
                         Blacks crushed so screen blending drops them onto ink.

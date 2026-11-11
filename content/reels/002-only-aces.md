@@ -1,11 +1,11 @@
 ---
 title: Only playing aces?
-status: rendered (v3), not posted
-channel: Instagram Reels (9:16, ~88 s, narration-first, voice Mark)
+status: rendered (v4), not posted
+channel: Instagram Reels (9:16, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `only-aces`; script `apps/reels/src/scripts/only-aces.json`; cover `cover-only-aces`
-files: media/reels/2026-11-10_only-aces/renders/only-aces.mp4, cover-only-aces.png
-cost: 15.3 Higgsfield credits (34 ElevenLabs lines at 0.45) + 3.6 for the voice board
+files: media/reels/2026-11-10_only-aces/renders/only-aces.mp4, cover-only-aces.png; audio/vo/only-aces_vo-whole_v04.wav (the one-take narration the scene wavs are cut from)
+cost: v4 voice free (local GPU); earlier v3 voice 15.3 Higgsfield credits + 3.6 for its board
 ---
 
 # Reel 002 — Only playing aces?
@@ -21,11 +21,21 @@ fighting for the same spot), the Gentleman appeared mid-video behind the caption
 cut-out, and the captions were whole sentences revealing on their own clock while the voice said
 something else, so nothing guided the eye. The voice (Miles, seed_audio) was theatrical.
 
-- Script is the source of truth (`src/scripts/only-aces.json`): 34 short lines, each one audio
-  file, with caption chunks and `[cues]` per word. Captions are 2–6 words synced to the voice.
+- Script is the source of truth (`src/scripts/only-aces.json`): 34 short lines with caption
+  chunks and `[cues]` per word. Captions are 2–6 words synced to the voice.
 - Every graphic is bound to a spoken cue and exits before the next idea; the caption zone is
   never covered. The Gentleman is a bookend (hook + outro) with the headline above him.
-- Voice: Mark (ElevenLabs via Higgsfield), chosen by measurement (138 Hz median, 2.45 words/s).
+
+## v4 (2026-11-11): flow
+
+The user's note on v3: "every sentence feels disconnected from each other instead of flowing".
+Two causes, both fixed. The lines were generated one audio file each, so the voice restarted
+cold at every sentence; now the 34 lines are grouped into **seven takes** (hook, plan, wait, raise,
+fix, sheet, outro), one continuous recording per scene, and the words are placed by forced
+alignment, not estimated. And the writing was a list of facts; it is now one argument, each line
+leaning on the last ("Trouble is…", "And while you wait, the blinds don't", "So by the time…",
+"So what happens?", "So tight isn't the problem"), with the ten blinds coming back as a callback.
+Voice: VibeVoice-Large, locally, the seed-3 board voice cloned (see below).
 
 ## Scenes (cues in brackets, see the script for the exact words)
 
@@ -53,6 +63,11 @@ bed in the app when posting.
 
 ## Voice-over
 
-Voice: Mark, ElevenLabs via Higgsfield `text2speech_v2` (preset `27c04473-84a9-4b60-a41f-c8e8458bd4f1`).
-Files `apps/reels/public/vo/only-aces/<n>.mp3`, one per script line; 74.1 s of speech in 34 lines.
-Regenerate: `node scripts/vo-lines.mjs only-aces --json` gives the exact texts.
+Voice: VibeVoice-Large in the local ComfyUI, the board's seed-3 voice (not a real person: about
+120 Hz median, calm and low), cloned from a 9 s cut of that take, greedy decoding. Board and
+measurements: `docs/research/2026-11-11-vibevoice-voice-board.md`. Files
+`apps/reels/public/vo/only-aces/<take>.wav`, one per scene, cut from one continuous generation of
+the whole reel. Regenerate: start ComfyUI (see `apps/reels/README.md`, "Voice"), then
+`node scripts/vo-comfy.mjs only-aces --ref media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole`,
+`scripts/vo-align.py only-aces --split`, `scripts/vo-check.py only-aces`,
+`node scripts/vo-manifest.mjs only-aces "VibeVoice-Large seed-3 clone"`.

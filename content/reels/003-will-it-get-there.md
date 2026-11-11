@@ -1,18 +1,21 @@
 ---
 title: Will it get there?
-status: rendered (v3), not posted
-channel: Instagram Reels (9:16, ~66 s, narration-first, voice Mark)
+status: rendered (v4), not posted
+channel: Instagram Reels (9:16, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `will-it-get-there`; script `apps/reels/src/scripts/will-it-get-there.json`; cover `cover-will-it-get-there`
-files: media/reels/2026-11-10_will-it-get-there/renders/
-cost: 12.6 Higgsfield credits (28 ElevenLabs lines at 0.45)
+files: media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4; audio/vo/will-it-get-there_vo-whole_v04.wav (the one-take narration the scene wavs are cut from)
+cost: v4 voice free (local GPU); earlier v3 voice 12.6 Higgsfield credits
 ---
 
 # Reel 003 — Will it get there?
 
 Outs in two seconds (the rule of 4 and 2), the niche's third-biggest topic (208K views on the
 reference account). v3 is cut narration-first like reel 002: see `apps/reels/README.md`,
-"How a reel is built".
+"How a reel is built". v4 (2026-11-11) regroups the 28 lines into seven continuous takes (hook,
+count, flop, turn, exact, sheet, outro) and rewrites them to flow ("Start with the deck…", "which
+leaves nine…", "But say the turn is a blank", "And how close is that to the truth?"), with the voice
+generated locally (see reel 002's v4 note).
 
 ## Scenes
 
@@ -36,6 +39,9 @@ close it really is. For players who chase draws by feel. Run any spot free: link
 
 ## Voice-over
 
-Voice: Mark, ElevenLabs via Higgsfield `text2speech_v2` (preset `27c04473-84a9-4b60-a41f-c8e8458bd4f1`).
-Files `apps/reels/public/vo/will-it-get-there/<n>.mp3`, one per script line; 54.2 s of speech in
-28 lines. Regenerate: `node scripts/vo-lines.mjs will-it-get-there --json`.
+Voice: VibeVoice-Large in the local ComfyUI, the seed-3 board voice cloned from its 9 s cut
+(as reel 002). Files `apps/reels/public/vo/will-it-get-there/<take>.wav`, one per scene, cut from
+one continuous generation. Regenerate:
+`node scripts/vo-comfy.mjs will-it-get-there --ref media/tests/2026-11-11_vibevoice-voice-board/outputs/seed-3_ref.wav --whole`,
+then `scripts/vo-align.py will-it-get-there --split`, `scripts/vo-check.py will-it-get-there` and
+`node scripts/vo-manifest.mjs will-it-get-there "VibeVoice-Large seed-3 clone"`.

@@ -38,7 +38,7 @@ export function useNarration() {
 }
 
 export function timelineFor(script: Script, vo: VoManifest | null) {
-  return buildTimeline(script, vo?.lines?.length ? vo : null);
+  return buildTimeline(script, vo?.takes?.length ? vo : null);
 }
 
 export function Narration({ script, vo, children }: { script: Script; vo: VoManifest | null; children: ReactNode }) {
@@ -48,11 +48,11 @@ export function Narration({ script, vo, children }: { script: Script; vo: VoMani
       <Frame>
         <AbsoluteFill>{children}</AbsoluteFill>
         <Captions />
-        {tl.lines.map(
-          (l, i) =>
-            l.file && (
-              <Sequence key={i} from={l.start} durationInFrames={l.end - l.start + 2}>
-                <Audio src={staticFile(l.file)} />
+        {tl.takes.map(
+          (tk) =>
+            tk.file && (
+              <Sequence key={tk.name} from={tk.start} durationInFrames={tk.end - tk.start + 2}>
+                <Audio src={staticFile(tk.file)} />
               </Sequence>
             ),
         )}
