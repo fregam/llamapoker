@@ -17,7 +17,8 @@ editing the file.
 
 ```bash
 npm run dev                        # Vite dev server, http://localhost:5173
-npm test                           # vitest run — all tests (src/poker/poker.test.ts)
+npm test                           # vitest run — all tests: poker logic (src/poker/poker.test.ts), every page renders
+                                   #   + signup placement (src/pages.test.tsx), the signup function (functions/api/subscribe.test.ts)
 npx vitest run -t "flush draw"     # one test by name
 npx tsc --noEmit                   # type-check (there is no linter; tsc is strict incl. noUnused*)
 npm run build                      # tsc → vite build → SSR build → prerender → dist/ (deployed by Cloudflare Pages)
@@ -34,7 +35,8 @@ The dev environment is Windows; both PowerShell and Git Bash are available.
   so components must not touch `window` during render (effects only). Styling is one global
   `src/styles.css` with plain class names. Hosting: Cloudflare Pages (`public/_headers`, `404.html`);
   the email signup (`components/Signup.tsx`) posts to the Pages Function
-  `functions/api/subscribe.ts`, which adds the address to Beehiiv.
+  `functions/api/subscribe.ts`, which adds the address to Beehiiv with the page it came from and
+  the first-touch channel (`src/attribution.ts`).
 - `src/poker/` is pure TypeScript game logic. It must not import React or anything outside
   `poker/`, because it runs in a web worker (`equity.worker.ts`) and in Vitest.
 - `poker/analyze.ts` (`analyzeSpot`) is the single place that combines pot odds, stack/SPR,
