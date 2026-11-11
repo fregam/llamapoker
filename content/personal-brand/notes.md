@@ -214,3 +214,21 @@ lesson, and a hook line that could open the post.
   overview says where the form may appear and why there is exactly one per page.
 - **Lesson:** a placement rule you can state in one paragraph is a rule a test can hold.
 - **Hook:** "My docs are the spec and my tests check the docs, not the other way round."
+## 2026-11-11 · The pause cutter found nothing to cut, because the noise hid the pauses
+
+- **Choice:** rolling the livelier voice (B, sampled instead of greedy) into both reels, the
+  documented chain was tighten first, clean second. Run that way on B, the silence cutter removed
+  0.0 s from a 100-second recording that plainly breathes. The sampled read has a higher noise
+  floor than the greedy one, and the floor sat above the −42 dBFS gate that defines "silence": to
+  the cutter the whole file was speech. Cleaning first (DeepFilterNet) dropped the floor; the same
+  rule then cut 12.3 s. The order in the README is now clean → tighten → cut.
+- **Rejected:** lowering the gate to match the noise. It would have cut the right pauses on this
+  file and the wrong ones on the next; the gate is a definition of silence and the fix is to make
+  the file honest, not the gate lenient.
+- **What happened:** the two transcript models (wav2vec2 forced alignment and Whisper large-v3)
+  agreed on two doubtful spots out of 442 words ("save this" heard as "say this"; "But say the turn
+  is a blank" heard as "I'll tell you the turn is a blank"). Flagged for the ear, not fixed.
+- **Lesson:** a measurement that returns exactly zero is a measurement of the instrument. Check
+  what the instrument assumes before trusting the number.
+- **Hook:** "My silence detector found no silence in a file full of pauses. The noise was louder
+  than its idea of quiet."
