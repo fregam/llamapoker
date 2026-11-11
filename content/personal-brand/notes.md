@@ -232,3 +232,15 @@ lesson, and a hook line that could open the post.
   what the instrument assumes before trusting the number.
 - **Hook:** "My silence detector found no silence in a file full of pauses. The noise was louder
   than its idea of quiet."
+
+## 2026-11-11 - Three on-brand mockups, and the answer was "like Batman"
+
+- **What happened:** the first round of command-center designs was built, carefully, from the
+  brand book: cream on black, Bodoni numbers, hairlines. The founder's reaction: not that. The
+  wall is a private instrument, and he wanted phosphor on black glass, segmented digits, glow.
+  Round 2 took the same data and the same spec and rendered it as three VFD screens. Nothing in
+  round 1 was wasted: the spec's content was right, only the skin was.
+- **Lesson:** a brand book governs what the audience sees. The operator's own tools can want
+  the opposite of the brand, and asking "who looks at this?" before designing would have saved
+  a round.
+- **Hook:** "I designed my dashboard in my brand's colours. My founder wanted the Batcomputer."

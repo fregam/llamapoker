@@ -3,8 +3,13 @@
 Specification for the command center described in `docs/operating-brief.md` (written by the founder,
 2026-11-11, saved verbatim below the line). The "Built to grow" section applies from day one,
 because the single event store shapes the architecture of everything else. The rest applies when
-the roadmap reaches the interface. The three design directions it asks for are in
+the roadmap reaches the interface. The design directions are in
 `docs/interface/mockups.md`.
+
+**Change on 2026-11-11 (evening):** the founder decided the interface is **independent of the
+website brand**. Ignore "Build it from brand/README.md and brand/tokens.css" below. The look is a
+vacuum fluorescent display: black glass, phosphor light, segmented digits, glow allowed. Everything
+else in the spec stands.
 
 ---
 

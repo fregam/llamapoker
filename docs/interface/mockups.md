@@ -1,4 +1,44 @@
-# Interface: three directions (2026-11-11)
+# Interface: design directions
+
+## Round 2 (2026-11-11, evening): the VFD look
+
+The founder saw round 1 and changed direction: the command center is **independent of the website
+brand**. It should look like what Batman would use: a vacuum fluorescent display, black glass and
+phosphor light, segmented digits, glow allowed. Three directions, same invented dataset as round 1.
+
+| Direction | File | Render (1920x1080) |
+|---|---|---|
+| 1 - Phosphor (one blue-green phosphor, four brightness levels, dot-raster world map) | `docs/interface/mockups/vfd-1-phosphor.html` | `media/tests/2026-11-11_interface-mockups/outputs/vfd-1-phosphor.png` |
+| 2 - Batcomputer (cyan data, amber waiting-on-you, red failure; wireframe schematic of the machine; radar scope) | `.../vfd-2-batcomputer.html` | `.../outputs/vfd-2-batcomputer.png` |
+| 3 - Instrument cluster (bezelled station modules, 7-segment readouts, block meters, OK/WAIT/FAIL lamps) | `.../vfd-3-cluster.html` | `.../outputs/vfd-3-cluster.png` |
+
+Fonts come from CDNs (DSEG 7/14-segment, Share Tech Mono, Chakra Petch, VT323), not the brand.
+
+- **1 - Phosphor** does well: the most "one instrument" of the three; a single colour with
+  brightness doing the hierarchy, ghost segments behind every digit, a real dot-raster map
+  (3,142 dots from a world atlas, brightness by share). Strains: everything that is not a number
+  is 12-13 px mono caps; little headroom for more glow before small text blurs; 7-segment cannot
+  show K, %, EUR so units sit beside the digits.
+- **2 - Batcomputer** does well: three colours with strict meaning (cyan, amber, red) so the two
+  things that matter tonight jump out and agree with each other across the schematic, the DO line
+  and alert 01; the schematic explains the machine (the pause gate, the letter bypass, the event
+  bus). Strains: 236 px nodes force abbreviations; the radar scope is the weakest panel (crude
+  Europe, off-scope countries as rim markers); the overlays dim the edges.
+- **3 - Instrument cluster** does well: the failure reads from across the room (red bezel, lamp,
+  digits, feed line and threat lamp all agree); block meters and ghost segments make every number
+  feel physical. Strains: three typefaces doing one job; the feed's long lines leave half the
+  panel empty; the map fell back to country bars; channels are the tightest panel.
+
+**Recommendation:** build on **2 - Batcomputer** for the machine schematic and the three-colour
+rule (cyan, amber, red is the clearest "visible from across the room" of the three), and take
+1 - Phosphor's dot-raster world map and ghost-segment digits. Drop the radar scope. Keep the
+scanline and vignette overlays as a toggle, off by default at the desk, on in wall mode.
+
+---
+
+## Round 1 (2026-11-11, afternoon): brand-derived, superseded
+
+Kept for the record; the founder did not want the website's editorial look here.
 
 Static full-screen mockups for the command center in `docs/interface.md`, "Process: design now,
 build later". The founder picks one. All three use the **same invented dataset** (an imagined
