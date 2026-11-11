@@ -20,6 +20,12 @@ generated locally (see reel 002's v4 note). v5 (same day): the hook now shows th
 second three, then "Here's how you know that in two seconds, every time"); a sound layer (bed,
 card deals, ticks on the outs and the cheat-sheet rows, plucks on ×4 and ×2, stamps on 36 % and
 18 %, bells on the exact numbers, whooshes between scenes); the voice cleaned with DeepFilterNet.
+v6 (same night): silences cut to 0.3 s (no tempo change, this take was already brisk); continuity
+with `<Move>`: the 36 % from the hook docks top right as the promise while the outs are counted
+and hands over to the big 36 %; the 9 outs shrink into the top-left HUD and stay through the rule;
+36 % and 18 % travel into the FLOP and TURN cells of THE RULE row as the table forms; the EXACTLY
+row slides down to where the flush-draw row of the cheat sheet will be and hands over when it is
+spoken. Risers and booms on the three numbers, a shuffle on the deck, blips on the captions.
 
 ## Scenes
 

@@ -128,6 +128,49 @@ export function Enter({
   return <div style={{ position: "absolute", opacity: tIn * (1 - tOut), transform, ...style }}>{children}</div>;
 }
 
+/**
+ * An object that stays on stage across scenes and travels between poses on cues: the number
+ * stamped in the hook docks into the HUD, the cards shrink into a corner while the next scene
+ * plays, the grid flies into the row of the table it becomes. `keys[0]` is where it appears;
+ * each later key is a pose it eases to over `dur` frames from that cue. `cx` is the centre x,
+ * `top` the top edge at scale 1 (scaling is about the top centre).
+ */
+export interface MoveKey {
+  cue: string;
+  top: number;
+  cx: number;
+  scale?: number;
+  delay?: number;
+  opacity?: number;
+}
+
+export function Move({ keys, width, exit, exitDelay = 0, dur = 14, style, children }: { keys: MoveKey[]; width: number; exit?: string; exitDelay?: number; dur?: number; style?: React.CSSProperties; children: ReactNode }) {
+  const { frame, at } = useNarration();
+  const start = at(keys[0].cue) + (keys[0].delay ?? 0);
+  const end = exit ? at(exit) + exitDelay : Infinity;
+  if (frame < start || frame >= end + 8) return null;
+  let pose = { top: keys[0].top, cx: keys[0].cx, scale: keys[0].scale ?? 1, opacity: keys[0].opacity ?? 1 };
+  for (let i = 1; i < keys.length; i++) {
+    const t0 = at(keys[i].cue) + (keys[i].delay ?? 0);
+    if (frame < t0) break;
+    const t = ease((frame - t0) / dur);
+    const next = { top: keys[i].top, cx: keys[i].cx, scale: keys[i].scale ?? 1, opacity: keys[i].opacity ?? 1 };
+    pose = {
+      top: pose.top + (next.top - pose.top) * t,
+      cx: pose.cx + (next.cx - pose.cx) * t,
+      scale: pose.scale + (next.scale - pose.scale) * t,
+      opacity: pose.opacity + (next.opacity - pose.opacity) * t,
+    };
+  }
+  const tIn = ease((frame - start) / 12);
+  const tOut = clamp01((frame - end) / 8);
+  return (
+    <div style={{ position: "absolute", top: pose.top + (1 - tIn) * 24, left: pose.cx - width / 2, width, transform: `scale(${pose.scale})`, transformOrigin: "top center", opacity: tIn * (1 - tOut) * pose.opacity, ...style }}>
+      {children}
+    </div>
+  );
+}
+
 export function Stat({ value, label, color = C.paper, size = 112, align = "left", style }: { value: string; label: string; color?: string; size?: number; align?: "left" | "center" | "right"; style?: React.CSSProperties }) {
   return (
     <div style={{ textAlign: align, ...style }}>

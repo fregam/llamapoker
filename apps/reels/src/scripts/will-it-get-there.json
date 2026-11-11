@@ -3,25 +3,25 @@
   "lines": [
     { "take": "hook", "t": "[hook]Will it *get there*?" },
     { "t": "Four hearts, | two cards to come: | [pct0]*thirty-six* percent.", "c": "sage" },
-    { "t": "Here's how you know that | in *two seconds*, | every time.", "gap": 14 },
+    { "t": "Here's how you know that | in *two seconds*, | every time.", "gap": 8 },
 
     { "take": "count", "t": "[count]Start with the deck: | thirteen hearts in it." },
     { "t": "You can already see [seen]*four* of them," },
-    { "t": "which leaves [nine]*nine* | that can still save you. | Nine outs.", "gap": 18 },
+    { "t": "which leaves [nine]*nine* | that can still save you. | Nine outs.", "gap": 9 },
 
     { "take": "flop", "t": "[flop]Now, on the flop, | with two cards to come," },
     { "t": "just take your outs | and [x4]multiply by *four*.", "c": "sage" },
     { "t": "Nine times four | is [r36]*thirty-six* percent,", "c": "sage" },
-    { "t": "so roughly | one time in three.", "c": "sage", "gap": 18 },
+    { "t": "so roughly | one time in three.", "c": "sage", "gap": 9 },
 
     { "take": "turn", "t": "[turn]But say the turn | is a blank." },
     { "t": "One card left now, | so it's outs [x2]times *two*:" },
-    { "t": "[r18]*eighteen* percent.", "gap": 18 },
+    { "t": "[r18]*eighteen* percent.", "gap": 9 },
 
     { "take": "exact", "t": "[exact]And how close is that | to the truth?" },
     { "t": "The exact numbers are | [e35]*thirty-five* | and [e19]*nineteen*.", "c": "sage" },
     { "t": "Off by one, | either way." },
-    { "t": "Which is plenty good enough | to decide in *two seconds*.", "gap": 18 },
+    { "t": "Which is plenty good enough | to decide in *two seconds*.", "gap": 9 },
 
     { "take": "sheet", "t": "[sheet]So save this | for the common draws:" },
     { "t": "[d4]a gutshot, | four outs." },
@@ -30,10 +30,10 @@
     { "t": "[d9]Your flush draw, | nine." },
     { "t": "[d12]Flush draw with a pair, | twelve." },
     { "t": "And [d15]flush and straight draw together, | fifteen." },
-    { "t": "Then send this to the friend | who chases every *gutshot*.", "c": "vermilion", "gap": 20 },
+    { "t": "Then send this to the friend | who chases every *gutshot*.", "c": "vermilion", "gap": 9 },
 
     { "take": "outro", "t": "[outro]So, which draw do *you* chase?" },
     { "t": "Wrong answers in the comments," },
-    { "t": "and [cta]run any spot free | at llama poker dot com.", "c": "sage", "gap": 12 }
+    { "t": "and [cta]run any spot free | at llama poker dot com.", "c": "sage", "gap": 8 }
   ]
 }

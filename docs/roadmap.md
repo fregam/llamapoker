@@ -42,6 +42,9 @@
      MOSS-SoundEffect v2.0 (effects, needs its install run by the user).
    - v5 rendered (002: 100 s, 003: 67 s) with the MOSS-generated effects; the bed is still the
      synthesised placeholder.
+   - v6 (same night): pace (silences cut to 0.3 s, tempo +6 % on 002: 87 s and 61 s), continuity
+     with `<Move>` (objects travel between scenes instead of cutting), Hit/ChunkBlips sound layer,
+     twelve generated effects.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".

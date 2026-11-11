@@ -57,6 +57,13 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   HUD row above the object. Never stack a third element; exit the old one first (`exit=` cue).
 - **A scene evolves, it isn't replaced.** The grid lights up, ghosts, gains a number, widens;
   the aces stay while the seats fold around them. Cuts happen only between ideas, on a long `gap`.
+- **Objects carry over.** `<Move keys=[...]>` keeps one object on stage across scenes and eases it
+  between poses on cues (centre stage → a small HUD slot → the row of a table it becomes). Use it
+  for every number or object that the next scene is about: the hook's cost docks in the HUD while
+  the maths runs; the aces shrink into the corner while the button scene plays; the button grid
+  flies into its own row of the final table; the 9 outs sit in the HUD through the rule; 36% and
+  18% travel into the cells of the table that checks them. A viewer should never see a thing
+  vanish and an unrelated thing appear.
 - **The Gentleman is a bookend.** Hook and outro only, full width, composited with the fade mask,
   with the headline above him. Never behind text, never mid-video as a reaction shot.
 - **The headline is only in the hook.** After it, no titles: the caption carries the words and
@@ -67,7 +74,10 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   picture so the loop doesn't jump. A brass reading line fills along the bottom for the whole reel.
 - **Flow.** The voice is one continuous take per scene, never a sentence at a time, and the script
   is written so each line leans on the one before (connectives, callbacks, a question answered next).
-- **Length follows the script**, typically 70–95 s. The hits in the niche run 50–112 s; what matters
+- **Pace.** After generation, `scripts/vo-tighten.py <id>` cuts every silence longer than 0.3 s
+  down to 0.3 s and (optionally) lifts the tempo 6 % with pitch kept; take gaps in the script are
+  8–9 frames. Something moves on screen at least every two seconds (counters, dots, a Move).
+- **Length follows the script**, typically 60–85 s. The hits in the niche run 50–112 s; what matters
   is that something moves every two seconds, not that it's short.
 
 ## Sound
@@ -77,8 +87,11 @@ The voice-over is the spine. Everything on screen happens because a word was jus
 - **`<Music src>`**: a bed looped for the whole reel, ducked by the timeline: −20 dB under the
   voice, −12 dB in the pauses between takes, −9 dB before the first word and after the last
   (hook and loop point). Ramps of 10 frames.
-- **`<Sfx cue src delay gain>`**: one effect at a spoken cue. **`<Ticks cue until n src>`**: a
-  counter's ticks spread between two cues (capped at 12 a second).
+- **`<Sfx cue src delay gain>`**: one effect at a spoken cue (a negative delay starts a swell
+  early so it peaks on the cue). **`<Ticks cue until n src>`**: a counter's ticks spread between
+  two cues (capped at 12 a second). **`<Hit cue>`**: a number landing = riser into it, stamp on
+  it, sub boom under it. **`<ChunkBlips>`**: a faint blip on every caption change, so the words
+  keep time even in a still moment.
 - Every reel has a `SoundDesign()` block listing its cues → sounds. Rule: one sound per change on
   screen, the same sound for the same kind of change (tick = a count or a row, pluck = a cell
   lighting, deal = a card, fold = a fold, chip = chips, stamp = a number landing, reveal = a result,
@@ -149,8 +162,8 @@ src/index.ts            Entry: registers Root
 src/Root.tsx            Every reel as a <Composition>, every cover as a <Still>. Add new ones here.
 src/theme.ts            Brand colours (brand/tokens.json), Bodoni Moda + Inter, canvas 1080×1920 @ 30fps, SAFE
 src/narration.ts        Script markup → timeline (line starts, word moments, caption chunks, cues)
-src/stage.tsx           Narration, Captions, Enter, Stat, Tag, SeatRing, Ledger, useNarration
-src/sound.tsx           Music (ducked bed), Sfx (one effect at a cue), Ticks (a counter's ticks)
+src/stage.tsx           Narration, Captions, Enter, Move (an object travelling across scenes), Stat, Tag, SeatRing, Ledger, useNarration
+src/sound.tsx           Music (ducked bed), Sfx, Ticks, Hit (riser+stamp+boom), ChunkBlips
 public/sfx/, public/music/  Effects and the bed (see "Sound")
 src/components.tsx      Frame (kicker, hairline border, reading line), PlayingCard, legacy Caption/BigNumber
 src/teaching.tsx        Engraving (screen blend + fade), RangeGrid (ghost/hot), Counter, ChipStack, Seat, DotRow

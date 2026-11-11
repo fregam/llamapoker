@@ -119,3 +119,24 @@ lesson, and a hook line that could open the post.
 - **Lesson:** "open source" means the model is yours to fix. Budget the hour. Write the four
   lines down so the next person doesn't pay it again.
 - **Hook:** "Free AI models cost one hour. Here's the hour."
+
+## 2026-11-11 · "The graphics are isolated per frame": the fix was a verb, not a layout
+
+- **Choice:** the scenes were each correct and each alone: a grid, then a counter, then cards,
+  then a table. The user said the same thing about the graphics that he had said about the
+  script: they don't flow. The fix was one new primitive, an object that *travels* between poses
+  on spoken cues. Now the cost stamped in the hook docks into the corner while the maths runs; the
+  grid sinks under the counter instead of vanishing; the aces shrink into the corner and stay;
+  the button grid flies into its own row of the final table; the percentages fly into the cells
+  of the table that checks them.
+- **Lesson:** continuity is not a transition effect, it's the same object being somewhere else.
+  If the next scene is *about* a thing, that thing should still be on screen.
+- **Hook:** "Your motion graphics don't flow because nothing in them has a past."
+
+## 2026-11-11 · Pace is a property of the audio file
+
+- **Choice:** to go faster we didn't talk faster. We cut every silence in the narration to 0.3 s
+  and lifted the tempo 6 %, pitch kept. Ten seconds gone from a 90-second reel and nobody can
+  hear the difference in the voice. The script's pauses between scenes shrank from 20 frames to 9.
+- **Lesson:** retention leaks in the gaps, not in the sentences.
+- **Hook:** "I made the video 11 % shorter without cutting a word."

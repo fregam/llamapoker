@@ -9,8 +9,8 @@
 import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src/poker/ranges";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
-import { Music, Sfx, Ticks } from "../sound";
-import { Enter, Ledger, Narration, SeatRing, Stat, Tag, progress, timelineFor, useNarration } from "../stage";
+import { ChunkBlips, Hit, Music, Sfx, Ticks } from "../sound";
+import { Enter, Ledger, Move, Narration, SeatRing, Stat, Tag, progress, timelineFor, useNarration } from "../stage";
 import { DotRow, Engraving, RangeGrid, Seat } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
 import type { VoManifest } from "../vo";
@@ -34,7 +34,6 @@ const SMALL_PAIRS = pick(/^(22|33|44|55|66|77)$/);
 const WEAK_ACES = pick(/^A[2-9][so]$/);
 
 const GRID_LEFT = 145; // 13 × 58 + 12 × 3 = 790 wide, centred
-const cardsAt = (top: number, size: number): React.CSSProperties => ({ top, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16 * size });
 
 /* ---------- Hook and outro: the Gentleman, big, with the headline above him ---------- */
 
@@ -65,15 +64,24 @@ function Hook() {
       <Headline cue="hook" exit="grid" dur={1}>
         Only playing <em>aces?</em>
       </Headline>
-      <Enter cue="cost" exit="grid" motion="stamp" dur={8} style={{ top: 640, left: 0, right: 0 }}>
+      {/* The cost stamps in centre stage, then docks into the HUD (top right) while the maths runs
+          under it, and leaves when the 2.6% needs that slot. It comes back at "paid", earned. */}
+      <Move
+        width={700}
+        keys={[
+          { cue: "cost", top: 640, cx: 540, scale: 1, delay: 8 },
+          { cue: "grid", top: 352, cx: 1080 - GRID_LEFT - 160, scale: 0.46 },
+        ]}
+        exit="pct"
+      >
         <Stat value={`−${BLINDS_LOST} bb`} label="EVERY WAIT" color={C.vermilion} size={200} align="center" />
-      </Enter>
+      </Move>
       <Enter cue="nobody0" exit="grid" style={{ top: 980, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 28 }}>
         {[0, 1, 2].map((i) => (
           <Tag key={i} text="FOLD" color={C.vermilion} size={30} />
         ))}
       </Enter>
-      <Sfx cue="cost" src="sfx/stamp.wav" />
+      <Hit cue="cost" delay={8} riser={false} />
       <Sfx cue="nobody0" src="sfx/fold.wav" gain={0.8} />
     </>
   );
@@ -90,15 +98,20 @@ function ThePlan() {
   if (since("ak") >= 0) ["AKs", "AKo"].forEach((h) => lit.add(h));
   const ghost = progress(since("dim"), 18);
   const pct = PREMIUM_PCT * progress(since("pct"), 24);
+  // The grid doesn't cut away: on "wait" it sinks to a faint backdrop (the 34 premiums still
+  // faintly lit) and the counter plays on top of it; it is gone by the time the aces land.
+  const sink = progress(since("wait"), 20);
   return (
     <>
-      <Enter cue="grid" exit="wait" style={{ top: 508, left: GRID_LEFT }}>
-        <RangeGrid lit={lit} color={C.brass} cell={58} ghost={ghost} />
+      <Enter cue="grid" exit="aces" style={{ top: 508, left: GRID_LEFT }}>
+        <div style={{ opacity: 1 - 0.88 * sink, transform: `scale(${1 - 0.04 * sink})`, transformOrigin: "top center" }}>
+          <RangeGrid lit={lit} color={C.brass} cell={58} ghost={ghost} />
+        </div>
       </Enter>
-      <Enter cue="n34" exit="wait" style={{ top: 352, left: GRID_LEFT }}>
+      <Enter cue="n34" exit="n39" style={{ top: 352, left: GRID_LEFT }}>
         <Stat value={`${PREMIUM_COMBOS}`} label="OF 1,326 HANDS" size={92} />
       </Enter>
-      <Enter cue="pct" exit="wait" style={{ top: 352, right: GRID_LEFT }}>
+      <Enter cue="pct" exit="wait" delay={8} style={{ top: 352, right: GRID_LEFT }}>
         <Stat value={`${pct.toFixed(1)}%`} label="OF ALL HANDS" size={92} color={C.brass} align="right" />
       </Enter>
     </>
@@ -124,16 +137,27 @@ function TheWait() {
   const orbitEvery = Math.max(1, (at("paid") - at("blinds")) / ORBITS);
   return (
     <>
-      {/* delay 8: the grid fades out first, then the counter takes its place */}
-      <Enter cue="wait" exit="aces" delay={8} style={{ top: 430, left: 0, right: 0, textAlign: "center" }}>
+      {/* The counter rises over the sinking grid; it exits as the aces land in the same spot */}
+      <Enter cue="wait" exit="aces" delay={6} style={{ top: 430, left: 0, right: 0, textAlign: "center" }}>
         <div style={{ fontFamily: SERIF, fontSize: 250, lineHeight: 0.9, color: C.paper, fontVariantNumeric: "tabular-nums" }}>{n}</div>
         <div style={{ fontFamily: SANS, fontSize: 28, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginTop: 22 }}>HANDS BETWEEN PREMIUMS</div>
       </Enter>
-      <Enter cue="aces" exit="btn" delay={8} style={cardsAt(420, 1.3)}>
-        {["As", "Ah"].map((c, i) => (
-          <PlayingCard key={c} card={c} size={1.3} style={{ transform: `translateY(${(1 - progress(since("aces") - i * 4, 10)) * 30}px)`, opacity: progress(since("aces") - i * 4, 8) }} />
-        ))}
-      </Enter>
+      {/* The aces stay through the raise, then shrink into the top-right corner while the button
+          scene plays: the hand nobody paid is still in view until the table at the end. */}
+      <Move
+        width={420}
+        keys={[
+          { cue: "aces", top: 420, cx: 540, scale: 1, delay: 8 },
+          { cue: "btn", top: 352, cx: 1080 - GRID_LEFT - 90, scale: 0.42 },
+        ]}
+        exit="sheet"
+      >
+        <div style={{ display: "flex", justifyContent: "center", gap: 20 }}>
+          {["As", "Ah"].map((c, i) => (
+            <PlayingCard key={c} card={c} size={1.3} style={{ transform: `translateY(${(1 - progress(since("aces") - 8 - i * 4, 10)) * 30}px)`, opacity: progress(since("aces") - 8 - i * 4, 8) }} />
+          ))}
+        </div>
+      </Move>
       <Enter cue="wait" exit="raise" delay={8} style={{ top: 800, left: GRID_LEFT, right: GRID_LEFT }}>
         <DotRow total={WAIT + 1} filled={n + (acesIn ? 1 : 0)} mark={WAIT} />
       </Enter>
@@ -190,25 +214,29 @@ function TheFix() {
   const hot = since("ax") >= 0 && since("ax") < 40 ? WEAK_ACES : since("pp") >= 0 && since("pp") < 40 ? SMALL_PAIRS : since("sc") >= 0 && since("sc") < 40 ? SUITED_CONNECTORS : undefined;
   return (
     <>
-      <Enter cue="btn" exit="widen" style={{ top: 520, left: 120 }}>
+      <Enter cue="btn" exit="widen" delay={8} style={{ top: 520, left: 120 }}>
         <SeatRing lit={["BTN"]} you="BTN" />
       </Enter>
-      <Enter cue="widen" exit="sheet" style={{ top: 352, left: 171 }}>
+      {/* The 38% and its grid don't cut to the table: they fly into the BTN row of it. */}
+      <Move width={700} keys={[{ cue: "widen", top: 352, cx: 171 + 350, scale: 1 }, { cue: "sheet", top: SHEET_BTN_ROW_TOP + 10, cx: 1080 - GRID_LEFT - 65, scale: 0.6, delay: 6 }]} exit="sheet" exitDelay={30}>
         <Stat value={`${pct}%`} label="OPENED FROM THE BUTTON" size={92} color={C.sage} />
-      </Enter>
-      <Enter cue="widen" exit="sheet" delay={6} style={{ top: 508, left: 171 }}>
+      </Move>
+      <Move width={13 * 54 + 12 * 3} keys={[{ cue: "widen", top: 508, cx: 540, scale: 1, delay: 6 }, { cue: "sheet", top: SHEET_BTN_ROW_TOP + 30, cx: 540, scale: 0.12, delay: 6 }]} exit="sheet" exitDelay={30} dur={22}>
         <RangeGrid lit={BTN} progress={p} color={C.sage} cell={54} ghost={1} hot={hot} />
-      </Enter>
+      </Move>
     </>
   );
 }
+
+const SHEET_TOP = 440;
+const SHEET_BTN_ROW_TOP = SHEET_TOP + 50 + 3 * 111; // header, then UTG, MP, CO rows
 
 /* ---------- Save this: one row per seat ---------- */
 
 function CheatSheet() {
   const rows = POSITIONS.filter((p) => p !== "BB");
   return (
-    <Enter cue="sheet" exit="outro" style={{ top: 440, left: GRID_LEFT, right: GRID_LEFT }}>
+    <Enter cue="sheet" exit="outro" style={{ top: SHEET_TOP, left: GRID_LEFT, right: GRID_LEFT }}>
       <div style={{ display: "flex", justifyContent: "space-between", fontFamily: SANS, fontSize: 26, letterSpacing: "0.26em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}`, fontWeight: 500 }}>
         <span>SEAT</span>
         <span>HANDS OPENED</span>
@@ -217,7 +245,7 @@ function CheatSheet() {
         const pct = Math.round(rangePercent(rangeFor(pos)));
         const btn = pos === "BTN";
         return (
-          <Enter key={pos} cue="sheet" delay={6 + i * 7} style={{ position: "relative" }}>
+          <Enter key={pos} cue="sheet" delay={btn ? 34 : 6 + i * 7} style={{ position: "relative" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "22px 0", borderBottom: `1px solid ${C.rule}` }}>
               <span style={{ fontFamily: SANS, fontSize: 50, color: btn ? C.paper : C.text2, letterSpacing: "0.06em", fontWeight: 500 }}>{pos}</span>
               <span style={{ display: "flex", alignItems: "baseline", gap: 24 }}>
@@ -257,32 +285,37 @@ function SoundDesign() {
   return (
     <>
       <Music src="music/bed.wav" />
+      <ChunkBlips />
+      <Sfx cue="grid" src="sfx/shuffle.wav" gain={0.6} />
       {["qq", "kk", "aa", "ak"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
       ))}
       <Sfx cue="dim" src="sfx/whoosh.wav" delay={-10} gain={0.5} />
-      <Sfx cue="n34" src="sfx/stamp.wav" gain={0.8} />
+      <Hit cue="n34" gain={0.8} />
       <Sfx cue="pct" src="sfx/reveal.wav" gain={0.7} />
+      <Sfx cue="wait" src="sfx/whoosh.wav" delay={-8} gain={0.4} />
       <Ticks cue="wait" until="n39" n={WAIT} src="sfx/tick.wav" />
       <Sfx cue="blinds" src="sfx/chip.wav" />
-      <Sfx cue="aces" src="sfx/deal.wav" />
-      <Sfx cue="aces" src="sfx/deal.wav" delay={4} gain={0.8} />
-      <Sfx cue="paid" src="sfx/stamp.wav" />
+      <Sfx cue="aces" src="sfx/deal.wav" delay={8} />
+      <Sfx cue="aces" src="sfx/deal.wav" delay={12} gain={0.8} />
+      <Hit cue="paid" />
       <Sfx cue="raise" src="sfx/chip.wav" />
       {["s1", "s2", "s3"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/fold.wav" />
       ))}
       <Sfx cue="win" src="sfx/reveal.wav" gain={0.6} />
-      <Sfx cue="net" src="sfx/stamp.wav" />
+      <Hit cue="net" />
       <Sfx cue="btn" src="sfx/whoosh.wav" delay={-10} />
       <Sfx cue="widen" src="sfx/reveal.wav" />
+      <Sfx cue="widen" src="sfx/shuffle.wav" delay={6} gain={0.5} />
       {["sc", "pp", "ax"].map((c) => (
         <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
       ))}
       <Sfx cue="sheet" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
-      {POSITIONS.slice(0, 5).map((_, i) => (
+      {[0, 1, 2, 4].map((i) => (
         <Sfx key={i} cue="sheet" delay={6 + i * 7} src="sfx/tick.wav" gain={0.5} />
       ))}
+      <Sfx cue="sheet" delay={34} src="sfx/stamp.wav" gain={0.6} />
       <Sfx cue="outro" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       <Sfx cue="cta" src="sfx/reveal.wav" />
     </>

@@ -1,6 +1,7 @@
 """Generate the reels' sound effects with MOSS-SoundEffect v2.0, locally (Apache 2.0, 48 kHz).
 
     C:/Users/matia/Documents/moss-tts/moss_soundeffect_v2/.venv/Scripts/python.exe scripts/sfx-moss.py [names...]
+    ...python.exe scripts/sfx-moss.py --recut [names...]      re-cut public/sfx from the board, no generation
 
 Writes apps/reels/public/sfx/<name>.wav for every entry in SOUNDS (or only the names given), each
 trimmed to its first transient, faded, and peak-normalised to -6 dBFS, so it drops in over the
@@ -30,24 +31,54 @@ SOUNDS = {
     "whoosh": ("A short smooth air whoosh passing left to right, cinematic, clean, half a second.", 1.5, 2),
     "stamp": ("A single heavy rubber stamp hitting paper on a wooden desk once, a low thump with a snap.", 1.5, 2),
     "reveal": ("A soft, short, warm two-note bell chime, gentle, like a notification, with a brief tail.", 2, 2),
+    "riser": ("A short cinematic riser: a smooth filtered white-noise swell rising in pitch over one second, clean, ending abruptly.", 1.5, 2),
+    "boom": ("A deep, soft cinematic sub-bass boom hit, single, short, no reverb tail.", 1.5, 2),
+    "blip": ("A tiny soft rounded UI blip, a single very short muted tone, dry, close.", 1, 2),
+    "shuffle": ("A single quick riffle shuffle of a deck of playing cards, close, dry, half a second.", 1.5, 2),
 }
 
 
-def trim(x: np.ndarray, sr: int, max_s: float) -> np.ndarray:
-    """Cut to the first transient (−40 dB below peak) and fade the tail; cap the length."""
-    peak = np.abs(x).max() + 1e-9
-    thr = peak * 10 ** (-40 / 20)
-    idx = np.where(np.abs(x) > thr)[0]
-    if not len(idx):
-        return x[: int(sr * max_s)]
-    a = max(0, idx[0] - int(0.005 * sr))
-    y = x[a : a + int(sr * max_s)]
-    tail = min(len(y), int(0.08 * sr))
+HITS = {"tick", "chip", "deal", "fold", "stamp", "boom", "blip", "shuffle"}  # percussive: the peak lands 20 ms in
+CAPS = {"tick": 0.25, "chip": 0.45, "deal": 0.45, "fold": 0.7, "stamp": 0.6, "boom": 0.8, "blip": 0.25, "shuffle": 0.7, "pluck": 0.9, "reveal": 1.3, "whoosh": 0.9, "riser": 1.2}
+
+
+def trim(x: np.ndarray, sr: int, name: str) -> np.ndarray:
+    """Cut a candidate so it lands on its cue: a hit is cut 20 ms before its loudest sample; a
+    swell (whoosh, riser, bell, pluck) starts at its first onset (within 20 dB of the loudest
+    5 ms window). Capped per sound, faded, peak-normalised to -6 dBFS."""
+    cap = CAPS.get(name, 1.0)
+    if name in HITS:
+        a = max(0, int(np.argmax(np.abs(x))) - int(0.02 * sr))
+    else:
+        win = int(sr * 0.005)
+        e = np.array([np.mean(x[i : i + win] ** 2) for i in range(0, len(x) - win, win)])
+        a = max(0, int(np.argmax(e > e.max() * 10 ** (-20 / 10))) * win - int(0.01 * sr))
+    y = x[a : a + int(sr * cap)].copy()
+    fi = min(len(y), int(0.003 * sr))
+    y[:fi] *= np.linspace(0, 1, fi)
+    tail = min(len(y), int(0.06 * sr))
     y[-tail:] *= np.linspace(1, 0, tail)
     return y / (np.abs(y).max() + 1e-9) * 10 ** (-6 / 20)
 
 
+def recut(names: list[str]) -> None:
+    """Re-cut public/sfx from the board candidates (candidate 1) without generating."""
+    for name in SOUNDS:
+        if names and name not in names:
+            continue
+        src = BOARD / f"{name}-1.wav"
+        if not src.exists():
+            continue
+        x, sr = sf.read(str(src), dtype="float32", always_2d=True)
+        y = trim(x.mean(1), sr, name)
+        sf.write(str(OUT / f"{name}.wav"), y, sr, subtype="PCM_16")
+        print(f"{name:8s} {len(y) / sr:.2f} s, peak at {int(np.argmax(np.abs(y))) / sr:.3f} s")
+
+
 def main(names: list[str]) -> None:
+    if names[:1] == ["--recut"]:
+        recut(names[1:])
+        return
     from moss_soundeffect_v2 import MossSoundEffectPipeline
 
     pipe = MossSoundEffectPipeline.from_pretrained("OpenMOSS-Team/MOSS-SoundEffect-v2.0", torch_dtype=torch.bfloat16, device="cuda")
@@ -76,11 +107,11 @@ def main(names: list[str]) -> None:
             x = a.float().cpu().numpy()
             x = x.mean(0) if x.ndim == 2 else x
             sr = int(getattr(pipe, "sample_rate", 48000))
-            y = trim(x.astype(np.float32), sr, max_s=seconds)
             cand = BOARD / f"{name}-{i + 1}.wav"
-            sf.write(str(cand), y, sr, subtype="PCM_16")
+            sf.write(str(cand), x.astype(np.float32), sr, subtype="PCM_16")  # the board keeps the uncut take
+            y = trim(x.astype(np.float32), sr, name)
             print(f"{name}-{i + 1}: {len(y) / sr:.2f} s")
-        shutil.copy2(BOARD / f"{name}-1.wav", OUT / f"{name}.wav")
+        sf.write(str(OUT / f"{name}.wav"), trim(sf.read(str(BOARD / f"{name}-1.wav"), dtype="float32", always_2d=True)[0].mean(1), sr, name), sr, subtype="PCM_16")
     print(f"done; candidates in {BOARD.relative_to(ROOT)}, first of each copied to {OUT.relative_to(ROOT)}")
 
 

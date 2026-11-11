@@ -46,7 +46,14 @@ SFX). Sources: [ComfyUI blog on ACE-Step 1.5](https://blog.comfy.org/p/ace-step-
 3. `pipe.save_audio` goes through torchaudio 2.9, which now needs torchcodec (not installed, no
    wheel for this setup) → the script saves the `(B, C, T)` tensor with soundfile itself.
 4. With the DiT in bf16 a 1.5 s clip takes about 25 s at 60 steps (2.4 it/s); two candidates per
-   sound, eight sounds, under ten minutes.
+   sound, eight sounds, under ten minutes. Setting the torch seed does not change the output
+   (the pipeline draws its own noise), so "two candidates" came out identical; vary the prompt
+   instead.
+5. Prompts for single hits work (tick, chip, deal, fold, stamp, blip, shuffle, whoosh, riser,
+   bell). "A sub-bass boom hit" did not: the model returned a flat 0.8 s rumble. The boom is
+   synthesised (a sine sweeping 82 → 34 Hz with a 0.4 s decay), which is what a boom is anyway.
+6. Every candidate is cut so its loudest sample sits 20 ms in (`sfx-moss.py --recut`): generated
+   clips carry 0.3–1.1 s of lead-in, and an effect that lands late reads as a mistake.
 
 ## Mixing rules (in `sound.tsx`)
 

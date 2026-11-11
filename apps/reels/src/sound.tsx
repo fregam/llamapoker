@@ -54,6 +54,31 @@ export function Sfx({ cue, src, delay = 0, gain = 1, dur = 90 }: { cue: string; 
   );
 }
 
+/** A number landing: a riser into the cue, the stamp on it, a soft boom under it. */
+export function Hit({ cue, delay = 0, gain = 1, riser = true }: { cue: string; delay?: number; gain?: number; riser?: boolean }) {
+  return (
+    <>
+      {riser && <Sfx cue={cue} src="sfx/riser.wav" delay={delay - 22} gain={0.45 * gain} />}
+      <Sfx cue={cue} src="sfx/stamp.wav" delay={delay} gain={gain} />
+      <Sfx cue={cue} src="sfx/boom.wav" delay={delay} gain={0.7 * gain} />
+    </>
+  );
+}
+
+/** A tiny blip when the caption changes: the words keep time even when nothing else moves. */
+export function ChunkBlips({ gain = 0.22, src = "sfx/blip.wav" }: { gain?: number; src?: string }) {
+  const { tl } = useNarration();
+  return (
+    <>
+      {tl.chunks.map((c, i) => (
+        <Sequence key={i} from={c.start} durationInFrames={10}>
+          <Audio src={staticFile(src)} volume={gain} />
+        </Sequence>
+      ))}
+    </>
+  );
+}
+
 /** n ticks spread evenly between two cues (a counter counting up). */
 export function Ticks({ cue, until, n, src, gain = 0.6, maxPerSecond = 12 }: { cue: string; until: string; n: number; src: string; gain?: number; maxPerSecond?: number }) {
   const { at } = useNarration();

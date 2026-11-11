@@ -4,14 +4,14 @@
     { "take": "hook", "t": "[hook]Only playing *aces*?" },
     { "t": "That costs you [cost]*ten* big blinds | every time you wait.", "c": "vermilion" },
     { "t": "And when they finally come, | [nobody0]*nobody* pays.", "c": "vermilion" },
-    { "t": "Here's the *maths*.", "gap": 14 },
+    { "t": "Here's the *maths*.", "gap": 8 },
 
     { "take": "plan", "t": "[grid]Your plan sounds simple enough:" },
     { "t": "[qq]*queens*, | [kk]*kings*, | [aa]*aces*," },
     { "t": "and [ak]*ace-king*." },
     { "t": "Everything else | goes straight in the [dim]*muck*." },
     { "t": "Trouble is, | that's only [n34]*34* hands | out of 1,326." },
-    { "t": "Under [pct]*three percent* | of what you're dealt.", "gap": 20 },
+    { "t": "Under [pct]*three percent* | of what you're dealt.", "gap": 9 },
 
     { "take": "wait", "t": "[wait]So mostly, | you fold." },
     { "t": "And fold." },
@@ -19,27 +19,27 @@
     { "t": "[blinds]And while you wait, | the blinds don't.", "c": "vermilion" },
     { "t": "Every orbit, | another one and a half big blinds | out of your stack.", "c": "vermilion" },
     { "t": "So by the time the [aces]aces finally show up," },
-    { "t": "you've already paid about [paid]*ten* blinds | just to see them.", "c": "vermilion", "gap": 20 },
+    { "t": "you've already paid about [paid]*ten* blinds | just to see them.", "c": "vermilion", "gap": 9 },
 
     { "take": "raise", "t": "Now, at last, | you [raise]*raise*." },
     { "t": "But the table has been [watch]*watching* you," },
     { "t": "and you've played two hands | all hour." },
     { "t": "So what happens? | [s1]Fold. | [s2]Fold. | [s3]Fold.", "c": "vermilion" },
     { "t": "Your aces [win]win | one and a half blinds,", "c": "sage" },
-    { "t": "after you [net]paid *ten* | to get there.", "c": "vermilion", "gap": 22 },
+    { "t": "after you [net]paid *ten* | to get there.", "c": "vermilion", "gap": 9 },
 
     { "take": "fix", "t": "[fix]So tight isn't the problem. | *Predictable* is.", "c": "vermilion" },
     { "t": "Think about the [btn]button instead, | last to act,", "c": "sage" },
     { "t": "where a solid player opens | about [widen]*38 percent* of hands:", "c": "sage" },
     { "t": "[sc]suited connectors, | [pp]small pairs, | [ax]weak aces.", "c": "sage" },
-    { "t": "And now, when you raise, | nobody knows what you [nobody]*have*.", "c": "sage", "gap": 18 },
+    { "t": "And now, when you raise, | nobody knows what you [nobody]*have*.", "c": "sage", "gap": 9 },
 
     { "take": "sheet", "t": "[sheet]So save this:" },
     { "t": "the later your seat, | the *more* hands you play." },
-    { "t": "Premiums are your floor, | never your whole *plan*.", "gap": 22 },
+    { "t": "Premiums are your floor, | never your whole *plan*.", "gap": 9 },
 
     { "take": "outro", "t": "[outro]So, honestly: | how long is *your* wait?" },
     { "t": "Tell me in the comments," },
-    { "t": "and [cta]run any spot free | at llama poker dot com.", "c": "sage", "gap": 12 }
+    { "t": "and [cta]run any spot free | at llama poker dot com.", "c": "sage", "gap": 8 }
   ]
 }

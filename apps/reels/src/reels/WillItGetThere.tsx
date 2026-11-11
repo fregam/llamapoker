@@ -8,8 +8,8 @@
 import { outsToEquity } from "../../../web/src/poker/odds";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
-import { Music, Sfx } from "../sound";
-import { Enter, Narration, Stat, progress, timelineFor, useNarration } from "../stage";
+import { ChunkBlips, Hit, Music, Sfx } from "../sound";
+import { Enter, Move, Narration, Stat, progress, timelineFor, useNarration } from "../stage";
 import { Engraving } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
 import type { VoManifest } from "../vo";
@@ -72,16 +72,25 @@ function Hook() {
           <PlayingCard key={c} card={c} size={0.8} style={{ opacity: progress(since("hook") - 14 - i * 4, 8) }} />
         ))}
       </Enter>
-      {/* The answer first: the number stamps in under the cards, the body then earns it */}
-      <Enter cue="pct0" exit="count" motion="stamp" dur={8} style={{ top: 1060, left: 0, right: 0 }}>
+      {/* The answer first: the number stamps in under the cards, then docks top right and stays
+          there as the promise while the outs are counted; the big 36% takes over on "r36". */}
+      <Move width={600} keys={[{ cue: "pct0", top: 1060, cx: 540, scale: 1 }, { cue: "count", top: 352, cx: HUD_RIGHT_CX, scale: 0.45 }]} exit="r36">
         <Stat value={`${RULE_FLOP}%`} label="TO GET THERE" color={C.sage} size={150} align="center" />
-      </Enter>
+      </Move>
       <Sfx cue="hook" src="sfx/deal.wav" delay={4} gain={0.8} />
       <Sfx cue="hook" src="sfx/deal.wav" delay={14} gain={0.7} />
-      <Sfx cue="pct0" src="sfx/stamp.wav" />
+      <Hit cue="pct0" riser={false} />
     </>
   );
 }
+
+const HUD_RIGHT_CX = 1080 - 120 - 150; // centre of the small top-right HUD slot (inside the safe area)
+const HUD_LEFT_CX = 120 + 150;
+const EXACT_TOP = 480;
+const EXACT_RULE_ROW_TEXT_TOP = EXACT_TOP + 44 + 24; // header, then the row's padding
+const EXACT_EXACTLY_ROW_TOP = EXACT_TOP + 44 + 164; // after THE RULE row
+const SHEET_TOP = 440;
+const SHEET_FLUSH_ROW_TOP = SHEET_TOP + 41 + 3 * 100; // header, then gutshot, overcards, open-ended
 
 /* ---------- Sound: the bed under everything, one effect per change on screen ---------- */
 
@@ -89,15 +98,17 @@ function SoundDesign() {
   return (
     <>
       <Music src="music/bed.wav" />
+      <ChunkBlips />
       <Sfx cue="count" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
+      <Sfx cue="count" src="sfx/shuffle.wav" gain={0.6} />
       <Sfx cue="seen" src="sfx/tick.wav" gain={0.6} />
       <Sfx cue="nine" src="sfx/reveal.wav" />
       <Sfx cue="flop" src="sfx/deal.wav" delay={8} />
       <Sfx cue="x4" src="sfx/pluck.wav" />
-      <Sfx cue="r36" src="sfx/stamp.wav" />
+      <Hit cue="r36" />
       <Sfx cue="turn" src="sfx/deal.wav" />
       <Sfx cue="x2" src="sfx/pluck.wav" />
-      <Sfx cue="r18" src="sfx/stamp.wav" />
+      <Hit cue="r18" />
       <Sfx cue="exact" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       <Sfx cue="e35" src="sfx/reveal.wav" gain={0.7} />
       <Sfx cue="e19" src="sfx/reveal.wav" gain={0.7} />
@@ -128,9 +139,11 @@ function CountOuts() {
       <Enter cue="seen" exit="nine" style={{ top: 800, left: 0, right: 0, textAlign: "center" }}>
         <Stat value="4" label="ALREADY ON THE TABLE" size={200} color={C.text3} align="center" />
       </Enter>
-      <Enter cue="nine" exit="flop" style={{ top: 800, left: 0, right: 0, textAlign: "center" }}>
+      {/* The nine outs count up centre stage, then shrink into the top-left HUD and stay there
+          through the rule (they are the number being multiplied) until the exact table. */}
+      <Move width={500} keys={[{ cue: "nine", top: 800, cx: 540, scale: 1 }, { cue: "flop", top: 352, cx: HUD_LEFT_CX, scale: 0.4, delay: 8 }]} exit="exact">
         <Stat value={`${n}`} label="OUTS" size={250} align="center" />
-      </Enter>
+      </Move>
     </>
   );
 }
@@ -161,18 +174,20 @@ function TheRule() {
           9 <span style={{ color: C.text3 }}>×</span> 4
         </div>
       </Enter>
-      <Enter cue="r36" exit="turn" style={{ top: 940, left: 0, right: 0 }}>
+      {/* 36% counts up centre stage, docks top right while the turn plays, then flies into the
+          FLOP cell of THE RULE row as the table forms; 18% goes straight to the TURN cell. */}
+      <Move width={700} keys={[{ cue: "r36", top: 940, cx: 540, scale: 1 }, { cue: "turn", top: 352, cx: HUD_RIGHT_CX, scale: 0.45, delay: 8 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP - 8, cx: 585, scale: 0.52, delay: 2 }]} exit="exact" exitDelay={22}>
         <Stat value={`${Math.round(RULE_FLOP * progress(since("r36"), 14))}%`} label="TO HIT BY THE RIVER" size={200} color={C.sage} align="center" />
-      </Enter>
+      </Move>
 
       <Enter cue="x2" exit="exact" delay={4} style={{ top: 720, left: 0, right: 0, textAlign: "center" }}>
         <div style={{ fontFamily: SERIF, fontSize: 170, lineHeight: 1, color: C.paper }}>
           9 <span style={{ color: C.text3 }}>×</span> 2
         </div>
       </Enter>
-      <Enter cue="r18" exit="exact" style={{ top: 940, left: 0, right: 0 }}>
+      <Move width={700} keys={[{ cue: "r18", top: 940, cx: 540, scale: 1 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP - 8, cx: 815, scale: 0.52, delay: 2 }]} exit="exact" exitDelay={22}>
         <Stat value={`${Math.round(RULE_TURN * progress(since("r18"), 14))}%`} label="TO HIT ON THE RIVER" size={200} color={C.brass} align="center" />
-      </Enter>
+      </Move>
     </>
   );
 }
@@ -185,23 +200,29 @@ function Exact() {
   const e35 = progress(since("e35"), 8);
   const e19 = progress(since("e19"), 8);
   return (
-    <Enter cue="exact" exit="sheet" delay={8} style={{ top: 480, left: 110, right: 170 }}>
-      <div style={{ display: "flex", fontFamily: SANS, fontSize: 26, letterSpacing: "0.26em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}`, fontWeight: 500 }}>
-        <span style={{ flex: 1 }} />
-        <span style={{ width: 230, textAlign: "right" }}>FLOP</span>
-        <span style={{ width: 230, textAlign: "right" }}>TURN</span>
-      </div>
-      <div style={{ display: "flex", alignItems: "baseline", padding: "30px 0", borderBottom: `1px solid ${C.rule}` }}>
-        <span style={{ flex: 1, fontFamily: SANS, fontSize: 30, letterSpacing: "0.2em", color: C.text2, fontWeight: 500 }}>THE RULE</span>
-        <span style={{ ...cols, color: C.text2 }}>{RULE_FLOP}%</span>
-        <span style={{ ...cols, color: C.text2 }}>{RULE_TURN}%</span>
-      </div>
-      <div style={{ display: "flex", alignItems: "baseline", padding: "30px 0", borderBottom: `1px solid ${C.rule}` }}>
-        <span style={{ flex: 1, fontFamily: SANS, fontSize: 30, letterSpacing: "0.2em", color: C.sage, fontWeight: 500 }}>EXACTLY</span>
-        <span style={{ ...cols, color: C.sage, opacity: e35, transform: `translateY(${(1 - e35) * 16}px)` }}>{pct(exactRiver(9))}%</span>
-        <span style={{ ...cols, color: C.sage, opacity: e19, transform: `translateY(${(1 - e19) * 16}px)` }}>{pct(exactTurn(9))}%</span>
-      </div>
-    </Enter>
+    <>
+      <Enter cue="exact" exit="sheet" delay={8} style={{ top: EXACT_TOP, left: 110, right: 170 }}>
+        <div style={{ display: "flex", fontFamily: SANS, fontSize: 26, letterSpacing: "0.26em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}`, fontWeight: 500 }}>
+          <span style={{ flex: 1 }} />
+          <span style={{ width: 230, textAlign: "right" }}>FLOP</span>
+          <span style={{ width: 230, textAlign: "right" }}>TURN</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "baseline", padding: "30px 0", borderBottom: `1px solid ${C.rule}` }}>
+          <span style={{ flex: 1, fontFamily: SANS, fontSize: 30, letterSpacing: "0.2em", color: C.text2, fontWeight: 500 }}>THE RULE</span>
+          <span style={{ ...cols, color: C.text2 }}>{RULE_FLOP}%</span>
+          <span style={{ ...cols, color: C.text2 }}>{RULE_TURN}%</span>
+        </div>
+      </Enter>
+      {/* The EXACTLY row is its own object: when the cheat sheet forms it slides down to where
+          the flush-draw row will be (it is that row) and hands over when that row is spoken. */}
+      <Move width={800} keys={[{ cue: "exact", top: EXACT_EXACTLY_ROW_TOP, cx: 510, scale: 1, delay: 8 }, { cue: "sheet", top: SHEET_FLUSH_ROW_TOP, cx: 510, scale: 1, opacity: 0.55, delay: 4 }]} exit="d9" exitDelay={4} dur={18}>
+        <div style={{ display: "flex", alignItems: "baseline", padding: "30px 0", borderBottom: `1px solid ${C.rule}` }}>
+          <span style={{ flex: 1, fontFamily: SANS, fontSize: 30, letterSpacing: "0.2em", color: C.sage, fontWeight: 500 }}>EXACTLY</span>
+          <span style={{ ...cols, color: C.sage, opacity: e35, transform: `translateY(${(1 - e35) * 16}px)` }}>{pct(exactRiver(9))}%</span>
+          <span style={{ ...cols, color: C.sage, opacity: e19, transform: `translateY(${(1 - e19) * 16}px)` }}>{pct(exactTurn(9))}%</span>
+        </div>
+      </Move>
+    </>
   );
 }
 
@@ -209,7 +230,7 @@ function Exact() {
 
 function CheatSheet() {
   return (
-    <Enter cue="sheet" exit="outro" style={{ top: 440, left: 110, right: 170 }}>
+    <Enter cue="sheet" exit="outro" style={{ top: SHEET_TOP, left: 110, right: 170 }}>
       <div style={{ display: "flex", fontFamily: SANS, fontSize: 24, letterSpacing: "0.26em", color: C.text3, paddingBottom: 16, borderBottom: `1px solid ${C.ruleStrong}`, fontWeight: 500 }}>
         <span style={{ flex: 1 }}>DRAW</span>
         <span style={{ width: 110, textAlign: "right" }}>OUTS</span>
