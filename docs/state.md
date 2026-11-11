@@ -15,11 +15,14 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
 
 ## Waiting on the founder
 
-- **Merge order:** `ci/safety-net` first (CI, Dependabot, gitleaks, page tests, Vite 7),
-  then `site/signup-path` (which already contains the CI branch), then this docs branch
-  `plan/2026-11-11-first-session`. Each is pushed; Cloudflare builds a preview per branch
-  (`ci-safety-net.llamapoker.pages.dev`, `site-signup-path.llamapoker.pages.dev`). Until the
-  branch rule exists, merging to `main` is a production deploy: the founder merges.
+- **Merge:** one pull request, `plan/2026-11-11-first-session` → `main`. That branch contains
+  everything from this session (it merged `site/signup-path`, which contains `ci/safety-net`):
+  CI, page and function tests, Vite 7, the signup path, the docs, the mockups. Type-check, 70
+  tests and the build pass on it. Cloudflare builds a preview per pushed branch; check the Pages
+  dashboard for its URL. Until the branch rule exists, merging to `main` is a production deploy:
+  the founder merges.
+- **Housekeeping:** a `vite preview` server started during this session (port 4173) and an
+  esbuild service may still be running on the PC; closing them frees `node_modules` for `npm ci`.
 - **Branch protection** on `main` (GitHub UI, settings listed in `docs/hosting.md`, "Safety net").
 - **Beehiiv:** turn the welcome email on with `content/letters/000-welcome.md`, set a postal
   address and a reply-to that is read; then letter 001 can go (after approving its text).
