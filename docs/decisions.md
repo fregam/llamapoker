@@ -3,6 +3,18 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-11 (late night) - Site speed: hydrate the prerender and self-host the fonts; no code splitting
+
+- **What:** `main.tsx` hydrates prerendered pages instead of replacing them with `createRoot`;
+  the brand fonts are served from llamapoker.com (`apps/web/public/fonts/`) instead of Google.
+- **Why:** LCP was 87% "render delay": the browser threw the prerendered HTML away and painted
+  it again only after the bundle and the Google Fonts chain. Lighthouse mobile, local build,
+  median of 3: home 92→94, /table 90→96, /learn/outs 84→92; LCP about 3.3 s → 2.4 s. It also
+  stops sending every visitor's IP to Google, a GDPR point the Privacy page never covered.
+- **Rejected:** splitting the bundle per route. Once the paint no longer waits on JavaScript the
+  gain is small (TBT is 0–185 ms), and lazy routes prerender as fallbacks under `renderToString`
+  unless the server entry is reworked. Revisit if the bundle grows or TBT climbs.
+
 ## 2026-11-11 (night) - The repo is public
 
 - **What:** `fregam/llamapoker` went public so that `main` can have a branch-protection rule

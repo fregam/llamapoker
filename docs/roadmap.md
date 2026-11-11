@@ -12,6 +12,8 @@
 - Monorepo: `brand/`, `apps/web/`, `content/`, `agents/`, `docs/`.
 - Guides: /learn/pot-odds (formula + bet-size chart) and /learn/outs (common draws, rule of 2 and 4, full outs chart).
 - Phone pass: no sideways scrolling on any page at 390px; trainer drill tabs scroll; touch screens hide keyboard hints.
+- 2026-11-11: speed (Phase 1 item): prerendered pages hydrate instead of re-rendering; brand fonts
+  self-hosted (no Google request). Mobile Lighthouse 84–92 → 92–96 locally. Code splitting not needed yet.
 - Strategy: the big blind defends about half its hands vs a CO/BTN/SB raise (was graded too tight).
 - Brand: engraved llama mark, the Gentleman, the Read, round icon/favicon, social kit,
   new share card, Gentleman plate on the home page.

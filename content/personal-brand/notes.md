@@ -266,3 +266,19 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a check that only covers the easy part is a false green. Point the instrument at
   the whole thing before trusting it.
 - **Hook:** "My integrity check said 'all 25 verified'. There were 844 files."
+
+## 2026-11-11 - The site was drawn twice, and the second drawing was the one that counted
+
+- **Choice:** the slow part of llamapoker.com was not the 287 kB of JavaScript. Every page was
+  already rendered to HTML at build time, and then the browser threw that HTML away and drew it
+  again once the script arrived, so the speed test only counted the second drawing. Switching to
+  hydration (keep the HTML, attach behaviour to it) and serving the fonts ourselves instead of
+  from Google took mobile scores from 84–92 to 92–96, and the text appears about a second sooner.
+- **Rejected:** code splitting, the textbook fix for "big bundle". Measured first: once the
+  paint stopped waiting on the script, splitting would have bought little and cost a rework of
+  the prerender.
+- **What happened:** the first check for hydration bugs reported "clean" on a deliberately
+  broken build. The test was lying: the rebuild had skipped the prerender, so there was nothing
+  to hydrate. Breaking it on purpose is what proved the check worked.
+- **Lesson:** before you trust a green check, make it go red once.
+- **Hook:** "My website was drawing every page twice. Google only timed the second one."

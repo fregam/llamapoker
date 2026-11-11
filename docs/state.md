@@ -75,7 +75,10 @@ the end. Last update: 2026-11-11, evening (first session, after the go-ahead).
   plan keeps API access (minus the Send API), so `/api/subscribe` keeps working.
 - Cloudflare Web Analytics: 55 visits / 62 page views in the last 7 days (mostly the founder).
 - Search Console: 17 impressions, 1 click in 28 days; 3 pages indexed, 10 discovered not indexed.
-- Lighthouse mobile: performance 82–84, everything else 100. Render-blocking fonts, one bundle.
+- Lighthouse mobile: performance 82–84 on production, everything else 100. Render-blocking fonts,
+  one bundle. Branch `site/perf-hydrate-fonts` (PR pending merge) hydrates the prerender and
+  self-hosts the fonts: local build 92→94 home, 90→96 /table, 84→92 /learn/outs (median of 3).
+  Re-measure on production after the merge.
 - Media manifests (2026-11-11 night): all 843 files under `media/` are now listed
   (`content/library/assets.json`, `content/reels/assets.json`, `content/tests/assets.json`);
   `node scripts/media-manifest.mjs --init <folder> <manifest>` appends new files. `media/tests/` is

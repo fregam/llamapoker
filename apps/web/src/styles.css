@@ -10,6 +10,7 @@
    section near the end makes the Table page fit one screen (3 columns).
    ========================================================================== */
 @import "../../../brand/tokens.css";
+@import "./fonts.css";
 
 :root {
   color-scheme: dark;
