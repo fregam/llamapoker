@@ -29,11 +29,13 @@
 - **CI** (`.github/workflows/ci.yml`): on every pull request and push to `main`, type-check, tests,
   build, build-output sanity, runtime dependency audit, and a gitleaks secret scan. Dependabot
   (`.github/dependabot.yml`) opens weekly update PRs so CI checks them.
-- **Branch protection** (set once in GitHub → Settings → Branches → `main`; the `gh` CLI is not
-  installed on the PC, so this is done in the UI): require a pull request before merging; require
-  status checks `Website (type-check, tests, build)` and `Secret scan (gitleaks)` to pass; require
-  the branch to be up to date; include administrators. With that rule, `main` only ever receives
-  green merges, which is what makes CI gate the Cloudflare deploy.
+- **Branch protection** on `main` (set 2026-11-11 with
+  `gh api -X PUT repos/fregam/llamapoker/branches/main/protection --input docs/branch-protection.json`):
+  status checks `Website (type-check, tests, build)` and `Secret scan (gitleaks)` must pass, the
+  branch must be up to date, administrators included, no review requirement (a solo founder cannot
+  approve their own PR). With that rule, `main` only ever receives green merges, which is what
+  makes CI gate the Cloudflare deploy. The repo is public (branch rules on private repos need
+  GitHub Pro); GitHub secret scanning and push protection are on.
 - **Preview deploys:** Cloudflare Pages builds every pushed branch at
   `https://<branch>.llamapoker.pages.dev` (branch names with `/` become `-`). Check a change there
   before merging.
