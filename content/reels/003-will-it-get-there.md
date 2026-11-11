@@ -1,6 +1,6 @@
 ---
 title: Will it get there?
-status: rendered (v4), not posted
+status: rendered (v8, the baseline since 2026-11-11), not approved for posting (two quality rounds pending: voice, review sheet)
 channel: Instagram Reels (9:16, 75 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `will-it-get-there`; script `apps/reels/src/scripts/will-it-get-there.json`; cover `cover-will-it-get-there`
