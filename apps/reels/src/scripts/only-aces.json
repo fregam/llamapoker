@@ -1,0 +1,45 @@
+{
+  "voice": { "engine": "text2speech_v2/elevenlabs", "name": "Mark", "voice_id": "27c04473-84a9-4b60-a41f-c8e8458bd4f1" },
+  "lines": [
+    { "t": "[hook]Only playing the *big* hands?", "gap": 6 },
+    { "t": "Fold. | Fold. | Fold.", "c": "vermilion", "gap": 6 },
+    { "t": "It feels *disciplined*." },
+    { "t": "Here's what it actually *costs* you.", "c": "vermilion", "gap": 18 },
+
+    { "t": "[grid]Your plan is simple." },
+    { "t": "[qq]*Queens*, | [kk]*kings*, | [aa]*aces*," },
+    { "t": "and [ak]*ace-king*." },
+    { "t": "Everything else | goes in the [dim]*muck*." },
+    { "t": "That's [n34]*34* hands | out of 1,326." },
+    { "t": "Under [pct]*three percent*.", "gap": 20 },
+
+    { "t": "[wait]So you fold." },
+    { "t": "And fold." },
+    { "t": "On average, | one premium every [n39]*39* hands." },
+    { "t": "[blinds]Meanwhile, the blinds come round.", "c": "vermilion" },
+    { "t": "Every six hands, | one and a half big blinds.", "c": "vermilion" },
+    { "t": "By the time the [aces]aces arrive," },
+    { "t": "you've already paid [paid]*ten*.", "c": "vermilion", "gap": 20 },
+
+    { "t": "Now you [raise]*raise*." },
+    { "t": "And the table has been [watch]*watching*." },
+    { "t": "You've played two hands | in an hour." },
+    { "t": "[s1]Fold. | [s2]Fold. | [s3]Fold.", "c": "vermilion" },
+    { "t": "You [win]win | one and a half blinds.", "c": "sage" },
+    { "t": "After [net]paying *ten* | to get there.", "c": "vermilion", "gap": 22 },
+
+    { "t": "[fix]Tight isn't the problem. | *Predictable* is.", "c": "vermilion" },
+    { "t": "[btn]From the button, | last to act,", "c": "sage" },
+    { "t": "a solid player opens | about [widen]*38 percent* of hands.", "c": "sage" },
+    { "t": "[sc]Suited connectors. | [pp]Small pairs. | [ax]Weak aces.", "c": "sage" },
+    { "t": "Nobody knows | what you [nobody]*have*.", "c": "sage", "gap": 18 },
+
+    { "t": "[sheet]Save this." },
+    { "t": "Later seat, | *more* hands." },
+    { "t": "Premiums are the floor, | never the whole *plan*.", "gap": 22 },
+
+    { "t": "[outro]How long is *your* wait?" },
+    { "t": "Honest answers in the comments." },
+    { "t": "[cta]Run any spot free | at llama poker dot com.", "c": "sage", "gap": 12 }
+  ]
+}

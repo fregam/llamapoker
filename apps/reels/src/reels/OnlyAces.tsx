@@ -1,213 +1,246 @@
 /**
- * Reel 002 — "Only playing aces?" The most-watched beginner topic in the niche (research:
- * content/research/2026-11-06-ziramium_poker.md), rebuilt from code in the brand world.
- * Numbers from ../../../web/src/poker/ranges.ts: premium hands are 34 of 1,326 combos (2.6%),
- * one every 39 hands; 6-max blinds cost 1.5 bb per orbit of 6 hands, so ~10 bb per wait.
- * Beats (30fps, 42s): hook → the plan (grid) → the wait (counter, chips) → nobody pays →
- * the fix (grid widens to the button range) → save-this cheat sheet → outro.
+ * Reel 002 — "Only playing aces?" (v3, narration-first). The script is src/scripts/only-aces.json;
+ * every element below enters on a cue spoken in the voice-over and leaves before the next idea,
+ * so there is one thing to look at per phrase (see apps/reels/README.md, "How a reel is built").
+ * Numbers from ../../../web/src/poker/ranges.ts: premiums are 34 of 1,326 combos (2.6%), one
+ * every 39 hands; 6-max blinds cost 1.5 bb per 6 hands, so ~10 bb per wait; the button opens 38%.
  */
 
-import { AbsoluteFill, Audio, Sequence, interpolate, staticFile } from "remotion";
-import { beatDurations, beatStarts, VoManifest } from "../vo";
-import voJson from "../vo/only-aces.json";
-const vo = voJson as VoManifest;
 import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src/poker/ranges";
-import { BigNumber, Caption, Frame, PlayingCard, fadeUp, pop, useT } from "../components";
-import { ChipStack, Counter, DotRow, Engraving, RangeGrid, Seat } from "../teaching";
-import { C, SERIF } from "../theme";
+import { PlayingCard } from "../components";
+import { Script } from "../narration";
+import { Enter, Ledger, Narration, SeatRing, Stat, Tag, progress, timelineFor, useNarration } from "../stage";
+import { DotRow, Engraving, RangeGrid, Seat } from "../teaching";
+import { C, SANS, SERIF } from "../theme";
+import type { VoManifest } from "../vo";
+import scriptJson from "../scripts/only-aces.json";
+import voJson from "../vo/only-aces.json";
+
+const SCRIPT = scriptJson as unknown as Script;
+const VO = voJson as VoManifest;
 
 const PREMIUM = expandRange(["QQ+", "AKs", "AKo"]);
 const PREMIUM_PCT = rangePercent(PREMIUM); // 2.56
 const PREMIUM_COMBOS = Math.round((PREMIUM_PCT / 100) * 1326); // 34
 const WAIT = Math.round(1326 / PREMIUM_COMBOS); // 39 hands between premiums
-const BLINDS_PER_HAND = 1.5 / 6; // 6-max: SB 0.5 + BB 1 every 6 hands
-const BLINDS_LOST = Math.round(WAIT * BLINDS_PER_HAND); // 10 bb
+const ORBITS = Math.round(WAIT / 6); // 6 or 7 orbits of blinds while waiting
+const BLINDS_LOST = Math.round(WAIT * (1.5 / 6)); // 10 bb
 const BTN = rangeFor("BTN");
-const BTN_PCT = Math.round(rangePercent(BTN));
+const BTN_PCT = Math.round(rangePercent(BTN)); // 38
+const pick = (re: RegExp) => new Set([...BTN].filter((h) => re.test(h)));
+const SUITED_CONNECTORS = pick(/^(KQ|QJ|JT|T9|98|87|76|65|54)s$/);
+const SMALL_PAIRS = pick(/^(22|33|44|55|66|77)$/);
+const WEAK_ACES = pick(/^A[2-9][so]$/);
 
+const GRID_LEFT = 145; // 13 × 58 + 12 × 3 = 790 wide, centred
+const cardsAt = (top: number, size: number): React.CSSProperties => ({ top, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16 * size });
 
-const clamp = (f: number, a: number, b: number, lo = 0, hi = 1) => interpolate(f, [a, b], [lo, hi], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+/* ---------- Hook and outro: the Gentleman, big, with the headline above him ---------- */
 
-function Title({ children, top = 350, size = 118 }: { children: React.ReactNode; top?: number; size?: number }) {
-  const { frame } = useT();
+function Gentleman({ cue, exit, dur = 16 }: { cue: string; exit?: string; dur?: number }) {
+  const { since } = useNarration();
+  const drift = 1 + Math.min(0.06, Math.max(0, since(cue)) / 2400);
   return (
-    <div style={{ position: "absolute", top, left: 70, right: 70, textAlign: "center", fontFamily: SERIF, fontSize: size, lineHeight: 0.95, letterSpacing: "-0.02em", ...fadeUp(frame, 0, 10) }}>
-      {children}
+    <Enter cue={cue} exit={exit} motion="fade" dur={dur} style={{ inset: 0 }}>
+      <Engraving file="expr-4.png" fade={0.4} style={{ position: "absolute", top: 600, left: -60, width: 864, height: 727, transform: `scale(${drift})` }} />
+    </Enter>
+  );
+}
+
+function Headline({ cue, exit, children, size = 118, dur = 12 }: { cue: string; exit?: string; children: React.ReactNode; size?: number; dur?: number }) {
+  return (
+    <Enter cue={cue} exit={exit} dur={dur} style={{ top: 390, left: 70, right: 70, textAlign: "center" }}>
+      <div style={{ fontFamily: SERIF, fontSize: size, lineHeight: 0.95, letterSpacing: "-0.02em", color: C.paper }}>{children}</div>
+    </Enter>
+  );
+}
+
+/* ---------- The plan: the grid lights up hand by hand, then everything else ghosts ---------- */
+
+function ThePlan() {
+  const { since } = useNarration();
+  const lit = new Set<string>();
+  if (since("qq") >= 0) lit.add("QQ");
+  if (since("kk") >= 0) lit.add("KK");
+  if (since("aa") >= 0) lit.add("AA");
+  if (since("ak") >= 0) ["AKs", "AKo"].forEach((h) => lit.add(h));
+  const ghost = progress(since("dim"), 18);
+  const pct = PREMIUM_PCT * progress(since("pct"), 24);
+  return (
+    <>
+      <Enter cue="grid" exit="wait" style={{ top: 508, left: GRID_LEFT }}>
+        <RangeGrid lit={lit} color={C.brass} cell={58} ghost={ghost} />
+      </Enter>
+      <Enter cue="n34" exit="wait" style={{ top: 352, left: GRID_LEFT }}>
+        <Stat value={`${PREMIUM_COMBOS}`} label="OF 1,326 HANDS" size={92} />
+      </Enter>
+      <Enter cue="pct" exit="wait" style={{ top: 352, right: GRID_LEFT }}>
+        <Stat value={`${pct.toFixed(1)}%`} label="OF ALL HANDS" size={92} color={C.brass} align="right" />
+      </Enter>
+    </>
+  );
+}
+
+/* ---------- The wait: a counter, one dot per hand, the blinds going round ---------- */
+
+function Chip({ label, size }: { label: string; size: number }) {
+  return (
+    <div style={{ width: size, height: size, borderRadius: "50%", border: `2px solid ${C.paper}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: size * 0.46, color: C.paper }}>
+      {label}
     </div>
   );
 }
 
-function Hook() {
-  const { frame } = useT();
-  const drift = interpolate(frame, [0, 120], [1.02, 1.08]);
-  return (
-    <>
-      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 569, left: -60, width: 864, height: 727, transform: `scale(${drift})`, opacity: clamp(frame, 0, 18) }} />
-      <Title>
-        Only playing <em>aces?</em>
-      </Title>
-      <Caption text="Fold. Fold. Fold. Waiting for the big hand feels disciplined." hl={["disciplined"]} accent={C.brass} start={20} dur={55} />
-    </>
-  );
-}
-
-function ThePlan() {
-  const { frame } = useT();
-  const p = clamp(frame, 10, 50);
-  return (
-    <>
-      <Title top={340} size={84}>The plan</Title>
-      <div style={{ position: "absolute", top: 480, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
-        <RangeGrid lit={PREMIUM} progress={p} color={C.brass} cell={40} dim />
-      </div>
-      <div style={{ position: "absolute", top: 1069, left: 0, right: 0, ...fadeUp(frame, 55) }}>
-        <BigNumber value={`${PREMIUM_PCT.toFixed(1)}%`} label={`${PREMIUM_COMBOS} OF 1,326 HANDS`} color={C.brass} />
-      </div>
-      <Caption text={`Aces, kings, queens, ace-king. ${PREMIUM_COMBOS} of 1,326 combos. Under 3% of hands.`} hl={["34", "3%"]} accent={C.brass} start={10} dur={60} />
-    </>
-  );
-}
-
 function TheWait() {
-  const { frame } = useT();
-  const p = clamp(frame, 15, 150);
-  const chips = 40 - BLINDS_LOST * p;
-  const acesIn = frame > 165;
+  const { since, at } = useNarration();
+  const span = Math.max(1, at("n39") - at("wait"));
+  const p = progress(since("wait"), span);
+  const n = Math.round(WAIT * p);
+  const acesIn = since("aces") >= 0;
+  const orbitEvery = Math.max(1, (at("paid") - at("blinds")) / ORBITS);
   return (
     <>
-      <Title top={340} size={84}>The wait</Title>
-      <Counter to={WAIT} progress={p} label="HANDS BETWEEN PREMIUMS" color={C.paper} style={{ position: "absolute", top: 487, left: 0, right: 0 }} />
-      <DotRow total={WAIT + 1}  filled={Math.round(p * WAIT) + (acesIn ? 1 : 0)} mark={WAIT} style={{ position: "absolute", top: 784, left: 150, right: 150 }} />
-      <div style={{ position: "absolute", top: 816, left: 150, display: "flex", alignItems: "flex-end", gap: 50 }}>
-        <ChipStack count={chips} />
-        <div style={{ paddingBottom: 40 }}>
-          <div style={{ fontFamily: SERIF, fontSize: 120, color: C.vermilion, lineHeight: 0.9, opacity: clamp(frame, 30, 45) }}>−{Math.round(BLINDS_LOST * p)} bb</div>
-          <div style={{ fontSize: 30, letterSpacing: "0.26em", color: C.text3, fontWeight: 500, marginTop: 16 }}>BLINDS PAID WHILE YOU FOLD</div>
+      <Enter cue="wait" exit="aces" style={{ top: 430, left: 0, right: 0, textAlign: "center" }}>
+        <div style={{ fontFamily: SERIF, fontSize: 250, lineHeight: 0.9, color: C.paper, fontVariantNumeric: "tabular-nums" }}>{n}</div>
+        <div style={{ fontFamily: SANS, fontSize: 28, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginTop: 22 }}>HANDS BETWEEN PREMIUMS</div>
+      </Enter>
+      <Enter cue="aces" exit="btn" style={cardsAt(420, 1.3)}>
+        {["As", "Ah"].map((c, i) => (
+          <PlayingCard key={c} card={c} size={1.3} style={{ transform: `translateY(${(1 - progress(since("aces") - i * 4, 10)) * 30}px)`, opacity: progress(since("aces") - i * 4, 8) }} />
+        ))}
+      </Enter>
+      <Enter cue="wait" exit="raise" style={{ top: 800, left: GRID_LEFT, right: GRID_LEFT }}>
+        <DotRow total={WAIT + 1} filled={n + (acesIn ? 1 : 0)} mark={WAIT} />
+      </Enter>
+      <Enter cue="blinds" exit="raise" style={{ top: 960, left: GRID_LEFT }}>
+        <div style={{ display: "flex", gap: 22, alignItems: "center", height: 64 }}>
+          {Array.from({ length: ORBITS }).map((_, i) => {
+            const t = progress(since("blinds") - i * orbitEvery, 8);
+            return (
+              <div key={i} style={{ display: "flex", gap: 6, alignItems: "center", opacity: t, transform: `scale(${0.8 + 0.2 * t})` }}>
+                <Chip label="1" size={58} />
+                <Chip label="½" size={44} />
+              </div>
+            );
+          })}
         </div>
-      </div>
-      {acesIn && (
-        <div style={{ position: "absolute", top: 1104, left: 620, display: "flex", gap: 14 }}>
-          {["As", "Ah"].map((c, i) => (
-            <PlayingCard key={c} card={c} size={0.49} style={{ transform: `scale(${pop(frame, 30, 165 + i * 4)})` }} />
-          ))}
-        </div>
-      )}
-      <Caption text={`One premium every ${WAIT} hands. The blinds come round anyway: ${BLINDS_LOST} big blinds, gone.`} hl={[String(WAIT), String(BLINDS_LOST), "gone"]} accent={C.vermilion} start={10} dur={70} />
+        <div style={{ fontFamily: SANS, fontSize: 26, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginTop: 22 }}>BLINDS, EVERY SIX HANDS</div>
+      </Enter>
+      <Enter cue="paid" exit="raise" style={{ top: 1100, right: GRID_LEFT }}>
+        <Stat value={`−${Math.round(BLINDS_LOST * progress(since("paid"), 20))} bb`} label="PAID WHILE FOLDING" size={120} color={C.vermilion} align="right" />
+      </Enter>
     </>
   );
 }
+
+/* ---------- Nobody pays: the raise, three seats fold, the ledger ---------- */
 
 function NobodyPays() {
-  const { frame, fps } = useT();
+  const { since } = useNarration();
+  const rows = [{ amount: "+1.5 bb", label: "WON", color: C.sage }];
+  if (since("net") >= 0) rows.push({ amount: `−${BLINDS_LOST} bb`, label: "PAID TO GET THERE", color: C.vermilion });
   return (
     <>
-      <Title top={340} size={84}>Nobody pays</Title>
-      <div style={{ position: "absolute", top: 501, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 70 }}>
-        {["SEAT 1", "SEAT 2", "SEAT 3"].map((n, i) => (
-          <Seat key={n} name={n} folded frame={frame} delay={45 + i * 14} />
+      <Enter cue="raise" exit="btn" style={{ top: 820, left: 0, right: 0, textAlign: "center" }}>
+        <Tag text="RAISE" color={C.brass} fill size={30} />
+      </Enter>
+      <Enter cue="watch" exit="btn" style={{ top: 940, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 70 }}>
+        {["s1", "s2", "s3"].map((cue, i) => (
+          <Seat key={cue} name={`SEAT ${i + 1}`} folded={since(cue) >= 0} frame={since(cue)} />
         ))}
-      </div>
-      <div style={{ position: "absolute", top: 665, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16 }}>
-        {["As", "Ah"].map((c, i) => (
-          <PlayingCard key={c} card={c} size={0.86} style={{ transform: `scale(${pop(frame, fps, 4 + i * 4)})` }} />
-        ))}
-      </div>
-      <div style={{ position: "absolute", top: 888, left: 0, right: 0, textAlign: "center", fontFamily: SERIF, fontSize: 74, ...fadeUp(frame, 24) }}>
-        You raise.
-      </div>
-      <Engraving file="expr-3.png" fade={0.45} style={{ position: "absolute", top: 939, left: 190, width: 504, height: 403, opacity: clamp(frame, 95, 115) }} />
-      <Caption text="The aces finally come. You raise. Everyone folds. After an hour of folding, nobody pays you off." hl={["everyone", "folds", "nobody"]} accent={C.vermilion} start={20} dur={80} />
+      </Enter>
+      <Enter cue="win" exit="btn" style={{ top: 1150, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+        <Ledger rows={rows} />
+      </Enter>
     </>
   );
 }
+
+/* ---------- The fix: the button seat, the grid widens to 38% ---------- */
 
 function TheFix() {
-  const { frame } = useT();
-  const p = clamp(frame, 20, 110);
-  const pct = Math.round(PREMIUM_PCT + (BTN_PCT - PREMIUM_PCT) * p);
+  const { since } = useNarration();
+  const p = progress(since("widen"), 45);
+  const pct = Math.round(BTN_PCT * p);
+  const hot = since("ax") >= 0 && since("ax") < 40 ? WEAK_ACES : since("pp") >= 0 && since("pp") < 40 ? SMALL_PAIRS : since("sc") >= 0 && since("sc") < 40 ? SUITED_CONNECTORS : undefined;
   return (
     <>
-      <Title top={340} size={84}>From the button</Title>
-      <div style={{ position: "absolute", top: 480, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
-        <RangeGrid lit={BTN} progress={p} color={C.sage} cell={40} dim />
-      </div>
-      <div style={{ position: "absolute", top: 1069, left: 0, right: 0 }}>
-        <BigNumber value={`${pct}%`} label="OF HANDS, RAISED FIRST IN" color={C.sage} />
-      </div>
-      <Caption text={`Last to act, open about ${BTN_PCT}% of hands. Tight is fine. Predictable is broke.`} hl={[`${BTN_PCT}%`, "predictable", "broke"]} start={10} dur={70} />
+      <Enter cue="btn" exit="widen" style={{ top: 520, left: 120 }}>
+        <SeatRing lit={["BTN"]} you="BTN" />
+      </Enter>
+      <Enter cue="widen" exit="sheet" style={{ top: 352, left: 171 }}>
+        <Stat value={`${pct}%`} label="OPENED FROM THE BUTTON" size={92} color={C.sage} />
+      </Enter>
+      <Enter cue="widen" exit="sheet" delay={6} style={{ top: 508, left: 171 }}>
+        <RangeGrid lit={BTN} progress={p} color={C.sage} cell={54} ghost={1} hot={hot} />
+      </Enter>
     </>
   );
 }
+
+/* ---------- Save this: one row per seat ---------- */
 
 function CheatSheet() {
-  const { frame } = useT();
   const rows = POSITIONS.filter((p) => p !== "BB");
   return (
-    <>
-      <Title top={340} size={84}>Save this.</Title>
-      <div style={{ position: "absolute", top: 473, left: 120, right: 170 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 30, letterSpacing: "0.24em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}` }}>
-          <span>SEAT</span>
-          <span>OPEN</span>
-        </div>
-        {rows.map((pos, i) => {
-          const pct = Math.round(rangePercent(rangeFor(pos)));
-          return (
-            <div key={pos} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "20px 0", borderBottom: `1px solid ${C.rule}`, ...fadeUp(frame, 8 + i * 8, 10) }}>
-              <span style={{ fontSize: 54, color: C.text2, letterSpacing: "0.06em" }}>{pos}</span>
+    <Enter cue="sheet" exit="outro" style={{ top: 440, left: GRID_LEFT, right: GRID_LEFT }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontFamily: SANS, fontSize: 26, letterSpacing: "0.26em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}`, fontWeight: 500 }}>
+        <span>SEAT</span>
+        <span>HANDS OPENED</span>
+      </div>
+      {rows.map((pos, i) => {
+        const pct = Math.round(rangePercent(rangeFor(pos)));
+        const btn = pos === "BTN";
+        return (
+          <Enter key={pos} cue="sheet" delay={6 + i * 7} style={{ position: "relative" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "22px 0", borderBottom: `1px solid ${C.rule}` }}>
+              <span style={{ fontFamily: SANS, fontSize: 50, color: btn ? C.paper : C.text2, letterSpacing: "0.06em", fontWeight: 500 }}>{pos}</span>
               <span style={{ display: "flex", alignItems: "baseline", gap: 24 }}>
-                <span style={{ width: 216, height: 14, background: C.ink2, border: `1px solid ${C.rule}` }}>
-                  <span style={{ display: "block", height: "100%", width: `${pct * 2}%`, background: pos === "BTN" ? C.sage : C.brass }} />
+                <span style={{ width: 260, height: 14, background: C.ink2, border: `1px solid ${C.rule}` }}>
+                  <span style={{ display: "block", height: "100%", width: `${pct * 2.2}%`, background: btn ? C.sage : C.brass }} />
                 </span>
-                <span style={{ fontFamily: SERIF, fontSize: 67, width: 122, textAlign: "right" }}>{pct}%</span>
+                <span style={{ fontFamily: SERIF, fontSize: 66, width: 130, textAlign: "right", color: btn ? C.sage : C.paper }}>{pct}%</span>
               </span>
             </div>
-          );
-        })}
-      </div>
-      <Caption text="Send this to the friend who folds for an hour." hl={["hour"]} accent={C.brass} start={55} dur={40} />
-    </>
+          </Enter>
+        );
+      })}
+    </Enter>
   );
 }
+
+/* ---------- Outro: loops back into the hook ---------- */
 
 function Outro() {
-  const { frame } = useT();
   return (
     <>
-      <Engraving file="expr-4.png" fade={0.35} style={{ position: "absolute", top: 569, left: -60, width: 864, height: 727, transform: "scale(1.02)", opacity: clamp(frame, 0, 12) }} />
-      <div style={{ position: "absolute", top: 371, left: 70, right: 70, textAlign: "center", ...fadeUp(frame, 6) }}>
-        <div style={{ fontFamily: SERIF, fontSize: 86, lineHeight: 1 }}>
-          How long is <em>your</em> wait?
-        </div>
-        <div style={{ marginTop: 30, fontSize: 34, letterSpacing: "0.26em", color: C.text3, fontWeight: 500 }}>HONEST ANSWERS IN THE COMMENTS</div>
-      </div>
-      <div style={{ position: "absolute", bottom: 450, left: 110, right: 160, ...fadeUp(frame, 30) }}>
-        <div style={{ width: 54, height: 1, background: C.brass, marginBottom: 22 }} />
-        <div style={{ fontSize: 44, color: C.text2 }}>Run any spot, free.</div>
-        <div style={{ marginTop: 8, fontSize: 60, letterSpacing: "0.04em", color: C.paper, fontWeight: 500 }}>llamapoker.com</div>
-        <div style={{ marginTop: 10, fontSize: 28, letterSpacing: "0.24em", color: C.text3 }}>LINK IN BIO · THE LLAMA IS READING YOU</div>
-      </div>
+      <Gentleman cue="outro" />
+      <Headline cue="outro" exit="cta" size={104}>
+        How long is <em>your</em> wait?
+      </Headline>
+      <Enter cue="cta" style={{ top: 400, left: 70, right: 70, textAlign: "center" }}>
+        <div style={{ fontFamily: SERIF, fontSize: 96, lineHeight: 1, color: C.paper, letterSpacing: "-0.01em" }}>llamapoker.com</div>
+        <div style={{ fontFamily: SANS, fontSize: 26, letterSpacing: "0.3em", color: C.text3, fontWeight: 500, marginTop: 22 }}>RUN ANY SPOT, FREE · LINK IN BIO</div>
+      </Enter>
     </>
   );
 }
 
-const MINIMUMS = [120, 180, 240, 210, 180, 210, 120]; // frames each beat's graphics need
-const BEATS = [Hook, ThePlan, TheWait, NobodyPays, TheFix, CheatSheet, Outro];
-const DUR = beatDurations(vo.lines.length ? vo : null, MINIMUMS);
-const START = beatStarts(DUR);
-export const ONLY_ACES_FRAMES = DUR.reduce((a, b) => a + b, 0);
+export const ONLY_ACES_FRAMES = timelineFor(SCRIPT, VO).total;
 
 export function OnlyAces() {
   return (
-    <Frame>
-      {BEATS.map((Beat, i) => (
-        <Sequence key={i} from={START[i]} durationInFrames={DUR[i]}>
-          {vo.lines[i] && <Audio src={staticFile(vo.lines[i].file)} />}
-          <AbsoluteFill>
-            <Beat />
-          </AbsoluteFill>
-        </Sequence>
-      ))}
-    </Frame>
+    <Narration script={SCRIPT} vo={VO}>
+      <Gentleman cue="hook" exit="grid" dur={1} />
+      <Headline cue="hook" exit="grid" dur={1}>
+        Only playing <em>aces?</em>
+      </Headline>
+      <ThePlan />
+      <TheWait />
+      <NobodyPays />
+      <TheFix />
+      <CheatSheet />
+      <Outro />
+    </Narration>
   );
 }

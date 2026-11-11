@@ -91,6 +91,32 @@ and wonder why their big hands never get paid"). The second line makes the right
 **9. They post often.** 45 posts in about 3 months is roughly 3–4 a week. The first ~15 posts got 1–4K
 views each. It only took off around the 16th post, when the topics shifted to everyday habits.
 
+## How their hits are cut (frame-by-frame, 2026-11-11)
+
+Stepped through "Waiting for aces?" (322K views, **112 s**), "Limp" (286K, 102 s), "Outs in percent"
+(208K, 50 s) and "Your draw backs the bluff" (51K, 75 s), one frame every 3 s. The length isn't the
+trick, the grammar is:
+
+1. **The voice leads, the screen follows.** The caption pill at the bottom is the phrase being
+   spoken right now: 2–5 words, one in yellow, changing every 1.5–2.5 s. Every new phrase brings
+   exactly one change on screen (a cell lights, a seat appears, a number ticks). ~1.7–2.3 words/s.
+2. **One object at a time, centred, big.** Two cards fill 40% of the width; the 13×13 grid fills
+   the whole width with every cell labelled; a table seen from above with six seat pills. The rest
+   is empty teal. Never two focal things at once.
+3. **A scene evolves instead of being replaced.** Grid → the premiums light → "everything else
+   away" dims the rest → "3% OF ALL HANDS" attaches top-left → later the same grid comes back with
+   "YOU PLAY 3%", toggles EARLY/BUTTON, widens to 19% then 43%. Numbers accumulate as a HUD
+   (WAITING 33 HANDS progress bar, PAID IN BLINDS +7.5 BB with chip icons per orbit).
+4. **The headline exists only in the hook** ("ONLY TOP HANDS / WHY DOES IT LOSE?" over K♠K♥ for
+   about 3 s). After that there are no titles: caption plus one graphic.
+5. **No character, no illustration inside the video.** The vintage art is on the cover only.
+6. **Ending:** the same cards as the hook come back, so the loop lands on the hook.
+
+What we take: the caption/stage sync (our scripts carry cues per word, `apps/reels/src/narration.ts`),
+one change per phrase, one focal object, evolving scenes, headline only in the hook. What we keep
+of ours: typeset captions instead of the pill, the Gentleman as a bookend, a save-worthy table,
+the URL, and an explicit comment question.
+
 ## Where they're weak (our opening)
 
 - **No link and no product.** There's no website, tool or newsletter in the bio, so all that attention
@@ -103,10 +129,10 @@ views each. It only took off around the 16th post, when the topics shifted to ev
 
 ## What we do with this
 
-1. **Format:** 40–60 second vertical explainer Reels. One idea each, with a hook in the first line,
-   numbers on screen and word-by-word captions in the brand style (ink, cream, Bodoni headline, Inter
-   captions, sage/brass/vermilion only for meaning). The Gentleman appears in the opening and closing
-   frames.
+1. **Format:** vertical explainer Reels of 60–100 seconds (their hits run 50–112 s). One idea each,
+   with a hook in the first line, numbers on screen and voice-synced typeset captions in the brand
+   style (ink, cream, Bodoni headline, Inter captions, sage/brass/vermilion only for meaning). The
+   Gentleman appears in the opening and closing frames only.
 2. **Make the videos from code, not AI video.** We already have the poker engine and the site's design
    system. A small video renderer in the repo (for example Remotion, React-based) can turn a spot into
    an animated Reel with **exact numbers from our own maths**. It's cheap, repeatable and always on

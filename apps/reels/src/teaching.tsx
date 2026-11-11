@@ -62,6 +62,8 @@ export function RangeGrid({
   color = C.sage,
   cell = 64,
   dim = false,
+  ghost,
+  hot,
   style,
 }: {
   lit: Set<string>;
@@ -70,16 +72,23 @@ export function RangeGrid({
   cell?: number;
   /** Draw unlit cells almost invisible (for a quiet background grid). */
   dim?: boolean;
+  /** 0–1: fade the unlit cells from readable to ghosted (animated version of `dim`). */
+  ghost?: number;
+  /** Cells drawn in paper for a moment, to point at a group ("suited connectors"). */
+  hot?: Set<string>;
   style?: React.CSSProperties;
 }) {
   const litList = ORDER.filter((l) => lit.has(l));
   const shown = new Set(litList.slice(0, Math.round(litList.length * progress)));
+  const g = ghost ?? (dim ? 1 : 0);
+  const unlitText = `rgba(145,140,131,${1 - 0.65 * g})`;
   return (
     <div style={{ display: "grid", gridTemplateColumns: `repeat(13, ${cell}px)`, gap: 3, ...style }}>
       {GRID_RANKS.map((_, r) =>
         GRID_RANKS.map((__, c) => {
           const label = gridLabel(r, c);
           const on = shown.has(label);
+          const isHot = on && hot?.has(label);
           return (
             <div
               key={label}
@@ -92,9 +101,9 @@ export function RangeGrid({
                 fontFamily: SANS,
                 fontWeight: on ? 600 : 400,
                 fontSize: cell * 0.3,
-                background: on ? color : C.ink2,
-                color: on ? C.ink : dim ? "rgba(145,140,131,0.35)" : C.text3,
-                border: `1px solid ${on ? color : C.rule}`,
+                background: isHot ? C.paper : on ? color : C.ink2,
+                color: on ? C.ink : unlitText,
+                border: `1px solid ${isHot ? C.paper : on ? color : C.rule}`,
                 transform: on ? "scale(1)" : "scale(0.97)",
               }}
             >

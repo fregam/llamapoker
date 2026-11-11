@@ -1,33 +1,141 @@
 {
-  "voice": "Miles (Higgsfield seed_audio preset e18664a7)",
+  "voice": "Mark (ElevenLabs via Higgsfield text2speech_v2, preset 27c04473)",
   "lines": [
     {
-      "file": "vo/only-aces/1.wav",
-      "seconds": 5.68
+      "file": "vo/only-aces/1.mp3",
+      "seconds": 1.57
     },
     {
-      "file": "vo/only-aces/2.wav",
-      "seconds": 8.6
+      "file": "vo/only-aces/2.mp3",
+      "seconds": 2.51
     },
     {
-      "file": "vo/only-aces/3.wav",
-      "seconds": 8.47
+      "file": "vo/only-aces/3.mp3",
+      "seconds": 1.41
     },
     {
-      "file": "vo/only-aces/4.wav",
-      "seconds": 9.71
+      "file": "vo/only-aces/4.mp3",
+      "seconds": 1.8
     },
     {
-      "file": "vo/only-aces/5.wav",
-      "seconds": 8.47
+      "file": "vo/only-aces/5.mp3",
+      "seconds": 1.65
     },
     {
-      "file": "vo/only-aces/6.wav",
-      "seconds": 6.85
+      "file": "vo/only-aces/6.mp3",
+      "seconds": 2.35
     },
     {
-      "file": "vo/only-aces/7.wav",
-      "seconds": 8.2
+      "file": "vo/only-aces/7.mp3",
+      "seconds": 1.23
+    },
+    {
+      "file": "vo/only-aces/8.mp3",
+      "seconds": 1.88
+    },
+    {
+      "file": "vo/only-aces/9.mp3",
+      "seconds": 4.68
+    },
+    {
+      "file": "vo/only-aces/10.mp3",
+      "seconds": 1.41
+    },
+    {
+      "file": "vo/only-aces/11.mp3",
+      "seconds": 0.99
+    },
+    {
+      "file": "vo/only-aces/12.mp3",
+      "seconds": 0.99
+    },
+    {
+      "file": "vo/only-aces/13.mp3",
+      "seconds": 3.32
+    },
+    {
+      "file": "vo/only-aces/14.mp3",
+      "seconds": 2.43
+    },
+    {
+      "file": "vo/only-aces/15.mp3",
+      "seconds": 2.77
+    },
+    {
+      "file": "vo/only-aces/16.mp3",
+      "seconds": 1.72
+    },
+    {
+      "file": "vo/only-aces/17.mp3",
+      "seconds": 1.96
+    },
+    {
+      "file": "vo/only-aces/18.mp3",
+      "seconds": 1.15
+    },
+    {
+      "file": "vo/only-aces/19.mp3",
+      "seconds": 2.04
+    },
+    {
+      "file": "vo/only-aces/20.mp3",
+      "seconds": 2.19
+    },
+    {
+      "file": "vo/only-aces/21.mp3",
+      "seconds": 3.32
+    },
+    {
+      "file": "vo/only-aces/22.mp3",
+      "seconds": 1.88
+    },
+    {
+      "file": "vo/only-aces/23.mp3",
+      "seconds": 1.96
+    },
+    {
+      "file": "vo/only-aces/24.mp3",
+      "seconds": 2.93
+    },
+    {
+      "file": "vo/only-aces/25.mp3",
+      "seconds": 2.04
+    },
+    {
+      "file": "vo/only-aces/26.mp3",
+      "seconds": 3.4
+    },
+    {
+      "file": "vo/only-aces/27.mp3",
+      "seconds": 4.28
+    },
+    {
+      "file": "vo/only-aces/28.mp3",
+      "seconds": 1.8
+    },
+    {
+      "file": "vo/only-aces/29.mp3",
+      "seconds": 0.91
+    },
+    {
+      "file": "vo/only-aces/30.mp3",
+      "seconds": 2.12
+    },
+    {
+      "file": "vo/only-aces/31.mp3",
+      "seconds": 2.69
+    },
+    {
+      "file": "vo/only-aces/32.mp3",
+      "seconds": 1.41
+    },
+    {
+      "file": "vo/only-aces/33.mp3",
+      "seconds": 1.8
+    },
+    {
+      "file": "vo/only-aces/34.mp3",
+      "seconds": 3.47
     }
   ]
 }

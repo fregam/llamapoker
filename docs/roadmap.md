@@ -25,9 +25,14 @@
      bake-offs 01–03 (`docs/research/2026-11-09-bakeoff-0*.md`).
    - 2026-11-10 pivot: reels are rendered from code (Remotion) with the engraving library; AI video,
      Blender guides and LoRA work are shelved (research kept in docs/research/).
-   - Reel 002 "Only playing aces?" rendered (content/reels/002-only-aces.md) with a cover; the
-     teaching layer (range grid, counters, chips, fold seats) lives in apps/reels/src/teaching.tsx.
-   - Next: voice-over (local TTS), post reels 001–002, then "Stop limping" and "Outs in 2 seconds".
+   - Reels 002 "Only playing aces?" and 003 "Will it get there?" rendered with covers
+     (content/reels/002-*, 003-*); the teaching layer lives in apps/reels/src/teaching.tsx.
+   - 2026-11-11: v3 editing system, narration-first (apps/reels/README.md "How a reel is built"):
+     script JSON with per-word cues, one ElevenLabs line per script line (voice Mark, via Higgsfield),
+     captions and graphics synced to the voice, one change per phrase. From the frame-by-frame
+     teardown of the reference account's hits (research file, "How their hits are cut").
+   - Next: user listens to the voice and watches 002/003; rebuild 001 "Should you call?" on the v3
+     system; post 002–003; then "Stop limping", "The button is the best seat". Music bed at posting.
 
 ## Later
 

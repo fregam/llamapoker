@@ -7,6 +7,7 @@
 
 import { Composition, Still } from "remotion";
 import { Cover } from "./covers/Cover";
+import { ContactSheet, SHEET_H, SHEET_W } from "./dev/ContactSheet";
 import { OnlyAces, ONLY_ACES_FRAMES } from "./reels/OnlyAces";
 import { WillItGetThere, WILL_IT_GET_THERE_FRAMES } from "./reels/WillItGetThere";
 import { ShouldYouCall, SHOULD_YOU_CALL_FRAMES } from "./reels/ShouldYouCall";
@@ -21,6 +22,7 @@ export function Root() {
       <Still id="cover-will-it-get-there" component={Cover} width={1080} height={1350} defaultProps={{ line1: "Will it", line2: "get there?", file: "expr-6.png" }} />
       <Still id="cover-only-aces" component={Cover} width={1080} height={1350} defaultProps={{ line1: "Only playing", line2: "aces?", file: "expr-4.png" }} />
       <Still id="cover-should-you-call" component={Cover} width={1080} height={1350} defaultProps={{ line1: "Should you", line2: "call?", file: "pose-4.png" }} />
+      <Still id="contact-sheet" component={ContactSheet} width={SHEET_W} height={SHEET_H} defaultProps={{ dir: "_review/only-aces", count: 30, every: 3 }} />
     </>
   );
 }
