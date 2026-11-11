@@ -99,11 +99,13 @@ def split_whole(vo_dir: Path, takes: list[tuple[str, list[str]]]) -> None:
         first, last = timed[i], timed[i + len(ws) - 1]
         bounds.append((name, first["s"], last["e"]))
         i += len(ws)
+    # The throwaway line after the last take starts here; the last cut must end before it.
+    trailer_start = timed[i]["s"] if i < len(timed) else total
     for k, (name, s, e) in enumerate(bounds):
         prev_end = bounds[k - 1][2] if k else 0.0
-        next_start = bounds[k + 1][1] if k + 1 < len(bounds) else total
+        next_start = bounds[k + 1][1] if k + 1 < len(bounds) else trailer_start
         start = max(prev_end + (s - prev_end) / 2, s - 0.25) if k else max(0.0, s - 0.25)
-        end = min(e + 0.35, (e + next_start) / 2 if k + 1 < len(bounds) else total)
+        end = min(e + 0.35, (e + next_start) / 2)
         subprocess.run([str(ffmpeg), "-y", "-loglevel", "error", "-i", str(whole), "-ss", f"{start:.3f}", "-to", f"{end:.3f}", "-c:a", "pcm_s16le", str(vo_dir / f"{name}.wav")], check=True)
         print(f"{name}: {start:.2f}s to {end:.2f}s ({end - start:.1f} s, {len(takes[k][1])} words)")
 

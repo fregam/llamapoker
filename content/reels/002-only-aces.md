@@ -37,6 +37,20 @@ leaning on the last ("Trouble is…", "And while you wait, the blinds don't", "S
 "So what happens?", "So tight isn't the problem"), with the ten blinds coming back as a callback.
 Voice: VibeVoice-Large, locally, the seed-3 board voice cloned (see below).
 
+## v5 (2026-11-11, later): hook, sound, clean voice
+
+- **Hook.** v4 opened with the question, "Fold. Fold. Fold." and a promise: twelve seconds before
+  anything changed. Now: "Only playing aces? That costs you ten big blinds every time you wait. And
+  when they finally come, nobody pays. Here's the maths." The −10 bb stamps in under the headline
+  on "ten" (second two, the Gentleman leaves), three FOLD tags land on "nobody" (second five).
+- **Sound** (`apps/reels/src/sound.tsx`, `SoundDesign()` in the reel): a ducked bed under the whole
+  reel; a pluck per hand lighting up, a whoosh when the grid ghosts, a stamp on 34 and on every
+  −10 bb, ticks while the counter runs to 39, chips on the blinds, two card deals for the aces, a
+  fold per seat, a bell on +1.5 bb and on the button range, a tick per cheat-sheet row.
+  Provisional synthesised set until the generated one lands (see `apps/reels/README.md`, "Sound").
+- **Voice cleaned** with DeepFilterNet 3 (`scripts/vo-enhance.py`): floor between words down
+  about 8 dB, speech untouched.
+
 ## Scenes (cues in brackets, see the script for the exact words)
 
 | Scene | Voice says | On screen |

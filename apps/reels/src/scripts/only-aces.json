@@ -1,10 +1,10 @@
 {
   "voice": { "engine": "VibeVoice-Large, local ComfyUI", "name": "tbd", "ref": "" },
   "lines": [
-    { "take": "hook", "t": "[hook]Only playing the *big* hands?" },
-    { "t": "Fold. | Fold. | Fold.", "c": "vermilion" },
-    { "t": "It feels like *discipline*." },
-    { "t": "It's actually costing you money, | and here's *exactly* how much.", "c": "vermilion", "gap": 18 },
+    { "take": "hook", "t": "[hook]Only playing *aces*?" },
+    { "t": "That costs you [cost]*ten* big blinds | every time you wait.", "c": "vermilion" },
+    { "t": "And when they finally come, | [nobody0]*nobody* pays.", "c": "vermilion" },
+    { "t": "Here's the *maths*.", "gap": 14 },
 
     { "take": "plan", "t": "[grid]Your plan sounds simple enough:" },
     { "t": "[qq]*queens*, | [kk]*kings*, | [aa]*aces*," },

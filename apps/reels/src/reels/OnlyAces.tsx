@@ -9,6 +9,7 @@
 import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src/poker/ranges";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
+import { Music, Sfx, Ticks } from "../sound";
 import { Enter, Ledger, Narration, SeatRing, Stat, Tag, progress, timelineFor, useNarration } from "../stage";
 import { DotRow, Engraving, RangeGrid, Seat } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
@@ -52,6 +53,29 @@ function Headline({ cue, exit, children, size = 118, dur = 12 }: { cue: string; 
     <Enter cue={cue} exit={exit} dur={dur} style={{ top: 390, left: 70, right: 70, textAlign: "center" }}>
       <div style={{ fontFamily: SERIF, fontSize: size, lineHeight: 0.95, letterSpacing: "-0.02em", color: C.paper }}>{children}</div>
     </Enter>
+  );
+}
+
+/* ---------- Hook: the question over the Gentleman, then the cost stamps in and the table folds ---------- */
+
+function Hook() {
+  return (
+    <>
+      <Gentleman cue="hook" exit="cost" dur={1} />
+      <Headline cue="hook" exit="grid" dur={1}>
+        Only playing <em>aces?</em>
+      </Headline>
+      <Enter cue="cost" exit="grid" motion="stamp" dur={8} style={{ top: 640, left: 0, right: 0 }}>
+        <Stat value={`−${BLINDS_LOST} bb`} label="EVERY WAIT" color={C.vermilion} size={200} align="center" />
+      </Enter>
+      <Enter cue="nobody0" exit="grid" style={{ top: 980, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 28 }}>
+        {[0, 1, 2].map((i) => (
+          <Tag key={i} text="FOLD" color={C.vermilion} size={30} />
+        ))}
+      </Enter>
+      <Sfx cue="cost" src="sfx/stamp.wav" />
+      <Sfx cue="nobody0" src="sfx/fold.wav" gain={0.8} />
+    </>
   );
 }
 
@@ -105,7 +129,7 @@ function TheWait() {
         <div style={{ fontFamily: SERIF, fontSize: 250, lineHeight: 0.9, color: C.paper, fontVariantNumeric: "tabular-nums" }}>{n}</div>
         <div style={{ fontFamily: SANS, fontSize: 28, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginTop: 22 }}>HANDS BETWEEN PREMIUMS</div>
       </Enter>
-      <Enter cue="aces" exit="btn" style={cardsAt(420, 1.3)}>
+      <Enter cue="aces" exit="btn" delay={8} style={cardsAt(420, 1.3)}>
         {["As", "Ah"].map((c, i) => (
           <PlayingCard key={c} card={c} size={1.3} style={{ transform: `translateY(${(1 - progress(since("aces") - i * 4, 10)) * 30}px)`, opacity: progress(since("aces") - i * 4, 8) }} />
         ))}
@@ -227,21 +251,57 @@ function Outro() {
   );
 }
 
+/* ---------- Sound: the bed under everything, one effect per change on screen ---------- */
+
+function SoundDesign() {
+  return (
+    <>
+      <Music src="music/bed.wav" />
+      {["qq", "kk", "aa", "ak"].map((c) => (
+        <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
+      ))}
+      <Sfx cue="dim" src="sfx/whoosh.wav" gain={0.5} />
+      <Sfx cue="n34" src="sfx/stamp.wav" gain={0.8} />
+      <Sfx cue="pct" src="sfx/reveal.wav" gain={0.7} />
+      <Ticks cue="wait" until="n39" n={WAIT} src="sfx/tick.wav" />
+      <Sfx cue="blinds" src="sfx/chip.wav" />
+      <Sfx cue="aces" src="sfx/deal.wav" />
+      <Sfx cue="aces" src="sfx/deal.wav" delay={4} gain={0.8} />
+      <Sfx cue="paid" src="sfx/stamp.wav" />
+      <Sfx cue="raise" src="sfx/chip.wav" />
+      {["s1", "s2", "s3"].map((c) => (
+        <Sfx key={c} cue={c} src="sfx/fold.wav" />
+      ))}
+      <Sfx cue="win" src="sfx/reveal.wav" gain={0.6} />
+      <Sfx cue="net" src="sfx/stamp.wav" />
+      <Sfx cue="btn" src="sfx/whoosh.wav" />
+      <Sfx cue="widen" src="sfx/reveal.wav" />
+      {["sc", "pp", "ax"].map((c) => (
+        <Sfx key={c} cue={c} src="sfx/pluck.wav" gain={0.7} />
+      ))}
+      <Sfx cue="sheet" src="sfx/whoosh.wav" gain={0.6} />
+      {POSITIONS.slice(0, 5).map((_, i) => (
+        <Sfx key={i} cue="sheet" delay={6 + i * 7} src="sfx/tick.wav" gain={0.5} />
+      ))}
+      <Sfx cue="outro" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="cta" src="sfx/reveal.wav" />
+    </>
+  );
+}
+
 export const ONLY_ACES_FRAMES = timelineFor(SCRIPT, VO).total;
 
 export function OnlyAces() {
   return (
     <Narration script={SCRIPT} vo={VO}>
-      <Gentleman cue="hook" exit="grid" dur={1} />
-      <Headline cue="hook" exit="grid" dur={1}>
-        Only playing <em>aces?</em>
-      </Headline>
+      <Hook />
       <ThePlan />
       <TheWait />
       <NobodyPays />
       <TheFix />
       <CheatSheet />
       <Outro />
+      <SoundDesign />
     </Narration>
   );
 }

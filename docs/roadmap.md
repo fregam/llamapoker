@@ -35,9 +35,14 @@
      (free), voice picked from a measured seed board (docs/research/2026-11-11-vibevoice-voice-board.md);
      one continuous take per scene with forced word alignment; scripts rewritten for flow.
      A request to clone a real creator's voice was declined (no consent).
-   - Next: user listens to 002/003 v4 and the seed board (seed-3 vs seed-11); rebuild 001 "Should you
-     call?" on the v4 system; post 002–003; then "Stop limping", "The button is the best seat".
-     Music bed at posting.
+   - 2026-11-11 (evening): v5 in progress. Sound layer (apps/reels/src/sound.tsx: ducked music bed,
+     cue-driven effects, counter ticks) built on provisional synthesised sounds; hooks rewritten to
+     show the payoff in the first seconds; voice cleaned with DeepFilterNet. Local generators chosen
+     and downloaded: ACE-Step 1.5 Turbo (music bed, needs the ComfyUI Desktop core update) and
+     MOSS-SoundEffect v2.0 (effects, needs its install run by the user).
+   - Next: generate the real bed and effects and swap them in; user listens to 002/003 v5; rebuild
+     001 "Should you call?" on this system; post 002–003; then "Stop limping", "The button is the
+     best seat".
 
 ## Later
 

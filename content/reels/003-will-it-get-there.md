@@ -15,7 +15,11 @@ reference account). v3 is cut narration-first like reel 002: see `apps/reels/REA
 "How a reel is built". v4 (2026-11-11) regroups the 28 lines into seven continuous takes (hook,
 count, flop, turn, exact, sheet, outro) and rewrites them to flow ("Start with the deck…", "which
 leaves nine…", "But say the turn is a blank", "And how close is that to the truth?"), with the voice
-generated locally (see reel 002's v4 note).
+generated locally (see reel 002's v4 note). v5 (same day): the hook now shows the answer first
+("Four hearts, two cards to come: thirty-six percent", the 36 % stamps in under the cards on
+second three, then "Here's how you know that in two seconds, every time"); a sound layer (bed,
+card deals, ticks on the outs and the cheat-sheet rows, plucks on ×4 and ×2, stamps on 36 % and
+18 %, bells on the exact numbers, whooshes between scenes); the voice cleaned with DeepFilterNet.
 
 ## Scenes
 

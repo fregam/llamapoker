@@ -2,8 +2,8 @@
   "voice": { "engine": "VibeVoice-Large, local ComfyUI", "name": "tbd", "ref": "" },
   "lines": [
     { "take": "hook", "t": "[hook]Will it *get there*?" },
-    { "t": "You've got four hearts, | two cards to come," },
-    { "t": "and about *two seconds* | to know your chances.", "gap": 18 },
+    { "t": "Four hearts, | two cards to come: | [pct0]*thirty-six* percent.", "c": "sage" },
+    { "t": "Here's how you know that | in *two seconds*, | every time.", "gap": 14 },
 
     { "take": "count", "t": "[count]Start with the deck: | thirteen hearts in it." },
     { "t": "You can already see [seen]*four* of them," },

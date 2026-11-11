@@ -70,6 +70,33 @@ The voice-over is the spine. Everything on screen happens because a word was jus
 - **Length follows the script**, typically 70–95 s. The hits in the niche run 50–112 s; what matters
   is that something moves every two seconds, not that it's short.
 
+## Sound
+
+`src/sound.tsx` adds the layer under and around the voice, all driven by the same cues:
+
+- **`<Music src>`**: a bed looped for the whole reel, ducked by the timeline: −20 dB under the
+  voice, −12 dB in the pauses between takes, −9 dB before the first word and after the last
+  (hook and loop point). Ramps of 10 frames.
+- **`<Sfx cue src delay gain>`**: one effect at a spoken cue. **`<Ticks cue until n src>`**: a
+  counter's ticks spread between two cues (capped at 12 a second).
+- Every reel has a `SoundDesign()` block listing its cues → sounds. Rule: one sound per change on
+  screen, the same sound for the same kind of change (tick = a count or a row, pluck = a cell
+  lighting, deal = a card, fold = a fold, chip = chips, stamp = a number landing, reveal = a result,
+  whoosh = a scene change).
+- Files: `public/sfx/<name>.wav` (48 kHz mono, peak −6 dBFS) and `public/music/bed.wav`. The
+  current set is **provisional, synthesised** by `scripts/sfx-synth.py` so the layer could be built
+  and rendered; the generated set (MOSS-SoundEffect v2 for effects, ACE-Step 1.5 for the bed, both
+  local) replaces them file for file with the same names.
+- Voice cleaning: `scripts/vo-enhance.py <id>` (DeepFilterNet 3 on the system Python 3.11, keeps
+  `<take>.raw.wav`, re-levels to −16 LUFS); `scripts/vo-denoise.py` is the dependency-free fallback.
+
+## Hooks
+
+The first three seconds show the payoff, not the question alone: reel 002 stamps the cost
+(−10 bb, every wait) at the second spoken line and folds the table on the third; reel 003 stamps
+the 36 % under the cards before the explanation starts. The headline stays until the body begins.
+`<Enter motion="stamp">` is the landing move for a number (scales from 1.18 to 1 with the fade).
+
 ## Instagram safe area
 
 The app covers ~270 px at the top, ~440 px at the bottom and ~120 px on the right of a 1080×1920
@@ -120,6 +147,8 @@ src/Root.tsx            Every reel as a <Composition>, every cover as a <Still>.
 src/theme.ts            Brand colours (brand/tokens.json), Bodoni Moda + Inter, canvas 1080×1920 @ 30fps, SAFE
 src/narration.ts        Script markup → timeline (line starts, word moments, caption chunks, cues)
 src/stage.tsx           Narration, Captions, Enter, Stat, Tag, SeatRing, Ledger, useNarration
+src/sound.tsx           Music (ducked bed), Sfx (one effect at a cue), Ticks (a counter's ticks)
+public/sfx/, public/music/  Effects and the bed (see "Sound")
 src/components.tsx      Frame (kicker, hairline border, reading line), PlayingCard, legacy Caption/BigNumber
 src/teaching.tsx        Engraving (screen blend + fade), RangeGrid (ghost/hot), Counter, ChipStack, Seat, DotRow
 src/scripts/<id>.json   The spoken script with caption/cue markup (source of truth for the voice lines)

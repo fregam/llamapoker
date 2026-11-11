@@ -107,7 +107,7 @@ export function Enter({
   exit?: string;
   delay?: number;
   dur?: number;
-  motion?: "rise" | "fade" | "scale";
+  motion?: "rise" | "fade" | "scale" | "stamp";
   style?: React.CSSProperties;
   children: ReactNode;
 }) {
@@ -122,7 +122,9 @@ export function Enter({
       ? `translateY(${(1 - tIn) * 24 - tOut * 14}px)`
       : motion === "scale"
         ? `scale(${0.94 + 0.06 * tIn})`
-        : undefined;
+        : motion === "stamp" // lands: slightly big, settles to size (for a number that hits)
+          ? `scale(${1.18 - 0.18 * tIn})`
+          : undefined;
   return <div style={{ position: "absolute", opacity: tIn * (1 - tOut), transform, ...style }}>{children}</div>;
 }
 

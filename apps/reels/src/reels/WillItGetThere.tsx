@@ -8,6 +8,7 @@
 import { outsToEquity } from "../../../web/src/poker/odds";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
+import { Music, Sfx } from "../sound";
 import { Enter, Narration, Stat, progress, timelineFor, useNarration } from "../stage";
 import { Engraving } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
@@ -61,16 +62,51 @@ function Hook() {
       <Headline cue="hook" exit="count" dur={1}>
         Will it <em>get there?</em>
       </Headline>
-      <Enter cue="hook" exit="count" delay={4} style={{ top: 680, ...row(18) }}>
+      <Enter cue="hook" exit="count" delay={4} style={{ top: 600, ...row(18) }}>
         {HAND.map((c, i) => (
-          <PlayingCard key={c} card={c} size={1.1} style={{ opacity: progress(since("hook") - 4 - i * 4, 8) }} />
+          <PlayingCard key={c} card={c} size={1.0} style={{ opacity: progress(since("hook") - 4 - i * 4, 8) }} />
         ))}
       </Enter>
-      <Enter cue="hook" exit="count" delay={14} style={{ top: 960, ...row(14) }}>
+      <Enter cue="hook" exit="count" delay={14} style={{ top: 850, ...row(14) }}>
         {FLOP.map((c, i) => (
-          <PlayingCard key={c} card={c} size={0.85} style={{ opacity: progress(since("hook") - 14 - i * 4, 8) }} />
+          <PlayingCard key={c} card={c} size={0.8} style={{ opacity: progress(since("hook") - 14 - i * 4, 8) }} />
         ))}
       </Enter>
+      {/* The answer first: the number stamps in under the cards, the body then earns it */}
+      <Enter cue="pct0" exit="count" motion="stamp" dur={8} style={{ top: 1060, left: 0, right: 0 }}>
+        <Stat value={`${RULE_FLOP}%`} label="TO GET THERE" color={C.sage} size={150} align="center" />
+      </Enter>
+      <Sfx cue="hook" src="sfx/deal.wav" delay={4} gain={0.8} />
+      <Sfx cue="hook" src="sfx/deal.wav" delay={14} gain={0.7} />
+      <Sfx cue="pct0" src="sfx/stamp.wav" />
+    </>
+  );
+}
+
+/* ---------- Sound: the bed under everything, one effect per change on screen ---------- */
+
+function SoundDesign() {
+  return (
+    <>
+      <Music src="music/bed.wav" />
+      <Sfx cue="count" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="seen" src="sfx/tick.wav" gain={0.6} />
+      <Sfx cue="nine" src="sfx/reveal.wav" />
+      <Sfx cue="flop" src="sfx/deal.wav" delay={8} />
+      <Sfx cue="x4" src="sfx/pluck.wav" />
+      <Sfx cue="r36" src="sfx/stamp.wav" />
+      <Sfx cue="turn" src="sfx/deal.wav" />
+      <Sfx cue="x2" src="sfx/pluck.wav" />
+      <Sfx cue="r18" src="sfx/stamp.wav" />
+      <Sfx cue="exact" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="e35" src="sfx/reveal.wav" gain={0.7} />
+      <Sfx cue="e19" src="sfx/reveal.wav" gain={0.7} />
+      <Sfx cue="sheet" src="sfx/whoosh.wav" gain={0.6} />
+      {["d4", "d6", "d8", "d9", "d12", "d15"].map((c) => (
+        <Sfx key={c} cue={c} src="sfx/tick.wav" gain={0.6} />
+      ))}
+      <Sfx cue="outro" src="sfx/whoosh.wav" gain={0.6} />
+      <Sfx cue="cta" src="sfx/reveal.wav" />
     </>
   );
 }
@@ -149,7 +185,7 @@ function Exact() {
   const e35 = progress(since("e35"), 8);
   const e19 = progress(since("e19"), 8);
   return (
-    <Enter cue="exact" exit="sheet" style={{ top: 480, left: 110, right: 170 }}>
+    <Enter cue="exact" exit="sheet" delay={8} style={{ top: 480, left: 110, right: 170 }}>
       <div style={{ display: "flex", fontFamily: SANS, fontSize: 26, letterSpacing: "0.26em", color: C.text3, paddingBottom: 18, borderBottom: `1px solid ${C.ruleStrong}`, fontWeight: 500 }}>
         <span style={{ flex: 1 }} />
         <span style={{ width: 230, textAlign: "right" }}>FLOP</span>
@@ -226,6 +262,7 @@ export function WillItGetThere() {
       <Exact />
       <CheatSheet />
       <Outro />
+      <SoundDesign />
     </Narration>
   );
 }

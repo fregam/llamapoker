@@ -80,3 +80,30 @@ lesson, and a hook line that could open the post.
   happens?") and recorded each scene as one continuous take.
 - **Lesson:** flow lives in the joints between sentences, in both the words and the audio.
 - **Hook:** "Same facts, same voice, same pictures. One change made it watchable."
+
+## 2026-11-11 · Sound design, locally, and what to do while the tools download
+
+- **Choice:** the reels had voice only. The user asked for a real sound layer and insisted on
+  local tools. Research landed on ACE-Step 1.5 Turbo (music, MIT, runs under 4 GB VRAM, official
+  ComfyUI support) for the bed and MOSS-SoundEffect v2.0 (Apache 2.0, 48 kHz effects) for the
+  hits; DeepFilterNet 3 for cleaning the voice. Rejected: Stable Audio Open (gated licence),
+  MMAudio and AudioGen (non-commercial weights), paid APIs.
+- **What happened:** 20 GB of downloads and two installs the sandbox would not let the assistant
+  run, so the user ran them. Rather than wait, the whole sound layer was built against a
+  provisional set of effects synthesised from code (a tick, a pluck, a fold, a card, a chip, a
+  whoosh, a stamp, a bell) and a procedural ambient bed, with the same file names the generated
+  set will use. Swapping in the real sounds later is a file copy.
+- **Lesson:** build the system first with placeholders of the right shape; the expensive asset is
+  the last thing to drop in, not the first thing to wait for.
+- **Hook:** "My sound designer was a Python script, for exactly one afternoon."
+
+## 2026-11-11 · The hook was polite, so it was weak
+
+- **Choice:** the first version opened with the question, three "folds" and a promise ("here's
+  exactly how much"): twelve seconds before anything changed on screen. Retention dies there. The
+  rewrite puts the payoff in the first sentence (the cost in big blinds stamps in at second two,
+  the table folds at second four) and the body then earns it. Same for the outs reel: the
+  thirty-six percent lands under the cards before the explanation starts.
+- **Lesson:** a hook is not a question, it is the answer shown early enough that the viewer wants
+  the proof.
+- **Hook:** "Stop asking the question in your first three seconds. Show the number."
