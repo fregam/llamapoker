@@ -23,5 +23,5 @@ export const FAQ: [string, string][] = [
     "What do you store?",
     "Nothing about your hands leaves your device. Trainer stats are saved in your own browser. If you join the letter, we keep your email address — that's it.",
   ],
-  ["Does it work on my phone?", "It works, but it's designed for a laptop or desktop, where the whole table fits on one screen."],
+  ["Does it work on my phone?", "Yes. The guides and the trainer are made for it; the Table is best on a laptop, where the whole spot fits on one screen."],
 ];

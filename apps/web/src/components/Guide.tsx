@@ -8,12 +8,14 @@
  * The breadcrumb's structured data lives in seo.ts (BreadcrumbList); this is the visible one.
  * Used by: views/Learn.tsx and every guide (HandRankings, Positions, StartingHands, PotOdds, Outs,
  * PokerHelper).
- * Uses: components/Link, seo (LEARN_PATH, routeFor).
+ * Uses: components/Link, components/Signup (the letter form at the foot of every guide, source
+ * "guide-<slug>"), seo (LEARN_PATH, routeFor).
  */
 
 import { ReactNode } from "react";
 import { Link } from "./Link";
 import { LEARN_PATH, routeFor } from "../seo";
+import { Signup } from "./Signup";
 
 export function Guide({ path, title, lead, children }: { path: string; title: string; lead: ReactNode; children: ReactNode }) {
   const i = LEARN_PATH.indexOf(path);
@@ -29,6 +31,7 @@ export function Guide({ path, title, lead, children }: { path: string; title: st
       <p className="lead">{lead}</p>
       {children}
       <footer className="guide-foot">
+        <Signup source={`guide-${path.split("/").pop()}`} compact />
         {next && (
           <Link to={next} className="guide-next">
             <span className="figure-label">Next in the path</span>

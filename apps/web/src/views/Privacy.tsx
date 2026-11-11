@@ -48,6 +48,17 @@ export default function Privacy() {
             address.
           </li>
           <li>
+            <strong>Where you came from.</strong> If a link brought you here (from a reel, a post or the letter), your
+            browser keeps the name of that channel for the length of your visit, in its own session storage, so that if
+            you join the letter we know which channel worked. It's a word like "instagram", not an identifier, and it's
+            gone when you close the tab.
+          </li>
+          <li>
+            <strong>Bot check on the signup form.</strong> To keep scripts off the list, the form may use Cloudflare
+            Turnstile, which checks that a browser is real without a puzzle. It runs only on that form and keeps no
+            profile of you.
+          </li>
+          <li>
             <strong>No tracking cookies, no ads, no accounts.</strong> If that ever changes, this page will say so
             first.
           </li>
