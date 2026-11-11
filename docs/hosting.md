@@ -18,6 +18,27 @@
 - **Analytics:** Cloudflare Web Analytics (no cookies). **Search:** Google Search Console
   (Domain property), sitemap `https://llamapoker.com/sitemap.xml`.
 
+## Safety net
+
+- **CI** (`.github/workflows/ci.yml`): on every pull request and push to `main`, type-check, tests,
+  build, build-output sanity, runtime dependency audit, and a gitleaks secret scan. Dependabot
+  (`.github/dependabot.yml`) opens weekly update PRs so CI checks them.
+- **Branch protection** (set once in GitHub → Settings → Branches → `main`; the `gh` CLI is not
+  installed on the PC, so this is done in the UI): require a pull request before merging; require
+  status checks `Website (type-check, tests, build)` and `Secret scan (gitleaks)` to pass; require
+  the branch to be up to date; include administrators. With that rule, `main` only ever receives
+  green merges, which is what makes CI gate the Cloudflare deploy.
+- **Preview deploys:** Cloudflare Pages builds every pushed branch at
+  `https://<branch>.llamapoker.pages.dev` (branch names with `/` become `-`). Check a change there
+  before merging.
+- **Rollback (one step):** Cloudflare dashboard → Workers & Pages → `llamapoker` → Deployments →
+  the previous production deployment → "Rollback to this deployment". Production switches
+  instantly; fix forward on a branch afterwards. Every deployment keeps its own URL
+  (`<hash>.llamapoker.pages.dev`) for comparison.
+- **Stronger option, later:** turn off Pages' automatic git builds and deploy from the CI job with
+  `wrangler pages deploy` only after the checks pass (needs a scoped Cloudflare API token as a
+  GitHub secret). Not needed while the branch rule holds.
+
 ## Checking a deploy
 
 ```bash

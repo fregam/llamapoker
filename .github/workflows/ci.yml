@@ -1,0 +1,59 @@
+# CI for the LlamaPoker monorepo. Runs on every pull request and on every push to main.
+# Cloudflare Pages builds main on its own, so this gates deploys only together with the
+# branch-protection rule described in docs/hosting.md ("Safety net"): main accepts merges
+# only when the "web" and "secrets" jobs are green.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Website (type-check, tests, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: apps/web/.node-version
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: npm ci
+      - name: Type-check
+        run: npx tsc --noEmit
+      - name: Tests
+        run: npx vitest run
+      - name: Build (the same command Cloudflare Pages runs)
+        run: npm run build
+      - name: Build output sanity
+        run: |
+          test -f dist/index.html
+          test -f dist/table.html
+          test -f dist/sitemap.xml
+          test -f dist/_headers
+          grep -q 'rel="canonical" href="https://llamapoker.com/"' dist/index.html
+      - name: Dependency audit (runtime dependencies must be clean)
+        run: npm audit --omit=dev --audit-level=high
+
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
