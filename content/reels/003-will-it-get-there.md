@@ -4,7 +4,7 @@ status: rendered (v10, polish pass to the 002 standard), waiting on the founder'
 channel: Instagram Reels (9:16, 65 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `will-it-get-there`; script `apps/reels/src/scripts/will-it-get-there.json`; cover `cover-will-it-get-there`
-files: media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4 (v9), will-it-get-there_v08.mp4; audio/vo/will-it-get-there_vo-whole_v09-B-clean-tight.wav (the one-take narration the scene wavs are cut from), will-it-get-there_A_v08/ (the previous voice)
+files: media/reels/2026-11-10_will-it-get-there/renders/will-it-get-there.mp4 (v10), contact-will-it-get-there_v10.png (contact sheet), will-it-get-there_v09.mp4, will-it-get-there_v08.mp4; audio/vo/will-it-get-there_vo-whole_v09-B-clean-tight.wav (the one-take narration the scene wavs are cut from), will-it-get-there_A_v08/ (the previous voice)
 cost: v4 voice free (local GPU); earlier v3 voice 12.6 Higgsfield credits
 ---
 

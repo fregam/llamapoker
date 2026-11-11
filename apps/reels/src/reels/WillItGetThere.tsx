@@ -204,7 +204,7 @@ function TheRule() {
         </div>
       </Enter>
       {/* delay 12: the 36% lands in its cell first; leaving together, their paths crossed mid-air */}
-      <Move width={700} keys={[{ cue: "r18", top: STAGE_TOP + 492, cx: 540, scale: 1 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP + 52, cx: 789, scale: 0.52, delay: 12 }]} exit="exact" exitDelay={26}>
+      <Move width={700} keys={[{ cue: "r18", top: STAGE_TOP + 492, cx: 540, scale: 1 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP + 52, cx: 799, scale: 0.52, delay: 12 }]} exit="exact" exitDelay={26}>
         <Stat value={`${Math.round(RULE_TURN * eased(since("r18"), 22))}%`} label="TO HIT ON THE RIVER" size={200} color={C.brass} align="center" />
       </Move>
     </>
