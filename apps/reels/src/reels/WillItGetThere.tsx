@@ -9,7 +9,7 @@ import { outsToEquity } from "../../../web/src/poker/odds";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
 import { Hit, Music, Sfx, Ticks } from "../sound";
-import { Enter, Move, Narration, Shake, Stat, progress, timelineFor, useNarration } from "../stage";
+import { Enter, Move, Narration, Shake, Stat, eased, progress, timelineFor, useNarration } from "../stage";
 import { Engraving } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
 import type { VoManifest } from "../vo";
@@ -140,7 +140,7 @@ function SoundDesign() {
 function CountOuts() {
   const { since } = useNarration();
   const seenT = progress(since("seen"), 12);
-  const n = Math.round(9 * progress(since("nine"), 14));
+  const n = Math.round(9 * eased(since("nine"), 20));
   return (
     <>
       <Enter cue="count" exit="flop" style={{ top: 430, left: 100, right: 100, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14 }}>
@@ -190,7 +190,7 @@ function TheRule() {
       {/* 36% counts up centre stage, docks top right while the turn plays, then flies into the
           FLOP cell of THE RULE row as the table forms; 18% goes straight to the TURN cell. */}
       <Move width={700} keys={[{ cue: "r36", top: 940, cx: 540, scale: 1 }, { cue: "turn", top: 352, cx: HUD_RIGHT_CX, scale: 0.45, delay: 8 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP - 8, cx: 585, scale: 0.52, delay: 2 }]} exit="exact" exitDelay={22}>
-        <Stat value={`${Math.round(RULE_FLOP * progress(since("r36"), 14))}%`} label="TO HIT BY THE RIVER" size={200} color={C.sage} align="center" />
+        <Stat value={`${Math.round(RULE_FLOP * eased(since("r36"), 22))}%`} label="TO HIT BY THE RIVER" size={200} color={C.sage} align="center" />
       </Move>
 
       <Enter cue="x2" exit="exact" delay={4} style={{ top: 720, left: 0, right: 0, textAlign: "center" }}>
@@ -199,7 +199,7 @@ function TheRule() {
         </div>
       </Enter>
       <Move width={700} keys={[{ cue: "r18", top: 940, cx: 540, scale: 1 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP - 8, cx: 815, scale: 0.52, delay: 2 }]} exit="exact" exitDelay={22}>
-        <Stat value={`${Math.round(RULE_TURN * progress(since("r18"), 14))}%`} label="TO HIT ON THE RIVER" size={200} color={C.brass} align="center" />
+        <Stat value={`${Math.round(RULE_TURN * eased(since("r18"), 22))}%`} label="TO HIT ON THE RIVER" size={200} color={C.brass} align="center" />
       </Move>
     </>
   );

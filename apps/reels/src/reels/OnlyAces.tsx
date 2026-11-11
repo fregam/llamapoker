@@ -10,7 +10,7 @@ import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
 import { Hit, Music, Sfx, Ticks } from "../sound";
-import { Enter, Ledger, Move, Narration, SeatRing, Shake, Stat, Tag, progress, timelineFor, useNarration } from "../stage";
+import { Enter, Ledger, Move, Narration, SeatRing, Shake, Stat, Tag, eased, progress, timelineFor, useNarration } from "../stage";
 import { DotRow, Engraving, RangeGrid, Seat } from "../teaching";
 import { C, SANS, SERIF } from "../theme";
 import type { VoManifest } from "../vo";
@@ -110,7 +110,7 @@ function ThePlan() {
   if (since("aa") >= 0) lit.add("AA");
   if (since("ak") >= 0) ["AKs", "AKo"].forEach((h) => lit.add(h));
   const ghost = progress(since("dim"), 18);
-  const pct = PREMIUM_PCT * progress(since("pct"), 24);
+  const pct = PREMIUM_PCT * eased(since("pct"), 30);
   // The grid and its HUD leave together on "wait"; the counter rises into the cleared stage.
   return (
     <>
@@ -185,7 +185,7 @@ function TheWait() {
         <div style={{ fontFamily: SANS, fontSize: 26, letterSpacing: "0.28em", color: C.text3, fontWeight: 500, marginTop: 22 }}>BLINDS, EVERY SIX HANDS</div>
       </Enter>
       <Enter cue="paid" exit="raise" style={{ top: 1100, right: GRID_LEFT }}>
-        <Stat value={`−${Math.round(BLINDS_LOST * progress(since("paid"), 20))} bb`} label="PAID WHILE FOLDING" size={120} color={C.vermilion} align="right" />
+        <Stat value={`−${Math.round(BLINDS_LOST * eased(since("paid"), 26))} bb`} label="PAID WHILE FOLDING" size={120} color={C.vermilion} align="right" />
       </Enter>
     </>
   );
@@ -218,7 +218,7 @@ function NobodyPays() {
 
 function TheFix() {
   const { since } = useNarration();
-  const p = progress(since("widen"), 45);
+  const p = eased(since("widen"), 60);
   const pct = Math.round(BTN_PCT * p);
   const hot = since("ax") >= 0 && since("ax") < 40 ? WEAK_ACES : since("pp") >= 0 && since("pp") < 40 ? SMALL_PAIRS : since("sc") >= 0 && since("sc") < 40 ? SUITED_CONNECTORS : undefined;
   return (

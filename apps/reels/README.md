@@ -49,6 +49,16 @@ The voice-over is the spine. Everything on screen happens because a word was jus
 5. **Reel** — `src/reels/<Id>.tsx`: scenes as small components, each element bound to a cue.
    Register in `src/Root.tsx`; the length is `timelineFor(script, vo).total`.
 
+### Motion and picture
+
+- **Eases, never linear.** `E` in `stage.tsx`: arrivals decelerate hard (`outExpo`), a number
+  landing overshoots a touch (`outBack`, `motion="stamp"`), travels between poses are
+  slow-fast-slow (`inOutQuint`, `Move`), exits accelerate out (`inQuad`) with a 2 % shrink and a
+  short drift up. Counters and fills use `eased(since, dur)` so they land instead of stopping.
+- **Depth on the frame** (`Frame` in `components.tsx`): a faint warm lift behind the stage centre,
+  a vignette at the edges, moving grain at 5 %. Each is below the level where it reads as an
+  effect; together they stop the black from looking like a slide.
+
 ### The editing rules (from the reference account's hits, 50–112 s each)
 
 - **One change per phrase.** Every caption chunk gets exactly one new thing on screen, or one

@@ -23,7 +23,26 @@ import type { VoManifest } from "./vo";
 const Ctx = createContext<Timeline | null>(null);
 
 export const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
-const ease = (x: number) => 1 - Math.pow(1 - clamp01(x), 3);
+/** Easings. Arrivals decelerate hard (expo), landings overshoot a touch (back), travels are
+ *  slow-fast-slow (quint). Linear motion is what makes graphics look cheap. */
+export const E = {
+  outExpo: (x: number) => (x >= 1 ? 1 : 1 - Math.pow(2, -10 * clamp01(x))),
+  outBack: (x: number) => {
+    const t = clamp01(x);
+    const c = 1.70158;
+    return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2);
+  },
+  inOutQuint: (x: number) => {
+    const t = clamp01(x);
+    return t < 0.5 ? 16 * t ** 5 : 1 - Math.pow(-2 * t + 2, 5) / 2;
+  },
+  inQuad: (x: number) => clamp01(x) ** 2,
+};
+const ease = E.outExpo;
+/** 0→1 over `dur` frames from a cue, decelerating: counters and fills feel like they land. */
+export function eased(since: number, dur: number) {
+  return E.outExpo(since / dur);
+}
 
 export function useNarration() {
   const tl = useContext(Ctx);
@@ -74,9 +93,9 @@ export function Captions({ size = 56 }: { size?: number }) {
       <div style={{ width: 54, height: 1, background: accent, margin: "0 auto 26px", opacity: 0.9 }} />
       <div style={{ fontFamily: SANS, fontSize: size, fontWeight: 500, lineHeight: 1.25, color: C.paper, letterSpacing: "-0.005em" }}>
         {chunk.words.map((w, i) => {
-          const t = ease((frame - w.start) / 6);
+          const t = ease((frame - w.start) / 8);
           return (
-            <span key={i} style={{ display: "inline-block", opacity: t, transform: `translateY(${(1 - t) * 10}px)`, marginRight: "0.28em" }}>
+            <span key={i} style={{ display: "inline-block", opacity: t, transform: `translateY(${(1 - t) * 12}px)`, marginRight: "0.28em" }}>
               {w.key ? (
                 <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: size * 1.5, lineHeight: 0.8, color: accent, verticalAlign: "-0.06em" }}>{w.text}</span>
               ) : (
@@ -116,16 +135,17 @@ export function Enter({
   const end = exit ? at(exit) : Infinity;
   if (frame < start || frame >= end + 8) return null;
   const tIn = dur <= 1 ? 1 : ease((frame - start) / dur);
-  const tOut = clamp01((frame - end) / 8);
+  const tOut = E.inQuad((frame - end) / 8);
+  // Arrive: rise 28 px and settle (expo). Leave: a short drift up and a 2% shrink while fading.
   const transform =
     motion === "rise"
-      ? `translateY(${(1 - tIn) * 24 - tOut * 14}px)`
+      ? `translateY(${(1 - tIn) * 28 - tOut * 16}px) scale(${1 - 0.02 * tOut})`
       : motion === "scale"
-        ? `scale(${0.94 + 0.06 * tIn})`
-        : motion === "stamp" // lands: slightly big, settles to size (for a number that hits)
-          ? `scale(${1.18 - 0.18 * tIn})`
-          : undefined;
-  return <div style={{ position: "absolute", opacity: tIn * (1 - tOut), transform, ...style }}>{children}</div>;
+        ? `scale(${0.94 + 0.06 * tIn - 0.02 * tOut})`
+        : motion === "stamp" // lands big and settles with a touch of overshoot
+          ? `scale(${1.22 - 0.22 * (dur <= 1 ? 1 : E.outBack((frame - start) / Math.max(dur, 10)))})`
+          : `scale(${1 - 0.02 * tOut})`;
+  return <div style={{ position: "absolute", opacity: tIn * (1 - tOut), transform, transformOrigin: "center", ...style }}>{children}</div>;
 }
 
 /**
@@ -153,7 +173,7 @@ export function Move({ keys, width, exit, exitDelay = 0, dur = 14, style, childr
   for (let i = 1; i < keys.length; i++) {
     const t0 = at(keys[i].cue) + (keys[i].delay ?? 0);
     if (frame < t0) break;
-    const t = ease((frame - t0) / dur);
+    const t = E.inOutQuint((frame - t0) / dur);
     const next = { top: keys[i].top, cx: keys[i].cx, scale: keys[i].scale ?? 1, opacity: keys[i].opacity ?? 1 };
     pose = {
       top: pose.top + (next.top - pose.top) * t,
@@ -163,9 +183,9 @@ export function Move({ keys, width, exit, exitDelay = 0, dur = 14, style, childr
     };
   }
   const tIn = ease((frame - start) / 12);
-  const tOut = clamp01((frame - end) / 8);
+  const tOut = E.inQuad((frame - end) / 8);
   return (
-    <div style={{ position: "absolute", top: pose.top + (1 - tIn) * 24, left: pose.cx - width / 2, width, transform: `scale(${pose.scale})`, transformOrigin: "top center", opacity: tIn * (1 - tOut) * pose.opacity, ...style }}>
+    <div style={{ position: "absolute", top: pose.top + (1 - tIn) * 28 - tOut * 12, left: pose.cx - width / 2, width, transform: `scale(${pose.scale * (1 - 0.02 * tOut)})`, transformOrigin: "top center", opacity: tIn * (1 - tOut) * pose.opacity, ...style }}>
       {children}
     </div>
   );

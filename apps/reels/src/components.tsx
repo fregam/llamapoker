@@ -28,6 +28,18 @@ export function Frame({ children }: { children: ReactNode }) {
   const read = durationInFrames > 1 ? interpolate(frame, [0, durationInFrames - 1], [0, 100], { extrapolateRight: "clamp" }) : 0;
   return (
     <div style={{ position: "absolute", inset: 0, background: C.ink, color: C.paper, fontFamily: SANS, overflow: "hidden" }}>
+      {/* Depth: a faint warm lift behind the stage centre, a vignette at the edges, and a breath of
+          grain that moves. All well under what reads as an effect; it only stops the black from
+          looking like a flat slide. */}
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 55% at 50% 42%, rgba(236,231,220,0.045), rgba(236,231,220,0) 70%)" }} />
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 85% 75% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.42) 100%)" }} />
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.05, mixBlendMode: "screen" }}>
+        <filter id="grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={1} seed={frame % 11} stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#grain)" />
+      </svg>
       <div style={{ position: "absolute", inset: 36, border: `1px solid ${C.rule}` }} />
       <div
         style={{
