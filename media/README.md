@@ -12,11 +12,15 @@ media/
     characters/<name>/<name>_<sheet>_v<NN>.png      sheet = turnaround | expressions | poses
     locations/<place>_plate_v<NN>.png
     props/props_sheet_v<NN>.png
-  reels/<YYYY-MM-DD>_<slug>/       one folder per reel (mirrors content/reels/<same>/)
+  reels/<YYYY-MM-DD>_<slug>/       one folder per reel (manifest: content/reels/assets.json)
     keyframes/ motion/ clips/ audio/{vo,music,sfx}/ edit/ renders/
-  tests/<YYYY-MM-DD>_<slug>/       bake-offs and model tests (write-up in docs/research/)
+  tests/<YYYY-MM-DD>_<slug>/       bake-offs and model tests (manifest: content/tests/assets.json,
+                                   write-up in docs/research/)
     inputs/ outputs/ frames/
 ```
+
+New files: `node scripts/media-manifest.mjs --init media/reels content/reels/assets.json` appends
+them (sha256, size, dimensions); add source and prompt by hand. `--check <manifest>` verifies.
 
 ## Naming
 

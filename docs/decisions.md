@@ -3,6 +3,14 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-11 (night) - The repo is public
+
+- **What:** `fregam/llamapoker` went public so that `main` can have a branch-protection rule
+  (private repos need GitHub Pro for that). Rule set, secret scanning and push protection on.
+- **Why:** the founder preferred this to paying; the history was scanned first (gitleaks over
+  the full history, plus a grep for key-like strings) and is clean; secrets were never committed.
+- **Rejected:** GitHub Pro (about $4/month); deploying from CI with wrangler instead of a rule.
+
 ## 2026-11-11 (night) - Interface build direction: Batcomputer schematic + Phosphor map and digits
 
 - **What:** the founder took the recommendation: build on round-2 direction 2 (Batcomputer: the
