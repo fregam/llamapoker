@@ -1,6 +1,6 @@
 ---
 title: Will it get there?
-status: rendered (v9, voice B), not approved for posting (review-sheet round pending)
+status: rendered (v10, polish pass to the 002 standard), waiting on the founder's review against 002
 channel: Instagram Reels (9:16, 65 s, narration-first, one voice take per scene, local VibeVoice voice)
 date: 2026-11-11
 made_with: apps/reels (Remotion), composition `will-it-get-there`; script `apps/reels/src/scripts/will-it-get-there.json`; cover `cover-will-it-get-there`
@@ -42,6 +42,27 @@ sound and motion are untouched; the length follows the new takes (64.6 s → 65.
 transcript models doubt: `docs/research/2026-11-11-voice-b-rollout.md`. The A voice (v8) is kept
 at `media/reels/2026-11-10_will-it-get-there/audio/vo/will-it-get-there_A_v08/` (takes, whole, manifest, word times) and the v8 render
 as `renders/will-it-get-there_v08.mp4`.
+
+## v10 (2026-11-11): the polish pass 002 had and 003 never got
+
+The founder approved 002 v9 and found 003 v9 lower in quality: sound, pace, motion, and the 36%
+sitting on the cards at 0:09. Measured, not placebo (same voice in both):
+
+- **Pace:** the count take ran two sentences together ("thirteen hearts in it. You can": 0.02 s;
+  "the deck: thirteen": 0.34 s), 3.7 words/s against 002's 2.4–3.2. `scripts/vo-breathe.py`
+  padded both to 0.5 s (+0.64 s); same voice, same take, no regeneration.
+- **Layout (contact sheet, one frame a second):** six overlaps. The docked 36% and the 9 sat on the
+  cards from 0:09 to 0:32 (content started at y 430, inside the HUD lane; now 508 like 002); the
+  hearts were dealt in the same frame and place the hook's cards were leaving (now 8 frames later);
+  36% and 18% crossed mid-air and doubled the table's own cells (now staggered, and each cell appears
+  as its flyer lands); the cheat sheet's header faded in over the exact table's (now after it); the
+  EXACTLY row's handover to the flush-draw row doubled the numbers (columns differ; it now leaves
+  with its table); the outro faded in over the cheat sheet (now after it). The 9 docks before the
+  board is dealt instead of flying through it.
+- **Sound:** plucks, the nine reveal and the board deals brought to 002's levels (0.7–0.8), the two
+  number hits to 0.8; tick bursts slowed (hearts 3 frames apart, the count to nine over a second).
+- **Gate:** `scripts/reel-check.py` (apps/reels/README.md, "Before a reel reaches the approval
+  queue") passes 002 v9 and failed 003 v9 on seven counts.
 
 ## Scenes
 

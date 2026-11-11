@@ -41,9 +41,9 @@ const DRAWS: [string, string, number][] = [
 
 const row = (gap: number): React.CSSProperties => ({ left: 0, right: 0, display: "flex", justifyContent: "center", gap });
 
-function Headline({ cue, exit, children, size = 118, top = 390, dur = 12 }: { cue: string; exit?: string; children: React.ReactNode; size?: number; top?: number; dur?: number }) {
+function Headline({ cue, exit, children, size = 118, top = 390, dur = 12, delay = 0 }: { cue: string; exit?: string; children: React.ReactNode; size?: number; top?: number; dur?: number; delay?: number }) {
   return (
-    <Enter cue={cue} exit={exit} dur={dur} style={{ top, left: 70, right: 70, textAlign: "center" }}>
+    <Enter cue={cue} exit={exit} dur={dur} delay={delay} style={{ top, left: 70, right: 70, textAlign: "center" }}>
       <div style={{ fontFamily: SERIF, fontSize: size, lineHeight: 0.95, letterSpacing: "-0.02em", color: C.paper }}>{children}</div>
     </Enter>
   );
@@ -85,18 +85,22 @@ function Hook() {
       {[8, 11, 14].map((d) => (
         <Sfx key={d} cue="hook" src="sfx/deal.wav" delay={d} gain={0.5} />
       ))}
-      <Hit cue="pct0" riser={false} />
+      <Hit cue="pct0" riser={false} gain={0.85} />
     </>
   );
 }
 
 const HUD_RIGHT_CX = 1080 - 120 - 150; // centre of the small top-right HUD slot (inside the safe area)
 const HUD_LEFT_CX = 120 + 150;
+// The HUD lane is y 352-470: docked numbers live there, so a scene's content starts at STAGE_TOP
+// (reel 002's grid line). At 430 the docked 36% and OUTS sat on the first row of cards.
+const STAGE_TOP = 508;
+const HEART_STAGGER = 3; // frames between hearts (and their ticks): 2 was a 15-a-second rattle
+const NINE_COUNT = 30; // frames for the outs to count to nine
 const EXACT_TOP = 480;
 const EXACT_RULE_ROW_TEXT_TOP = EXACT_TOP + 44 + 24; // header, then the row's padding
 const EXACT_EXACTLY_ROW_TOP = EXACT_TOP + 44 + 164; // after THE RULE row
 const SHEET_TOP = 440;
-const SHEET_FLUSH_ROW_TOP = SHEET_TOP + 41 + 3 * 100; // header, then gutshot, overcards, open-ended
 
 /* ---------- Sound: the bed under everything, one effect per change on screen ---------- */
 
@@ -108,20 +112,20 @@ function SoundDesign() {
       {/* count: scene change, the 36% docks (soft whoosh), thirteen hearts tick in, the four seen
           ones dim (tick), the outs count to nine (ticks) and land (bell) */}
       <Sfx cue="count" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
-      <Ticks cue="count" frames={26} n={13} src="sfx/tick.wav" gain={0.35} />
+      <Ticks cue="count" delay={8} frames={13 * HEART_STAGGER} n={13} src="sfx/tick.wav" gain={0.35} />
       <Sfx cue="seen" src="sfx/tick.wav" gain={0.6} />
-      <Ticks cue="nine" frames={14} n={9} src="sfx/tick.wav" gain={0.4} />
-      <Sfx cue="nine" src="sfx/reveal.wav" delay={14} />
+      <Ticks cue="nine" frames={NINE_COUNT - 4} n={9} src="sfx/tick.wav" gain={0.4} />
+      <Sfx cue="nine" src="sfx/reveal.wav" delay={NINE_COUNT - 4} gain={0.7} />
       {/* flop: the outs dock top left (soft whoosh), the board is dealt, ×4, 36% stamps */}
-      <Sfx cue="flop" src="sfx/whoosh.wav" delay={8} gain={0.3} />
-      <Sfx cue="flop" src="sfx/deal.wav" delay={8} />
-      <Sfx cue="x4" src="sfx/pluck.wav" />
-      <Hit cue="r36" />
+      <Sfx cue="flop" src="sfx/whoosh.wav" gain={0.3} />
+      <Sfx cue="flop" src="sfx/deal.wav" delay={8} gain={0.8} />
+      <Sfx cue="x4" src="sfx/pluck.wav" gain={0.7} />
+      <Hit cue="r36" gain={0.8} />
       {/* turn: the turn card, 36% docks (soft whoosh), ×2, 18% stamps */}
-      <Sfx cue="turn" src="sfx/deal.wav" />
+      <Sfx cue="turn" src="sfx/deal.wav" gain={0.8} />
       <Sfx cue="turn" src="sfx/whoosh.wav" delay={8} gain={0.3} />
-      <Sfx cue="x2" src="sfx/pluck.wav" />
-      <Hit cue="r18" />
+      <Sfx cue="x2" src="sfx/pluck.wav" gain={0.7} />
+      <Hit cue="r18" gain={0.8} />
       <Sfx cue="exact" src="sfx/whoosh.wav" delay={-10} gain={0.6} />
       <Sfx cue="e35" src="sfx/reveal.wav" gain={0.7} />
       <Sfx cue="e19" src="sfx/reveal.wav" gain={0.7} />
@@ -140,21 +144,22 @@ function SoundDesign() {
 function CountOuts() {
   const { since } = useNarration();
   const seenT = progress(since("seen"), 12);
-  const n = Math.round(9 * eased(since("nine"), 20));
+  const n = Math.round(9 * eased(since("nine"), NINE_COUNT));
   return (
     <>
-      <Enter cue="count" exit="flop" style={{ top: 430, left: 100, right: 100, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14 }}>
+      {/* delay 8: the hook's cards fade out first, then the hearts are dealt into the cleared stage */}
+      <Enter cue="count" exit="flop" delay={8} style={{ top: STAGE_TOP, left: 100, right: 100, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14 }}>
         {HEARTS.map((c, i) => {
           const seen = SEEN.has(c);
-          return <PlayingCard key={c} card={c} size={0.72} style={{ opacity: progress(since("count") - i * 2, 6) * (seen ? 1 - 0.78 * seenT : 1), transform: `scale(${seen ? 1 - 0.06 * seenT : 1})` }} />;
+          return <PlayingCard key={c} card={c} size={0.72} style={{ opacity: progress(since("count") - 8 - i * HEART_STAGGER, 6) * (seen ? 1 - 0.78 * seenT : 1), transform: `scale(${seen ? 1 - 0.06 * seenT : 1})` }} />;
         })}
       </Enter>
-      <Enter cue="seen" exit="nine" style={{ top: 800, left: 0, right: 0, textAlign: "center" }}>
+      <Enter cue="seen" exit="nine" style={{ top: 900, left: 0, right: 0, textAlign: "center" }}>
         <Stat value="4" label="ALREADY ON THE TABLE" size={200} color={C.text3} align="center" />
       </Enter>
       {/* The nine outs count up centre stage, then shrink into the top-left HUD and stay there
           through the rule (they are the number being multiplied) until the exact table. */}
-      <Move width={500} keys={[{ cue: "nine", top: 800, cx: 540, scale: 1 }, { cue: "flop", top: 352, cx: HUD_LEFT_CX, scale: 0.4, delay: 8 }]} exit="exact">
+      <Move width={500} keys={[{ cue: "nine", top: 900, cx: 540, scale: 1 }, { cue: "flop", top: 352, cx: HUD_LEFT_CX, scale: 0.4 }]} exit="exact">
         <Stat value={`${n}`} label="OUTS" size={250} align="center" />
       </Move>
     </>
@@ -169,36 +174,37 @@ function TheRule() {
   return (
     <>
       {/* delay 8: the hearts fade out first, then the board takes their place */}
-      <Enter cue="flop" exit="exact" delay={8} style={{ top: 430, ...row(14) }}>
+      <Enter cue="flop" exit="exact" delay={8} style={{ top: STAGE_TOP, ...row(14) }}>
         {FLOP.map((c) => (
           <PlayingCard key={c} card={c} size={0.85} />
         ))}
         {turnIn && <PlayingCard card={TURN} size={0.85} style={{ opacity: progress(since("turn"), 8), transform: `translateY(${(1 - progress(since("turn"), 10)) * 24}px)` }} />}
       </Enter>
-      <Enter cue="flop" exit="turn" delay={8} style={{ top: 640, left: 0, right: 0 }}>
+      <Enter cue="flop" exit="turn" delay={8} style={{ top: STAGE_TOP + 210, left: 0, right: 0 }}>
         <Label>TWO CARDS TO COME</Label>
       </Enter>
-      <Enter cue="turn" exit="exact" delay={9} style={{ top: 640, left: 0, right: 0 }}>
+      <Enter cue="turn" exit="exact" delay={9} style={{ top: STAGE_TOP + 210, left: 0, right: 0 }}>
         <Label>ONE CARD TO COME</Label>
       </Enter>
 
-      <Enter cue="x4" exit="turn" style={{ top: 720, left: 0, right: 0, textAlign: "center" }}>
+      <Enter cue="x4" exit="turn" style={{ top: STAGE_TOP + 282, left: 0, right: 0, textAlign: "center" }}>
         <div style={{ fontFamily: SERIF, fontSize: 170, lineHeight: 1, color: C.paper }}>
           9 <span style={{ color: C.text3 }}>×</span> 4
         </div>
       </Enter>
       {/* 36% counts up centre stage, docks top right while the turn plays, then flies into the
           FLOP cell of THE RULE row as the table forms; 18% goes straight to the TURN cell. */}
-      <Move width={700} keys={[{ cue: "r36", top: 940, cx: 540, scale: 1 }, { cue: "turn", top: 352, cx: HUD_RIGHT_CX, scale: 0.45, delay: 8 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP - 8, cx: 585, scale: 0.52, delay: 2 }]} exit="exact" exitDelay={22}>
+      <Move width={700} keys={[{ cue: "r36", top: STAGE_TOP + 492, cx: 540, scale: 1 }, { cue: "turn", top: 352, cx: HUD_RIGHT_CX, scale: 0.45, delay: 8 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP + 52, cx: 569, scale: 0.52, delay: 2 }]} exit="exact" exitDelay={16}>
         <Stat value={`${Math.round(RULE_FLOP * eased(since("r36"), 22))}%`} label="TO HIT BY THE RIVER" size={200} color={C.sage} align="center" />
       </Move>
 
-      <Enter cue="x2" exit="exact" delay={4} style={{ top: 720, left: 0, right: 0, textAlign: "center" }}>
+      <Enter cue="x2" exit="exact" delay={4} style={{ top: STAGE_TOP + 282, left: 0, right: 0, textAlign: "center" }}>
         <div style={{ fontFamily: SERIF, fontSize: 170, lineHeight: 1, color: C.paper }}>
           9 <span style={{ color: C.text3 }}>×</span> 2
         </div>
       </Enter>
-      <Move width={700} keys={[{ cue: "r18", top: 940, cx: 540, scale: 1 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP - 8, cx: 815, scale: 0.52, delay: 2 }]} exit="exact" exitDelay={22}>
+      {/* delay 12: the 36% lands in its cell first; leaving together, their paths crossed mid-air */}
+      <Move width={700} keys={[{ cue: "r18", top: STAGE_TOP + 492, cx: 540, scale: 1 }, { cue: "exact", top: EXACT_RULE_ROW_TEXT_TOP + 52, cx: 789, scale: 0.52, delay: 12 }]} exit="exact" exitDelay={26}>
         <Stat value={`${Math.round(RULE_TURN * eased(since("r18"), 22))}%`} label="TO HIT ON THE RIVER" size={200} color={C.brass} align="center" />
       </Move>
     </>
@@ -222,13 +228,15 @@ function Exact() {
         </div>
         <div style={{ display: "flex", alignItems: "baseline", padding: "30px 0", borderBottom: `1px solid ${C.rule}` }}>
           <span style={{ flex: 1, fontFamily: SANS, fontSize: 30, letterSpacing: "0.2em", color: C.text2, fontWeight: 500 }}>THE RULE</span>
-          <span style={{ ...cols, color: C.text2 }}>{RULE_FLOP}%</span>
-          <span style={{ ...cols, color: C.text2 }}>{RULE_TURN}%</span>
+          {/* The flying 36% and 18% become these cells: each appears as its flyer lands
+              (Move delay + 14-frame flight), so the row never shows two copies at once. */}
+          <span style={{ ...cols, color: C.text2, opacity: progress(since("exact") - 16, 6) }}>{RULE_FLOP}%</span>
+          <span style={{ ...cols, color: C.text2, opacity: progress(since("exact") - 26, 6) }}>{RULE_TURN}%</span>
         </div>
       </Enter>
-      {/* The EXACTLY row is its own object: when the cheat sheet forms it slides down to where
-          the flush-draw row will be (it is that row) and hands over when that row is spoken. */}
-      <Move width={800} keys={[{ cue: "exact", top: EXACT_EXACTLY_ROW_TOP, cx: 510, scale: 1, delay: 8 }, { cue: "sheet", top: SHEET_FLUSH_ROW_TOP, cx: 510, scale: 1, opacity: 0.55, delay: 4 }]} exit="d9" exitDelay={4} dur={18}>
+      {/* The EXACTLY row leaves with its table. It used to slide down and wait for the flush-draw
+          row, but the sheet's columns differ, so the handover showed two rows of numbers. */}
+      <Move width={800} keys={[{ cue: "exact", top: EXACT_EXACTLY_ROW_TOP, cx: 510, scale: 1, delay: 8 }]} exit="sheet" dur={18}>
         <div style={{ display: "flex", alignItems: "baseline", padding: "30px 0", borderBottom: `1px solid ${C.rule}` }}>
           <span style={{ flex: 1, fontFamily: SANS, fontSize: 30, letterSpacing: "0.2em", color: C.sage, fontWeight: 500 }}>EXACTLY</span>
           <span style={{ ...cols, color: C.sage, opacity: e35, transform: `translateY(${(1 - e35) * 16}px)` }}>{pct(exactRiver(9))}%</span>
@@ -243,7 +251,8 @@ function Exact() {
 
 function CheatSheet() {
   return (
-    <Enter cue="sheet" exit="outro" style={{ top: SHEET_TOP, left: 110, right: 170 }}>
+    // delay 10: the exact table clears first (its header sat under this one during the crossfade)
+    <Enter cue="sheet" exit="outro" delay={10} style={{ top: SHEET_TOP, left: 110, right: 170 }}>
       <div style={{ display: "flex", fontFamily: SANS, fontSize: 24, letterSpacing: "0.26em", color: C.text3, paddingBottom: 16, borderBottom: `1px solid ${C.ruleStrong}`, fontWeight: 500 }}>
         <span style={{ flex: 1 }}>DRAW</span>
         <span style={{ width: 110, textAlign: "right" }}>OUTS</span>
@@ -272,10 +281,11 @@ function Outro() {
   return (
     <>
       {/* The Gentleman, centred and large, the same framing as reel 002's outro */}
-      <Enter cue="outro" motion="fade" dur={16} style={{ inset: 0 }}>
+      {/* delay 10 on both: the cheat sheet fades out first, then the bookend comes in */}
+      <Enter cue="outro" motion="fade" dur={16} delay={10} style={{ inset: 0 }}>
         <Engraving file="expr-6.png" fade={0.4} style={{ position: "absolute", top: 570, left: 150, width: 780, height: 656, transform: `scale(${drift})` }} />
       </Enter>
-      <Headline cue="outro" exit="cta" size={100}>
+      <Headline cue="outro" exit="cta" size={100} delay={10}>
         Which draw do <em>you</em> chase?
       </Headline>
       <Enter cue="cta" style={{ top: 400, left: 70, right: 70, textAlign: "center" }}>
