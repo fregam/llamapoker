@@ -24,12 +24,14 @@ to the GitHub repo: every push to `main` runs `npm run build` and publishes `dis
 
 The email signup posts to `/api/subscribe` (`functions/api/subscribe.ts`), which adds the
 address to the Beehiiv newsletter. Set `BEEHIIV_API_KEY` (secret) and `BEEHIIV_PUBLICATION_ID`
-in the Cloudflare project's settings. Canonical links and the sitemap use
+in the Cloudflare project's settings; optionally `TURNSTILE_SECRET_KEY` (secret) together with the
+build variable `VITE_TURNSTILE_SITE_KEY` to put Cloudflare Turnstile in front of the form. Canonical links and the sitemap use
 https://llamapoker.com; override with `SITE_URL` when building for another address.
 
 ## Pages
 
 - **Home** (`/`): what it is, a worked example, and the email signup (the LlamaPoker letter).
+  Every guide and the trainer carry the letter form too (a compact one), and other pages have it in the footer.
 
 - **Tool**: the live calculator (below).
 - **The Table** (`/table`), **Trainer** (`/trainer`), **Strategy** (`/strategy`), **Glossary** (`/glossary`), **Privacy** (`/privacy`).

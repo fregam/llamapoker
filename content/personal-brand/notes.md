@@ -204,3 +204,13 @@ lesson, and a hook line that could open the post.
 - **Lesson:** for sampled voices, clean before you tighten. And a transcript check needs two
   models: one autocorrects what the other hears missing.
 - **Hook:** "My speech recogniser passed the take. My aligner said the consonants were gone."
+## 2026-11-11 · The overview is the contract, the tests are its audit
+
+- **Choice:** when the signup path landed (form on every guide, the trainer and the colophon,
+  first-touch channel to Beehiiv, /go bio links, dormant Turnstile), the docs were brought up in a
+  separate pass against the code, not from the plan: every claim in overview.md was read off the
+  file it describes, and the two new test files are now listed under "things to keep in sync".
+- **Rejected:** letting the header comments carry it alone. They say what a file does; only the
+  overview says where the form may appear and why there is exactly one per page.
+- **Lesson:** a placement rule you can state in one paragraph is a rule a test can hold.
+- **Hook:** "My docs are the spec and my tests check the docs, not the other way round."

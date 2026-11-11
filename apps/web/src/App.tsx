@@ -29,6 +29,12 @@ import { CityBackdrop } from "./components/Skyline";
 import { Link } from "./components/Link";
 import { usePath } from "./router";
 import { routeFor, PageId } from "./seo";
+import { Signup } from "./components/Signup";
+import { remember } from "./attribution";
+
+/** Pages that carry the letter form inline (home section, guide footers, the trainer's readout):
+ *  the colophon form is for every other page, so no page shows it twice. */
+const INLINE_SIGNUP = new Set<PageId>(["home", "trainer", "positions", "starting-hands", "hand-rankings", "poker-helper", "pot-odds", "outs"]);
 
 const NAV: [string, string][] = [
   ["/table", "The Table"],
@@ -49,6 +55,7 @@ function Dateline() {
   // Filled in after mount, so the prerendered HTML never bakes in a build-time date.
   const [t, setT] = useState<{ time: string; date: string } | null>(null);
   useEffect(() => {
+    remember(); // first-touch attribution for this visit (attribution.ts)
     setT(now());
     const id = window.setInterval(() => setT(now()), 15000);
     return () => window.clearInterval(id);
@@ -135,6 +142,11 @@ export default function App() {
         </main>
 
         <footer className="colophon">
+          {!INLINE_SIGNUP.has(page) && (
+            <div className="colophon-letter">
+              <Signup source={`foot-${page}`} compact />
+            </div>
+          )}
           <span className="colophon-mark">
             <img src="/brand/llama-icon.svg" width={22} height={22} alt="" />
             LlamaPoker
