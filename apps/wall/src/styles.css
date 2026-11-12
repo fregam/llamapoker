@@ -161,6 +161,28 @@ ul, ol { list-style: none; }
 .mach .bustext { font: 11px var(--mono); fill: var(--cyd); letter-spacing: 0.08em; }
 .mach .bustext tspan { fill: var(--cy); }
 
+/* local job traces under the schematic (Machine.tsx Traces): cyan running (pulsing), solid done, red bad */
+.traces { flex: 0 0 auto; max-height: 40%; overflow: auto; border-top: 1px solid var(--line); margin-top: 6px; padding-top: 6px; scrollbar-width: thin; scrollbar-color: var(--cyf) transparent; }
+.tr-group { display: grid; grid-template-columns: 120px 1fr; gap: 10px; padding: 2px 0; }
+.tr-st { font: 600 11px var(--lab); letter-spacing: 0.18em; color: var(--cyd); padding-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tr-list { min-width: 0; }
+.tr { display: grid; grid-template-columns: minmax(80px, 1.2fr) 70px minmax(60px, 1fr) 62px 60px 64px minmax(0, 1.6fr); gap: 8px; align-items: center; font: 12px var(--mono); color: var(--cy); line-height: 20px; white-space: nowrap; }
+.tr > span { overflow: hidden; text-overflow: ellipsis; }
+.tr-phase, .tr-el, .tr-note { color: var(--cyd); }
+.tr-pct, .tr-el { text-align: right; }
+.tr-word { font: 600 11px var(--lab); letter-spacing: 0.14em; }
+.tr-bar { height: 8px; border: 1px solid var(--line2); position: relative; }
+.tr-bar i { position: absolute; inset: 0 auto 0 0; background: var(--cy); box-shadow: 0 0 6px rgba(111, 227, 255, 0.6); }
+.tr-bar.unknown i { background: repeating-linear-gradient(90deg, rgba(111, 227, 255, 0.5) 0 6px, transparent 6px 12px); box-shadow: none; }
+.tr.run .tr-bar i, .tr.run .tr-word { animation: pulse 1.6s ease-in-out infinite; }
+.tr.done { color: var(--cyd); }
+.tr.done .tr-bar i { background: var(--cyd); box-shadow: none; }
+.tr.bad, .tr.bad .tr-word, .tr.bad .tr-note { color: var(--rd); }
+.tr.bad .tr-bar { border-color: rgba(255, 77, 77, 0.6); }
+.tr.bad .tr-bar i { background: var(--rd); box-shadow: 0 0 6px rgba(255, 77, 77, 0.6); }
+@keyframes pulse { 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .tr.run .tr-bar i, .tr.run .tr-word { animation: none; } }
+
 /* ---------- north star ---------- */
 .ns { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 18px; align-items: start; }
 .ns .ret { text-align: center; padding-top: 6px; min-width: 0; }
@@ -259,6 +281,9 @@ ul, ol { list-style: none; }
 .wallmode { --fs: 15px; grid-template-rows: 44px minmax(0, 27fr) minmax(0, 36fr) minmax(0, 30fr) 0; }
 .wallmode .pane > .body { padding-top: 34px; }
 .wallmode .hdr .brand { font-size: 22px; }
+.wallmode .tr { font-size: 15px; line-height: 24px; grid-template-columns: minmax(90px, 1.2fr) 86px minmax(60px, 1fr) 80px 76px 84px minmax(0, 1.6fr); }
+.wallmode .tr-group { grid-template-columns: 150px 1fr; }
+.wallmode .tr-st, .wallmode .tr-word { font-size: 13px; }
 .wallmode .seg.huge { font-size: clamp(64px, 8vw, 150px); }
 .wallmode .line { font-size: 17px; line-height: 26px; }
 .wallmode .threats li .title, .wallmode .mach .nm { font-size: 14px; }

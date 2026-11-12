@@ -383,7 +383,7 @@ export async function upsertJob(db: D1Database, j: Job): Promise<void> {
 }
 
 /** Today's jobs: prunes older rows, marks newly lost ones and logs job.lost once for each. */
-async function readJobs(db: D1Database, now: Date, since: Date): Promise<Job[]> {
+export async function readJobs(db: D1Database, now: Date, since: Date): Promise<Job[]> {
   await db.prepare("DELETE FROM jobs WHERE COALESCE(ended_at, last_beat) < ?").bind(since.toISOString()).run();
   const r = await db.prepare("SELECT * FROM jobs ORDER BY started_at").all<Record<string, unknown>>();
   const jobs: Job[] = r.results.map((x) => ({
@@ -413,7 +413,8 @@ async function readJobs(db: D1Database, now: Date, since: Date): Promise<Job[]> 
       ]),
     );
   }
-  return jobs;
+  const lost = new Set(newlyLost.map((j) => j.id));
+  return jobs.map((j) => (lost.has(j.id) ? { ...j, state: "lost" as const } : j));
 }
 
 export async function insertEvents(db: D1Database, events: WallEvent[]): Promise<void> {
