@@ -1,6 +1,6 @@
 # 04 Docs: the wall is local-first, and how to use `job`
 
-Status: ready-for-agent
+Status: done
 Spec: ../spec.md (Decision 1)
 
 - `docs/decisions.md`: 2026-11-12 entry. The wall is local-first (this PC; a VPS maybe later; never
@@ -14,3 +14,7 @@ Spec: ../spec.md (Decision 1)
 - `apps/reels/README.md`: render commands shown with `job` in front.
 
 Do the decisions/state/roadmap part with the grilling (done 2026-11-12). README parts land with 02/03.
+
+## Comments
+
+2026-11-12: done. decisions/state/roadmap with the grilling; wall and reels READMEs with 02 and 05.
