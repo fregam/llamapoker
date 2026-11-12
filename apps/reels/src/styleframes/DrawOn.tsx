@@ -42,10 +42,10 @@ function Hatch({ id, color, spacing = 5, angle = 35, width = 1.1 }: { id: string
 }
 
 /** A line of type centred at y (top of the em box), drawn letter by letter from frame `at`. */
-function TypeLine({ spec, size, y, at, stagger, frame }: { spec: string; size: number; y: number; at: number; stagger: number; frame: number }) {
+function TypeLine({ spec, size, y, at, stagger, frame, left }: { spec: string; size: number; y: number; at: number; stagger: number; frame: number; left?: number }) {
   const L = G[spec];
   const s = size / L.unitsPerEm;
-  const x0 = 540 - (L.width * s) / 2;
+  const x0 = left ?? 540 - (L.width * s) / 2;
   return (
     <g transform={`translate(${x0} ${y}) scale(${s})`}>
       {L.glyphs.map((g, i) => (
@@ -55,7 +55,7 @@ function TypeLine({ spec, size, y, at, stagger, frame }: { spec: string; size: n
   );
 }
 
-function Card({ x, y, at, frame, suit, red }: { x: number; y: number; at: number; frame: number; suit: string; red: boolean }) {
+function Card({ x, y, at, frame, suit, red, scale = 1 }: { x: number; y: number; at: number; frame: number; suit: string; red: boolean; scale?: number }) {
   const w = 150;
   const h = 210;
   const f = frame - at;
@@ -64,7 +64,7 @@ function Card({ x, y, at, frame, suit, red }: { x: number; y: number; at: number
   const A = G["A"];
   const rs = 44 / A.unitsPerEm;
   return (
-    <g transform={`translate(${x} ${y})`}>
+    <g transform={`translate(${x} ${y}) scale(${scale})`}>
       <Drawn d={outline} f={f} color={C.paper} hatchId="hatch-paper-card" trace={12} />
       <g transform={`translate(14 ${10 - (A.ascender - A.unitsPerEm * 0.72) * rs}) scale(${rs})`}>
         <Drawn d={A.glyphs[0].d} f={f - 18} color={ink} hatchId={red ? "hatch-red" : "hatch-ink"} scale={rs} trace={10} stroke={1.2} />
@@ -76,8 +76,17 @@ function Card({ x, y, at, frame, suit, red }: { x: number; y: number; at: number
   );
 }
 
-export function DrawOn() {
+/** "stacked": the headline on two lines over centred cards (the current hook's layout).
+ *  "host": one headline line, cards on the right, where the Gentleman looks (GentlemanHost). */
+export function DrawOn({ layout = "stacked" }: { layout?: "stacked" | "host" }) {
   const frame = useCurrentFrame();
+  const a = G["Only playing"];
+  const b = G["aces?|italic"];
+  const size = 104;
+  const s = size / a.unitsPerEm;
+  const space = a.unitsPerEm * 0.26 * s;
+  const lineW = a.width * s + space + b.width * s;
+  const left = 540 - lineW / 2;
   return (
     <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
       <defs>
@@ -86,12 +95,23 @@ export function DrawOn() {
         <Hatch id="hatch-ink" color={C.ink} spacing={40} width={10} angle={-40} />
         <Hatch id="hatch-red" color={C.vermilion} spacing={40} width={10} angle={-40} />
       </defs>
-      {/* the headline, as set in the 2D hook: Bodoni 118, line height 0.95, top 390 */}
-      <TypeLine spec="Only playing" size={118} y={360} at={0} stagger={2} frame={frame} />
-      <TypeLine spec="aces?|italic" size={118} y={360 + 112} at={16} stagger={3} frame={frame} />
-      {/* the two aces where the 2D hook deals them (top 650, centred, gap 22) */}
-      <Card x={540 - 11 - 150} y={650} at={2} frame={frame} suit={SPADE} red={false} />
-      <Card x={540 + 11} y={650} at={6} frame={frame} suit={HEART} red />
+      {layout === "stacked" ? (
+        <>
+          {/* the headline, as set in the 2D hook: Bodoni 118, line height 0.95 */}
+          <TypeLine spec="Only playing" size={118} y={360} at={0} stagger={2} frame={frame} />
+          <TypeLine spec="aces?|italic" size={118} y={360 + 112} at={16} stagger={3} frame={frame} />
+          {/* the two aces where the 2D hook deals them (top 650, centred, gap 22) */}
+          <Card x={540 - 11 - 150} y={650} at={2} frame={frame} suit={SPADE} red={false} />
+          <Card x={540 + 11} y={650} at={6} frame={frame} suit={HEART} red />
+        </>
+      ) : (
+        <>
+          <TypeLine spec="Only playing" size={size} y={330} at={0} stagger={2} frame={frame} left={left} />
+          <TypeLine spec="aces?|italic" size={size} y={330} at={14} stagger={3} frame={frame} left={left + a.width * s + space} />
+          <Card x={590} y={650} at={2} frame={frame} suit={SPADE} red={false} scale={0.95} />
+          <Card x={590 + 142.5 + 16} y={650} at={6} frame={frame} suit={HEART} red scale={0.95} />
+        </>
+      )}
     </svg>
   );
 }

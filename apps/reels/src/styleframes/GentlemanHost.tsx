@@ -9,7 +9,9 @@
 import { staticFile, useCurrentFrame } from "remotion";
 import { PlayingCard } from "../components";
 import { Enter, Stat, Tag, useNarration } from "../stage";
+import { Hit, Sfx } from "../sound";
 import { C, SERIF } from "../theme";
+import { DrawOn } from "./DrawOn";
 
 const IMG_W = 912;
 const IMG_H = 768;
@@ -75,29 +77,41 @@ function Puppet({ x, y, scale }: { x: number; y: number; scale: number }) {
   );
 }
 
-export function GentlemanHost() {
+export function GentlemanHost({ drawOn = false }: { drawOn?: boolean }) {
   const { since } = useNarration();
   return (
     <>
+      {drawOn && (
+        <Enter cue="hook" exit="grid" dur={1} style={{ inset: 0 }}>
+          <DrawOn layout="host" />
+        </Enter>
+      )}
       {/* headline, centred above everything */}
-      <Enter cue="hook" exit="grid" dur={1} style={{ top: 360, left: 70, right: 70, textAlign: "center" }}>
+      {!drawOn && <Enter cue="hook" exit="grid" dur={1} style={{ top: 360, left: 70, right: 70, textAlign: "center" }}>
         <div style={{ fontFamily: SERIF, fontSize: 104, lineHeight: 0.95, letterSpacing: "-0.02em", color: C.paper }}>
           Only playing <em>aces?</em>
         </div>
-      </Enter>
+      </Enter>}
       <Enter cue="hook" exit="grid" dur={1} style={{ inset: 0 }}>
         <Puppet x={-150} y={640} scale={0.78} />
       </Enter>
       {/* his side of the table: the aces slam in on his right, where he is looking */}
-      <Enter cue="hook" exit="grid" dur={1} style={{ top: 650, left: 590, display: "flex", gap: 16 }}>
+      {!drawOn && <Enter cue="hook" exit="grid" dur={1} style={{ top: 650, left: 590, display: "flex", gap: 16 }}>
         {["As", "Ah"].map((c, i) => {
           const t = clamp((since("hook") - i * 4) / 7);
           return <PlayingCard key={c} card={c} size={0.95} style={{ opacity: t, transform: `translateY(${(1 - t) * -140}px) scale(${1.25 - 0.25 * t}) rotate(${(i ? 1 : -1) * (1 - t) * 12}deg)` }} />;
         })}
-      </Enter>
+      </Enter>}
       <Enter cue="cost" exit="grid" motion="stamp" style={{ top: 900, left: 480, right: 60, textAlign: "right", whiteSpace: "nowrap" }}>
         <Stat value="−10 bb" label="EVERY WAIT" color={C.vermilion} size={128} align="right" />
       </Enter>
+      {/* the hook's effects, identical to the current hook (OnlyAces Hook), so only the picture differs */}
+      <Sfx cue="hook" src="sfx/deal.wav" gain={0.9} />
+      <Sfx cue="hook" src="sfx/deal.wav" delay={4} gain={0.8} />
+      <Hit cue="cost" riser={false} />
+      {[0, 1, 2].map((i) => (
+        <Sfx key={i} cue="nobody0" src="sfx/fold.wav" delay={i * 3} gain={0.7} />
+      ))}
       <Enter cue="nobody0" exit="grid" style={{ top: 1110, right: 60, display: "flex", gap: 18 }}>
         {[0, 1, 2].map((i) => (
           <Tag key={i} text="FOLD" color={C.vermilion} size={26} />

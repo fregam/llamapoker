@@ -14,3 +14,7 @@ Stop when all variants of a round lose to the baseline, or the list runs out. Th
 round: all winners stacked vs the old 002 v9.
 
 **Done when:** the confirmation round is picked.
+
+## Comments
+
+- 2026-11-12: rounds 1-5 run (see research doc). Paused by the founder: production order is script -> motion -> sound, so next is a full motion rebuild of 002 in the host + draw-on direction, then the sound round on the finished cut.

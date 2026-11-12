@@ -66,9 +66,12 @@
      (seed-3 ref, sampling 0.9, seed 4) from a hook A/B round; both reels re-cut on it, chain now
      clean → tighten → split (docs/research/2026-11-11-voice-b-rollout.md); two spots the transcript
      models doubt are listed there for the review-sheet round. Not approved for posting yet.
-   - 2026-11-12: next feature is **reel craft research** (motion, sound, assets): benchmark
-     teardowns → ranked upgrades → blind A/B rounds on 002 → winners into README + reel-check.
-     Spec `.scratch/reel-craft-research/spec.md`. The content factory waits for it.
+   - 2026-11-12: **reel craft research** (spec `.scratch/reel-craft-research/spec.md`, doc
+     `docs/research/2026-11-12-reel-craft-research.md`), 5 blind A/B rounds on 002: adopted the 2D
+     camera, bed and effects -6 dB, a de-esser on the voice; hook direction = the Gentleman as a
+     performing host + the hook drawing itself (Bodoni strokes). Next: rebuild 002's full motion in
+     that direction (script and voice unchanged), then sound design on the finished cut, then the
+     content factory on the upgraded system.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".

@@ -389,3 +389,31 @@ lesson, and a hook line that could open the post.
 - **Lesson:** the impressive version of a feature is usually the one with fewer inputs, not more
   outputs.
 - **Hook:** "I asked how Batman would build my dashboard. The answer was: delete half of it."
+
+## 2026-11-12 - I built a progress bar for me. The one using it is a robot.
+
+- **Choice:** halfway through building the render tracker, the founder pointed out that it won't be
+  them running the renders, it will be the automated workflow. Two things changed: a job that goes
+  silent too long now gets killed instead of waiting for someone to press Ctrl+C, and every run
+  keeps its full log so a failure nobody watched can still be read.
+- **Rejected:** keeping "warn and wait" (nobody is there to answer, so the whole pipeline hangs);
+  killing right away at the first silence (no grace for a slow job).
+- **What happened:** every piece of advice the dashboard gave said "look at its terminal". There is
+  no terminal. Rewriting one sentence ("read the log") changed who the tool was for.
+- **Lesson:** before you design an interface, ask who is actually on the other side of it. More and
+  more often it's not a person.
+- **Hook:** "My dashboard told the user to press Ctrl+C. The user was a script."
+
+## 2026-11-12 - The clip that won because the other one was silent
+
+- **Choice:** blind A/B rounds on our reel, judged on studio monitors: the same 9-second hook in
+  different visual directions. Round 4 said "draw-on" (the hook drawing itself) beat the old hook.
+- **What happened:** the founder noticed some clips had no sound effects. One direction had
+  accidentally lost them. Re-run with identical, measured audio, draw-on alone tied the old
+  hook; the winner was the Gentleman performing as a host. Earlier, a camera move made the founder
+  hear identical audio as "better sound".
+- **Rejected:** trusting a round because the numbers on the page looked clean.
+- **Lesson:** in a taste test, picture and sound are judged together; lock everything you are not
+  testing, and measure that it is locked. And build in production order: script, then motion,
+  then sound, or you tune decisions that will change.
+- **Hook:** "My A/B test had a winner. Then I noticed the loser was on mute."

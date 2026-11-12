@@ -11,7 +11,7 @@ import { DrawOn } from "./DrawOn";
 import { Engraved3D } from "./Engraved3D";
 import { GentlemanHost } from "./GentlemanHost";
 
-export type Look = "current" | "engraved3d" | "drawon" | "gentleman" | "layered";
+export type Look = "current" | "engraved3d" | "drawon" | "gentleman" | "gentleman-drawon" | "layered";
 
 export const HOOK_LOOK_FRAMES = 262;
 
@@ -22,7 +22,7 @@ export function HookLooks({ look }: { look: Look }) {
         {look === "engraved3d" && <Engraved3D slamAt={0} costAt={80} />}
         <Shake cue="cost">
           {look === "drawon" && <DrawOn />}
-          {look === "gentleman" ? <GentlemanHost /> : <Hook cards={look === "current"} headline={look !== "drawon"} />}
+          {look === "gentleman" || look === "gentleman-drawon" ? <GentlemanHost drawOn={look === "gentleman-drawon"} /> : <Hook cards={look === "current"} headline={look !== "drawon"} />}
         </Shake>
         <SoundDesign />
       </Narration>

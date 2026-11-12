@@ -2004,6 +2004,36 @@
       "path": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_engraved-3d_web.mp4",
       "sha256": "5691bcdec884eb1ba541e8aee8784d732e87bb0bd0acfed7a7aaeb68d8cea4f1",
       "bytes": 9456460
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/sf-gentleman-drawon.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/sf-gentleman-drawon.json",
+      "sha256": "5347e33bf6deba4e2203fa6900af6681093c7c99f44b6310d7f0b41285cf1d8d",
+      "bytes": 28
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_draw-on.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_draw-on.mp4",
+      "sha256": "922fbfdc35a8b6c886fd94de7e8cd456e1ceb11785a8488c0680c63281a27df7",
+      "bytes": 2083879
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host.mp4",
+      "sha256": "ea2bfeac51948b96ca581e80079026a769dffe0cef1173b0727f2f7332cadb1c",
+      "bytes": 4703221
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_current.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_current.mp4",
+      "sha256": "4e9559fa7adb124cc294a0d31ebae7818eeaa123e75b46ef57480552049e0a2f",
+      "bytes": 2072980
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host-draw-on.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host-draw-on.mp4",
+      "sha256": "08c7fd2cf5dcec99f881eee29123aebc05f519cfa10ba0d267dc6a59dcc33ed8",
+      "bytes": 4855289
     }
   ]
 }

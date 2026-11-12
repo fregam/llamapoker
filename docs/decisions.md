@@ -3,6 +3,18 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-12 - Reel hook direction: the Gentleman hosts while the hook draws itself
+
+- **What:** from the reel craft A/B rounds: a 2D virtual camera (round 1) and a quieter bed and
+  effects, -6 dB (round 2) are adopted; reference mastering, recorded foley, MMAudio video-to-foley,
+  motion blur, never-still holds, short captions and data-inside-the-object were not. The hook
+  direction is the Gentleman as a performing host (head puppeteered in code) with the headline and
+  cards drawing themselves in Bodoni strokes (rounds 4-5). The voice chain gains a de-esser.
+- **Why:** blind, level-matched rounds on reel 002 judged by the founder on studio monitors;
+  research in `docs/research/2026-11-12-reel-craft-research.md`.
+- **Rejected:** engraved 3D (hatching shader on three.js cards: lost round 4); draw-on alone (tied
+  Current once the audio was identical); new art before a direction was chosen.
+
 ## 2026-11-12 - Research the reel craft before building the content factory
 
 - **What:** the next reels feature is a research project on motion, sound and assets: tear down
