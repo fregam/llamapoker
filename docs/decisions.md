@@ -3,6 +3,22 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-12 (late) - The wall is laid out by the question the founder comes with: results first
+
+- **What:** two sides. **Results** ("how are we doing?": socials per channel, post performance,
+  traffic, the list, money when it exists) is first and largest; **Needs you** (threats, approvals)
+  beside it; **Work** ("what is being made to improve it?") is one slim strip with a line per
+  department, CONTENT (research → drafts → approval → published; reels → render, foley, voice) and
+  DEVELOPMENT (site health, deploys, tools, CI), that opens down to the job progress bars; feed and
+  budget smallest. Site, Signup and Letter leave the machine's top row (site health → Development,
+  signups and the letter → Results). Next feature, to be grilled and specced on its own.
+- **Why:** the founder looks first at how socials and posts are doing, then at what is being made;
+  the workflow nodes are the least of it, yet The machine held the whole top row.
+- **Rejected:** stations as peers on one row (a render is not a part of the business like the
+  site); five departments (Reach, Audience, Money, Content, Product) and a per-piece vs per-channel
+  split (both mixed "how are we doing" with "what is being made"); holding the renders branch for
+  the redesign (the job wrapper, timeouts and logs are layout-independent and useful now).
+
 ## 2026-11-12 - The wall is local-first; local jobs report to it through one `job` wrapper
 
 - **What:** the wall runs on the founder's PC (`localhost:8788`); a VPS is a maybe for later; it is

@@ -28,8 +28,10 @@
    this PC, a VPS maybe later, never part of the site). Next, grilled 2026-11-12: **renders in The
    machine**: `job <command>` shows every local job (Remotion render, MMAudio, teardown) as a
    progress trace under its station; failed, stuck and lost jobs raise threats. Spec and tickets:
-   `.scratch/wall-renders/`. Later: the map once analytics data flows, view events from a
-   first-party beacon.
+   `.scratch/wall-renders/` (shipped). **Next: the wall's layout, results first** (decision
+   2026-11-12 late): Results largest, Needs you beside it, Work as a slim strip (CONTENT,
+   DEVELOPMENT) opening down to the render bars; grill and spec it as its own feature. Later: the
+   map once analytics data flows, view events from a first-party beacon.
 
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.
