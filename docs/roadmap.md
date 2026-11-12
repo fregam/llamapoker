@@ -24,10 +24,12 @@
 
 ## Next
 
-0. **The wall** (`apps/wall`): built 2026-11-11 night on branch `interface/wall`; deploy needs the
-   founder (second Pages project, D1, variables). Then: a Workers cron that fetches `/api/state`
-   daily (snapshots without opening it), the map once Cloudflare analytics data flows, view events
-   from a first-party beacon, the local jobs reporting (`scripts/wall-event.mjs`).
+0. **The wall** (`apps/wall`): built 2026-11-11 night; local-first by decision (2026-11-12: runs on
+   this PC, a VPS maybe later, never part of the site). Next, grilled 2026-11-12: **renders in The
+   machine**: `job <command>` shows every local job (Remotion render, MMAudio, teardown) as a
+   progress trace under its station; failed, stuck and lost jobs raise threats. Spec and tickets:
+   `.scratch/wall-renders/`. Later: the map once analytics data flows, view events from a
+   first-party beacon.
 
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.
@@ -64,6 +66,9 @@
      (seed-3 ref, sampling 0.9, seed 4) from a hook A/B round; both reels re-cut on it, chain now
      clean → tighten → split (docs/research/2026-11-11-voice-b-rollout.md); two spots the transcript
      models doubt are listed there for the review-sheet round. Not approved for posting yet.
+   - 2026-11-12: next feature is **reel craft research** (motion, sound, assets): benchmark
+     teardowns → ranked upgrades → blind A/B rounds on 002 → winners into README + reel-check.
+     Spec `.scratch/reel-craft-research/spec.md`. The content factory waits for it.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".

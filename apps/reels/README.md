@@ -120,6 +120,10 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   `scripts/sfx-synth.py` until ACE-Step 1.5 runs (`scripts/music-comfy.mjs`, needs the ComfyUI
   Desktop core updated). `sfx-synth.py` also regenerates a provisional effects set with the same
   names if ever needed.
+- **Phone speakers.** The founder mixes on studio monitors; most viewers hear a phone, which
+  plays almost nothing below ~300 Hz. `reel-check.py` prints an info line listing the onsets whose
+  energy is mostly below 300 Hz (they vanish on a phone; 002 v9: 13 of 131, the `<Hit>` sub booms
+  among them). Never a FAIL: a sub boom is fine as long as something above 300 Hz lands with it.
 - Voice cleaning: `scripts/vo-enhance.py --file <in> <out>` (DeepFilterNet 3 on the system Python
   3.11, re-levels to −16 LUFS) on the whole recording before it is tightened and cut (see "Voice");
   `scripts/vo-enhance.py <id>` does the same per take (keeps `<take>.raw.wav`);
@@ -171,6 +175,7 @@ node ../../scripts/vo-comfy.mjs <id> --ref ../../media/tests/2026-11-11_vibevoic
 <comfyui-venv>/python.exe ../../scripts/vo-align.py <id> --split         # cuts <take>.wav, writes word times
 <comfyui-venv>/python.exe ../../scripts/vo-check.py <id>                 # same voice on every take? said the words?
 python ../../scripts/vo-breathe.py <id>                                    # every sentence end gets >= 0.5 s (a sampled read can run two together)
+py -3.11 ../../scripts/vo-deess.py <id>                                   # last: soften the "s" sounds louder than this voice's usual (3:1, max 6 dB)
 node ../../scripts/vo-manifest.mjs <id> "VibeVoice-Large seed-3 ref, sampling 0.9 seed 4 (read B)"
 ```
 

@@ -10,6 +10,7 @@
 
 import { Audio, Sequence, interpolate, staticFile } from "remotion";
 import { useNarration } from "./stage";
+import { useSfxSrc, useVariant } from "./ab";
 
 const dB = (x: number) => Math.pow(10, x / 20);
 
@@ -23,8 +24,9 @@ export const MUSIC = {
 };
 
 /** Music bed, looped, ducked under the narration. */
-export function Music({ src, gain = 1 }: { src: string; gain?: number }) {
+export function Music({ src, gain: base = 1 }: { src: string; gain?: number }) {
   const { tl } = useNarration();
+  const gain = base * dB(useVariant().bedDb ?? 0);
   // Voiced spans in absolute frames (take start + measured from/to, or the whole take).
   const spans = tl.takes.map((t) => ({ a: t.start, b: t.end }));
   const firstStart = spans[0]?.a ?? 0;
@@ -45,11 +47,14 @@ export function Music({ src, gain = 1 }: { src: string; gain?: number }) {
 /** One sound effect at a cue. `gain` is linear (1 = file level, the files are cut at -18 LUFS). */
 export function Sfx({ cue, src, delay = 0, gain = 1, dur = 90 }: { cue: string; src: string; delay?: number; gain?: number; dur?: number }) {
   const { at } = useNarration();
+  const file = useSfxSrc(src);
+  const fx = dB(useVariant().fxDb ?? 0);
   // A negative delay starts a swell (whoosh) before the cue so it peaks on it.
   const from = Math.max(0, at(cue) + delay);
+  if (!file) return null;
   return (
     <Sequence from={from} durationInFrames={dur}>
-      <Audio src={staticFile(src)} volume={gain} />
+      <Audio src={staticFile(file)} volume={gain * fx} />
     </Sequence>
   );
 }
@@ -71,17 +76,19 @@ export function Hit({ cue, delay = 0, gain = 1, riser = true }: { cue: string; d
  */
 export function Ticks({ cue, until, frames, n, src, gain = 0.6, maxPerSecond = 12, delay = 0 }: { cue: string; until?: string; frames?: number; n: number; src: string; gain?: number; maxPerSecond?: number; delay?: number }) {
   const { at } = useNarration();
+  const file = useSfxSrc(src);
+  const fx = dB(useVariant().fxDb ?? 0);
   const a = at(cue) + delay;
   const b = until ? at(until) : a + (frames ?? 30);
   const count = Math.min(n, Math.floor(((b - a) / 30) * maxPerSecond));
-  if (count <= 0) return null;
+  if (count <= 0 || !file) return null;
   return (
     <>
       {Array.from({ length: count }, (_, i) => {
         const f = Math.round(interpolate(i, [0, Math.max(1, count - 1)], [a, b]));
         return (
           <Sequence key={i} from={f} durationInFrames={12}>
-            <Audio src={staticFile(src)} volume={gain * (0.7 + 0.3 * (i / count))} />
+            <Audio src={staticFile(file)} volume={fx * gain * (0.7 + 0.3 * (i / count))} />
           </Sequence>
         );
       })}

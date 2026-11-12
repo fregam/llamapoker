@@ -90,6 +90,34 @@ def sound(mp4: Path, tmp: Path):
     return m, rows
 
 
+def phone(mp4: Path, tmp: Path):
+    """Info only. A phone speaker plays almost nothing below ~300 Hz, so an effect whose energy is
+    mostly sub (a boom, a low thud) vanishes for most viewers even if it sounds great on monitors.
+    For every onset (spectral flux, as scripts/reel-teardown.py), compare the 150 ms after it with
+    and without a 300 Hz high-pass; list the ones that lose more than 10 dB (voice syllables lose
+    2-6 dB, so they don't show up)."""
+    wav = tmp / "p.wav"
+    subprocess.run([str(FFMPEG), "-v", "error", "-y", "-i", str(mp4), "-map", "0:a", "-ac", "1", "-ar", "22050", str(wav)], check=True)
+    with wave.open(str(wav)) as w:
+        sr = w.getframerate()
+        x = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(np.float32) / 32768
+    n, h = 1024, 512
+    fr = np.lib.stride_tricks.sliding_window_view(x, n)[::h] * np.hanning(n)
+    spec = np.abs(np.fft.rfft(fr, axis=1)) ** 2
+    flux = np.maximum(np.diff(np.log1p(100 * np.sqrt(spec)), axis=0), 0).sum(1)
+    med = np.convolve(flux, np.ones(31) / 31, "same")
+    pk = np.where((flux[1:-1] > flux[:-2]) & (flux[1:-1] >= flux[2:]) & (flux[1:-1] > med[1:-1] * 3 + flux.mean() * 0.3))[0] + 2
+    hi = np.fft.rfftfreq(n, 1 / sr) >= 300
+    lost = []
+    span = int(0.15 * sr / h)
+    for p in pk:
+        seg = spec[p : p + span]
+        full, kept = seg.sum(), seg[:, hi].sum()
+        if full > 1e-6 and 10 * np.log10(full / max(kept, 1e-12)) > 10:
+            lost.append(round(p * h / sr, 1))
+    return dict(onsets=len(pk), lost=lost)
+
+
 def tile(frames: list, labels: list, cols: int, out: Path):
     w, fh = frames[0].size
     rows = (len(frames) + cols - 1) // cols
@@ -133,10 +161,13 @@ def main():
         tmp = Path(t)
         wps, pace_fail = pace(args.reel, args.vo)
         snd, sound_fail = sound(args.mp4, tmp)
+        ph = phone(args.mp4, tmp)
         out = args.sheet or args.mp4.with_suffix(".sheet.png")
         pages = sheet(args.mp4, snd["dur"], out, tmp)
     print(f"{args.reel}: {snd['dur']:.1f} s, {wps:.2f} words/s, peak {snd['peak_db']:.1f} dBFS at {snd['peak_at']:.1f} s, "
           f"{snd['onsets_per_min']:.0f} onsets/min, floor {snd['floor_db']:.1f} dBFS")
+    print(f"  info  phone speaker: {len(ph['lost'])} of {ph['onsets']} onsets are mostly below 300 Hz and vanish on a phone"
+          + (f" (at {', '.join(f'{t}s' for t in ph['lost'][:12])}{' ...' if len(ph['lost']) > 12 else ''})" if ph["lost"] else ""))
     fails = pace_fail + sound_fail
     for r in fails:
         print("  FAIL", r)

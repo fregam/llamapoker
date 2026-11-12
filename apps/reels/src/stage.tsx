@@ -14,6 +14,8 @@
  */
 
 import { createContext, ReactNode, useContext, useMemo } from "react";
+import { useVariant } from "./ab";
+import type { Chunk } from "./narration";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { Frame } from "./components";
 import { buildTimeline, Script, Timeline } from "./narration";
@@ -82,9 +84,21 @@ export function Narration({ script, vo, children }: { script: Script; vo: VoMani
 
 const ACCENT = { brass: C.brass, sage: C.sage, vermilion: C.vermilion } as const;
 
+/** A/B upgrade 6: a chunk cut into pieces of at most 3 words, each shown from its first word. */
+function splitChunk(c: Chunk): Chunk[] {
+  if (c.words.length <= 3) return [c];
+  const n = Math.ceil(c.words.length / 3);
+  const size = Math.ceil(c.words.length / n);
+  const parts: Chunk[] = [];
+  for (let i = 0; i < c.words.length; i += size) parts.push({ ...c, words: c.words.slice(i, i + size), start: i === 0 ? c.start : c.words[i].start, end: c.end });
+  return parts.map((p, i) => ({ ...p, end: i < parts.length - 1 ? parts[i + 1].start : c.end }));
+}
+
 export function Captions({ size = 56 }: { size?: number }) {
   const { tl, frame } = useNarration();
-  const chunk = tl.chunks.find((c) => frame >= c.start && frame < c.end);
+  const short = useVariant().shortCaptions;
+  const chunks = short ? tl.chunks.flatMap(splitChunk) : tl.chunks;
+  const chunk = chunks.find((c) => frame >= c.start && frame < c.end);
   if (!chunk) return null;
   const accent = ACCENT[chunk.accent];
   const out = clamp01((chunk.end - frame) / 3);

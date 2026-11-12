@@ -339,3 +339,53 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a tool that falls back silently answers a question you didn't ask. The tell was an
   error about files I hadn't mentioned; read errors for what they name, not only that they failed.
 - **Hook:** "My checker failed on files I never asked it about. That was the bug."
+
+## 2026-11-12 - We didn't automate the videos. We went to school first.
+
+- **Choice:** the plan was a "content factory" that makes three reels a week from our current
+  system. The founder stopped it: the reels are decent, but decent at scale is still decent. We
+  turned the feature into research instead: tear down the best explainer shorts in any niche,
+  rank what they do better, and test each idea blind against our approved reel, one change at a time.
+- **Rejected:** building the factory first (it would mass-produce the current ceiling); testing
+  bundles of changes (you never learn which one worked); starting A/B tests before the research
+  was done (the first easy idea becomes the standard).
+- **What happened:** the planning session itself went wrong first: six questions in one message,
+  and the founder pushed back: one question at a time or it's useless. After that, eleven
+  decisions took a few minutes.
+- **Lesson:** before you automate a process, make sure it's the one you want more of. And when
+  you interview someone, ask one question.
+- **Hook:** "I was about to build a machine that makes my videos. Then I realised it would just
+  make more mediocre videos, faster."
+
+## 2026-11-12 - 95 % of our frames were standing still
+
+- **Choice:** instead of asking "what looks better", we measured ten of the best explainer shorts
+  (Kurzgesagt, 3Blue1Brown, Zack D. Films, RealLifeLore…) and our own two reels with the same
+  script: how much the frame moves, how loud the music sits under the voice, how many sounds a
+  minute, how fast the voice talks.
+- **Rejected:** a mood board and gut feel (you copy the surface, not the reason); counting cuts
+  (the best ones barely cut: they move a camera).
+- **What happened:** our objects moved fine, but the frame itself was still 95 % of the time;
+  the benchmark, about half. Almost every top explainer has a virtual camera that travels over a
+  bigger world. And our music sat 6 dB louder under the voice than theirs. The surprise: the
+  closest match to us, 3Blue1Brown, is black, thin lines, a dot grid, almost no sound effects,
+  11 M views. The difference is just the camera.
+- **Lesson:** measure yourself with the same ruler you use on the people you admire. The gap is
+  rarely where you were looking.
+- **Hook:** "I measured 10 viral explainers frame by frame. My videos were 95 % still. Theirs weren't."
+
+## 2026-11-12 - "How would Batman do it?" cut my dashboard feature in half
+
+- **Choice:** the command center gets one word, `job`, typed in front of any long render. The wall
+  works out what it is and where it belongs, and shows a progress bar. Nothing else.
+- **Rejected:** live preview frames and clips playing inside the dashboard (they break every time
+  a tool changes); a new panel (the "is anything stuck?" panel already existed); a watcher that
+  spots renders with no prefix at all (it can see a process, not its progress, so no bar);
+  deploying the dashboard to the cloud (it watches my PC, so it lives on my PC).
+- **What happened:** the roadmap said "renders panel with live frames and playback". Ten questions
+  later it was a progress bar under an existing box. When I asked "how would Batman do it?", the
+  answer wasn't more features. It was less typing: the computer recognises the job, you don't
+  label it.
+- **Lesson:** the impressive version of a feature is usually the one with fewer inputs, not more
+  outputs.
+- **Hook:** "I asked how Batman would build my dashboard. The answer was: delete half of it."

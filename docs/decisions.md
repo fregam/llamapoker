@@ -3,6 +3,19 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-12 - Research the reel craft before building the content factory
+
+- **What:** the next reels feature is a research project on motion, sound and assets: tear down
+  8–12 of the best explainer shorts from any niche, rank the upgrades, prove each one in blind
+  one-change A/B rounds on two scenes of reel 002, adopt the winners as README rules and
+  reel-check checks. Free tools only (free tiers fine, NC licences fine); brand rules fixed.
+  Spec: `.scratch/reel-craft-research/spec.md`.
+- **Why:** reel-check keeps reels from getting worse but nothing makes them better; automating
+  the current system would mass-produce its ceiling.
+- **Rejected:** content factory v0 first (scales a system the founder knows can be better);
+  bundled "direction" variants (can't tell which change won); A/B before the research is done
+  (the first easy idea would become the baseline).
+
 ## 2026-11-11 (late night) - Every reel passes a measured gate against the approved reel before review
 
 - **What:** `scripts/reel-check.py` (pace from the word times, peak and floor from the render, a

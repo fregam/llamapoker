@@ -9,6 +9,8 @@
 import { expandRange, POSITIONS, rangeFor, rangePercent } from "../../../web/src/poker/ranges";
 import { PlayingCard } from "../components";
 import { Script } from "../narration";
+import { CameraMotionBlur } from "@remotion/motion-blur";
+import { Camera, type CameraKey, type Variant, VariantProvider, useVariant } from "../ab";
 import { Hit, Music, Sfx, Ticks } from "../sound";
 import { Enter, Ledger, Move, Narration, SeatRing, Shake, Stat, Tag, eased, progress, timelineFor, useNarration } from "../stage";
 import { DotRow, Engraving, RangeGrid, Seat } from "../teaching";
@@ -17,8 +19,8 @@ import type { VoManifest } from "../vo";
 import scriptJson from "../scripts/only-aces.json";
 import voJson from "../vo/only-aces.json";
 
-const SCRIPT = scriptJson as unknown as Script;
-const VO = voJson as VoManifest;
+export const SCRIPT = scriptJson as unknown as Script;
+export const VO = voJson as VoManifest;
 
 const PREMIUM = expandRange(["QQ+", "AKs", "AKo"]);
 const PREMIUM_PCT = rangePercent(PREMIUM); // 2.56
@@ -37,7 +39,7 @@ const GRID_LEFT = 145; // 13 × 58 + 12 × 3 = 790 wide, centred
 
 /* ---------- Hook and outro: the Gentleman, big, with the headline above him ---------- */
 
-function Gentleman({ cue, exit, dur = 16 }: { cue: string; exit?: string; dur?: number }) {
+export function Gentleman({ cue, exit, dur = 16 }: { cue: string; exit?: string; dur?: number }) {
   const { since } = useNarration();
   const drift = 1 + Math.min(0.06, Math.max(0, since(cue)) / 2400);
   return (
@@ -47,7 +49,7 @@ function Gentleman({ cue, exit, dur = 16 }: { cue: string; exit?: string; dur?: 
   );
 }
 
-function Headline({ cue, exit, children, size = 118, dur = 12 }: { cue: string; exit?: string; children: React.ReactNode; size?: number; dur?: number }) {
+export function Headline({ cue, exit, children, size = 118, dur = 12 }: { cue: string; exit?: string; children: React.ReactNode; size?: number; dur?: number }) {
   return (
     <Enter cue={cue} exit={exit} dur={dur} style={{ top: 390, left: 70, right: 70, textAlign: "center" }}>
       <div style={{ fontFamily: SERIF, fontSize: size, lineHeight: 0.95, letterSpacing: "-0.02em", color: C.paper }}>{children}</div>
@@ -60,19 +62,21 @@ function Headline({ cue, exit, children, size = 118, dur = 12 }: { cue: string; 
 /* The hook is motion from frame 0: two aces slam onto the table under the question, the cost
    stamps in with a shake on "ten", and the table folds on "nobody". No portrait here: the
    Gentleman is the outro. */
-function Hook() {
+export function Hook({ cards = true, headline = true }: { cards?: boolean; headline?: boolean }) {
   const { since } = useNarration();
   return (
     <>
-      <Headline cue="hook" exit="grid" dur={1}>
-        Only playing <em>aces?</em>
-      </Headline>
-      <Enter cue="hook" exit="grid" dur={1} style={{ top: 650, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 22 }}>
+      {headline && (
+        <Headline cue="hook" exit="grid" dur={1}>
+          Only playing <em>aces?</em>
+        </Headline>
+      )}
+      {cards && <Enter cue="hook" exit="grid" dur={1} style={{ top: 650, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 22 }}>
         {["As", "Ah"].map((c, i) => {
           const t = progress(since("hook") - i * 4, 7);
           return <PlayingCard key={c} card={c} size={1.0} style={{ opacity: t, transform: `translateY(${(1 - t) * -140}px) scale(${1.25 - 0.25 * t}) rotate(${(i ? 1 : -1) * (1 - t) * 12}deg)` }} />;
         })}
-      </Enter>
+      </Enter>}
       {/* The cost stamps in under the cards, then docks into the HUD (top right) while the maths
           runs, and leaves when the 2.6% needs that slot. It comes back at "paid", earned. */}
       <Move
@@ -111,6 +115,7 @@ function ThePlan() {
   if (since("ak") >= 0) ["AKs", "AKo"].forEach((h) => lit.add(h));
   const ghost = progress(since("dim"), 18);
   const pct = PREMIUM_PCT * eased(since("pct"), 30);
+  const fill = useVariant().fill;
   // The grid and its HUD leave together on "wait"; the counter rises into the cleared stage.
   return (
     <>
@@ -120,9 +125,19 @@ function ThePlan() {
       <Enter cue="n34" exit="wait" style={{ top: 352, left: GRID_LEFT }}>
         <Stat value={`${PREMIUM_COMBOS}`} label="OF 1,326 HANDS" size={92} />
       </Enter>
-      <Enter cue="pct" exit="wait" delay={8} style={{ top: 352, right: GRID_LEFT }}>
-        <Stat value={`${pct.toFixed(1)}%`} label="OF ALL HANDS" size={92} color={C.brass} align="right" />
-      </Enter>
+      {fill ? (
+        // A/B upgrade 7: the share is a level filling the grid itself, a sliver at the bottom
+        <Enter cue="pct" exit="wait" delay={8} style={{ top: 508, left: GRID_LEFT, width: 13 * 58 + 12 * 3, height: 13 * 58 + 12 * 3 }}>
+          <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: (13 * 58 + 12 * 3) * (pct / 100), background: C.brass, opacity: 0.85 }} />
+          <div style={{ position: "absolute", right: 0, bottom: (13 * 58 + 12 * 3) * (pct / 100) + 14, textAlign: "right" }}>
+            <Stat value={`${pct.toFixed(1)}%`} label="OF ALL HANDS" size={92} color={C.brass} align="right" />
+          </div>
+        </Enter>
+      ) : (
+        <Enter cue="pct" exit="wait" delay={8} style={{ top: 352, right: GRID_LEFT }}>
+          <Stat value={`${pct.toFixed(1)}%`} label="OF ALL HANDS" size={92} color={C.brass} align="right" />
+        </Enter>
+      )}
     </>
   );
 }
@@ -290,7 +305,7 @@ function Outro() {
 
 /* ---------- Sound: the bed under everything, one effect per change on screen ---------- */
 
-function SoundDesign() {
+export function SoundDesign() {
   return (
     <>
       <Music src="music/bed.wav" />
@@ -344,19 +359,58 @@ function SoundDesign() {
 
 export const ONLY_ACES_FRAMES = timelineFor(SCRIPT, VO).total;
 
-export function OnlyAces() {
+/* ---------- A/B variant A: a 2D camera over the hook and the plan (research upgrade 1) ----------
+   The cards slam in under a camera that starts pushed in and settles; it punches in on the cost,
+   travels back for the grid, moves in on the premium corner as the four hands light, pulls back
+   as the rest ghosts, and leans towards each HUD number as it lands. Graphics never cross into the
+   caption zone (screen y >= 1320). Holds hold: no drift between keys (that is upgrade 3). */
+const CAMERA: CameraKey[] = [
+  { cue: "hook", x: 540, y: 800, s: 1.14, dur: 0 },
+  { cue: "hook", delay: 3, x: 540, y: 960, s: 1.0, dur: 26, ease: "push" },
+  // anchored under the headline so the push grows downward and never lifts it into the kicker
+  { cue: "cost", x: 540, y: 390, s: 1.06, dur: 16, ease: "push" },
+  { cue: "grid", x: 540, y: 960, s: 1.0, dur: 24, ease: "travel" },
+  // in on the premium corner; the grid's bottom stays above the captions (screen y < 1300) and
+  // the docked cost stays inside the right edge
+  { cue: "qq", x: 480, y: 640, s: 1.05, sx: 540, sy: 600, dur: 26, ease: "travel" },
+  { cue: "dim", x: 540, y: 960, s: 1.0, dur: 24, ease: "travel" },
+  { cue: "n34", x: 300, y: 420, s: 1.06, sx: 300 + 24, sy: 420 + 30, dur: 18, ease: "push" },
+  { cue: "pct", x: 780, y: 420, s: 1.06, sx: 780 - 24, sy: 420 + 30, dur: 22, ease: "travel" },
+  { cue: "wait", x: 540, y: 960, s: 1.0, dur: 20, ease: "travel" },
+];
+
+function Scenes() {
   return (
-    <Narration script={SCRIPT} vo={VO}>
-      <Shake cue="cost">
-        <Hook />
-        <ThePlan />
-        <TheWait />
-        <NobodyPays />
-        <TheFix />
-        <CheatSheet />
-        <Outro />
-      </Shake>
-      <SoundDesign />
-    </Narration>
+    <>
+      <Hook />
+      <ThePlan />
+      <TheWait />
+      <NobodyPays />
+      <TheFix />
+      <CheatSheet />
+      <Outro />
+    </>
+  );
+}
+
+export function OnlyAces({ variant }: { variant?: Variant }) {
+  return (
+    <VariantProvider variant={variant}>
+      <Narration script={SCRIPT} vo={VO}>
+        <Shake cue="cost">
+          {(() => {
+            const scenes = variant?.blur ? (
+              <CameraMotionBlur shutterAngle={180} samples={5}>
+                <Scenes />
+              </CameraMotionBlur>
+            ) : (
+              <Scenes />
+            );
+            return variant?.camera ? <Camera keys={CAMERA} drift={variant.drift}>{scenes}</Camera> : scenes;
+          })()}
+        </Shake>
+        <SoundDesign />
+      </Narration>
+    </VariantProvider>
   );
 }
