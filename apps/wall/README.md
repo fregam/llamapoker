@@ -4,6 +4,8 @@ The LlamaPoker wall: one screen for the whole operation, read from one event sto
 `docs/interface.md`, look from `docs/interface/mockups.md` round 2 (Batcomputer schematic and
 three-colour rule, phosphor ghost digits), decision in `docs/decisions.md` (2026-11-11, night).
 Independent of `brand/` by that decision: it is a private instrument, not a public surface.
+**Local-first** (decision 2026-11-12): it runs on this PC; a VPS is a maybe for later; it is never
+part of llamapoker.com.
 
 ## What is on it
 
@@ -39,6 +41,7 @@ llamapoker.com). Everything writes through the API with the ingest key:
 ```
 POST /api/event     { kind, station?, subject?, amount?, unit?, cost?, channel?, text?, meta? }  (or an array)
 POST /api/station   { id, name, state: ok|idle|waiting|failed|paused|nodata, message?, lastRun?, nextRun? }
+POST /api/job       { id, station, label, state: running|done|failed|stuck, percent?, phase?, output?, tail? }
 POST /api/queue     { kind, title, preview }          POST /api/queue/<id>  { action: call|fold|raise, note? }
 POST /api/flags     { key: paused|budget_ceiling|experiments, value }
 GET  /api/state[?day=YYYY-MM-DD]                      the whole reading (src/model.ts WallState)
@@ -48,6 +51,28 @@ From the PC: `node apps/wall/scripts/wall-event.mjs event --kind run --station r
 (reads `wall.url` and `wall.ingest_key` from the root `credentials.json`, or `WALL_URL` and
 `WALL_INGEST_KEY`). The site's signup function posts every signup here when `WALL_URL` and
 `WALL_INGEST_KEY` are set on the llamapoker.com Pages project.
+
+**Local jobs** (renders, foley, teardowns, anything long): put `job` in front of the command.
+
+```
+job npx remotion render src/index.ts only-aces out/only-aces.mp4
+job --quiet-ok 30m py -3.11 scripts/foley-mmaudio.py in.mp4 out.mp4
+```
+
+It runs the command unchanged (output passes through, same exit code) and shows it as a trace under
+its station in The machine: the station and label are recognised from the command (`remotion
+render` → reels-render, `foley-mmaudio.py` → foley, `reel-teardown.py` → teardown, else the
+script's name; label = composition or output file), progress from any `64%` or `120/900` in its
+output, with the word before it as the phase ("Rendered", "Encoded"). Made for the automated
+workflow as much as for a person: failed (non-zero exit), stuck (no output for 10 min,
+`--quiet-ok` to change) and lost (no heartbeat for 2 min: runner killed, PC slept) turn the
+station red with a threat; a job still silent at twice its quiet limit is killed with its child
+processes and exits 124, so a workflow never hangs behind it. Every run's full output is in
+`logs/jobs/<day>/<id>.log` (git-ignored, cleared after 14 days), and the threat points to it.
+If the wall doesn't answer, `job` says so once and the command runs anyway. `job` is `scripts/bin/job.cmd` (PowerShell, cmd) or
+`scripts/bin/job` (Git Bash); put `scripts/bin` on PATH, or call
+`node apps/wall/scripts/job.mjs …`. It reports to `WALL_URL` / `wall.url`, else the local wall
+at `http://127.0.0.1:8788` (`WALL_PORT` picks another port for `npm run dev`).
 
 **Nothing ships without its panel:** a new agent, channel or product comes with its events in this
 format, a station row, and its failure visible in threats, as part of the same work.
@@ -68,7 +93,9 @@ npm run build              # dist/ for Cloudflare Pages
 passing the Beehiiv keys from `credentials.json` as bindings for that process only. A `.dev.vars`
 file (see `.dev.vars.example`) works too and takes precedence.
 
-## Deploy (once, by the founder)
+## Deploying elsewhere (optional, not planned)
+
+Kept for a future VPS or hosted copy; the wall is local-first. The Cloudflare Pages steps:
 
 1. Cloudflare → Workers & Pages → Create → Pages → connect the repo, **root directory `apps/wall`**,
    build command `npm run build`, output `dist`. Production branch `main`.
@@ -100,3 +127,6 @@ time control to have that day. A Workers cron that fetches it is the next step.
 - `src/components/` — pane frame, segment digits, meters, evidence drawer, command bar.
 - `src/styles.css` — the one stylesheet (VFD look; cyan data, amber waiting, red failure).
 - `scripts/wall-event.mjs` — write to the store from the PC. `scripts/dev.mjs` — local run.
+- `scripts/job.mjs` — the `job` wrapper; `scripts/job-lib.mjs` its pure half (what a command is,
+  how far along a line says it is), tested in `scripts/job.test.mjs` (incl. end to end against a
+  pretend wall).

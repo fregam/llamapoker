@@ -66,10 +66,8 @@ the end. Last update: 2026-11-12 (skills setup and housekeeping).
 
 ## Waiting on the founder
 
-- **Deploy the wall** (apps/wall/README.md, "Deploy"): a second Pages project with root
-  `apps/wall`, a D1 database bound as `DB`, the five variables, `wall.llamapoker.com`; then
-  `WALL_URL` and `WALL_INGEST_KEY` on the llamapoker.com project, and `wall.url` /
-  `wall.ingest_key` in `credentials.json`. Add the "Wall" CI check to the branch rule.
+- Add the "Wall" CI check to the branch rule. (The wall itself is local-first, not deployed:
+  decision 2026-11-12.)
 - Site speed (PR #26) merged 2026-11-11: re-measure production Lighthouse (preview showed
   mobile 82–86 → 89–96) and record it here.
 

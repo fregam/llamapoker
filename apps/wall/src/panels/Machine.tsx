@@ -5,9 +5,10 @@
  * into its evidence (the row, the last failure, its last events from the store).
  */
 import { useEffect, useState } from "react";
-import type { Station } from "../model";
-import { fetchEvents, clock } from "../lib/api";
+import type { Job, Station } from "../model";
+import { fetchEvents, fetchJobs, clock } from "../lib/api";
 import { Pane, Evidence } from "../components/ui";
+import { trace } from "../lib/jobs";
 import type { PanelProps } from "./registry";
 
 const W = 172;
@@ -112,8 +113,94 @@ export function Machine({ state, open, setOpen, wall, flash }: PanelProps) {
         ))}
       </svg>
       </div>
+      <Traces stations={state.stations} live={state.live} />
       {opened && <StationEvidence station={opened} />}
     </Pane>
+  );
+}
+
+/** Today's jobs from GET /api/jobs every 5 s while `on`, while the page is visible; null until the first answer. */
+function useLiveJobs(on: boolean): Job[] | null {
+  const [jobs, setJobs] = useState<Job[] | null>(null);
+  useEffect(() => {
+    if (!on) {
+      setJobs(null);
+      return;
+    }
+    let alive = true;
+    const pull = () => {
+      if (document.visibilityState !== "visible") return;
+      fetchJobs()
+        .then((r) => alive && setJobs(r.jobs))
+        .catch(() => undefined);
+    };
+    pull();
+    const t = setInterval(pull, 5000);
+    return () => {
+      alive = false;
+      clearInterval(t);
+    };
+  }, [on]);
+  return jobs;
+}
+
+/** A clock that ticks every second while something runs, so elapsed times move between readings. */
+function useNow(ticking: boolean): Date {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    if (!ticking) return;
+    const t = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(t);
+  }, [ticking]);
+  return now;
+}
+
+/**
+ * Today's local jobs (`job <command>`), one trace each, grouped under their station: a bar with
+ * the phase word, or "running" when the tool prints no progress; red when stuck, failed or lost,
+ * with the log to read. Shown only when there are jobs.
+ */
+function Traces({ stations, live }: { stations: Station[]; live: boolean }) {
+  const fromState = stations.flatMap((s) => s.jobs ?? []);
+  const running = live && fromState.some((j) => j.state === "running");
+  const polled = useLiveJobs(running);
+  // While something runs, GET /api/jobs every few seconds; the full reading only comes every 60 s.
+  const jobs = running && polled ? polled : fromState;
+  const byStation = new Map<string, Job[]>();
+  for (const j of jobs) byStation.set(j.station, [...(byStation.get(j.station) ?? []), j]);
+  const order = stations.map((s) => s.id);
+  const groups = [...byStation.entries()]
+    .sort(([a], [b]) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99))
+    .map(([id, js]) => ({ id, jobs: js }));
+  const now = useNow(running);
+  if (!groups.length) return null;
+  return (
+    <div className="traces">
+      {groups.map((s) => (
+        <div key={s.id} className="tr-group">
+          <div className="tr-st">{s.id.toUpperCase()}</div>
+          <div className="tr-list">
+            {s.jobs!.map((j) => {
+              const t = trace(j, now);
+              const pct = t.percent ?? 0;
+              return (
+                <div key={j.id} className={`tr ${t.tone}`} title={j.tail ?? undefined}>
+                  <span className="tr-name">{t.name}</span>
+                  <span className="tr-phase">{t.percent === null ? "" : (t.phase ?? "")}</span>
+                  <span className={`tr-bar${t.percent === null ? " unknown" : ""}`}>
+                    <i style={{ width: `${t.percent === null ? 100 : pct}%` }} />
+                  </span>
+                  <span className="tr-pct">{t.percent === null ? "running" : `${pct}%`}</span>
+                  <span className="tr-el">{t.elapsed}</span>
+                  <span className="tr-word">{t.word}</span>
+                  <span className="tr-note">{t.note ?? ""}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -134,7 +221,13 @@ function StationEvidence({ station }: { station: Station }) {
         {station.name.toUpperCase()} · {station.state.toUpperCase()} · {station.message ?? ""}
       </div>
       <div className="drawer-cols">
-        <Evidence data={station.evidence ?? "no evidence recorded for this station"} />
+        <Evidence
+          data={
+            station.jobs?.length
+              ? station.jobs.map((j) => ({ label: j.label, state: j.state, started: j.startedAt, ended: j.endedAt, output: j.output, log: j.log, lastLines: j.tail }))
+              : (station.evidence ?? "no evidence recorded for this station")
+          }
+        />
         <Evidence data={events === null ? "loading events…" : events.length ? events : "no events from this station in the store"} />
       </div>
     </div>

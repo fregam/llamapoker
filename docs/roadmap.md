@@ -24,10 +24,14 @@
 
 ## Next
 
-0. **The wall** (`apps/wall`): built 2026-11-11 night on branch `interface/wall`; deploy needs the
-   founder (second Pages project, D1, variables). Then: a Workers cron that fetches `/api/state`
-   daily (snapshots without opening it), the map once Cloudflare analytics data flows, view events
-   from a first-party beacon, the local jobs reporting (`scripts/wall-event.mjs`).
+0. **The wall** (`apps/wall`): built 2026-11-11 night; local-first by decision (2026-11-12: runs on
+   this PC, a VPS maybe later, never part of the site). Next, grilled 2026-11-12: **renders in The
+   machine**: `job <command>` shows every local job (Remotion render, MMAudio, teardown) as a
+   progress trace under its station; failed, stuck and lost jobs raise threats. Spec and tickets:
+   `.scratch/wall-renders/` (shipped). **Next: the wall's layout, results first** (decision
+   2026-11-12 late): Results largest, Needs you beside it, Work as a slim strip (CONTENT,
+   DEVELOPMENT) opening down to the render bars; grill and spec it as its own feature. Later: the
+   map once analytics data flows, view events from a first-party beacon.
 
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.

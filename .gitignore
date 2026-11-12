@@ -19,3 +19,6 @@ media/*
 # Claude Code worktrees (agents working on other branches)
 .claude/worktrees/
 __pycache__/
+
+# job logs (apps/wall/scripts/job.mjs), cleared after 14 days
+logs/
