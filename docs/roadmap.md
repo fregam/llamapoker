@@ -69,7 +69,7 @@
    - 2026-11-12: **reel craft research** (spec `.scratch/reel-craft-research/spec.md`, doc
      `docs/research/2026-11-12-reel-craft-research.md`), 5 blind A/B rounds on 002: adopted the 2D
      camera, bed and effects -6 dB, a de-esser on the voice; hook direction = the Gentleman as a
-     performing host + the hook drawing itself (Bodoni strokes). Next: rebuild 002's full motion in
+     performing host + the hook drawing itself (Bodoni strokes), provisional until judged on the full cut. Next: rebuild 002's full motion in
      that direction (script and voice unchanged), then sound design on the finished cut, then the
      content factory on the upgraded system.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;

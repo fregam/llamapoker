@@ -8,8 +8,11 @@ window gets its own foley from the frames plus a text prompt, the windows are jo
 crossfades, and the foley is mixed under the render's audio at --gain-db. Outputs the mixed mp4 and
 <out>.foley.wav (the foley alone).
 
-MMAudio lives outside the repo (a tool, not media): C:/Users/matia/tools/mmaudio with its own venv
-(CUDA PyTorch); weights download on the first run. ~6 GB VRAM in 16-bit, fits the RTX 4060.
+MMAudio lost its A/B (round 2) and was uninstalled on 2026-11-12; this script is kept as the
+recipe. To rerun: clone github.com/hkchengrex/MMAudio to C:/Users/matia/tools/mmaudio, make a venv,
+`pip install -e .`, then force CUDA PyTorch (pip replaced it with the CPU build: torch==2.14.1 from
+the cu130 index) and pin numpy<2.1, pillow<12. Weights (~11 GB with the venv, + 4 GB of Hugging
+Face models) download on the first run. ~6 GB VRAM in 16-bit, fits the RTX 4060.
 """
 
 import argparse

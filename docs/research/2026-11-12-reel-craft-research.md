@@ -425,11 +425,12 @@ LUFS, 41 effects a minute, voice 19.3 dB over the bed, measured), and Current wa
 with the de-essed voice. Rule from here: style and picture rounds carry identical audio, measured
 before publishing; the winning direction gets its own sound round.
 
-### Round 5 (2026-11-12): host + draw-on is the hook direction
+### Round 5 (2026-11-12): host + draw-on is the provisional hook direction
 
 With identical audio: host + draw-on **better**, host **better**, draw-on alone **same** (round 4's
 "better" for draw-on likely came from the silent host clip beside it). The founder chose
-**host + draw-on** over host alone. Next: a sound round for this hook (strokes, the host's
+**host + draw-on** over host alone, as a provisional direction: it was judged on the hook alone
+and is re-judged once the whole reel's motion is rebuilt. Next: a sound round for this hook (strokes, the host's
 reactions), then carrying the direction into the body (the grid drawing itself, the host reacting
 at key moments, which needs new Gentleman poses).
 
