@@ -1,0 +1,3 @@
+#!/bin/sh
+# `job <command…>` from Git Bash: see apps/wall/scripts/job.mjs.
+exec node "$(dirname "$0")/../../apps/wall/scripts/job.mjs" "$@"

@@ -49,6 +49,7 @@ export interface Job {
   endedAt: string | null;
   output: string | null; // the output file, when known
   tail: string | null; // the last output lines, for a failure
+  phase: string | null; // the word before the progress number ("Rendered", "Encoded"), when printed
 }
 
 export interface Link {

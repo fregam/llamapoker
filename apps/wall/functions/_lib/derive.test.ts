@@ -92,6 +92,7 @@ describe("stations with their jobs", () => {
     endedAt: null,
     output: null,
     tail: null,
+    phase: null,
     ...over,
   });
   const since = new Date("2026-11-11T00:00:00Z");
@@ -158,6 +159,7 @@ describe("job threats", () => {
     endedAt: state === "failed" ? "2026-11-11T19:59:00Z" : null,
     output: null,
     tail,
+    phase: null,
   });
   it("raises one threat per bad job and no duplicate for its station", () => {
     const stations = withJobs([], [j("a", "stuck"), j("b", "failed", "Error: ffmpeg exit 1"), j("c", "running")], now, new Date("2026-11-11T00:00:00Z"));

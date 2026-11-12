@@ -363,6 +363,7 @@ export function normaliseJob(input: Record<string, unknown>, now = new Date()): 
     endedAt: ended ? (date(input.endedAt) ?? now.toISOString()) : null,
     output: str(input.output, 300),
     tail: str(input.tail, 2000),
+    phase: str(input.phase, 40),
   };
 }
 
@@ -373,10 +374,10 @@ export async function upsertJob(db: D1Database, j: Job): Promise<void> {
       .bind(j.station, j.lastBeat),
     db
       .prepare(
-        "INSERT INTO jobs (id, station, label, state, percent, started_at, last_beat, ended_at, output, tail) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10) " +
-          "ON CONFLICT(id) DO UPDATE SET station = ?2, label = ?3, state = ?4, percent = COALESCE(?5, percent), last_beat = ?7, ended_at = ?8, output = COALESCE(?9, output), tail = COALESCE(?10, tail)",
+        "INSERT INTO jobs (id, station, label, state, percent, started_at, last_beat, ended_at, output, tail, phase) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11) " +
+          "ON CONFLICT(id) DO UPDATE SET station = ?2, label = ?3, state = ?4, percent = COALESCE(?5, percent), last_beat = ?7, ended_at = ?8, output = COALESCE(?9, output), tail = COALESCE(?10, tail), phase = COALESCE(?11, phase)",
       )
-      .bind(j.id, j.station, j.label, j.state, j.percent, j.startedAt, j.lastBeat, j.endedAt, j.output, j.tail),
+      .bind(j.id, j.station, j.label, j.state, j.percent, j.startedAt, j.lastBeat, j.endedAt, j.output, j.tail, j.phase),
   ]);
 }
 
@@ -395,6 +396,7 @@ async function readJobs(db: D1Database, now: Date, since: Date): Promise<Job[]> 
     endedAt: (x.ended_at as string | null) ?? null,
     output: (x.output as string | null) ?? null,
     tail: (x.tail as string | null) ?? null,
+    phase: (x.phase as string | null) ?? null,
   }));
   const newlyLost = withJobs([], jobs, now, since)
     .flatMap((s) => s.jobs ?? [])

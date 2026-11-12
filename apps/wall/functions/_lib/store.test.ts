@@ -17,7 +17,11 @@ describe("normaliseJob", () => {
       endedAt: null,
       output: null,
       tail: null,
+      phase: null,
     });
+  });
+  it("keeps the phase word", () => {
+    expect(normaliseJob({ id: "j1", station: "s", state: "running", percent: 55, phase: "Encoded" }, now)).toMatchObject({ phase: "Encoded" });
   });
   it("rejects junk with a plain error", () => {
     expect(normaliseJob({ station: "reels-render", label: "x", state: "running" }, now)).toBe("id is required");
