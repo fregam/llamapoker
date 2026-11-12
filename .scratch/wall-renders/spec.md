@@ -38,7 +38,9 @@ station in The machine. Failed, stuck and lost jobs turn the station red and rai
      10 min, check the console or kill it".
    - Lost: the wrapper sends a heartbeat every 30 s; if the wall hears nothing for 2 min it marks
      the job lost (derived on read, not written by anyone).
-   No stop button: the founder stops a job with Ctrl+C in its terminal.
+   No stop button on the wall. **Amended 2026-11-12 (ticket 05):** the jobs are mostly run by the
+   automated workflow, so a job still silent at twice `--quiet-ok` is killed (tree, exit 124), and
+   every run keeps its full output in `logs/jobs/<day>/<id>.log` (14 days) that the threat points to.
 6. **Storage split.** Events (permanent, in the feed): `job.started`, `job.done` (duration + output
    path), `job.failed`, `job.stuck`, `job.lost`. Live state (overwritten, not kept): one row per job
    in a new `jobs` table (id, station, label, state, percent, startedAt, lastBeat, output, tail),
@@ -73,3 +75,4 @@ commands run normally and print one offline line. `npm test` and `npx tsc --noEm
 - `issues/02-job-wrapper.md`
 - `issues/03-machine-traces.md`
 - `issues/04-docs-local-first.md`
+- `issues/05-unattended-runs.md`

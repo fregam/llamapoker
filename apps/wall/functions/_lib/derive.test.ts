@@ -93,6 +93,7 @@ describe("stations with their jobs", () => {
     output: null,
     tail: null,
     phase: null,
+    log: null,
     ...over,
   });
   const since = new Date("2026-11-11T00:00:00Z");
@@ -160,6 +161,7 @@ describe("job threats", () => {
     output: null,
     tail,
     phase: null,
+    log: `E:/p/logs/jobs/2026-11-11/${id}.log`,
   });
   it("raises one threat per bad job and no duplicate for its station", () => {
     const stations = withJobs([], [j("a", "stuck"), j("b", "failed", "Error: ffmpeg exit 1"), j("c", "running")], now, new Date("2026-11-11T00:00:00Z"));
@@ -168,5 +170,11 @@ describe("job threats", () => {
     expect(t.find((x) => x.id === "job:a")?.title).toBe("REELS-RENDER STUCK: A");
     expect(t.find((x) => x.id === "job:b")?.detail).toBe("b: failed (Error: ffmpeg exit 1)");
     expect(t.find((x) => x.id === "job:b")?.level).toBe("red");
+  });
+  it("points the fix at the run's log, not at a terminal", () => {
+    const stations = withJobs([], [j("b", "failed", "Error: ffmpeg exit 1")], now, new Date("2026-11-11T00:00:00Z"));
+    const fix = threats({ ...base, stations }).find((x) => x.id === "job:b")?.fix;
+    expect(fix).toContain("E:/p/logs/jobs/2026-11-11/b.log");
+    expect(fix).not.toMatch(/terminal/i);
   });
 });

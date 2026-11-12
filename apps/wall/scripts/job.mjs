@@ -11,7 +11,7 @@
 // Wall: WALL_URL / WALL_INGEST_KEY, else `wall.url` / `wall.ingest_key` in credentials.json,
 // else the local wall at http://127.0.0.1:8788. Spec: .scratch/wall-renders/spec.md.
 import { spawn } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { createWriteStream, existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { phase, progress, recognise } from "./job-lib.mjs";
@@ -81,6 +81,23 @@ const state = { state: "running", percent: null, phase: null, tail: [] };
 let lastSent = 0;
 let lastOutput = Date.now();
 
+// A log per run (the full output), for whoever reads a failure later: the founder or an agent.
+// logs/jobs/<YYYY-MM-DD>/<id>.log, git-ignored; day folders older than 14 days are cleared here.
+const LOG_DAYS = 14;
+const logRoot = process.env.JOB_LOG_DIR || resolve(root, "logs", "jobs");
+const today = startedAt.slice(0, 10);
+const logPath = resolve(logRoot, today, `${id}.log`);
+let log = null;
+try {
+  mkdirSync(dirname(logPath), { recursive: true });
+  const cutoff = new Date(Date.now() - LOG_DAYS * 86400000).toISOString().slice(0, 10);
+  for (const d of readdirSync(logRoot)) if (/^\d{4}-\d{2}-\d{2}$/.test(d) && d < cutoff) rmSync(resolve(logRoot, d), { recursive: true, force: true });
+  log = createWriteStream(logPath);
+  log.write(`$ ${job.command.join(" ")}\n# ${startedAt}\n`);
+} catch (e) {
+  process.stderr.write(`job: no log file (${e.message})\n`);
+}
+
 const row = () => ({
   id,
   station: job.station,
@@ -91,6 +108,7 @@ const row = () => ({
   startedAt,
   output: job.output ?? null,
   tail: state.tail.join("\n") || null,
+  log: log ? logPath : null,
 });
 const report = () => {
   lastSent = Date.now();
@@ -102,12 +120,28 @@ event("job.started", `${job.label}: started`);
 report();
 
 const quote = (a) => (/^[\w./:=@%+,-]+$/.test(a) ? a : `"${a.replace(/(\\*)"/g, '$1$1\\"')}"`);
-const child = spawn(job.command.map(quote).join(" "), { shell: true, stdio: ["inherit", "pipe", "pipe"] });
+const WIN = process.platform === "win32";
+// detached on POSIX gives the command its own process group, so a kill reaches its children too.
+const child = spawn(job.command.map(quote).join(" "), { shell: true, stdio: ["inherit", "pipe", "pipe"], detached: !WIN });
+
+/** Kills the command and everything it started (the shell's children hold the output pipes). */
+function killTree() {
+  if (WIN) spawn("taskkill", ["/pid", String(child.pid), "/T", "/F"], { stdio: "ignore" });
+  else {
+    try {
+      process.kill(-child.pid, "SIGKILL");
+    } catch {
+      child.kill("SIGKILL");
+    }
+  }
+}
+let killed = null; // why job killed the command, if it did
 
 function watch(stream, out) {
   let partial = "";
   stream.on("data", (chunk) => {
     out.write(chunk);
+    log?.write(chunk);
     lastOutput = Date.now();
     if (state.state === "stuck") {
       state.state = "running";
@@ -134,20 +168,27 @@ function seen(line, partial = false) {
 watch(child.stdout, process.stdout);
 watch(child.stderr, process.stderr);
 const beat = setInterval(report, BEAT_MS);
-// Stuck: alive but silent longer than --quiet-ok. Back to running as soon as it prints again.
+// Stuck: alive but silent longer than --quiet-ok; back to running as soon as it prints again.
+// Still silent after twice that: killed, so an unattended workflow never hangs behind it.
+const span = (t) => (t >= 60000 ? `${Math.round(t / 60000)} min` : `${Math.round(t / 1000)} s`);
 const quiet = setInterval(() => {
-  if (state.state !== "running" || Date.now() - lastOutput < job.quietOkMs) return;
-  state.state = "stuck";
-  const mins = Math.round(job.quietOkMs / 60000);
-  event("job.stuck", `${job.label}: no output for ${mins >= 1 ? `${mins} min` : `${Math.round(job.quietOkMs / 1000)} s`}`);
-  report();
+  const silent = Date.now() - lastOutput;
+  if (state.state === "running" && silent >= job.quietOkMs) {
+    state.state = "stuck";
+    event("job.stuck", `${job.label}: no output for ${span(job.quietOkMs)}`);
+    report();
+  } else if (state.state === "stuck" && silent >= 2 * job.quietOkMs && !killed) {
+    killed = `killed: no output for ${span(2 * job.quietOkMs)}`;
+    process.stderr.write(`job: ${killed}\n`);
+    killTree();
+  }
 }, Math.min(1000, job.quietOkMs / 4));
 process.on("SIGINT", () => {}); // Ctrl+C reaches the command; we stay to report how it ended
 
 child.on("close", async (code, signal) => {
   clearInterval(beat);
   clearInterval(quiet);
-  const exit = code ?? (signal ? 1 : 0);
+  const exit = killed ? 124 : (code ?? (signal ? 1 : 0));
   const seconds = Math.round((Date.now() - new Date(startedAt).getTime()) / 1000);
   if (exit === 0) {
     state.state = "done";
@@ -155,9 +196,12 @@ child.on("close", async (code, signal) => {
     event("job.done", `${job.label}: done in ${seconds} s${job.output ? `, ${job.output}` : ""}`, { amount: seconds, unit: "s", meta: { output: job.output ?? null } });
   } else {
     state.state = "failed";
-    event("job.failed", `${job.label}: failed (exit ${exit})${state.tail.length ? `: ${state.tail.at(-1)}` : ""}`, { amount: seconds, unit: "s" });
+    if (killed) state.tail = [...state.tail, killed].slice(-10);
+    const why = killed ?? (state.tail.length ? state.tail.at(-1) : null);
+    event("job.failed", `${job.label}: failed (exit ${exit})${why ? `: ${why}` : ""}`, { amount: seconds, unit: "s" });
   }
   report();
+  if (log) await new Promise((done) => log.end(`\n# ${state.state} (exit ${exit})${killed ? `, ${killed}` : ""} after ${seconds} s\n`, done));
   await Promise.allSettled([...pending]);
   // Not process.exit(): on Windows it can abort Node mid-close (libuv async.c assertion) and turn
   // the command's exit code into a crash code. Nothing else holds the loop open, so it ends here.

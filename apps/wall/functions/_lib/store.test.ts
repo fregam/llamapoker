@@ -18,10 +18,14 @@ describe("normaliseJob", () => {
       output: null,
       tail: null,
       phase: null,
+      log: null,
     });
   });
-  it("keeps the phase word", () => {
-    expect(normaliseJob({ id: "j1", station: "s", state: "running", percent: 55, phase: "Encoded" }, now)).toMatchObject({ phase: "Encoded" });
+  it("keeps the phase word and the log path", () => {
+    expect(normaliseJob({ id: "j1", station: "s", state: "running", percent: 55, phase: "Encoded", log: "E:/p/logs/jobs/2026-11-11/j1.log" }, now)).toMatchObject({
+      phase: "Encoded",
+      log: "E:/p/logs/jobs/2026-11-11/j1.log",
+    });
   });
   it("rejects junk with a plain error", () => {
     expect(normaliseJob({ station: "reels-render", label: "x", state: "running" }, now)).toBe("id is required");

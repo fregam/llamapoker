@@ -47,6 +47,11 @@ import { spawn } from "node:child_process";
 import { createServer } from "node:http";
 import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll } from "vitest";
+import { existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+const LOGS = join(tmpdir(), `job-test-logs-${process.pid}`);
 
 const JOB = fileURLToPath(new URL("./job.mjs", import.meta.url));
 let wall;
@@ -66,14 +71,17 @@ beforeAll(async () => {
   await new Promise((r) => wall.listen(0, "127.0.0.1", r));
   url = `http://127.0.0.1:${wall.address().port}`;
 });
-afterAll(() => wall.close());
+afterAll(() => {
+  wall.close();
+  rmSync(LOGS, { recursive: true, force: true });
+});
 
 /** Runs `job <args>` and resolves with its exit code and output. */
 function run(args, wallUrl = url) {
   got = [];
   return new Promise((resolve) => {
     const p = spawn(process.execPath, [JOB, ...args], {
-      env: { ...process.env, WALL_URL: wallUrl, WALL_INGEST_KEY: "", JOB_BEAT_MS: "100", JOB_THROTTLE_MS: "0" },
+      env: { ...process.env, WALL_URL: wallUrl, WALL_INGEST_KEY: "", JOB_BEAT_MS: "100", JOB_THROTTLE_MS: "0", JOB_LOG_DIR: LOGS },
     });
     let out = "";
     let err = "";
@@ -115,6 +123,26 @@ describe("job, end to end", () => {
     expect(states.lastIndexOf("running")).toBeGreaterThan(states.indexOf("stuck"));
   }, 15000);
 
+  it("keeps the full output in a log per run and clears logs older than 14 days", async () => {
+    mkdirSync(join(LOGS, "2020-01-01"), { recursive: true });
+    const r = await run(node("for (let i = 1; i <= 30; i++) console.log('line ' + i)"));
+    expect(r.code).toBe(0);
+    const log = rows().at(-1).log;
+    expect(log).toMatch(/node-.*\.log$/);
+    const text = readFileSync(log, "utf8");
+    expect(text).toContain("line 1\n");
+    expect(text).toContain("line 30");
+    expect(existsSync(join(LOGS, "2020-01-01"))).toBe(false);
+  }, 15000);
+  it("kills a job still silent after twice --quiet-ok, child processes included", async () => {
+    const t = Date.now();
+    const r = await run(["--quiet-ok", "1s", ...node("console.log('start'); setTimeout(() => {}, 8000)")]);
+    expect(r.code).toBe(124);
+    expect(Date.now() - t).toBeLessThan(5000); // the grandchild holding the pipes died too
+    expect(events()).toEqual(["job.started", "job.stuck", "job.failed"]);
+    expect(rows().at(-1)).toMatchObject({ state: "failed" });
+    expect(got.find((g) => g.body?.kind === "job.failed")?.body.text).toContain("killed: no output for 2 s");
+  }, 15000);
   it("runs normally with the wall off and says so once", async () => {
     const t = Date.now();
     const r = await run(node("console.log('Rendered 1/2'); setTimeout(() => { console.log('Rendered 2/2'); process.exitCode = 4 }, 400)"), "http://127.0.0.1:9");

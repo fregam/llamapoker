@@ -63,10 +63,13 @@ It runs the command unchanged (output passes through, same exit code) and shows 
 its station in The machine: the station and label are recognised from the command (`remotion
 render` → reels-render, `foley-mmaudio.py` → foley, `reel-teardown.py` → teardown, else the
 script's name; label = composition or output file), progress from any `64%` or `120/900` in its
-output, with the word before it as the phase ("Rendered", "Encoded"). Failed (non-zero exit),
-stuck (no output for 10 min, `--quiet-ok` to change) and lost (no heartbeat for 2 min: terminal
-closed, PC slept) turn the station red with a threat. If the wall doesn't answer, `job` says so
-once and the command runs anyway. `job` is `scripts/bin/job.cmd` (PowerShell, cmd) or
+output, with the word before it as the phase ("Rendered", "Encoded"). Made for the automated
+workflow as much as for a person: failed (non-zero exit), stuck (no output for 10 min,
+`--quiet-ok` to change) and lost (no heartbeat for 2 min: runner killed, PC slept) turn the
+station red with a threat; a job still silent at twice its quiet limit is killed with its child
+processes and exits 124, so a workflow never hangs behind it. Every run's full output is in
+`logs/jobs/<day>/<id>.log` (git-ignored, cleared after 14 days), and the threat points to it.
+If the wall doesn't answer, `job` says so once and the command runs anyway. `job` is `scripts/bin/job.cmd` (PowerShell, cmd) or
 `scripts/bin/job` (Git Bash); put `scripts/bin` on PATH, or call
 `node apps/wall/scripts/job.mjs …`. It reports to `WALL_URL` / `wall.url`, else the local wall
 at `http://127.0.0.1:8788` (`WALL_PORT` picks another port for `npm run dev`).

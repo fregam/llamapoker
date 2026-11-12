@@ -149,7 +149,7 @@ export function threats(f: Facts): Threat[] {
         weight: 100,
         title: `${s.name.toUpperCase()} ${j.state.toUpperCase()}: ${j.label.toUpperCase()}`,
         detail: jobLine(j),
-        fix: JOB_FIX[j.state] ?? "",
+        fix: jobFix(j),
         evidence: j,
       });
     if (s.state === "failed" && !badJobs.length)
@@ -315,11 +315,13 @@ export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Dat
 
 const BAD = new Set<Job["state"]>(["stuck", "failed", "lost"]);
 
-const JOB_FIX: Partial<Record<Job["state"], string>> = {
-  stuck: "Look at its terminal: if it hung, Ctrl+C and run it again (or give it --quiet-ok).",
-  failed: "Read the last lines in its terminal, fix the cause, run it again.",
-  lost: "Its terminal closed or the PC slept: run it again.",
-};
+/** What to do about a bad job, for whoever reads it: the founder or the workflow's agent. */
+function jobFix(j: Job): string {
+  const log = j.log ? `the log (${j.log})` : "its output";
+  if (j.state === "stuck") return `Read ${log}. If it hung, it is killed at twice its quiet limit; if it is just quiet, run it with --quiet-ok.`;
+  if (j.state === "lost") return `Its runner stopped (process killed, PC slept). Read ${log}, then run it again.`;
+  return `Read ${log}, fix the cause, run it again.`;
+}
 
 /** One plain line for a job that went wrong. */
 export function jobLine(j: Job): string {

@@ -50,6 +50,7 @@ export interface Job {
   output: string | null; // the output file, when known
   tail: string | null; // the last output lines, for a failure
   phase: string | null; // the word before the progress number ("Rendered", "Encoded"), when printed
+  log: string | null; // the full output of this run on the PC (logs/jobs/<day>/<id>.log)
 }
 
 export interface Link {
