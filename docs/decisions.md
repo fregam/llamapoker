@@ -3,6 +3,22 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-12 - The wall is local-first; local jobs report to it through one `job` wrapper
+
+- **What:** the wall runs on the founder's PC (`localhost:8788`); a VPS is a maybe for later; it is
+  never deployed as part of llamapoker.com. Long local jobs (Remotion renders, MMAudio foley,
+  teardowns) are started as `job <command>` and show as progress traces under their station in
+  The machine; failed, stuck (10 min silent) and lost (2 min without heartbeat) jobs turn the
+  station red with a threat. Progress only in v1. Spec: `.scratch/wall-renders/spec.md`.
+- **Why:** the wall is a private instrument and the jobs it watches run on this PC; the founder
+  wants a progress indicator that survives the tools changing, not per-tool integrations.
+- **Rejected:** deploying to Cloudflare Pages + D1 (no need for a public wall; consequence: the
+  site's signup posts don't reach it and North star reads Beehiiv directly); a new eighth panel
+  (a render is a pipeline step, The machine already answers "what's stuck"); live frames and
+  in-place playback (break whenever a tool changes); per-script reporting (every new tool needs
+  code, a hard crash can't report itself); a prefix-free process watcher (can't read another
+  process's output, so no bar); a stop button on the wall (Ctrl+C in the terminal is enough).
+
 ## 2026-11-11 (late night) - Every reel passes a measured gate against the approved reel before review
 
 - **What:** `scripts/reel-check.py` (pace from the word times, peak and floor from the render, a

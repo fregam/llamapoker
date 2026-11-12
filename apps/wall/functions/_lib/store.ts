@@ -11,9 +11,9 @@
  *   BEEHIIV_API_KEY          secret, the same key apps/web's subscribe function uses
  *   BEEHIIV_PUBLICATION_ID   "pub_…"
  */
-import type { Channel, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
+import type { Channel, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
 import { day } from "../../src/model";
-import { briefing, brought, channels, countAt, subscribersByDay, threats, todayLine, type Facts, type Subscriber } from "./derive";
+import { briefing, brought, channels, countAt, jobLine, subscribersByDay, threats, todayLine, withJobs, type Facts, type Subscriber } from "./derive";
 
 export interface Env {
   DB?: D1Database;
@@ -236,7 +236,16 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
       : Promise.resolve(empty),
   ]);
   const paused = reads.flags.paused === "1";
-  const { stations: st, links } = stations(reads, bhr, probe, paused);
+  const { stations: built, links } = stations(reads, bhr, probe, paused);
+  // Jobs clear at midnight UTC (the Workers runtime has no local time zone).
+  const since = new Date(today + "T00:00:00Z");
+  const jobs = env.DB
+    ? await readJobs(env.DB, now, since).catch((e: Error) => {
+        errors.push("Jobs read failed: " + e.message);
+        return [];
+      })
+    : [];
+  const st = withJobs(built, jobs, now, since);
   const byDay = bhr ? subscribersByDay(bhr.subs, now) : [];
   const subscribers = bhr?.subscribers ?? null;
   const delta7 = subscribers === null ? null : subscribers - (countAt(byDay, 7, now) ?? 0);
@@ -326,6 +335,81 @@ export function normaliseEvent(input: Record<string, unknown>): WallEvent | stri
     text: str(input.text, 300),
     meta: input.meta && typeof input.meta === "object" ? (input.meta as Record<string, unknown>) : null,
   };
+}
+
+/** A wrapper's job report (scripts/job.mjs). `lost` is never reported: the wall reads it from the heartbeat. */
+export function normaliseJob(input: Record<string, unknown>, now = new Date()): Job | string {
+  const id = str(input.id, 80);
+  if (!id) return "id is required";
+  const station = str(input.station, 40)?.toLowerCase();
+  if (!station) return "station is required";
+  const state = str(input.state, 20) ?? "running";
+  if (!["running", "done", "failed", "stuck"].includes(state)) return "state must be running | done | failed | stuck";
+  const percent = num(input.percent);
+  if (percent !== null && (percent < 0 || percent > 100)) return "percent must be 0-100";
+  const date = (v: unknown) => {
+    const d = v ? new Date(String(v)) : null;
+    return d && !Number.isNaN(d.getTime()) ? d.toISOString() : null;
+  };
+  const ended = state === "done" || state === "failed";
+  return {
+    id,
+    station,
+    label: str(input.label, 120) ?? id,
+    state: state as Job["state"],
+    percent,
+    startedAt: date(input.startedAt) ?? now.toISOString(),
+    lastBeat: now.toISOString(),
+    endedAt: ended ? (date(input.endedAt) ?? now.toISOString()) : null,
+    output: str(input.output, 300),
+    tail: str(input.tail, 2000),
+  };
+}
+
+export async function upsertJob(db: D1Database, j: Job): Promise<void> {
+  await db.batch([
+    db
+      .prepare("INSERT OR IGNORE INTO stations (id, name, state, updated) VALUES (?1, ?1, 'idle', ?2)")
+      .bind(j.station, j.lastBeat),
+    db
+      .prepare(
+        "INSERT INTO jobs (id, station, label, state, percent, started_at, last_beat, ended_at, output, tail) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10) " +
+          "ON CONFLICT(id) DO UPDATE SET station = ?2, label = ?3, state = ?4, percent = COALESCE(?5, percent), last_beat = ?7, ended_at = ?8, output = COALESCE(?9, output), tail = COALESCE(?10, tail)",
+      )
+      .bind(j.id, j.station, j.label, j.state, j.percent, j.startedAt, j.lastBeat, j.endedAt, j.output, j.tail),
+  ]);
+}
+
+/** Today's jobs: prunes older rows, marks newly lost ones and logs job.lost once for each. */
+async function readJobs(db: D1Database, now: Date, since: Date): Promise<Job[]> {
+  await db.prepare("DELETE FROM jobs WHERE COALESCE(ended_at, last_beat) < ?").bind(since.toISOString()).run();
+  const r = await db.prepare("SELECT * FROM jobs ORDER BY started_at").all<Record<string, unknown>>();
+  const jobs: Job[] = r.results.map((x) => ({
+    id: String(x.id),
+    station: String(x.station),
+    label: String(x.label),
+    state: x.state as Job["state"],
+    percent: (x.percent as number | null) ?? null,
+    startedAt: String(x.started_at),
+    lastBeat: String(x.last_beat),
+    endedAt: (x.ended_at as string | null) ?? null,
+    output: (x.output as string | null) ?? null,
+    tail: (x.tail as string | null) ?? null,
+  }));
+  const newlyLost = withJobs([], jobs, now, since)
+    .flatMap((s) => s.jobs ?? [])
+    .filter((j) => j.state === "lost" && jobs.find((x) => x.id === j.id)?.state === "running");
+  if (newlyLost.length) {
+    // The mark and its event land together, so job.lost is logged exactly once.
+    const ev = db.prepare("INSERT OR IGNORE INTO events (id, ts, kind, station, subject, cost, text) VALUES (?, ?, 'job.lost', ?, ?, 0, ?)");
+    await db.batch(
+      newlyLost.flatMap((j) => [
+        db.prepare("UPDATE jobs SET state = 'lost' WHERE id = ? AND state = 'running'").bind(j.id),
+        ev.bind("lost:" + j.id, now.toISOString(), j.station, j.label, jobLine(j)),
+      ]),
+    );
+  }
+  return jobs;
 }
 
 export async function insertEvents(db: D1Database, events: WallEvent[]): Promise<void> {

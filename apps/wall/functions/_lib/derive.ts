@@ -3,7 +3,7 @@
  * the briefing. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
  * calls these.
  */
-import type { Channel, DayCount, QueueItem, Station, Threat, WallEvent } from "../../src/model";
+import type { Channel, DayCount, Job, QueueItem, Station, Threat, WallEvent } from "../../src/model";
 import { day } from "../../src/model";
 
 export interface Subscriber {
@@ -141,7 +141,18 @@ export function threats(f: Facts): Threat[] {
   for (const e of f.errors)
     out.push({ id: "err:" + e.slice(0, 20), level: "red", weight: 85, title: "SOURCE UNREACHABLE", detail: e, fix: "Check the service and the keys on the Pages project." });
   for (const s of f.stations) {
-    if (s.state === "failed")
+    const badJobs = (s.jobs ?? []).filter((j) => BAD.has(j.state));
+    for (const j of badJobs)
+      out.push({
+        id: "job:" + j.id,
+        level: "red",
+        weight: 100,
+        title: `${s.name.toUpperCase()} ${j.state.toUpperCase()}: ${j.label.toUpperCase()}`,
+        detail: jobLine(j),
+        fix: JOB_FIX[j.state] ?? "",
+        evidence: j,
+      });
+    if (s.state === "failed" && !badJobs.length)
       out.push({
         id: "fail:" + s.id,
         level: "red",
@@ -275,4 +286,45 @@ export function todayLine(f: Facts, feed: WallEvent[]): { today: string; action:
       : `Today: ${signups} signup${signups === 1 ? "" : "s"}, ${others} other event${others === 1 ? "" : "s"}.`;
   const t = threats(f)[0];
   return { today, action: t ? t.fix : "Keep the cadence." };
+}
+
+/** A running job whose wrapper has not reported for this long is lost (terminal closed, PC slept). */
+export const LOST_AFTER_MS = 2 * 60 * 1000;
+
+/** Today's jobs attached to their stations, with lost jobs read from their heartbeat. */
+export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Date): Station[] {
+  // A job belongs to today if it ended today, or is unfinished and its wrapper beat today.
+  const today = jobs.filter((j) => new Date(j.endedAt ?? j.lastBeat) >= since);
+  const read = today.map((j): Job =>
+    j.state === "running" && now.getTime() - new Date(j.lastBeat).getTime() > LOST_AFTER_MS ? { ...j, state: "lost" } : j,
+  );
+  const by = new Map(stations.map((s) => [s.id, { ...s }]));
+  for (const j of read) {
+    const s = by.get(j.station) ?? { id: j.station, name: j.station, state: "idle" as const };
+    by.set(j.station, { ...s, jobs: [...(s.jobs ?? []), j] });
+  }
+  return [...by.values()].map((s) => {
+    const js = s.jobs ?? [];
+    const bad = js.find((j) => BAD.has(j.state));
+    if (bad) return { ...s, state: "failed", message: jobLine(bad) };
+    const running = js.filter((j) => j.state === "running").length;
+    if (running) return { ...s, state: "ok", message: `${running} running` };
+    return s;
+  });
+}
+
+const BAD = new Set<Job["state"]>(["stuck", "failed", "lost"]);
+
+const JOB_FIX: Partial<Record<Job["state"], string>> = {
+  stuck: "Look at its terminal: if it hung, Ctrl+C and run it again (or give it --quiet-ok).",
+  failed: "Read the last lines in its terminal, fix the cause, run it again.",
+  lost: "Its terminal closed or the PC slept: run it again.",
+};
+
+/** One plain line for a job that went wrong. */
+export function jobLine(j: Job): string {
+  if (j.state === "stuck") return `${j.label}: stuck, no output`;
+  if (j.state === "lost") return `${j.label}: lost, the job stopped reporting`;
+  const last = j.tail?.trim().split("\n").at(-1);
+  return `${j.label}: failed${last ? ` (${last})` : ""}`;
 }

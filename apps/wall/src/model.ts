@@ -31,6 +31,24 @@ export interface Station {
   count?: number | null; // what moved through it in the window
   countLabel?: string | null;
   evidence?: unknown; // the raw records behind the station, shown when it is opened
+  jobs?: Job[]; // today's local jobs under this station (scripts/job.mjs)
+}
+
+/** stuck: alive but silent too long (the wrapper says so); lost: the wrapper stopped beating. */
+export type JobState = "running" | "done" | "failed" | "stuck" | "lost";
+
+/** One local job run through `job <command>`: live state, overwritten while it runs. */
+export interface Job {
+  id: string;
+  station: string;
+  label: string;
+  state: JobState;
+  percent: number | null; // null = the tool prints no progress: show "running" + elapsed
+  startedAt: string; // ISO
+  lastBeat: string; // ISO, the wrapper's last report or heartbeat
+  endedAt: string | null;
+  output: string | null; // the output file, when known
+  tail: string | null; // the last output lines, for a failure
 }
 
 export interface Link {
