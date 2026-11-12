@@ -21,7 +21,7 @@ describe("recognise", () => {
   });
 
   it("takes its own options before the command and leaves the command's alone", () => {
-    const r = recognise(["--station", "voice", "--label", "take 3", "--quiet-ok", "30m", "py", "scripts/vo.py", "--label", "x", "out.wav"]);
+    const r = recognise(["--station", "Voice", "--label", "take 3", "--quiet-ok", "30m", "py", "scripts/vo.py", "--label", "x", "out.wav"]);
     expect(r).toMatchObject({ station: "voice", label: "take 3", quietOkMs: 30 * 60 * 1000 });
     expect(r.command).toEqual(["py", "scripts/vo.py", "--label", "x", "out.wav"]);
     expect(recognise(["--quiet-ok", "90s", "node", "a.mjs"]).quietOkMs).toBe(90 * 1000);
@@ -77,11 +77,11 @@ afterAll(() => {
 });
 
 /** Runs `job <args>` and resolves with its exit code and output. */
-function run(args, wallUrl = url) {
+function run(args, wallUrl = url, env = {}) {
   got = [];
   return new Promise((resolve) => {
     const p = spawn(process.execPath, [JOB, ...args], {
-      env: { ...process.env, WALL_URL: wallUrl, WALL_INGEST_KEY: "", JOB_BEAT_MS: "100", JOB_THROTTLE_MS: "0", JOB_LOG_DIR: LOGS },
+      env: { ...process.env, WALL_URL: wallUrl, WALL_INGEST_KEY: "", JOB_BEAT_MS: "100", JOB_THROTTLE_MS: "0", JOB_LOG_DIR: LOGS, ...env },
     });
     let out = "";
     let err = "";
@@ -142,6 +142,12 @@ describe("job, end to end", () => {
     expect(events()).toEqual(["job.started", "job.stuck", "job.failed"]);
     expect(rows().at(-1)).toMatchObject({ state: "failed" });
     expect(got.find((g) => g.body?.kind === "job.failed")?.body.text).toContain("killed: no output for 2 s");
+  }, 15000);
+  it("still sends the last progress once the throttle allows, not only at the next heartbeat", async () => {
+    const code = "console.log('Rendered 1/4'); setTimeout(() => console.log('Rendered 2/4'), 50); setTimeout(() => {}, 1500)";
+    await run(node(code), url, { JOB_THROTTLE_MS: "500", JOB_BEAT_MS: "60000" });
+    const running = rows().filter((x) => x.state === "running").map((x) => x.percent);
+    expect(running).toContain(50);
   }, 15000);
   it("runs normally with the wall off and says so once", async () => {
     const t = Date.now();

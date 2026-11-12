@@ -402,13 +402,13 @@ export async function readJobs(db: D1Database, now: Date, since: Date): Promise<
   }));
   const newlyLost = withJobs([], jobs, now, since)
     .flatMap((s) => s.jobs ?? [])
-    .filter((j) => j.state === "lost" && jobs.find((x) => x.id === j.id)?.state === "running");
+    .filter((j) => j.state === "lost" && jobs.find((x) => x.id === j.id)?.state !== "lost");
   if (newlyLost.length) {
     // The mark and its event land together, so job.lost is logged exactly once.
     const ev = db.prepare("INSERT OR IGNORE INTO events (id, ts, kind, station, subject, cost, text) VALUES (?, ?, 'job.lost', ?, ?, 0, ?)");
     await db.batch(
       newlyLost.flatMap((j) => [
-        db.prepare("UPDATE jobs SET state = 'lost' WHERE id = ? AND state = 'running'").bind(j.id),
+        db.prepare("UPDATE jobs SET state = 'lost' WHERE id = ? AND state IN ('running', 'stuck')").bind(j.id),
         ev.bind("lost:" + j.id, now.toISOString(), j.station, j.label, jobLine(j)),
       ]),
     );

@@ -105,6 +105,11 @@ describe("stations with their jobs", () => {
     expect(fresh.jobs?.[0].state).toBe("running");
   });
 
+  it("reads a stuck job whose runner stopped beating as lost too", () => {
+    const [s] = withJobs([], [job({ state: "stuck", lastBeat: "2026-11-11T19:57:00Z" })], now, since);
+    expect(s.jobs?.[0].state).toBe("lost");
+  });
+
   it("groups jobs under their station and creates a station for a new name", () => {
     const stored: Station = { id: "reels-render", name: "Reels render", state: "idle", message: "last run yesterday" };
     const out = withJobs([stored], [job({ id: "a" }), job({ id: "b", label: "OnlyAces-blur" }), job({ id: "c", station: "foley" })], now, since);

@@ -110,9 +110,18 @@ const row = () => ({
   tail: state.tail.join("\n") || null,
   log: log ? logPath : null,
 });
+let trailing = null; // a progress update held back by the throttle, sent when it allows
 const report = () => {
+  clearTimeout(trailing);
+  trailing = null;
   lastSent = Date.now();
   send("job", row());
+};
+/** Progress changed: send now if the throttle allows, else once it does (never only at the next heartbeat). */
+const reportSoon = () => {
+  const wait = THROTTLE_MS - (Date.now() - lastSent);
+  if (wait <= 0) report();
+  else trailing ??= setTimeout(report, wait);
 };
 const event = (kind, text, extra = {}) => send("event", { kind, station: job.station, subject: job.label, text, ...extra });
 
@@ -161,7 +170,7 @@ function seen(line, partial = false) {
   if (p !== null && p !== state.percent) {
     state.percent = p;
     state.phase = phase(line);
-    if (Date.now() - lastSent >= THROTTLE_MS) report();
+    reportSoon();
   }
 }
 
@@ -183,11 +192,21 @@ const quiet = setInterval(() => {
     killTree();
   }
 }, Math.min(1000, job.quietOkMs / 4));
-process.on("SIGINT", () => {}); // Ctrl+C reaches the command; we stay to report how it ended
+// Ctrl+C: on Windows it reaches the command through the console; on POSIX the command runs in its
+// own process group (for the tree kill), so pass the signal on. Either way we stay to report the end.
+process.on("SIGINT", () => {
+  if (WIN) return;
+  try {
+    process.kill(-child.pid, "SIGINT");
+  } catch {
+    child.kill("SIGINT");
+  }
+});
 
 child.on("close", async (code, signal) => {
   clearInterval(beat);
   clearInterval(quiet);
+  clearTimeout(trailing);
   const exit = killed ? 124 : (code ?? (signal ? 1 : 0));
   const seconds = Math.round((Date.now() - new Date(startedAt).getTime()) / 1000);
   if (exit === 0) {

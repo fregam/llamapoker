@@ -296,7 +296,7 @@ export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Dat
   // A job belongs to today if it ended today, or is unfinished and its wrapper beat today.
   const today = jobs.filter((j) => new Date(j.endedAt ?? j.lastBeat) >= since);
   const read = today.map((j): Job =>
-    j.state === "running" && now.getTime() - new Date(j.lastBeat).getTime() > LOST_AFTER_MS ? { ...j, state: "lost" } : j,
+    (j.state === "running" || j.state === "stuck") && now.getTime() - new Date(j.lastBeat).getTime() > LOST_AFTER_MS ? { ...j, state: "lost" } : j,
   );
   const by = new Map(stations.map((s) => [s.id, { ...s }]));
   for (const j of read) {

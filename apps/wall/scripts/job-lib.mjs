@@ -24,7 +24,7 @@ export function recognise(argv) {
   const r = guess(argv.slice(k));
   return {
     ...r,
-    station: own.station ?? r.station,
+    station: (own.station ?? r.station).toLowerCase(), // the wall keys stations lower-case
     label: own.label ?? r.label,
     quietOkMs: own["quiet-ok"] ? duration(own["quiet-ok"]) : QUIET_OK_MS,
   };
