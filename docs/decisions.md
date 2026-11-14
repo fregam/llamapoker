@@ -3,6 +3,20 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-14 - Six ideas from the iart.ai skill packs go into the 002 motion rebuild and the factory
+
+- **What:** from iart.ai's `short-form-video` skill
+  (`docs/research/2026-11-14-iart-video-skills.md`), kept: an uneven cut rhythm, a loop ending, the
+  punch-in (spring 1 → 1.12, damping 12, stiffness 200) as the camera's cheapest interrupt, and an
+  open loop set in the first ~3 s and closed at the end (the stamped number is the promise, *why*
+  is the answer) for the 002 motion rebuild; the four-type hook grammar (one gap, one payoff per
+  video) for the content factory's scripts; the retention-curve reading guide for when reels are
+  posted. They reach the README rules only after the rebuilt 002 proves them on the full cut.
+- **Why:** they fill gaps our rules leave (rhythm can go metronomic, nothing serves re-watches)
+  and cost no new art.
+- **Rejected:** their captions (short captions lost round 3), their safe area (ours is measured
+  and stricter), installing the packs as skills (generic; our README is more specific).
+
 ## 2026-11-14 - The wall's hero is money from day one; channels come through the event store
 
 - **What:** the biggest number on the wall is money (revenue, EUR), shown as a dash with "no

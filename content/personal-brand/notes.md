@@ -458,3 +458,17 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a green test suite tells you what was tested, not what works. Break the code on
   purpose once; if nothing goes red, the test is decoration.
 - **Hook:** "I asked my AI if everything was tested. The honest answer was no, and that's why I trust it."
+
+## 2026-11-14 · A popular skill pack told me to do something my own test had already ruled out
+
+- **Choice:** read two open-source video skill packs line by line, keep six ideas (uneven cut
+  rhythm, a loop ending, a punch-in with exact spring numbers, an open loop closed at the end, a
+  hook grammar, a retention-curve reading guide) and write them down as research, not as rules.
+- **Rejected:** installing the packs whole. Their caption style had already lost one of our blind
+  A/B rounds, and their "safe area" was looser than the margins we measured on the Instagram app.
+- **What happened:** the first pass skimmed the main file; asked "did you actually read it?", the
+  second pass found most of the useful material in a reference file the skim had skipped.
+- **Lesson:** a best-practice list is a set of hypotheses. Your own measured result beats someone
+  else's rule of thumb, and nothing becomes a rule until it wins on your own cut.
+- **Hook:** "I found a 100-star guide to making viral shorts. Half of it was already wrong for us,
+  and we could prove it."
