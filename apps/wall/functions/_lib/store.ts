@@ -13,7 +13,8 @@
  */
 import type { Channel, Department, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
 import { day } from "../../src/model";
-import { briefing, brought, channels, countAt, jobLine, results, subscribersByDay, threats, todayLine, withJobs, work, type Facts, type Subscriber } from "./derive";
+import { briefing } from "./briefing";
+import { brought, channels, countAt, jobLine, results, sourcesLine, subscribersByDay, threats, todayLine, withJobs, work, type Facts, type Subscriber } from "./derive";
 
 export interface Env {
   DB?: D1Database;
@@ -282,8 +283,31 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
     errors,
   };
   const t = threats(facts);
-  const lastOpen = reads.flags.last_open ? new Date(reads.flags.last_open) : null;
-  const sinceHours = lastOpen ? Math.max(1, (now.getTime() - lastOpen.getTime()) / 3600000) : 24;
+  const res = results({
+    now,
+    revenueEver: reads.revenueEver,
+    events: reads.results,
+    newsletter: {
+      subscribers,
+      byDay,
+      signupsToday: bhr ? bhr.subs.filter((s) => s.status === "active" && day(new Date(s.created * 1000)) === today).length : 0,
+      lastSend: bhr?.lastSend ?? null,
+      sends: bhr?.sends ?? 0,
+      cameFrom: bhr ? brought(bhr.subs) : {},
+    },
+  });
+  const wk = work(st);
+  const joined = bhr ? brought(bhr.subs.filter((s) => s.created * 1000 >= now.getTime() - 86400000)) : {};
+  const brief = briefing({
+    paused,
+    money: res.money,
+    subscribers,
+    delta1,
+    cameFrom: sourcesLine(joined),
+    threats: t,
+    waiting: reads.queue.length,
+    work: wk,
+  });
   const line = todayLine(facts, reads.feed);
   const ch: Channel[] = channels(bhr ? brought(bhr.subs) : {}, reads.views, bhr?.sends ?? 0);
   const reachValues = Object.values(reads.views);
@@ -302,20 +326,8 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
       today: line.today,
       action: line.action,
     },
-    results: results({
-      now,
-      revenueEver: reads.revenueEver,
-      events: reads.results,
-      newsletter: {
-        subscribers,
-        byDay,
-        signupsToday: bhr ? bhr.subs.filter((s) => s.status === "active" && day(new Date(s.created * 1000)) === today).length : 0,
-        lastSend: bhr?.lastSend ?? null,
-        sends: bhr?.sends ?? 0,
-        cameFrom: bhr ? brought(bhr.subs) : {},
-      },
-    }),
-    work: work(st),
+    results: res,
+    work: wk,
     stations: st,
     links,
     threats: t,
@@ -324,7 +336,7 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
     channels: ch,
     budget: { spentMonth: reads.spentMonth, ceiling, month: today.slice(0, 7) },
     experiments: reads.flags.experiments ? (JSON.parse(reads.flags.experiments) as WallState["experiments"]) : [],
-    briefing: briefing(facts, t, reads.feed, sinceHours),
+    briefing: brief,
     errors,
   };
   if (env.DB) {

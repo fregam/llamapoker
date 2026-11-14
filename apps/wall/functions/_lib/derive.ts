@@ -1,6 +1,6 @@
 /**
  * Pure derivations for the wall's state: subscribers by day, channel attribution, threats,
- * the briefing. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
+ * the lines under the numbers. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
  * calls these.
  */
 import type { Channel, ChannelRow, DayCount, Department, Job, PostStat, QueueItem, Results, Station, StationState, Threat, WallEvent, WorkLine } from "../../src/model";
@@ -245,32 +245,6 @@ export function threats(f: Facts): Threat[] {
   return out.sort((a, b) => b.weight - a.weight);
 }
 
-/** The Gentleman's briefing: what happened since the last look, what needs you, what he'd do. */
-export function briefing(f: Facts, t: Threat[], feed: WallEvent[], sinceHours: number): string {
-  const since = feed.filter((e) => hours(e.ts, f.now) <= sinceHours);
-  const signups = since.filter((e) => e.kind === "signup").length;
-  const fails = since.filter((e) => e.kind === "fail").length;
-  const parts: string[] = [];
-  const h = Math.max(1, Math.round(sinceHours));
-  const window = sinceHours >= 48 ? `${Math.round(sinceHours / 24)} days` : h === 1 ? "hour" : `${h} hours`;
-  if (f.subscribers === null) parts.push("I cannot see the letter's numbers; the Beehiiv keys are missing or the service is down.");
-  else {
-    const d7 = f.delta7 === null ? "" : f.delta7 === 0 ? ", unchanged this week" : `, ${f.delta7 > 0 ? "+" : ""}${f.delta7} this week`;
-    parts.push(`${f.subscribers} on the list${d7}.`);
-  }
-  if (since.length === 0) parts.push(f.hasStore ? `Nothing reached the store in the last ${window}.` : "No store yet, so I have no events to report.");
-  else
-    parts.push(
-      `In the last ${window}: ${since.length} event${since.length === 1 ? "" : "s"}, ${signups} signup${signups === 1 ? "" : "s"}, ${fails} failure${fails === 1 ? "" : "s"}.`,
-    );
-  const needs = t.filter((x) => x.level !== "cyan");
-  if (needs.length) parts.push(`Needs you: ${needs.map((x) => x.title.toLowerCase()).join("; ")}.`);
-  else parts.push("Nothing needs you.");
-  const top = t[0];
-  if (top) parts.push(`I would ${top.fix.charAt(0).toLowerCase()}${top.fix.slice(1)}`);
-  return parts.join(" ");
-}
-
 /** The line under the number. */
 export function todayLine(f: Facts, feed: WallEvent[]): { today: string; action: string } {
   const start = new Date(f.now);
@@ -345,6 +319,16 @@ export interface ResultsFacts {
     sends: number;
     cameFrom: Record<string, number>; // first-touch channel → subscribers
   };
+}
+
+/** First-touch counts as one line, biggest first: "INSTAGRAM 2 · SITE 1"; null when empty. */
+export function sourcesLine(counts: Record<string, number>): string | null {
+  return (
+    Object.entries(counts)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([c, k]) => `${CHANNEL_NAMES[c] ?? c.toUpperCase()} ${k}`)
+      .join(" · ") || null
+  );
 }
 
 const MONTH_MS = 30 * 86400000;
@@ -457,11 +441,7 @@ export function results(f: ResultsFacts): Results {
       signupsToday: n.signupsToday,
       lastLetter: n.lastSend ? day(n.lastSend) : null,
       sends: n.sends,
-      cameFrom:
-        Object.entries(n.cameFrom)
-          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-          .map(([c, k]) => `${CHANNEL_NAMES[c] ?? c.toUpperCase()} ${k}`)
-          .join(" · ") || null,
+      cameFrom: sourcesLine(n.cameFrom),
     },
     note: n.subscribers === null ? "Beehiiv unreachable" : "Beehiiv",
   };

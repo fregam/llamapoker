@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { briefing, brought, channelOf, countAt, departmentOf, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
+import { brought, channelOf, countAt, departmentOf, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
 import type { Job, Station, WallEvent } from "../../src/model";
 
 const sec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
@@ -66,17 +66,6 @@ describe("threats", () => {
   it("watches the budget ceiling", () => {
     expect(threats({ ...base, spentMonth: 41, ceiling: 50 })[0].id).toBe("budget80");
     expect(threats({ ...base, spentMonth: 51, ceiling: 50 })[0].id).toBe("budget");
-  });
-});
-
-describe("briefing", () => {
-  it("reports the list, the window and what needs you", () => {
-    const t = threats(base);
-    const b = briefing(base, t, [{ id: "1", ts: "2026-11-11T12:00:00Z", kind: "signup" }], 24);
-    expect(b).toContain("2 on the list, unchanged this week.");
-    expect(b).toContain("1 event, 1 signup, 0 failures.");
-    expect(b).toContain("Nothing needs you.");
-    expect(b).toContain("I would send letter 001");
   });
 });
 
