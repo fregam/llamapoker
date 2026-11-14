@@ -54,7 +54,7 @@ export function Results({ state, open, setOpen, wall, flash, phone }: PanelProps
   );
 }
 
-const EXTRA_LABEL: Record<string, string> = { signupsToday: "SIGNUPS TODAY", lastLetter: "LAST LETTER", sends: "LETTERS SENT", cameFrom: "CAME FROM" };
+const EXTRA_LABEL: Record<string, string> = { signupsToday: "SIGNUPS TODAY", lastLetter: "LAST LETTER", sends: "LETTERS SENT", cameFrom: "NEW FROM · 7 D" };
 
 function Row({ row, opened, toggle }: { row: ChannelRow; opened: boolean; toggle: () => void }) {
   const p = row.latestPost;

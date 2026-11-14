@@ -17,8 +17,9 @@ const tone = (s: Station["state"]) => (s === "failed" ? "rd" : s === "waiting" |
 
 export function Work({ state, open, setOpen, wall, flash }: PanelProps) {
   const lines = state.work;
-  // Lines the founder opened or closed by hand; anything else follows the line's own `open`.
-  const [manual, setManual] = useState<Record<string, boolean>>({});
+  // Lines the founder opened or closed by hand, with what the line said then. A click holds only
+  // until something new happens on the line (its `latest` changes): a new failure opens it again.
+  const [manual, setManual] = useState<Record<string, { open: boolean; latest: string | null }>>({});
   if (!lines) {
     return (
       <Pane id="work" title="WORK" question="What is being made to improve it?" flash={flash} tag={`SNAPSHOT ${state.day}`}>
@@ -28,14 +29,17 @@ export function Work({ state, open, setOpen, wall, flash }: PanelProps) {
   }
   const bad = lines.some((l) => l.state === "failed");
   const waiting = lines.some((l) => l.state === "waiting" || l.state === "paused");
-  const isOpen = (l: WorkLine) => manual[l.id] ?? l.open;
+  const isOpen = (l: WorkLine) => {
+    const m = manual[l.id];
+    return m && m.latest === l.latest ? m.open : l.open;
+  };
   const opened = open?.startsWith("station:") ? lines.flatMap((l) => l.stations).find((s) => "station:" + s.id === open) : undefined;
   return (
     <Pane id="work" title="WORK" question="What is being made to improve it?" tone={bad ? "red" : waiting ? "amber" : undefined} flash={flash} tag={lines.map((l) => `${l.name} ${l.word}`).join(" · ")}>
       <ul className="work">
         {lines.map((l) => (
           <li key={l.id} className={`wl ${l.state}${isOpen(l) ? " open" : ""}`}>
-            <div className="wl-h" onClick={() => !wall && setManual((m) => ({ ...m, [l.id]: !isOpen(l) }))}>
+            <div className="wl-h" onClick={() => !wall && setManual((m) => ({ ...m, [l.id]: { open: !isOpen(l), latest: l.latest } }))}>
               <span className="caret">{isOpen(l) ? "▾" : "▸"}</span>
               <span className="nm">{l.name}</span>
               <span className={`word ${tone(l.state)}`}>{l.word}</span>

@@ -4,7 +4,7 @@
  * note. A threat opens in place into its evidence.
  */
 import type { Threat } from "../model";
-import { Evidence, Empty } from "../components/ui";
+import { Evidence, Empty } from "./ui";
 
 export function ThreatList({ threats: t, open, setOpen, wall }: { threats: Threat[]; open: string | null; setOpen: (id: string | null) => void; wall: boolean }) {
   if (t.length === 0) return <Empty>NOTHING THREATENS THE OPERATION RIGHT NOW</Empty>;

@@ -77,7 +77,7 @@ node apps/wall/scripts/wall-event.mjs event --kind post --channel instagram --su
 
 Channel names `instagram`, `tiktok`, `youtube`, `twitter` are stored as the wall's ids `ig`, `tt`,
 `yt`, `x`. The Newsletter row is the same row shape fed from Beehiiv (live count, signups today,
-last letter, first-touch sources).
+last letter, and where the last 7 days' new subscribers came from, by first touch).
 
 **Adding a channel** (Instagram, TikTok, YouTube…) is a fetcher plus its station, no wall code: a
 script that reads the platform's numbers and posts a `followers` reading and a `post` event per
@@ -161,7 +161,8 @@ time control to have that day. A Workers cron that fetches it is the next step.
 - `functions/api/*.ts` — the routes above.
 - `src/App.tsx` — the grid, keys, command handling, briefing, wall mode, phone view.
 - `src/panels/*` — one file per panel; `registry.ts` is the only list.
-- `src/components/` — pane frame, segment digits, meters, evidence drawer, command bar.
+- `src/components/` — pane frame, segment digits, meters, evidence drawer, command bar, and the
+  threat list and approval cards that Needs you shows.
 - `src/styles.css` — the one stylesheet (VFD on true black; cyan data, orange chrome accents and
   waiting, red failure).
 - `vscode-theme/` — the same look as a VS Code theme ("Wall VFD"); change it with `styles.css`.

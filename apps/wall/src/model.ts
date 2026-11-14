@@ -99,30 +99,9 @@ export interface QueueItem {
   decided?: string | null;
 }
 
-export interface Channel {
-  id: string; // site | letter | ig | search
-  name: string;
-  value: number | null; // the channel's key number, null = not enough data
-  unit: string;
-  trend: number | null; // change over the window, same unit
-  brought: number | null; // subscribers attributed to it (first touch)
-  note: string; // where the number comes from, or why there is none
-}
-
 export interface DayCount {
   day: string; // YYYY-MM-DD
   count: number; // cumulative subscribers at the end of that day
-}
-
-export interface North {
-  subscribers: number | null;
-  delta1: number | null; // change in the last 24 h
-  delta7: number | null; // change in the last 7 days
-  byDay: DayCount[];
-  weeklyActiveShare: number | null; // opened or clicked in 7 days / subscribers; null until sends exist
-  reach: number | null; // views across channels in 7 days; null until a channel reports views
-  today: string; // what changed today, one line
-  action: string; // what to do about it, one line
 }
 
 /** A channel's latest post and how it did (a `kind: post` event; numbers from its meta). */
@@ -175,7 +154,6 @@ export interface WallState {
   day: string; // YYYY-MM-DD the reading describes
   live: boolean; // false when read back from a snapshot
   paused: boolean;
-  north: North;
   results?: Results; // absent in snapshots stored before the results-first layout
   work?: WorkLine[]; // CONTENT then DEVELOPMENT; absent in older snapshots
   stations: Station[];
@@ -183,7 +161,6 @@ export interface WallState {
   threats: Threat[];
   feed: WallEvent[];
   queue: QueueItem[];
-  channels: Channel[];
   budget: { spentMonth: number; ceiling: number | null; month: string };
   experiments: Experiment[];
   briefing: string;

@@ -3,7 +3,7 @@
  * the lines under the numbers. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
  * calls these.
  */
-import type { Channel, ChannelRow, DayCount, Department, Job, PostStat, QueueItem, Results, Station, StationState, Threat, WallEvent, WorkLine } from "../../src/model";
+import type { ChannelRow, DayCount, Department, Job, PostStat, QueueItem, Results, Station, StationState, Threat, WallEvent, WorkLine } from "../../src/model";
 import { day } from "../../src/model";
 
 export interface Subscriber {
@@ -36,7 +36,7 @@ export function subscribersByDay(subs: Subscriber[], until = new Date()): DayCou
 
 export function countAt(byDay: DayCount[], daysAgo: number, until = new Date()): number | null {
   if (byDay.length === 0) return null;
-  const target = day(new Date(until.getTime() - daysAgo * 86400000));
+  const target = day(new Date(until.getTime() - daysAgo * DAY_MS));
   let last: number | null = byDay[0].day > target ? 0 : null;
   for (const p of byDay) if (p.day <= target) last = p.count;
   return last;
@@ -72,6 +72,16 @@ export function brought(subs: Subscriber[]): Record<string, number> {
   return out;
 }
 
+/** First-touch sources of the active subscribers who joined in the last `days` days. */
+export function joinedSince(subs: Subscriber[], days: number, now: Date): Record<string, number> {
+  const from = now.getTime() - days * DAY_MS;
+  return brought(subs.filter((s) => s.created * 1000 >= from));
+}
+
+export const DAY_MS = 86400000;
+
+export const channelName = (id: string) => CHANNEL_NAMES[id] ?? id.toUpperCase();
+
 export const CHANNEL_NAMES: Record<string, string> = {
   site: "SITE",
   letter: "LETTER",
@@ -81,32 +91,6 @@ export const CHANNEL_NAMES: Record<string, string> = {
   x: "X",
   search: "SEARCH",
 };
-
-/** Channels that exist today. Views need the event store; until a channel reports them it says so. */
-export function channels(byChannel: Record<string, number>, views: Record<string, number>, sends: number): Channel[] {
-  const ids = ["site", "letter", "ig", "search"];
-  for (const k of Object.keys(byChannel)) if (!ids.includes(k) && CHANNEL_NAMES[k]) ids.push(k);
-  return ids.map((id) => {
-    const v = views[id];
-    const value = id === "letter" ? sends : v ?? null;
-    return {
-      id,
-      name: CHANNEL_NAMES[id] ?? id.toUpperCase(),
-      value,
-      unit: id === "letter" ? "sent" : "views 7d",
-      trend: null,
-      brought: byChannel[id] ?? 0,
-      note:
-        id === "letter"
-          ? sends
-            ? "Beehiiv posts"
-            : "no letter sent yet"
-          : v === undefined
-            ? "no view events yet"
-            : "event store, 7 days",
-    };
-  });
-}
 
 export interface Facts {
   now: Date;
@@ -241,25 +225,8 @@ export function threats(f: Facts): Threat[] {
       fix: "Send letter 001 once the footer address and reply-to are set.",
     });
   if (f.subscribers !== null && f.delta7 === 0 && f.sends > 0)
-    out.push({ id: "flat", level: "cyan", weight: 20, title: "SUBSCRIBERS FLAT 7 DAYS", detail: "No growth this week.", fix: "Look at which channel went quiet in the channels panel." });
+    out.push({ id: "flat", level: "cyan", weight: 20, title: "SUBSCRIBERS FLAT 7 DAYS", detail: "No growth this week.", fix: "Look at which channel went quiet in Results." });
   return out.sort((a, b) => b.weight - a.weight);
-}
-
-/** The line under the number. */
-export function todayLine(f: Facts, feed: WallEvent[]): { today: string; action: string } {
-  const start = new Date(f.now);
-  start.setUTCHours(0, 0, 0, 0);
-  const todays = feed.filter((e) => new Date(e.ts) >= start);
-  const signups = todays.filter((e) => e.kind === "signup").length;
-  const others = todays.length - signups;
-  const today =
-    todays.length === 0
-      ? f.hasStore
-        ? "Nothing recorded today."
-        : "No event store bound; nothing to count today."
-      : `Today: ${signups} signup${signups === 1 ? "" : "s"}, ${others} other event${others === 1 ? "" : "s"}.`;
-  const t = threats(f)[0];
-  return { today, action: t ? t.fix : "Keep the cadence." };
 }
 
 /** A running job whose wrapper has not reported for this long is lost (terminal closed, PC slept). */
@@ -317,7 +284,7 @@ export interface ResultsFacts {
     signupsToday: number;
     lastSend: string | null; // ISO
     sends: number;
-    cameFrom: Record<string, number>; // first-touch channel → subscribers
+    cameFrom: Record<string, number>; // first-touch channel → subscribers who joined in the last 7 days
   };
 }
 
@@ -326,12 +293,12 @@ export function sourcesLine(counts: Record<string, number>): string | null {
   return (
     Object.entries(counts)
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-      .map(([c, k]) => `${CHANNEL_NAMES[c] ?? c.toUpperCase()} ${k}`)
+      .map(([c, k]) => `${channelName(c)} ${k}`)
       .join(" · ") || null
   );
 }
 
-const MONTH_MS = 30 * 86400000;
+const MONTH_MS = 30 * DAY_MS;
 
 /** Revenue (EUR) today and over 30 days; a dash with its reason until any revenue event exists. */
 function money(f: ResultsFacts): Results["money"] {
@@ -341,7 +308,7 @@ function money(f: ResultsFacts): Results["money"] {
   let t = 0;
   let m = 0;
   for (const e of f.events) {
-    if (e.kind !== "revenue" || new Date(e.ts).getTime() < from) continue;
+    if (e.kind !== "revenue" || (e.unit && e.unit.toUpperCase() !== "EUR") || new Date(e.ts).getTime() < from) continue;
     m += e.amount ?? 0;
     if (day(e.ts) === today) t += e.amount ?? 0;
   }
@@ -357,7 +324,7 @@ function daily(readings: { ts: string; amount: number }[], now: Date): { day: st
   for (const r of [...readings].sort((a, b) => a.ts.localeCompare(b.ts))) last.set(day(r.ts), r.amount);
   if (last.size === 0) return [];
   const first = [...last.keys()][0];
-  const start = day(new Date(Math.max(new Date(first + "T00:00:00Z").getTime(), now.getTime() - 29 * 86400000)));
+  const start = day(new Date(Math.max(new Date(first + "T00:00:00Z").getTime(), now.getTime() - 29 * DAY_MS)));
   const out: { day: string; value: number }[] = [];
   let carry: number | null = null;
   for (const [d, v] of last) if (d < start) carry = v;
@@ -374,7 +341,7 @@ function eventRow(channel: string, events: WallEvent[], now: Date): ChannelRow {
   const series = daily(readings, now);
   const headline = series.at(-1)?.value ?? null;
   const at = (daysAgo: number) => {
-    const target = day(new Date(now.getTime() - daysAgo * 86400000));
+    const target = day(new Date(now.getTime() - daysAgo * DAY_MS));
     let v: number | null = null;
     for (const p of series) if (p.day <= target) v = p.value;
     return v;
@@ -385,7 +352,7 @@ function eventRow(channel: string, events: WallEvent[], now: Date): ChannelRow {
   };
   return {
     channel,
-    name: CHANNEL_NAMES[channel] ?? channel.toUpperCase(),
+    name: channelName(channel),
     headline,
     unit: "followers",
     delta1: delta(1),
@@ -427,7 +394,10 @@ function eventRows(f: ResultsFacts): ChannelRow[] {
 /** The money hero, subscribers as the leading number, and one row per channel, Newsletter first. */
 export function results(f: ResultsFacts): Results {
   const n = f.newsletter;
-  const delta = (daysAgo: number) => (n.subscribers === null ? null : n.subscribers - (countAt(n.byDay, daysAgo, f.now) ?? 0));
+  const delta = (daysAgo: number) => {
+    const then = countAt(n.byDay, daysAgo, f.now);
+    return n.subscribers === null || then === null ? null : n.subscribers - then;
+  };
   const newsletter: ChannelRow = {
     channel: "newsletter",
     name: "NEWSLETTER",

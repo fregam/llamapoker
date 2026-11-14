@@ -6,7 +6,7 @@
  */
 import { useState } from "react";
 import type { QueueItem } from "../model";
-import { Empty } from "../components/ui";
+import { Empty } from "./ui";
 import { clock } from "../lib/api";
 
 /** The waiting pieces as cards: call, fold, raise. */

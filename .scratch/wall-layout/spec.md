@@ -121,3 +121,18 @@ view shows Results → Needs you → briefing. Keys 1–5 match the new panels. 
 - `issues/04-briefing-order.md` (blocked by 01, 02)
 - `issues/05-phone-view.md` (blocked by 03)
 - `issues/06-docs.md` (blocked by all)
+
+## Review (2026-11-14)
+
+Two-axis review (standards, spec) of `70ca0c9...HEAD`. Fixed: `north` / `channels` dropped from
+the reading (no panel read them); the flat-subscribers threat no longer points at the removed
+channels panel; money counts EUR revenue only (no unit = EUR); with no subscriber history the
+changes are dashes, not the whole list; a Work line closed by hand opens again when something new
+happens on it; the Newsletter row's "came from" counts the last 7 days' joins only (founder);
+`ThreatList` and `Cards` moved to `src/components/`; one `DAY_MS` and one `channelName`; the VS
+Code theme uses tints of the three colours only (magenta → orange), its README says orange, its
+version bumped; the briefing card's greenish background → black. Kept by the founder: the Work
+strip under Results only (so Needs you never shrinks). Left for later (judgement-call smells):
+literal `rgba(255, 138, 31, …)` alphas instead of tokens, `word` / `channel` as plain strings,
+`BriefingFacts` fields instead of `Results`, `StationReport` restating `Station`, panel titles
+repeated in the panels and the registry, the department check in three places.

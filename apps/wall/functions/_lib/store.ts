@@ -11,10 +11,10 @@
  *   BEEHIIV_API_KEY          secret, the same key apps/web's subscribe function uses
  *   BEEHIIV_PUBLICATION_ID   "pub_…"
  */
-import type { Channel, Department, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
+import type { Department, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
 import { day } from "../../src/model";
 import { briefing } from "./briefing";
-import { brought, channels, countAt, jobLine, results, sourcesLine, subscribersByDay, threats, todayLine, withJobs, work, type Facts, type Subscriber } from "./derive";
+import { DAY_MS, countAt, jobLine, joinedSince, results, sourcesLine, subscribersByDay, threats, withJobs, work, type Facts, type Subscriber } from "./derive";
 
 export interface Env {
   DB?: D1Database;
@@ -109,10 +109,10 @@ const parseEvent = (r: Record<string, unknown>): WallEvent => ({
 });
 
 async function readStore(db: D1Database, now: Date): Promise<Reads> {
-  const week = new Date(now.getTime() - 7 * 86400000).toISOString();
-  const dayAgo = new Date(now.getTime() - 86400000).toISOString();
+  const week = new Date(now.getTime() - 7 * DAY_MS).toISOString();
+  const dayAgo = new Date(now.getTime() - DAY_MS).toISOString();
   const month = now.toISOString().slice(0, 7) + "-01T00:00:00Z";
-  const thirty = new Date(now.getTime() - 30 * 86400000).toISOString();
+  const thirty = new Date(now.getTime() - 30 * DAY_MS).toISOString();
   const [feed, rows, queue, flags, spent, last, views, per, fails, res, rev] = await db.batch([
     db.prepare("SELECT * FROM events ORDER BY ts DESC LIMIT 80"),
     db.prepare("SELECT * FROM stations"),
@@ -265,8 +265,13 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
   const st = withJobs(built, jobs, now, since);
   const byDay = bhr ? subscribersByDay(bhr.subs, now) : [];
   const subscribers = bhr?.subscribers ?? null;
-  const delta7 = subscribers === null ? null : subscribers - (countAt(byDay, 7, now) ?? 0);
-  const delta1 = subscribers === null ? null : subscribers - (countAt(byDay, 1, now) ?? 0);
+  // A change needs a past count; with no history it is a dash, not the whole list.
+  const change = (daysAgo: number) => {
+    const then = countAt(byDay, daysAgo, now);
+    return subscribers === null || then === null ? null : subscribers - then;
+  };
+  const delta7 = change(7);
+  const delta1 = change(1);
   const ceiling = reads.flags.budget_ceiling ? Number(reads.flags.budget_ceiling) : null;
   const facts: Facts = {
     now,
@@ -293,39 +298,25 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
       signupsToday: bhr ? bhr.subs.filter((s) => s.status === "active" && day(new Date(s.created * 1000)) === today).length : 0,
       lastSend: bhr?.lastSend ?? null,
       sends: bhr?.sends ?? 0,
-      cameFrom: bhr ? brought(bhr.subs) : {},
+      cameFrom: bhr ? joinedSince(bhr.subs, 7, now) : {},
     },
   });
   const wk = work(st);
-  const joined = bhr ? brought(bhr.subs.filter((s) => s.created * 1000 >= now.getTime() - 86400000)) : {};
   const brief = briefing({
     paused,
     money: res.money,
     subscribers,
     delta1,
-    cameFrom: sourcesLine(joined),
+    cameFrom: bhr ? sourcesLine(joinedSince(bhr.subs, 1, now)) : null,
     threats: t,
     waiting: reads.queue.length,
     work: wk,
   });
-  const line = todayLine(facts, reads.feed);
-  const ch: Channel[] = channels(bhr ? brought(bhr.subs) : {}, reads.views, bhr?.sends ?? 0);
-  const reachValues = Object.values(reads.views);
   const state: WallState = {
     asof: now.toISOString(),
     day: today,
     live: true,
     paused,
-    north: {
-      subscribers,
-      delta1,
-      delta7,
-      byDay,
-      weeklyActiveShare: bhr && bhr.sends > 0 ? bhr.openRate : null,
-      reach: reachValues.length ? reachValues.reduce((a, b) => a + b, 0) : null,
-      today: line.today,
-      action: line.action,
-    },
     results: res,
     work: wk,
     stations: st,
@@ -333,7 +324,6 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
     threats: t,
     feed: reads.feed,
     queue: reads.queue,
-    channels: ch,
     budget: { spentMonth: reads.spentMonth, ceiling, month: today.slice(0, 7) },
     experiments: reads.flags.experiments ? (JSON.parse(reads.flags.experiments) as WallState["experiments"]) : [],
     briefing: brief,

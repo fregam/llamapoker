@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { brought, channelOf, countAt, departmentOf, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
+import { brought, channelOf, countAt, departmentOf, joinedSince, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
 import type { Job, Station, WallEvent } from "../../src/model";
 
 const sec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
@@ -340,5 +340,31 @@ describe("work lines", () => {
   it("takes a station's department from its job's --dept when the station has none", () => {
     const out = withJobs([], [job({ station: "ffmpeg", label: "b.mp3", department: "content" })], now, new Date("2026-11-11T00:00:00Z"));
     expect(work(out)[0].stations.map((s) => s.id)).toEqual(["ffmpeg"]);
+  });
+});
+
+describe("review fixes", () => {
+  it("counts only EUR revenue (or revenue with no unit) in the money hero", () => {
+    const events = [
+      ev("revenue", "2026-11-11T09:00:00Z", { amount: 10, unit: "EUR" }),
+      ev("revenue", "2026-11-11T10:00:00Z", { amount: 7 }),
+      ev("revenue", "2026-11-11T11:00:00Z", { amount: 99, unit: "USD" }),
+    ];
+    expect(results({ ...quiet, revenueEver: true, events }).money).toMatchObject({ today: 17, month: 17 });
+  });
+  it("shows dashes, not the whole count, for the Newsletter changes when there is no history", () => {
+    const r = results({ ...quiet, newsletter: { ...quiet.newsletter, subscribers: 5, byDay: [] } });
+    expect(r.rows[0]).toMatchObject({ headline: 5, delta1: null, delta7: null });
+    expect(r.delta7).toBeNull();
+  });
+  it("counts first-touch sources of active subscribers who joined in a window", () => {
+    const subs = [
+      { created: sec("2026-11-11T10:00:00Z"), status: "active", utm_source: "ig" },
+      { created: sec("2026-11-06T10:00:00Z"), status: "active" },
+      { created: sec("2026-11-01T10:00:00Z"), status: "active", utm_source: "ig" },
+      { created: sec("2026-11-10T10:00:00Z"), status: "inactive", utm_source: "ig" },
+    ];
+    expect(joinedSince(subs, 7, now)).toEqual({ ig: 1, site: 1 });
+    expect(joinedSince(subs, 1, now)).toEqual({ ig: 1 });
   });
 });

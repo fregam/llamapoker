@@ -159,7 +159,7 @@
     "terminal.ansiGreen": "#6fe3ff",
     "terminal.ansiYellow": "#ff8a1f",
     "terminal.ansiBlue": "#49a9c4",
-    "terminal.ansiMagenta": "#b39dff",
+    "terminal.ansiMagenta": "#ff8a1f",
     "terminal.ansiCyan": "#6fe3ff",
     "terminal.ansiWhite": "#9fdcec",
     "terminal.ansiBrightBlack": "#2a6f85",
@@ -167,7 +167,7 @@
     "terminal.ansiBrightGreen": "#a8f0ff",
     "terminal.ansiBrightYellow": "#ffb070",
     "terminal.ansiBrightBlue": "#6fe3ff",
-    "terminal.ansiBrightMagenta": "#cbbcff",
+    "terminal.ansiBrightMagenta": "#ffb070",
     "terminal.ansiBrightCyan": "#a8f0ff",
     "terminal.ansiBrightWhite": "#e6fbff",
 

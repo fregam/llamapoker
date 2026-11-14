@@ -5,8 +5,8 @@
  * something waits.
  */
 import { Pane } from "../components/ui";
-import { ThreatList } from "./Threats";
-import { Cards } from "./Approvals";
+import { ThreatList } from "../components/ThreatList";
+import { Cards } from "../components/ApprovalCards";
 import type { PanelProps } from "./registry";
 
 export function NeedsYou({ state, open, setOpen, act, wall, flash }: PanelProps) {

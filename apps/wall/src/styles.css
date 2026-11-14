@@ -261,7 +261,7 @@ ul, ol { list-style: none; }
 .bar-list li.sel { background: rgba(111, 227, 255, 0.1); }
 .bar-list .n { color: var(--cy); }
 .bar-list .h { color: var(--cyd); font-size: 12px; }
-.brief { width: min(860px, 92vw); border: 1px solid var(--am); background: #0a0d08; box-shadow: 0 0 30px rgba(255, 138, 31, 0.2); padding: 22px 26px; }
+.brief { width: min(860px, 92vw); border: 1px solid var(--am); background: #050505; box-shadow: 0 0 30px rgba(255, 138, 31, 0.2); padding: 22px 26px; }
 .brief h2 { font: 600 12px var(--lab); letter-spacing: 0.26em; color: var(--am); margin-bottom: 14px; }
 .brief p { font-size: 17px; line-height: 1.5; color: var(--cy); margin-bottom: 14px; }
 .brief ul li { padding: 5px 0; border-top: 1px solid var(--line); font-size: 13px; }
