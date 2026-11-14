@@ -3,6 +3,18 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-14 - The wall and VS Code go true black with orange accents
+
+- **What:** the wall (`apps/wall/src/styles.css`) and its VS Code theme (`apps/wall/vscode-theme/`,
+  now in the repo) drop the blue-black glass for true black (the faint grid stays). Amber becomes
+  orange `#ff8a1f` and also accents the chrome: panel titles, corner marks, VS Code's active tab
+  and activity bar. Cyan still carries data, red is still failure; a waiting pane keeps a full
+  orange border and glow, so it still stands out from plain orange corners.
+- **Why:** the founder's reference stills of command-centre screens: VFD cyan on black with orange
+  accents.
+- **Rejected:** keeping amber only for "waits on you" (strict three-colour meaning, but the screen
+  read cold and flat next to the references).
+
 ## 2026-11-12 (late) - The wall is laid out by the question the founder comes with: results first
 
 - **What:** two sides. **Results** ("how are we doing?": socials per channel, post performance,

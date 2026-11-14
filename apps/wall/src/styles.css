@@ -1,8 +1,8 @@
 /*
   The wall's one stylesheet. Independent of brand/ by decision (docs/decisions.md, 2026-11-11
-  night): a vacuum fluorescent display on black glass. Cyan carries data, amber marks what waits
-  on the operator, red is failure and the kill switch. Layout is one full-screen grid with no
-  scrolling; panels get their place from the `area` they declare in panels/registry.ts.
+  night): a vacuum fluorescent display on black. Cyan carries data; orange accents the chrome
+  (titles, corner marks) and marks what waits on the operator; red is failure and the kill
+  switch. Layout is one full-screen grid with no scrolling; panels get their place from the `area` they declare in panels/registry.ts.
 */
 :root {
   --cy: #6fe3ff;
@@ -10,9 +10,9 @@
   --cyf: #2a6f85;
   --line: rgba(111, 227, 255, 0.18);
   --line2: rgba(111, 227, 255, 0.4);
-  --am: #ffb347;
+  --am: #ff8a1f; /* orange: the chrome accent (titles, corners) and what waits on the operator */
   --rd: #ff4d4d;
-  --bg: #040a0d;
+  --bg: #000000;
   --mono: "Share Tech Mono", Consolas, monospace;
   --lab: "Chakra Petch", "Segoe UI", sans-serif;
   --seg: "DSEG7-Classic", var(--mono);
@@ -24,14 +24,14 @@ body {
   color: var(--cy);
   font: var(--fs) / 1.3 var(--mono);
   background:
-    linear-gradient(rgba(111, 227, 255, 0.045) 1px, transparent 1px) 0 0 / 40px 40px,
-    linear-gradient(90deg, rgba(111, 227, 255, 0.045) 1px, transparent 1px) 0 0 / 40px 40px,
-    radial-gradient(ellipse at 50% 42%, #08171e 0%, #050d12 55%, #020507 100%);
+    linear-gradient(rgba(111, 227, 255, 0.035) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, rgba(111, 227, 255, 0.035) 1px, transparent 1px) 0 0 / 40px 40px,
+    #000;
   overflow: hidden;
 }
 button { font: inherit; color: inherit; background: none; border: 1px solid var(--cy); cursor: pointer; }
 button:disabled { opacity: 0.4; cursor: default; }
-input { font: inherit; color: var(--cy); background: #02070a; border: 1px solid var(--line2); outline: none; padding: 4px 8px; }
+input { font: inherit; color: var(--cy); background: #000; border: 1px solid var(--line2); outline: none; padding: 4px 8px; }
 input:focus { border-color: var(--cy); box-shadow: 0 0 10px rgba(111, 227, 255, 0.3); }
 pre { font: inherit; white-space: pre-wrap; word-break: break-word; }
 ul, ol { list-style: none; }
@@ -81,7 +81,7 @@ ul, ol { list-style: none; }
 .hdr .sw .msg { font: 13px var(--mono); letter-spacing: 0; color: var(--cy); max-width: 520px; overflow: hidden; text-overflow: ellipsis; }
 .hdr .sw .box { border: 1px solid var(--cy); padding: 5px 12px; color: var(--cy); box-shadow: 0 0 10px rgba(111, 227, 255, 0.25), inset 0 0 10px rgba(111, 227, 255, 0.12); }
 .hdr .sw .box i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--cy); box-shadow: 0 0 8px var(--cy); margin-right: 9px; }
-.hdr .sw .box.paused { border-color: var(--am); color: var(--am); box-shadow: 0 0 14px rgba(255, 179, 71, 0.45), inset 0 0 10px rgba(255, 179, 71, 0.15); animation: blink 1.4s steps(2) infinite; }
+.hdr .sw .box.paused { border-color: var(--am); color: var(--am); box-shadow: 0 0 14px rgba(255, 138, 31, 0.45), inset 0 0 10px rgba(255, 138, 31, 0.15); animation: blink 1.4s steps(2) infinite; }
 .hdr .sw .box.paused i { background: var(--am); box-shadow: 0 0 8px var(--am); }
 .hdr .sw .kill { border: 1px solid rgba(255, 77, 77, 0.6); color: var(--rd); padding: 5px 10px; font-size: 11px; }
 @keyframes blink { 50% { opacity: 0.55; } }
@@ -90,8 +90,8 @@ ul, ol { list-style: none; }
 .pane {
   position: relative;
   border: 1px solid var(--line);
-  background: rgba(6, 20, 27, 0.5);
-  --b: var(--cy);
+  background: rgba(6, 8, 9, 0.6);
+  --b: var(--am);
   background-image:
     linear-gradient(var(--b), var(--b)), linear-gradient(var(--b), var(--b)), linear-gradient(var(--b), var(--b)), linear-gradient(var(--b), var(--b)),
     linear-gradient(var(--b), var(--b)), linear-gradient(var(--b), var(--b)), linear-gradient(var(--b), var(--b)), linear-gradient(var(--b), var(--b));
@@ -104,13 +104,13 @@ ul, ol { list-style: none; }
   overflow: hidden;
   transition: box-shadow 0.4s;
 }
-.pane.amber { --b: var(--am); border-color: rgba(255, 179, 71, 0.4); }
+.pane.amber { --b: var(--am); border-color: rgba(255, 138, 31, 0.55); box-shadow: 0 0 16px rgba(255, 138, 31, 0.2), inset 0 0 20px rgba(255, 138, 31, 0.05); }
 .pane.red { --b: var(--rd); border-color: rgba(255, 77, 77, 0.6); box-shadow: 0 0 18px rgba(255, 77, 77, 0.25), inset 0 0 24px rgba(255, 77, 77, 0.06); }
 .pane.flash { animation: flash 1.2s ease-out; }
 @keyframes flash { 0% { box-shadow: inset 0 0 40px rgba(111, 227, 255, 0.25); } 100% { box-shadow: none; } }
-.pane > h2 { position: absolute; top: 7px; left: 16px; font: 600 12px var(--lab); letter-spacing: 0.2em; color: var(--cyd); z-index: 1; }
+.pane > h2 { position: absolute; top: 7px; left: 16px; font: 600 12px var(--lab); letter-spacing: 0.2em; color: var(--am); z-index: 1; }
 .pane > .rule { position: absolute; top: 0; left: 150px; right: 18px; height: 6px; background: repeating-linear-gradient(90deg, rgba(111, 227, 255, 0.35) 0 1px, transparent 1px 10px); }
-.pane > .tag { position: absolute; top: 6px; right: 16px; font: 12px var(--mono); color: var(--cyd); letter-spacing: 0.1em; background: rgba(6, 20, 27, 0.9); padding: 0 4px; z-index: 1; }
+.pane > .tag { position: absolute; top: 6px; right: 16px; font: 12px var(--mono); color: var(--cyd); letter-spacing: 0.1em; background: rgba(4, 5, 6, 0.95); padding: 0 4px; z-index: 1; }
 .pane > .body { flex: 1; min-height: 0; overflow: auto; padding: 30px 16px 12px; scrollbar-width: thin; scrollbar-color: var(--cyf) transparent; }
 .empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; color: var(--cyd); font: 600 12px var(--lab); letter-spacing: 0.22em; }
 .empty small { font: 12px var(--mono); letter-spacing: 0; color: var(--cyf); }
@@ -118,7 +118,7 @@ ul, ol { list-style: none; }
 .drawer { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 8px; }
 .drawer-h { font: 600 11px var(--lab); letter-spacing: 0.18em; color: var(--am); margin-bottom: 6px; }
 .drawer-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.evidence { font-size: 12px; color: var(--cyd); background: rgba(2, 7, 10, 0.7); border: 1px solid var(--line); padding: 8px; max-height: 240px; overflow: auto; margin-top: 6px; }
+.evidence { font-size: 12px; color: var(--cyd); background: rgba(0, 0, 0, 0.7); border: 1px solid var(--line); padding: 8px; max-height: 240px; overflow: auto; margin-top: 6px; }
 
 /* ---------- segments and meters ---------- */
 .seg { display: inline-flex; font: 400 1em / 1 var(--seg); }
@@ -146,7 +146,7 @@ ul, ol { list-style: none; }
 .mach .node.nodata rect.bx { stroke: rgba(111, 227, 255, 0.14); }
 .mach .node.nodata .st, .mach .node.nodata .big, .mach .node.nodata path.ck { fill: var(--cyf); stroke: var(--cyf); }
 .mach .node.nodata .big { fill: var(--cyf); }
-.mach .node.waiting rect.bx, .mach .node.paused rect.bx { fill: rgba(255, 179, 71, 0.06); stroke: rgba(255, 179, 71, 0.6); }
+.mach .node.waiting rect.bx, .mach .node.paused rect.bx { fill: rgba(255, 138, 31, 0.06); stroke: rgba(255, 138, 31, 0.6); }
 .mach .node.paused rect.bx { stroke-dasharray: 4 4; }
 .mach .node.waiting path.ck, .mach .node.paused path.ck { stroke: var(--am); }
 .mach .node.waiting .st, .mach .node.waiting .big, .mach .node.waiting .nm, .mach .node.paused .st, .mach .node.paused .nm { fill: var(--am); }
@@ -155,7 +155,7 @@ ul, ol { list-style: none; }
 .mach .node.failed .st, .mach .node.failed .big, .mach .node.failed .nm, .mach .node.failed tspan.v { fill: var(--rd); }
 .mach .node.open rect.bx { stroke-width: 2; stroke: var(--cy); }
 .mach .ln { fill: none; stroke: var(--line2); stroke-width: 1.5; }
-.mach .ln.stall { stroke: rgba(255, 179, 71, 0.55); stroke-dasharray: 4 5; }
+.mach .ln.stall { stroke: rgba(255, 138, 31, 0.55); stroke-dasharray: 4 5; }
 .mach .lnlab { font: 12px var(--mono); fill: var(--cy); }
 .mach .bus { fill: none; stroke: rgba(111, 227, 255, 0.45); stroke-width: 2; }
 .mach .bustext { font: 11px var(--mono); fill: var(--cyd); letter-spacing: 0.08em; }
@@ -213,12 +213,12 @@ ul, ol { list-style: none; }
 
 /* ---------- approvals ---------- */
 .cards { display: flex; flex-direction: column; gap: 8px; }
-.card { border: 1px solid rgba(255, 179, 71, 0.4); background: rgba(255, 179, 71, 0.04); padding: 8px 10px; }
+.card { border: 1px solid rgba(255, 138, 31, 0.4); background: rgba(255, 138, 31, 0.04); padding: 8px 10px; }
 .card-h { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: baseline; cursor: pointer; }
 .card .kind { font: 600 10px var(--lab); letter-spacing: 0.2em; color: var(--am); border: 1px solid var(--am); padding: 1px 5px; }
 .card .title { color: var(--cy); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .card .when { color: var(--cyd); font-size: 12px; }
-.card .preview { margin-top: 8px; max-height: 260px; overflow: auto; border: 1px solid var(--line); padding: 8px; font-size: 12px; color: var(--cyd); background: rgba(2, 7, 10, 0.7); }
+.card .preview { margin-top: 8px; max-height: 260px; overflow: auto; border: 1px solid var(--line); padding: 8px; font-size: 12px; color: var(--cyd); background: rgba(0, 0, 0, 0.7); }
 .card-a { display: flex; gap: 8px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
 .card-a button { font: 600 11px var(--lab); letter-spacing: 0.2em; padding: 4px 12px; }
 .card-a button.fold { border-color: var(--rd); color: var(--rd); }
@@ -268,7 +268,7 @@ ul, ol { list-style: none; }
 .bar-list li.sel { background: rgba(111, 227, 255, 0.1); }
 .bar-list .n { color: var(--cy); }
 .bar-list .h { color: var(--cyd); font-size: 12px; }
-.brief { width: min(860px, 92vw); border: 1px solid var(--am); background: #0a0d08; box-shadow: 0 0 30px rgba(255, 179, 71, 0.2); padding: 22px 26px; }
+.brief { width: min(860px, 92vw); border: 1px solid var(--am); background: #0a0d08; box-shadow: 0 0 30px rgba(255, 138, 31, 0.2); padding: 22px 26px; }
 .brief h2 { font: 600 12px var(--lab); letter-spacing: 0.26em; color: var(--am); margin-bottom: 14px; }
 .brief p { font-size: 17px; line-height: 1.5; color: var(--cy); margin-bottom: 14px; }
 .brief ul li { padding: 5px 0; border-top: 1px solid var(--line); font-size: 13px; }
