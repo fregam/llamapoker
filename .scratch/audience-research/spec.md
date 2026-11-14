@@ -115,6 +115,16 @@ cluster-then-sample: embeddings group the quotes, agents tag representative samp
 Expected scale (saturation decides): 30,000–100,000 raw items, 3,000–8,000 tagged quotes, 200–400
 cited, 40–80 ranked reel ideas, a 15–25 page study.
 
+## Platform terms (from ticket 01, `docs/research/2026-11-14-research-tools.md`)
+
+- **YouTube: official API only** (no yt-dlp: policies III.E.6). Raw YouTube items are deleted after
+  30 days (III.E.4.b/d); long-term we keep only our own coding and short quotes. Stored per
+  channel, no YouTube-derived metrics published (III.E.2.b, III.E.4.h).
+- **Reddit: not collected by any route** until the founder has read its Data API Terms.
+- **Agent-Reach:** pinned v1.6.1, installed by hand from the tag source, never its installer,
+  `setup` or `update`; sessions only from the research profile.
+- **MediaCrawler** out (bans commercial use).
+
 ## Privacy (the repo is public)
 
 - The store (`apps/research/data/*.sqlite`) is git-ignored.
