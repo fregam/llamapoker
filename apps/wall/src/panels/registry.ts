@@ -23,6 +23,7 @@ export interface PanelProps {
   act: (command: string) => Promise<void>; // the same commands the command bar takes
   wall: boolean; // wall mode: no controls, larger type
   flash: boolean; // the reading just changed
+  phone?: boolean; // the phone view (under 800 px): a panel may show less
 }
 
 export interface PanelModule {
@@ -45,6 +46,7 @@ export const panels: PanelModule[] = [
     question: "How are we doing?",
     reads: ["revenue, followers and post events (30 days)", "Beehiiv subscriptions and posts"],
     area: "results",
+    phone: true,
     Component: Results,
   },
   {

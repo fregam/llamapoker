@@ -9,7 +9,7 @@ import type { ChannelRow } from "../model";
 import { Pane, Seg, Evidence, Empty, signed } from "../components/ui";
 import type { PanelProps } from "./registry";
 
-export function Results({ state, open, setOpen, wall, flash }: PanelProps) {
+export function Results({ state, open, setOpen, wall, flash, phone }: PanelProps) {
   const r = state.results;
   if (!r) {
     return (
@@ -46,7 +46,7 @@ export function Results({ state, open, setOpen, wall, flash }: PanelProps) {
         </div>
       </div>
       <ul className="rows">
-        {r.rows.map((row) => (
+        {(phone ? r.rows.filter((row) => row.channel === "newsletter") : r.rows).map((row) => (
           <Row key={row.channel} row={row} opened={open === "row:" + row.channel} toggle={() => !wall && setOpen(open === "row:" + row.channel ? null : "row:" + row.channel)} />
         ))}
       </ul>

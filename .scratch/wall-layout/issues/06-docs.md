@@ -1,6 +1,6 @@
 # 06 Docs: the new layout and the event shapes for future sources
 
-Status: ready-for-agent
+Status: done
 Spec: ../spec.md (Decisions 3, 4, 8)
 Blocked by: 01, 02, 03, 04, 05
 
@@ -26,3 +26,5 @@ event store). `wall-event.mjs` fixed so the documented commands work: `--meta` i
 (it was sent as a string and dropped), and with no wall configured it posts to the local wall
 without a key. Checked: a `post` event with meta from the CLI lands as the Instagram row's latest
 post. Left open until 05 lands: check the README's phone sentence against it, then mark done.
+
+2026-11-14: 05 landed; the README's phone sentence (Results, Needs you, briefing) matches. Done.

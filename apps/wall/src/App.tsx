@@ -4,8 +4,8 @@
  * Behaviour (docs/interface.md): everything opens in place (`open`), one key opens the command
  * bar (`act` runs its commands), `[` and `]` scrub to past days' snapshots, the kill switch is
  * guarded, the briefing shows on the first open of each day (`?nobrief` skips it, e.g. for a
- * screenshot), `w` is wall mode, and under 800 px the wall becomes a column of the briefing and
- * the panels marked `phone`.
+ * screenshot), `w` is wall mode, and under 800 px the wall becomes a column of the panels marked
+ * `phone` (Results, Needs you) followed by the briefing.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { post, shiftDay, useMedia, useWall } from "./lib/api";
@@ -219,13 +219,13 @@ export default function App() {
     return (
       <div className="phone">
         {header}
+        {phonePanels.map((p) => (
+          <p.Component key={p.id} state={state} open={open} setOpen={setOpen} act={act} wall={false} flash={flash} phone />
+        ))}
         <section className="briefing-card">
           <h2>BRIEFING</h2>
           <p>{state.briefing}</p>
         </section>
-        {phonePanels.map((p) => (
-          <p.Component key={p.id} state={state} open={open} setOpen={setOpen} act={act} wall={false} flash={flash} />
-        ))}
       </div>
     );
   }
