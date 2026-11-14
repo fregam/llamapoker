@@ -22,9 +22,11 @@ sound design or voice.
 
 1. **Uneven cut rhythm.** A visual change every ~2–4 s, at uneven intervals ("a metronome reads
    as boredom"; their example cuts: 0, 1.2, 3.0, 5.4, 8.0, 11.2, 14.0 s). Our "something moves
-   every ~2 s" can become that metronome.
+   every ~2 s" can become that metronome. Not a separate A/B test: a guideline for the 002 motion
+   rebuild, since motion is what is being rebuilt.
 2. **Loop ending.** The last frame matches the first (composition, position, colour), or the last
-   line feeds back into the hook. Re-watches count on Reels; we had nothing for them.
+   line feeds back into the hook. Reels counts a re-watch as a view; we had nothing for re-watches.
+   It fits the host direction: the Gentleman closes the way he opens.
 3. **Punch-in as the cheapest interrupt.** `spring()` damping 12, stiffness 200, scale 1 → 1.12
    on the beat, `transformOrigin: "50% 45%"`. A move for our 2D camera (adopted round 1) that gives
    the uneven rhythm something to hit without new art.
