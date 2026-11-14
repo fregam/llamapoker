@@ -1,9 +1,9 @@
 /**
  * Pure derivations for the wall's state: subscribers by day, channel attribution, threats,
- * the briefing. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
+ * the lines under the numbers. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
  * calls these.
  */
-import type { Channel, DayCount, QueueItem, Station, Threat, WallEvent } from "../../src/model";
+import type { ChannelRow, DayCount, Department, Job, PostStat, QueueItem, Results, Station, StationState, Threat, WallEvent, WorkLine } from "../../src/model";
 import { day } from "../../src/model";
 
 export interface Subscriber {
@@ -36,7 +36,7 @@ export function subscribersByDay(subs: Subscriber[], until = new Date()): DayCou
 
 export function countAt(byDay: DayCount[], daysAgo: number, until = new Date()): number | null {
   if (byDay.length === 0) return null;
-  const target = day(new Date(until.getTime() - daysAgo * 86400000));
+  const target = day(new Date(until.getTime() - daysAgo * DAY_MS));
   let last: number | null = byDay[0].day > target ? 0 : null;
   for (const p of byDay) if (p.day <= target) last = p.count;
   return last;
@@ -72,6 +72,16 @@ export function brought(subs: Subscriber[]): Record<string, number> {
   return out;
 }
 
+/** First-touch sources of the active subscribers who joined in the last `days` days. */
+export function joinedSince(subs: Subscriber[], days: number, now: Date): Record<string, number> {
+  const from = now.getTime() - days * DAY_MS;
+  return brought(subs.filter((s) => s.created * 1000 >= from));
+}
+
+export const DAY_MS = 86400000;
+
+export const channelName = (id: string) => CHANNEL_NAMES[id] ?? id.toUpperCase();
+
 export const CHANNEL_NAMES: Record<string, string> = {
   site: "SITE",
   letter: "LETTER",
@@ -81,32 +91,6 @@ export const CHANNEL_NAMES: Record<string, string> = {
   x: "X",
   search: "SEARCH",
 };
-
-/** Channels that exist today. Views need the event store; until a channel reports them it says so. */
-export function channels(byChannel: Record<string, number>, views: Record<string, number>, sends: number): Channel[] {
-  const ids = ["site", "letter", "ig", "search"];
-  for (const k of Object.keys(byChannel)) if (!ids.includes(k) && CHANNEL_NAMES[k]) ids.push(k);
-  return ids.map((id) => {
-    const v = views[id];
-    const value = id === "letter" ? sends : v ?? null;
-    return {
-      id,
-      name: CHANNEL_NAMES[id] ?? id.toUpperCase(),
-      value,
-      unit: id === "letter" ? "sent" : "views 7d",
-      trend: null,
-      brought: byChannel[id] ?? 0,
-      note:
-        id === "letter"
-          ? sends
-            ? "Beehiiv posts"
-            : "no letter sent yet"
-          : v === undefined
-            ? "no view events yet"
-            : "event store, 7 days",
-    };
-  });
-}
 
 export interface Facts {
   now: Date;
@@ -141,7 +125,18 @@ export function threats(f: Facts): Threat[] {
   for (const e of f.errors)
     out.push({ id: "err:" + e.slice(0, 20), level: "red", weight: 85, title: "SOURCE UNREACHABLE", detail: e, fix: "Check the service and the keys on the Pages project." });
   for (const s of f.stations) {
-    if (s.state === "failed")
+    const badJobs = (s.jobs ?? []).filter((j) => BAD.has(j.state));
+    for (const j of badJobs)
+      out.push({
+        id: "job:" + j.id,
+        level: "red",
+        weight: 100,
+        title: `${s.name.toUpperCase()} ${j.state.toUpperCase()}: ${j.label.toUpperCase()}`,
+        detail: jobLine(j),
+        fix: jobFix(j),
+        evidence: j,
+      });
+    if (s.state === "failed" && !badJobs.length)
       out.push({
         id: "fail:" + s.id,
         level: "red",
@@ -230,49 +225,253 @@ export function threats(f: Facts): Threat[] {
       fix: "Send letter 001 once the footer address and reply-to are set.",
     });
   if (f.subscribers !== null && f.delta7 === 0 && f.sends > 0)
-    out.push({ id: "flat", level: "cyan", weight: 20, title: "SUBSCRIBERS FLAT 7 DAYS", detail: "No growth this week.", fix: "Look at which channel went quiet in the channels panel." });
+    out.push({ id: "flat", level: "cyan", weight: 20, title: "SUBSCRIBERS FLAT 7 DAYS", detail: "No growth this week.", fix: "Look at which channel went quiet in Results." });
   return out.sort((a, b) => b.weight - a.weight);
 }
 
-/** The Gentleman's briefing: what happened since the last look, what needs you, what he'd do. */
-export function briefing(f: Facts, t: Threat[], feed: WallEvent[], sinceHours: number): string {
-  const since = feed.filter((e) => hours(e.ts, f.now) <= sinceHours);
-  const signups = since.filter((e) => e.kind === "signup").length;
-  const fails = since.filter((e) => e.kind === "fail").length;
-  const parts: string[] = [];
-  const h = Math.max(1, Math.round(sinceHours));
-  const window = sinceHours >= 48 ? `${Math.round(sinceHours / 24)} days` : h === 1 ? "hour" : `${h} hours`;
-  if (f.subscribers === null) parts.push("I cannot see the letter's numbers; the Beehiiv keys are missing or the service is down.");
-  else {
-    const d7 = f.delta7 === null ? "" : f.delta7 === 0 ? ", unchanged this week" : `, ${f.delta7 > 0 ? "+" : ""}${f.delta7} this week`;
-    parts.push(`${f.subscribers} on the list${d7}.`);
+/** A running job whose wrapper has not reported for this long is lost (terminal closed, PC slept). */
+export const LOST_AFTER_MS = 2 * 60 * 1000;
+
+/** Today's jobs attached to their stations, with lost jobs read from their heartbeat. */
+export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Date): Station[] {
+  // A job belongs to today if it ended today, or is unfinished and its wrapper beat today.
+  const today = jobs.filter((j) => new Date(j.endedAt ?? j.lastBeat) >= since);
+  const read = today.map((j): Job =>
+    (j.state === "running" || j.state === "stuck") && now.getTime() - new Date(j.lastBeat).getTime() > LOST_AFTER_MS ? { ...j, state: "lost" } : j,
+  );
+  const by = new Map(stations.map((s) => [s.id, { ...s }]));
+  for (const j of read) {
+    const s: Station = by.get(j.station) ?? { id: j.station, name: j.station, state: "idle" };
+    by.set(j.station, { ...s, department: s.department ?? j.department ?? null, jobs: [...(s.jobs ?? []), j] });
   }
-  if (since.length === 0) parts.push(f.hasStore ? `Nothing reached the store in the last ${window}.` : "No store yet, so I have no events to report.");
-  else
-    parts.push(
-      `In the last ${window}: ${since.length} event${since.length === 1 ? "" : "s"}, ${signups} signup${signups === 1 ? "" : "s"}, ${fails} failure${fails === 1 ? "" : "s"}.`,
-    );
-  const needs = t.filter((x) => x.level !== "cyan");
-  if (needs.length) parts.push(`Needs you: ${needs.map((x) => x.title.toLowerCase()).join("; ")}.`);
-  else parts.push("Nothing needs you.");
-  const top = t[0];
-  if (top) parts.push(`I would ${top.fix.charAt(0).toLowerCase()}${top.fix.slice(1)}`);
-  return parts.join(" ");
+  return [...by.values()].map((s) => {
+    const js = s.jobs ?? [];
+    const bad = js.find((j) => BAD.has(j.state));
+    if (bad) return { ...s, state: "failed", message: jobLine(bad) };
+    const running = js.filter((j) => j.state === "running").length;
+    if (running) return { ...s, state: "ok", message: `${running} running` };
+    return s;
+  });
 }
 
-/** The line under the number. */
-export function todayLine(f: Facts, feed: WallEvent[]): { today: string; action: string } {
-  const start = new Date(f.now);
-  start.setUTCHours(0, 0, 0, 0);
-  const todays = feed.filter((e) => new Date(e.ts) >= start);
-  const signups = todays.filter((e) => e.kind === "signup").length;
-  const others = todays.length - signups;
-  const today =
-    todays.length === 0
-      ? f.hasStore
-        ? "Nothing recorded today."
-        : "No event store bound; nothing to count today."
-      : `Today: ${signups} signup${signups === 1 ? "" : "s"}, ${others} other event${others === 1 ? "" : "s"}.`;
-  const t = threats(f)[0];
-  return { today, action: t ? t.fix : "Keep the cadence." };
+const BAD = new Set<Job["state"]>(["stuck", "failed", "lost"]);
+
+/** What to do about a bad job, for whoever reads it: the founder or the workflow's agent. */
+function jobFix(j: Job): string {
+  const log = j.log ? `the log (${j.log})` : "its output";
+  if (j.state === "stuck") return `Read ${log}. If it hung, it is killed at twice its quiet limit; if it is just quiet, run it with --quiet-ok.`;
+  if (j.state === "lost") return `Its runner stopped (process killed, PC slept). Read ${log}, then run it again.`;
+  return `Read ${log}, fix the cause, run it again.`;
+}
+
+/** One plain line for a job that went wrong. */
+export function jobLine(j: Job): string {
+  if (j.state === "stuck") return `${j.label}: stuck, no output`;
+  if (j.state === "lost") return `${j.label}: lost, the job stopped reporting`;
+  const last = j.tail?.trim().split("\n").at(-1);
+  return `${j.label}: failed${last ? ` (${last})` : ""}`;
+}
+
+// ---------- results: "how are we doing?" ----------
+
+export interface ResultsFacts {
+  now: Date;
+  revenueEver: boolean; // any `kind: revenue` event at all, ever
+  events: WallEvent[]; // revenue, followers and post events of the last 30 days
+  newsletter: {
+    subscribers: number | null; // Beehiiv's live count, null when unreachable
+    byDay: DayCount[];
+    signupsToday: number;
+    lastSend: string | null; // ISO
+    sends: number;
+    cameFrom: Record<string, number>; // first-touch channel → subscribers who joined in the last 7 days
+  };
+}
+
+/** First-touch counts as one line, biggest first: "INSTAGRAM 2 · SITE 1"; null when empty. */
+export function sourcesLine(counts: Record<string, number>): string | null {
+  return (
+    Object.entries(counts)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([c, k]) => `${channelName(c)} ${k}`)
+      .join(" · ") || null
+  );
+}
+
+const MONTH_MS = 30 * DAY_MS;
+
+/** Revenue (EUR) today and over 30 days; a dash with its reason until any revenue event exists. */
+function money(f: ResultsFacts): Results["money"] {
+  if (!f.revenueEver) return { today: null, month: null, unit: "EUR", note: "no revenue source yet" };
+  const from = f.now.getTime() - MONTH_MS;
+  const today = day(f.now);
+  let t = 0;
+  let m = 0;
+  for (const e of f.events) {
+    if (e.kind !== "revenue" || (e.unit && e.unit.toUpperCase() !== "EUR") || new Date(e.ts).getTime() < from) continue;
+    m += e.amount ?? 0;
+    if (day(e.ts) === today) t += e.amount ?? 0;
+  }
+  return { today: t, month: m, unit: "EUR", note: "revenue events" };
+}
+
+const ALIASES: Record<string, string> = { instagram: "ig", tiktok: "tt", youtube: "yt", twitter: "x" };
+const channelId = (raw: string) => ALIASES[raw.toLowerCase()] ?? raw.toLowerCase();
+
+/** The value at the end of each day from the first reading (at most 30 days back) to today, carried forward. */
+function daily(readings: { ts: string; amount: number }[], now: Date): { day: string; value: number }[] {
+  const last = new Map<string, number>();
+  for (const r of [...readings].sort((a, b) => a.ts.localeCompare(b.ts))) last.set(day(r.ts), r.amount);
+  if (last.size === 0) return [];
+  const first = [...last.keys()][0];
+  const start = day(new Date(Math.max(new Date(first + "T00:00:00Z").getTime(), now.getTime() - 29 * DAY_MS)));
+  const out: { day: string; value: number }[] = [];
+  let carry: number | null = null;
+  for (const [d, v] of last) if (d < start) carry = v;
+  for (const d = new Date(start + "T00:00:00Z"); day(d) <= day(now); d.setUTCDate(d.getUTCDate() + 1)) {
+    carry = last.get(day(d)) ?? carry;
+    if (carry !== null) out.push({ day: day(d), value: carry });
+  }
+  return out;
+}
+
+/** A row for a channel that reports `kind: followers` readings (and `kind: post` events). */
+function eventRow(channel: string, events: WallEvent[], now: Date): ChannelRow {
+  const readings = events.filter((e) => e.kind === "followers" && e.amount != null).map((e) => ({ ts: e.ts, amount: e.amount as number }));
+  const series = daily(readings, now);
+  const headline = series.at(-1)?.value ?? null;
+  const at = (daysAgo: number) => {
+    const target = day(new Date(now.getTime() - daysAgo * DAY_MS));
+    let v: number | null = null;
+    for (const p of series) if (p.day <= target) v = p.value;
+    return v;
+  };
+  const delta = (daysAgo: number) => {
+    const then = at(daysAgo);
+    return headline === null || then === null ? null : headline - then;
+  };
+  return {
+    channel,
+    name: channelName(channel),
+    headline,
+    unit: "followers",
+    delta1: delta(1),
+    delta7: delta(7),
+    spark: series.map((p) => p.value),
+    latestPost: latestPost(events),
+    extra: {},
+    note: readings.length ? "followers events" : "no followers events yet",
+  };
+}
+
+function latestPost(events: WallEvent[]): PostStat | null {
+  const p = events.filter((e) => e.kind === "post").sort((a, b) => b.ts.localeCompare(a.ts))[0];
+  if (!p) return null;
+  const m = p.meta ?? {};
+  const n = (k: string) => (typeof m[k] === "number" ? (m[k] as number) : null);
+  return {
+    subject: p.subject ?? "post",
+    ts: p.ts,
+    url: typeof m.url === "string" ? m.url : null,
+    views: n("views"),
+    likes: n("likes"),
+    saves: n("saves"),
+    comments: n("comments"),
+  };
+}
+
+/** One row per channel with followers or post events, biggest first. */
+function eventRows(f: ResultsFacts): ChannelRow[] {
+  const by = new Map<string, WallEvent[]>();
+  for (const e of f.events) {
+    if ((e.kind !== "followers" && e.kind !== "post") || !e.channel) continue;
+    const id = channelId(e.channel);
+    by.set(id, [...(by.get(id) ?? []), e]);
+  }
+  return [...by].map(([id, evs]) => eventRow(id, evs, f.now)).sort((a, b) => (b.headline ?? -1) - (a.headline ?? -1));
+}
+
+/** The money hero, subscribers as the leading number, and one row per channel, Newsletter first. */
+export function results(f: ResultsFacts): Results {
+  const n = f.newsletter;
+  const delta = (daysAgo: number) => {
+    const then = countAt(n.byDay, daysAgo, f.now);
+    return n.subscribers === null || then === null ? null : n.subscribers - then;
+  };
+  const newsletter: ChannelRow = {
+    channel: "newsletter",
+    name: "NEWSLETTER",
+    headline: n.subscribers,
+    unit: "subscribers",
+    delta1: delta(1),
+    delta7: delta(7),
+    spark: n.byDay.slice(-30).map((p) => p.count),
+    latestPost: null,
+    extra: {
+      signupsToday: n.signupsToday,
+      lastLetter: n.lastSend ? day(n.lastSend) : null,
+      sends: n.sends,
+      cameFrom: sourcesLine(n.cameFrom),
+    },
+    note: n.subscribers === null ? "Beehiiv unreachable" : "Beehiiv",
+  };
+  return {
+    money: money(f),
+    subscribers: n.subscribers,
+    delta1: newsletter.delta1,
+    delta7: newsletter.delta7,
+    rows: [newsletter, ...eventRows(f)],
+  };
+}
+
+// ---------- work: "what is being made to improve it?" ----------
+
+const CONTENT = /^(reels.*|foley|voice|teardown)$/;
+const NOT_WORK = new Set(["signup", "letter"]); // they feed the Newsletter row in Results
+
+/** Which Work line a station belongs to: its own department, else by name; null = not part of Work. */
+export function departmentOf(s: Station): Department | null {
+  if (NOT_WORK.has(s.id)) return null;
+  if (s.department) return s.department;
+  return CONTENT.test(s.id) ? "content" : "development";
+}
+
+const WORST: StationState[] = ["failed", "paused", "waiting", "ok", "idle", "nodata"];
+const LINES: { id: Department; name: string }[] = [
+  { id: "content", name: "CONTENT" },
+  { id: "development", name: "DEVELOPMENT" },
+];
+
+const jobTime = (j: Job) => j.endedAt ?? j.lastBeat;
+
+function jobNow(j: Job): string {
+  if (BAD.has(j.state)) return jobLine(j);
+  if (j.state === "running") return `${j.label}: running${j.percent !== null ? ` ${Math.round(j.percent)}%` : ""}`;
+  return `${j.label}: done`;
+}
+
+/** The Work strip: CONTENT then DEVELOPMENT, each rolled up from its stations and today's jobs. */
+export function work(stations: Station[]): WorkLine[] {
+  return LINES.map(({ id, name }) => {
+    const mine = stations.filter((s) => departmentOf(s) === id);
+    const jobs = mine.flatMap((s) => s.jobs ?? []);
+    const has = (st: Job["state"]) => jobs.some((j) => j.state === st);
+    const failedStation = mine.find((s) => s.state === "failed" && !(s.jobs ?? []).some((j) => BAD.has(j.state)));
+    const running = jobs.filter((j) => j.state === "running").length;
+    const word = has("failed") || failedStation ? "FAILED" : has("stuck") ? "STUCK" : has("lost") ? "LOST" : running ? `RUNNING ${running}` : "OK";
+    const state = mine.map((s) => s.state).sort((a, b) => WORST.indexOf(a) - WORST.indexOf(b))[0] ?? "idle";
+    const bad = jobs.filter((j) => BAD.has(j.state)).sort((a, b) => jobTime(b).localeCompare(jobTime(a)))[0];
+    const newest = [...jobs].sort((a, b) => jobTime(b).localeCompare(jobTime(a)))[0];
+    const lastStation = [...mine].filter((s) => s.message).sort((a, b) => (b.lastRun ?? "").localeCompare(a.lastRun ?? ""))[0];
+    const latest = bad
+      ? jobLine(bad)
+      : failedStation
+        ? `${failedStation.name}: ${failedStation.message ?? "failed"}`
+        : newest
+          ? jobNow(newest)
+          : lastStation
+            ? `${lastStation.name}: ${lastStation.message}`
+            : null;
+    return { id, name, state, word, latest, open: word === "FAILED" || word === "STUCK" || word === "LOST", stations: mine };
+  });
 }

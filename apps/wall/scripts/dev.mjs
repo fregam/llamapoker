@@ -4,15 +4,25 @@
 // credentials.json and are passed as bindings for this process only, so no key is copied into
 // another file (CLAUDE.md, Secrets). A `.dev.vars` file next to this app works too and wins.
 //   npm run dev            → http://localhost:8788  (no password on localhost)
-import { spawn } from "node:child_process";
+import { execSync, spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const app = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const creds = resolve(app, "..", "..", "credentials.json");
+// In a git worktree the git-ignored credentials.json lives only in the main checkout: fall back to it.
+const mainCheckout = () => {
+  try {
+    const common = execSync("git rev-parse --path-format=absolute --git-common-dir", { cwd: app, encoding: "utf8" }).trim();
+    return resolve(common, "..", "credentials.json");
+  } catch {
+    return "";
+  }
+};
+const local = resolve(app, "..", "..", "credentials.json");
+const creds = existsSync(local) ? local : mainCheckout();
 const bindings = [];
-if (!existsSync(resolve(app, ".dev.vars")) && existsSync(creds)) {
+if (!existsSync(resolve(app, ".dev.vars")) && creds && existsSync(creds)) {
   const c = JSON.parse(readFileSync(creds, "utf8"));
   if (c.beehiiv?.api_key) bindings.push("--binding", `BEEHIIV_API_KEY=${c.beehiiv.api_key}`, "--binding", `BEEHIIV_PUBLICATION_ID=${c.beehiiv.publication_id}`);
 }

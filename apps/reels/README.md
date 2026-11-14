@@ -12,7 +12,7 @@ cd apps/reels
 npm install
 npm run studio                                   # preview and scrub in the browser
 CH="C:/Program Files/Google/Chrome/Application/chrome.exe"
-npx remotion render src/index.ts only-aces out/only-aces.mp4 --browser-executable="$CH"
+job npx remotion render src/index.ts only-aces out/only-aces.mp4 --browser-executable="$CH"   # job: shows it on the wall (apps/wall/README.md)
 npx remotion still  src/index.ts cover-only-aces out/cover-only-aces.png --browser-executable="$CH"
 ```
 

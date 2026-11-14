@@ -22,6 +22,13 @@ A command center for LlamaPoker. When I open it I want to see the whole operatio
 
 ## Desktop is one full screen with no scrolling
 
+> **Current layout (2026-11-14):** the wall is laid out results first: Results (money as the hero,
+> subscribers beside it, one row per channel) largest; Needs you (threats, approvals) beside it;
+> Work (CONTENT and DEVELOPMENT, opening down to the job traces) as one slim strip; feed and budget
+> smallest. The machine, north star and channels below became parts of those. The look is the VFD
+> wall (cyan on true black, orange accents), not brand/, by decision. See `apps/wall/README.md`,
+> `.scratch/wall-layout/spec.md` and `docs/decisions.md`. The original brief follows.
+
 - Centre: the north star (subscribers) as a very large Bodoni number with its trend, reach and the weekly-active share beside it, and under it one line saying what changed today and what I should do about it.
 - The machine: a live diagram of the whole pipeline, from research to drafts to my approval to scheduled to published, with real counts moving through it. Each agent is a station showing its state, its last run and its next run. A failure is visible from across the room.
 - Channels: site, letter, Instagram and search side by side, each with its key number, its trend, and its contribution to the north star.

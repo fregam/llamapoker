@@ -4,7 +4,7 @@
  * exposes `reload` so an action can show its effect at once. Used by App.tsx.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { WallState } from "../model";
+import type { Job, WallState } from "../model";
 
 export type Reading = WallState & { days: string[] };
 
@@ -85,3 +85,5 @@ export const shiftDay = (day: string, by: number) => {
   d.setUTCDate(d.getUTCDate() + by);
   return d.toISOString().slice(0, 10);
 };
+
+export const fetchJobs = () => fetch("/api/jobs").then((r) => parse<{ jobs: Job[] }>(r));

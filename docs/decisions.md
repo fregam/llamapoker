@@ -3,6 +3,49 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-14 - The wall's hero is money from day one; channels come through the event store
+
+- **What:** the biggest number on the wall is money (revenue, EUR), shown as a dash with "no
+  revenue source yet" until the first `revenue` event; subscribers sit beside it as the leading
+  number. Social channels (Instagram, TikTok, YouTube) reach Results only as `followers` and
+  `post` events posted by fetcher jobs; the wall never calls a social API. A Results row is
+  generic, so adding a channel is a fetcher plus its station, with no wall code. Spec:
+  `.scratch/wall-layout/spec.md`.
+- **Why:** money is the north star; subscribers are the road there, and putting the road in the
+  biggest digits would quietly make it the goal. One event store under everything keeps the wall
+  simple and every source replaceable.
+- **Rejected:** subscribers as the hero until money exists, with an automatic swap (Claude's
+  recommendation, accepted and then reversed by the founder); live API calls from the wall per
+  platform; one block per metric across channels (each new source would touch every block).
+
+## 2026-11-14 - The wall and VS Code go true black with orange accents
+
+- **What:** the wall (`apps/wall/src/styles.css`) and its VS Code theme (`apps/wall/vscode-theme/`,
+  now in the repo) drop the blue-black glass for true black (the faint grid stays). Amber becomes
+  orange `#ff8a1f` and also accents the chrome: panel titles, corner marks, VS Code's active tab
+  and activity bar. Cyan still carries data, red is still failure; a waiting pane keeps a full
+  orange border and glow, so it still stands out from plain orange corners.
+- **Why:** the founder's reference stills of command-centre screens: VFD cyan on black with orange
+  accents.
+- **Rejected:** keeping amber only for "waits on you" (strict three-colour meaning, but the screen
+  read cold and flat next to the references).
+
+## 2026-11-12 (late) - The wall is laid out by the question the founder comes with: results first
+
+- **What:** two sides. **Results** ("how are we doing?": socials per channel, post performance,
+  traffic, the list, money when it exists) is first and largest; **Needs you** (threats, approvals)
+  beside it; **Work** ("what is being made to improve it?") is one slim strip with a line per
+  department, CONTENT (research → drafts → approval → published; reels → render, foley, voice) and
+  DEVELOPMENT (site health, deploys, tools, CI), that opens down to the job progress bars; feed and
+  budget smallest. Site, Signup and Letter leave the machine's top row (site health → Development,
+  signups and the letter → Results). Next feature, to be grilled and specced on its own.
+- **Why:** the founder looks first at how socials and posts are doing, then at what is being made;
+  the workflow nodes are the least of it, yet The machine held the whole top row.
+- **Rejected:** stations as peers on one row (a render is not a part of the business like the
+  site); five departments (Reach, Audience, Money, Content, Product) and a per-piece vs per-channel
+  split (both mixed "how are we doing" with "what is being made"); holding the renders branch for
+  the redesign (the job wrapper, timeouts and logs are layout-independent and useful now).
+
 ## 2026-11-12 - Reel craft winners adopted; hook direction provisional (host + draw-on)
 
 - **What:** from the reel craft A/B rounds: a 2D virtual camera (round 1) and a quieter bed and
@@ -29,6 +72,22 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
 - **Rejected:** content factory v0 first (scales a system the founder knows can be better);
   bundled "direction" variants (can't tell which change won); A/B before the research is done
   (the first easy idea would become the baseline).
+
+## 2026-11-12 - The wall is local-first; local jobs report to it through one `job` wrapper
+
+- **What:** the wall runs on the founder's PC (`localhost:8788`); a VPS is a maybe for later; it is
+  never deployed as part of llamapoker.com. Long local jobs (Remotion renders, MMAudio foley,
+  teardowns) are started as `job <command>` and show as progress traces under their station in
+  The machine; failed, stuck (10 min silent) and lost (2 min without heartbeat) jobs turn the
+  station red with a threat. Progress only in v1. Spec: `.scratch/wall-renders/spec.md`.
+- **Why:** the wall is a private instrument and the jobs it watches run on this PC; the founder
+  wants a progress indicator that survives the tools changing, not per-tool integrations.
+- **Rejected:** deploying to Cloudflare Pages + D1 (no need for a public wall; consequence: the
+  site's signup posts don't reach it and North star reads Beehiiv directly); a new eighth panel
+  (a render is a pipeline step, The machine already answers "what's stuck"); live frames and
+  in-place playback (break whenever a tool changes); per-script reporting (every new tool needs
+  code, a hard crash can't report itself); a prefix-free process watcher (can't read another
+  process's output, so no bar); a stop button on the wall (Ctrl+C in the terminal is enough).
 
 ## 2026-11-11 (late night) - Every reel passes a measured gate against the approved reel before review
 
