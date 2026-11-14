@@ -417,3 +417,44 @@ lesson, and a hook line that could open the post.
   testing, and measure that it is locked. And build in production order: script, then motion,
   then sound, or you tune decisions that will change.
 - **Hook:** "My A/B test had a winner. Then I noticed the loser was on mute."
+
+## 2026-11-12 - My dashboard was organised like the factory, not like my morning
+
+- **Choice:** the command center is now laid out by the question I walk in with. First "how are we
+  doing?" (socials, posts, the list, money one day), then "what's being made to improve it?" as one
+  slim strip you open when something is red.
+- **Rejected:** a diagram of every machine in the pipeline across the top (impressive, and the
+  last thing I look at); five tidy business departments (they mixed results with work in
+  progress); grouping by "per post vs per channel" (correct, and not how I think).
+- **What happened:** it took four drafts. Each one was logical; none matched what I actually do
+  when I open the screen. The answer came when I described my own first thirty seconds instead of
+  the business.
+- **Lesson:** design a dashboard around the order of your questions, not the shape of your org chart.
+- **Hook:** "I built a Batcomputer for my business. Then I realised I'd put the engine room on the front page."
+
+## 2026-11-14 - The biggest number on my dashboard is a dash
+
+- **Choice:** the hero of the command center is money, even though there's no revenue yet. It
+  shows a dash and "no revenue source yet", with subscribers beside it as the leading number.
+- **Rejected:** making subscribers the hero until money exists and swapping automatically (my AI's
+  recommendation: "the biggest number should be one that moves"). I said yes, then took it back.
+- **What happened:** subscribers are the road, money is the destination. Putting the road in the
+  biggest digits would quietly make it the goal.
+- **Lesson:** the hero metric is what you're actually for, not what's easiest to watch move. An
+  honest empty slot keeps the goal in sight.
+- **Hook:** "The biggest number on my dashboard is a dash. On purpose."
+
+## 2026-11-14 - "Everything has tests, right?" It didn't
+
+- **Choice:** when asked if everything was tested, list exactly what was and wasn't (database
+  queries, a fix nobody had ever run, the phone view), then close the risky gaps: the store's SQL
+  tested against a real in-memory database in CI, and the untested fix pulled into a function with
+  its own tests.
+- **Rejected:** answering "yes, all green" (61 passing tests said nothing about the SQL); adding a
+  beta testing library whose docs didn't match its code (swapped for the tool already installed).
+- **What happened:** to prove the new tests guard anything, the query was broken on purpose; two
+  tests failed, as they should. One test also failed because the expected value was wrong, not
+  the code: it ended up pinning a product rule ("new from 7 days") that only lived in a chat.
+- **Lesson:** a green test suite tells you what was tested, not what works. Break the code on
+  purpose once; if nothing goes red, the test is decoration.
+- **Hook:** "I asked my AI if everything was tested. The honest answer was no, and that's why I trust it."
