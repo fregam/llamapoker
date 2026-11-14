@@ -3,7 +3,7 @@
  * the briefing. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
  * calls these.
  */
-import type { Channel, DayCount, Job, QueueItem, Station, Threat, WallEvent } from "../../src/model";
+import type { Channel, ChannelRow, DayCount, Job, PostStat, QueueItem, Results, Station, Threat, WallEvent } from "../../src/model";
 import { day } from "../../src/model";
 
 export interface Subscriber {
@@ -329,4 +329,147 @@ export function jobLine(j: Job): string {
   if (j.state === "lost") return `${j.label}: lost, the job stopped reporting`;
   const last = j.tail?.trim().split("\n").at(-1);
   return `${j.label}: failed${last ? ` (${last})` : ""}`;
+}
+
+// ---------- results: "how are we doing?" ----------
+
+export interface ResultsFacts {
+  now: Date;
+  revenueEver: boolean; // any `kind: revenue` event at all, ever
+  events: WallEvent[]; // revenue, followers and post events of the last 30 days
+  newsletter: {
+    subscribers: number | null; // Beehiiv's live count, null when unreachable
+    byDay: DayCount[];
+    signupsToday: number;
+    lastSend: string | null; // ISO
+    sends: number;
+    cameFrom: Record<string, number>; // first-touch channel → subscribers
+  };
+}
+
+const MONTH_MS = 30 * 86400000;
+
+/** Revenue (EUR) today and over 30 days; a dash with its reason until any revenue event exists. */
+function money(f: ResultsFacts): Results["money"] {
+  if (!f.revenueEver) return { today: null, month: null, unit: "EUR", note: "no revenue source yet" };
+  const from = f.now.getTime() - MONTH_MS;
+  const today = day(f.now);
+  let t = 0;
+  let m = 0;
+  for (const e of f.events) {
+    if (e.kind !== "revenue" || new Date(e.ts).getTime() < from) continue;
+    m += e.amount ?? 0;
+    if (day(e.ts) === today) t += e.amount ?? 0;
+  }
+  return { today: t, month: m, unit: "EUR", note: "revenue events" };
+}
+
+const ALIASES: Record<string, string> = { instagram: "ig", tiktok: "tt", youtube: "yt", twitter: "x" };
+const channelId = (raw: string) => ALIASES[raw.toLowerCase()] ?? raw.toLowerCase();
+
+/** The value at the end of each day from the first reading (at most 30 days back) to today, carried forward. */
+function daily(readings: { ts: string; amount: number }[], now: Date): { day: string; value: number }[] {
+  const last = new Map<string, number>();
+  for (const r of [...readings].sort((a, b) => a.ts.localeCompare(b.ts))) last.set(day(r.ts), r.amount);
+  if (last.size === 0) return [];
+  const first = [...last.keys()][0];
+  const start = day(new Date(Math.max(new Date(first + "T00:00:00Z").getTime(), now.getTime() - 29 * 86400000)));
+  const out: { day: string; value: number }[] = [];
+  let carry: number | null = null;
+  for (const [d, v] of last) if (d < start) carry = v;
+  for (const d = new Date(start + "T00:00:00Z"); day(d) <= day(now); d.setUTCDate(d.getUTCDate() + 1)) {
+    carry = last.get(day(d)) ?? carry;
+    if (carry !== null) out.push({ day: day(d), value: carry });
+  }
+  return out;
+}
+
+/** A row for a channel that reports `kind: followers` readings (and `kind: post` events). */
+function eventRow(channel: string, events: WallEvent[], now: Date): ChannelRow {
+  const readings = events.filter((e) => e.kind === "followers" && e.amount != null).map((e) => ({ ts: e.ts, amount: e.amount as number }));
+  const series = daily(readings, now);
+  const headline = series.at(-1)?.value ?? null;
+  const at = (daysAgo: number) => {
+    const target = day(new Date(now.getTime() - daysAgo * 86400000));
+    let v: number | null = null;
+    for (const p of series) if (p.day <= target) v = p.value;
+    return v;
+  };
+  const delta = (daysAgo: number) => {
+    const then = at(daysAgo);
+    return headline === null || then === null ? null : headline - then;
+  };
+  return {
+    channel,
+    name: CHANNEL_NAMES[channel] ?? channel.toUpperCase(),
+    headline,
+    unit: "followers",
+    delta1: delta(1),
+    delta7: delta(7),
+    spark: series.map((p) => p.value),
+    latestPost: latestPost(events),
+    extra: {},
+    note: readings.length ? "followers events" : "no followers events yet",
+  };
+}
+
+function latestPost(events: WallEvent[]): PostStat | null {
+  const p = events.filter((e) => e.kind === "post").sort((a, b) => b.ts.localeCompare(a.ts))[0];
+  if (!p) return null;
+  const m = p.meta ?? {};
+  const n = (k: string) => (typeof m[k] === "number" ? (m[k] as number) : null);
+  return {
+    subject: p.subject ?? "post",
+    ts: p.ts,
+    url: typeof m.url === "string" ? m.url : null,
+    views: n("views"),
+    likes: n("likes"),
+    saves: n("saves"),
+    comments: n("comments"),
+  };
+}
+
+/** One row per channel with followers or post events, biggest first. */
+function eventRows(f: ResultsFacts): ChannelRow[] {
+  const by = new Map<string, WallEvent[]>();
+  for (const e of f.events) {
+    if ((e.kind !== "followers" && e.kind !== "post") || !e.channel) continue;
+    const id = channelId(e.channel);
+    by.set(id, [...(by.get(id) ?? []), e]);
+  }
+  return [...by].map(([id, evs]) => eventRow(id, evs, f.now)).sort((a, b) => (b.headline ?? -1) - (a.headline ?? -1));
+}
+
+/** The money hero, subscribers as the leading number, and one row per channel, Newsletter first. */
+export function results(f: ResultsFacts): Results {
+  const n = f.newsletter;
+  const delta = (daysAgo: number) => (n.subscribers === null ? null : n.subscribers - (countAt(n.byDay, daysAgo, f.now) ?? 0));
+  const newsletter: ChannelRow = {
+    channel: "newsletter",
+    name: "NEWSLETTER",
+    headline: n.subscribers,
+    unit: "subscribers",
+    delta1: delta(1),
+    delta7: delta(7),
+    spark: n.byDay.slice(-30).map((p) => p.count),
+    latestPost: null,
+    extra: {
+      signupsToday: n.signupsToday,
+      lastLetter: n.lastSend ? day(n.lastSend) : null,
+      sends: n.sends,
+      cameFrom:
+        Object.entries(n.cameFrom)
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+          .map(([c, k]) => `${CHANNEL_NAMES[c] ?? c.toUpperCase()} ${k}`)
+          .join(" · ") || null,
+    },
+    note: n.subscribers === null ? "Beehiiv unreachable" : "Beehiiv",
+  };
+  return {
+    money: money(f),
+    subscribers: n.subscribers,
+    delta1: newsletter.delta1,
+    delta7: newsletter.delta7,
+    rows: [newsletter, ...eventRows(f)],
+  };
 }

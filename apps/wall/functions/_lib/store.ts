@@ -13,7 +13,7 @@
  */
 import type { Channel, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
 import { day } from "../../src/model";
-import { briefing, brought, channels, countAt, jobLine, subscribersByDay, threats, todayLine, withJobs, type Facts, type Subscriber } from "./derive";
+import { briefing, brought, channels, countAt, jobLine, results, subscribersByDay, threats, todayLine, withJobs, type Facts, type Subscriber } from "./derive";
 
 export interface Env {
   DB?: D1Database;
@@ -97,6 +97,8 @@ interface Reads {
   views: Record<string, number>;
   perStation: Record<string, number>;
   fails: Record<string, WallEvent>;
+  results: WallEvent[]; // revenue, followers and post events of 30 days, plus each channel's last followers reading before that
+  revenueEver: boolean;
 }
 
 const parseEvent = (r: Record<string, unknown>): WallEvent => ({
@@ -108,7 +110,8 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
   const week = new Date(now.getTime() - 7 * 86400000).toISOString();
   const dayAgo = new Date(now.getTime() - 86400000).toISOString();
   const month = now.toISOString().slice(0, 7) + "-01T00:00:00Z";
-  const [feed, rows, queue, flags, spent, last, views, per, fails] = await db.batch([
+  const thirty = new Date(now.getTime() - 30 * 86400000).toISOString();
+  const [feed, rows, queue, flags, spent, last, views, per, fails, res, rev] = await db.batch([
     db.prepare("SELECT * FROM events ORDER BY ts DESC LIMIT 80"),
     db.prepare("SELECT * FROM stations"),
     db.prepare("SELECT * FROM queue WHERE status = 'waiting' ORDER BY ts"),
@@ -118,6 +121,15 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
     db.prepare("SELECT channel, SUM(amount) AS n FROM events WHERE kind = 'view' AND ts >= ? GROUP BY channel").bind(week),
     db.prepare("SELECT station, COUNT(*) AS n FROM events WHERE ts >= ? AND station IS NOT NULL GROUP BY station").bind(week),
     db.prepare("SELECT * FROM events WHERE kind = 'fail' AND ts >= ? ORDER BY ts DESC").bind(dayAgo),
+    db
+      .prepare(
+        `SELECT * FROM events WHERE kind IN ('revenue', 'followers', 'post') AND ts >= ?1
+         UNION ALL
+         SELECT e.* FROM events e JOIN (SELECT channel, MAX(ts) AS t FROM events WHERE kind = 'followers' AND ts < ?1 GROUP BY channel) l
+           ON e.kind = 'followers' AND e.channel = l.channel AND e.ts = l.t`,
+      )
+      .bind(thirty),
+    db.prepare("SELECT EXISTS (SELECT 1 FROM events WHERE kind = 'revenue') AS x"),
   ]);
   const fl: Record<string, string> = {};
   for (const r of flags.results as { key: string; value: string }[]) fl[r.key] = r.value;
@@ -140,10 +152,12 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
     views: vw,
     perStation: ps,
     fails: fs,
+    results: (res.results as Record<string, unknown>[]).map(parseEvent),
+    revenueEver: !!(rev.results[0] as { x: number }).x,
   };
 }
 
-const empty: Reads = { feed: [], rows: [], queue: [], flags: {}, spentMonth: 0, lastSignup: null, views: {}, perStation: {}, fails: {} };
+const empty: Reads = { feed: [], rows: [], queue: [], flags: {}, spentMonth: 0, lastSignup: null, views: {}, perStation: {}, fails: {}, results: [], revenueEver: false };
 
 // ---------- assembly ----------
 
@@ -286,6 +300,19 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
       today: line.today,
       action: line.action,
     },
+    results: results({
+      now,
+      revenueEver: reads.revenueEver,
+      events: reads.results,
+      newsletter: {
+        subscribers,
+        byDay,
+        signupsToday: bhr ? bhr.subs.filter((s) => s.status === "active" && day(new Date(s.created * 1000)) === today).length : 0,
+        lastSend: bhr?.lastSend ?? null,
+        sends: bhr?.sends ?? 0,
+        cameFrom: bhr ? brought(bhr.subs) : {},
+      },
+    }),
     stations: st,
     links,
     threats: t,

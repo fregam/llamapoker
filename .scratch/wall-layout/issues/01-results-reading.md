@@ -1,6 +1,6 @@
 # 01 Results in the reading: money hero and generic channel rows
 
-Status: ready-for-agent
+Status: done
 Spec: ../spec.md (Decisions 2, 3, 8)
 Blocked by: none
 
@@ -33,3 +33,14 @@ Newsletter row from subscribers + signups.
 `instagram` change it as expected; `npm test` and `npx tsc --noEmit` pass.
 
 ## Comments
+
+2026-11-14: done, test-first at the agreed seams. `results(facts)` in `functions/_lib/derive.ts`
+(seven tests in `derive.test.ts`: money dash / sums / real zero, followers row with deltas and a
+sparkline carried forward from the first reading, `instagram` → `ig`, rows biggest first, latest
+post from meta, a posts-only channel, the Newsletter extras, Beehiiv unreachable). `store.ts`
+reads revenue/followers/post events of 30 days plus each channel's last followers reading before
+that (so a quiet channel's line still starts at its last count) and whether revenue ever existed.
+Checked live on localhost: before = money dash + Newsletter only; after posting a revenue event
+and an Instagram followers event = 10 EUR and an INSTAGRAM row; test events deleted after.
+`results` is optional on `WallState`, so old snapshots stay valid. Signups today come from
+Beehiiv (subscriptions created today), not from signup events.

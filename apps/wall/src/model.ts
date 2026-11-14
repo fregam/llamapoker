@@ -109,6 +109,43 @@ export interface North {
   action: string; // what to do about it, one line
 }
 
+/** A channel's latest post and how it did (a `kind: post` event; numbers from its meta). */
+export interface PostStat {
+  subject: string; // the post id
+  ts: string;
+  url: string | null;
+  views: number | null;
+  likes: number | null;
+  saves: number | null;
+  comments: number | null;
+}
+
+/**
+ * One channel in Results. Every channel has this shape: the Newsletter (Beehiiv) and any channel
+ * that posts `kind: followers` / `kind: post` events. A null number is shown as a dash.
+ */
+export interface ChannelRow {
+  channel: string; // newsletter | ig | tt | yt | ...
+  name: string;
+  headline: number | null; // subscribers / followers
+  unit: string;
+  delta1: number | null;
+  delta7: number | null;
+  spark: number[]; // the headline at the end of each of the last 30 days, oldest first
+  latestPost: PostStat | null;
+  extra: Record<string, string | number | null>; // channel-specific facts (Newsletter: signups, last letter, came from)
+  note: string; // where the numbers come from, or why there are none
+}
+
+/** "How are we doing?": the money hero, subscribers as the leading number, one row per channel. */
+export interface Results {
+  money: { today: number | null; month: number | null; unit: "EUR"; note: string };
+  subscribers: number | null;
+  delta1: number | null;
+  delta7: number | null;
+  rows: ChannelRow[];
+}
+
 export interface Experiment {
   id: string;
   name: string;
@@ -123,6 +160,7 @@ export interface WallState {
   live: boolean; // false when read back from a snapshot
   paused: boolean;
   north: North;
+  results?: Results; // absent in snapshots stored before the results-first layout
   stations: Station[];
   links: Link[];
   threats: Threat[];

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { briefing, brought, channelOf, countAt, subscribersByDay, threats, withJobs, type Facts } from "./derive";
-import type { Job, Station } from "../../src/model";
+import { briefing, brought, channelOf, countAt, results, subscribersByDay, threats, withJobs, type Facts, type ResultsFacts } from "./derive";
+import type { Job, Station, WallEvent } from "../../src/model";
 
 const sec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
 const now = new Date("2026-11-11T20:00:00Z");
@@ -181,5 +181,103 @@ describe("job threats", () => {
     const fix = threats({ ...base, stations }).find((x) => x.id === "job:b")?.fix;
     expect(fix).toContain("E:/p/logs/jobs/2026-11-11/b.log");
     expect(fix).not.toMatch(/terminal/i);
+  });
+});
+
+const quiet: ResultsFacts = {
+  now,
+  revenueEver: false,
+  events: [],
+  newsletter: { subscribers: 2, byDay: [{ day: "2026-11-05", count: 1 }, { day: "2026-11-06", count: 2 }], signupsToday: 0, lastSend: null, sends: 0, cameFrom: { site: 2 } },
+};
+
+describe("results", () => {
+  it("shows money as a dash with its reason until a revenue source exists, and the Newsletter first", () => {
+    const r = results(quiet);
+    expect(r.money).toEqual({ today: null, month: null, unit: "EUR", note: "no revenue source yet" });
+    expect(r.subscribers).toBe(2);
+    expect(r.rows.map((x) => x.channel)).toEqual(["newsletter"]);
+    expect(r.rows[0]).toMatchObject({ name: "NEWSLETTER", headline: 2, unit: "subscribers", delta1: 0, delta7: 2 });
+  });
+});
+
+const ev = (kind: string, ts: string, more: Partial<WallEvent> = {}): WallEvent => ({ id: kind + ts, ts, kind, ...more });
+
+describe("results: money", () => {
+  it("sums revenue events for today and the last 30 days", () => {
+    const events = [
+      ev("revenue", "2026-11-11T09:00:00Z", { amount: 10, unit: "EUR", channel: "sponsor" }),
+      ev("revenue", "2026-11-10T09:00:00Z", { amount: 5, unit: "EUR", channel: "affiliate" }),
+      ev("revenue", "2026-10-01T09:00:00Z", { amount: 100, unit: "EUR" }), // older than 30 days
+    ];
+    expect(results({ ...quiet, revenueEver: true, events }).money).toEqual({ today: 10, month: 15, unit: "EUR", note: "revenue events" });
+  });
+  it("shows a real zero, not a dash, once revenue has existed", () => {
+    expect(results({ ...quiet, revenueEver: true }).money).toMatchObject({ today: 0, month: 0 });
+  });
+});
+
+describe("results: channel rows from events", () => {
+  const follow = (channel: string, ts: string, amount: number) => ev("followers", ts, { channel, amount });
+  it("turns a followers series into a row with deltas and a sparkline, after the Newsletter, biggest first", () => {
+    const events = [
+      follow("instagram", "2026-11-03T08:00:00Z", 100),
+      follow("instagram", "2026-11-04T08:00:00Z", 120),
+      follow("instagram", "2026-11-10T08:00:00Z", 150),
+      follow("instagram", "2026-11-11T08:00:00Z", 160),
+      follow("tiktok", "2026-11-11T08:00:00Z", 50),
+    ];
+    const r = results({ ...quiet, events });
+    expect(r.rows.map((x) => x.channel)).toEqual(["newsletter", "ig", "tt"]);
+    expect(r.rows[1]).toMatchObject({
+      name: "INSTAGRAM",
+      headline: 160,
+      unit: "followers",
+      delta1: 10,
+      delta7: 40,
+      spark: [100, 120, 120, 120, 120, 120, 120, 150, 160],
+      latestPost: null,
+    });
+    expect(r.rows[2]).toMatchObject({ name: "TIKTOK", headline: 50, delta1: null, delta7: null, spark: [50] });
+  });
+});
+
+describe("results: latest post", () => {
+  it("picks the newest post event and reads its numbers from meta", () => {
+    const events = [
+      ev("followers", "2026-11-11T08:00:00Z", { channel: "ig", amount: 160 }),
+      ev("post", "2026-11-09T18:00:00Z", { channel: "ig", subject: "reel-002", meta: { views: 400 } }),
+      ev("post", "2026-11-10T18:00:00Z", { channel: "ig", subject: "reel-003", meta: { views: 900, likes: 40, url: "https://instagram.com/p/x" } }),
+      ev("post", "2026-11-10T19:00:00Z", { channel: "yt", subject: "short-1", meta: { views: 12 } }),
+    ];
+    const r = results({ ...quiet, events });
+    expect(r.rows.find((x) => x.channel === "ig")?.latestPost).toEqual({
+      subject: "reel-003",
+      ts: "2026-11-10T18:00:00Z",
+      url: "https://instagram.com/p/x",
+      views: 900,
+      likes: 40,
+      saves: null,
+      comments: null,
+    });
+    expect(r.rows.find((x) => x.channel === "yt")).toMatchObject({ headline: null, note: "no followers events yet", latestPost: { subject: "short-1", views: 12 } });
+  });
+});
+
+describe("results: the Newsletter row", () => {
+  it("carries the subscriber sparkline, signups today, the last letter and where subscribers came from", () => {
+    const r = results({
+      ...quiet,
+      newsletter: { subscribers: 3, byDay: [{ day: "2026-11-09", count: 1 }, { day: "2026-11-10", count: 1 }, { day: "2026-11-11", count: 3 }], signupsToday: 2, lastSend: "2026-11-08T07:00:00Z", sends: 1, cameFrom: { site: 1, ig: 2 } },
+    });
+    expect(r.rows[0]).toMatchObject({
+      spark: [1, 1, 3],
+      extra: { signupsToday: 2, lastLetter: "2026-11-08", sends: 1, cameFrom: "INSTAGRAM 2 · SITE 1" },
+    });
+  });
+  it("says why when Beehiiv is unreachable", () => {
+    const r = results({ ...quiet, newsletter: { ...quiet.newsletter, subscribers: null, byDay: [] } });
+    expect(r.rows[0]).toMatchObject({ headline: null, delta1: null, spark: [], note: "Beehiiv unreachable" });
+    expect(r.subscribers).toBeNull();
   });
 });
