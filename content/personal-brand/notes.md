@@ -472,3 +472,16 @@ lesson, and a hook line that could open the post.
   else's rule of thumb, and nothing becomes a rule until it wins on your own cut.
 - **Hook:** "I found a 100-star guide to making viral shorts. Half of it was already wrong for us,
   and we could prove it."
+
+## 2026-11-14 · Five rounds of polish on a reel whose script was going to flop
+
+- **Choice:** stop the motion rebuild of reel 002 and go back to how scripts get written. Checked
+  against a short list (a loop back to the hook, one open question closed only at the end, one
+  payoff per video), the script failed all three.
+- **Rejected:** rebuilding 002's motion on the old script (more polish on a weak argument); patching
+  002's script alone (the next reel would repeat the same mistakes).
+- **What happened:** five research rounds had tuned camera, sound, captions and hook art. None of
+  them could fix a hook that gave the answer away in its first breath and a video carrying two ideas.
+- **Lesson:** production order is not a suggestion. Craft rounds downstream of a script can only
+  measure the craft, never whether the video deserved to be made.
+- **Hook:** "I spent five rounds perfecting a reel. Then I read the script again."

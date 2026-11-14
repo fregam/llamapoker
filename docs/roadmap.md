@@ -79,6 +79,10 @@
      performing host + the hook drawing itself (Bodoni strokes), provisional until judged on the full cut. Next: rebuild 002's full motion in
      that direction (script and voice unchanged), then sound design on the finished cut, then the
      content factory on the upgraded system.
+   - 2026-11-14: **002 motion rebuild paused; scripts come first.** 002's script failed the loop,
+     open-question and one-payoff checks. New order: audience research (`apps/research`, spec
+     `.scratch/audience-research/spec.md`, 10 tickets; its v1 is also the seed of the weekly
+     research agent below) → the factory's script stage → 002 rewritten through it → motion → sound.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".
@@ -87,7 +91,8 @@
 
 - Email: tighten DMARC to p=quarantine once reports are clean; Beehiiv custom sending domain (letter@llamapoker.com).
 
-- Research agent (Reddit, X, tournament results) → weekly brief in `content/`.
+- Research agent (Reddit, X, tournament results) → weekly brief in `content/`. Built on
+  `apps/research` once the audience study (v1) is done.
 - Writing and SEO agents → draft articles for review.
 - Social agent → turns articles and tips into posts and reel scripts.
 - Agent rules: agents draft, a human approves before anything is published; follow
