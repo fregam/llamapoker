@@ -11,7 +11,7 @@ export interface Command {
 }
 
 export const COMMANDS: Command[] = [
-  { name: "go <panel>", hint: "bring a panel forward: machine, threats, north, approvals, channels, feed, budget" },
+  { name: "go <panel>", hint: "bring a panel forward: results, needs, work, feed, budget" },
   { name: "open <station>", hint: "open a station's evidence in place" },
   { name: "call <id>", hint: "approve a waiting piece (id or start of its title)" },
   { name: "fold <id>", hint: "reject a waiting piece" },

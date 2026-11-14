@@ -1,5 +1,5 @@
 /**
- * What one job trace in The machine shows (src/panels/Machine.tsx): pure, so jobs.test.ts can
+ * What one job trace in a Work line shows (src/panels/Work.tsx): pure, so jobs.test.ts can
  * check it. The look lives in the panel and styles.css.
  */
 import type { Job } from "../model";

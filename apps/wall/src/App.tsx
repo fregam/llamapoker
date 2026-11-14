@@ -3,8 +3,9 @@
  * area; the header carries the clock, the day being viewed, the pause state and the keys.
  * Behaviour (docs/interface.md): everything opens in place (`open`), one key opens the command
  * bar (`act` runs its commands), `[` and `]` scrub to past days' snapshots, the kill switch is
- * guarded, the briefing shows on the first open of each day, `w` is wall mode, and under
- * 800 px the wall becomes three screens: briefing, threats, approvals.
+ * guarded, the briefing shows on the first open of each day (`?nobrief` skips it, e.g. for a
+ * screenshot), `w` is wall mode, and under 800 px the wall becomes a column of the briefing and
+ * the panels marked `phone`.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { post, shiftDay, useMedia, useWall } from "./lib/api";
@@ -49,7 +50,7 @@ export default function App() {
   }, []);
   useEffect(() => write("wall-overlays", overlays ? "1" : "0"), [overlays]);
   useEffect(() => {
-    if (state && state.live && !wall && read("wall-briefed") !== state.day) {
+    if (state && state.live && !wall && !new URLSearchParams(window.location.search).has("nobrief") && read("wall-briefed") !== state.day) {
       setBrief(true);
       write("wall-briefed", state.day);
     }
@@ -83,7 +84,7 @@ export default function App() {
           const s = state?.stations.find((x) => x.id.startsWith(arg.toLowerCase()));
           if (!s) throw new Error("no station " + arg);
           setOpen("station:" + s.id);
-          setFocus("machine");
+          setFocus("work");
         } else if (v === "call" || v === "fold" || v === "raise") {
           const [idArg, ...noteWords] = rest;
           const item = state?.queue.find((q) => q.id === idArg || q.id.startsWith(idArg ?? "") || q.title.toLowerCase().startsWith((idArg ?? "").toLowerCase()));
@@ -243,7 +244,7 @@ export default function App() {
             <b>/</b> command
           </span>
           <span>
-            <b>1–7</b> panels
+            <b>1–5</b> panels
           </span>
           <span>
             <b>[ ]</b> days
