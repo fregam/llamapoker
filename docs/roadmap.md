@@ -28,8 +28,8 @@
    this PC, a VPS maybe later, never part of the site). Next, grilled 2026-11-12: **renders in The
    machine**: `job <command>` shows every local job (Remotion render, MMAudio, teardown) as a
    progress trace under its station; failed, stuck and lost jobs raise threats. Spec and tickets:
-   `.scratch/wall-renders/` (shipped). **Now: the wall's layout, results first** (grilled
-   2026-11-14, spec and tickets `.scratch/wall-layout/`, branch `feature/wall-layout`): money as
+   `.scratch/wall-renders/` (shipped). **Shipped 2026-11-14: the wall's layout, results first**
+   (PR #33, spec and tickets `.scratch/wall-layout/`): money as
    the hero (a dash until the first `revenue` event), subscribers beside it, one row per channel;
    Needs you beside Results; Work as a CONTENT / DEVELOPMENT strip opening down to the job bars;
    the briefing reads results first. Look: true black with orange accents (wall and VS Code).
