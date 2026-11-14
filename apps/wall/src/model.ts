@@ -32,6 +32,21 @@ export interface Station {
   countLabel?: string | null;
   evidence?: unknown; // the raw records behind the station, shown when it is opened
   jobs?: Job[]; // today's local jobs under this station (scripts/job.mjs)
+  department?: Department | null; // set by the station's writer or `job --dept`; else derive.ts departmentOf decides
+}
+
+/** The two sides of "what is being made?": the Work strip has one line per department. */
+export type Department = "content" | "development";
+
+/** One Work line: a department rolled up from its stations and today's jobs. */
+export interface WorkLine {
+  id: Department;
+  name: string; // CONTENT | DEVELOPMENT
+  state: StationState; // the worst of its stations
+  word: string; // OK | RUNNING n | FAILED | STUCK | LOST
+  latest: string | null; // the newest thing that happened in it, one line
+  open: boolean; // opens by itself when anything in it is failed, stuck or lost
+  stations: Station[];
 }
 
 /** stuck: alive but silent too long (the wrapper says so); lost: the wrapper stopped beating. */
@@ -51,6 +66,7 @@ export interface Job {
   tail: string | null; // the last output lines, for a failure
   phase: string | null; // the word before the progress number ("Rendered", "Encoded"), when printed
   log: string | null; // the full output of this run on the PC (logs/jobs/<day>/<id>.log)
+  department?: Department | null; // `job --dept`, given to its station when the station has none
 }
 
 export interface Link {
@@ -161,6 +177,7 @@ export interface WallState {
   paused: boolean;
   north: North;
   results?: Results; // absent in snapshots stored before the results-first layout
+  work?: WorkLine[]; // CONTENT then DEVELOPMENT; absent in older snapshots
   stations: Station[];
   links: Link[];
   threats: Threat[];

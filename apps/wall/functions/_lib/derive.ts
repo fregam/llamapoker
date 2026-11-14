@@ -3,7 +3,7 @@
  * the briefing. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
  * calls these.
  */
-import type { Channel, ChannelRow, DayCount, Job, PostStat, QueueItem, Results, Station, Threat, WallEvent } from "../../src/model";
+import type { Channel, ChannelRow, DayCount, Department, Job, PostStat, QueueItem, Results, Station, StationState, Threat, WallEvent, WorkLine } from "../../src/model";
 import { day } from "../../src/model";
 
 export interface Subscriber {
@@ -300,8 +300,8 @@ export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Dat
   );
   const by = new Map(stations.map((s) => [s.id, { ...s }]));
   for (const j of read) {
-    const s = by.get(j.station) ?? { id: j.station, name: j.station, state: "idle" as const };
-    by.set(j.station, { ...s, jobs: [...(s.jobs ?? []), j] });
+    const s: Station = by.get(j.station) ?? { id: j.station, name: j.station, state: "idle" };
+    by.set(j.station, { ...s, department: s.department ?? j.department ?? null, jobs: [...(s.jobs ?? []), j] });
   }
   return [...by.values()].map((s) => {
     const js = s.jobs ?? [];
@@ -472,4 +472,56 @@ export function results(f: ResultsFacts): Results {
     delta7: newsletter.delta7,
     rows: [newsletter, ...eventRows(f)],
   };
+}
+
+// ---------- work: "what is being made to improve it?" ----------
+
+const CONTENT = /^(reels.*|foley|voice|teardown)$/;
+const NOT_WORK = new Set(["signup", "letter"]); // they feed the Newsletter row in Results
+
+/** Which Work line a station belongs to: its own department, else by name; null = not part of Work. */
+export function departmentOf(s: Station): Department | null {
+  if (NOT_WORK.has(s.id)) return null;
+  if (s.department) return s.department;
+  return CONTENT.test(s.id) ? "content" : "development";
+}
+
+const WORST: StationState[] = ["failed", "paused", "waiting", "ok", "idle", "nodata"];
+const LINES: { id: Department; name: string }[] = [
+  { id: "content", name: "CONTENT" },
+  { id: "development", name: "DEVELOPMENT" },
+];
+
+const jobTime = (j: Job) => j.endedAt ?? j.lastBeat;
+
+function jobNow(j: Job): string {
+  if (BAD.has(j.state)) return jobLine(j);
+  if (j.state === "running") return `${j.label}: running${j.percent !== null ? ` ${Math.round(j.percent)}%` : ""}`;
+  return `${j.label}: done`;
+}
+
+/** The Work strip: CONTENT then DEVELOPMENT, each rolled up from its stations and today's jobs. */
+export function work(stations: Station[]): WorkLine[] {
+  return LINES.map(({ id, name }) => {
+    const mine = stations.filter((s) => departmentOf(s) === id);
+    const jobs = mine.flatMap((s) => s.jobs ?? []);
+    const has = (st: Job["state"]) => jobs.some((j) => j.state === st);
+    const failedStation = mine.find((s) => s.state === "failed" && !(s.jobs ?? []).some((j) => BAD.has(j.state)));
+    const running = jobs.filter((j) => j.state === "running").length;
+    const word = has("failed") || failedStation ? "FAILED" : has("stuck") ? "STUCK" : has("lost") ? "LOST" : running ? `RUNNING ${running}` : "OK";
+    const state = mine.map((s) => s.state).sort((a, b) => WORST.indexOf(a) - WORST.indexOf(b))[0] ?? "idle";
+    const bad = jobs.filter((j) => BAD.has(j.state)).sort((a, b) => jobTime(b).localeCompare(jobTime(a)))[0];
+    const newest = [...jobs].sort((a, b) => jobTime(b).localeCompare(jobTime(a)))[0];
+    const lastStation = [...mine].filter((s) => s.message).sort((a, b) => (b.lastRun ?? "").localeCompare(a.lastRun ?? ""))[0];
+    const latest = bad
+      ? jobLine(bad)
+      : failedStation
+        ? `${failedStation.name}: ${failedStation.message ?? "failed"}`
+        : newest
+          ? jobNow(newest)
+          : lastStation
+            ? `${lastStation.name}: ${lastStation.message}`
+            : null;
+    return { id, name, state, word, latest, open: word === "FAILED" || word === "STUCK" || word === "LOST", stations: mine };
+  });
 }

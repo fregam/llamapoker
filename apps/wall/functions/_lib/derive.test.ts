@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { briefing, brought, channelOf, countAt, results, subscribersByDay, threats, withJobs, type Facts, type ResultsFacts } from "./derive";
+import { briefing, brought, channelOf, countAt, departmentOf, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
 import type { Job, Station, WallEvent } from "../../src/model";
 
 const sec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
@@ -279,5 +279,77 @@ describe("results: the Newsletter row", () => {
     const r = results({ ...quiet, newsletter: { ...quiet.newsletter, subscribers: null, byDay: [] } });
     expect(r.rows[0]).toMatchObject({ headline: null, delta1: null, spark: [], note: "Beehiiv unreachable" });
     expect(r.subscribers).toBeNull();
+  });
+});
+
+describe("departments", () => {
+  const st = (id: string, over: Partial<Station> = {}): Station => ({ id, name: id, state: "idle", ...over });
+  it("puts reels, foley, voice and teardown under content and everything else under development", () => {
+    expect(["reels-render", "reels", "foley", "voice", "teardown"].map((id) => departmentOf(st(id)))).toEqual(["content", "content", "content", "content", "content"]);
+    expect(["site", "ffmpeg", "deploy", "vo-comfy"].map((id) => departmentOf(st(id)))).toEqual(["development", "development", "development", "development"]);
+  });
+  it("lets a station's own department win", () => {
+    expect(departmentOf(st("ffmpeg", { department: "content" }))).toBe("content");
+    expect(departmentOf(st("foley", { department: "development" }))).toBe("development");
+  });
+  it("leaves signup and letter out of Work (they feed the Newsletter row)", () => {
+    expect(departmentOf(st("signup"))).toBeNull();
+    expect(departmentOf(st("letter"))).toBeNull();
+  });
+});
+
+describe("work lines", () => {
+  const job = (over: Partial<Job>): Job => ({
+    id: "j1",
+    station: "reels-render",
+    label: "OnlyAces",
+    state: "running",
+    percent: 40,
+    startedAt: "2026-11-11T19:50:00Z",
+    lastBeat: "2026-11-11T19:59:30Z",
+    endedAt: null,
+    output: null,
+    tail: null,
+    phase: null,
+    log: null,
+    ...over,
+  });
+  const site: Station = { id: "site", name: "Site", state: "ok", message: "200 in 400 ms", lastRun: "2026-11-11T19:59:00Z" };
+  const signup: Station = { id: "signup", name: "Signup", state: "nodata" };
+
+  it("always has CONTENT then DEVELOPMENT, quiet ones reading OK and closed", () => {
+    const w = work([site, signup]);
+    expect(w.map((l) => [l.id, l.name, l.word, l.open])).toEqual([
+      ["content", "CONTENT", "OK", false],
+      ["development", "DEVELOPMENT", "OK", false],
+    ]);
+    expect(w[1].stations.map((s) => s.id)).toEqual(["site"]);
+    expect(w[1].latest).toBe("Site: 200 in 400 ms");
+    expect(w[0].latest).toBeNull();
+  });
+
+  it("counts running jobs and names the newest", () => {
+    const reels: Station = { id: "reels-render", name: "reels-render", state: "ok", message: "2 running", jobs: [job({ id: "a" }), job({ id: "b", label: "OnlyAces-blur", percent: null, lastBeat: "2026-11-11T19:59:50Z" })] };
+    const [content] = work([reels, site]);
+    expect(content).toMatchObject({ word: "RUNNING 2", state: "ok", open: false, latest: "OnlyAces-blur: running" });
+  });
+
+  it("opens a line by itself on a failed, stuck or lost job, and says which", () => {
+    const failed: Station = { id: "foley", name: "foley", state: "failed", jobs: [job({ station: "foley", label: "r2", state: "failed", tail: "CUDA out of memory", endedAt: "2026-11-11T19:58:00Z" })] };
+    expect(work([failed])[0]).toMatchObject({ word: "FAILED", state: "failed", open: true, latest: "r2: failed (CUDA out of memory)" });
+    const stuck: Station = { id: "teardown", name: "teardown", state: "failed", jobs: [job({ station: "teardown", label: "zack.mp4", state: "stuck" })] };
+    expect(work([stuck])[0]).toMatchObject({ word: "STUCK", open: true, latest: "zack.mp4: stuck, no output" });
+    const lost: Station = { id: "voice", name: "voice", state: "failed", jobs: [job({ station: "voice", label: "take 3", state: "lost" })] };
+    expect(work([lost])[0]).toMatchObject({ word: "LOST", open: true });
+  });
+
+  it("shows a site probe failure under development", () => {
+    const down: Station = { ...site, state: "failed", message: "unreachable" };
+    expect(work([down])[1]).toMatchObject({ word: "FAILED", state: "failed", open: true, latest: "Site: unreachable" });
+  });
+
+  it("takes a station's department from its job's --dept when the station has none", () => {
+    const out = withJobs([], [job({ station: "ffmpeg", label: "b.mp3", department: "content" })], now, new Date("2026-11-11T00:00:00Z"));
+    expect(work(out)[0].stations.map((s) => s.id)).toEqual(["ffmpeg"]);
   });
 });

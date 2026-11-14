@@ -11,9 +11,9 @@
  *   BEEHIIV_API_KEY          secret, the same key apps/web's subscribe function uses
  *   BEEHIIV_PUBLICATION_ID   "pub_…"
  */
-import type { Channel, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
+import type { Channel, Department, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
 import { day } from "../../src/model";
-import { briefing, brought, channels, countAt, jobLine, results, subscribersByDay, threats, todayLine, withJobs, type Facts, type Subscriber } from "./derive";
+import { briefing, brought, channels, countAt, jobLine, results, subscribersByDay, threats, todayLine, withJobs, work, type Facts, type Subscriber } from "./derive";
 
 export interface Env {
   DB?: D1Database;
@@ -85,6 +85,7 @@ interface StationRow {
   last_run: string | null;
   next_run: string | null;
   updated: string;
+  department: Department | null;
 }
 
 interface Reads {
@@ -208,6 +209,7 @@ function stations(r: Reads, bh: Beehiiv | null, probe: { ok: boolean; status: nu
       count: r.perStation[row.id] ?? prev?.count ?? null,
       countLabel: prev?.countLabel ?? "events 7d",
       evidence: { row, lastFailure: f ?? null },
+      department: row.department ?? null,
     });
   }
   const order = ["site", "signup", "letter", ...PIPELINE];
@@ -313,6 +315,7 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
         cameFrom: bhr ? brought(bhr.subs) : {},
       },
     }),
+    work: work(st),
     stations: st,
     links,
     threats: t,
@@ -379,6 +382,8 @@ export function normaliseJob(input: Record<string, unknown>, now = new Date()): 
     return d && !Number.isNaN(d.getTime()) ? d.toISOString() : null;
   };
   const ended = state === "done" || state === "failed";
+  const dept = department(input.department);
+  if (!isDept(dept)) return dept;
   return {
     id,
     station,
@@ -392,20 +397,22 @@ export function normaliseJob(input: Record<string, unknown>, now = new Date()): 
     tail: str(input.tail, 2000),
     phase: str(input.phase, 40),
     log: str(input.log, 400),
+    department: dept,
   };
 }
 
 export async function upsertJob(db: D1Database, j: Job): Promise<void> {
   await db.batch([
     db
-      .prepare("INSERT OR IGNORE INTO stations (id, name, state, updated) VALUES (?1, ?1, 'idle', ?2)")
-      .bind(j.station, j.lastBeat),
+      // A new station is created on its first job; `job --dept` fills its department if it has none.
+      .prepare("INSERT INTO stations (id, name, state, updated, department) VALUES (?1, ?1, 'idle', ?2, ?3) ON CONFLICT(id) DO UPDATE SET department = COALESCE(stations.department, ?3)")
+      .bind(j.station, j.lastBeat, j.department ?? null),
     db
       .prepare(
-        "INSERT INTO jobs (id, station, label, state, percent, started_at, last_beat, ended_at, output, tail, phase, log) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12) " +
-          "ON CONFLICT(id) DO UPDATE SET station = ?2, label = ?3, state = ?4, percent = COALESCE(?5, percent), last_beat = ?7, ended_at = ?8, output = COALESCE(?9, output), tail = COALESCE(?10, tail), phase = COALESCE(?11, phase), log = COALESCE(?12, log)",
+        "INSERT INTO jobs (id, station, label, state, percent, started_at, last_beat, ended_at, output, tail, phase, log, department) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13) " +
+          "ON CONFLICT(id) DO UPDATE SET station = ?2, label = ?3, state = ?4, percent = COALESCE(?5, percent), last_beat = ?7, ended_at = ?8, output = COALESCE(?9, output), tail = COALESCE(?10, tail), phase = COALESCE(?11, phase), log = COALESCE(?12, log), department = COALESCE(?13, department)",
       )
-      .bind(j.id, j.station, j.label, j.state, j.percent, j.startedAt, j.lastBeat, j.endedAt, j.output, j.tail, j.phase, j.log),
+      .bind(j.id, j.station, j.label, j.state, j.percent, j.startedAt, j.lastBeat, j.endedAt, j.output, j.tail, j.phase, j.log, j.department ?? null),
   ]);
 }
 
@@ -426,6 +433,7 @@ export async function readJobs(db: D1Database, now: Date, since: Date): Promise<
     tail: (x.tail as string | null) ?? null,
     phase: (x.phase as string | null) ?? null,
     log: (x.log as string | null) ?? null,
+    department: (x.department as Department | null) ?? null,
   }));
   const newlyLost = withJobs([], jobs, now, since)
     .flatMap((s) => s.jobs ?? [])
@@ -452,17 +460,50 @@ export async function insertEvents(db: D1Database, events: WallEvent[]): Promise
   await db.batch(events.map((e) => stmt.bind(e.id, e.ts, e.kind, e.station, e.subject, e.amount, e.unit, e.cost, e.channel, e.text, e.meta ? JSON.stringify(e.meta) : null)));
 }
 
-export async function upsertStation(db: D1Database, input: Record<string, unknown>): Promise<string | null> {
+/** A department from a report: null when absent, an error string when it is neither. */
+function department(v: unknown): Department | null | string {
+  const d = str(v, 20)?.toLowerCase();
+  if (!d) return null;
+  return d === "content" || d === "development" ? d : "department must be content | development";
+}
+const isDept = (d: Department | null | string): d is Department | null => d === null || d === "content" || d === "development";
+
+interface StationReport {
+  id: string;
+  name: string;
+  state: Station["state"];
+  message: string | null;
+  lastRun: string | null;
+  nextRun: string | null;
+  department: Department | null;
+}
+
+export function normaliseStation(input: Record<string, unknown>): StationReport | string {
   const id = str(input.id, 40)?.toLowerCase();
-  const name = str(input.name, 40) ?? id;
-  const state = str(input.state, 20) ?? "idle";
   if (!id) return "id is required";
+  const state = str(input.state, 20) ?? "idle";
   if (!["ok", "idle", "waiting", "failed", "paused", "nodata"].includes(state)) return "state must be ok | idle | waiting | failed | paused | nodata";
+  const dept = department(input.department);
+  if (!isDept(dept)) return dept;
+  return {
+    id,
+    name: str(input.name, 40) ?? str(input.id, 40) ?? id,
+    state: state as Station["state"],
+    message: str(input.message, 300),
+    lastRun: str(input.lastRun, 40),
+    nextRun: str(input.nextRun, 40),
+    department: dept,
+  };
+}
+
+export async function upsertStation(db: D1Database, input: Record<string, unknown>): Promise<string | null> {
+  const s = normaliseStation(input);
+  if (typeof s === "string") return s;
   await db
     .prepare(
-      "INSERT INTO stations (id, name, state, message, last_run, next_run, updated) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7) ON CONFLICT(id) DO UPDATE SET name = ?2, state = ?3, message = ?4, last_run = COALESCE(?5, last_run), next_run = ?6, updated = ?7",
+      "INSERT INTO stations (id, name, state, message, last_run, next_run, updated, department) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8) ON CONFLICT(id) DO UPDATE SET name = ?2, state = ?3, message = ?4, last_run = COALESCE(?5, last_run), next_run = ?6, updated = ?7, department = COALESCE(?8, department)",
     )
-    .bind(id, name, state, str(input.message, 300), str(input.lastRun, 40), str(input.nextRun, 40), new Date().toISOString())
+    .bind(s.id, s.name, s.state, s.message, s.lastRun, s.nextRun, new Date().toISOString(), s.department)
     .run();
   return null;
 }

@@ -5,7 +5,8 @@
 //   node apps/wall/scripts/job.mjs --quiet-ok 30m py -3.11 scripts/foley-mmaudio.py in.mp4 out.mp4
 //
 // Own options, before the command only: --station, --label (override what is recognised from the
-// command), --quiet-ok (how long the command may print nothing before it reads as stuck; 10m).
+// command), --quiet-ok (how long the command may print nothing before it reads as stuck; 10m),
+// --dept content|development (its Work line on the wall; unset, the wall decides by station name).
 // The command runs unchanged, its output passes through, and `job` exits with its exit code.
 // Reporting never blocks or fails the command: if the wall doesn't answer, `job` says so once.
 // Wall: WALL_URL / WALL_INGEST_KEY, else `wall.url` / `wall.ingest_key` in credentials.json,
@@ -29,7 +30,7 @@ try {
   process.exit(2);
 }
 if (!job.command.length) {
-  console.error("usage: job [--station s] [--label l] [--quiet-ok 30m] <command…>");
+  console.error("usage: job [--station s] [--label l] [--quiet-ok 30m] [--dept content|development] <command…>");
   process.exit(2);
 }
 
@@ -102,6 +103,7 @@ const row = () => ({
   id,
   station: job.station,
   label: job.label,
+  department: job.department ?? null,
   state: state.state,
   percent: state.percent,
   phase: state.phase,
