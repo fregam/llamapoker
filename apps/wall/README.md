@@ -120,10 +120,21 @@ cd apps/wall
 npm install
 npm run migrate            # local D1 (once, and after every new migration)
 npm run dev                # http://localhost:8788 — no password on localhost
-npm test                   # the pure derivations (results, work, threats, briefing, subscribers by day)
+npm test                   # every suite below; CI runs it on every PR with the type-check and build
 npx tsc --noEmit           # type-check (strict, as apps/web)
 npm run build              # dist/ for Cloudflare Pages
 ```
+
+What the tests cover:
+
+- **Pure logic** (`derive.test.ts`, `briefing.test.ts`, `src/lib/*.test.ts`): Results and channel
+  rows, Work departments, threats, the briefing's words, job traces, when a Work line is open.
+- **The store against a real D1** (`store.int.test.ts`): wrangler's `getPlatformProxy` gives an
+  in-memory D1 with every migration applied; events, stations and jobs are written through the
+  same functions the API uses and read back through `readState`, with Beehiiv and the site probe
+  faked at `fetch`. It guards the SQL (checked by breaking the query on purpose: the tests fail).
+- **The `job` wrapper end to end** (`scripts/job.test.mjs`) against a pretend wall.
+- Not covered by tests: the panels' look (checked by eye with screenshots).
 
 `npm run dev` runs `vite build --watch` and `wrangler pages dev` together (`scripts/dev.mjs`),
 passing the Beehiiv keys from `credentials.json` as bindings for that process only. A `.dev.vars`
@@ -154,7 +165,7 @@ time control to have that day. A Workers cron that fetches it is the next step.
   the functions and the page.
 - `functions/_middleware.ts` — the door: password session cookie, ingest bearer key.
 - `functions/_lib/store.ts` — reads D1 and the live sources, assembles the state, stores the day's
-  snapshot; all writes.
+  snapshot; all writes. Tested against a real D1 in `store.int.test.ts`.
 - `functions/_lib/derive.ts` — pure derivations (results and channel rows, Work departments,
   threats, subscribers by day, attribution). Tested.
 - `functions/_lib/briefing.ts` — the daily briefing's words, results first. Tested.

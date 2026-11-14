@@ -10,6 +10,7 @@ import type { Job, Station, WorkLine } from "../model";
 import { fetchEvents, fetchJobs, clock } from "../lib/api";
 import { Pane, Evidence, Empty } from "../components/ui";
 import { trace } from "../lib/jobs";
+import { lineOpen, type ManualToggle } from "../lib/work";
 import type { PanelProps } from "./registry";
 
 const STATE_WORD: Record<Station["state"], string> = { ok: "OK", idle: "IDLE", waiting: "WAITING", failed: "FAILED", paused: "PAUSED", nodata: "NO DATA" };
@@ -17,9 +18,8 @@ const tone = (s: Station["state"]) => (s === "failed" ? "rd" : s === "waiting" |
 
 export function Work({ state, open, setOpen, wall, flash }: PanelProps) {
   const lines = state.work;
-  // Lines the founder opened or closed by hand, with what the line said then. A click holds only
-  // until something new happens on the line (its `latest` changes): a new failure opens it again.
-  const [manual, setManual] = useState<Record<string, { open: boolean; latest: string | null }>>({});
+  // Lines the founder opened or closed by hand; the rule for when a click holds is in lib/work.ts.
+  const [manual, setManual] = useState<Record<string, ManualToggle>>({});
   if (!lines) {
     return (
       <Pane id="work" title="WORK" question="What is being made to improve it?" flash={flash} tag={`SNAPSHOT ${state.day}`}>
@@ -29,10 +29,7 @@ export function Work({ state, open, setOpen, wall, flash }: PanelProps) {
   }
   const bad = lines.some((l) => l.state === "failed");
   const waiting = lines.some((l) => l.state === "waiting" || l.state === "paused");
-  const isOpen = (l: WorkLine) => {
-    const m = manual[l.id];
-    return m && m.latest === l.latest ? m.open : l.open;
-  };
+  const isOpen = (l: WorkLine) => lineOpen(l, manual[l.id]);
   const opened = open?.startsWith("station:") ? lines.flatMap((l) => l.stations).find((s) => "station:" + s.id === open) : undefined;
   return (
     <Pane id="work" title="WORK" question="What is being made to improve it?" tone={bad ? "red" : waiting ? "amber" : undefined} flash={flash} tag={lines.map((l) => `${l.name} ${l.word}`).join(" · ")}>
