@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normaliseJob } from "./store";
+import { normaliseJob, normaliseStation } from "./store";
 
 const now = new Date("2026-11-11T20:00:00Z");
 
@@ -19,6 +19,7 @@ describe("normaliseJob", () => {
       tail: null,
       phase: null,
       log: null,
+      department: null,
     });
   });
   it("keeps the phase word and the log path", () => {
@@ -35,5 +36,20 @@ describe("normaliseJob", () => {
   });
   it("defaults the label to the id", () => {
     expect(normaliseJob({ id: "j1", station: "s", state: "done" }, now)).toMatchObject({ label: "j1", endedAt: "2026-11-11T20:00:00.000Z" });
+  });
+});
+
+describe("departments on reports", () => {
+  it("keeps a job's --dept and refuses anything but content or development", () => {
+    expect(normaliseJob({ id: "j1", station: "ffmpeg", state: "running", department: "Content" }, now)).toMatchObject({ department: "content" });
+    expect(normaliseJob({ id: "j1", station: "ffmpeg", state: "running" }, now)).toMatchObject({ department: null });
+    expect(normaliseJob({ id: "j1", station: "ffmpeg", state: "running", department: "marketing" }, now)).toBe("department must be content | development");
+  });
+  it("keeps a station's department and refuses junk", () => {
+    expect(normaliseStation({ id: "Deploy", state: "ok", department: "development" })).toMatchObject({ id: "deploy", name: "Deploy", state: "ok", department: "development" });
+    expect(normaliseStation({ id: "deploy" })).toMatchObject({ state: "idle", department: null });
+    expect(normaliseStation({ id: "deploy", department: "sales" })).toBe("department must be content | development");
+    expect(normaliseStation({ id: "deploy", state: "busy" })).toBe("state must be ok | idle | waiting | failed | paused | nodata");
+    expect(normaliseStation({ name: "x" })).toBe("id is required");
   });
 });

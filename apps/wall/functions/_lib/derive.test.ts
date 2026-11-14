@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { briefing, brought, channelOf, countAt, subscribersByDay, threats, withJobs, type Facts } from "./derive";
-import type { Job, Station } from "../../src/model";
+import { brought, channelOf, countAt, departmentOf, joinedSince, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
+import type { Job, Station, WallEvent } from "../../src/model";
 
 const sec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
 const now = new Date("2026-11-11T20:00:00Z");
@@ -66,17 +66,6 @@ describe("threats", () => {
   it("watches the budget ceiling", () => {
     expect(threats({ ...base, spentMonth: 41, ceiling: 50 })[0].id).toBe("budget80");
     expect(threats({ ...base, spentMonth: 51, ceiling: 50 })[0].id).toBe("budget");
-  });
-});
-
-describe("briefing", () => {
-  it("reports the list, the window and what needs you", () => {
-    const t = threats(base);
-    const b = briefing(base, t, [{ id: "1", ts: "2026-11-11T12:00:00Z", kind: "signup" }], 24);
-    expect(b).toContain("2 on the list, unchanged this week.");
-    expect(b).toContain("1 event, 1 signup, 0 failures.");
-    expect(b).toContain("Nothing needs you.");
-    expect(b).toContain("I would send letter 001");
   });
 });
 
@@ -181,5 +170,201 @@ describe("job threats", () => {
     const fix = threats({ ...base, stations }).find((x) => x.id === "job:b")?.fix;
     expect(fix).toContain("E:/p/logs/jobs/2026-11-11/b.log");
     expect(fix).not.toMatch(/terminal/i);
+  });
+});
+
+const quiet: ResultsFacts = {
+  now,
+  revenueEver: false,
+  events: [],
+  newsletter: { subscribers: 2, byDay: [{ day: "2026-11-05", count: 1 }, { day: "2026-11-06", count: 2 }], signupsToday: 0, lastSend: null, sends: 0, cameFrom: { site: 2 } },
+};
+
+describe("results", () => {
+  it("shows money as a dash with its reason until a revenue source exists, and the Newsletter first", () => {
+    const r = results(quiet);
+    expect(r.money).toEqual({ today: null, month: null, unit: "EUR", note: "no revenue source yet" });
+    expect(r.subscribers).toBe(2);
+    expect(r.rows.map((x) => x.channel)).toEqual(["newsletter"]);
+    expect(r.rows[0]).toMatchObject({ name: "NEWSLETTER", headline: 2, unit: "subscribers", delta1: 0, delta7: 2 });
+  });
+});
+
+const ev = (kind: string, ts: string, more: Partial<WallEvent> = {}): WallEvent => ({ id: kind + ts, ts, kind, ...more });
+
+describe("results: money", () => {
+  it("sums revenue events for today and the last 30 days", () => {
+    const events = [
+      ev("revenue", "2026-11-11T09:00:00Z", { amount: 10, unit: "EUR", channel: "sponsor" }),
+      ev("revenue", "2026-11-10T09:00:00Z", { amount: 5, unit: "EUR", channel: "affiliate" }),
+      ev("revenue", "2026-10-01T09:00:00Z", { amount: 100, unit: "EUR" }), // older than 30 days
+    ];
+    expect(results({ ...quiet, revenueEver: true, events }).money).toEqual({ today: 10, month: 15, unit: "EUR", note: "revenue events" });
+  });
+  it("shows a real zero, not a dash, once revenue has existed", () => {
+    expect(results({ ...quiet, revenueEver: true }).money).toMatchObject({ today: 0, month: 0 });
+  });
+});
+
+describe("results: channel rows from events", () => {
+  const follow = (channel: string, ts: string, amount: number) => ev("followers", ts, { channel, amount });
+  it("turns a followers series into a row with deltas and a sparkline, after the Newsletter, biggest first", () => {
+    const events = [
+      follow("instagram", "2026-11-03T08:00:00Z", 100),
+      follow("instagram", "2026-11-04T08:00:00Z", 120),
+      follow("instagram", "2026-11-10T08:00:00Z", 150),
+      follow("instagram", "2026-11-11T08:00:00Z", 160),
+      follow("tiktok", "2026-11-11T08:00:00Z", 50),
+    ];
+    const r = results({ ...quiet, events });
+    expect(r.rows.map((x) => x.channel)).toEqual(["newsletter", "ig", "tt"]);
+    expect(r.rows[1]).toMatchObject({
+      name: "INSTAGRAM",
+      headline: 160,
+      unit: "followers",
+      delta1: 10,
+      delta7: 40,
+      spark: [100, 120, 120, 120, 120, 120, 120, 150, 160],
+      latestPost: null,
+    });
+    expect(r.rows[2]).toMatchObject({ name: "TIKTOK", headline: 50, delta1: null, delta7: null, spark: [50] });
+  });
+});
+
+describe("results: latest post", () => {
+  it("picks the newest post event and reads its numbers from meta", () => {
+    const events = [
+      ev("followers", "2026-11-11T08:00:00Z", { channel: "ig", amount: 160 }),
+      ev("post", "2026-11-09T18:00:00Z", { channel: "ig", subject: "reel-002", meta: { views: 400 } }),
+      ev("post", "2026-11-10T18:00:00Z", { channel: "ig", subject: "reel-003", meta: { views: 900, likes: 40, url: "https://instagram.com/p/x" } }),
+      ev("post", "2026-11-10T19:00:00Z", { channel: "yt", subject: "short-1", meta: { views: 12 } }),
+    ];
+    const r = results({ ...quiet, events });
+    expect(r.rows.find((x) => x.channel === "ig")?.latestPost).toEqual({
+      subject: "reel-003",
+      ts: "2026-11-10T18:00:00Z",
+      url: "https://instagram.com/p/x",
+      views: 900,
+      likes: 40,
+      saves: null,
+      comments: null,
+    });
+    expect(r.rows.find((x) => x.channel === "yt")).toMatchObject({ headline: null, note: "no followers events yet", latestPost: { subject: "short-1", views: 12 } });
+  });
+});
+
+describe("results: the Newsletter row", () => {
+  it("carries the subscriber sparkline, signups today, the last letter and where subscribers came from", () => {
+    const r = results({
+      ...quiet,
+      newsletter: { subscribers: 3, byDay: [{ day: "2026-11-09", count: 1 }, { day: "2026-11-10", count: 1 }, { day: "2026-11-11", count: 3 }], signupsToday: 2, lastSend: "2026-11-08T07:00:00Z", sends: 1, cameFrom: { site: 1, ig: 2 } },
+    });
+    expect(r.rows[0]).toMatchObject({
+      spark: [1, 1, 3],
+      extra: { signupsToday: 2, lastLetter: "2026-11-08", sends: 1, cameFrom: "INSTAGRAM 2 · SITE 1" },
+    });
+  });
+  it("says why when Beehiiv is unreachable", () => {
+    const r = results({ ...quiet, newsletter: { ...quiet.newsletter, subscribers: null, byDay: [] } });
+    expect(r.rows[0]).toMatchObject({ headline: null, delta1: null, spark: [], note: "Beehiiv unreachable" });
+    expect(r.subscribers).toBeNull();
+  });
+});
+
+describe("departments", () => {
+  const st = (id: string, over: Partial<Station> = {}): Station => ({ id, name: id, state: "idle", ...over });
+  it("puts reels, foley, voice and teardown under content and everything else under development", () => {
+    expect(["reels-render", "reels", "foley", "voice", "teardown"].map((id) => departmentOf(st(id)))).toEqual(["content", "content", "content", "content", "content"]);
+    expect(["site", "ffmpeg", "deploy", "vo-comfy"].map((id) => departmentOf(st(id)))).toEqual(["development", "development", "development", "development"]);
+  });
+  it("lets a station's own department win", () => {
+    expect(departmentOf(st("ffmpeg", { department: "content" }))).toBe("content");
+    expect(departmentOf(st("foley", { department: "development" }))).toBe("development");
+  });
+  it("leaves signup and letter out of Work (they feed the Newsletter row)", () => {
+    expect(departmentOf(st("signup"))).toBeNull();
+    expect(departmentOf(st("letter"))).toBeNull();
+  });
+});
+
+describe("work lines", () => {
+  const job = (over: Partial<Job>): Job => ({
+    id: "j1",
+    station: "reels-render",
+    label: "OnlyAces",
+    state: "running",
+    percent: 40,
+    startedAt: "2026-11-11T19:50:00Z",
+    lastBeat: "2026-11-11T19:59:30Z",
+    endedAt: null,
+    output: null,
+    tail: null,
+    phase: null,
+    log: null,
+    ...over,
+  });
+  const site: Station = { id: "site", name: "Site", state: "ok", message: "200 in 400 ms", lastRun: "2026-11-11T19:59:00Z" };
+  const signup: Station = { id: "signup", name: "Signup", state: "nodata" };
+
+  it("always has CONTENT then DEVELOPMENT, quiet ones reading OK and closed", () => {
+    const w = work([site, signup]);
+    expect(w.map((l) => [l.id, l.name, l.word, l.open])).toEqual([
+      ["content", "CONTENT", "OK", false],
+      ["development", "DEVELOPMENT", "OK", false],
+    ]);
+    expect(w[1].stations.map((s) => s.id)).toEqual(["site"]);
+    expect(w[1].latest).toBe("Site: 200 in 400 ms");
+    expect(w[0].latest).toBeNull();
+  });
+
+  it("counts running jobs and names the newest", () => {
+    const reels: Station = { id: "reels-render", name: "reels-render", state: "ok", message: "2 running", jobs: [job({ id: "a" }), job({ id: "b", label: "OnlyAces-blur", percent: null, lastBeat: "2026-11-11T19:59:50Z" })] };
+    const [content] = work([reels, site]);
+    expect(content).toMatchObject({ word: "RUNNING 2", state: "ok", open: false, latest: "OnlyAces-blur: running" });
+  });
+
+  it("opens a line by itself on a failed, stuck or lost job, and says which", () => {
+    const failed: Station = { id: "foley", name: "foley", state: "failed", jobs: [job({ station: "foley", label: "r2", state: "failed", tail: "CUDA out of memory", endedAt: "2026-11-11T19:58:00Z" })] };
+    expect(work([failed])[0]).toMatchObject({ word: "FAILED", state: "failed", open: true, latest: "r2: failed (CUDA out of memory)" });
+    const stuck: Station = { id: "teardown", name: "teardown", state: "failed", jobs: [job({ station: "teardown", label: "zack.mp4", state: "stuck" })] };
+    expect(work([stuck])[0]).toMatchObject({ word: "STUCK", open: true, latest: "zack.mp4: stuck, no output" });
+    const lost: Station = { id: "voice", name: "voice", state: "failed", jobs: [job({ station: "voice", label: "take 3", state: "lost" })] };
+    expect(work([lost])[0]).toMatchObject({ word: "LOST", open: true });
+  });
+
+  it("shows a site probe failure under development", () => {
+    const down: Station = { ...site, state: "failed", message: "unreachable" };
+    expect(work([down])[1]).toMatchObject({ word: "FAILED", state: "failed", open: true, latest: "Site: unreachable" });
+  });
+
+  it("takes a station's department from its job's --dept when the station has none", () => {
+    const out = withJobs([], [job({ station: "ffmpeg", label: "b.mp3", department: "content" })], now, new Date("2026-11-11T00:00:00Z"));
+    expect(work(out)[0].stations.map((s) => s.id)).toEqual(["ffmpeg"]);
+  });
+});
+
+describe("review fixes", () => {
+  it("counts only EUR revenue (or revenue with no unit) in the money hero", () => {
+    const events = [
+      ev("revenue", "2026-11-11T09:00:00Z", { amount: 10, unit: "EUR" }),
+      ev("revenue", "2026-11-11T10:00:00Z", { amount: 7 }),
+      ev("revenue", "2026-11-11T11:00:00Z", { amount: 99, unit: "USD" }),
+    ];
+    expect(results({ ...quiet, revenueEver: true, events }).money).toMatchObject({ today: 17, month: 17 });
+  });
+  it("shows dashes, not the whole count, for the Newsletter changes when there is no history", () => {
+    const r = results({ ...quiet, newsletter: { ...quiet.newsletter, subscribers: 5, byDay: [] } });
+    expect(r.rows[0]).toMatchObject({ headline: 5, delta1: null, delta7: null });
+    expect(r.delta7).toBeNull();
+  });
+  it("counts first-touch sources of active subscribers who joined in a window", () => {
+    const subs = [
+      { created: sec("2026-11-11T10:00:00Z"), status: "active", utm_source: "ig" },
+      { created: sec("2026-11-06T10:00:00Z"), status: "active" },
+      { created: sec("2026-11-01T10:00:00Z"), status: "active", utm_source: "ig" },
+      { created: sec("2026-11-10T10:00:00Z"), status: "inactive", utm_source: "ig" },
+    ];
+    expect(joinedSince(subs, 7, now)).toEqual({ ig: 1, site: 1 });
+    expect(joinedSince(subs, 1, now)).toEqual({ ig: 1 });
   });
 });

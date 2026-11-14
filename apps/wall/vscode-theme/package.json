@@ -1,0 +1,15 @@
+{
+  "name": "wall-vfd",
+  "displayName": "Wall VFD",
+  "description": "The LlamaPoker wall's look for VS Code: cyan phosphor on black, orange accents and waits, red fails.",
+  "version": "0.1.1",
+  "publisher": "llamapoker",
+  "private": true,
+  "engines": { "vscode": "^1.70.0" },
+  "categories": ["Themes"],
+  "contributes": {
+    "themes": [
+      { "label": "Wall VFD", "uiTheme": "vs-dark", "path": "./themes/wall-vfd.json" }
+    ]
+  }
+}

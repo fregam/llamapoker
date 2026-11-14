@@ -4,24 +4,26 @@
  * so adding, removing or reordering a panel touches only this file and the panel's own file.
  * A panel with `enabled` returning false is not on the wall (no placeholders for things that
  * produce no data yet).
+ *
+ * The order is the founder's order of questions (spec: .scratch/wall-layout/spec.md): how are we
+ * doing (Results), what needs me (Needs you), what is being made (Work), then Feed and Budget.
  */
 import type { FC } from "react";
 import type { Reading } from "../lib/api";
-import { Machine } from "./Machine";
-import { North } from "./North";
-import { Threats } from "./Threats";
-import { Approvals } from "./Approvals";
-import { Channels } from "./Channels";
+import { Results } from "./Results";
+import { NeedsYou } from "./NeedsYou";
+import { Work } from "./Work";
 import { Feed } from "./Feed";
 import { Budget } from "./Budget";
 
 export interface PanelProps {
   state: Reading;
-  open: string | null; // what is expanded in place, e.g. "station:site", "threat:paused", "queue:<id>"
+  open: string | null; // what is expanded in place, e.g. "station:site", "threat:paused", "queue:<id>", "row:newsletter"
   setOpen: (id: string | null) => void;
   act: (command: string) => Promise<void>; // the same commands the command bar takes
   wall: boolean; // wall mode: no controls, larger type
   flash: boolean; // the reading just changed
+  phone?: boolean; // the phone view (under 800 px): a panel may show less
 }
 
 export interface PanelModule {
@@ -30,63 +32,45 @@ export interface PanelModule {
   title: string;
   question: string; // the question the founder would act on; if it cannot be named, cut the panel
   reads: string[];
-  area: "mach" | "north" | "threats" | "channels" | "feed" | "queue" | "budget";
-  phone?: boolean; // part of the phone view (briefing, threats, approvals)
+  area: "results" | "needs" | "work" | "feed" | "budget";
+  phone?: boolean; // part of the phone view
   enabled?: (s: Reading) => boolean;
   Component: FC<PanelProps>;
 }
 
 export const panels: PanelModule[] = [
   {
-    id: "machine",
+    id: "results",
     key: "1",
-    title: "THE MACHINE",
-    question: "Is anything in the pipeline stuck or broken, and where?",
-    reads: ["stations", "events (7 days)", "site probe", "Beehiiv"],
-    area: "mach",
-    Component: Machine,
+    title: "RESULTS",
+    question: "How are we doing?",
+    reads: ["revenue, followers and post events (30 days)", "Beehiiv subscriptions and posts"],
+    area: "results",
+    phone: true,
+    Component: Results,
   },
   {
-    id: "threats",
+    id: "needs",
     key: "2",
-    title: "THREATS",
-    question: "What is going wrong or about to, and what do I do first?",
-    reads: ["stations", "queue", "flags", "budget", "signup events"],
-    area: "threats",
+    title: "NEEDS YOU",
+    question: "What is going wrong, and what is waiting on me?",
+    reads: ["stations", "jobs", "queue", "flags", "budget", "signup events"],
+    area: "needs",
     phone: true,
-    Component: Threats,
+    Component: NeedsYou,
   },
   {
-    id: "north",
+    id: "work",
     key: "3",
-    title: "NORTH STAR",
-    question: "Are subscribers growing, and what changed today?",
-    reads: ["Beehiiv subscriptions", "view events"],
-    area: "north",
-    Component: North,
-  },
-  {
-    id: "approvals",
-    key: "4",
-    title: "APPROVALS",
-    question: "What is waiting on me, and can I decide it now?",
-    reads: ["queue"],
-    area: "queue",
-    phone: true,
-    Component: Approvals,
-  },
-  {
-    id: "channels",
-    key: "5",
-    title: "CHANNELS",
-    question: "Which channel is bringing subscribers, and which went quiet?",
-    reads: ["Beehiiv subscriptions (first touch)", "view events"],
-    area: "channels",
-    Component: Channels,
+    title: "WORK",
+    question: "What is being made to improve it?",
+    reads: ["stations (by department)", "today's jobs", "site probe"],
+    area: "work",
+    Component: Work,
   },
   {
     id: "feed",
-    key: "6",
+    key: "4",
     title: "LIVE FEED",
     question: "What just happened?",
     reads: ["events"],
@@ -95,7 +79,7 @@ export const panels: PanelModule[] = [
   },
   {
     id: "budget",
-    key: "7",
+    key: "5",
     title: "EXPERIMENTS AND BUDGET",
     question: "Is a test ready to call, and is spend inside the ceiling?",
     reads: ["event costs (month)", "flags: budget_ceiling, experiments"],

@@ -3,6 +3,33 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-14 - The wall's hero is money from day one; channels come through the event store
+
+- **What:** the biggest number on the wall is money (revenue, EUR), shown as a dash with "no
+  revenue source yet" until the first `revenue` event; subscribers sit beside it as the leading
+  number. Social channels (Instagram, TikTok, YouTube) reach Results only as `followers` and
+  `post` events posted by fetcher jobs; the wall never calls a social API. A Results row is
+  generic, so adding a channel is a fetcher plus its station, with no wall code. Spec:
+  `.scratch/wall-layout/spec.md`.
+- **Why:** money is the north star; subscribers are the road there, and putting the road in the
+  biggest digits would quietly make it the goal. One event store under everything keeps the wall
+  simple and every source replaceable.
+- **Rejected:** subscribers as the hero until money exists, with an automatic swap (Claude's
+  recommendation, accepted and then reversed by the founder); live API calls from the wall per
+  platform; one block per metric across channels (each new source would touch every block).
+
+## 2026-11-14 - The wall and VS Code go true black with orange accents
+
+- **What:** the wall (`apps/wall/src/styles.css`) and its VS Code theme (`apps/wall/vscode-theme/`,
+  now in the repo) drop the blue-black glass for true black (the faint grid stays). Amber becomes
+  orange `#ff8a1f` and also accents the chrome: panel titles, corner marks, VS Code's active tab
+  and activity bar. Cyan still carries data, red is still failure; a waiting pane keeps a full
+  orange border and glow, so it still stands out from plain orange corners.
+- **Why:** the founder's reference stills of command-centre screens: VFD cyan on black with orange
+  accents.
+- **Rejected:** keeping amber only for "waits on you" (strict three-colour meaning, but the screen
+  read cold and flat next to the references).
+
 ## 2026-11-12 (late) - The wall is laid out by the question the founder comes with: results first
 
 - **What:** two sides. **Results** ("how are we doing?": socials per channel, post performance,

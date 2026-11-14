@@ -27,10 +27,18 @@ export function recognise(argv) {
     station: (own.station ?? r.station).toLowerCase(), // the wall keys stations lower-case
     label: own.label ?? r.label,
     quietOkMs: own["quiet-ok"] ? duration(own["quiet-ok"]) : QUIET_OK_MS,
+    department: own.dept ? dept(own.dept) : undefined,
   };
 }
 
-const OWN = new Set(["--station", "--label", "--quiet-ok"]);
+const OWN = new Set(["--station", "--label", "--quiet-ok", "--dept"]);
+
+/** The Work line a job shows under on the wall: content or development. */
+function dept(text) {
+  const d = String(text).toLowerCase();
+  if (d !== "content" && d !== "development") throw new Error(`--dept: content or development, not ${text}`);
+  return d;
+}
 
 /** "30m", "90s", "1h" or plain minutes, in milliseconds. */
 export function duration(text) {

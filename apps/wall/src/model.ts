@@ -32,6 +32,21 @@ export interface Station {
   countLabel?: string | null;
   evidence?: unknown; // the raw records behind the station, shown when it is opened
   jobs?: Job[]; // today's local jobs under this station (scripts/job.mjs)
+  department?: Department | null; // set by the station's writer or `job --dept`; else derive.ts departmentOf decides
+}
+
+/** The two sides of "what is being made?": the Work strip has one line per department. */
+export type Department = "content" | "development";
+
+/** One Work line: a department rolled up from its stations and today's jobs. */
+export interface WorkLine {
+  id: Department;
+  name: string; // CONTENT | DEVELOPMENT
+  state: StationState; // the worst of its stations
+  word: string; // OK | RUNNING n | FAILED | STUCK | LOST
+  latest: string | null; // the newest thing that happened in it, one line
+  open: boolean; // opens by itself when anything in it is failed, stuck or lost
+  stations: Station[];
 }
 
 /** stuck: alive but silent too long (the wrapper says so); lost: the wrapper stopped beating. */
@@ -51,6 +66,7 @@ export interface Job {
   tail: string | null; // the last output lines, for a failure
   phase: string | null; // the word before the progress number ("Rendered", "Encoded"), when printed
   log: string | null; // the full output of this run on the PC (logs/jobs/<day>/<id>.log)
+  department?: Department | null; // `job --dept`, given to its station when the station has none
 }
 
 export interface Link {
@@ -83,30 +99,46 @@ export interface QueueItem {
   decided?: string | null;
 }
 
-export interface Channel {
-  id: string; // site | letter | ig | search
-  name: string;
-  value: number | null; // the channel's key number, null = not enough data
-  unit: string;
-  trend: number | null; // change over the window, same unit
-  brought: number | null; // subscribers attributed to it (first touch)
-  note: string; // where the number comes from, or why there is none
-}
-
 export interface DayCount {
   day: string; // YYYY-MM-DD
   count: number; // cumulative subscribers at the end of that day
 }
 
-export interface North {
+/** A channel's latest post and how it did (a `kind: post` event; numbers from its meta). */
+export interface PostStat {
+  subject: string; // the post id
+  ts: string;
+  url: string | null;
+  views: number | null;
+  likes: number | null;
+  saves: number | null;
+  comments: number | null;
+}
+
+/**
+ * One channel in Results. Every channel has this shape: the Newsletter (Beehiiv) and any channel
+ * that posts `kind: followers` / `kind: post` events. A null number is shown as a dash.
+ */
+export interface ChannelRow {
+  channel: string; // newsletter | ig | tt | yt | ...
+  name: string;
+  headline: number | null; // subscribers / followers
+  unit: string;
+  delta1: number | null;
+  delta7: number | null;
+  spark: number[]; // the headline at the end of each of the last 30 days, oldest first
+  latestPost: PostStat | null;
+  extra: Record<string, string | number | null>; // channel-specific facts (Newsletter: signups, last letter, came from)
+  note: string; // where the numbers come from, or why there are none
+}
+
+/** "How are we doing?": the money hero, subscribers as the leading number, one row per channel. */
+export interface Results {
+  money: { today: number | null; month: number | null; unit: "EUR"; note: string };
   subscribers: number | null;
-  delta1: number | null; // change in the last 24 h
-  delta7: number | null; // change in the last 7 days
-  byDay: DayCount[];
-  weeklyActiveShare: number | null; // opened or clicked in 7 days / subscribers; null until sends exist
-  reach: number | null; // views across channels in 7 days; null until a channel reports views
-  today: string; // what changed today, one line
-  action: string; // what to do about it, one line
+  delta1: number | null;
+  delta7: number | null;
+  rows: ChannelRow[];
 }
 
 export interface Experiment {
@@ -122,13 +154,13 @@ export interface WallState {
   day: string; // YYYY-MM-DD the reading describes
   live: boolean; // false when read back from a snapshot
   paused: boolean;
-  north: North;
+  results?: Results; // absent in snapshots stored before the results-first layout
+  work?: WorkLine[]; // CONTENT then DEVELOPMENT; absent in older snapshots
   stations: Station[];
   links: Link[];
   threats: Threat[];
   feed: WallEvent[];
   queue: QueueItem[];
-  channels: Channel[];
   budget: { spentMonth: number; ceiling: number | null; month: string };
   experiments: Experiment[];
   briefing: string;

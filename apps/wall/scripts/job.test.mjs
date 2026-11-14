@@ -26,6 +26,12 @@ describe("recognise", () => {
     expect(r.command).toEqual(["py", "scripts/vo.py", "--label", "x", "out.wav"]);
     expect(recognise(["--quiet-ok", "90s", "node", "a.mjs"]).quietOkMs).toBe(90 * 1000);
   });
+
+  it("takes --dept for the Work line and refuses anything but content or development", () => {
+    expect(recognise(["--dept", "Content", "ffmpeg", "-i", "a.wav", "b.mp3"])).toMatchObject({ station: "ffmpeg", department: "content", command: ["ffmpeg", "-i", "a.wav", "b.mp3"] });
+    expect(recognise(["node", "a.mjs"]).department).toBeUndefined();
+    expect(() => recognise(["--dept", "sales", "node", "a.mjs"])).toThrow("--dept: content or development, not sales");
+  });
 });
 
 describe("progress", () => {

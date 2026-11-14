@@ -1,7 +1,20 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-12 (skills setup and housekeeping).
+the end. Last update: 2026-11-14 (wall layout, results first).
+
+## Done 2026-11-14
+
+- **Wall layout, results first**, branch `feature/wall-layout` in the worktree
+  `E:/Projects/poker-trainer-wall` (not pushed): grilled, specced and ticketed in
+  `.scratch/wall-layout/`. Done: Results in the reading (money hero from `revenue` events, generic
+  channel rows from `followers` / `post` events, Newsletter row from Beehiiv), Work departments
+  (`--dept`, migration 0005), the new grid (Results, Needs you, Work strip; The machine, North
+  star and Channels panels removed), briefing results first, docs. All six tickets done.
+  The local wall now runs from the worktree; `dev.mjs` reads `credentials.json` from the main
+  checkout when run there. Reviewed (standards + spec) and fixed; ready for the PR.
+- Wall and VS Code theme recoloured: true black, orange accents (`apps/wall/vscode-theme/`, now in
+  the repo).
 
 ## Done 2026-11-12
 
@@ -89,6 +102,7 @@ the end. Last update: 2026-11-12 (skills setup and housekeeping).
 
 ## In flight
 
+- Wall layout ticket 05, the phone view (above).
 - Nothing running unattended. Subagents in this session produced the mockups, the voice-round
   files and the web docs; their results are recorded in the files named above.
 

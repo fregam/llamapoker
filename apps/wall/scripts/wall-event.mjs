@@ -8,8 +8,12 @@
 //        --next-run 2026-11-14T18:00:00Z
 //   node scripts/wall-event.mjs queue --kind reel --title "002 Only playing aces?" --preview-file content/reels/002-only-aces.md
 //
+//   node scripts/wall-event.mjs event --kind post --channel instagram --subject reel-003 \
+//        --meta '{"views":900,"likes":40,"url":"https://instagram.com/p/x"}'
+//
 // Where and how: WALL_URL and WALL_INGEST_KEY from the environment, else `wall.url` and
-// `wall.ingest_key` in the repo's credentials.json (git-ignored). No dependencies.
+// `wall.ingest_key` in the repo's credentials.json (git-ignored), else the local wall at
+// http://127.0.0.1:8788 (no key needed on localhost). `--meta` takes JSON. No dependencies.
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -31,15 +35,25 @@ if (!cmd || !["event", "station", "queue"].includes(cmd)) {
   console.error("usage: wall-event.mjs event|station|queue --key value ...");
   process.exit(2);
 }
-if (!url || !key) {
-  console.error("set WALL_URL and WALL_INGEST_KEY, or wall.url and wall.ingest_key in credentials.json");
+// No wall configured: the local wall on this PC, which needs no key on localhost.
+url ||= "http://127.0.0.1:8788";
+if (!key && !/^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/.test(url)) {
+  console.error("set WALL_INGEST_KEY (or wall.ingest_key in credentials.json) for " + url);
   process.exit(2);
+}
+if (args.meta) {
+  try {
+    args.meta = JSON.parse(args.meta);
+  } catch {
+    console.error(`--meta must be JSON, e.g. --meta '{"views":900}'`);
+    process.exit(2);
+  }
 }
 if (args.previewFile) args.preview = readFileSync(resolve(process.cwd(), args.previewFile), "utf8");
 delete args.previewFile;
 const res = await fetch(`${url.replace(/\/$/, "")}/api/${cmd}`, {
   method: "POST",
-  headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+  headers: { ...(key ? { Authorization: `Bearer ${key}` } : {}), "Content-Type": "application/json" },
   body: JSON.stringify(args),
 });
 const out = await res.text();
