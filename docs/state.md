@@ -10,9 +10,8 @@ the end. Last update: 2026-11-14 (wall layout, results first).
   channel rows from `followers` / `post` events, Newsletter row from Beehiiv), Work departments
   (`--dept`, migration 0005), the new grid (Results, Needs you, Work strip; The machine, North
   star and Channels panels removed), briefing results first, docs. All six tickets done.
-  Reviewed (standards + spec) and fixed. The local wall runs from the worktree
-  `E:/Projects/poker-trainer-wall` for now (`dev.mjs` reads `credentials.json` from the main
-  checkout when run there); `main` is merged into `research/reel-craft` in the main checkout.
+  Reviewed (standards + spec) and fixed. `main` is merged into `research/reel-craft`; the local
+  wall runs from the main checkout again (its store moved over, the worktree removed).
 - Wall and VS Code theme recoloured: true black, orange accents (`apps/wall/vscode-theme/`, now in
   the repo).
 
