@@ -17,3 +17,12 @@ Blocked by: 01, 02, 03, 04, 05
 **Done when:** a new agent could add an Instagram fetcher from the README alone.
 
 ## Comments
+
+2026-11-14: written ahead of 05. README (panel table, the `revenue` / `followers` / `post`
+shapes with commands, "Adding a channel", `--dept`, `?nobrief`, files), a current-layout note on
+top of `docs/interface.md` (the founder's brief left as written), roadmap (now / next: social
+fetchers, traffic, first money source), state, and a decision (money hero, channels through the
+event store). `wall-event.mjs` fixed so the documented commands work: `--meta` is parsed as JSON
+(it was sent as a string and dropped), and with no wall configured it posts to the local wall
+without a key. Checked: a `post` event with meta from the CLI lands as the Instagram row's latest
+post. Left open until 05 lands: check the README's phone sentence against it, then mark done.

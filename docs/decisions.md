@@ -3,6 +3,21 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-14 - The wall's hero is money from day one; channels come through the event store
+
+- **What:** the biggest number on the wall is money (revenue, EUR), shown as a dash with "no
+  revenue source yet" until the first `revenue` event; subscribers sit beside it as the leading
+  number. Social channels (Instagram, TikTok, YouTube) reach Results only as `followers` and
+  `post` events posted by fetcher jobs; the wall never calls a social API. A Results row is
+  generic, so adding a channel is a fetcher plus its station, with no wall code. Spec:
+  `.scratch/wall-layout/spec.md`.
+- **Why:** money is the north star; subscribers are the road there, and putting the road in the
+  biggest digits would quietly make it the goal. One event store under everything keeps the wall
+  simple and every source replaceable.
+- **Rejected:** subscribers as the hero until money exists, with an automatic swap (Claude's
+  recommendation, accepted and then reversed by the founder); live API calls from the wall per
+  platform; one block per metric across channels (each new source would touch every block).
+
 ## 2026-11-14 - The wall and VS Code go true black with orange accents
 
 - **What:** the wall (`apps/wall/src/styles.css`) and its VS Code theme (`apps/wall/vscode-theme/`,
