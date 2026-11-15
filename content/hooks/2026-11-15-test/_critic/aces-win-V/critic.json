@@ -1,0 +1,205 @@
+{
+  "verdicts": {
+    "d01": {
+      "claim": ["pass", "14% lost heads-up preflop all-in to a random hand matches aa-lose-1 (14.47) with its conditions."],
+      "one-gap": ["pass", "One open question: why it feels like every time."],
+      "gap-open": ["pass", "The cause of the feeling is not given."],
+      "one-payoff": ["pass", "One idea (how losses get remembered against a 14% rate) closes it in a minute."],
+      "rung": ["pass", "Villain (the rigged app) denied, then an open reframe on the feeling."],
+      "honest": ["fail", "'The app isn't rigged' states as fact the fairness of an unnamed app LlamaPoker has never checked; the maths can only show the losses need no rigging to explain them."],
+      "helping": ["pass", "The loss is named to explain it; the promise is understanding."],
+      "rung_seen": 5
+    },
+    "d02": {
+      "claim": ["pass", "96% at least once in twenty heads-up preflop all-ins vs random hands matches aa-lose-once-in-20 (95.62)."],
+      "one-gap": ["pass", "One question: what the duller thing is."],
+      "gap-open": ["pass", "'Something duller' is named but not said."],
+      "one-payoff": ["pass", "One idea (it is just the frequency over many hands) closes it and leads back."],
+      "rung": ["pass", "Villain (running bad) denied, then an unresolved reframe."],
+      "honest": ["pass", "Luck ('running bad') is named only to be denied; no claimed results."],
+      "helping": ["pass", "Explains losses; promise is understanding."],
+      "rung_seen": 5
+    },
+    "d03": {
+      "claim": ["fail", "'Limping them picks the second number' puts 56% on limped pots; the fact is four random hands all-in preflop, not limp callers, who are neither random nor all-in."],
+      "one-gap": ["pass", "One implied question."],
+      "gap-open": ["fail", "The last clause hands over the fix: limping causes it, so raise."],
+      "one-payoff": ["pass", "A reel could still close it with one idea (raise to thin the field)."],
+      "rung": ["pass", "Villain (limping) named as what fails them."],
+      "honest": ["pass", "No claimed results or banned ground."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 4
+    },
+    "d04": {
+      "claim": ["pass", "56% vs four random hands all-in preflop matches aa-vs-4 (55.88) with its conditions."],
+      "one-gap": ["pass", "One question."],
+      "gap-open": ["fail", "The last clause gives both the cause (slow-playing invites the crowd) and so the fix (don't slow-play); nothing is left for the reel to reveal."],
+      "one-payoff": ["pass", "One idea (play them fast) is all the reel would need."],
+      "rung": ["pass", "Villain (slow-playing) named as the thing that fails them."],
+      "honest": ["pass", "No claimed results or banned ground."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 4
+    },
+    "d05": {
+      "claim": ["pass", "14% to one random hand all-in preflop matches aa-lose-1."],
+      "one-gap": ["pass", "At most one question."],
+      "gap-open": ["fail", "'It got its turn' is the answer itself: the loss is the 14% coming round, so no why is left open."],
+      "one-payoff": ["fail", "The hook already closes its own gap; the reel would repeat it."],
+      "rung": ["pass", "Luck denied as villain, reframed as frequency."],
+      "honest": ["pass", "Luck named only to be denied."],
+      "helping": ["pass", "Explains the loss."],
+      "rung_seen": 5
+    },
+    "d06": {
+      "claim": ["pass", "85% vs one random hand all-in preflop, as 'win', is the brief's allowed reading of aa-vs-1 (85.26)."],
+      "one-gap": ["pass", "The opening question is answered at once; one gap remains (what memory does)."],
+      "gap-open": ["pass", "Memory is named; how it misleads stays open."],
+      "one-payoff": ["pass", "One idea (how memory keeps the losses) closes it."],
+      "rung": ["pass", "Names a villain (memory), literally; the reframe is stated more than looped."],
+      "honest": ["pass", "No claimed results; no luck talk."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 4
+    },
+    "d07": {
+      "claim": ["pass", "85% vs one and 64% vs three random hands all-in preflop match aa-vs-1 and aa-vs-3."],
+      "one-gap": ["pass", "One question: how to keep the headcount down."],
+      "gap-open": ["pass", "Headcount is visible in the numbers already; how to control it stays open."],
+      "one-payoff": ["pass", "One idea (raise to thin the field) closes it."],
+      "rung": ["pass", "Denies the aces failing, puts the cause elsewhere."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 5
+    },
+    "d08": {
+      "claim": ["pass", "14% heads-up preflop all-ins vs a random hand matches aa-lose-1; 'three in one session' is a scene, not a stat."],
+      "one-gap": ["pass", "One question: why a three-loss session isn't rigging."],
+      "gap-open": ["pass", "The why is promised, not given."],
+      "one-payoff": ["pass", "One idea (streaks at 14% are ordinary) closes it."],
+      "rung": ["pass", "Villain (rigged) named in the viewer's words, promised a denial."],
+      "honest": ["pass", "'It' is the streak, which the maths can show to be ordinary."],
+      "helping": ["pass", "Explains a run of losses without urging more play."],
+      "rung_seen": 4
+    },
+    "d09": {
+      "claim": ["pass", "79% at least once in ten heads-up preflop all-ins vs random hands matches aa-lose-once-in-10 (79.06)."],
+      "one-gap": ["pass", "One question: what the fix is."],
+      "gap-open": ["pass", "The fix is withheld."],
+      "one-payoff": ["pass", "One idea (keep getting it in; the loss is the price of the edge) closes it."],
+      "rung": ["pass", "Villain (avoiding the all-in) named as what fails them."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Promise is a better decision, not money back."],
+      "rung_seen": 4
+    },
+    "d10": {
+      "claim": ["pass", "14% of preflop all-ins vs one random hand matches aa-lose-1."],
+      "one-gap": ["pass", "One question: what the bill pays for."],
+      "gap-open": ["pass", "'It's a bill' is a reframe whose meaning the hook withholds."],
+      "one-payoff": ["pass", "One idea (the price of getting called by worse) closes it and leads back."],
+      "rung": ["pass", "Viewer's own 'bad beat' denied, then an unresolved reframe."],
+      "honest": ["pass", "No claimed results or luck talk."],
+      "helping": ["pass", "Explains the loss as part of the decision."],
+      "rung_seen": 5
+    },
+    "d11": {
+      "claim": ["pass", "'A random hand' beating AA 14% all-in preflop matches aa-lose-1; JT is given no number."],
+      "one-gap": ["pass", "The first question is answered at once; one gap remains (why it feels personal)."],
+      "gap-open": ["pass", "Why it feels personal stays open."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["pass", "The cracking hand as felt villain, cause of the feeling left open."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 4
+    },
+    "d12": {
+      "claim": ["pass", "73% vs two random hands all-in preflop matches aa-vs-2 (73.4)."],
+      "one-gap": ["pass", "One question."],
+      "gap-open": ["fail", "The last clause hands over both the fix (raise bigger) and the why (who's left); only the sizing detail stays open."],
+      "one-payoff": ["pass", "A sizing reel could still be one idea."],
+      "rung": ["pass", "Reframe structure (not X, it's Y)."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 5
+    },
+    "d13": {
+      "claim": ["pass", "14% vs one random hand matches aa-lose-1; the maths doesn't depend on the venue."],
+      "one-gap": ["pass", "One question: why both feel rigged."],
+      "gap-open": ["pass", "The why stays open."],
+      "one-payoff": ["pass", "One idea (how losses get remembered) closes it."],
+      "rung": ["pass", "Villain (rigging, live and online) named in the viewer's words, cause left open."],
+      "honest": ["pass", "Asks why it feels rigged; asserts nothing about any venue."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 4
+    },
+    "d14": {
+      "claim": ["pass", "96% at least once in twenty heads-up preflop all-ins vs random hands matches aa-lose-once-in-20."],
+      "one-gap": ["pass", "No more than one question."],
+      "gap-open": ["fail", "'Cracked constantly has a number too' points back to the 96% just given; the hook answers its own question."],
+      "one-payoff": ["fail", "The gap is closed in the hook; the reel has nothing left to pay off."],
+      "rung": ["fail", "Viewer's words ('cracked constantly') make it vivid, but there is no villain and no open reframe."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Explains the losses."],
+      "rung_seen": 3
+    },
+    "d15": {
+      "claim": ["fail", "'On apps where nobody folds, that's your real number' puts 56% on tables of callers; the fact is four random hands all-in preflop."],
+      "one-gap": ["pass", "One question."],
+      "gap-open": ["pass", "What to do stays open."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["fail", "The table condition makes it vivid, but nothing the viewer tried is named as failing them and there is no reframe."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 3
+    },
+    "d16": {
+      "claim": ["pass", "14% of preflop all-ins vs one random hand matches aa-lose-1."],
+      "one-gap": ["pass", "One question: where the difference costs you."],
+      "gap-open": ["pass", "The where is withheld."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["pass", "Villain (aces as a lock) named as the belief that fails them."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Cost is named to explain a decision."],
+      "rung_seen": 4
+    },
+    "d17": {
+      "claim": ["pass", "'85% bet' vs one random hand all-in preflop is the brief's allowed reading of aa-vs-1."],
+      "one-gap": ["pass", "The first question is rhetorical; one gap (why the call feels scary)."],
+      "gap-open": ["pass", "The why stays open."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["fail", "Names a problem (the call feels scary) but no villain the viewer tried and no reframe."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 3
+    },
+    "d18": {
+      "claim": ["pass", "14% of preflop all-ins vs one random hand matches aa-lose-1."],
+      "one-gap": ["pass", "One question: how you miscount."],
+      "gap-open": ["pass", "The miscount is named, not explained."],
+      "one-payoff": ["pass", "One idea (what you count and what you forget) closes it."],
+      "rung": ["pass", "Luck denied as villain, cause relocated to the viewer's counting."],
+      "honest": ["pass", "Luck named only to be denied."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 5
+    },
+    "d19": {
+      "claim": ["fail", "'At a home game where everyone calls, that's your Friday' puts 64% on a table of callers; the fact is three random hands all-in preflop."],
+      "one-gap": ["pass", "One question: the fix."],
+      "gap-open": ["pass", "The fix is withheld."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["fail", "The home-game scene makes it vivid; no villain named, no reframe."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 3
+    },
+    "d20": {
+      "claim": ["pass", "85% vs one random hand all-in preflop matches aa-vs-1."],
+      "one-gap": ["pass", "One question: what your memory does."],
+      "gap-open": ["pass", "'You do' opens the loop without closing it."],
+      "one-payoff": ["pass", "One idea (how the last two beats bend the next decision) closes it."],
+      "rung": ["pass", "Viewer's scene ('cracked twice tonight'), cause moved from the deck to the player, left open."],
+      "honest": ["pass", "No claimed results or luck talk."],
+      "helping": ["pass", "The losses explain a decision; no urge to play on."],
+      "rung_seen": 5
+    }
+  },
+  "rank": ["d10", "d20", "d18", "d08", "d02", "d13", "d07", "d11", "d16", "d09", "d06"]
+}

@@ -1,0 +1,205 @@
+{
+  "verdicts": {
+    "d01": {
+      "claim": ["pass", "9.75 bb keeps all of wait-bb's conditions: six-handed, one premium, folding everything else"],
+      "one-gap": ["pass", "One question: what is the expensive part"],
+      "gap-open": ["pass", "'The cheap part' points elsewhere without saying what costs more"],
+      "one-payoff": ["pass", "One idea (what waiting costs beyond the blinds) closes it, and the reel can end back on 'the cheap part'"],
+      "rung": ["pass", "Reframe: the visible cost is named, the real one is elsewhere"],
+      "honest": ["pass", "No claimed results, no luck talk"],
+      "helping": ["pass", "The cost explains a strategy; promise is understanding"],
+      "rung_seen": 5
+    },
+    "d02": {
+      "claim": ["pass", "No fact numbers; 'two hours' sets a scene, it isn't a statistic"],
+      "one-gap": ["pass", "One question: what damage was already done"],
+      "gap-open": ["pass", "Says damage came before the kings, not what it was"],
+      "one-payoff": ["pass", "One idea (the cost of the wait) closes it and leads back to 'already done'"],
+      "rung": ["pass", "Reframe: not the beat, something earlier"],
+      "honest": ["pass", "The cooler is named only to deny it as the cause"],
+      "helping": ["pass", "The loss is named to explain a decision"],
+      "rung_seen": 5
+    },
+    "d03": {
+      "claim": ["pass", "'One premium every 39 hands, on average' matches premium-every, premiums spelled out"],
+      "one-gap": ["pass", "One question: why the stack gets shorter"],
+      "gap-open": ["pass", "The why is asked, not answered"],
+      "one-payoff": ["pass", "One idea closes it"],
+      "rung": ["pass", "Villain: waiting for premiums, named as what fails them"],
+      "honest": ["pass", "Nothing claimed beyond the fact"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    },
+    "d04": {
+      "claim": ["pass", "2.56% of dealt hands are AA, KK, QQ or AK, as premium-share says"],
+      "one-gap": ["pass", "No stacked hooks; at most one residual question"],
+      "gap-open": ["fail", "The last clause gives the why: the blinds cost you while you wait; only the amount is left"],
+      "one-payoff": ["fail", "The hook closes its own gap (stop folding, because blinds); the reel only adds arithmetic"],
+      "rung": ["pass", "Villain: folding everything but premiums"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "No money-back promise"],
+      "rung_seen": 4
+    },
+    "d05": {
+      "claim": ["pass", "1.5 bb every orbit, six-handed, matches orbit-bb"],
+      "one-gap": ["pass", "One question: what the table does with what it sees"],
+      "gap-open": ["pass", "Says the table watches, not what it learns or does"],
+      "one-payoff": ["pass", "One idea (a premiums-only player is readable) closes it and leads back to 'watching you wait'"],
+      "rung": ["pass", "Reframe: the cost isn't just the blinds, it's being watched"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 5
+    },
+    "d06": {
+      "claim": ["pass", "'1 in 39 hands is a premium, on average' matches premium-every"],
+      "one-gap": ["pass", "One question: if not the river, what"],
+      "gap-open": ["pass", "Denies the river without naming the real cause"],
+      "one-payoff": ["pass", "One idea closes it and returns to 'it's not the river'"],
+      "rung": ["pass", "Reframe: the real cause is elsewhere"],
+      "honest": ["pass", "'Feels rigged' is voiced only to be denied; luck named to be denied"],
+      "helping": ["pass", "The loss is named to explain, not to poke"],
+      "rung_seen": 5
+    },
+    "d07": {
+      "claim": ["pass", "2.56% of dealt hands, premiums spelled out, matches premium-share"],
+      "one-gap": ["pass", "One question: how 'play tight' starts costing you"],
+      "gap-open": ["pass", "Says it costs, not how"],
+      "one-payoff": ["pass", "One idea closes it"],
+      "rung": ["pass", "Villain: the advice 'play tight'"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    },
+    "d08": {
+      "claim": ["pass", "9.75 bb keeps wait-bb's conditions: six-handed, one premium, folding everything else"],
+      "one-gap": ["pass", "One question: where the cost shows up"],
+      "gap-open": ["pass", "Says it's invisible in one hand, not where it is visible"],
+      "one-payoff": ["pass", "One idea (the leak only shows across many hands) closes it"],
+      "rung": ["pass", "Villain: folding everything else; the last clause adds vividness more than a new cause, so 4 not 5"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    },
+    "d09": {
+      "claim": ["pass", "'Once every 39 hands, on average' matches premium-every"],
+      "one-gap": ["pass", "One question: why folding isn't safe"],
+      "gap-open": ["pass", "The why stays open"],
+      "one-payoff": ["pass", "One idea closes it"],
+      "rung": ["pass", "Villain: folding as the safe play; opens in the viewer's words ('card dead again?')"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    },
+    "d10": {
+      "claim": ["pass", "No fact numbers; 'an hour' is a scene, not a statistic"],
+      "one-gap": ["pass", "One question: what both are missing"],
+      "gap-open": ["pass", "Names the shared mistake, not what is missing"],
+      "one-payoff": ["pass", "One idea (a plan for which hands to play) closes both halves"],
+      "rung": ["pass", "Reframe: waiting and spewing are the same mistake"],
+      "honest": ["pass", "No confession; 'you' is the viewer, not LlamaPoker"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 5
+    },
+    "d11": {
+      "claim": ["pass", "'39 hands, on average, before any premium' matches premium-every"],
+      "one-gap": ["pass", "One question: what in those 39 hands costs you"],
+      "gap-open": ["pass", "Points at where to look, not at what is there"],
+      "one-payoff": ["pass", "One idea closes it"],
+      "rung": ["pass", "Reframe: not the cracked aces, the hands before them"],
+      "honest": ["pass", "The cracked aces are named only to deny them as the cause"],
+      "helping": ["pass", "The loss is named to explain"],
+      "rung_seen": 5
+    },
+    "d12": {
+      "claim": ["pass", "One in 39 on average and 1.5 bb an orbit six-handed both match their facts"],
+      "one-gap": ["pass", "No stacked hooks"],
+      "gap-open": ["fail", "'The rest aren't free to fold' gives the why (the blinds), and the hook supplies both inputs, so the viewer can do the sum"],
+      "one-payoff": ["fail", "The hook already closes the gap; what's left is arithmetic"],
+      "rung": ["pass", "Villain: only playing premiums"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    },
+    "d13": {
+      "claim": ["pass", "'Once every 39 hands, on average' matches premium-every"],
+      "one-gap": ["pass", "No stacked hooks"],
+      "gap-open": ["fail", "'The blinds disagree' gives the why; only how much is left"],
+      "one-payoff": ["fail", "The hook closes its own gap; the reel only adds the amount"],
+      "rung": ["pass", "Villain: 'fold everything else' as discipline"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    },
+    "d14": {
+      "claim": ["pass", "No fact numbers; 'two hours' is a scene"],
+      "one-gap": ["pass", "No stacked hooks"],
+      "gap-open": ["fail", "The last clause gives the answer: the blinds took their cut every orbit"],
+      "one-payoff": ["fail", "The hook closes its own gap; only the size of the cut is left"],
+      "rung": ["fail", "A vivid problem (card dead, stack shrinking) with no strategy named as what fails them and no reframe"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 3
+    },
+    "d15": {
+      "claim": ["pass", "2.56% of dealt hands, premiums spelled out, matches premium-share"],
+      "one-gap": ["pass", "One question: why safe isn't good"],
+      "gap-open": ["pass", "The difference is asserted, not explained"],
+      "one-payoff": ["pass", "One idea closes it"],
+      "rung": ["pass", "Reframe: safe and good split apart"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 5
+    },
+    "d16": {
+      "claim": ["pass", "9.75 bb with six-handed, one premium and folding everything else, as wait-bb says"],
+      "one-gap": ["pass", "The opening question is answered at once; only 'who's still calling?' stays open"],
+      "gap-open": ["pass", "Hints that nobody calls, but not why"],
+      "one-payoff": ["pass", "One idea (a premiums-only raise gets read) closes it"],
+      "rung": ["pass", "Reframe: the blinds are the known cost, getting no action is the hidden one"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 5
+    },
+    "d17": {
+      "claim": ["pass", "No fact numbers"],
+      "one-gap": ["pass", "One question: how they knew"],
+      "gap-open": ["pass", "Says they knew, not how"],
+      "one-payoff": ["pass", "One idea (a premiums-only range is readable) closes it and leads back to 'before you raised'"],
+      "rung": ["pass", "Reframe: not bad luck, a read"],
+      "honest": ["pass", "Luck named only to be denied"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 5
+    },
+    "d18": {
+      "claim": ["pass", "'1 in 39 hands is a premium, on average' matches premium-every"],
+      "one-gap": ["pass", "One question: what the price is"],
+      "gap-open": ["pass", "Says there's a price, not what it is"],
+      "one-payoff": ["pass", "One idea closes it"],
+      "rung": ["pass", "Reframe: 'card dead' is a choice; viewer's own words"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 5
+    },
+    "d19": {
+      "claim": ["pass", "1.5 bb every orbit six-handed matches orbit-bb"],
+      "one-gap": ["pass", "No stacked hooks"],
+      "gap-open": ["fail", "Answers its own question: folding isn't free because of the blinds, and you pay them 'for a long time'"],
+      "one-payoff": ["fail", "The hook closes its own gap; only the exact amount is left"],
+      "rung": ["pass", "Villain: 'folding is free', in the viewer's words"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    },
+    "d20": {
+      "claim": ["pass", "2.56% of dealt hands is how often a premiums-only range plays, matching premium-share"],
+      "one-gap": ["pass", "One question: what the chart never tells you"],
+      "gap-open": ["pass", "What it leaves out stays unsaid"],
+      "one-payoff": ["pass", "One idea closes it"],
+      "rung": ["pass", "Villain: the 'premiums only' chart"],
+      "honest": ["pass", "No claimed results"],
+      "helping": ["pass", "Promise is understanding"],
+      "rung_seen": 4
+    }
+  },
+  "rank": ["d17", "d01", "d02", "d06", "d18", "d11", "d16", "d10", "d09", "d05", "d15", "d07", "d08", "d03", "d20"]
+}

@@ -1,0 +1,205 @@
+{
+  "verdicts": {
+    "d01": {
+      "claim": ["pass", "56% matches aa-vs-4 (55.88) with four random hands, all-in preflop"],
+      "one-gap": ["pass", "One question: what you did before the flop"],
+      "gap-open": ["pass", "Names where the cause is (before the flop), not what it is"],
+      "one-payoff": ["pass", "One idea (letting the field in preflop) closes it and leads back to the 56%"],
+      "rung": ["pass", "Villain (the deck) denied, cause moved elsewhere: rung 5"],
+      "honest": ["pass", "Luck ('the deck') named only to be denied; no claimed results"],
+      "helping": ["pass", "Explains a preflop decision; promise is understanding"],
+      "rung_seen": 5
+    },
+    "d02": {
+      "claim": ["pass", "85% matches aa-vs-1 (85.26) with one random hand, all-in preflop"],
+      "one-gap": ["pass", "One question: what the part nobody shows you is"],
+      "gap-open": ["pass", "Nothing handed over"],
+      "one-payoff": ["pass", "One idea (the 15% that remains, over many hands) can close it"],
+      "rung": ["pass", "Villain 'rigged' denied; the tease is vague, so rung 4 rather than a true reframe"],
+      "honest": ["pass", "Rigging denied; nothing claimed"],
+      "helping": ["pass", "Explains cracks; no money-back promise"],
+      "rung_seen": 4
+    },
+    "d03": {
+      "claim": ["pass", "14% matches aa-lose-1 (14.47), lose outright to one random hand, all-in preflop"],
+      "one-gap": ["pass", "One question: what the right question is"],
+      "gap-open": ["pass", "The right question is withheld"],
+      "one-payoff": ["pass", "One idea (judge the decision, not the river) closes it"],
+      "rung": ["pass", "Villain (the cursed river) denied, reframe to the question asked: rung 5"],
+      "honest": ["pass", "Curse named only to be denied"],
+      "helping": ["pass", "Loss used to explain how to judge a decision"],
+      "rung_seen": 5
+    },
+    "d04": {
+      "claim": ["pass", "96% matches aa-lose-once-in-20 (95.62) with its conditions spelled out"],
+      "one-gap": ["pass", "One question: the proof it isn't rigged"],
+      "gap-open": ["pass", "The how (compounding small losses) stays open"],
+      "one-payoff": ["pass", "One idea (a 14% event over 20 tries) closes it"],
+      "rung": ["pass", "Villain 'rigged' denied, no reframe: rung 4"],
+      "honest": ["pass", "Rigging denied; nothing claimed"],
+      "helping": ["pass", "Explains losses; promise is understanding"],
+      "rung_seen": 4
+    },
+    "d05": {
+      "claim": ["pass", "85% said as against one random hand, all-in preflop; 'always' is the viewer's belief being corrected"],
+      "one-gap": ["pass", "One question: how far the number falls"],
+      "gap-open": ["pass", "The new number is withheld"],
+      "one-payoff": ["pass", "One idea (equity drops with each opponent) closes it"],
+      "rung": ["pass", "Viewer's belief named as what misleads them; cause (more players) is given, so rung 4"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Understanding only"],
+      "rung_seen": 4
+    },
+    "d06": {
+      "claim": ["pass", "85% (aa-vs-1) and 56% (aa-vs-4) each with their conditions"],
+      "one-gap": ["pass", "One question: what you allowed"],
+      "gap-open": ["fail", "The first sentence already answers it: one opponent versus four is the 'something you allowed'"],
+      "one-payoff": ["pass", "One idea (letting more players in) would close it"],
+      "rung": ["pass", "Reframe from the aces to the viewer's choice: rung 5"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Explains a decision"],
+      "rung_seen": 5
+    },
+    "d07": {
+      "claim": ["pass", "14% matches aa-lose-1: one random hand beats AA all-in preflop"],
+      "one-gap": ["pass", "One question: why his winning call was still a mistake"],
+      "gap-open": ["pass", "Says it was a mistake, not why"],
+      "one-payoff": ["pass", "One idea (his equity versus the price) closes it and leads back to the 14%"],
+      "rung": ["pass", "Cracked aces (the viewer's pain) reframed as a mistake you want: rung 5"],
+      "honest": ["pass", "Nothing claimed; no luck talk"],
+      "helping": ["pass", "The loss explains a decision"],
+      "rung_seen": 5
+    },
+    "d08": {
+      "claim": ["pass", "85% with one random hand, all-in preflop"],
+      "one-gap": ["pass", "One question left: how big the bite is"],
+      "gap-open": ["fail", "Hands over both the fix (stop slowplaying) and the why (every extra caller takes a bite); only a size is left"],
+      "one-payoff": ["pass", "One idea (equity per extra caller) would fit a reel"],
+      "rung": ["pass", "Slowplaying named as what fails them: rung 4"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Explains a decision"],
+      "rung_seen": 4
+    },
+    "d09": {
+      "claim": ["pass", "73% matches aa-vs-2 (73.4) with two random hands, all-in preflop"],
+      "one-gap": ["pass", "One question: what the third chair does"],
+      "gap-open": ["pass", "Points at the third chair without saying what it does"],
+      "one-payoff": ["pass", "One idea (each added player takes equity) closes it"],
+      "rung": ["pass", "Luck denied, cause moved to the third chair: rung 5"],
+      "honest": ["pass", "Luck named only to be denied"],
+      "helping": ["pass", "Loss explains a decision"],
+      "rung_seen": 5
+    },
+    "d10": {
+      "claim": ["pass", "79% matches aa-lose-once-in-10 (79.06) with its conditions"],
+      "one-gap": ["pass", "One question: what understanding fixes"],
+      "gap-open": ["pass", "Nothing handed over"],
+      "one-payoff": ["pass", "One idea (compounding a 14% loss) closes it"],
+      "rung": ["pass", "Moving seats named as what fails them: rung 4"],
+      "honest": ["fail", "'Understanding will [fix it]' promises an end to aces losing once in ten, which nothing can deliver"],
+      "helping": ["pass", "No money-back promise"],
+      "rung_seen": 4
+    },
+    "d11": {
+      "claim": ["pass", "64% matches aa-vs-3 (63.79) with three random hands, all-in preflop"],
+      "one-gap": ["pass", "One question: how raise size picks the number"],
+      "gap-open": ["pass", "Names the lever, not how to use it"],
+      "one-payoff": ["pass", "One idea (raise size sets how many see the flop) closes it"],
+      "rung": ["pass", "Cause moved from the hand to your raise size: rung 5"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Explains a decision"],
+      "rung_seen": 5
+    },
+    "d12": {
+      "claim": ["pass", "56% matches aa-vs-4 with four random hands, all-in preflop"],
+      "one-gap": ["pass", "One question: how you invited the crowd"],
+      "gap-open": ["pass", "Names the crowd; how you let it in stays open"],
+      "one-payoff": ["pass", "One idea (limps and small raises invite callers) closes it"],
+      "rung": ["pass", "Running bad denied, cause moved to the crowd: rung 5"],
+      "honest": ["pass", "Luck ('run bad') named only to be denied"],
+      "helping": ["pass", "Loss explains a decision"],
+      "rung_seen": 5
+    },
+    "d13": {
+      "claim": ["fail", "Maps 56% (four random hands, all-in preflop) onto 'your home game when everyone limps', a limped pot of unknown size played postflop"],
+      "one-gap": ["pass", "One question: what the fix is"],
+      "gap-open": ["pass", "The fix is withheld"],
+      "one-payoff": ["pass", "One idea (raise to thin the field) closes it"],
+      "rung": ["pass", "Folding them named as the wrong fix: rung 5"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Explains a decision"],
+      "rung_seen": 5
+    },
+    "d14": {
+      "claim": ["pass", "85% with one random hand, all-in preflop"],
+      "one-gap": ["pass", "One question: what choice keeps them out of heads-up pots"],
+      "gap-open": ["pass", "The choice is not named"],
+      "one-payoff": ["pass", "One idea (how you raise them) closes it"],
+      "rung": ["pass", "'Overrated' belief denied, cause moved to your choice: rung 5"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Explains a decision"],
+      "rung_seen": 5
+    },
+    "d15": {
+      "claim": ["pass", "14% matches aa-lose-1, heads-up to a random hand, all-in preflop"],
+      "one-gap": ["pass", "One question: what the next number shows"],
+      "gap-open": ["pass", "The next number is withheld"],
+      "one-payoff": ["pass", "One idea (the 14% is built in) closes it"],
+      "rung": ["pass", "The feeling of being owed is denied; the tease points to a number, not a cause: rung 4"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Loss explained, not used to push play"],
+      "rung_seen": 4
+    },
+    "d16": {
+      "claim": ["pass", "85% with one random hand, all-in preflop; 'win' for pot share passes per the brief"],
+      "one-gap": ["pass", "One question: which count you never kept"],
+      "gap-open": ["pass", "The count is not named"],
+      "one-payoff": ["pass", "One idea (count the wins, not just the cracks) closes it"],
+      "rung": ["pass", "Blaming the app turned into blaming your own count: rung 5"],
+      "honest": ["pass", "No claims; 'the app' only names where the viewer saw it"],
+      "helping": ["pass", "Explains perception, no money back"],
+      "rung_seen": 5
+    },
+    "d17": {
+      "claim": ["pass", "14% matches aa-lose-1, heads-up to one random hand, all-in preflop"],
+      "one-gap": ["pass", "One question: why folding costs more"],
+      "gap-open": ["pass", "States the verdict, not the why"],
+      "one-payoff": ["pass", "One idea (what the 86% earns) closes it and leads back to the 14%"],
+      "rung": ["pass", "Folding because they 'always crack' named as what fails them: rung 4"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Explains a decision"],
+      "rung_seen": 4
+    },
+    "d18": {
+      "claim": ["pass", "64% matches aa-vs-3 with three random hands, all-in preflop"],
+      "one-gap": ["pass", "One question: why this pot is better"],
+      "gap-open": ["pass", "Verdict given, why withheld"],
+      "one-payoff": ["pass", "One idea (share times pot size) closes it"],
+      "rung": ["pass", "Wishing for heads-up named as the wrong wish, reframe: rung 5"],
+      "honest": ["pass", "True in all-in terms; nothing claimed"],
+      "helping": ["pass", "Explains a decision"],
+      "rung_seen": 5
+    },
+    "d19": {
+      "claim": ["pass", "79% matches aa-lose-once-in-10 with its conditions"],
+      "one-gap": ["pass", "One question: why it's good news"],
+      "gap-open": ["pass", "The why is withheld"],
+      "one-payoff": ["pass", "One idea (losses are the price of a winning spot) closes it"],
+      "rung": ["pass", "Curse denied, reframe to good news: rung 5"],
+      "honest": ["pass", "Curse named only to be denied"],
+      "helping": ["pass", "Loss explained, not a reason to play more"],
+      "rung_seen": 5
+    },
+    "d20": {
+      "claim": ["pass", "14% matches aa-lose-1, heads-up, all-in preflop, one random hand"],
+      "one-gap": ["pass", "One question: what the right ledger is"],
+      "gap-open": ["pass", "The right ledger is withheld"],
+      "one-payoff": ["pass", "One idea (count the 85%, not the 14%) closes it"],
+      "rung": ["pass", "Your memory named as the villain, reframe to a ledger: rung 5"],
+      "honest": ["pass", "Nothing claimed"],
+      "helping": ["pass", "Explains perception"],
+      "rung_seen": 5
+    }
+  },
+  "rank": ["d07", "d12", "d18", "d16", "d01", "d17", "d20", "d14", "d19", "d03", "d09", "d02", "d11", "d15", "d05", "d04"]
+}

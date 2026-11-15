@@ -1,0 +1,205 @@
+{
+  "verdicts": {
+    "d01": {
+      "claim": ["pass", "35% by the river for a flop flush draw matches flush-river (34.97%)."],
+      "one-gap": ["pass", "One question: if not the miss, what costs you."],
+      "gap-open": ["pass", "Says the miss isn't the cost; never says what is."],
+      "one-payoff": ["pass", "One idea (the price you pay to draw) closes it and can lead back to 'it's not the miss'."],
+      "rung": ["pass", "Reframe: the real cost is somewhere other than the miss."],
+      "honest": ["pass", "No claimed results, no luck talk."],
+      "helping": ["pass", "Cost named to explain a decision."],
+      "rung_seen": 5
+    },
+    "d02": {
+      "claim": ["pass", "35% by the river for a flop flush draw matches flush-river; 'not a coin flip' is true."],
+      "one-gap": ["pass", "One question: what the right play is."],
+      "gap-open": ["pass", "The right play is not given."],
+      "one-payoff": ["pass", "One idea (price the call) can close it."],
+      "rung": ["pass", "Names two things that fail (coin-flip thinking, folding)."],
+      "honest": ["fail", "'Folding it isn't the answer' is a blanket rule; at a bad price folding is right, so the reel's honest payoff contradicts the hook."],
+      "helping": ["pass", "No loss used; promise is understanding."],
+      "rung_seen": 4
+    },
+    "d03": {
+      "claim": ["pass", "35% by the river for a flop flush draw matches flush-river."],
+      "one-gap": ["pass", "One question: what leaks before the turn."],
+      "gap-open": ["pass", "Places the leak (before the turn) but not what it is."],
+      "one-payoff": ["pass", "One idea (the flop call price) closes it."],
+      "rung": ["pass", "Villain 'the app is rigged', then a reframe to a leak elsewhere."],
+      "honest": ["pass", "Luck ('rigged') named only to be denied."],
+      "helping": ["pass", "Explains a decision, not a loss to chase."],
+      "rung_seen": 5
+    },
+    "d04": {
+      "claim": ["pass", "35% by the river for a flop flush draw matches flush-river."],
+      "one-gap": ["pass", "One question: how to play it instead."],
+      "gap-open": ["pass", "The right way to play it is not given."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["pass", "Villain: playing it like a sure thing."],
+      "honest": ["pass", "No claimed results."],
+      "helping": ["pass", "Cost named to explain a decision."],
+      "rung_seen": 4
+    },
+    "d05": {
+      "claim": ["pass", "Rule of 4 = 36% (flush-rule-of-4) and true 35% by the river (flush-river), both for a flop flush draw."],
+      "one-gap": ["pass", "One question: what the rule really gets wrong."],
+      "gap-open": ["pass", "Says it isn't the number; doesn't say what."],
+      "one-payoff": ["pass", "One idea (the rule assumes you see both cards) closes it."],
+      "rung": ["pass", "Reframe: the rule's real error is elsewhere."],
+      "honest": ["pass", "Accurate, no results claimed."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 5
+    },
+    "d06": {
+      "claim": ["pass", "20% on the river after a turn miss matches flush-turn-to-river (19.57%)."],
+      "one-gap": ["pass", "One question: which bet sizes are the problem."],
+      "gap-open": ["pass", "Names bet size as the cause but not which sizes can be called."],
+      "one-payoff": ["pass", "One idea (pot odds against 20%) closes it."],
+      "rung": ["pass", "Reframe: not the odds, the bet size."],
+      "honest": ["pass", "No claims beyond the fact."],
+      "helping": ["pass", "Explains a call decision."],
+      "rung_seen": 5
+    },
+    "d07": {
+      "claim": ["pass", "9 outs on the flop (flush-outs) and rule-of-2 18% with one card to come (flush-rule-of-2), labelled as an estimate."],
+      "one-gap": ["pass", "One question: what the right question is."],
+      "gap-open": ["pass", "The right question is not given."],
+      "one-payoff": ["pass", "One idea (what the call costs against that 18%) closes it."],
+      "rung": ["pass", "Reframe, though a thin one ('wrong question')."],
+      "honest": ["pass", "Explains outs; no claims."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 5
+    },
+    "d08": {
+      "claim": ["pass", "35% by the river with a flop flush draw; facing a shove both cards are seen, so the condition holds."],
+      "one-gap": ["pass", "One question: where the answer is."],
+      "gap-open": ["pass", "Says the answer isn't in the cards; doesn't say where."],
+      "one-payoff": ["pass", "One idea (pot odds of the shove) closes it."],
+      "rung": ["pass", "Reframe: the answer is outside your cards."],
+      "honest": ["pass", "Home-game framing, no results claimed."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 5
+    },
+    "d09": {
+      "claim": ["pass", "31% by the river for a flop open-ender matches oesd-river (31.45%)."],
+      "one-gap": ["pass", "One question: what the difference costs."],
+      "gap-open": ["pass", "The cost is not given."],
+      "one-payoff": ["pass", "One idea (8 outs vs 9 changes the price) closes it."],
+      "rung": ["pass", "Villain: chasing it like a flush draw."],
+      "honest": ["pass", "True, if a small difference."],
+      "helping": ["pass", "Cost named to explain a decision."],
+      "rung_seen": 4
+    },
+    "d10": {
+      "claim": ["pass", "16% by the river for a flop gutshot matches gutshot-river (16.47%)."],
+      "one-gap": ["pass", "One question: why that thought costs."],
+      "gap-open": ["pass", "Why and what price are left open."],
+      "one-payoff": ["pass", "One idea (half the outs of an open-ender, so a much smaller price) closes it."],
+      "rung": ["pass", "Villain: the viewer's own thought, 'still a straight draw'."],
+      "honest": ["pass", "No claims beyond the fact."],
+      "helping": ["pass", "Cost named to explain a decision."],
+      "rung_seen": 4
+    },
+    "d11": {
+      "claim": ["fail", "35% by the river only decides a call when you see both cards (all-in); 'tells you exactly when calling is worth it' drops that condition and misleads against a flop bet."],
+      "one-gap": ["pass", "One question: when calling is worth it."],
+      "gap-open": ["pass", "When is not given."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["pass", "Villain: your gut."],
+      "honest": ["pass", "No results claimed."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 4
+    },
+    "d12": {
+      "claim": ["pass", "9 outs (flush-outs), two cards to come; 'misses more than it hits' is true (35% hit)."],
+      "one-gap": ["pass", "One question: what the problem is."],
+      "gap-open": ["pass", "The real problem is not given."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["pass", "Reframe: missing isn't the problem."],
+      "honest": ["pass", "No claims."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 5
+    },
+    "d13": {
+      "claim": ["pass", "19% on the turn (flush-turn) and 35% by the river (flush-river), conditions stated."],
+      "one-gap": ["pass", "One question: what the draw is worth when the river isn't free."],
+      "gap-open": ["fail", "Last clause hands over the why (the 35% assumes a free river); with 19% already shown, the viewer has the fix."],
+      "one-payoff": ["pass", "One idea."],
+      "rung": ["pass", "Reframe on the 35%."],
+      "honest": ["pass", "Accurate."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 5
+    },
+    "d14": {
+      "claim": ["pass", "35% by the river from the flop matches flush-river."],
+      "one-gap": ["pass", "One question: how much is too much to pay."],
+      "gap-open": ["pass", "The right price is not given."],
+      "one-payoff": ["pass", "One idea (pot odds) closes it."],
+      "rung": ["pass", "Viewer's own words ('always misses'), then a reframe to paying too much."],
+      "honest": ["pass", "Luck complaint named only to be denied."],
+      "helping": ["pass", "Cost named to explain a decision."],
+      "rung_seen": 5
+    },
+    "d15": {
+      "claim": ["pass", "19% on the turn facing a bet (flush-turn) and 35% by the river (flush-river), each with its condition."],
+      "one-gap": ["pass", "One question: why 35% fools you."],
+      "gap-open": ["pass", "Says 35% fools you, not why."],
+      "one-payoff": ["pass", "One idea (one card per bet) closes it."],
+      "rung": ["pass", "Reframe: the famous number is the trap."],
+      "honest": ["pass", "Accurate."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 5
+    },
+    "d16": {
+      "claim": ["pass", "35% by the river from the flop matches flush-river."],
+      "one-gap": ["pass", "One question: how much is right to pay."],
+      "gap-open": ["pass", "Names price as the issue, not the right price."],
+      "one-payoff": ["pass", "One idea (pot odds) closes it."],
+      "rung": ["pass", "Reframe: chasing isn't wrong, the price is."],
+      "honest": ["pass", "Qualified by price, so true."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 5
+    },
+    "d17": {
+      "claim": ["pass", "35%, 31%, 16% by the river from the flop match flush-river, oesd-river and gutshot-river."],
+      "one-gap": ["pass", "One question: which one costs."],
+      "gap-open": ["fail", "The numbers answer it: 16% points straight at the gutshot, so the question closes itself."],
+      "one-payoff": ["pass", "One idea."],
+      "rung": ["pass", "Villain: calling them all the same."],
+      "honest": ["pass", "No results claimed."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 4
+    },
+    "d18": {
+      "claim": ["pass", "20% on the river after missing the turn matches flush-turn-to-river."],
+      "one-gap": ["pass", "One question: what the pot remembers."],
+      "gap-open": ["pass", "What the pot remembers is not given."],
+      "one-payoff": ["pass", "One idea (pot size sets the price of the river call) closes it."],
+      "rung": ["pass", "Denies 'due', reframes to the pot."],
+      "honest": ["pass", "Luck ('due') named only to be denied."],
+      "helping": ["pass", "About pot odds, not sunk cost, provided the reel says so."],
+      "rung_seen": 5
+    },
+    "d19": {
+      "claim": ["pass", "35% by the river from the flop matches flush-river."],
+      "one-gap": ["pass", "One question: which folds cost more."],
+      "gap-open": ["pass", "Which folds is not given."],
+      "one-payoff": ["pass", "One idea (pot odds) closes it."],
+      "rung": ["pass", "Reframe: the fold, not the call, is the leak."],
+      "honest": ["pass", "Hedged ('some'), true."],
+      "helping": ["pass", "Explains a decision."],
+      "rung_seen": 5
+    },
+    "d20": {
+      "claim": ["pass", "35% by the river for a flop flush draw matches flush-river."],
+      "one-gap": ["pass", "One open question: his biggest mistake ('it isn't' closes in-line)."],
+      "gap-open": ["pass", "The bigger mistake is not given."],
+      "one-payoff": ["pass", "One idea closes it."],
+      "rung": ["pass", "Villain (the friend's 'basically made'), then a reframe."],
+      "honest": ["pass", "No results claimed."],
+      "helping": ["pass", "Promise is understanding."],
+      "rung_seen": 5
+    }
+  },
+  "rank": ["d14", "d03", "d20", "d01", "d18", "d10", "d16", "d06", "d15", "d19", "d08", "d05", "d12", "d04", "d09", "d07"]
+}

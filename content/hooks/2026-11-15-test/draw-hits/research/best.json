@@ -1,0 +1,78 @@
+[
+  {
+    "id": "d19",
+    "line": "35% by the river: your flop flush draw. So when the river's a heart after you folded, that fold might still be right.",
+    "promise": "35% by the river for a flop flush draw",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "How do you tell a right fold from a wrong one when the river would have hit?",
+    "rung": 5,
+    "quote_ids": [
+      "q-41",
+      "q-26"
+    ]
+  },
+  {
+    "id": "d16",
+    "line": "20% on the river: your flush draw with one card left. 'I've come this far' isn't a reason. The pot size might be.",
+    "promise": "20% on the river for a turn flush draw",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-turn-to-river"
+    ],
+    "open_question": "What pot size makes calling with one card left correct?",
+    "rung": 5,
+    "quote_ids": [
+      "q-43",
+      "q-31"
+    ]
+  },
+  {
+    "id": "d12",
+    "line": "Would you chase a 16% shot? That's a flop gutshot by the river. 'Never chase gutshots' is half right, and the other half matters.",
+    "promise": "16% for a flop gutshot by the river",
+    "promise_word": 5,
+    "fact_ids": [
+      "gutshot-river"
+    ],
+    "open_question": "When is chasing a gutshot actually the right call?",
+    "rung": 5,
+    "quote_ids": [
+      "q-35",
+      "q-36"
+    ]
+  },
+  {
+    "id": "d03",
+    "line": "19% on the turn: your flop flush draw. Theirs hit the same. So why does it feel rigged? It's not the deck.",
+    "promise": "19% on the turn for a flop flush draw, the same for everyone",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-turn"
+    ],
+    "open_question": "If the deck isn't rigged, why do opponents' draws seem to hit more than yours?",
+    "rung": 5,
+    "quote_ids": [
+      "q-14",
+      "q-13"
+    ]
+  },
+  {
+    "id": "d13",
+    "line": "Nine outs for a flop flush draw. 35% by the river. Except some of those nine can still lose you the pot.",
+    "promise": "Nine outs for a flop flush draw, 35% by the river",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-outs",
+      "flush-river"
+    ],
+    "open_question": "Which of your nine flush outs aren't really outs?",
+    "rung": 5,
+    "quote_ids": [
+      "q-10",
+      "q-34"
+    ]
+  }
+]
