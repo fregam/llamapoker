@@ -23,6 +23,8 @@ Blade-style trackers, podcast charts, app-store rankings, forum indexes, "best p
 channels" lists in each language), and page fetches. If a site blocks you, try another route
 (a mirror like old.reddit/redlib, a tracker, a cached listing). Throttle: don't hammer one host.
 Aim for **as many real candidates as you can find in your slice, 100–300**; breadth over depth.
+**Never use the Chrome browser tools** (`mcp__claude-in-chrome__*`): that is the founder's real
+profile with personal logins. Research logins only ever happen in the separate research profile.
 **Nothing from memory:** every row must have been seen on a page you fetched or a search result in
 this run, with a real url. Expect 30+ searches and many fetches; a handful of searches is not a map.
 

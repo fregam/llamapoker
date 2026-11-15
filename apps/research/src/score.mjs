@@ -11,8 +11,11 @@ export function normUrl(u = "") {
     .toLowerCase()
     .replace(/^https?:\/\//, "")
     .replace(/^(www\.|m\.|old\.)/, "")
-    .replace(/[?#].*$/, "")
-    .replace(/\/+$/, "");
+    .replace(/#.*$/, "")
+    .replace(/[?&](utm_[^=&]*|si|ref|fbclid|igsh|feature)=[^&]*/g, "")
+    .replace(/^([^?]*?)&/, "$1?") // a kept param that followed a dropped first one
+    .replace(/\/+(\?|$)/, "$1")
+    .replace(/\?$/, "");
 }
 
 export function dedupe(rows) {

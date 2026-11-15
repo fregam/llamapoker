@@ -4,8 +4,16 @@ import { dedupe, normUrl, score, pickForJudging, monthsAgo } from "../src/score.
 
 const now = new Date("2026-11-15");
 
-test("urls normalise across www, old., trailing slash and query", () => {
-  assert.equal(normUrl("https://old.reddit.com/r/poker/?x=1"), normUrl("http://www.reddit.com/r/poker"));
+test("urls normalise across www, old., trailing slash and tracking params", () => {
+  assert.equal(normUrl("https://old.reddit.com/r/poker/?utm_source=x"), normUrl("http://www.reddit.com/r/poker"));
+  assert.equal(normUrl("https://youtu.be/abc?si=123&t=4"), "youtu.be/abc?t=4");
+});
+
+test("query strings that name different pages stay different", () => {
+  assert.notEqual(
+    normUrl("https://forum.gipsyteam.ru/index.php?showforum=12"),
+    normUrl("https://forum.gipsyteam.ru/index.php?showforum=40"),
+  );
 });
 
 test("dedupe merges gaps instead of dropping data", () => {
