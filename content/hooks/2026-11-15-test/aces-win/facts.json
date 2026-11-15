@@ -1,0 +1,51 @@
+[
+  {
+    "id": "aa-vs-1",
+    "claim": "AA's share of the pot against 1 random hand, all-in preflop and run to the river (ties split)",
+    "value": 85.26,
+    "unit": "%",
+    "how": "equityVsRandom(AsAh, [], 1, 400000)"
+  },
+  {
+    "id": "aa-vs-2",
+    "claim": "AA's share of the pot against 2 random hands, all-in preflop and run to the river (ties split)",
+    "value": 73.4,
+    "unit": "%",
+    "how": "equityVsRandom(AsAh, [], 2, 400000)"
+  },
+  {
+    "id": "aa-vs-3",
+    "claim": "AA's share of the pot against 3 random hands, all-in preflop and run to the river (ties split)",
+    "value": 63.79,
+    "unit": "%",
+    "how": "equityVsRandom(AsAh, [], 3, 400000)"
+  },
+  {
+    "id": "aa-vs-4",
+    "claim": "AA's share of the pot against 4 random hands, all-in preflop and run to the river (ties split)",
+    "value": 55.88,
+    "unit": "%",
+    "how": "equityVsRandom(AsAh, [], 4, 400000)"
+  },
+  {
+    "id": "aa-lose-1",
+    "claim": "how often AA loses outright to one random hand, all-in preflop and run to the river",
+    "value": 14.47,
+    "unit": "%",
+    "how": "equityVsRandom(AsAh, [], 1, 400000).lose"
+  },
+  {
+    "id": "aa-lose-once-in-10",
+    "claim": "chance AA loses at least once in 10 heads-up preflop all-ins against random hands",
+    "value": 79.06,
+    "unit": "%",
+    "how": "1 - (1 - aa-lose-1)^10"
+  },
+  {
+    "id": "aa-lose-once-in-20",
+    "claim": "chance AA loses at least once in 20 heads-up preflop all-ins against random hands",
+    "value": 95.62,
+    "unit": "%",
+    "how": "1 - (1 - aa-lose-1)^20"
+  }
+]

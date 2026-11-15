@@ -1,0 +1,30 @@
+[
+  {
+    "id": "premium-share",
+    "claim": "share of dealt hands that are AA, KK, QQ or AK (34 of 1,326 combos)",
+    "value": 2.56,
+    "unit": "%",
+    "how": "34/1326"
+  },
+  {
+    "id": "premium-every",
+    "claim": "on average one AA, KK, QQ or AK every this many hands",
+    "value": 39,
+    "unit": "hands",
+    "how": "1326/34, rounded"
+  },
+  {
+    "id": "orbit-bb",
+    "claim": "blinds paid per orbit at a 6-max table (small 0.5 + big 1)",
+    "value": 1.5,
+    "unit": "bb",
+    "how": "0.5 + 1"
+  },
+  {
+    "id": "wait-bb",
+    "claim": "blinds paid at 6-max while waiting for one premium hand, folding everything else",
+    "value": 9.75,
+    "unit": "bb",
+    "how": "39 hands × 1.5 bb / 6 (reel 002, OnlyAces.tsx)"
+  }
+]
