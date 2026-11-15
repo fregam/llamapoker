@@ -1,0 +1,65 @@
+{
+  "verdicts": {
+    "c-002": {
+      "claim": ["fail", "\"costs you 10 bb\" drops wait-bb's conditions: 6-max, and paid per premium hand waited for; as said it reads as a flat total"],
+      "one-gap": ["pass", "one question: what tight-only play costs"],
+      "gap-open": ["fail", "the last clause hands over the answer (10 bb) and leaves no why open"],
+      "one-payoff": ["fail", "the hook closes its own gap, so the reel has nothing left to pay off"],
+      "rung": ["pass", "villain: the 'disciplined' fold-everything habit named as what costs them"],
+      "honest": ["pass", "no claimed results, no luck talk"],
+      "helping": ["pass", "the cost explains a decision"],
+      "rung_seen": 4
+    },
+    "c-sky-2": {
+      "claim": ["fail", "\"5 tips\" is not a fact in facts.json"],
+      "one-gap": ["pass", "one question: what the tips are"],
+      "gap-open": ["pass", "no tip is given away"],
+      "one-payoff": ["fail", "five tips are five ideas, not one; and a reel on these facts cannot close a sleep question"],
+      "rung": ["fail", "topic only"],
+      "honest": ["pass", "nothing untrue claimed"],
+      "helping": ["pass", "no loss named"],
+      "rung_seen": 1
+    },
+    "c-sky-10": {
+      "claim": ["pass", "no numbers"],
+      "one-gap": ["pass", "one question: what in the first hour is the problem"],
+      "gap-open": ["pass", "the cause stays unnamed"],
+      "one-payoff": ["fail", "a reel built on these poker facts cannot close a sleep question"],
+      "rung": ["pass", "full reframe: 'it's not your bedtime, it's what you do the first hour after'"],
+      "honest": ["fail", "LlamaPoker has no ground to claim melatonin stops working or what fixes sleep; off its study-tool ground"],
+      "helping": ["pass", "no loss named"],
+      "rung_seen": 5
+    },
+    "c-giveaway": {
+      "claim": ["fail", "\"85% to win\" drops aa-vs-1's condition: heads-up against one random hand"],
+      "one-gap": ["pass", "one question: why aces keep cracking"],
+      "gap-open": ["fail", "the last clause hands over the answer: how many players you let in"],
+      "one-payoff": ["fail", "the hook already closes its gap"],
+      "rung": ["pass", "villain: the deck named and denied; the reframe is spent by stating its answer"],
+      "honest": ["pass", "luck named only to be denied"],
+      "helping": ["pass", "losses explain a decision"],
+      "rung_seen": 4
+    },
+    "c-claim": {
+      "claim": ["fail", "aa-vs-1 is AA's 85% share heads-up; this inverts it to 'lose 85%' and moves it to four callers"],
+      "one-gap": ["pass", "one implied question"],
+      "gap-open": ["pass", "nothing answered"],
+      "one-payoff": ["fail", "the gap rests on a false premise; no honest reel can pay it off"],
+      "rung": ["fail", "a bare stat framed as a problem, no villain or reframe"],
+      "honest": ["fail", "the number is false; LlamaPoker could not say it truthfully"],
+      "helping": ["pass", "no money-back or play-more angle"],
+      "rung_seen": 2
+    },
+    "c-good": {
+      "claim": ["pass", "85% heads-up matches aa-vs-1; 56% against four matches aa-vs-4 (55.88)"],
+      "one-gap": ["pass", "one question: what the slow-play trap really catches"],
+      "gap-open": ["pass", "the answer is withheld; only the numbers show"],
+      "one-payoff": ["pass", "one idea (slow-playing lets players in and drops AA from 85% toward 56%) closes it, and the last line can loop back to the trap"],
+      "rung": ["pass", "villain: the slow-play trap they already use, named as what fails them, with the loop left open"],
+      "honest": ["pass", "no claimed results, no luck talk"],
+      "helping": ["pass", "promise is understanding a decision"],
+      "rung_seen": 4
+    }
+  },
+  "rank": ["c-good"]
+}
