@@ -518,3 +518,16 @@ lesson, and a hook line that could open the post.
 - **Lesson:** before you scrape, look for the boring official feed. And never name a file after
   something the language already ships.
 - **Hook:** "YouTube has a free feed that shows how often every creator posts Shorts. Hardly anyone uses it."
+
+## 2026-11-15: Two agents scraped YouTube for half an hour and got one video each
+
+- **Choice:** collect a year of comments from 9 poker channels through YouTube's official Data API
+  with a free key, instead of the downloader tool.
+- **Rejected:** yt-dlp with backoff. Two agents ran it at once from one IP; YouTube asked "are you a
+  bot?" after the first video and kept the wall up through 5, 10 and 20 minute waits.
+- **What happened:** 30 minutes of scraping gave 257 comments. The key took 5 minutes to create and
+  costs about 1 quota unit per 100 comments, out of 10,000 free a day. Meanwhile the review and
+  forum collectors, on plain public feeds, had passed 60,000 items.
+- **Lesson:** scrape when there's no door. When the platform hands out a free key, the key is faster
+  than any workaround.
+- **Hook:** "I spent 30 minutes fighting YouTube's bot wall. The fix was a free key that took 5."
