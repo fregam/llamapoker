@@ -1,6 +1,6 @@
 # 04 Source map (any language, three tiers)
 
-Status: ready-for-agent
+Status: resolved
 Type: research
 Blocked by: 01
 
@@ -15,3 +15,7 @@ The unit is one community or comment section; the universe is ~1,000–2,000 can
 
 Output: ranked `sources.json`, plus a short note to the founder (veto possible, sign-off not needed).
 Deep runs (07) take the top 30–60.
+
+## Answer
+
+`sources/sources.json` + `sources/NOTE.md`: 3,023 candidates → 204 judged → 28 deep, 55 maybe, 121 skip. Gaps: short video and login-walled platforms wait for phase 2.
