@@ -100,6 +100,21 @@ describe("stations with their jobs", () => {
     expect(agent("2026-11-11T18:29:00Z")).toBe("lost");
   });
 
+  it("keeps an agent launched before midnight on today's wall while its limit runs", () => {
+    const late = job({ station: "research", lostAfterSec: 5400, startedAt: "2026-11-10T23:30:00Z", lastBeat: "2026-11-10T23:30:00Z" });
+    expect(withJobs([], [late], new Date("2026-11-11T00:20:00Z"), since)[0].jobs?.[0].state).toBe("running");
+    expect(withJobs([], [late], now, since)[0].jobs?.[0].state).toBe("lost"); // it never finished: still asks for a look today
+  });
+
+  it("puts a station with a lost agent in amber (waiting on a look), not failed", () => {
+    const [s] = withJobs([], [job({ id: "a", station: "research", label: "Judge batch 2", lostAfterSec: 5400, lastBeat: "2026-11-11T18:00:00Z" })], now, since);
+    expect(s).toMatchObject({ state: "waiting", message: "Judge batch 2: no finish reported in 90 min" });
+    const line = work([s])[0];
+    expect(line).toMatchObject({ state: "waiting", word: "LOST", open: true });
+    const t = threats({ ...base, stations: [s] });
+    expect(t.filter((x) => x.id.startsWith("job:") || x.id.startsWith("wait:")).map((x) => [x.id, x.level])).toEqual([["job:a", "amber"]]);
+  });
+
   it("reads a stuck job whose runner stopped beating as lost too", () => {
     const [s] = withJobs([], [job({ state: "stuck", lastBeat: "2026-11-11T19:57:00Z" })], now, since);
     expect(s.jobs?.[0].state).toBe("lost");

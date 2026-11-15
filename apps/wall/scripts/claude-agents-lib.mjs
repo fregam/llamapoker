@@ -10,7 +10,8 @@
 // - SubagentStop: `session_id`, `agent_id`, `agent_type`, and on newer builds
 //   `last_assistant_message`. Fires when the agent finishes, also for a background agent.
 // SubagentStart carries no prompt, so a launch is matched to its agent: the oldest unclaimed
-// launch in the same session, of the same agent type when both are known.
+// launch in the same session, its own agent type first. These field names are what the hook
+// docs give; the script logs every start or stop it can't place to logs/agents/unmatched.log.
 
 /** Silence allowed before a running agent reads as lost: an agent reports only start and end. */
 export const AGENT_LOST_SEC = 90 * 60;
@@ -62,12 +63,15 @@ export function fresh(pending, nowMs = Date.now()) {
 }
 
 /**
- * Which waiting launches a starting agent may be, best first: same session, then same type
- * when both sides know it. general-purpose is the default type of a launch that names none.
+ * Which waiting launches a starting agent may be, best first: same session, oldest first, the
+ * ones of its own type ahead of the rest (general-purpose is the type of a launch naming none).
+ * Type only orders, never excludes: a type spelled differently by the hook must not hide an agent.
  */
 export function candidates(pending, start, nowMs = Date.now()) {
   const type = (x) => x ?? "general-purpose";
-  return fresh(pending, nowMs).filter((p) => (!p.session || !start?.session_id || p.session === start.session_id) && (!start?.agent_type || type(p.type) === start.agent_type));
+  const mine = fresh(pending, nowMs).filter((p) => !p.session || !start?.session_id || p.session === start.session_id);
+  const same = (p) => !start?.agent_type || type(p.type) === start.agent_type;
+  return [...mine.filter(same), ...mine.filter((p) => !same(p))];
 }
 
 /** The wall's job report when a research agent starts. */

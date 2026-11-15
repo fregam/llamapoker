@@ -206,7 +206,7 @@ export function threats(f: Facts): Threat[] {
         fix: "Open the station for the log, fix the cause, run it again.",
         evidence: s.evidence,
       });
-    if (s.state === "waiting")
+    if (s.state === "waiting" && !badJobs.length)
       out.push({
         id: "wait:" + s.id,
         level: "amber",
@@ -301,8 +301,9 @@ const quietJob = (j: Job) => !!j.lostAfterSec;
 
 /** Today's jobs attached to their stations, with lost jobs read from their heartbeat. */
 export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Date): Station[] {
-  // A job belongs to today if it ended today, or is unfinished and its wrapper beat today.
-  const today = jobs.filter((j) => new Date(j.endedAt ?? j.lastBeat) >= since);
+  // A job belongs to today if it ended today, or is unfinished and its wrapper beat today (an
+  // agent, which never beats, while its own lost limit reaches into today).
+  const today = jobs.filter((j) => new Date(j.endedAt ?? j.lastBeat).getTime() + (j.endedAt ? 0 : lostAfterMs(j) - LOST_AFTER_MS) >= since.getTime());
   const read = today.map((j): Job =>
     (j.state === "running" || j.state === "stuck") && now.getTime() - new Date(j.lastBeat).getTime() > lostAfterMs(j) ? { ...j, state: "lost" } : j,
   );
@@ -313,8 +314,10 @@ export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Dat
   }
   return [...by.values()].map((s) => {
     const js = s.jobs ?? [];
-    const bad = js.find((j) => BAD.has(j.state));
+    const bad = js.find((j) => BAD.has(j.state) && !(j.state === "lost" && quietJob(j)));
     if (bad) return { ...s, state: "failed", message: jobLine(bad) };
+    const asking = js.find((j) => j.state === "lost" && quietJob(j));
+    if (asking) return { ...s, state: "waiting", message: jobLine(asking) };
     const running = js.filter((j) => j.state === "running").length;
     if (running) return { ...s, state: "ok", message: `${running} running` };
     return s;

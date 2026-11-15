@@ -21,6 +21,11 @@ describe("isResearch", () => {
     expect(isResearch({ description: "x", subagent_type: "deep-research" })).toBe(true);
     expect(isResearch({ description: "Score batch 3" }, "E:\\Projects\\poker-trainer\\.claude\\worktrees\\audience-research")).toBe(true);
     expect(isResearch({ description: "Research Remotion transitions" })).toBe(true);
+    // the audience study's later stages, by the paths their briefs pass (issues 06-08)
+    expect(isResearch({ description: "Pilot: draft the codebook" })).toBe(true);
+    expect(isResearch({ description: "Deep run: r/poker", prompt: "Brief: .scratch/audience-research/issues/07-deep-runs.md" })).toBe(true);
+    expect(isResearch({ description: "Tag cluster 4", prompt: "Query apps/research/data/research.sqlite" })).toBe(true);
+    expect(isResearch({ description: "Write the study", prompt: "Write content/research/audience/study.md" })).toBe(true);
   });
   it("leaves ordinary code work off the research station", () => {
     expect(isResearch({ description: "Fix the hero layout", prompt: "Edit apps/web/src/components/Hero.astro" }, "E:\\Projects\\poker-trainer")).toBe(false);
@@ -50,8 +55,9 @@ describe("launch and candidates", () => {
       { jobId: "agent-explore", session: "s1", type: "Explore", at: t - 9000 },
       { jobId: "agent-default", session: "s1", type: null, at: t - 1000 },
     ];
-    expect(candidates(pending, { session_id: "s1", agent_type: "general-purpose" }, t).map((p) => p.jobId)).toEqual(["agent-a", "agent-b", "agent-default"]);
-    expect(candidates(pending, { session_id: "s1", agent_type: "Explore" }, t).map((p) => p.jobId)).toEqual(["agent-explore"]);
+    expect(candidates(pending, { session_id: "s1", agent_type: "general-purpose" }, t).map((p) => p.jobId)).toEqual(["agent-a", "agent-b", "agent-default", "agent-explore"]);
+    expect(candidates(pending, { session_id: "s1", agent_type: "Explore" }, t).map((p) => p.jobId)).toEqual(["agent-explore", "agent-a", "agent-b", "agent-default"]);
+    expect(candidates(pending, { session_id: "s1", agent_type: "general_purpose" }, t)).toHaveLength(4); // an odd spelling still finds its launch
   });
   it("forgets a launch no agent claimed in time", () => {
     expect(candidates([{ jobId: "agent-old", session: "s1", type: null, at: t - PENDING_TTL_MS }], { session_id: "s1" }, t)).toEqual([]);

@@ -433,7 +433,11 @@ export async function upsertJob(db: D1Database, j: Job): Promise<void> {
 
 /** Today's jobs: prunes older rows, marks newly lost ones and logs job.lost once for each. */
 export async function readJobs(db: D1Database, now: Date, since: Date): Promise<Job[]> {
-  await db.prepare("DELETE FROM jobs WHERE COALESCE(ended_at, last_beat) < ?").bind(since.toISOString()).run();
+  // Unfinished agents (lost_after set) never beat after launch: keep them a day longer, withJobs decides.
+  await db
+    .prepare("DELETE FROM jobs WHERE COALESCE(ended_at, last_beat) < ?1 AND (ended_at IS NOT NULL OR lost_after IS NULL OR last_beat < ?2)")
+    .bind(since.toISOString(), new Date(since.getTime() - 86400000).toISOString())
+    .run();
   const r = await db.prepare("SELECT * FROM jobs ORDER BY started_at").all<Record<string, unknown>>();
   const jobs: Job[] = r.results.map((x) => ({
     id: String(x.id),

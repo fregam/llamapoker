@@ -150,6 +150,8 @@ ul, ol { list-style: none; }
 .tr.bad, .tr.bad .tr-word, .tr.bad .tr-note { color: var(--rd); }
 .tr.bad .tr-bar { border-color: rgba(255, 77, 77, 0.6); }
 .tr.bad .tr-bar i { background: var(--rd); box-shadow: 0 0 6px rgba(255, 77, 77, 0.6); }
+.tr.ask, .tr.ask .tr-word { color: var(--am); }
+.tr.ask .tr-bar i { background: var(--am); box-shadow: none; }
 @keyframes pulse { 50% { opacity: 0.45; } }
 @media (prefers-reduced-motion: reduce) { .tr.run .tr-bar i, .tr.run .tr-word { animation: none; } }
 

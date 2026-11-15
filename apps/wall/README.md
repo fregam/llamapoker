@@ -113,7 +113,8 @@ type, its words (research, discover, scrape, audience, codebook, deep dive, bake
 competitor, tool check) or its paths (`apps/research`, `docs/research`, `content/research`, the
 audience-research worktree); other subagents stay off the wall. An agent says nothing between
 start and end, so its job may be silent 90 minutes (`lostAfterSec` on `POST /api/job`) before it
-reads as lost, and then it is an amber threat (its session closed or crashed), not red. Set once,
+reads as lost, and then it is amber (trace, station and threat: its session closed or crashed),
+not red. An agent launched before midnight stays on the wall while that limit runs. Set once,
 for every project, in `~/.claude/settings.json` (async: it never slows a session; on a branch
 without the script it does nothing):
 
@@ -127,7 +128,8 @@ without the script it does nothing):
 
 PreToolUse is the only event that carries what the agent was asked; SubagentStart claims the
 oldest waiting launch of its session and type (a file rename under `logs/agents/`, so parallel
-launches never collide). A research run that is plain code (`npm run score`) goes through `job
+launches never collide). A start or stop it can't place is noted in `logs/agents/unmatched.log`
+(payload keys only): look there first if an agent doesn't show. A research run that is plain code (`npm run score`) goes through `job
 --station research` like any other job.
 
 **Local jobs** (renders, foley, teardowns, anything long): put `job` in front of the command.

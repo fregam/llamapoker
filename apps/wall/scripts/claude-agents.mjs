@@ -16,7 +16,7 @@
 //
 // Wall: WALL_URL / WALL_INGEST_KEY, else `wall.url` / `wall.ingest_key` in credentials.json,
 // else the local wall at http://127.0.0.1:8788 (no key on localhost). The key is never printed.
-import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PENDING_TTL_MS, agentEvent, candidates, doneJob, launch, startJob } from "./claude-agents-lib.mjs";
@@ -64,6 +64,14 @@ async function send(path, body) {
 }
 
 const now = new Date();
+/** A start or stop that can't be placed, kept for debugging the hook (keys only, never the prompt). */
+const unmatched = (why) => {
+  try {
+    appendFileSync(join(dir, "unmatched.log"), JSON.stringify({ at: now.toISOString(), why, event: payload.hook_event_name, keys: Object.keys(payload), session: payload.session_id, agent_id: payload.agent_id, agent_type: payload.agent_type }) + "\n");
+  } catch {
+    /* not writable: nothing to do */
+  }
+};
 const event = payload.hook_event_name;
 mkdirSync(pendingDir, { recursive: true });
 mkdirSync(runningDir, { recursive: true });
@@ -77,9 +85,11 @@ if (event === "PreToolUse" && /^(Agent|Task)$/.test(payload.tool_name ?? "")) {
       const x = read(join(d, f));
       if (!x || now.getTime() - (x.at ?? 0) > ttl) rmSync(join(d, f), { force: true });
     }
-} else if (event === "SubagentStart" && payload.agent_id) {
+} else if (event === "SubagentStart") {
+  if (!payload.agent_id) unmatched("start without agent_id");
   const pending = readdirSync(pendingDir).map((f) => ({ f, ...read(join(pendingDir, f)) })).filter((x) => x.jobId);
-  for (const c of candidates(pending, payload, now.getTime())) {
+  let placed = !payload.agent_id;
+  for (const c of payload.agent_id ? candidates(pending, payload, now.getTime()) : []) {
     const target = join(runningDir, safe(payload.agent_id) + ".json");
     try {
       renameSync(join(pendingDir, c.f), target); // atomic: a parallel start that got here first wins
@@ -88,12 +98,15 @@ if (event === "PreToolUse" && /^(Agent|Task)$/.test(payload.tool_name ?? "")) {
     }
     const { f, ...l } = c;
     writeFileSync(target, JSON.stringify({ ...l, startedAt: now.getTime() }));
+    placed = true;
     if (l.research) await Promise.all([send("job", startJob(l, now)), send("event", agentEvent("job.started", l, null, now))]);
     break;
   }
-} else if (event === "SubagentStop" && payload.agent_id) {
+  if (!placed) unmatched("no waiting launch");
+} else if (event === "SubagentStop") {
   const p = join(runningDir, safe(payload.agent_id) + ".json");
-  const l = read(p);
+  const l = payload.agent_id ? read(p) : null;
+  if (!l) unmatched(payload.agent_id ? "stop for an agent never started" : "stop without agent_id");
   if (l) {
     rmSync(p, { force: true });
     if (l.research) await Promise.all([send("job", doneJob(l, payload, now)), send("event", agentEvent("job.done", l, l.startedAt, now))]);

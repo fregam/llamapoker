@@ -32,6 +32,9 @@ describe("trace", () => {
       expect(trace(job({ state }), now)).toMatchObject({ word: state.toUpperCase(), tone: "bad", note: "log: E:/p/logs/jobs/2026-11-12/j1.log" });
     expect(trace(job({ state: "failed", log: null }), now).note).toBeNull();
   });
+  it("shows a Claude agent that never said it finished in amber, not red", () => {
+    expect(trace(job({ state: "lost", station: "research", lostAfterSec: 5400, log: null }), now)).toMatchObject({ word: "LOST", tone: "ask", note: null });
+  });
   it("reads long runs in hours and short ones in seconds", () => {
     expect(trace(job({ startedAt: "2026-11-12T08:57:00Z" }), now).elapsed).toBe("1h 03m");
     expect(trace(job({ startedAt: "2026-11-12T09:59:15Z", percent: null, phase: null }), now)).toMatchObject({ elapsed: "45s", percent: null });

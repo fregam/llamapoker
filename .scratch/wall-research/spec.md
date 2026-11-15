@@ -1,6 +1,6 @@
 # Research on the wall
 
-Status: done (2026-11-15)
+Status: built (2026-11-15); live once the hooks are installed and one real research agent has been seen on the wall
 
 ## Question
 
@@ -32,8 +32,13 @@ claiming is a file rename under `apps/wall/logs/agents/`, safe for parallel laun
   feed lines. Async hooks: never slows a session; wall down = nothing shown.
 - Store: jobs get `lost_after` (migration 0006). An agent reports only at start and end, so it may
   be silent 90 minutes before reading as lost, instead of the wrapper's 2-minute heartbeat.
-- Derive: `research` is CONTENT; a lost agent is an amber threat ("no finish reported in 90
-  min", check the session), not red: a closed session is a question, not a broken job.
+- Derive: `research` is CONTENT; a lost agent is amber everywhere (its trace, its station as
+  waiting, its threat: "no finish reported in 90 min", check the session), not red: a closed
+  session is a question, not a broken job. An agent launched before midnight stays on today's
+  wall while its limit runs.
+- Field names (`agent_id`, `agent_type`, `session_id`, `tool_use_id`) are from the hook docs, not
+  yet seen on a real payload: the type only orders the match, and every start or stop the script
+  can't place goes to `apps/wall/logs/agents/unmatched.log` (keys only) for the first real check.
 
 ## Not done
 
