@@ -82,7 +82,7 @@ export const panels: PanelModule[] = [
     key: "5",
     title: "EXPERIMENTS AND BUDGET",
     question: "Is a test ready to call, and is spend inside the ceiling?",
-    reads: ["event costs (month)", "flags: budget_ceiling, experiments"],
+    reads: ["event costs (month)", "flags: budget_ceiling, experiments", "usage events: Claude 5-hour and weekly limits"],
     area: "budget",
     Component: Budget,
   },

@@ -18,7 +18,7 @@ spec `.scratch/wall-layout/spec.md`):
 | Needs you (2) | What is going wrong or waiting on me, and what do I do first? (threats above approvals) | stations, jobs, queue, flags, costs |
 | Work (3) | What is being made to improve it, and is any of it stuck? One line per department, CONTENT and DEVELOPMENT, opening down to the job traces. | stations, jobs, site probe |
 | Live feed (4) | What just happened? | events |
-| Experiments and budget (5) | Is a test ready to call, and is spend inside the ceiling? | event costs, flags |
+| Experiments and budget (5) | Is a test ready to call, and is spend inside the ceiling? Can I start a big Claude session now? | event costs, flags, `usage` events (Claude limits) |
 
 Each panel is a module in `src/panels/` declaring its question, what it reads and its grid area
 (`src/panels/registry.ts`). Real data only: a missing source shows dashes and says why. **The hero
@@ -85,6 +85,26 @@ new or updated post, run daily as `job --dept content node scripts/fetch-<channe
 appears in Results on the first reading; its failures show under CONTENT and in Needs you, like
 any job. The wall never calls a social API itself: everything comes through the event store.
 
+**Claude plan limits.** Claude Code's status line is the source: on every refresh it pipes its
+session JSON, which for a subscriber carries the 5-hour and weekly limits (`rate_limits`:
+percent used, reset time). `scripts/claude-statusline.mjs` is that status line: it prints
+`Opus 5.5 · 5h 4% · wk 10%` and posts the reading as `usage` events (`channel: "claude"`,
+`subject: five_hour | seven_day`, `amount` = percent, `meta.resets_at` = epoch seconds) when
+it changes, or every 10 minutes while it holds; wall down = the line still prints and it retries
+after 5 minutes (state in `logs/claude-statusline.json`). Set once, for every project, in
+`~/.claude/settings.json`:
+
+```json
+"statusLine": { "type": "command", "command": "node -e \"import('file:///E:/Projects/poker-trainer/apps/wall/scripts/claude-statusline.mjs').catch(()=>process.stdout.write('Claude'))\"" }
+```
+
+The wall shows the newest reading per window in Experiments and budget ("as of" its time: there
+is no reading while no session is open, and a window past its reset shows a dash, not a stale
+number), a **Claude** station under DEVELOPMENT (ok while a session reports, idle after an hour
+without one), and threats in Needs you: amber at 90% of the 5-hour or 80% of the weekly, red at
+the cap, cleared by the reset. Usage readings stay out of the live feed (they are state, not news).
+The import wrapper keeps the line alive on a branch without the script: it then just says `Claude`.
+
 **Local jobs** (renders, foley, teardowns, anything long): put `job` in front of the command.
 
 ```
@@ -133,6 +153,8 @@ What the tests cover:
   in-memory D1 with every migration applied; events, stations and jobs are written through the
   same functions the API uses and read back through `readState`, with Beehiiv and the site probe
   faked at `fetch`. It guards the SQL (checked by breaking the query on purpose: the tests fail).
+- **The Claude status line** (`scripts/claude-statusline.test.mjs`): which limit readings are sent
+  (a missing window is never a zero), when (change, heartbeat, backoff), and the line it prints.
 - **The `job` wrapper end to end** (`scripts/job.test.mjs`) against a pretend wall.
 - Not covered by tests: the panels' look (checked by eye with screenshots).
 
@@ -179,6 +201,8 @@ time control to have that day. A Workers cron that fetches it is the next step.
 - `vscode-theme/` — the same look as a VS Code theme ("Wall VFD"); change it with `styles.css`.
   Bump its `version` when you change it, so VS Code picks it up after reinstalling.
 - `scripts/wall-event.mjs` — write to the store from the PC. `scripts/dev.mjs` — local run.
+- `scripts/claude-statusline.mjs` — the Claude Code status line that reports the plan limits;
+  `scripts/claude-statusline-lib.mjs` its pure half, tested in `scripts/claude-statusline.test.mjs`.
 - `scripts/job.mjs` — the `job` wrapper; `scripts/job-lib.mjs` its pure half (what a command is,
   how far along a line says it is), tested in `scripts/job.test.mjs` (incl. end to end against a
   pretend wall).

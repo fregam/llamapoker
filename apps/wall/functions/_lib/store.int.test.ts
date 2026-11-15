@@ -143,3 +143,22 @@ describe("store + D1: time control", () => {
     expect(back?.work).toBeUndefined();
   });
 });
+
+describe("store + D1: Claude limits", () => {
+  it("reads the newest reading per window and keeps usage readings out of the feed", async () => {
+    fakeBeehiiv();
+    const read = iso(60000);
+    const resets = (msAhead: number) => Math.floor((Date.now() + msAhead) / 1000);
+    await write([
+      { kind: "usage", channel: "claude", subject: "five_hour", amount: 30, unit: "%", ts: iso(3600000), meta: { resets_at: resets(3600000) } },
+      { kind: "usage", channel: "claude", subject: "five_hour", amount: 92, unit: "%", ts: read, meta: { resets_at: resets(3600000) } },
+      { kind: "usage", channel: "claude", subject: "seven_day", amount: 12, unit: "%", ts: iso(60000), meta: { resets_at: resets(3 * DAY) } },
+      { kind: "run", station: "reels", text: "Rendered", ts: iso(30000) },
+    ]);
+    const s = await readState(env);
+    expect(s?.claude?.windows.map((w) => w.used)).toEqual([92, 12]);
+    expect(s?.claude?.asof).toBe(read);
+    expect(s?.threats.find((t) => t.id === "claude:five_hour")?.level).toBe("amber");
+    expect(s?.feed.map((e) => e.kind)).toEqual(["run"]);
+  });
+});

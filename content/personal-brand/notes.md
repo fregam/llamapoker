@@ -339,3 +339,18 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a tool that falls back silently answers a question you didn't ask. The tell was an
   error about files I hadn't mentioned; read errors for what they name, not only that they failed.
 - **Hook:** "My checker failed on files I never asked it about. That was the bug."
+
+## 2026-11-14 - The status line already knew my Claude limits
+
+- **Choice:** to put Claude usage on the wall, read the plan limits (5-hour and weekly) from the
+  JSON Claude Code already pipes to its status line, and make that status line post them to the
+  wall's event store when they change.
+- **Rejected:** summing tokens from the local session logs (a cost-equivalent nobody pays on a
+  subscription, and it can't say how close the cap is); calling the private usage endpoint with
+  the login token (undocumented, and it means handling a credential).
+- **What happened:** captured one real payload before writing any code to confirm the numbers
+  were there. The first test then caught a quiet trap: `Number(null)` is 0, so a blank reading
+  would have shown as "0% used", the most reassuring wrong answer possible.
+- **Lesson:** before building a data pipe, look for the one the tool already gives you. And a
+  missing number must stay missing; zero is a claim.
+- **Hook:** "My AI's usage meter was already on my screen. I just had to send it somewhere."
