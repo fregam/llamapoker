@@ -43,8 +43,13 @@ const median = (xs) => {
   return s.length ? s[Math.floor(s.length / 2)] : null;
 };
 const num = (x) => (typeof x === "number" && isFinite(x) && x >= 0 ? x : null);
-const perWeek = (r) =>
-  num(r.posts_per_week) != null && num(r.comments_per_post) != null ? r.posts_per_week * r.comments_per_post : null;
+// Comments a week. App-review pages have no posts: their reviews are the voice, spread over a
+// year (a rough rate, but on the same scale as the others).
+const perWeek = (r) => {
+  if (num(r.posts_per_week) != null && num(r.comments_per_post) != null) return r.posts_per_week * r.comments_per_post;
+  if (r.type === "app-reviews" && num(r.followers) != null) return r.followers / 52;
+  return null;
+};
 
 export function score(rows, now = new Date()) {
   const byType = {};
@@ -90,7 +95,7 @@ export function score(rows, now = new Date()) {
 
 // Top n for tier 3, but every type and language keeps a floor so the ranking can't drown
 // small markets or formats.
-export function pickForJudging(ranked, n = 200, minPerType = 8, minPerLang = 3) {
+export function pickForJudging(ranked, n = 200, minPerType = 15, minPerLang = 3) {
   const out = new Set();
   const take = (pred, k) => {
     let c = 0;
