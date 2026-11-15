@@ -30,7 +30,7 @@ tools: Sky Tan's "How to write a 10/10 hook" reel (2026-11-07) and the
 2. **Method:** build up the ladder. A hook below the villain rung is out.
 3. **A hook is its spoken line.** The founder reads lines only; headline and first frame belong to
    the motion stage. The writer still records, per hook, its **promise** (the number or claim),
-   its **open question** and its **rung**, for the checks.
+   the **fact ids** each number comes from, its **open question** and its **rung**, for the checks.
 4. **Inputs per topic:**
    - a **fact sheet** computed by the engine (`apps/web/src/poker/`): every number a hook may use;
    - an **evidence file** of real quotes pulled from the research store (no handles, no
@@ -53,7 +53,8 @@ tools: Sky Tan's "How to write a 10/10 hook" reel (2026-11-07) and the
 
 | # | Check | By |
 |---|---|---|
-| 1 | Every number in the line matches a line of the topic's fact sheet | code |
+| 1 | Every number in the line equals the value of the fact it cites (`fact_ids`); a number with no cited fact fails | code |
+| 1b | The line's claim is that fact's claim, conditions included ("85 % to win heads-up", not "you lose 85 %"; "four random hands", not "four callers") | critic |
 | 2 | Brand and positioning: no luck talk, gambling glamour or cash, nothing implying use during real-money play, no handles | code |
 | 3 | Length: promise within 7 words, at most 25 words | code (promise position from the writer's record) |
 | 4 | One gap: exactly one open question | critic |
@@ -66,14 +67,28 @@ tools: Sky Tan's "How to write a 10/10 hook" reel (2026-11-07) and the
 The critic is a separate agent from the writer. Every failure is logged with the hook, the check
 and the reason, so we can see what the writer keeps getting wrong.
 
+**The critic is calibrated before it judges anything.** Known cases, each with its expected
+verdict: reel 002's real hook must fail checks 5 and 6; Sky Tan's 2/10 line must sit at the topic
+rung and his 10/10 line at the reframe rung; the grill's own example ("Pocket aces. 85% to win. So
+why do they keep cracking on you? It's not the deck. It's how many players you let in.") must fail
+check 5, because its last clause gives the answer away. A critic that misses any of them is fixed
+before the run.
+
 ## The test
 
-- **Topics:** (a) only playing premium hands (reel 002's idea; the cost in big blinds of waiting);
-  (b) "AA keeps losing / the app is rigged" (aces ~85 % heads-up, ~56 % against four callers:
-  verified in the engine first); (c) will my draw get there (a flop flush draw hits ~35 % by the
-  river).
+- **Topics, stated neutrally** (both arms get the same one-line statement; the viewer's belief and
+  villain must come from evidence or the writer's own idea, never from the topic line):
+  (a) "only playing premium hands" (reel 002's idea; facts: one premium every ~39 hands, the blinds
+  paid while waiting, ~10 bb);
+  (b) "how often pocket aces win" (facts: AA vs 1 to 4 random hands, ~85 % heads-up down to ~56 %
+  against four; random hands, not callers);
+  (c) "how often a draw comes in" (facts: a flop flush draw hits ~35 % by the river).
 - **Per topic, two runs** (research and control). Each run: the writer drafts ~20 hooks up the
-  ladder → code checks → critic → the best 5 go forward.
+  ladder → code checks → critic → the best 5 go forward. If fewer than 5 pass, the writer gets one
+  retry with the failure reasons, the same for both arms; still short, the run shows what passed.
+- **No leaks between the arms.** Writers are fresh agents (never forks of a session that has read
+  the research), with identical briefs except the evidence path. The critic ranks blind: drafts
+  reach it with `quote_ids` stripped and no arm label, and it never sees the evidence file.
 - **The read:** a private review page, one topic at a time, 10 spoken lines shuffled and
   unlabelled. The founder picks a top 3 and strikes any they'd never post. The page reveals the
   labels only after the picks are saved, and it stores the picks so Claude can read them.
@@ -83,7 +98,9 @@ and the reason, so we can see what the writer keeps getting wrong.
     `content/research/audience/pack.md` once synthesis lands (does the tagged pack beat raw quotes?).
   - Lose or tie → read the picks and strikes before building further: is the evidence pull weak,
     or does the ladder alone carry the hooks?
-- Thirty lines is a signal, not proof.
+- Thirty lines is a signal, not proof. With 5 against 5, the rule passes by chance about half the
+  time, so the verdict is written as a direction; the strikes and the failure log carry as much
+  weight as the count.
 
 ## Later (not this feature)
 
@@ -96,7 +113,9 @@ and the reason, so we can see what the writer keeps getting wrong.
 
 Committed files (evidence, hooks, logs) quote viewers verbatim but never with usernames, handles or
 comment permalinks, following `.scratch/audience-research/spec.md` "Privacy". A quote that could
-identify a person is paraphrased and marked so. The research store stays git-ignored.
+identify a person is paraphrased and marked so. The research store stays git-ignored, and the
+scripts open it read-only (collectors write to it while they run). Before the first push that
+carries an `evidence.md`, the founder confirms committing verbatim quotes is fine.
 
 ## Done when
 
