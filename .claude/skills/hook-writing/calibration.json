@@ -1,0 +1,24 @@
+{
+  "about": "Known cases for the critic (spec: The checks). Run the critic on `drafts` with `facts` and compare its verdicts with `expect`. Every expectation must hold before a test run.",
+  "facts": [
+    { "id": "aa-vs-1", "claim": "AA's share of the pot against 1 random hand, all-in preflop and run to the river (ties split)", "value": 85.26, "unit": "%" },
+    { "id": "aa-vs-4", "claim": "AA's share of the pot against 4 random hands, all-in preflop and run to the river (ties split)", "value": 55.88, "unit": "%" },
+    { "id": "wait-bb", "claim": "blinds paid at 6-max while waiting for one premium hand, folding everything else", "value": 9.75, "unit": "bb" }
+  ],
+  "drafts": [
+    { "id": "c-002", "line": "Only playing the big hands? Fold. Fold. Fold. It feels disciplined. Here's what it costs you: 10 bb.", "promise": "10 bb", "promise_word": 15, "fact_ids": ["wait-bb"], "open_question": "what does only playing big hands cost you?", "rung": 2 },
+    { "id": "c-sky-2", "line": "5 tips to sleep better.", "promise": "5 tips", "promise_word": 1, "fact_ids": [], "open_question": "what are the tips?", "rung": 1 },
+    { "id": "c-sky-10", "line": "If you lie in bed for hours every night wide awake and melatonin doesn't even work anymore, it's not your bedtime that's the problem, it's what you do the first hour after.", "promise": "it's not your bedtime", "promise_word": 18, "fact_ids": [], "open_question": "what in the first hour after is the problem?", "rung": 5 },
+    { "id": "c-giveaway", "line": "Pocket aces. 85% to win. So why do they keep cracking on you? It's not the deck. It's how many players you let in.", "promise": "85% to win", "promise_word": 3, "fact_ids": ["aa-vs-1"], "open_question": "why do aces keep cracking?", "rung": 5 },
+    { "id": "c-claim", "line": "Pocket aces lose 85% of the time against four callers.", "promise": "85%", "promise_word": 4, "fact_ids": ["aa-vs-1"], "open_question": "why?", "rung": 2 },
+    { "id": "c-good", "line": "Pocket aces win 85% heads-up. Against four players, 56%. And you keep slow-playing them to trap everyone. Here's what that trap really catches.", "promise": "85% heads-up", "promise_word": 4, "fact_ids": ["aa-vs-1", "aa-vs-4"], "open_question": "what does slow-playing aces really catch?", "rung": 5 }
+  ],
+  "expect": {
+    "c-002": { "fail": ["gap-open", "one-payoff", "rung"] },
+    "c-sky-2": { "fail": ["rung"], "rung_seen": 1 },
+    "c-sky-10": { "pass": ["one-gap", "gap-open", "one-payoff", "rung"], "rung_seen": 5 },
+    "c-giveaway": { "fail": ["gap-open"] },
+    "c-claim": { "fail": ["claim"] },
+    "c-good": { "pass": ["claim", "one-gap", "gap-open", "one-payoff", "rung", "honest", "helping"] }
+  }
+}
