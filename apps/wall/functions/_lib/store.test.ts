@@ -4,6 +4,11 @@ import { normaliseJob, normaliseStation } from "./store";
 const now = new Date("2026-11-11T20:00:00Z");
 
 describe("normaliseJob", () => {
+  it("takes a longer lost limit for jobs that report only at start and end (Claude agents)", () => {
+    expect(normaliseJob({ id: "a1", station: "research", state: "running", lostAfterSec: 5400 }, now)).toMatchObject({ lostAfterSec: 5400 });
+    expect(normaliseJob({ id: "a1", station: "research", state: "running", lostAfterSec: 30 }, now)).toBe("lostAfterSec must be 60-86400");
+    expect(normaliseJob({ id: "a1", station: "research", state: "running", lostAfterSec: 90000 }, now)).toBe("lostAfterSec must be 60-86400");
+  });
   it("accepts a wrapper's report and stamps the heartbeat", () => {
     const j = normaliseJob({ id: "j1", station: "Reels-Render", label: "OnlyAces", state: "running", percent: 40, startedAt: "2026-11-11T19:50:00Z" }, now);
     expect(j).toEqual({
@@ -20,6 +25,7 @@ describe("normaliseJob", () => {
       phase: null,
       log: null,
       department: null,
+      lostAfterSec: null,
     });
   });
   it("keeps the phase word and the log path", () => {

@@ -67,6 +67,7 @@ export interface Job {
   phase: string | null; // the word before the progress number ("Rendered", "Encoded"), when printed
   log: string | null; // the full output of this run on the PC (logs/jobs/<day>/<id>.log)
   department?: Department | null; // `job --dept`, given to its station when the station has none
+  lostAfterSec?: number | null; // silence allowed before it reads as lost; null = 2 minutes (a `job` wrapper beats). Claude agents report only start and end
 }
 
 export interface Link {

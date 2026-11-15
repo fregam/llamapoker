@@ -36,6 +36,11 @@
    **Shipped 2026-11-15 (PR #36): Claude plan limits on the wall** (5-hour and weekly, from Claude Code's
    status line via `apps/wall/scripts/claude-statusline.mjs`): in Experiments and budget, a Claude
    station in DEVELOPMENT, threats near and at the cap.
+   **Built 2026-11-15, live once its hooks are in `~/.claude/settings.json`: research on the wall**
+   (`.scratch/wall-research/`): Claude Code hooks
+   (`apps/wall/scripts/claude-agents.mjs`) show each research
+   subagent as a trace under a `research` station in CONTENT, launch to finish; a lost agent is an
+   amber threat after 90 silent minutes.
    **Next, each its own feature, feeding Results through events (no wall code):** social fetchers
    (Instagram first, then TikTok, YouTube) posting `followers` and `post` events; traffic from
    Cloudflare analytics (needs the API token); the first money source posting `revenue`. Later: the

@@ -94,6 +94,27 @@ describe("stations with their jobs", () => {
     expect(fresh.jobs?.[0].state).toBe("running");
   });
 
+  it("gives a job with its own lost limit that long before reading it as lost", () => {
+    const agent = (lastBeat: string) => withJobs([], [job({ station: "research", lostAfterSec: 5400, lastBeat })], now, since)[0].jobs?.[0].state;
+    expect(agent("2026-11-11T19:00:00Z")).toBe("running"); // an hour quiet: a subagent says nothing until it ends
+    expect(agent("2026-11-11T18:29:00Z")).toBe("lost");
+  });
+
+  it("keeps an agent launched before midnight on today's wall while its limit runs", () => {
+    const late = job({ station: "research", lostAfterSec: 5400, startedAt: "2026-11-10T23:30:00Z", lastBeat: "2026-11-10T23:30:00Z" });
+    expect(withJobs([], [late], new Date("2026-11-11T00:20:00Z"), since)[0].jobs?.[0].state).toBe("running");
+    expect(withJobs([], [late], now, since)[0].jobs?.[0].state).toBe("lost"); // it never finished: still asks for a look today
+  });
+
+  it("puts a station with a lost agent in amber (waiting on a look), not failed", () => {
+    const [s] = withJobs([], [job({ id: "a", station: "research", label: "Judge batch 2", lostAfterSec: 5400, lastBeat: "2026-11-11T18:00:00Z" })], now, since);
+    expect(s).toMatchObject({ state: "waiting", message: "Judge batch 2: no finish reported in 90 min" });
+    const line = work([s])[0];
+    expect(line).toMatchObject({ state: "waiting", word: "LOST", open: true });
+    const t = threats({ ...base, stations: [s] });
+    expect(t.filter((x) => x.id.startsWith("job:") || x.id.startsWith("wait:")).map((x) => [x.id, x.level])).toEqual([["job:a", "amber"]]);
+  });
+
   it("reads a stuck job whose runner stopped beating as lost too", () => {
     const [s] = withJobs([], [job({ state: "stuck", lastBeat: "2026-11-11T19:57:00Z" })], now, since);
     expect(s.jobs?.[0].state).toBe("lost");
@@ -164,6 +185,14 @@ describe("job threats", () => {
     expect(t.find((x) => x.id === "job:a")?.title).toBe("REELS-RENDER STUCK: A");
     expect(t.find((x) => x.id === "job:b")?.detail).toBe("b: failed (Error: ffmpeg exit 1)");
     expect(t.find((x) => x.id === "job:b")?.level).toBe("red");
+  });
+  it("raises an amber threat, not red, for a Claude agent that never said it finished", () => {
+    const agent: Job = { ...j("discover-reddit", "lost"), station: "research", lostAfterSec: 5400, log: null };
+    const t = threats({ ...base, stations: withJobs([], [agent], now, new Date("2026-11-11T00:00:00Z")) });
+    const x = t.find((y) => y.id === "job:discover-reddit");
+    expect(x?.level).toBe("amber");
+    expect(x?.detail).toBe("discover-reddit: no finish reported in 90 min");
+    expect(x?.fix).toMatch(/session/);
   });
   it("points the fix at the run's log, not at a terminal", () => {
     const stations = withJobs([], [j("b", "failed", "Error: ffmpeg exit 1")], now, new Date("2026-11-11T00:00:00Z"));
@@ -330,6 +359,10 @@ describe("work lines", () => {
     expect(work([stuck])[0]).toMatchObject({ word: "STUCK", open: true, latest: "zack.mp4: stuck, no output" });
     const lost: Station = { id: "voice", name: "voice", state: "failed", jobs: [job({ station: "voice", label: "take 3", state: "lost" })] };
     expect(work([lost])[0]).toMatchObject({ word: "LOST", open: true });
+  });
+
+  it("files research under CONTENT", () => {
+    expect(departmentOf({ id: "research", name: "research", state: "idle" })).toBe("content");
   });
 
   it("shows a site probe failure under development", () => {

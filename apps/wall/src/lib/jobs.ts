@@ -10,7 +10,7 @@ export interface Trace {
   percent: number | null; // null: the tool prints no progress, show "running"
   elapsed: string;
   word: string; // RUNNING | DONE | FAILED | STUCK | LOST
-  tone: "run" | "done" | "bad";
+  tone: "run" | "done" | "bad" | "ask"; // ask: a Claude agent that never said it finished (amber)
   note: string | null; // the output file when done, the log when something went wrong
 }
 
@@ -23,7 +23,8 @@ export function elapsed(from: string, to: Date): string {
 }
 
 export function trace(j: Job, now: Date): Trace {
-  const bad = j.state === "stuck" || j.state === "failed" || j.state === "lost";
+  const ask = j.state === "lost" && !!j.lostAfterSec;
+  const bad = !ask && (j.state === "stuck" || j.state === "failed" || j.state === "lost");
   const done = j.state === "done";
   return {
     name: j.label,
@@ -31,7 +32,7 @@ export function trace(j: Job, now: Date): Trace {
     percent: j.percent,
     elapsed: elapsed(j.startedAt, j.endedAt ? new Date(j.endedAt) : now),
     word: j.state.toUpperCase(),
-    tone: bad ? "bad" : done ? "done" : "run",
+    tone: ask ? "ask" : bad ? "bad" : done ? "done" : "run",
     note: bad ? (j.log ? `log: ${j.log}` : null) : done ? j.output : null,
   };
 }

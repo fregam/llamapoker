@@ -124,6 +124,17 @@ describe("store + D1: Work", () => {
     expect(s?.threats[0].level).toBe("red");
   });
 
+  it("keeps a research agent's long lost limit, so an hour of silence still reads as running", async () => {
+    fakeBeehiiv();
+    const agent = normaliseJob({ id: "agent-1", station: "research", label: "Discover Reddit sources", state: "running", department: "content", lostAfterSec: 5400 }, new Date(Date.now() - 3600000));
+    if (typeof agent === "string") throw new Error(agent);
+    await upsertJob(env.DB!, agent);
+    const s = await readState(env);
+    const content = s?.work?.find((w) => w.id === "content");
+    expect(content).toMatchObject({ word: "RUNNING 1", latest: "Discover Reddit sources: running" });
+    expect(content?.stations.find((x) => x.id === "research")?.jobs?.[0]).toMatchObject({ state: "running", lostAfterSec: 5400 });
+  });
+
   it("refuses a station with a department that doesn't exist", async () => {
     expect(await upsertStation(env.DB!, { id: "x", name: "x", state: "idle", department: "marketing" })).toMatch(/department/);
   });

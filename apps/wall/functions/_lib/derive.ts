@@ -189,8 +189,8 @@ export function threats(f: Facts): Threat[] {
     for (const j of badJobs)
       out.push({
         id: "job:" + j.id,
-        level: "red",
-        weight: 100,
+        level: j.state === "lost" && quietJob(j) ? "amber" : "red",
+        weight: j.state === "lost" && quietJob(j) ? 58 : 100,
         title: `${s.name.toUpperCase()} ${j.state.toUpperCase()}: ${j.label.toUpperCase()}`,
         detail: jobLine(j),
         fix: jobFix(j),
@@ -206,7 +206,7 @@ export function threats(f: Facts): Threat[] {
         fix: "Open the station for the log, fix the cause, run it again.",
         evidence: s.evidence,
       });
-    if (s.state === "waiting")
+    if (s.state === "waiting" && !badJobs.length)
       out.push({
         id: "wait:" + s.id,
         level: "amber",
@@ -293,12 +293,19 @@ export function threats(f: Facts): Threat[] {
 /** A running job whose wrapper has not reported for this long is lost (terminal closed, PC slept). */
 export const LOST_AFTER_MS = 2 * 60 * 1000;
 
+/** How long a job may be silent: its own limit (Claude agents, which report only start and end), else the heartbeat rule. */
+const lostAfterMs = (j: Job) => (j.lostAfterSec ? j.lostAfterSec * 1000 : LOST_AFTER_MS);
+
+/** A job that reports only when it starts and ends (a Claude agent): losing one is a question, not a failure. */
+const quietJob = (j: Job) => !!j.lostAfterSec;
+
 /** Today's jobs attached to their stations, with lost jobs read from their heartbeat. */
 export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Date): Station[] {
-  // A job belongs to today if it ended today, or is unfinished and its wrapper beat today.
-  const today = jobs.filter((j) => new Date(j.endedAt ?? j.lastBeat) >= since);
+  // A job belongs to today if it ended today, or is unfinished and its wrapper beat today (an
+  // agent, which never beats, while its own lost limit reaches into today).
+  const today = jobs.filter((j) => new Date(j.endedAt ?? j.lastBeat).getTime() + (j.endedAt ? 0 : lostAfterMs(j) - LOST_AFTER_MS) >= since.getTime());
   const read = today.map((j): Job =>
-    (j.state === "running" || j.state === "stuck") && now.getTime() - new Date(j.lastBeat).getTime() > LOST_AFTER_MS ? { ...j, state: "lost" } : j,
+    (j.state === "running" || j.state === "stuck") && now.getTime() - new Date(j.lastBeat).getTime() > lostAfterMs(j) ? { ...j, state: "lost" } : j,
   );
   const by = new Map(stations.map((s) => [s.id, { ...s }]));
   for (const j of read) {
@@ -307,8 +314,10 @@ export function withJobs(stations: Station[], jobs: Job[], now: Date, since: Dat
   }
   return [...by.values()].map((s) => {
     const js = s.jobs ?? [];
-    const bad = js.find((j) => BAD.has(j.state));
+    const bad = js.find((j) => BAD.has(j.state) && !(j.state === "lost" && quietJob(j)));
     if (bad) return { ...s, state: "failed", message: jobLine(bad) };
+    const asking = js.find((j) => j.state === "lost" && quietJob(j));
+    if (asking) return { ...s, state: "waiting", message: jobLine(asking) };
     const running = js.filter((j) => j.state === "running").length;
     if (running) return { ...s, state: "ok", message: `${running} running` };
     return s;
@@ -321,6 +330,7 @@ const BAD = new Set<Job["state"]>(["stuck", "failed", "lost"]);
 function jobFix(j: Job): string {
   const log = j.log ? `the log (${j.log})` : "its output";
   if (j.state === "stuck") return `Read ${log}. If it hung, it is killed at twice its quiet limit; if it is just quiet, run it with --quiet-ok.`;
+  if (j.state === "lost" && quietJob(j)) return "Its Claude session was closed, crashed or hit a limit before the agent finished. Check that session; run the agent again if its output is missing.";
   if (j.state === "lost") return `Its runner stopped (process killed, PC slept). Read ${log}, then run it again.`;
   return `Read ${log}, fix the cause, run it again.`;
 }
@@ -328,6 +338,7 @@ function jobFix(j: Job): string {
 /** One plain line for a job that went wrong. */
 export function jobLine(j: Job): string {
   if (j.state === "stuck") return `${j.label}: stuck, no output`;
+  if (j.state === "lost" && quietJob(j)) return `${j.label}: no finish reported in ${Math.round(lostAfterMs(j) / 60000)} min`;
   if (j.state === "lost") return `${j.label}: lost, the job stopped reporting`;
   const last = j.tail?.trim().split("\n").at(-1);
   return `${j.label}: failed${last ? ` (${last})` : ""}`;
@@ -487,7 +498,7 @@ export function results(f: ResultsFacts): Results {
 
 // ---------- work: "what is being made to improve it?" ----------
 
-const CONTENT = /^(reels.*|foley|voice|teardown)$/;
+const CONTENT = /^(reels.*|foley|voice|teardown|research)$/;
 const NOT_WORK = new Set(["signup", "letter"]); // they feed the Newsletter row in Results
 
 /** Which Work line a station belongs to: its own department, else by name; null = not part of Work. */

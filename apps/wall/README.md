@@ -16,7 +16,7 @@ spec `.scratch/wall-layout/spec.md`):
 |---|---|---|
 | Results (1) | How are we doing? Money first, subscribers as the leading number, then each channel. | `revenue`, `followers`, `post` events; Beehiiv |
 | Needs you (2) | What is going wrong or waiting on me, and what do I do first? (threats above approvals) | stations, jobs, queue, flags, costs |
-| Work (3) | What is being made to improve it, and is any of it stuck? One line per department, CONTENT and DEVELOPMENT, opening down to the job traces. | stations, jobs, site probe |
+| Work (3) | What is being made to improve it, and is any of it stuck? One line per department, CONTENT and DEVELOPMENT, opening down to the job traces (research agents included). | stations, jobs, site probe |
 | Live feed (4) | What just happened? | events |
 | Experiments and budget (5) | Is a test ready to call, and is spend inside the ceiling? Can I start a big Claude session now? | event costs, flags, `usage` events (Claude limits) |
 
@@ -105,6 +105,33 @@ without one), and threats in Needs you: amber at 90% of the 5-hour or 80% of the
 the cap, cleared by the reset. Usage readings stay out of the live feed (they are state, not news).
 The import wrapper keeps the line alive on a branch without the script: it then just says `Claude`.
 
+**Research on the wall.** Research is done by Claude subagents, which `job` can't wrap, so Claude
+Code's hooks report them: `scripts/claude-agents.mjs` shows each research agent as a trace under
+the **research** station in Work (CONTENT), running from launch to finish, with a `job.started` /
+`job.done` line in the feed and the agent's last words as its tail. An agent is research by its
+type, its words (research, discover, scrape, audience, codebook, deep dive, bake-off, literature,
+competitor, tool check) or its paths (`apps/research`, `docs/research`, `content/research`, the
+audience-research worktree); other subagents stay off the wall. An agent says nothing between
+start and end, so its job may be silent 90 minutes (`lostAfterSec` on `POST /api/job`) before it
+reads as lost, and then it is amber (trace, station and threat: its session closed or crashed),
+not red. An agent launched before midnight stays on the wall while that limit runs. Set once,
+for every project, in `~/.claude/settings.json` (async: it never slows a session; on a branch
+without the script it does nothing):
+
+```json
+"hooks": {
+  "PreToolUse": [{ "matcher": "Agent|Task", "hooks": [{ "type": "command", "async": true, "command": "node -e \"import('file:///E:/Projects/poker-trainer/apps/wall/scripts/claude-agents.mjs').catch(()=>{})\"" }] }],
+  "SubagentStart": [{ "hooks": [{ "type": "command", "async": true, "command": "node -e \"import('file:///E:/Projects/poker-trainer/apps/wall/scripts/claude-agents.mjs').catch(()=>{})\"" }] }],
+  "SubagentStop": [{ "hooks": [{ "type": "command", "async": true, "command": "node -e \"import('file:///E:/Projects/poker-trainer/apps/wall/scripts/claude-agents.mjs').catch(()=>{})\"" }] }]
+}
+```
+
+PreToolUse is the only event that carries what the agent was asked; SubagentStart claims the
+oldest waiting launch of its session and type (a file rename under `logs/agents/`, so parallel
+launches never collide). A start or stop it can't place is noted in `logs/agents/unmatched.log`
+(payload keys only): look there first if an agent doesn't show. A research run that is plain code (`npm run score`) goes through `job
+--station research` like any other job.
+
 **Local jobs** (renders, foley, teardowns, anything long): put `job` in front of the command.
 
 ```
@@ -155,6 +182,8 @@ What the tests cover:
   faked at `fetch`. It guards the SQL (checked by breaking the query on purpose: the tests fail).
 - **The Claude status line** (`scripts/claude-statusline.test.mjs`): which limit readings are sent
   (a missing window is never a zero), when (change, heartbeat, backoff), and the line it prints.
+- **The research hook** (`scripts/claude-agents.test.mjs`): which agents count as research, how a
+  starting agent finds its launch, and what the wall is told at each end.
 - **The `job` wrapper end to end** (`scripts/job.test.mjs`) against a pretend wall.
 - Not covered by tests: the panels' look (checked by eye with screenshots).
 
@@ -203,6 +232,8 @@ time control to have that day. A Workers cron that fetches it is the next step.
 - `scripts/wall-event.mjs` — write to the store from the PC. `scripts/dev.mjs` — local run.
 - `scripts/claude-statusline.mjs` — the Claude Code status line that reports the plan limits;
   `scripts/claude-statusline-lib.mjs` its pure half, tested in `scripts/claude-statusline.test.mjs`.
+- `scripts/claude-agents.mjs` — the Claude Code hook that puts research agents on the wall;
+  `scripts/claude-agents-lib.mjs` its pure half, tested in `scripts/claude-agents.test.mjs`.
 - `scripts/job.mjs` — the `job` wrapper; `scripts/job-lib.mjs` its pure half (what a command is,
   how far along a line says it is), tested in `scripts/job.test.mjs` (incl. end to end against a
   pretend wall).

@@ -354,3 +354,21 @@ lesson, and a hook line that could open the post.
 - **Lesson:** before building a data pipe, look for the one the tool already gives you. And a
   missing number must stay missing; zero is a claim.
 - **Hook:** "My AI's usage meter was already on my screen. I just had to send it somewhere."
+
+## 2026-11-15 - My research team was invisible to my own dashboard
+
+- **Choice:** the wall showed every render and script, but not the eight Claude agents mapping the
+  audience, because they aren't commands a wrapper can time. Hooked Claude Code's own agent events
+  instead: the launch says what the agent was asked, the start and stop say when it ran, and each
+  research agent becomes a line on the wall.
+- **Rejected:** watching the agents' output files grow (says something changed, not who or why);
+  a summary "8 running" (offered; the founder picked one line per agent); showing every
+  agent (most aren't research, and noise hides the signal).
+- **What happened:** the start event doesn't say what the agent was asked, so a starting agent
+  claims the oldest waiting launch, by renaming a file so two agents starting at once can't grab
+  the same one. And a silent agent isn't a dead one: it gets 90 minutes before the wall asks, in
+  amber, not red.
+- **Lesson:** "lost" means something different for a job that talks every second and one that
+  only speaks at the end. Same alarm, wrong for half the work.
+- **Hook:** "My AI agents were doing research all afternoon and my dashboard said nothing was happening."
+
