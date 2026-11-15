@@ -396,6 +396,8 @@ export function normaliseJob(input: Record<string, unknown>, now = new Date()): 
   const ended = state === "done" || state === "failed";
   const dept = department(input.department);
   if (!isDept(dept)) return dept;
+  const lostAfterSec = num(input.lostAfterSec);
+  if (lostAfterSec !== null && (lostAfterSec < 60 || lostAfterSec > 86400)) return "lostAfterSec must be 60-86400";
   return {
     id,
     station,
@@ -410,6 +412,7 @@ export function normaliseJob(input: Record<string, unknown>, now = new Date()): 
     phase: str(input.phase, 40),
     log: str(input.log, 400),
     department: dept,
+    lostAfterSec: lostAfterSec === null ? null : Math.round(lostAfterSec),
   };
 }
 
@@ -421,10 +424,10 @@ export async function upsertJob(db: D1Database, j: Job): Promise<void> {
       .bind(j.station, j.lastBeat, j.department ?? null),
     db
       .prepare(
-        "INSERT INTO jobs (id, station, label, state, percent, started_at, last_beat, ended_at, output, tail, phase, log, department) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13) " +
-          "ON CONFLICT(id) DO UPDATE SET station = ?2, label = ?3, state = ?4, percent = COALESCE(?5, percent), last_beat = ?7, ended_at = ?8, output = COALESCE(?9, output), tail = COALESCE(?10, tail), phase = COALESCE(?11, phase), log = COALESCE(?12, log), department = COALESCE(?13, department)",
+        "INSERT INTO jobs (id, station, label, state, percent, started_at, last_beat, ended_at, output, tail, phase, log, department, lost_after) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14) " +
+          "ON CONFLICT(id) DO UPDATE SET station = ?2, label = ?3, state = ?4, percent = COALESCE(?5, percent), last_beat = ?7, ended_at = ?8, output = COALESCE(?9, output), tail = COALESCE(?10, tail), phase = COALESCE(?11, phase), log = COALESCE(?12, log), department = COALESCE(?13, department), lost_after = COALESCE(?14, lost_after)",
       )
-      .bind(j.id, j.station, j.label, j.state, j.percent, j.startedAt, j.lastBeat, j.endedAt, j.output, j.tail, j.phase, j.log, j.department ?? null),
+      .bind(j.id, j.station, j.label, j.state, j.percent, j.startedAt, j.lastBeat, j.endedAt, j.output, j.tail, j.phase, j.log, j.department ?? null, j.lostAfterSec ?? null),
   ]);
 }
 
@@ -446,6 +449,7 @@ export async function readJobs(db: D1Database, now: Date, since: Date): Promise<
     phase: (x.phase as string | null) ?? null,
     log: (x.log as string | null) ?? null,
     department: (x.department as Department | null) ?? null,
+    lostAfterSec: (x.lost_after as number | null) ?? null,
   }));
   const newlyLost = withJobs([], jobs, now, since)
     .flatMap((s) => s.jobs ?? [])
