@@ -44,3 +44,9 @@ independent sources across English, Chinese and 6+ other languages, plus forums.
   the permission check: needs one settled route).
 - Discourse forums (Replay Poker → forum.casino.org): `.json` endpoints.
 - Discord member counts: `/api/v9/invites/<code>?with_counts=true`; Telegram: `t.me/s/<name>`.
+
+## Social rows (decision 2026-11-15)
+
+`raw-social.jsonl` (305 rows: X, Facebook, Instagram, Telegram; 209 Facebook) stays. Some rows were
+found while an agent browsed the founder's logged-in Chrome; founder chose to keep them. They are a
+list of places (no posts), the target list for phase 2 (ticket 10).
