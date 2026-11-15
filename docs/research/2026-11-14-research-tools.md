@@ -23,7 +23,7 @@ sources where they could be fetched. Nothing installed. Not legal advice: terms 
 | MediaCrawler | **adopt if** the source map ranks Chinese platforms high | 2 | Chinese platforms only; needs logins. |
 | BERTopic 0.17.4 (MIT) | **adopt** | 1 | Saturation: fit a model per batch, `merge_models` into the base, count topics added. Avoid the 1.0.0b1 pre-release. hdbscan/umap may not build on Windows: fallback scikit-learn's HDBSCAN. |
 | multilingual-e5-base (MIT) | **adopt** | 1 | Embeddings; bge-m3 if a spot check groups better. RTX 4060 8 GB fits both. Near-duplicates: cosine ≥ 0.95, merged before clustering. |
-| lingua-py 2.2.0 (Apache-2.0) | **adopt** | 1 | Language detection on short informal text; fastText lid.176 (CC BY-SA) as a fast first pass. |
+| lingua-py 2.1.1 (Apache-2.0) | **adopt** | 1 | 2.2.0 has no build for Python 3.11 on PyPI; 2.1.1 installed. Language detection on short informal text; fastText lid.176 (CC BY-SA) as a fast first pass. |
 
 ## YouTube terms (background only, not applied)
 
