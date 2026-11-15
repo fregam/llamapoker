@@ -117,13 +117,16 @@ cited, 40–80 ranked reel ideas, a 15–25 page study.
 
 ## Platform terms (from ticket 01, `docs/research/2026-11-14-research-tools.md`)
 
-- **YouTube: official API only** (no yt-dlp: policies III.E.6). Raw YouTube items are deleted after
-  30 days (III.E.4.b/d); long-term we keep only our own coding and short quotes. Stored per
-  channel, no YouTube-derived metrics published (III.E.2.b, III.E.4.h).
-- **Reddit: not collected by any route** until the founder has read its Data API Terms.
-- **Agent-Reach:** pinned v1.6.1, installed by hand from the tag source, never its installer,
-  `setup` or `update`; sessions only from the research profile.
-- **MediaCrawler** out (bans commercial use).
+**Founder decision 2026-11-15: platform terms don't constrain collection.** Use whatever tool gets
+the data (scrapers, yt-dlp, Agent-Reach, MediaCrawler, APIs where simply easier), keep everything
+as long as it's useful, and collect Reddit, YouTube comments and transcripts. The tool check's
+terms notes are background only.
+
+What stays, for practical reasons:
+- Sessions only from the research browser profile, never the brand or personal accounts (the
+  brief's rule: a banned brand account ends the growth channel).
+- Throttled requests, so research logins and IPs don't get blocked mid-run.
+- Agent-Reach pinned v1.6.1, installed by hand from the tag source; no `update`.
 
 ## Privacy (the repo is public)
 
@@ -162,6 +165,6 @@ when it needs the exact words. Pass paths, never copies.
 
 ## Risks
 
-- Some sites block automated fetches. When one refuses, move on; never work around it.
+- Some sites block automated fetches: switch tools (scraper, mirror, Agent-Reach, browser).
 - Forum voices skew older and more serious. The two-source-types rule and phase 2 correct this.
 - API quotas: YouTube gives 10,000 units a day. Runs are spread over days if needed.
