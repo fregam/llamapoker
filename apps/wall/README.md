@@ -129,7 +129,10 @@ without the script it does nothing):
 PreToolUse is the only event that carries what the agent was asked; SubagentStart claims the
 oldest waiting launch of its session and type (a file rename under `logs/agents/`, so parallel
 launches never collide). A start or stop it can't place is noted in `logs/agents/unmatched.log`
-(payload keys only): look there first if an agent doesn't show. A research run that is plain code (`npm run score`) goes through `job
+(payload keys only): look there first if an agent doesn't show; `logs/agents/trace.log` has one
+line per hook call, in the order they really fired. A short agent's start and stop hooks can
+cross (they run async): a stop that lands first leaves a note its start picks up, and the wall
+never lets a late "running" reopen a finished job. A research run that is plain code (`npm run score`) goes through `job
 --station research` like any other job.
 
 **Local jobs** (renders, foley, teardowns, anything long): put `job` in front of the command.

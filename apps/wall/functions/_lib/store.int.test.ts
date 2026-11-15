@@ -135,6 +135,19 @@ describe("store + D1: Work", () => {
     expect(content?.stations.find((x) => x.id === "research")?.jobs?.[0]).toMatchObject({ state: "running", lostAfterSec: 5400 });
   });
 
+  it("never lets a late 'running' report reopen a job that already finished (a short agent's hooks can cross)", async () => {
+    fakeBeehiiv();
+    const done = normaliseJob({ id: "agent-2", station: "research", label: "Probe", state: "done", lostAfterSec: 5400 });
+    const late = normaliseJob({ id: "agent-2", station: "research", label: "Probe", state: "running", lostAfterSec: 5400 });
+    if (typeof done === "string" || typeof late === "string") throw new Error("bad job");
+    await upsertJob(env.DB!, done);
+    await upsertJob(env.DB!, late);
+    const s = await readState(env);
+    const job = s?.work?.find((w) => w.id === "content")?.stations.find((x) => x.id === "research")?.jobs?.find((j) => j.id === "agent-2");
+    expect(job).toMatchObject({ state: "done" });
+    expect(job?.endedAt).not.toBeNull();
+  });
+
   it("refuses a station with a department that doesn't exist", async () => {
     expect(await upsertStation(env.DB!, { id: "x", name: "x", state: "idle", department: "marketing" })).toMatch(/department/);
   });
