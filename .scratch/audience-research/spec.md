@@ -144,7 +144,7 @@ What stays, for practical reasons:
 |---|---|---|
 | `apps/research/data/research.sqlite` (git-ignored) | code, and agents by query | sources, items, quotes (id, verbatim, English, market, source type, segment, tags, engagement, thread url, month) |
 | `content/research/audience/pack.md` | **every script agent** | ≤ 2,500 tokens: 3–5 profiles (3 lines each), their words → the term (glossary), top myths, top pains, tone notes, words to avoid; each line cites quote ids |
-| `content/research/audience/topics.md` | the script agent, one entry at a time | ranked reel ideas, one line each: id, the viewer's problem, profile, the belief to correct, quote ids |
+| `content/research/audience/topics.md` | the script agent, one entry at a time | ranked reel ideas, one line each: id, the viewer's problem, profile, the belief to correct, what they already tried and gave up on (the hook's villain rung, `.scratch/hook-writing/spec.md`; cited by quote ids or left empty, never inferred), quote ids |
 | `content/research/audience/quotes.md` | agents, grep by id | the quotes cited in the pack and topics, verbatim + English (the committed subset of the store) |
 | `content/research/audience/study.md` | the founder | the full report per question and market, with evidence |
 
