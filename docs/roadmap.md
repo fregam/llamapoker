@@ -83,6 +83,10 @@
      open-question and one-payoff checks. New order: audience research (`apps/research`, spec
      `.scratch/audience-research/spec.md`, 10 tickets; its v1 is also the seed of the weekly
      research agent below) → the factory's script stage → 002 rewritten through it → motion → sound.
+   - 2026-11-15: **audience research: source map and collection done in code.** 28 sources picked from
+     3,023 candidates; collectors in `apps/research/src/collect/` pulled 12 months of reviews, forum
+     posts, Reddit and YouTube comments (300k+ items, r/poker comments still running) into a local
+     store (`apps/research/pipeline/`). Next: topic pass, codebook, reading to saturation, script pack.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".

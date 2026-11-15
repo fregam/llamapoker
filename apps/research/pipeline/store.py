@@ -11,7 +11,7 @@ from pathlib import Path
 CORE = ("id", "source", "platform", "kind", "thread_url", "parent_id", "title", "text",
         "lang", "created", "likes", "replies", "rating", "author_key")
 # Columns later steps fill in; pending(col) lists the items still missing one.
-STEP_COLS = {"lang": "text", "dup_of": "integer", "topic": "integer", "is_rec": "integer"}
+STEP_COLS = {"lang": "text", "skip": "text", "topic": "integer", "is_rec": "integer"}
 
 SCHEMA = """
 create table if not exists items (
@@ -19,7 +19,7 @@ create table if not exists items (
   id text not null, source text not null, platform text, kind text, thread_url text,
   parent_id text, title text, text text not null, lang text, created text,
   likes integer, replies integer, rating integer, author_key text, extra text,
-  dup_of integer, topic integer, is_rec integer,
+  skip text, topic integer, is_rec integer,
   unique (source, id)
 );
 create index if not exists items_source on items (source);
@@ -56,6 +56,10 @@ class Store:
                     res["bad"] += 1
                     continue
                 text = (r.get("text") or "").strip()
+                title = (r.get("title") or "").strip()
+                if r.get("kind") == "post" and title:
+                    # a post's title is part of what the person said (often all of it)
+                    text = f"{title}\n\n{text}" if text else title
                 if not text or not r.get("id") or not r.get("source"):
                     res["empty"] += 1
                     continue
@@ -87,6 +91,23 @@ class Store:
         assert col in STEP_COLS
         self.db.executemany(f"update items set {col} = ? where n = ?", [(v, n) for n, v in pairs])
         self.db.commit()
+
+    def mark_noise(self):
+        """Fill `skip` for items that are not a person's own words, or one person repeating themself.
+        Different people writing the same thing are never merged: how often it's said is the finding."""
+        db = self.db
+        db.execute("update items set skip = null")
+        db.execute("update items set skip = 'description' where platform = 'youtube' and kind = 'post'")
+        db.execute("update items set skip = 'removed' where skip is null and ("
+                   "text like '[ Removed by Reddit%' or text in ('[removed]', '[deleted]', '[ Removed by moderator ]'))")
+        db.execute("update items set skip = 'repost' where skip is null and n not in ("
+                   "select min(n) from items where skip is null group by source, author_key, text) "
+                   "and author_key is not null")
+        # the same long text from many accounts is boilerplate (contest rules, channel blurbs)
+        db.execute("update items set skip = 'boilerplate' where skip is null and length(text) >= 150 and text in ("
+                   "select text from items where skip is null and length(text) >= 150 group by text having count(*) >= 3)")
+        db.commit()
+        return dict(db.execute("select skip, count(*) from items where skip is not null group by 1").fetchall())
 
     def start_run(self, step, target=None):
         cur = self.db.execute("insert into runs (step, target, started) values (?, ?, ?)", (step, target, time.time()))

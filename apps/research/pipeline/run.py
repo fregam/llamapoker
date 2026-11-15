@@ -1,12 +1,13 @@
-"""Pipeline steps over the store. Run from apps/research:
+"""Pipeline steps over the store. Run from apps/research, in this order (each is repeatable):
 
-  py -3.11 pipeline/run.py import          load every data/raw/*.jsonl (repeatable)
-  py -3.11 pipeline/run.py lang            detect the language of items that have none
-  py -3.11 pipeline/run.py embed           embed items (multilingual-e5-base) into data/emb/
-  py -3.11 pipeline/run.py dedupe          mark near-duplicates (cosine >= 0.95) as dup_of
-  py -3.11 pipeline/run.py status          items per source and per language
+  py -3.11 pipeline/run.py import     load every data/raw/*.jsonl
+  py -3.11 pipeline/run.py noise      mark what isn't a person's own words (store.mark_noise)
+  py -3.11 pipeline/run.py lang       detect the language of items that have none
+  py -3.11 pipeline/run.py embed      embed kept items (multilingual-e5-base) into data/emb/
+  py -3.11 pipeline/run.py status     items per source and per language
 """
 import sys
+from collections import Counter
 from pathlib import Path
 
 from store import Store
@@ -15,6 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DB = ROOT / "data" / "research.sqlite"
 EMB = ROOT / "data" / "emb"
 MODEL = "intfloat/multilingual-e5-base"
+SHORT = 25  # under this many characters a text can't be language-detected on its own
 
 
 def step_import(store):
@@ -27,22 +29,39 @@ def step_import(store):
     print("total", store.count())
 
 
+def step_noise(store):
+    rid = store.start_run("noise")
+    res = store.mark_noise()
+    store.end_run(rid, res)
+    print("skipped:", res, "| kept:", store.db.execute("select count(*) from items where skip is null").fetchone()[0])
+
+
 def step_lang(store):
     from lingua import LanguageDetectorBuilder
 
-    det = LanguageDetectorBuilder.from_all_languages().with_low_accuracy_mode().build()
+    det = LanguageDetectorBuilder.from_all_languages().build()
     rid = store.start_run("lang")
     done = 0
     while True:
-        batch = store.pending("lang", 20000)
+        batch = store.db.execute(
+            "select n, text from items where lang is null and length(text) >= ? order by n limit 20000", (SHORT,)).fetchall()
         if not batch:
             break
         langs = det.detect_languages_in_parallel_of([t[:400] for _, t in batch])
-        # "und" = too short or no letters (emoji, "gg"): still a value, so it isn't retried.
         store.set_many("lang", [(n, l.iso_code_639_1.name.lower() if l else "und") for (n, _), l in zip(batch, langs)])
         done += len(batch)
         print("lang", done, flush=True)
-    store.end_run(rid, {"items": done})
+    # Short items ("gg", "rigged", emoji) take the main language of their thread, else of their source.
+    by_thread, by_source = {}, {}
+    for thread, source, lang, c in store.db.execute(
+            "select thread_url, source, lang, count(*) from items where lang is not null and lang != 'und' "
+            "and length(text) >= ? group by 1, 2, 3", (SHORT,)):
+        by_thread.setdefault(thread, Counter())[lang] += c
+        by_source.setdefault(source, Counter())[lang] += c
+    short = store.db.execute("select n, thread_url, source from items where lang is null").fetchall()
+    store.set_many("lang", [
+        (n, (by_thread.get(t) or by_source.get(s) or Counter({"und": 1})).most_common(1)[0][0]) for n, t, s in short])
+    store.end_run(rid, {"detected": done, "short_inherited": len(short)})
 
 
 def step_embed(store):
@@ -54,7 +73,7 @@ def step_embed(store):
     EMB.mkdir(parents=True, exist_ok=True)
     ids_path, vec_path = EMB / "ids.i64", EMB / "vectors.f16"
     have = set(np.fromfile(ids_path, dtype=np.int64).tolist()) if ids_path.exists() else set()
-    rows = [(n, t) for n, t in store.db.execute("select n, text from items order by n") if n not in have]
+    rows = [(n, t) for n, t in store.db.execute("select n, text from items where skip is null order by n") if n not in have]
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"embedding {len(rows)} items on {device}", flush=True)
     if not rows:
@@ -79,53 +98,27 @@ def step_embed(store):
 
 
 def load_vectors():
+    """(ids, vectors) for every embedded item, in item order."""
     import numpy as np
 
     ids = np.fromfile(EMB / "ids.i64", dtype=np.int64)
     vecs = np.fromfile(EMB / "vectors.f16", dtype=np.float16).reshape(len(ids), -1)
-    return ids, vecs
-
-
-def step_dedupe(store, threshold=0.95):
-    """Each item whose text nearly repeats an earlier one (cosine >= threshold) points at it."""
-    import numpy as np
-    import torch
-
-    ids, vecs = load_vectors()
     order = np.argsort(ids)
-    ids, vecs = ids[order], vecs[order]
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    all_v = torch.from_numpy(vecs).to(device)
-    if device == "cpu":
-        all_v = all_v.float()
-    rid = store.start_run("dedupe")
-    pairs = []
-    block = 2048
-    for i in range(0, len(ids), block):
-        sims = all_v[i:i + block] @ all_v.T  # block x n
-        # only earlier items count, so the first of a group stays the original
-        mask = torch.arange(len(ids), device=device)[None, :] < torch.arange(i, min(i + block, len(ids)), device=device)[:, None]
-        sims = torch.where(mask, sims, torch.zeros_like(sims))
-        best, arg = sims.max(dim=1)
-        hit = (best >= threshold).nonzero().flatten().tolist()
-        pairs += [(int(ids[i + k]), int(ids[arg[k]])) for k in hit]
-    store.db.execute("update items set dup_of = null")
-    store.set_many("dup_of", pairs)
-    store.end_run(rid, {"duplicates": len(pairs), "of": len(ids)})
-    print(f"{len(pairs)} near-duplicates of {len(ids)}")
+    return ids[order], vecs[order]
 
 
 def step_status(store):
     for s in store.sources():
         print(f"{s['items']:>8}  {s['authors']:>7} authors  {s['first']} to {s['last']}  {s['source']}")
-    print("total", store.count())
-    langs = store.db.execute("select coalesce(lang,'?'), count(*) from items group by 1 order by 2 desc limit 15").fetchall()
+    print("total", store.count(), "| kept", store.db.execute("select count(*) from items where skip is null").fetchone()[0])
+    langs = store.db.execute(
+        "select coalesce(lang,'?'), count(*) from items where skip is null group by 1 order by 2 desc limit 15").fetchall()
     print("langs:", ", ".join(f"{l} {c}" for l, c in langs))
 
 
 if __name__ == "__main__":
-    steps = {"import": step_import, "lang": step_lang, "embed": step_embed, "dedupe": step_dedupe, "status": step_status}
-    if len(sys.argv) < 2 or sys.argv[1] not in steps:
+    steps = {"import": step_import, "noise": step_noise, "lang": step_lang, "embed": step_embed, "status": step_status}
+    if len(sys.argv) < 2 or any(a not in steps for a in sys.argv[1:]):
         sys.exit(__doc__)
     store = Store(DB)
     try:

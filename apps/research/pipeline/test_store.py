@@ -61,6 +61,30 @@ class StoreTest(unittest.TestCase):
         self.assertEqual((s["source"], s["items"], s["authors"], s["first"], s["last"]),
                          ("fo-x", 3, 2, "2026-01-01", "2026-05-01"))
 
+    def test_post_title_is_part_of_the_text(self):
+        self.store.import_jsonl(self.write("rd.jsonl", [
+            item(id="p1", kind="post", title="Is this app rigged?", text=""),
+            item(id="p2", kind="post", title="AA again", text="Lost with aces"),
+            item(id="c9", kind="comment", title="AA again", text="unlucky"),
+        ]))
+        texts = [r[0] for r in self.store.db.execute("select text from items order by n")]
+        self.assertEqual(texts, ["Is this app rigged?", "AA again\n\nLost with aces", "unlucky"])
+
+    def test_noise_is_marked_but_other_people_saying_the_same_are_kept(self):
+        long = "Comment on this week's topic to enter the ticket drop. " * 4
+        self.store.import_jsonl(self.write("x.jsonl", [
+            item(id="a", text="rigged", author_key="p1"),
+            item(id="b", text="rigged", author_key="p2"),          # another person: kept
+            item(id="c", text="rigged", author_key="p1"),          # same person again: repost
+            item(id="d", text="[removed]", author_key="p3"),
+            item(id="e", platform="youtube", kind="post", title="Vid", text="channel blurb", author_key=None),
+            item(id="f", text=long, author_key="p4"), item(id="g", text=long, author_key="p5"),
+            item(id="h", text=long, author_key="p6"),
+        ]))
+        self.assertEqual(self.store.mark_noise(), {"repost": 1, "removed": 1, "description": 1, "boilerplate": 3})
+        kept = [r[0] for r in self.store.db.execute("select id from items where skip is null order by n")]
+        self.assertEqual(kept, ["a", "b"])
+
     def test_runs_are_logged(self):
         rid = self.store.start_run("import", "fo-x")
         self.store.end_run(rid, {"added": 3})
