@@ -149,6 +149,21 @@ export interface Experiment {
   detail: string;
 }
 
+/** One Claude subscription window (5-hour or weekly), from the status line reporter. */
+export interface ClaudeWindow {
+  id: "five_hour" | "seven_day";
+  name: string; // 5-HOUR | WEEKLY
+  used: number | null; // percent of the limit used, 0-100; null = no reading, or the window has reset since
+  resetsAt: string | null; // ISO, when the window resets
+  note: string; // why there is no number, when there is none
+}
+
+/** "Can I start a big session now?": the Claude plan limits as of the last status line reading. */
+export interface ClaudeLimits {
+  asof: string | null; // ISO of the newest reading; the status line only reports while a session is open
+  windows: ClaudeWindow[];
+}
+
 export interface WallState {
   asof: string; // ISO timestamp of this reading
   day: string; // YYYY-MM-DD the reading describes
@@ -163,6 +178,7 @@ export interface WallState {
   queue: QueueItem[];
   budget: { spentMonth: number; ceiling: number | null; month: string };
   experiments: Experiment[];
+  claude?: ClaudeLimits; // absent in snapshots stored before Claude limits were on the wall
   briefing: string;
   errors: string[]; // sources the reading could not reach, in plain words
 }

@@ -3,7 +3,7 @@
  * the lines under the numbers. No I/O, so derive.test.ts can check them. store.ts gathers the raw facts and
  * calls these.
  */
-import type { ChannelRow, DayCount, Department, Job, PostStat, QueueItem, Results, Station, StationState, Threat, WallEvent, WorkLine } from "../../src/model";
+import type { ChannelRow, ClaudeLimits, ClaudeWindow, DayCount, Department, Job, PostStat, QueueItem, Results, Station, StationState, Threat, WallEvent, WorkLine } from "../../src/model";
 import { day } from "../../src/model";
 
 export interface Subscriber {
@@ -105,6 +105,66 @@ export interface Facts {
   spentMonth: number;
   ceiling: number | null;
   errors: string[];
+  claude?: ClaudeLimits;
+}
+
+const CLAUDE_WINDOWS = [
+  { id: "five_hour", name: "5-HOUR", near: 90 },
+  { id: "seven_day", name: "WEEKLY", near: 80 },
+] as const;
+
+const utcTime = (iso: string) => iso.slice(11, 16) + " UTC";
+
+/**
+ * The Claude plan limits from the newest `usage` event per window (posted by
+ * scripts/claude-statusline.mjs). A window whose reset time has passed shows no number: the
+ * limit has refilled and no session has reported since.
+ */
+export function claudeLimits(events: WallEvent[], now: Date): ClaudeLimits {
+  const usage = events.filter((e) => e.kind === "usage" && e.channel === "claude");
+  const newest = (id: string) => usage.filter((e) => e.subject === id).sort((a, b) => b.ts.localeCompare(a.ts))[0];
+  const windows = CLAUDE_WINDOWS.map(({ id, name }): ClaudeWindow => {
+    const e = newest(id);
+    const sec = Number(e?.meta?.resets_at);
+    if (!e || typeof e.amount !== "number" || !Number.isFinite(sec))
+      return { id, name, used: null, resetsAt: null, note: "no reading yet: the status line reports while a Claude Code session is open" };
+    const resetsAt = new Date(sec * 1000).toISOString();
+    if (sec * 1000 <= now.getTime()) return { id, name, used: null, resetsAt, note: `reset at ${utcTime(resetsAt)}, no session since` };
+    return { id, name, used: e.amount, resetsAt, note: "" };
+  });
+  const asof = usage.reduce<string | null>((a, e) => (a === null || e.ts > a ? e.ts : a), null);
+  return { asof, windows };
+}
+
+/**
+ * Claude's station row in Work. The status line only reports while a session is open, so a
+ * quiet hour is idle, never failed.
+ */
+export function claudeStation(c: ClaudeLimits, now: Date): Station {
+  const base = { id: "claude", name: "Claude", lastRun: c.asof, department: "development" as const };
+  if (!c.asof) return { ...base, state: "nodata", message: c.windows[0].note };
+  const numbers = c.windows.map((w) => `${w.name.toLowerCase()} ${w.used === null ? "–" : Math.round(w.used) + "%"}`).join(" · ");
+  const h = hours(c.asof, now);
+  if (h < 1) return { ...base, state: "ok", message: numbers };
+  return { ...base, state: "idle", message: `no session for ${Math.floor(h)} h · ${numbers}` };
+}
+
+function claudeThreats(c: ClaudeLimits | undefined): Threat[] {
+  const out: Threat[] = [];
+  for (const w of c?.windows ?? []) {
+    const near = CLAUDE_WINDOWS.find((x) => x.id === w.id)!.near;
+    if (w.used === null || w.used < near) continue;
+    const hit = w.used >= 100;
+    out.push({
+      id: "claude:" + w.id,
+      level: hit ? "red" : "amber",
+      weight: hit ? 80 : 45,
+      title: hit ? `CLAUDE ${w.name} LIMIT HIT` : `CLAUDE ${w.name} LIMIT AT ${Math.round(w.used)}%`,
+      detail: w.resetsAt ? `Resets at ${utcTime(w.resetsAt)}.` : "",
+      fix: hit ? "Queue the work for after the reset, or move it to a cheaper model." : "Save the long runs for after the reset; keep this window for small tasks.",
+    });
+  }
+  return out;
 }
 
 const hours = (from: string | null | undefined, now: Date) =>
@@ -226,6 +286,7 @@ export function threats(f: Facts): Threat[] {
     });
   if (f.subscribers !== null && f.delta7 === 0 && f.sends > 0)
     out.push({ id: "flat", level: "cyan", weight: 20, title: "SUBSCRIBERS FLAT 7 DAYS", detail: "No growth this week.", fix: "Look at which channel went quiet in Results." });
+  out.push(...claudeThreats(f.claude));
   return out.sort((a, b) => b.weight - a.weight);
 }
 

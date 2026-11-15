@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { brought, channelOf, countAt, departmentOf, joinedSince, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
+import { brought, channelOf, claudeLimits, claudeStation, countAt, departmentOf, joinedSince, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
 import type { Job, Station, WallEvent } from "../../src/model";
 
 const sec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
@@ -366,5 +366,73 @@ describe("review fixes", () => {
     ];
     expect(joinedSince(subs, 7, now)).toEqual({ ig: 1, site: 1 });
     expect(joinedSince(subs, 1, now)).toEqual({ ig: 1 });
+  });
+});
+
+describe("claudeLimits", () => {
+  // `usage` events as the status line reporter posts them: one per window, percent in amount.
+  const usage = (subject: string, used: number, resetsAt: string, ts = "2026-11-11T19:30:00Z"): WallEvent => ({
+    id: subject + ts,
+    ts,
+    kind: "usage",
+    channel: "claude",
+    subject,
+    amount: used,
+    unit: "%",
+    meta: { resets_at: sec(resetsAt) },
+  });
+
+  it("reads each window's percent and reset time, and the reading's age", () => {
+    const c = claudeLimits([usage("five_hour", 42, "2026-11-11T22:00:00Z"), usage("seven_day", 18, "2026-11-15T09:00:00Z", "2026-11-11T19:00:00Z")], now);
+    expect(c.asof).toBe("2026-11-11T19:30:00Z");
+    expect(c.windows).toEqual([
+      { id: "five_hour", name: "5-HOUR", used: 42, resetsAt: "2026-11-11T22:00:00.000Z", note: "" },
+      { id: "seven_day", name: "WEEKLY", used: 18, resetsAt: "2026-11-15T09:00:00.000Z", note: "" },
+    ]);
+  });
+
+  it("shows a dash, not a stale percent, once a window has reset", () => {
+    const c = claudeLimits([usage("five_hour", 97, "2026-11-11T19:45:00Z")], now);
+    expect(c.windows[0]).toMatchObject({ used: null, note: "reset at 19:45 UTC, no session since" });
+  });
+
+  it("says why there is no number before the first reading", () => {
+    const c = claudeLimits([], now);
+    expect(c.asof).toBeNull();
+    expect(c.windows.map((w) => [w.used, w.note])).toEqual([
+      [null, "no reading yet: the status line reports while a Claude Code session is open"],
+      [null, "no reading yet: the status line reports while a Claude Code session is open"],
+    ]);
+  });
+
+  it("puts a near cap and a hit cap in Needs you, and clears them on reset", () => {
+    const near = threats({ ...base, claude: claudeLimits([usage("five_hour", 91, "2026-11-11T22:00:00Z"), usage("seven_day", 80, "2026-11-15T09:00:00Z")], now) });
+    expect(near.filter((t) => t.id.startsWith("claude:")).map((t) => [t.id, t.level, t.title])).toEqual([
+      ["claude:five_hour", "amber", "CLAUDE 5-HOUR LIMIT AT 91%"],
+      ["claude:seven_day", "amber", "CLAUDE WEEKLY LIMIT AT 80%"],
+    ]);
+    const hit = threats({ ...base, claude: claudeLimits([usage("five_hour", 100, "2026-11-11T22:00:00Z")], now) });
+    expect(hit.find((t) => t.id === "claude:five_hour")).toMatchObject({ level: "red", title: "CLAUDE 5-HOUR LIMIT HIT", detail: "Resets at 22:00 UTC." });
+    const calm = threats({ ...base, claude: claudeLimits([usage("five_hour", 89, "2026-11-11T22:00:00Z"), usage("seven_day", 100, "2026-11-11T19:00:00Z")], now) });
+    expect(calm.some((t) => t.id.startsWith("claude:"))).toBe(false);
+  });
+});
+
+describe("claudeStation", () => {
+  const reading = (ts: string, used = 42): WallEvent[] => [
+    { id: "a" + ts, ts, kind: "usage", channel: "claude", subject: "five_hour", amount: used, unit: "%", meta: { resets_at: sec("2026-11-11T22:00:00Z") } },
+    { id: "b" + ts, ts, kind: "usage", channel: "claude", subject: "seven_day", amount: 18, unit: "%", meta: { resets_at: sec("2026-11-15T09:00:00Z") } },
+  ];
+  it("is ok while a session reports, idle when none has for an hour, nodata before the first reading", () => {
+    expect(claudeStation(claudeLimits(reading("2026-11-11T19:50:00Z"), now), now)).toMatchObject({
+      id: "claude",
+      name: "Claude",
+      state: "ok",
+      message: "5-hour 42% · weekly 18%",
+      lastRun: "2026-11-11T19:50:00Z",
+      department: "development",
+    });
+    expect(claudeStation(claudeLimits(reading("2026-11-11T18:00:00Z"), now), now)).toMatchObject({ state: "idle", message: "no session for 2 h · 5-hour 42% · weekly 18%" });
+    expect(claudeStation(claudeLimits([], now), now)).toMatchObject({ state: "nodata", message: "no reading yet: the status line reports while a Claude Code session is open" });
   });
 });

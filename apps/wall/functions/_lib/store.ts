@@ -14,7 +14,7 @@
 import type { Department, Job, Link, QueueItem, Station, WallEvent, WallState } from "../../src/model";
 import { day } from "../../src/model";
 import { briefing } from "./briefing";
-import { DAY_MS, countAt, jobLine, joinedSince, results, sourcesLine, subscribersByDay, threats, withJobs, work, type Facts, type Subscriber } from "./derive";
+import { DAY_MS, claudeLimits, claudeStation, countAt, jobLine, joinedSince, results, sourcesLine, subscribersByDay, threats, withJobs, work, type Facts, type Subscriber } from "./derive";
 
 export interface Env {
   DB?: D1Database;
@@ -101,6 +101,7 @@ interface Reads {
   fails: Record<string, WallEvent>;
   results: WallEvent[]; // revenue, followers and post events of 30 days, plus each channel's last followers reading before that
   revenueEver: boolean;
+  usage: WallEvent[]; // the newest Claude limit reading per window
 }
 
 const parseEvent = (r: Record<string, unknown>): WallEvent => ({
@@ -113,8 +114,9 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
   const dayAgo = new Date(now.getTime() - DAY_MS).toISOString();
   const month = now.toISOString().slice(0, 7) + "-01T00:00:00Z";
   const thirty = new Date(now.getTime() - 30 * DAY_MS).toISOString();
-  const [feed, rows, queue, flags, spent, last, views, per, fails, res, rev] = await db.batch([
-    db.prepare("SELECT * FROM events ORDER BY ts DESC LIMIT 80"),
+  const [feed, rows, queue, flags, spent, last, views, per, fails, res, rev, usage] = await db.batch([
+    // Limit readings arrive on every status line refresh: they are state, not news, so not in the feed.
+    db.prepare("SELECT * FROM events WHERE kind != 'usage' ORDER BY ts DESC LIMIT 80"),
     db.prepare("SELECT * FROM stations"),
     db.prepare("SELECT * FROM queue WHERE status = 'waiting' ORDER BY ts"),
     db.prepare("SELECT key, value FROM flags"),
@@ -132,6 +134,10 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
       )
       .bind(thirty),
     db.prepare("SELECT EXISTS (SELECT 1 FROM events WHERE kind = 'revenue') AS x"),
+    db.prepare(
+      `SELECT e.* FROM events e JOIN (SELECT subject, MAX(ts) AS t FROM events WHERE kind = 'usage' AND channel = 'claude' GROUP BY subject) l
+         ON e.kind = 'usage' AND e.channel = 'claude' AND e.subject = l.subject AND e.ts = l.t`,
+    ),
   ]);
   const fl: Record<string, string> = {};
   for (const r of flags.results as { key: string; value: string }[]) fl[r.key] = r.value;
@@ -156,10 +162,11 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
     fails: fs,
     results: (res.results as Record<string, unknown>[]).map(parseEvent),
     revenueEver: !!(rev.results[0] as { x: number }).x,
+    usage: (usage.results as Record<string, unknown>[]).map(parseEvent),
   };
 }
 
-const empty: Reads = { feed: [], rows: [], queue: [], flags: {}, spentMonth: 0, lastSignup: null, views: {}, perStation: {}, fails: {}, results: [], revenueEver: false };
+const empty: Reads = { feed: [], rows: [], queue: [], flags: {}, spentMonth: 0, lastSignup: null, views: {}, perStation: {}, fails: {}, results: [], revenueEver: false, usage: [] };
 
 // ---------- assembly ----------
 
@@ -262,7 +269,8 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
         return [];
       })
     : [];
-  const st = withJobs(built, jobs, now, since);
+  const claude = claudeLimits(reads.usage, now);
+  const st = withJobs([...built, claudeStation(claude, now)], jobs, now, since);
   const byDay = bhr ? subscribersByDay(bhr.subs, now) : [];
   const subscribers = bhr?.subscribers ?? null;
   // A change needs a past count; with no history it is a dash, not the whole list.
@@ -286,6 +294,7 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
     spentMonth: reads.spentMonth,
     ceiling,
     errors,
+    claude,
   };
   const t = threats(facts);
   const res = results({
@@ -326,6 +335,7 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
     queue: reads.queue,
     budget: { spentMonth: reads.spentMonth, ceiling, month: today.slice(0, 7) },
     experiments: reads.flags.experiments ? (JSON.parse(reads.flags.experiments) as WallState["experiments"]) : [],
+    claude,
     briefing: brief,
     errors,
   };
