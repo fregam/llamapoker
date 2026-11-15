@@ -65,7 +65,15 @@ class Quota extends Error {}
 async function api(path, params) {
   const url = `https://www.googleapis.com/youtube/v3/${path}?` + new URLSearchParams({ ...params, key: KEY });
   for (let attempt = 0; ; attempt++) {
-    const r = await fetch(url);
+    let r;
+    try {
+      r = await fetch(url);
+    } catch (e) {
+      // network hiccup (DNS, reset): wait and retry, up to ~4 minutes
+      if (attempt >= 7) throw e;
+      await sleep(2000 * 2 ** Math.min(attempt, 5));
+      continue;
+    }
     state.units++;
     if (r.ok) return r.json();
     const body = await r.json().catch(() => ({}));
