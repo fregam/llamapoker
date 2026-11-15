@@ -531,3 +531,15 @@ lesson, and a hook line that could open the post.
 - **Lesson:** scrape when there's no door. When the platform hands out a free key, the key is faster
   than any workaround.
 - **Hook:** "I spent 30 minutes fighting YouTube's bot wall. The fix was a free key that took 5."
+
+## 2026-11-15: The friendliest forum in the dataset was paying people to post
+
+- **Choice:** keep CardsChat in the research, but only as a list of which questions get asked, never
+  as the way players talk.
+- **Rejected:** treating its 35,000 posts like any other voice. Its four sections were picked as top
+  sources because the posts looked like beginners talking about their own play.
+- **What happened:** reading the topics side by side, CardsChat answers all sounded the same: polite,
+  complete, generic. One reply gave it away: "keep making quality posts so you will qualify for more
+  freerolls". Members are rewarded for posting, so they post filler.
+- **Lesson:** before trusting what a community says, find out what it gets for saying it.
+- **Hook:** "35,000 forum posts looked like perfect customer research. Then I found out why they were written."
