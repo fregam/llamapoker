@@ -485,3 +485,19 @@ lesson, and a hook line that could open the post.
 - **Lesson:** production order is not a suggestion. Craft rounds downstream of a script can only
   measure the craft, never whether the video deserved to be made.
 - **Hook:** "I spent five rounds perfecting a reel. Then I read the script again."
+
+## 2026-11-15 · Eight research agents, and half of them made the map up
+
+- **Choice:** split the hunt for "where do poker players talk" across 8 parallel AI agents, one per
+  kind of source, in every language; then re-run every slice whose agent ran 3–4 searches and
+  filled the rest from memory, at full effort, with one rule: every row must come from a page the
+  agent actually opened.
+- **Rejected:** accepting the first pass (hundreds of plausible-looking rows, most unverified);
+  running the "find and list" work on the cheaper setting because it looked mechanical.
+- **What happened:** the cheap agents returned 53–127 rows each, with subreddits and handles that may
+  not exist. The full-effort re-runs came back with 217 live Discord/Telegram communities, 427
+  streams and podcasts across 37 countries, forums with measured posts per week, and real gaps
+  (Latin America and India have no live poker forums; the talk sits in Telegram and short video).
+- **Lesson:** an agent that's asked for 100 rows will produce 100 rows. Demand evidence per row, not
+  a count, and never put the discovery step on the cheap setting: knowing where to look is the work.
+- **Hook:** "I sent 8 AI agents to find where poker players hang out. Half of them made it up."
