@@ -197,9 +197,16 @@ finish() {
 # the main checkout (git-ignored), never to the screen.
 # ──────────────────────────────────────────────────────────────────────────
 
-# The main checkout's root, even when run from a worktree.
-REPO_ROOT="$(cd "$(git rev-parse --path-format=absolute --git-common-dir)/.." && pwd)"
+# The main checkout's root, found from this script's own location (works from
+# any directory, and from a worktree). Fails loudly instead of guessing.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+COMMON_DIR="$(git -C "$SCRIPT_DIR" rev-parse --path-format=absolute --git-common-dir)" \
+  || { echo "Can't find the repo from $SCRIPT_DIR" >&2; exit 1; }
+REPO_ROOT="$(cd "$COMMON_DIR/.." && pwd)"
 CREDS="$REPO_ROOT/credentials.json"
+# node on Windows needs a Windows path (E:/...), not Git Bash's /e/...
+command -v cygpath >/dev/null 2>&1 && CREDS="$(cygpath -m "$CREDS")"
+[[ -f "$CREDS" ]] || { echo "Expected the existing credentials.json at $CREDS" >&2; exit 1; }
 WRITTEN_CREDS=()
 
 # write_cred SECTION KEY VALUE: upsert credentials.json[SECTION][KEY] (or
