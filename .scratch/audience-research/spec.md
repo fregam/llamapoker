@@ -77,7 +77,7 @@ Added:
 1. **Source map, three tiers.** The unit is one community or comment section (a subreddit, a forum
    section, a channel, an app's reviews), and the universe is ~1,000–2,000 candidates across
    languages.
-   - **Find everything** (6–8 parallel agents, one per platform family × language group, plus API
+   - **Find everything** (8 parallel agents at full effort, one per platform family, plus API
      searches and directories): every candidate with its numbers (followers, posts a week, comments
      a post, last activity, language, access, tool route).
    - **Score in code:** a formula ranks all candidates on activity, recency, comment density and
@@ -108,8 +108,10 @@ founder's yes.
 
 Parallel where the work is independent; code wherever the work is mechanical (fetching, scoring,
 counting, de-duplicating, checking). Every agent gets a brief with paths, not pasted content,
-writes its output to the store or a file, and reports back in 3–5 lines. Lighter effort for
-find-and-list work; higher effort only for the codebook (06) and synthesis (08). Tagging is
+writes its output to the store or a file, and reports back in 3–5 lines. Discovery runs at
+full effort: lighter-effort discovery agents (first try, 2026-11-15) ran 3-4 searches and filled
+rows from memory. Every row must be seen on a fetched page. Higher effort for the codebook (06) and
+synthesis (08). Tagging is
 cluster-then-sample: embeddings group the quotes, agents tag representative samples per cluster.
 
 Expected scale (saturation decides): 30,000–100,000 raw items, 3,000–8,000 tagged quotes, 200–400
