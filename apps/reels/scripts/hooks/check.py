@@ -1,7 +1,7 @@
 """Code checks for hook drafts (spec checks 1-3, `.scratch/hook-writing/spec.md`).
 
     python check.py <run-dir>      reads drafts.json + ../facts.json (+ ../evidence.md if quote ids)
-                                   writes checks.json, appends failures to failures.md
+                                   writes checks.json and a fresh failures.md (the critic appends to it)
 
 A failure is {"hook", "check", "reason"}. Checks: numbers, words, length, quotes.
 
@@ -19,6 +19,7 @@ WORDS = {w: i for i, w in enumerate(
     "sixteen seventeen eighteen nineteen twenty".split())}
 N = r"(\d+|" + "|".join(WORDS) + r")"
 RATIO = re.compile(rf"\b{N}\s+in\s+{N}\b|\bevery\s+(\d+)\b", re.I)
+RULE_NAME = re.compile(r"\brule of \d\b", re.I)  # "the rule of 4" names a shortcut, it isn't a stat
 NUM = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)\s*(%|percent\b)?")
 
 
@@ -47,9 +48,10 @@ def check_numbers(hook: dict, facts: dict) -> list[dict]:
     line = hook["line"]
     for m in RATIO.finditer(line):
         n, d = (1, int(m.group(3))) if m.group(3) else (_int(m.group(1)), _int(m.group(2)))
-        if not any(_ratio_fits(n, d, p) for p in pcts):
+        counts = [f["value"] for f in cited if f["unit"] != "%"]
+        if not (any(_ratio_fits(n, d, p) for p in pcts) or (n == 1 and any(round(c) == d for c in counts))):
             fails.append(_fail(hook, "numbers", f"'{m.group(0)}' matches no cited percent"))
-    rest = RATIO.sub(" ", line)
+    rest = RULE_NAME.sub(" ", RATIO.sub(" ", line))
     for m in NUM.finditer(rest):
         written, pct = m.group(1), bool(m.group(2))
         if not any(_rounds_to(written, f["value"]) and (f["unit"] == "%") == pct for f in cited):
@@ -58,10 +60,11 @@ def check_numbers(hook: dict, facts: dict) -> list[dict]:
 
 
 # brand/README.md: a skill you study, no gambling glamour, never for use during real-money play.
-# Luck talk is left to the critic: denying luck ("it's not bad luck") is on-brand.
+# Luck talk is left to the critic: denying luck ("it's not bad luck") is on-brand. "Casino" is
+# allowed: it's where our viewer plays (audience spec: "the odd casino night").
 BANNED = [
     r"crush(ing)? (the|your) (tables?|games?)", r"easy money", r"get rich", r"make money",
-    r"win (real )?money", r"cash (out|in)", r"jackpot", r"guaranteed", r"bet big", r"casino",
+    r"win (real )?money", r"cash (out|in)", r"jackpot", r"guaranteed", r"bet big",
     r"real[- ]money", r"while you play", r"during (a|the|your) (hand|game|session)", r"in real time",
 ]
 MISSPELT_BRAND = re.compile(r"\b(Llama Poker|Llamapoker|llama poker)\b")  # brand/README.md: LlamaPoker
@@ -107,7 +110,7 @@ def main(run: Path) -> int:
         results[h["id"]] = "pass" if not f else "fail"
         fails += f
     (run / "checks.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
-    with open(run / "failures.md", "a", encoding="utf-8") as out:
+    with open(run / "failures.md", "w", encoding="utf-8") as out:  # fresh per run; the critic appends after
         for f in fails:
             line = next(h["line"] for h in drafts if h["id"] == f["hook"])
             out.write(f"- **{f['hook']}** · code/{f['check']} · {f['reason']} · \"{line}\"\n")

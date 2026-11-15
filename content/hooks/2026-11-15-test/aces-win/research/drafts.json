@@ -1,0 +1,300 @@
+[
+  {
+    "id": "d01",
+    "line": "Pocket aces lose 14% of heads-up preflop all-ins against a random hand. The app isn't rigged. So why does it feel like every time?",
+    "promise": "pocket aces lose 14% of heads-up preflop all-ins to a random hand",
+    "promise_word": 4,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "if it's only 14%, why does it feel like aces lose every time?",
+    "rung": 5,
+    "quote_ids": [
+      "q-12",
+      "q-28",
+      "q-41"
+    ]
+  },
+  {
+    "id": "d02",
+    "line": "96% chance pocket aces lose at least once in twenty heads-up preflop all-ins against random hands. It's not running bad. It's something duller.",
+    "promise": "96% chance pocket aces lose at least once in twenty heads-up preflop all-ins",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-lose-once-in-20"
+    ],
+    "open_question": "what is the duller thing behind the losses, if not running bad?",
+    "rung": 5,
+    "quote_ids": [
+      "q-10",
+      "q-22"
+    ]
+  },
+  {
+    "id": "d03",
+    "line": "Your pocket aces are 85% against one random hand, 56% against four, all-in preflop. Limping them picks the second number.",
+    "promise": "pocket aces are 85% against one random hand and 56% against four",
+    "promise_word": 5,
+    "fact_ids": [
+      "aa-vs-1",
+      "aa-vs-4"
+    ],
+    "open_question": "how do you make sure you get the first number instead of the second?",
+    "rung": 5,
+    "quote_ids": [
+      "q-21"
+    ]
+  },
+  {
+    "id": "d04",
+    "line": "56%. That's pocket aces against four random hands, all-in preflop. Slow-playing them doesn't trap anyone; it invites the crowd that cracks them.",
+    "promise": "pocket aces are only 56% against four random hands",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-vs-4"
+    ],
+    "open_question": "if slow-playing invites the crowd, how should pocket aces be played instead?",
+    "rung": 5,
+    "quote_ids": [
+      "q-30",
+      "q-36"
+    ]
+  },
+  {
+    "id": "d05",
+    "line": "Pocket aces lose 14% of the time to one random hand, all-in preflop. Five-two offsuit didn't get lucky. It got its turn.",
+    "promise": "pocket aces lose 14% of the time to one random hand",
+    "promise_word": 4,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "how often does the random hand's turn come around in a real session?",
+    "rung": 5,
+    "quote_ids": [
+      "q-24",
+      "q-27"
+    ]
+  },
+  {
+    "id": "d06",
+    "line": "How often do pocket aces win? 85% against one random hand, all-in preflop. Your memory says less, and your memory is the villain.",
+    "promise": "pocket aces take 85% against one random hand",
+    "promise_word": 7,
+    "fact_ids": [
+      "aa-vs-1"
+    ],
+    "open_question": "why does your memory make aces feel weaker than 85%?",
+    "rung": 5,
+    "quote_ids": [
+      "q-31",
+      "q-41"
+    ]
+  },
+  {
+    "id": "d07",
+    "line": "Pocket aces hold 85% against one random hand, 64% against three, all-in preflop. It's not the aces failing. It's the headcount.",
+    "promise": "pocket aces hold 85% against one random hand and 64% against three",
+    "promise_word": 4,
+    "fact_ids": [
+      "aa-vs-1",
+      "aa-vs-3"
+    ],
+    "open_question": "how do you keep the headcount down when you hold aces?",
+    "rung": 5,
+    "quote_ids": [
+      "q-34",
+      "q-41"
+    ]
+  },
+  {
+    "id": "d08",
+    "line": "Pocket aces lose 14% of heads-up preflop all-ins to a random hand. Three cracked in one session feels rigged. Here's why it isn't.",
+    "promise": "pocket aces lose 14% of heads-up preflop all-ins to a random hand",
+    "promise_word": 4,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "why are three cracked aces in one session not a sign of rigging?",
+    "rung": 5,
+    "quote_ids": [
+      "q-22",
+      "q-12"
+    ]
+  },
+  {
+    "id": "d09",
+    "line": "79% chance your pocket aces lose at least once in ten heads-up preflop all-ins against random hands. Avoiding the all-in isn't the fix.",
+    "promise": "79% chance pocket aces lose at least once in ten heads-up preflop all-ins",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-lose-once-in-10"
+    ],
+    "open_question": "if avoiding the all-in isn't the fix, what is?",
+    "rung": 5,
+    "quote_ids": [
+      "q-32",
+      "q-42"
+    ]
+  },
+  {
+    "id": "d10",
+    "line": "Pocket aces get cracked in 14% of preflop all-ins against one random hand. Stop calling it a bad beat. It's a bill.",
+    "promise": "pocket aces get cracked in 14% of preflop all-ins against one random hand",
+    "promise_word": 6,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "what does the 14% bill pay for?",
+    "rung": 5,
+    "quote_ids": [
+      "q-3",
+      "q-10"
+    ]
+  },
+  {
+    "id": "d11",
+    "line": "What beats pocket aces 14% of the time, all-in preflop? Any random hand. So why does jack-ten offsuit feel personal?",
+    "promise": "any random hand beats pocket aces 14% of the time all-in preflop",
+    "promise_word": 5,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "why does a loss to one ordinary hand feel personal?",
+    "rung": 4,
+    "quote_ids": [
+      "q-5",
+      "q-24"
+    ]
+  },
+  {
+    "id": "d12",
+    "line": "Pocket aces drop to 73% against just two random hands, all-in preflop. Raising bigger isn't about winning more; it's about who's left.",
+    "promise": "pocket aces drop to 73% against two random hands",
+    "promise_word": 5,
+    "fact_ids": [
+      "aa-vs-2"
+    ],
+    "open_question": "how big a raise keeps the right number of players in?",
+    "rung": 5,
+    "quote_ids": [
+      "q-21",
+      "q-2"
+    ]
+  },
+  {
+    "id": "d13",
+    "line": "Live or online, pocket aces lose 14% of preflop all-ins to one random hand. Same number at both. So why does each feel rigged?",
+    "promise": "pocket aces lose 14% of preflop all-ins to one random hand, live or online",
+    "promise_word": 7,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "why do both live and online poker feel rigged when the number is the same?",
+    "rung": 5,
+    "quote_ids": [
+      "q-18",
+      "q-12"
+    ]
+  },
+  {
+    "id": "d14",
+    "line": "96%: the chance pocket aces lose at least once in twenty heads-up preflop all-ins against random hands. Cracked constantly has a number too.",
+    "promise": "96% chance pocket aces lose at least once in twenty heads-up preflop all-ins",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-lose-once-in-20"
+    ],
+    "open_question": "what is the real number behind 'my aces get cracked constantly'?",
+    "rung": 5,
+    "quote_ids": [
+      "q-11"
+    ]
+  },
+  {
+    "id": "d15",
+    "line": "Pocket aces drop to 56% against four random hands, all-in preflop. On apps where nobody folds, that's your real number.",
+    "promise": "pocket aces drop to 56% against four random hands",
+    "promise_word": 5,
+    "fact_ids": [
+      "aa-vs-4"
+    ],
+    "open_question": "what do you do with aces at a table where nobody folds?",
+    "rung": 4,
+    "quote_ids": [
+      "q-27"
+    ]
+  },
+  {
+    "id": "d16",
+    "line": "Pocket aces lose 14% of preflop all-ins to one random hand. They're a favourite, not a lock. Here's where that difference actually costs you.",
+    "promise": "pocket aces lose 14% of preflop all-ins to one random hand",
+    "promise_word": 4,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "where does treating aces as a lock cost you?",
+    "rung": 5,
+    "quote_ids": [
+      "q-43"
+    ]
+  },
+  {
+    "id": "d17",
+    "line": "Would you take an 85% bet? That's pocket aces against one random hand, all-in preflop. So why does the call feel scary?",
+    "promise": "pocket aces are an 85% bet against one random hand",
+    "promise_word": 5,
+    "fact_ids": [
+      "aa-vs-1"
+    ],
+    "open_question": "why does calling an all-in with an 85% hand feel scary?",
+    "rung": 4,
+    "quote_ids": [
+      "q-10",
+      "q-32"
+    ]
+  },
+  {
+    "id": "d18",
+    "line": "It's not luck. Pocket aces lose 14% of preflop all-ins against one random hand. What's off is how you count them.",
+    "promise": "pocket aces lose 14% of preflop all-ins against one random hand",
+    "promise_word": 7,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "how are you miscounting your aces losses?",
+    "rung": 5,
+    "quote_ids": [
+      "q-31",
+      "q-41"
+    ]
+  },
+  {
+    "id": "d19",
+    "line": "64%: pocket aces against three random hands, all-in preflop. At a home game where everyone calls, that's your Friday. Here's the fix.",
+    "promise": "pocket aces are 64% against three random hands",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-vs-3"
+    ],
+    "open_question": "what is the fix for aces at a home game where everyone calls?",
+    "rung": 4,
+    "quote_ids": [
+      "q-15",
+      "q-27"
+    ]
+  },
+  {
+    "id": "d20",
+    "line": "85% against one random hand, all-in preflop: pocket aces don't care that you've been cracked twice tonight. The deck has no memory. You do.",
+    "promise": "pocket aces are 85% against one random hand",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-vs-1"
+    ],
+    "open_question": "what does your memory of the last two beats do to your next decision?",
+    "rung": 5,
+    "quote_ids": [
+      "q-39"
+    ]
+  }
+]

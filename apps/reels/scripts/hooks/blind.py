@@ -1,7 +1,7 @@
 """Steps between the code checks and the read (spec: The test; skill: run order 5-6).
 
     python blind.py critic-input <topic-dir> <arm>   drafts that passed the code checks, quote ids
-                                                     and arm stripped -> <topic-dir>/<arm>/critic-input/drafts.json
+                                                     and arm stripped -> <test-dir>/_critic/<topic>-<code>/drafts.json
     python blind.py best <topic-dir> <arm>           the critic's top 5 -> <topic-dir>/<arm>/best.json
     python blind.py read <test-dir> [--seed 15]      per topic, both arms' best lines shuffled ->
                                                      read.json (lines only) + key.json (which arm)
@@ -21,11 +21,25 @@ def dump(obj, p: Path):
     p.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def _critic_dir(topic: Path, arm: str) -> Path:
+    """A neutral folder per run, so the critic's path never names the arm (spec: no leaks)."""
+    test = topic.parent
+    mp = test / "_critic" / "map.json"
+    m = load(mp) if mp.exists() else {}
+    key = f"{topic.name}/{arm}"
+    if key not in m:
+        used = set(m.values())
+        code = next(c for c in random.Random(f"{key}-15").sample("KMPQRTVWXZ", 10) if f"{topic.name}-{c}" not in used)
+        m[key] = f"{topic.name}-{code}"
+        dump(m, mp)
+    return test / "_critic" / m[key]
+
+
 def critic_input(topic: Path, arm: str):
     run = topic / arm
     checks = load(run / "checks.json")
     keep = [{k: v for k, v in d.items() if k != "quote_ids"} for d in load(run / "drafts.json") if checks.get(d["id"]) == "pass"]
-    out = run / "critic-input" / "drafts.json"
+    out = _critic_dir(topic, arm) / "drafts.json"
     dump(keep, out)
     print(f"{out}: {len(keep)} drafts")
 
@@ -33,7 +47,7 @@ def critic_input(topic: Path, arm: str):
 def best(topic: Path, arm: str):
     run = topic / arm
     drafts = {d["id"]: d for d in load(run / "drafts.json")}
-    top = [drafts[i] for i in load(run / "critic-input" / "critic.json")["rank"][:5]]
+    top = [drafts[i] for i in load(_critic_dir(topic, arm) / "critic.json")["rank"][:5]]
     dump(top, run / "best.json")
     print(f"{run / 'best.json'}: {len(top)} hooks")
 

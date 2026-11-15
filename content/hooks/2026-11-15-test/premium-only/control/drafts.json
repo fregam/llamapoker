@@ -1,0 +1,241 @@
+[
+  {
+    "id": "d01",
+    "line": "Only 1 in 39 hands, on average, is pocket aces, kings, queens or ace-king. Folding the rest isn't discipline. It's a bill.",
+    "promise": "1 in 39 hands is premium, on average",
+    "promise_word": 2,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What does that bill come to by the time a premium hand arrives?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d02",
+    "line": "Tight is right? Only 2.56% of hands dealt are aces, kings, queens or ace-king. Tight and premium-only are not the same thing.",
+    "promise": "2.56% of hands dealt are premium",
+    "promise_word": 5,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What is the difference between playing tight and playing only premium hands?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d03",
+    "line": "Is 9.75 big blinds worth one premium hand? Six-max charges that while you fold everything else for aces, kings, queens or ace-king.",
+    "promise": "waiting for one premium hand costs 9.75 big blinds at six-max",
+    "promise_word": 2,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "Is the premium hand worth what you paid waiting for it?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d04",
+    "line": "9.75 big blinds gone without playing a hand: that's six-max, folding everything else until one premium hand. The cards didn't do that.",
+    "promise": "9.75 big blinds gone before one premium hand",
+    "promise_word": 1,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "If the cards didn't cost you those blinds, what did?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d05",
+    "line": "Premium-only poker feels safe. It costs 9.75 big blinds per premium hand at six-max, folding the rest. Here's exactly where it goes.",
+    "promise": "premium-only costs 9.75 big blinds per premium hand at six-max",
+    "promise_word": 7,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "Where do those 9.75 big blinds go?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d06",
+    "line": "It's not luck: on average, 1 in 39 hands is aces, kings, queens or ace-king. Card dead is normal. Waiting it out isn't free.",
+    "promise": "1 in 39 hands is premium, on average",
+    "promise_word": 6,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What does waiting out a card-dead stretch cost?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d07",
+    "line": "Every premium hand carries a 9.75 big blind tax at six-max, if you fold everything else. Nobody ever shows you the bill.",
+    "promise": "a 9.75 big blind tax per premium hand at six-max",
+    "promise_word": 6,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "What adds up to that 9.75 big blind bill?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d08",
+    "line": "1.5 big blinds: what every orbit of a six-max table costs you, play or fold. Waiting for premium means paying it orbit after orbit.",
+    "promise": "every orbit of a six-max table costs 1.5 big blinds",
+    "promise_word": 1,
+    "fact_ids": [
+      "orbit-bb"
+    ],
+    "open_question": "How many big blinds do the orbits add up to before a premium hand arrives?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d09",
+    "line": "Stop calling it patience: 9.75 big blinds is what six-max charges while you fold everything for one premium hand. Folding has a price.",
+    "promise": "waiting for one premium hand costs 9.75 big blinds at six-max",
+    "promise_word": 5,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "Why does a fold cost anything at all?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d10",
+    "line": "2.56% of hands dealt are aces, kings, queens or ace-king. So why are you told to play only those?",
+    "promise": "2.56% of hands dealt are premium",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What is wrong with the advice to play only premium hands?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d11",
+    "line": "In 2.56% of hands dealt, you see aces, kings, queens or ace-king. Waiting for them won't fix your results; the other hands decide.",
+    "promise": "2.56% of hands dealt are premium",
+    "promise_word": 2,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What decides your results in the hands that aren't premium?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d12",
+    "line": "39 hands, on average, between aces, kings, queens or ace-king. Folding through them at six-max costs 9.75 big blinds. Who collects?",
+    "promise": "39 hands, on average, between premium hands",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-every",
+      "wait-bb"
+    ],
+    "open_question": "Who collects the blinds you pay while waiting for a premium hand?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d13",
+    "line": "It's not bad beats. 9.75 big blinds leave quietly with every premium hand you wait for at six-max, folding the rest.",
+    "promise": "9.75 big blinds per premium hand at six-max",
+    "promise_word": 5,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "How do those blinds leave without you noticing?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d14",
+    "line": "Think folding's free? 1.5 big blinds leave your stack every orbit of a six-max table, and premium-only players just keep paying.",
+    "promise": "1.5 big blinds per orbit at six-max",
+    "promise_word": 4,
+    "fact_ids": [
+      "orbit-bb"
+    ],
+    "open_question": "What does that add up to before a premium hand shows up?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d15",
+    "line": "Fold, fold, fold: 39 hands, on average, until aces, kings, queens or ace-king. By then the table knows exactly what your raise means.",
+    "promise": "39 hands, on average, until a premium hand",
+    "promise_word": 4,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What does your raise tell the table by the time your premium hand arrives?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d16",
+    "line": "Premium-only? You pay 9.75 big blinds per premium hand at six-max, folding the rest. The fix isn't more hands.",
+    "promise": "9.75 big blinds per premium hand at six-max",
+    "promise_word": 4,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "If the fix isn't playing more hands, what is it?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d17",
+    "line": "1 in 39, on average: your chance of being dealt aces, kings, queens or ace-king. Waiting for them? Count what it costs.",
+    "promise": "1 in 39 hands is premium, on average",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What does waiting for a premium hand cost?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d18",
+    "line": "Forget 'play premium only': 2.56% of hands dealt are aces, kings, queens or ace-king. Whoever told you that never counted the blinds.",
+    "promise": "2.56% of hands dealt are premium",
+    "promise_word": 5,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What do the blinds add up to while you wait?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d19",
+    "line": "9.75 big blinds: what 'only play premium' costs at six-max, per premium hand, folding everything else. Beginner advice has an expiry date.",
+    "promise": "'only play premium' costs 9.75 big blinds per premium hand at six-max",
+    "promise_word": 1,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "When does the beginner advice to play only premium stop working?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d20",
+    "line": "Premium-only makes you readable. Here's how your best hands end up winning the smallest pots.",
+    "promise": "premium-only makes you readable",
+    "promise_word": 1,
+    "fact_ids": [],
+    "open_question": "Why do your best hands win the smallest pots when you play only premium?",
+    "rung": 5,
+    "quote_ids": []
+  }
+]

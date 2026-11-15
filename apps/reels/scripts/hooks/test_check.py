@@ -42,6 +42,18 @@ class Numbers(unittest.TestCase):
             self.assertEqual(check_hook(hook(line, fact_ids=(fid,)), FACTS), [], line)
         self.assertEqual(failed(check_hook(hook("It hits one in two times.", fact_ids=("flush-river",)), FACTS)), ["numbers"])
 
+    def test_one_in_m_matches_a_count_fact_of_m(self):
+        facts = {**FACTS, "premium-every": {"id": "premium-every", "claim": "one premium every this many hands", "value": 39, "unit": "hands"}}
+        for line in ["One premium every 39 hands.", "1 in 39 hands is a premium."]:
+            self.assertEqual(check_hook(hook(line, fact_ids=("premium-every",)), facts), [], line)
+        self.assertEqual(failed(check_hook(hook("One premium every 50 hands.", fact_ids=("premium-every",)), facts)), ["numbers"])
+
+    def test_naming_where_people_play_is_allowed(self):
+        self.assertEqual(check_hook(hook("Two hours card dead at the casino.", fact_ids=()), FACTS), [])
+
+    def test_the_name_of_a_rule_is_not_a_stat(self):
+        self.assertEqual(check_hook(hook("The rule of 4 and the rule of 2 both lie.", fact_ids=()), FACTS), [])
+
     def test_small_counts_in_words_are_not_stats(self):
         self.assertEqual(check_hook(hook("Four hearts. Two cards to come.", fact_ids=()), FACTS), [])
 

@@ -1,0 +1,215 @@
+[
+  {
+    "id": "d01",
+    "line": "9.75 big blinds. That's what a six-handed table charges you to wait for one premium hand, folding everything else. And that's the cheap part.",
+    "promise": "9.75 big blinds paid at six-handed while waiting for one premium, folding everything else",
+    "promise_word": 1,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "If the blinds are the cheap part, what costs more when you only play premiums?",
+    "rung": 5
+  },
+  {
+    "id": "d02",
+    "line": "The beat isn't what hurt you. Card dead two hours, finally pocket kings, they run into aces, and the damage was already done.",
+    "promise": "the bad beat isn't what hurt you",
+    "promise_word": 1,
+    "fact_ids": [],
+    "open_question": "What damage was done in the two hours before the kings arrived?",
+    "rung": 5
+  },
+  {
+    "id": "d03",
+    "line": "One premium every 39 hands, on average. So why does waiting for aces, kings, queens or ace-king still leave your stack shorter?",
+    "promise": "one premium hand every 39 hands, on average",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "Why does waiting for premiums leave your stack shorter?",
+    "rung": 4
+  },
+  {
+    "id": "d04",
+    "line": "Stop folding everything but premiums. Just 2.56% of dealt hands are aces, kings, queens or ace-king, and the blinds don't wait.",
+    "promise": "2.56% of dealt hands are aces, kings, queens or ace-king",
+    "promise_word": 7,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What do the blinds take while you wait for that 2.56%?",
+    "rung": 4
+  },
+  {
+    "id": "d05",
+    "line": "1.5 big blinds every orbit, six-handed. You pay it while you wait for a premium, and the table is watching you wait.",
+    "promise": "1.5 big blinds every orbit at a six-handed table",
+    "promise_word": 1,
+    "fact_ids": [
+      "orbit-bb"
+    ],
+    "open_question": "What does the table do with what it sees while you wait?",
+    "rung": 5
+  },
+  {
+    "id": "d06",
+    "line": "1 in 39 hands is a premium, on average. You wait, it comes, the river takes it, and it feels rigged. It's not the river.",
+    "promise": "1 in 39 hands is a premium, on average",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "If it's not the river, what is really costing you?",
+    "rung": 5
+  },
+  {
+    "id": "d07",
+    "line": "2.56% of dealt hands. That's aces, kings, queens and ace-king. Play only those and 'play tight' stops being advice and starts costing you.",
+    "promise": "premiums are 2.56% of dealt hands",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "At what point does 'play tight' start costing you?",
+    "rung": 4
+  },
+  {
+    "id": "d08",
+    "line": "9.75 big blinds, gone before your premium even shows up, six-handed, folding everything else. And you'll never see it in a single hand.",
+    "promise": "9.75 big blinds paid at six-handed before one premium arrives, folding everything else",
+    "promise_word": 1,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "If you never see it in a single hand, where does it show up?",
+    "rung": 5
+  },
+  {
+    "id": "d09",
+    "line": "Card dead again? Premiums come once every 39 hands, on average, and folding until then isn't the safe play it feels like.",
+    "promise": "premiums come once every 39 hands, on average",
+    "promise_word": 6,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "Why isn't folding until a premium the safe play?",
+    "rung": 4
+  },
+  {
+    "id": "d10",
+    "line": "Same mistake, twice: you fold for an hour waiting for aces, get bored, then play any two cards. Here's what both are missing.",
+    "promise": "folding for aces and then playing junk are the same mistake",
+    "promise_word": 1,
+    "fact_ids": [],
+    "open_question": "What are both the waiting and the bored junk hands missing?",
+    "rung": 5
+  },
+  {
+    "id": "d11",
+    "line": "Getting your aces cracked isn't what's costing you. Look at the 39 hands, on average, before any premium shows up.",
+    "promise": "getting your aces cracked isn't what's costing you",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What happens in the 39 hands before a premium that costs you?",
+    "rung": 5
+  },
+  {
+    "id": "d12",
+    "line": "Only playing premiums means one hand in 39, on average. Six-handed, at 1.5 big blinds an orbit, the rest aren't free to fold.",
+    "promise": "only playing premiums means one hand in 39, on average",
+    "promise_word": 5,
+    "fact_ids": [
+      "premium-every",
+      "orbit-bb"
+    ],
+    "open_question": "What does folding the rest add up to?",
+    "rung": 4
+  },
+  {
+    "id": "d13",
+    "line": "Once every 39 hands, on average, you'll get aces, kings, queens or ace-king. 'Fold everything else' sounds disciplined. The blinds disagree.",
+    "promise": "aces, kings, queens or ace-king once every 39 hands, on average",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "How much do the blinds take from the disciplined folder?",
+    "rung": 4
+  },
+  {
+    "id": "d14",
+    "line": "Your stack shrinks before ace-king ever shows up: two hours card dead at the casino, and the blinds took their cut every orbit.",
+    "promise": "your stack shrinks before ace-king ever shows up",
+    "promise_word": 1,
+    "fact_ids": [],
+    "open_question": "How big is the blinds' cut by the time ace-king arrives?",
+    "rung": 4
+  },
+  {
+    "id": "d15",
+    "line": "2.56% of dealt hands are aces, kings, queens or ace-king. Playing only those feels safe. Safe and good aren't the same thing.",
+    "promise": "2.56% of dealt hands are aces, kings, queens or ace-king",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "Why is playing only premiums safe but not good?",
+    "rung": 5
+  },
+  {
+    "id": "d16",
+    "line": "What does one premium hand cost? 9.75 big blinds, six-handed, folding everything else, and when it finally comes, who's still calling?",
+    "promise": "one premium hand costs 9.75 big blinds at six-handed, folding everything else",
+    "promise_word": 7,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "When the premium finally comes, who's still calling?",
+    "rung": 5
+  },
+  {
+    "id": "d17",
+    "line": "The whole table folds to your pocket queens, and it's not bad luck. They knew before you raised.",
+    "promise": "the table folding to your pocket queens isn't bad luck",
+    "promise_word": 1,
+    "fact_ids": [],
+    "open_question": "How did they know before you raised?",
+    "rung": 5
+  },
+  {
+    "id": "d18",
+    "line": "Stop calling it card dead. 1 in 39 hands is a premium, on average. Folding everything else is a choice, and it has a price.",
+    "promise": "1 in 39 hands is a premium, on average",
+    "promise_word": 6,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What is the price of choosing to fold everything else?",
+    "rung": 5
+  },
+  {
+    "id": "d19",
+    "line": "Folding is free, right? Six-handed, it's 1.5 big blinds every orbit, and only playing premiums means paying it for a long time.",
+    "promise": "1.5 big blinds every orbit at a six-handed table",
+    "promise_word": 7,
+    "fact_ids": [
+      "orbit-bb"
+    ],
+    "open_question": "How long, and how much, does only playing premiums make you pay?",
+    "rung": 4
+  },
+  {
+    "id": "d20",
+    "line": "2.56% of dealt hands. That's how often the 'premiums only' chart lets you play. Here's what it never tells you.",
+    "promise": "the premiums-only chart lets you play 2.56% of dealt hands",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What does the premiums-only chart never tell you?",
+    "rung": 4
+  }
+]

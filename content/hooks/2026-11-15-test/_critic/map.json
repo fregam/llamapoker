@@ -1,0 +1,8 @@
+{
+  "draw-hits/control": "draw-hits-M",
+  "aces-win/research": "aces-win-V",
+  "premium-only/research": "premium-only-T",
+  "premium-only/control": "premium-only-V",
+  "aces-win/control": "aces-win-X",
+  "draw-hits/research": "draw-hits-Q"
+}
