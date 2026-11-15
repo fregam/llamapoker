@@ -1,0 +1,9 @@
+{
+  "name": "llamapoker-research",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "score": "node src/score-sources.mjs ../../.scratch/audience-research/sources"
+  }
+}
