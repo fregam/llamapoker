@@ -501,3 +501,20 @@ lesson, and a hook line that could open the post.
 - **Lesson:** an agent that's asked for 100 rows will produce 100 rows. Demand evidence per row, not
   a count, and never put the discovery step on the cheap setting: knowing where to look is the work.
 - **Hook:** "I sent 8 AI agents to find where poker players hang out. Half of them made it up."
+
+## 2026-11-15 · The free feed that told us how often every poker Short gets posted
+
+- **Choice:** measure how often each poker creator posts Shorts using YouTube's public feed of a
+  channel's Shorts alone (the channel id with UUSH in front), one plain request per channel, instead
+  of opening each video.
+- **Rejected:** pulling every video's page through a downloader tool (YouTube asked "are you a bot?"
+  after about 14 videos); TikTok's own pages (follower counts load, post dates don't, and the
+  workaround needed was off-limits); paid trackers and creator directories (blocked, or numbers
+  months old).
+- **What happened:** 1,600+ channels checked in 40 minutes with no wall. 307 poker Shorts channels
+  in 15 languages now have a real posting rate and a last-post date. Along the way a helper script
+  named `select.py` quietly broke every download, because Python loaded it in place of a built-in
+  module with the same name.
+- **Lesson:** before you scrape, look for the boring official feed. And never name a file after
+  something the language already ships.
+- **Hook:** "YouTube has a free feed that shows how often every creator posts Shorts. Hardly anyone uses it."
