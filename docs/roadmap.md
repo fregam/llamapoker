@@ -33,7 +33,7 @@
    the hero (a dash until the first `revenue` event), subscribers beside it, one row per channel;
    Needs you beside Results; Work as a CONTENT / DEVELOPMENT strip opening down to the job bars;
    the briefing reads results first. Look: true black with orange accents (wall and VS Code).
-   **Built 2026-11-14, awaiting review and merge (branch `feat/wall-claude-limits`): Claude plan limits on the wall** (5-hour and weekly, from Claude Code's
+   **Shipped 2026-11-15 (PR #36): Claude plan limits on the wall** (5-hour and weekly, from Claude Code's
    status line via `apps/wall/scripts/claude-statusline.mjs`): in Experiments and budget, a Claude
    station in DEVELOPMENT, threats near and at the cap.
    **Next, each its own feature, feeding Results through events (no wall code):** social fetchers

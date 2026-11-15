@@ -1,6 +1,6 @@
 # Claude plan limits on the wall
 
-Status: ready-for-human (built and tested on branch `feat/wall-claude-limits` 2026-11-14; needs review, commit and merge)
+Status: done (shipped in PR #36, 2026-11-15)
 
 ## Question
 
