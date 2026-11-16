@@ -48,3 +48,8 @@ login-walled platforms through the research browser profile).
 readers' batches and findings. Deleting that worktree deletes it. Everything a script needs is in
 `content/research/audience/`; `claims.md` there keeps what two or more readers said. Collecting
 again takes a few hours (r/poker comments are the slow part).
+
+**Backup (2026-11-16):** the whole `data/` folder is archived on the other drive at
+`C:\Users\<user>\poker-trainer-backups\audience-research-data-2026-11-16.tar.gz` (653 MB, 384 files,
+restore tested). To restore: `tar -xzf <archive> -C apps/research`. Make a new archive after any
+new collection.
