@@ -43,11 +43,16 @@ login-walled platforms through the research browser profile).
 
 ## Where the data is
 
-`apps/research/data/` is git-ignored and exists only in the checkout that ran the study (the
-`audience-research` worktree): raw collector files (672,000 items), the store, the vectors, the
-readers' batches and findings. Deleting that worktree deletes it. Everything a script needs is in
-`content/research/audience/`; `claims.md` there keeps what two or more readers said. Collecting
-again takes a few hours (r/poker comments are the slow part).
+`apps/research/data/` is git-ignored (the repo is public; this is 1.1 GB of collected comments): raw
+collector files (672,000 items), the store, the vectors, the readers' batches and findings.
+
+**Home:** the main checkout, `apps/research/data/` under the project root. Until this branch is
+merged, `main` has no `apps/research/.gitignore`, so the folder is kept out of git there by a line
+in `.git/info/exclude`. The `audience-research` worktree that ran the study holds an identical copy
+and can be removed.
+
+Everything a script needs is in `content/research/audience/`; `claims.md` there keeps what two or
+more readers said. Collecting again takes a few hours (r/poker comments are the slow part).
 
 **Backup (2026-11-16):** the whole `data/` folder is archived on the other drive at
 `C:\Users\<user>\poker-trainer-backups\audience-research-data-2026-11-16.tar.gz` (653 MB, 384 files,
