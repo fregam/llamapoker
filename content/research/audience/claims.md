@@ -1,0 +1,234 @@
+# What the readers said
+
+Every claim that two or more of the 23 readers recorded independently, grouped in code
+(`apps/research/pipeline/group_claims.py`, threshold 0.87; a few groups mix neighbouring ideas).
+One line per group: readers · source types (CardsChat not counted) · languages, then the claim
+as its strongest reader worded it. `rg` = responsible-gambling ground: never a hook. Groups with
+one source type are leads. Written by `pipeline/synth.py`; do not edit by hand.
+
+- 10 readers · app-reviews, community, forum, youtube · de, en, fr, it: Freerolls are chaos ('bingo'): people shove any two cards because it costs nothing, so the plan is to play tight early and let the maniacs knock each other out.
+- 8 readers · app-reviews, forum · de, en, es, fr, it, pt, ru, zh: The app makes you lose on purpose so you run out of chips and have to buy more: the whole game is built to sell chips.
+- 6 readers · app-reviews, community, forum, youtube · en, fr, tl: Free-chip apps deal far too many flushes, straights, full houses, quads and royal flushes compared with 'real poker', which proves the deal is not random. (They see every showdown of all-in play and compare it with remembered live hands.)
+- 6 readers · app-reviews, community, forum, youtube · en, fr, ko · rg: Poker is not gambling because you have some control over the outcome; slots are all luck, poker is played against people, not the house.
+- 6 readers · community, forum, youtube · de, en, ru · rg: Chasing: after a bad session they move up in stakes or rebuy again and again to win it back, or play with money they cannot afford to lose; a few name it as a gambling problem.
+- 5 readers · app-reviews, community, forum · en, it, ru: Free-chip poker is pay-to-win ('donat'): whoever pays more wins more, skill decides nothing.
+- 5 readers · app-reviews, forum · en, id, it, pt, ru, vi: The app crashes, freezes or goes black in the middle of a hand; a game that was fun becomes 'unplayable' and they reinstall again and again
+- 4 readers · app-reviews, community, forum, qa, youtube · en, fr, ja, ko: Kings before the flop: I never fold them, but the few times I did (or should have) the other player showed aces
+- 4 readers · app-reviews, community, forum, youtube · en, fr, it, zh: Folding a hand that hit is the hard part: you want to 'check his papers', you know they have it and call anyway
+- 4 readers · app-reviews, community, forum, youtube · en, it, zh: The tables are full of bots, 'computer players' and fake accounts, not real people.
+- 4 readers · app-reviews, community, forum, youtube · en, fr, zh: The conclusion they reach is 'never buy chips again', not 'stop playing': they keep playing for free and tell others not to top up.
+- 4 readers · app-reviews, community, forum, youtube · en, ru: Poker comes after work, chores and family: they play only once everything else is done
+- 4 readers · app-reviews, community, forum, youtube · en, es: The free app is practice for the real thing: it 'teaches a lot', it is training 'for the big leagues'
+- 4 readers · app-reviews, forum, youtube · en, it, ru, zh: Pocket pairs, aces included, lose most of the time ('in 90% of cases with a pair in hand I end up losing').
+- 4 readers · community, forum, youtube · de, en, ru: At micro and low stakes bluffing is wasted money: everyone calls with anything, so just wait for a hand and bet it for value.
+- 4 readers · community, forum, youtube · en, fr: At low stakes a big river bet or raise is almost never a bluff: 'they always have it', 'people don't bluff enough at lower stakes', so fold.
+- 4 readers · community, forum, youtube · en, fr: Tournaments are the lottery ticket: a small buy-in is a shot at one big score
+- 4 readers · community, forum, youtube · en: You can build a poker bankroll from zero with freerolls: no deposit, 'free money, zero risk', it only costs time and patience.
+- 4 readers · app-reviews, forum · en, id, it, ru: Chips, prizes or paid purchases vanish, accounts get reset or banned without a reason, and support doesn't answer or closes the chat.
+- 4 readers · app-reviews, community · en, it, ru: The other players at the app table are bots that always win; they know which cards are coming and shove any two against your aces.
+- 4 readers · app-reviews, forum · de, en, ru: The app's timer and buttons cost hands: it folds an all-in, speeds up without warning, pop-ups make you miss your turn, a touched bet slider can't be undone, misclick calls
+- 4 readers · community, youtube · en: 'Fish', 'donkey', 'idiot': names for the opponent who can't be bluffed ('You can't bluff a fish', 'Never bluff a donkey').
+- 3 readers · app-reviews, community, forum, youtube · en, es, ru: Table chat in apps is full of insults and 'smart remarks'; players want a mute or off switch, bans for abusers, and cheer when chat is removed
+- 3 readers · app-reviews, community, forum, youtube · de, en, fr: 'bad run' / 'run bad' / 'run good' and the verb 'chatter' (to get lucky; 'déchatter' to stop being lucky) are the standard words for a losing or lucky stretch
+- 3 readers · app-reviews, community, forum, youtube · en, id, zh: They misread which hand wins (the board plays, kickers, two pair vs a pair, split pots) and blame the app or ask how it makes sense
+- 3 readers · app-reviews, community, forum, youtube · en, it, ru · rg: 'I'm just destined to lose': personal bad luck as a fixed trait ('if I didn't have bad luck I would not have any luck').
+- 3 readers · app-reviews, community, forum, youtube · en, es: The real skill is patience: folding most hands and sitting still. 'Winning poker is boring poker.'
+- 3 readers · app-reviews, community, forum, youtube · en · rg: Plays to wind down: poker is the daily stress relief, 'a nice way to check out'
+- 3 readers · app-reviews, community, forum, youtube · en: The moment you get ahead, finish a challenge or move up to a higher table, the cards go dead and you burn through everything.
+- 3 readers · community, forum, youtube · en, fr, it, ko, ru: Viewers answer the fold-or-call question themselves in the comments: 'easy fold', 'I would have folded on the turn', 'snap call'.
+- 3 readers · community, forum, youtube · de, en, zh: Poker is read as a mirror of life and of investing: bankroll and emotion control are 'the same as trading stocks', and what draws them is risk, probability and decisions, not the winning. Much of this audience also trades.
+- 3 readers · community, forum, youtube · de, en, ko: Pocket jacks look great until the flop: an ace, king or queen comes and you are stuck; JJ is the cursed or trickiest hand
+- 3 readers · app-reviews, community, forum · de, en, id: When it stops being fun they walk away for days or weeks, and always come back
+- 3 readers · community, forum, youtube · en, fr: Is it right to fold aces, kings or jacks before the flop on the bubble or with several all-ins ahead, to lock up the money?
+- 3 readers · community, forum, youtube · en, fr: GTO is useless at my stakes: 'can't play GTO against people who don't know what GTO is', they call anyway, 'exploitative play is the only way'. Others push back: 'GTO is flawed' is plain wrong, and 'I cannot win because players are worse' is not how poker works
+- 3 readers · community, forum, youtube · de, en: Where do I start and how do people actually study: 'I don't know where to start', 'people say study but I don't know what that means', does playing more hands make you better or reviewing them?
+- 3 readers · community, forum, youtube · en, ko: Received wisdom, repeated as advice: at low stakes tight is right, play fewer hands, fold the rest, when in doubt fold.
+- 3 readers · app-reviews, community, youtube · en, it: Money is the real reason: if poker didn't pay I wouldn't spend the time on it
+- 3 readers · community, forum, youtube · en, ko: With a strong hand you want them to fold: shove now 'instead of gambling', 'drive out garbage', bet big so nobody can draw; the reply is that going all-in lets everything fold and you do not get paid
+- 3 readers · app-reviews, forum, youtube · en: When I go all-in with aces, someone calls with junk (2-8, 3-8, 9-2) and wins: the game rewards players who fish for cards
+- 3 readers · community, youtube · de, en, it: Live fields are far weaker than online: 'online 3 or 4 of them would be torn apart by the 5 euro field', 'the live table is not online'.
+- 3 readers · app-reviews, community · en, fr, pt: The app never teaches the game: no instructions, a confusing tutorial, 'I never understand the game', 'explain it like I've never played poker'.
+- 3 readers · app-reviews, youtube · de, en, ru: Women at the table get dumb remarks; the answer is to give it back or use it to tilt the man.
+- 3 readers · community, youtube · en, ko: A bad player who wins is 'just lucky' and his luck will run out.
+- 3 readers · app-reviews, youtube · en, fr: They ask the app to raise their odds of winning, as if a house set them like a slot machine.
+- 3 readers · youtube · en, it, ru, zh · lead: Viewers of poker clips ask other Russian speakers to explain what just happened: who won, is it a split when the board plays, why did he lose.
+- 3 readers · app-reviews · en, it, ru · lead: Too many pop-ups and ads: several X's to close before the lobby, pop-ups and ads in the middle of a hand that make you time out or miss the end of the hand, buttons that lead to a payment screen
+- 3 readers · youtube · de, en, it · lead: Guess-the-hand works: viewers post their guess of the hidden cards and are annoyed when no showdown is shown.
+- 3 readers · app-reviews · it, ru · rg · lead: Spending real money again and again to win back play chips that have no cash value; marathon sessions 'because I was hooked'.
+- 3 readers · app-reviews · en, it · rg · lead: Losing still stings when the chips are free: 'fun to play - frustrating to lose', 'the only bad time is when I lose'
+- 3 readers · community · en · lead: The biggest beginner mistakes are playing too many hands, ignoring position and having no patience
+- 3 readers · app-reviews · en · lead: 'I just want to play poker': the app buries the game under albums, spins, pop-ups and side games.
+- 2 readers · app-reviews, community, forum, youtube · en, fr, it: The game rewards the worst play: whoever calls an all-in with junk hits every time; 'an algorithm that favours dumb play and luck over real poker'.
+- 2 readers · app-reviews, community, forum, youtube · en, fr: Stated as an absolute: my aces (or kings) always get cracked, they never win
+- 2 readers · app-reviews, community, forum, youtube · en, ru: 'Bluff catcher' / 'bluff catching': a hand that only beats a bluff, and the act of calling with it. Used by recs and regs alike.
+- 2 readers · app-reviews, community, forum, youtube · en, it · rg: An 'algorithm' decides whose turn it is to win or lose; you run hot for days then lose with anything, so the outcome is predetermined and skill doesn't matter.
+- 2 readers · app-reviews, community, forum, youtube · en, ru: I know the percentages, so losing on the river again and again to trash hands proves the app rewards bad play (rigged)
+- 2 readers · app-reviews, community, forum, youtube · en, ru: Dreams of living off poker one day (going pro, quitting the job, finding a sponsor)
+- 2 readers · app-reviews, community, forum, youtube · en, fr · rg: "I don't have the patience": I get impatient or frustrated, try to settle it early, and bust
+- 2 readers · app-reviews, community, forum, youtube · de, en: 'That's poker' / 'it's just poker': the shrug that closes any bad-luck story.
+- 2 readers · app-reviews, community, forum, youtube · en, fr: A player who gets the money in bad (calls or shoves with trash) and hits 'didn't deserve to win'; being beaten by 'people who shouldn't even be in the hand' is felt as an injustice, on stream and in the apps alike.
+- 2 readers · app-reviews, community, forum, youtube · en, ja · rg: Staying after a loss to win the chips back (chasing), which makes it worse
+- 2 readers · app-reviews, community, forum, youtube · en, ru: Why did the aces not win this hand? (cannot see how the board beat them or made it a split)
+- 2 readers · app-reviews, community, forum, youtube · de, en: English poker jargon locks them out: they want rules, app text and video talk in German and admit they don't know the technical terms.
+- 2 readers · app-reviews, community, forum, youtube · de, en: I fold too much: aggressive players push me off hands and I assume the worst every time ('he must have it').
+- 2 readers · app-reviews, community, forum, youtube · en: Ace-king is the hand I lose the most money with; it is only a drawing hand, not good against a pair
+- 2 readers · app-reviews, community, forum, youtube · en: They enjoy Omaha and mixed games next to hold'em and praise an app for offering both
+- 2 readers · app-reviews, community, forum, youtube · en: The home game with friends or family is the whole point; some never want more than that
+- 2 readers · app-reviews, community, forum, youtube · en: People who complain about luck or rigging are just losing players: 'get better at poker'.
+- 2 readers · app-reviews, community, forum, youtube · en · rg: A new player should not pay for an expensive course: use the free material, deposit a little and play first
+- 2 readers · app-reviews, community, forum, youtube · en: 'bingo' / 'bingo players' / 'lotto' / 'lottery': their word for tables where everyone shoves any two cards.
+- 2 readers · community, forum, youtube · en, fr, it, ko, ru: Where do you play? (asked of creators and of each other; they want the name of the site)
+- 2 readers · app-reviews, forum, youtube · es, id, it: Their words for rigged: 'pilotato' (steered), 'truccato', 'truffa', 'manipolato'. 'Pilotato' is the Italian default, not 'rigged'.
+- 2 readers · community, qa, youtube · en, fr, ja: Is a bluff good just because it worked? They argue whether a bluff that got through, or got lucky, was actually a good play.
+- 2 readers · forum, qa, youtube · en, fr, ja: Which hand actually won: boards misread, impossible-looking cards.
+- 2 readers · community, forum, youtube · en, it: Which book, channel, course or site should I use to learn? (asked straight to creators in comments and on forums; 'which book' is the most common form)
+- 2 readers · community, forum, youtube · en, zh: The regulars' recipe against players who call everything: 'go to value town', do not bluff, bet bigger, add one big blind to your raise per limper
+- 2 readers · community, forum, youtube · en, ru: Hand review happens in public: post the hand in the diary and ask 'did I play it right or did I make a mess?', then thank and promise to play it right next time.
+- 2 readers · app-reviews, forum, youtube · en, ko: The dealer gets the blame or the credit for the cards: 'get a dealer that can shuffle', 'dealer knew the assignment', and in apps 'the dealer is cheating for certain players'
+- 2 readers · community, forum, youtube · en, fr: Real-money online poker is being killed by bots, AI and real-time assistance: 'a computer at the table' is cheating, and nobody can tell who is human.
+- 2 readers · app-reviews, forum, youtube · es, it: It used to be fair: 'I played for years, then they changed something' (added bots, changed the deal) and now nobody wins.
+- 2 readers · app-reviews, forum, youtube · en, it: 'I win live and lose online with the same play', so online must be rigged; online is 'miles away from real poker'.
+- 2 readers · community, forum, youtube · en, it: Live poker and online poker are two different games; being good at one does not mean you can play the other
+- 2 readers · community, forum, youtube · en, fr: Luck decides one hand or one night; skill decides the long run (the standard answer given to anyone who says poker is luck).
+- 2 readers · community, forum, youtube · en, fr: They want someone to review hands with: a study group or a better player to go over the hands they lost
+- 2 readers · community, forum, youtube · en, zh: '賭狗' (gambling dog) is the insult for the losing mindset, set against '牌手' (player): stakes whatever is in his pocket, loses and has excuses, wins and says he played well, then borrows to go again.
+- 2 readers · app-reviews, forum, youtube · en, ru: You don't have to win to enjoy it: 'I just play for fun', 'it is just a hobby'
+- 2 readers · community, forum, youtube · en, fr: Jargon stops them and they ask: 'in and out of position', position names (UTG), 'block a flush', squeeze, ICM, straddle, 'one time', trips vs set, why the last card is 'the river'.
+- 2 readers · community, forum, youtube · en, it: Their real stakes: home and pub games with $10-60 buy-ins and capped rebuys, $20-150 local tournaments; a $1,000 home game sends them back to the 1/2 table.
+- 2 readers · community, forum, youtube · en, fr: Where can I find charts: preflop ranges (and bankroll rules) laid out as a table I can look at?
+- 2 readers · community, forum, youtube · en, fr: Which hands should I review, and how do I tell my own mistake from an opponent who just played nonsense?
+- 2 readers · community, forum, youtube · de, fr: I play for the pleasure, not the money: a budgeted hobby, the satisfaction of playing well, poker with friends as the best memory
+- 2 readers · app-reviews, community, youtube · en, it: The real-money site runs its own house accounts and bots that fill freerolls and win tournaments.
+- 2 readers · community, forum, youtube · en, fr: Some now study by asking an AI chatbot
+- 2 readers · app-reviews, community, youtube · en, fr · rg: Fast formats are too intense, and catching yourself clicking fast means you are on autopilot, off your A-game
+- 2 readers · community, forum, youtube · en, fr: I play well and still lose to maniacs: 80/20s and 95/5s lost, bad beats saved and recounted hand by hand
+- 2 readers · app-reviews, community, forum · en, ru: In app cash games a huge stack sits against a small one and shoves preflop every hand: 'he can bet any amount, you can only pray', you never get to see a flop cheaply.
+- 2 readers · community, forum, youtube · de, en: At low stakes fine detail does not matter: keep it basic, they pay off everything.
+- 2 readers · community, forum, youtube · en, fr: Books are still in use: Tendler's 'Mental Game of Poker' for tilt, a micro-stakes cash-game book for ranges
+- 2 readers · community, forum, youtube · en, ru: The book or course they paid for did not help; videos are easier than books.
+- 2 readers · community, forum, youtube · en: Taking notes on opponents is the 'study' habit they talk about most (what to write, whether one hand is enough, memory vs notes)
+- 2 readers · app-reviews, community, youtube · en: Discipline and good habits matter more than patience or luck: "the pain of discipline or the pain of regret"
+- 2 readers · community, forum, youtube · en: A fold on screen gets attacked as much as praised: 'horrible fold', 'what a fish, folding there', often citing the price he was getting.
+- 2 readers · community, forum, youtube · en: A bad beat is not my fault and a bad call is: forum players say the bad call stings more because there is nobody to blame, and that they remember bad beats for days and forget the pots they won.
+- 2 readers · community, forum, youtube · en: Videos where the creator talks through his thinking hand by hand (vlogs, 'show every hand', losing hands included) teach them better than structured lessons
+- 2 readers · community, forum, youtube · en: Decisions over results: a fold is good even if the card would have come; said often, but 'most players take years to actually believe' it
+- 2 readers · app-reviews, community, forum · en: Plays for the competition itself: ex-athletes and competitive people who want to beat someone, whatever the prize
+- 2 readers · community, forum, youtube · en: I assume the other player is bluffing and call, and they have it: 'curiosity' calls ('what if they're bluffing?', 'I always think everyone is bluffing') are a main way they lose chips.
+- 2 readers · community, forum, youtube · en: Is it better to play tight or aggressive? The stock answer is 'find a balance'; people who see themselves as aggressive are often the tightest at the table
+- 2 readers · community, forum, youtube · en: Getting bluffed stings and is an ego matter: being shown the bluff is worse, people call just to not be pushed around ('table sheriff'), and want revenge on the next hand.
+- 2 readers · community, forum, youtube · en: Real-money sites fail too: a 45-60 minute outage in a tournament, withdrawals blocked with no reply from support, laggy clients, region blocks
+- 2 readers · community, forum, youtube · en: When do I leave the table? They use stop-losses, win goals and 'it's not my day', and admit they give it all back when they stay; regulars answer that hit-and-run is timid.
+- 2 readers · community, forum, youtube · en: How regulars talk about them: lists of 'egregious errors', 'worst hand ever', 'we could write a book on how low stakes players play bad'; the mistake they describe is one hopeful call compounding into the next
+- 2 readers · community, forum, youtube · en: The joy has gone: burned out on online play, bored after an hour, or put off by the people at the table
+- 2 readers · community, forum, youtube · en: Viewers of clips do not know that tournament chips are not dollars, what a freeroll is, or why an all-in for $10 cannot win the whole pot (side pots).
+- 2 readers · community, forum, youtube · en: 'They aren't rigged, you suck': when someone blames luck, rigging or cheating, others answer that it was their own play ('you got outplayed', 'coping for not getting the results you want').
+- 2 readers · app-reviews, community, forum · en: I want to play other variants (Omaha, Hi/Lo, 2-7 draw) but the games do not run or the tables are always full
+- 2 readers · community, forum, youtube · en: When the quiet older player who rarely plays a hand suddenly re-raises or shoves, it is always aces: they are scared of getting cracked
+- 2 readers · app-reviews, forum, youtube · en: When I fold low cards the board always turns them into a monster (folded 2-3, board came 3-3-2; folded fives, made quads)
+- 2 readers · community, forum, youtube · en: 'Nit' is the insult for someone who folds a lot; tight players get needled at the table ('I didn't come here to fold').
+- 2 readers · community, forum, youtube · en: High-stakes stream hands are useless to small-stakes players: they want hands from games like theirs.
+- 2 readers · community, forum, youtube · en: 'Punt': throwing a stack away on a bad play.
+- 2 readers · app-reviews, community, youtube · en: Table procedure nobody explains: what is the burn card for, why do you not have to show if everyone folded, why do players keep re-checking their two cards, how do I show my cards in the app.
+- 2 readers · app-reviews, forum, youtube · en: App players want to choose whether to show or muck: auto-muck by default when everyone folds, but a button to show a bluff or a single card 'like in real poker'
+- 2 readers · community, forum, youtube · en: A money target ('I need $X this month') makes them play worse, and a balance that sits flat for weeks feels like failure.
+- 2 readers · app-reviews, youtube · en, es, it: The deal is not random: hands come up that would never happen at a real table.
+- 2 readers · community, youtube · fr, it, ko: They want a creator's real numbers (how much was staked, the yearly total, hourly rate, sponsorship) and praise the ones who show losses.
+- 2 readers · app-reviews, community · en, ru, zh: One player at the app table wins 6, 7, even 17 hands in a row with any cards: a plant, maybe the company's own staff.
+- 2 readers · community, youtube · en, it, ko: Why fold a good-looking hand like AJ or AK just because of the seat? Position is not understood.
+- 2 readers · community, youtube · en, ko: Fierce argument over table talk and fake action: asking 'can I raise?', acting, or talking about your hand is called 'sharking'/angle shooting by some and normal mind-games by others; 'only Korea is this touchy about talk'
+- 2 readers · community, youtube · de, en: The regulars' comment is a street-by-street second-guess of the line in dense Denglisch (ranges, 3-bets, check-raise, sizing): 'pre muss die 3Bet her'.
+- 2 readers · community, youtube · de, en: Every real-money site is 'the rigged one' to somebody: GG, 888, ACR, Winamax, CoinPoker, ClubWPT Gold each get named; 'if one is a scam, all are'.
+- 2 readers · community, youtube · en, it: Judge the decision, not the result: you can do everything right and still lose ('results oriented' is the insult).
+- 2 readers · community, youtube · en, it: They ask for the reasoning behind one precise moment they couldn't follow: why that call, why that percentage, who did what in a famous hand.
+- 2 readers · forum, youtube · en, it: Stalling right on the tournament bubble is accepted as strategy; using the full time bank every hand is not (and some argue stalling gains nothing anyway)
+- 2 readers · community, youtube · de, en: They look for a local home game or poker buddies, or play a weekly local tournament, and post to find one
+- 2 readers · forum, youtube · en, fr: Micro-stakes players never fold a pair, so the money is not in bluffs: bet your good hands for value
+- 2 readers · app-reviews, community · en, zh: Paid real money, got charged wrong or never got the chips, and support does not answer.
+- 2 readers · forum, youtube · de, ru: GTO and statistics are 'too much' for the opponents they actually face: home-game and low-stakes players don't play those ranges, so reads, exploits and gut matter more.
+- 2 readers · app-reviews, youtube · it, ru: Poker can't be won without luck: 'you must know the game, but without culo you go nowhere', 'the card always has the last word', 'if the river didn't exist we'd all be richer'.
+- 2 readers · community, youtube · en, ko: "bad beat jackpot": live casino players know and watch the bad beat jackpot
+- 2 readers · community, youtube · en, zh: Creators and sponsored pros are seen as part of the machine: they sell courses and promote sites and apps, and 'the way they sell it is the illusion'.
+- 2 readers · community, youtube · de, en: Folding aces before the flop in a tournament: 'this is crazy', 'no shame in going out with AA'; a few defend it for pay jumps ('at that point you aren't playing poker anymore')
+- 2 readers · community, youtube · de, en: The pro dream is harder than it looks (no pay when sick, no pension, isolation, downswings, 'the hardest job'); poker as a hobby or small side income is the sane version.
+- 2 readers · app-reviews, youtube · en, it: Before giving a poker opinion they apologise for it: 'I'm a beginner, but', 'I play 1/2, far be it from me to lecture', 'my humble opinion', 'I'm nobody, but'.
+- 2 readers · community, youtube · en, ko: 'Pot odds' (and 'implied odds'): the maths they name first when asked what they would learn; the question behind it is whether to chase a draw when the others bet heavy
+- 2 readers · community, youtube · en, it: Which site is safe to play on against real people, and how do I avoid getting scammed (clubs, new sites)?
+- 2 readers · community, youtube · en, ko: '결과론' (hindsight): 'everyone talks easy after it's over', 'there is no right answer', used to defend a play that lost
+- 2 readers · community, youtube · en, it: Rebuy and re-entry tournaments favour whoever can fire the most bullets; an amateur with one buy-in feels outgunned.
+- 2 readers · app-reviews, forum · en, id: In freerolls and play money people bluff far too much because they have nothing to lose.
+- 2 readers · community, youtube · en, ru: Phil Hellmuth is the one they mock: calls himself the best, then makes the wrong move; watching him explode is the entertainment
+- 2 readers · app-reviews, youtube · de, zh: Plain questions under hand videos: why did he win this one, why check the straight on the river, was folding top two pair too much, should I also count the chance he has trips, what does '買趴' mean.
+- 2 readers · community, youtube · en, fr: Where can I find tables or players like the ones in this video, and how do I get into that game?
+- 2 readers · app-reviews, youtube · it, zh · rg: Outsiders and sceptics file it under gambling: 'they call it a competition, the process is just gambling', 'nine of ten gamblers lose', the series reads as 'a quit-gambling documentary' that puts you off playing.
+- 2 readers · forum, youtube · de, en: 'Can someone explain the thinking behind this line?': they can't follow why a good player bets, checks or raises there, and feel dumb watching.
+- 2 readers · forum, youtube · fr, ru: Am I playing badly or running badly? Amateurs cannot tell a downswing from a leak; they watch the EV line against the results line to find out
+- 2 readers · forum, youtube · de, fr: Fear of losing (and of looking stupid) makes them play scared and more passive after a bad experience.
+- 2 readers · forum, youtube · ko, ru: Being 'card-dead' is the accepted reason for withering at a final table ('the hands just didn't come in, top pros only fold then too'); critics answer 'waiting for good cards is fine, but you have to make it yourself' and 'he cashes a lot but the narrow range won't win'
+- 2 readers · community, youtube · en, ko: 'Cooler': the word they reach for after losing a big pot ('just a cooler', 'no getting away from that hand?'); regulars sometimes confirm it and sometimes answer that the 'coolers' come from poor preflop choices
+- 2 readers · community, youtube · en, pt: How fast can I get good: how many hours a day, how to get good quickly?
+- 2 readers · forum, youtube · en, fr · rg: Playing too high for your bankroll, or with money worries, wrecks your head and your game; no bankroll management was my worst beginner mistake
+- 2 readers · app-reviews, youtube · en, ru: Rake means the house is the only long-run winner: even perfect players go broke and the room keeps the money.
+- 2 readers · community, forum · en, ru: I make smart decisions at home or watching a video, but at the table the emotion takes over and I'm capable of any mistake
+- 2 readers · community, forum · en, ru: Is there a tool where I play practice hands and get told at once whether I played them right? (spoken or long explanations do not work for them)
+- 2 readers · community, youtube · en: After a bad beat the fix they name is to close the table and walk away (a break, a walk, music), because staying means playing worse
+- 2 readers · app-reviews, forum · en: An update is the breaking point: 'used to be a fun game', now pop-ups like crazy, slower, 'they don't care about the long time player', 'they just want your money'
+- 2 readers · app-reviews, forum · en: The free-chip app stands in for the casino: the next best thing, practice for real life, what I play since real money was banned
+- 2 readers · community, forum · en: The live low-stakes hand post: stakes, stack, street by street, ending in 'did I make a bad play or was I just unlucky?' / 'would you play this differently?'
+- 2 readers · community, youtube · en: Viewers second-guess rulings on unclear action: a verbal all-in, a player walking away on his turn ('that's a mucked hand, why did they allow this?')
+- 2 readers · community, youtube · en: Satellites and tickets are the cheap ladder into bigger tournaments (freeroll to $11 ticket to $110 ticket); others call that gambling, not bankroll building.
+- 2 readers · community, youtube · en: Tournaments and cash games are different games: the same hand is a call in a tournament and a fold in cash
+- 2 readers · app-reviews, forum · en · rg: Plays to pass or kill spare time
+- 2 readers · community, youtube · en: 'Air' / 'stone cold bluff': a bluff with nothing at all.
+- 2 readers · community, youtube · en: 'I'm new to poker' asked under a clip: how did he win, why is that a split pot (the comment section is their classroom)
+- 2 readers · app-reviews, youtube · en: They threaten to report the app to 'the authorities' and want this kind of game banned.
+- 2 readers · community, youtube · en: Meditation, breathing or Stoic reading as the cure for tilt: "you are human, not a computer, it's okay that you can tilt"
+- 2 readers · community, youtube · en: One painful loss or a bad run made them quit ('never again') or only watch from now on
+- 2 readers · community, youtube · en: 'Hero call': a big call with a weak hand because you think it's a bluff; said with pride when right and as mockery when wrong.
+- 2 readers · forum, youtube · en: A title or caption that gives away the result, or promises more than the hand delivers, gets called out ('why spoil the ending', 'where is the part where you won't believe this').
+- 2 readers · app-reviews, forum · en: It all comes down to the cards you are dealt; 'I can not read players, I read my cards'.
+- 2 readers · community, youtube · en: A well-earned bluff gets respect: tap the table, say 'nice hand', 'he has earned it'.
+- 2 readers · app-reviews, forum · en: 'I can feel the bad beat coming': knowing the one card that beats you will land on the river.
+- 2 readers · app-reviews · en, es, ru · rg · lead: Plain praise with no reason given: 'best poker game', 'fun', 'love it' is the default review of a free-chip app
+- 2 readers · app-reviews · de, en, fr · lead: Many are long-timers: the same free app every day for years, even ten ('played for years an still good')
+- 2 readers · youtube · de, it · lead: A debatable hand is what makes them comment: they replay it with their own line ('io avrei foldato', 'I would have shoved the flop') and ask the vlogger if they are right.
+- 2 readers · youtube · de, it · lead: Survival first: 'I wouldn't have played my tournament on that hand, I'd have waited for a better one', 'you don't throw away 100 blinds', 'at least I stay in the game and wait for better cards'.
+- 2 readers · app-reviews · de, ru · lead: Plain praise for the app: best one I downloaded, real people not bots, clear interface.
+- 2 readers · youtube · it, zh · lead: Players in the audience want to see the hands: they complain the wins are cut to a time-lapse, the cards cannot be read, and the comeback is told only by the result.
+- 2 readers · youtube · fr, zh · lead: In a bankroll-challenge series viewers turn on the participant who plays carelessly or gives up, and ask for real stakes for failing.
+- 2 readers · youtube · de, ru · lead: They mock players hiding behind sunglasses, visors and hoods: 'put on a welder's mask', 'I would ban glasses in this game'.
+- 2 readers · app-reviews · en, ru · lead: Slots, blackjack and mini-games inside the poker app split them: some like them as a way to earn extra chips, others ask what blackjack is doing on a poker site
+- 2 readers · youtube · en, ko · lead: Anger at a cocky or gloating opponent on screen ('I wanted to smack him'); winners by runner-runner should watch their face and words
+- 2 readers · youtube · en, it · lead: Calling or shoving all-in with JQ, J10 off, 67 off, Q7 or K7 is indefensible: 'how the f do you call an all-in with JQ', 'only a fool'.
+- 2 readers · youtube · en, ru · lead: Don't celebrate early or get over-excited: stay level, or you'll feel the crash
+- 2 readers · youtube · en, ru · lead: Live and televised poker is staged too: dealers can bring any card, the players on screen aren't using their own money.
+- 2 readers · app-reviews · en, fr · rg · lead: 'Addicting' / 'addictive' is used as a compliment for the app
+- 2 readers · youtube · en, fr · lead: A bad run that drags on is not bad luck, it is you: study your results before blaming variance
+- 2 readers · youtube · en, ru · lead: Non-players get the clip in their feed and enjoy it without understanding it; they ask for it in terms of their own world ('explain in basketball terms', 'in RuneScape terms').
+- 2 readers · youtube · it, zh · rg · lead: Open pleasure in watching someone else suffer or tilt: 'the point of the series is that watching him suffer is fun', 'gambling is bad but watching people lose their head is great'.
+- 2 readers · app-reviews · de, it · lead: The app removed the low tables or raised minimum bets, so a small stack is forced to play too high and is gone in three hands.
+- 2 readers · youtube · it, ru · lead: A big laydown earns respect: 'great fold, it wasn't easy at all', 'many would have gone broke with AK, but AK isn't always a hand'.
+- 2 readers · youtube · en, it · lead: Nostalgia for gut feeling: solver-era poker is 'robotic', and instincts used to be enough.
+- 2 readers · youtube · it, ru · lead: Cash, not tournaments: 'I've told you many times, MTTs aren't for you, you rush; cash where you sit down is what suits you', 'I certainly wouldn't play poker tournaments'.
+- 2 readers · youtube · en, it · lead: Poker takes guts: playing scared is the real flaw ('if you don't have the balls you can't play this').
+- 2 readers · youtube · it, ru · lead: Over the long run luck doesn't save you: bad decisions lose everything, and across thousands of tournaments you need to fold and read hands.
+- 2 readers · youtube · en, it · lead: Live poker is fixed too: dealers and shuffling machines cheat, the chip leader always wins.
+- 2 readers · youtube · en, it · lead: What they would ask a pro: how do you stay calm when the stakes are huge, how do you tell when someone is bluffing, what is the biggest mistake beginners make, how did you get so good
+- 2 readers · app-reviews · es, ru · lead: It is not bots: one person runs five or six accounts at each app table (or two accounts sit together) and strips you.
+- 2 readers · youtube · de, it · lead: Studying feels pointless when the deck says no: courses and coaches don't help against people who call at random and hit the river.
+- 2 readers · youtube · it, ru · lead: Too many ads inside the video get called out ('10 ads in 27 minutes').
+- 2 readers · community · en, ru · lead: Are there really poker sites rigged so the player can't win, or is that an urban legend?
+- 2 readers · youtube · en · lead: Comment sections judge the player on screen: 'worst poker player on YT', 'plz quit poker', 'I would have played it differently'.
+- 2 readers · community · en · lead: Going broke (again) is the moment they start reading and studying: 'when I finally got fed up'.
+- 2 readers · app-reviews · en · lead: Support answers complaints with a form reply ('we are completely fair'), which they read as confirmation.
+- 2 readers · community · en · lead: A basic question gets mocked on Reddit ('another idiot who can't read', 'idk why this is hard for people'), so beginners apologise first: 'I know it's a newbie question', 'sorry for being a noob'.
+- 2 readers · community · en · rg · lead: Plays online with a second screen on: TV, a stream, music, even slots, because poker alone is too slow
+- 2 readers · youtube · en · lead: Bluffing when another player is already all-in (an empty side pot) is pointless: you push out the third player and still have to beat the all-in hand. Many don't see why.
+- 2 readers · app-reviews · en · lead: Chips are overpriced and bonuses keep shrinking: a purchase should last a couple of weeks, not one bad hand.
+- 2 readers · community · en · lead: Who bluffs is read from age, looks and nationality: young players bluff more, old players don't bluff and can't be bluffed, 'Brazilians bluff a lot'. Term: 'OMC' (old man coffee), the old regular who never bluffs.
+- 2 readers · community · en · rg · lead: Regrets the hours: poker took time that should have gone to family, memories or 'something constructive'
+- 2 readers · youtube · en · lead: Judging a call or fold is easy when the video shows you both hands; some viewers remind the rest that the player could not see the cards.
+- 2 readers · community · en · lead: Knowing it in theory is not doing it: people who start on beginner strategy often play worse at first, forget the theory under pressure, or drop the 'correct' method when it brings no results; they win the small pots and lose the big ones
+- 2 readers · community · en · lead: Memory is selective: you remember your bad beats as bad luck and your lucky wins as good play.
+- 2 readers · community · en · lead: How do you stay focused after constant bad beats, when you play well for hours and one hand ends it?
+- 2 readers · youtube · en · lead: They see themselves in the player on screen: same seat, same pain
+- 2 readers · forum (CardsChat only) · en · rg · lead: After losing a big hand they fold everything but premiums for a while to get their head back.

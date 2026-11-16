@@ -25,32 +25,41 @@ Pick one entry from `topics.md` for the reel itself.
 
 **Viewer** — watches clips; may not play at all.
 - Asks what just happened [Q-EXPLAIN-1] [Q-BOARD-2].
-- Judges the player from one hand and its ending [Q-RESULT-1].
+- Often new to the game: asks why a play was good or bad [Q-RESULT-1].
 
 ## Their words (use these, explain the rest)
 
 - **cracked** — aces "get cracked" [Q-ACES-2].
-- **bingo** — a table where everyone shoves any two cards [Q-BINGO-2] [Q-TERMS-2].
+- **bingo** — a table where everyone shoves any two cards [Q-BINGO-2] [Q-TERMS-3].
 - **the algorithm** — what decides who wins in the app [Q-RIG2-1].
 - **station / calling station** — the player who never folds [Q-NOBLUFF-2].
 - **fish, donkey** — a bad player; an insult, never for the viewer [Q-TERMS-1].
-- **run good / run bad** — how luck is going. Not "variance".
+- **run good / run bad** — how luck is going, not "variance" (three readers; no quote kept).
 - Words that stop them: position, range, 3-bet, equity, GTO, "results oriented" [Q-EXPLAIN-2].
   Say the idea in plain words first.
 
-## What they believe (state it their way before correcting it)
+## What they believe (state it their way first)
 
+The research shows what they believe, not whether it's true. Three kinds, three treatments:
+
+**Can't verify: never say an app or site is fair, or rigged. Answer the reasoning.**
 1. The app makes me lose so I'll buy chips [Q-RIG1-1] [Q-RIG1-3]. (App)
 2. An algorithm decides whose turn it is to win [Q-RIG2-1] [Q-RIG2-3]. (App; real-money players
-   say it about sites too [Q-RIG4-1].)
+   say it about sites too [Q-RIG4-3].)
 3. I'm playing bots, not people [Q-RIG3-1] [Q-RIG3-2]. (App)
+
+**Checkable myths: show the cards and the numbers.**
 4. My aces always get cracked [Q-ACES-1] [Q-ACES-2]. (App, Low, Viewer)
-5. Ace-king and big pairs let me down [Q-AKJJ-1] [Q-AKJJ-2]. (Low, Edge)
-6. It's luck: better lucky than good [Q-LUCK-1] [Q-LUCK-3]. (all)
-7. Never bluff at low stakes, nobody folds [Q-NOBLUFF-1] [Q-NOBLUFF-3]. (Low, Edge)
-8. A big river bet is never a bluff [Q-BIGBET-1] [Q-BIGBET-2]. (Edge)
-9. Before the flop there are no bad hands [Q-LIMP-1]. (Low)
-10. Poker isn't gambling, but I can't explain why [Q-NOTGAMBLE-3]. (Low)
+5. It's luck: better lucky than good [Q-LUCK-1] [Q-LUCK-3]. (all)
+6. Before the flop there are no bad hands [Q-LIMP-1]. (Low)
+7. A streak, or a big hand losing, proves the deal is scripted [Q-RIG2-1]. (App)
+
+**Half-true: often right at their tables. Say the true part and where it stops; don't "correct" it.**
+8. Never bluff at low stakes, nobody folds [Q-NOBLUFF-1] [Q-NOBLUFF-3]. (Low, Edge)
+9. A big river bet is never a bluff [Q-BIGBET-1] [Q-BIGBET-2]. (Edge)
+10. Ace-king and big pairs let me down [Q-AKJJ-1] [Q-AKJJ-2]. (Low, Edge)
+11. GTO is useless at my stakes [Q-GTO-1]. (Edge)
+12. Poker isn't gambling, but I can't explain why [Q-NOTGAMBLE-3]. (Low)
 
 Many "rigged" stories are a misread hand: a split pot, a kicker, the board playing
 [Q-BOARD-1] [Q-BOARD-3]. Explaining the hand answers the belief without arguing with it.
@@ -69,11 +78,12 @@ Many "rigged" stories are a misread hand: a split pot, a kicker, the board playi
 
 ## What makes them answer
 
-- **A fold-or-call spot before the reveal.** They post their own answer; seen in English, Korean,
-  Italian, French and German [Q-VOTE-1] [Q-VOTE-2].
+- **A fold-or-call spot before the reveal.** Viewers post their own answer under videos in
+  English, Korean and Italian; forum players post the same question about their own hands
+  [Q-VOTE-1] [Q-VOTE-2].
 - **Thinking out loud through one hand**, folds and losses included [Q-ALOUD-3] (lead: YouTube only).
 - **Their stakes**: $40 buy-ins, home games, freerolls [Q-MYSTAKES-1] [Q-GTO-2].
-- **Showing the five cards that play.** Clips that show only the hole cards lose them.
+- Show the five cards that play, not only the hole cards (lead: one reader's reading of confused viewers).
 - Aces losing is no longer a surprise in a clip (lead) [Q-PREDICT-3].
 - One wrong card or unexplained number and the comments are about the error (lead) [Q-ERRORS-1].
 
@@ -81,7 +91,7 @@ Many "rigged" stories are a misread hand: a split pot, a kicker, the board playi
 
 - Never the regular's voice: "fold pre", "go study", "you suck" [Q-MOCKED-2] [Q-MOCKED-3].
 - Don't mock the rigged belief; they mean it [Q-RIG1-2].
-- Don't say "100% skill" or "no luck in poker": viewers use those as sarcasm.
+- Don't say "100% skill" or "no luck in poker": viewers use those as sarcasm (lead: one reader).
 - Don't say "just fold more" or "never bluff" as rules: both are advice they already repeat and
   can't live by [Q-CANTFOLD-2].
 - Don't promise GTO; don't lean on a pro's name as proof. They trust the teaching and distrust the

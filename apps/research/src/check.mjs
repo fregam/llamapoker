@@ -17,7 +17,7 @@ const PRIVATE = [
   [/#(post|comment|p)-?\d+/i, "a forum post permalink"],
 ];
 
-export function check({ pack, topics, quotes, study, findings }) {
+export function check({ pack, topics, quotes, study, findings, claims }) {
   const errors = [];
   const defined = new Set(quotes.match(QUOTE_ID) ?? []);
   const status = new Map(findings.map((f) => [f.id, f.status]));
@@ -42,11 +42,18 @@ export function check({ pack, topics, quotes, study, findings }) {
       }
     }
   }
+  // topics.md: "tried" (6th column) is cited or empty, never inferred (ticket 08).
+  for (const row of topics.split("\n").filter((l) => /^\| T\d+ /.test(l))) {
+    const cells = row.split("|").map((c) => c.trim());
+    if (cells[6] && !/\bQ-[A-Z0-9]+-\d+\b/.test(cells[6])) {
+      errors.push(`topics.md ${cells[1]}: "tried" has no quote id; cite one or leave it empty`);
+    }
+  }
   for (const f of findings) {
     if (f.status === "finding" && f.source_types.length < 2) errors.push(`finding ${f.id} has fewer than two source types`);
     if (!f.quotes.length) errors.push(`finding ${f.id} has no quote`);
   }
-  for (const [name, text] of Object.entries({ "pack.md": pack, "topics.md": topics, "quotes.md": quotes, "study.md": study })) {
+  for (const [name, text] of Object.entries({ "pack.md": pack, "topics.md": topics, "quotes.md": quotes, "study.md": study, "claims.md": claims ?? "" })) {
     for (const [pattern, what] of PRIVATE) if (pattern.test(text)) errors.push(`${name} contains ${what}`);
   }
   return errors;
@@ -57,7 +64,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const read = (f) => readFileSync(join(dir, f), "utf8");
   const pack = read("pack.md");
   const errors = check({
-    pack, topics: read("topics.md"), quotes: read("quotes.md"), study: read("study.md"),
+    pack, topics: read("topics.md"), quotes: read("quotes.md"), study: read("study.md"), claims: read("claims.md"),
     findings: JSON.parse(read("findings.json")),
   });
   if (errors.length) {

@@ -40,3 +40,11 @@ Collectors: `appstore-rss.mjs`, `gplay_reviews.py`, `reddit.mjs` (Arctic Shift),
 
 Not built yet: wall `job` logging for each step, and phase 2 (TikTok, Instagram and other
 login-walled platforms through the research browser profile).
+
+## Where the data is
+
+`apps/research/data/` is git-ignored and exists only in the checkout that ran the study (the
+`audience-research` worktree): raw collector files (672,000 items), the store, the vectors, the
+readers' batches and findings. Deleting that worktree deletes it. Everything a script needs is in
+`content/research/audience/`; `claims.md` there keeps what two or more readers said. Collecting
+again takes a few hours (r/poker comments are the slow part).

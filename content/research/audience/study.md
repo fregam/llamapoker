@@ -17,12 +17,14 @@ behind each finding is in `findings.json`.
    different form among real-money online players [Q-RIG4-1], and is nearly absent among viewers of
    live tournament channels (Korean, Chinese).
 5. They judge a play by how it ended, and ask **"did I play it badly or was I just unlucky?"**
-   [Q-RESULT-1] [Q-RESULT-2]. Separating the decision from the result is the idea they are reaching for.
+   [Q-RESULT-2]. Separating the decision from the result is the idea a few are already reaching for
+   [Q-RESULT-1].
 6. They already know the standard advice (fold more, be patient, manage your bankroll) and can't live
    by it [Q-CANTFOLD-2] [Q-BORED-3] [Q-YOYO-1]. Repeating it is useless.
 7. **"Bingo"** is their word for tables where everyone shoves any two cards. Nine readers found it
    independently [Q-BINGO-2].
-8. The format that makes them answer is a **fold-or-call spot before the reveal** [Q-VOTE-2]; the
+8. The format that makes viewers answer is a **fold-or-call spot before the reveal** (YouTube
+   comments in English, Korean and Italian; forum players ask it about their own hands) [Q-VOTE-2]; the
    format they say teaches them is **someone thinking out loud through a hand** (lead) [Q-ALOUD-3].
 9. They want it **at their stakes**: a $40 home game, freerolls, not $1,500 "low stakes"
    [Q-MYSTAKES-1].
@@ -94,7 +96,7 @@ whether slow-rolling is rude [Q-EXPLAIN-3] [Q-BOARD-2].
 **Who they trust and mock.** Above. They also doubt famous players are winning players, so a pro's
 name is weak proof.
 
-**Hooks and formats.** Fold-or-call before the reveal (five languages) [Q-VOTE-1]; thinking out loud
+**Hooks and formats.** Fold-or-call before the reveal (viewers in three languages) [Q-VOTE-1]; thinking out loud
 (lead); their stakes [Q-GTO-2]. Aces losing is now expected (lead) [Q-PREDICT-3]. Any slip in a card
 graphic takes over the comments (lead) [Q-ERRORS-1].
 
@@ -105,7 +107,13 @@ streamers' big-win clips plant the urge to gamble: keep big-win clips out of ree
 
 ## By market
 
-- **English (worldwide and US):** carries most of the evidence; all 30 findings.
+- **The US is not its own section, though you asked for one.** Comments and posts carry no country.
+  The only country signal is the App Store storefront and the Google Play language, and Google Play
+  returned one English pool for the US, UK, India and the Philippines. US-specific points that did
+  surface: real-money online poker banned by state [Q-FREECHIPS-1], live 1/2 and 1/3 as the entry
+  game, bar leagues. A US section needs sources that are American by construction (state-level
+  communities, US live-room channels): a task for phase 2.
+- **English (worldwide):** carries most of the evidence; all 30 findings.
 - **Free-chip apps in other languages** (Spanish, Portuguese, Indonesian, Turkish, Thai, Chinese,
   French, German, Italian, Russian): the same rigged and bingo complaints, almost word for word
   [Q-RIG1-1].
@@ -117,13 +125,39 @@ streamers' big-win clips plant the urge to gamble: keep big-win clips out of ree
   **no Spanish-specific finding**. This named market is not answered.
 - **Japanese:** 204 search snippets (the site blocks Europe). A gap.
 
+## Does every question have two source types?
+
+The spec's bar for phase 1. "Finding" = two source types, CardsChat not counted. "Lead" = one.
+"Readers only" = said in reader reports, not yet a checked finding in `findings.json`.
+
+| Question | Status | Backed by |
+|---|---|---|
+| How they talk, their terms | Finding | TERMS, EXPLAIN |
+| Problems they have | Finding | BOARD, RESULT, CANTFOLD, BORED, YOYO, BINGO, MOCKED |
+| What they want to understand, and why | Finding (the "why" is readers only) | BOARD, START, REVIEW, RULES |
+| How they play, and why | Finding | LIMP, CANTFOLD, NOBLUFF, BINGO |
+| Who they follow, what they see there | Finding for trust in creators; names are readers only | CREATOR |
+| How they feel in play | Finding | LUCK, BORED, CANTFOLD, WHYPLAY |
+| Myths | Finding | RIG1-4, ACES, AKJJ, LUCK, NOBLUFF, BIGBET, GTO, NOTGAMBLE |
+| Where, what stakes, which format | Finding for apps and home games; Korea, Taiwan and Germany venues are readers only | FREECHIPS, MYSTAKES, WHYPLAY |
+| What they tried and why they quit | **Lead only** | STILLLOSE |
+| Trigger moments | **Readers only** | (learning and big-pairs readers) |
+| Questions too embarrassing to ask | Finding | BOARD, EXPLAIN, RULES |
+| Who they trust and mock | Finding for sponsor distrust; pro names are readers only | CREATOR |
+| Hooks and formats | Finding for fold-or-call; the rest are leads | VOTE; ALOUD, PREDICT, ERRORS |
+| Responsible-gambling signals | Recorded by 20 of 23 readers; deliberately not quoted | 49 flagged claims |
+
+So phase 1's bar is met for 11 of 14 questions. "What they tried and quit" and "trigger moments"
+are not, and "who they follow" is only partly. `claims.md` lists everything two or more readers said.
+
 ## What not to trust
 
 - **Counts are not shares of the audience.** Readers counted items in samples balanced by source;
   late batches were often one forum. Strength in this study means several readers, source types and
   languages agree.
-- **Topic sizes overstated every theme** by two to seven times (13% to 55% of a topic's items were
-  on theme). The reach table in the codebook is topic size, not belief size.
+- **Topic sizes overstated most themes**, some by two to seven times (can't-follow 13% on theme,
+  judging a call 24%, big pairs 38%, rigged 45%). Two were accurate: bluffing (99% on theme) and
+  bankroll (85%). The reach table in the codebook is topic size, not belief size.
 - **CardsChat rewards posting.** Its polite, generic answers inflated advice-type claims in every
   theme. It never counts as one of the two source types and is avoided for quotes.
 - **The "regular" rule failed.** Jargon spreads faster than skill; beginners use the words. Readers

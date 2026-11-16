@@ -25,7 +25,8 @@ from store import Store  # noqa: E402
 
 OUT = ROOT.parent.parent / "content" / "research" / "audience"
 CHANNELS = ["UCb68KqK_ablngWaIzQq14bQ", "UCSeOo8RomI5odRk99sKoAkg", "UCdjh5RJG1HdL6WTUG9bptsQ", "UCg7Z47vL_8PJV9IGNAlH9JA",
-            "UCTgpzgnUwgmEe3qIlFZgxng", "UCoCOwFS1_-D0lo3DexFpdfw", "UCOWqXBOz_hoBtaqwWN_kaQQ", "UCG461ELAT_eu50sXexb6KUQ"]
+            "UCTgpzgnUwgmEe3qIlFZgxng", "UCoCOwFS1_-D0lo3DexFpdfw", "UCOWqXBOz_hoBtaqwWN_kaQQ", "UCG461ELAT_eu50sXexb6KUQ",
+            "UCEUGxpG2rkyJlCvr46PBr6g"]
 OWNERS = {hashlib.sha1(c.encode()).hexdigest()[:12] for c in CHANNELS}
 UNSAFE = re.compile(r"@\w|https?://|www\.|\bu/\w|\br/\w+/comments", re.I)
 TYPE_NAMES = {"app-reviews": "app review", "forum": "forum", "community": "Reddit", "youtube": "YouTube comment", "qa": "Q&A"}
@@ -68,11 +69,39 @@ def check_quote(store, q, claim):
     return row, {"text": text, "lang": lang, "en": squash(q.get("en") or "") if lang != "en" else ""}
 
 
+def write_claims_digest():
+    """The readers' claims live under git-ignored data/. This keeps what two or more readers said, in
+    words only (no quotes, no counts as shares), so the evidence survives a lost data folder."""
+    path = READ / "groups.json"
+    if not path.exists():
+        return
+    lines = ["# What the readers said", "",
+             "Every claim that two or more of the 23 readers recorded independently, grouped in code",
+             "(`apps/research/pipeline/group_claims.py`, threshold 0.87; a few groups mix neighbouring ideas).",
+             "One line per group: readers · source types (CardsChat not counted) · languages, then the claim",
+             "as its strongest reader worded it. `rg` = responsible-gambling ground: never a hook. Groups with",
+             "one source type are leads. Written by `pipeline/synth.py`; do not edit by hand.", ""]
+    for g in json.loads(path.read_text(encoding="utf-8")):
+        if len(g["readers"]) < 2:
+            continue
+        text = squash(g["claim"])
+        if UNSAFE.search(text):
+            continue
+        flags = (" · rg" if g["rg"] else "") + ("" if g["two_types"] else " · lead")
+        lines.append(f"- {len(g['readers'])} readers · {', '.join(g['source_types']) or 'forum (CardsChat only)'} · "
+                     f"{', '.join(g['langs']) or 'en'}{flags}: {text}")
+    (OUT / "claims.md").write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+
+
 def main():
     spec = json.loads((ROOT / "findings.json").read_text(encoding="utf-8"))
     by_reader = claims_by_reader()
     store = Store(DB)
     findings, quote_lines, quote_map, problems = [], [], {}, []
+    published = {}
+    if (OUT / "quotes.md").exists():
+        for m in re.finditer(r'^- \*\*(Q-[A-Z0-9]+-\d+)\*\* \([^)]*\) "(.*?)"(?: — EN: ".*")?$', (OUT / "quotes.md").read_text(encoding="utf-8"), re.M):
+            published[m.group(1)] = m.group(2)
     for f in spec["findings"]:
         claims = []
         for ref in f["refs"]:
@@ -93,7 +122,7 @@ def main():
                 if not isinstance(q, dict):
                     continue
                 row, res = check_quote(store, q, c)
-                if row is not None:
+                if row is not None and not any(w.lower() in res["text"].lower() for w in f.get("exclude", [])):
                     cands.append((row, res))
         # Prefer voices outside CardsChat, then spread across source types, then short.
         # the author of findings.json may name the quotes that say it best (substrings in "prefer").
@@ -113,8 +142,14 @@ def main():
                 seen_types.add(t)
                 seen_n.add(row[0])
         qids = []
-        for i, (row, res) in enumerate(picked, 1):
-            qid = f"Q-{f['id']}-{i}"
+        # Ids are sticky: a quote keeps the id it was first published under; new picks take the next number.
+        mine = {t: q for q, t in published.items() if q.startswith(f"Q-{f['id']}-")}
+        top = max([int(q.rsplit("-", 1)[1]) for q in mine.values()] or [0])
+        for row, res in picked:
+            qid = mine.get(res["text"])
+            if qid is None:
+                top += 1
+                qid = f"Q-{f['id']}-{top}"
             qids.append(qid)
             quote_map[qid] = {"n": row[0], "source": row[1]}
             where = f"{TYPE_NAMES[source_type(row[1])]} · {res['lang']} · {(row[3] or '')[:7] or 'n.d.'}"
@@ -137,6 +172,7 @@ def main():
             "the channel owner's own reply. Written by `apps/research/pipeline/synth.py`; do not edit by hand.\n"
             "Format: id (source type · language · month) \"quote\" — EN: translation when not English.\n\n")
     (OUT / "quotes.md").write_text(head + "\n".join(quote_lines) + "\n", encoding="utf-8", newline="\n")
+    write_claims_digest()
     (ROOT / "data" / "quote-map.json").write_text(json.dumps(quote_map, indent=1), encoding="utf-8")
     for f in findings:
         print(f"{f['id']:10} {f['status']:7} r{len(f['readers'])} {','.join(t[:3] for t in f['source_types'])} "

@@ -44,6 +44,13 @@ test("usernames, handles and comment permalinks fail", () => {
   assert.match(errorsWith((f) => (f.study += " https://youtube.com/watch?v=abc&lc=Ugx123")).join(), /YouTube comment permalink/);
 });
 
+test("a 'tried' cell needs a quote id or stays empty", () => {
+  const row = (tried) => `| T01 | problem | Low | belief | myth | ${tried} | Q-ACES-1 |`;
+  assert.deepEqual(errorsWith((f) => (f.topics = row(""))), []);
+  assert.deepEqual(errorsWith((f) => (f.topics = row("Slow-playing them Q-ACES-1"))), []);
+  assert.match(errorsWith((f) => (f.topics = row("Being patient"))).join(), /"tried" has no quote id/);
+});
+
 test("non-Latin text stays out of the pack", () => {
   assert.match(errorsWith((f) => (f.pack += " 運氣")).join(), /non-Latin/);
 });

@@ -91,7 +91,8 @@ r/Poker_Theory, GipsyTeam, Poker Académie; most of THEORY.
     (bots, the site's RNG, favoured streamers). Many rigged stories are FOLLOW misreadings.
   - **WHY** missed its strongest motives: a job would kill it, the home game, quitting after a loss.
   - **PROS** splits: recreational players admire personality; the studying edge trusts teachers.
-  - **Reach figures above are topic sizes**, two to seven times the real size of each theme.
+  - **Reach figures above are topic sizes.** Most overstate the theme, some two to seven times
+    (FOLLOW, CALL); BLUFF and ROLL were accurate.
   - **GipsyTeam** is closer to the edge profile than to regulars; **r/Poker_Theory** is where
     beginners ask where to start.
   - No theme fits comments about the creator and the video itself; filed under PROS or FOLLOW.

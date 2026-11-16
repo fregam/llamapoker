@@ -88,7 +88,7 @@ Format: id (source type · language · month) "quote" — EN: translation when n
 - **Q-RULES-3** (forum · en · 2026-05) "When I'm getting close to making it into the money, I slowroll, and I don't mind if other players do the same."
 - **Q-WHYPLAY-1** (Reddit · en · 2025-11) "I'm just a recreational player, but I really love poker. And nothing will ruin a love like turning it into a job."
 - **Q-WHYPLAY-2** (Reddit · en · 2026-01) "The home game is the reason I love poker as much as I do."
-- **Q-WHYPLAY-3** (YouTube comment · en · 2026-02) "I lost $200, when I was a student. I’ve had PTSD ever since. I only watched poker now."
+- **Q-WHYPLAY-4** (YouTube comment · en · 2026-03) "I only really play poker with friends and I’m happy to keep it that way."
 - **Q-APPQUIT-1** (app review · en · 2026-07) "99% popups, 1% poker"
 - **Q-APPQUIT-2** (forum · ru · 2026-08) "Мисскликнул на ривере и случайно жмакнул колл." — EN: "Misclicked on the river and accidentally hit call."
 - **Q-APPQUIT-3** (app review · en · 2026-09) "i blinked and missed my turn. The game only gives me like 3 or 4 seconds per turn to make a decision."

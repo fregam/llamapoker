@@ -19,3 +19,9 @@ of them leads), `quotes.md` (105 verified quotes), `study.md`, `findings.json` (
 leads). Written from `apps/research/findings.json` by `pipeline/synth.py`. The check passes.
 Open: the founder reads `study.md`; about 290,000 late r/poker comments are not loaded; Spanish /
 Latin America has no finding of its own.
+
+After review (2026-11-16): beliefs are tagged myth / can't verify / half-true (a script never says an
+app is fair or rigged); `tried` cells cite a quote or stay empty and the check enforces it; quote ids
+are sticky across reruns; `claims.md` keeps every claim two or more readers made; `study.md` has a
+question-by-question table: 11 of 14 questions meet the two-source-types bar ("what they tried",
+"trigger moments" and part of "who they follow" do not), and there is no US section.
