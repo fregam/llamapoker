@@ -24,7 +24,8 @@ TIMES = [0, 0.5, 1, 2, 3, 5]
 
 def sampled(limit=None):
     con = sqlite3.connect(DB)
-    q = "select shortcode, permalink from reels where sampled in ('outlier','ordinary') order by username, timestamp"
+    q = ("select shortcode, permalink, caption from reels where sampled in ('outlier','ordinary') "
+         "order by username, timestamp")
     rows = con.execute(q).fetchall()
     return rows[:limit] if limit else rows
 
@@ -39,10 +40,14 @@ def cuts_in_first(path: Path, seconds=5, threshold=0.3) -> int:
 def media(limit=None):
     import yt_dlp  # system python
     done = 0
-    for code, url in sampled(limit):
+    for code, url, caption in sampled(limit):
         d = OUT / code
         meta = d / "layers.json"
         if meta.exists():
+            info = json.loads(meta.read_text(encoding="utf-8"))
+            if "caption_first_line" not in info and "error" not in info:
+                info["caption_first_line"] = (caption or "").strip().split("\n")[0][:200]
+                meta.write_text(json.dumps(info, indent=2, ensure_ascii=False), encoding="utf-8")
             continue
         d.mkdir(parents=True, exist_ok=True)
         video = d / "reel.mp4"
@@ -59,7 +64,8 @@ def media(limit=None):
             subprocess.run([FFMPEG, "-hide_banner", "-loglevel", "error", "-y", "-ss", str(t), "-i", str(video),
                             "-frames:v", "1", "-vf", "scale=540:-2", "-q:v", "3", str(d / f"f_{t}.jpg")])
         info = {"shortcode": code, "url": url, "frames": [f"f_{t}.jpg" for t in TIMES if (d / f"f_{t}.jpg").exists()],
-                "cuts_first_5s": cuts_in_first(video)}
+                "cuts_first_5s": cuts_in_first(video),
+                "caption_first_line": (caption or "").strip().split("\n")[0][:200]}
         meta.write_text(json.dumps(info, indent=2), encoding="utf-8")
         done += 1
         print(f"{code}: {len(info['frames'])} frames, {info['cuts_first_5s']} cuts")

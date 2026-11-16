@@ -123,7 +123,9 @@ def _call(fields: str):
                 time.sleep(300 * (attempt + 1))
                 continue
             return {"error": err.get("message", str(e))}
-    return {"error": "rate limited four times"}
+        except (urllib.error.URLError, TimeoutError, ConnectionError):  # network blip: wait and retry
+            time.sleep(30 * (attempt + 1))
+    return {"error": "rate limited or unreachable four times"}
 
 
 MEDIA = "media_product_type,timestamp,like_count,comments_count,view_count,permalink,caption"
@@ -158,8 +160,8 @@ def cmd_fetch(usernames: list[str], source: str):
     con = connect()
     for u in usernames:
         u = u.strip().lstrip("@").lower()
-        if not u:
-            continue
+        if not u or con.execute("select 1 from accounts where username = ?", (u,)).fetchone():
+            continue  # already checked (delete its row to refetch)
         account, got = fetch_account(u)
         if account is None:
             con.execute("insert or replace into accounts (username, source, checked, note) values (?,?,?,?)",
