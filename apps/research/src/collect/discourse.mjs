@@ -80,10 +80,16 @@ const cats = {};
 const site = await getJson('/site.json');
 for (const c of site?.categories || []) cats[c.id] = c.slug;
 
-// 1) Topic list back to the cutoff.
+// 1) Topic list back to the cutoff: the global /latest, then each category's own listing
+// (categories muted by default never show up in the global one).
+const listings = ['/latest.json'];
+for (const c of site?.categories || []) {
+  const parent = c.parent_category_id ? cats[c.parent_category_id] + '/' : '';
+  listings.push(`/c/${parent}${c.slug}/${c.id}/l/latest.json`);
+}
 const topics = new Map();
-for (let page = 0; ; page++) {
-  const j = await getJson(`/latest.json?no_definitions=true&page=${page}`);
+for (const listing of listings) for (let page = 0; ; page++) {
+  const j = await getJson(`${listing}?no_definitions=true&page=${page}`);
   const list = j?.topic_list?.topics || [];
   let inWindow = 0;
   for (const t of list) {
@@ -93,7 +99,7 @@ for (let page = 0; ; page++) {
       topics.set(t.id, { id: t.id, slug: t.slug, title: t.title, category: cats[t.category_id] ?? null });
     }
   }
-  console.log(`${slug} latest page ${page}: ${list.length} topics, ${inWindow} in window (total ${topics.size})`);
+  console.log(`${slug} ${listing} page ${page}: ${list.length} topics, ${inWindow} in window (total ${topics.size})`);
   if (!list.length || !inWindow || !j.topic_list.more_topics_url) break;
   await sleep(SLEEP_MS);
 }
@@ -123,7 +129,7 @@ for (const t of topics.values()) {
   const threadUrl = `${BASE}/t/${j.slug || t.slug}/${t.id}`;
   const lines = [];
   for (const p of posts) {
-    if (p.post_type && p.post_type !== 1) continue; // skip moderator actions / whispers
+    if (p.post_type === 3 || p.post_type === 4) continue; // skip small actions (closed, pinned) and whispers; 2 = staff-coloured post, real text
     if (new Date(p.created_at).getTime() < CUTOFF) continue;
     const id = `${t.id}-${p.id}`;
     if (seen.has(id)) continue;

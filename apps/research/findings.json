@@ -1,0 +1,724 @@
+{
+ "about": "Hand-written synthesis of the 23 readers' claims (ticket 08). Each finding names the reader claims behind it (reader|claim id, in data/read/<reader>/findings.json). pipeline/synth.py resolves them, applies the two-source-types rule, verifies the quotes against the store and writes content/research/audience/. Segments: app = free-chip app player, low = home game / live or online low stakes, edge = starting to study, viewer = watches poker clips, may not play.",
+ "findings": [
+  {
+   "id": "RIG1",
+   "kind": "belief",
+   "segments": [
+    "app"
+   ],
+   "say": "The app makes me lose so I'll buy chips; if you don't pay you don't win.",
+   "refs": [
+    "RIG|RIG-01",
+    "RIG|RIG-03",
+    "RIG|RIG-56",
+    "RIG|RIG-39",
+    "NOTOPIC|NOTOPIC-01",
+    "LANG-it|IT-01",
+    "LANG-it|IT-02",
+    "LANG-ru|RU-03"
+   ],
+   "prefer": [
+    "difference is huge",
+    "si no compras"
+   ]
+  },
+  {
+   "id": "RIG2",
+   "kind": "belief",
+   "segments": [
+    "app",
+    "low"
+   ],
+   "say": "An algorithm decides whose turn it is to win; the deal isn't random.",
+   "refs": [
+    "RIG|RIG-05",
+    "RIG|RIG-13",
+    "NOTOPIC|NOTOPIC-02",
+    "LANG-ru|RU-34",
+    "APP|APP-07",
+    "FOLLOW|FOLLOW-11"
+   ],
+   "prefer": [
+    "when the algorithm says"
+   ]
+  },
+  {
+   "id": "RIG3",
+   "kind": "belief",
+   "segments": [
+    "app"
+   ],
+   "say": "I'm not playing people: the table is bots and fake accounts.",
+   "refs": [
+    "RIG|RIG-07",
+    "RIG|RIG-29",
+    "NOTOPIC|NOTOPIC-03",
+    "LANG-ru|RU-02",
+    "APP|APP-24",
+    "TABLE|TABLE-31"
+   ],
+   "prefer": [
+    "unless the bot intends"
+   ]
+  },
+  {
+   "id": "RIG4",
+   "kind": "belief",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "Real-money sites are rigged too: bots, an 'action' deal, favoured streamers.",
+   "refs": [
+    "RIG|RIG-23",
+    "LANG-ru|RU-35",
+    "LANG-de|LANG-de-03",
+    "LANG-fr|FR-52"
+   ]
+  },
+  {
+   "id": "RIG5",
+   "kind": "behaviour",
+   "segments": [
+    "app"
+   ],
+   "say": "Believers change how they play to fit the imagined algorithm: stop after a winning run, fold big hands as 'traps'.",
+   "refs": [
+    "RIG|RIG-18",
+    "RIG|RIG-19",
+    "RIG|RIG-71"
+   ],
+   "prefer": [
+    "win good 3 days in a row",
+    "whenever i move up"
+   ],
+   "lead": true
+  },
+  {
+   "id": "ACES",
+   "kind": "belief",
+   "segments": [
+    "app",
+    "low",
+    "viewer"
+   ],
+   "say": "My aces always get cracked; they never win.",
+   "refs": [
+    "PAIRS|PAIRS-02",
+    "PAIRS|PAIRS-09",
+    "PAIRS|PAIRS-37",
+    "PAIRS|PAIRS-01",
+    "RIG|RIG-16",
+    "LANG-fr|FR-14",
+    "LANG-it|IT-24",
+    "LANG-ru|RU-10"
+   ],
+   "prefer": [
+    "wins you a little or loses you a lot",
+    "always get cracked by some",
+    "j'en perd 8/10"
+   ]
+  },
+  {
+   "id": "AKJJ",
+   "kind": "belief",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "Ace-king is the hand I lose the most with; pocket jacks are cursed.",
+   "refs": [
+    "PAIRS|PAIRS-06",
+    "PAIRS|PAIRS-05",
+    "LANG-de|LANG-de-11",
+    "LANG-ko|KO-22",
+    "PAIRS|PAIRS-24"
+   ],
+   "prefer": [
+    "lots of promise",
+    "when i have qq"
+   ]
+  },
+  {
+   "id": "LUCK",
+   "kind": "belief",
+   "segments": [
+    "app",
+    "low",
+    "viewer"
+   ],
+   "say": "Better to be lucky than good: luck beats skill, so playing by the book is pointless.",
+   "refs": [
+    "LUCK|LUCK-10",
+    "LANG-it|IT-66",
+    "LANG-zh|ZH-07",
+    "LANG-de|LANG-de-09",
+    "LUCK|LUCK-11",
+    "NOTOPIC|NOTOPIC-40",
+    "LUCK|LUCK-24"
+   ],
+   "prefer": [
+    "destined to lose",
+    "lucky than good"
+   ]
+  },
+  {
+   "id": "NOBLUFF",
+   "kind": "belief",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "Never bluff at low stakes: nobody folds, you can't bluff a calling station.",
+   "refs": [
+    "BLUFF|BLUFF-01",
+    "BLUFF|BLUFF-02",
+    "BLUFF|BLUFF-46",
+    "LANG-ru|RU-52",
+    "FOLD|FOLD-24",
+    "LANG-de|LANG-de-47",
+    "LANG-fr|FR-12"
+   ],
+   "prefer": [
+    "fold button",
+    "can't bluff a station"
+   ]
+  },
+  {
+   "id": "BIGBET",
+   "kind": "belief",
+   "segments": [
+    "edge"
+   ],
+   "say": "At low stakes a big river bet is never a bluff: they always have it.",
+   "refs": [
+    "BLUFF|BLUFF-09",
+    "THEORY|THEORY-39",
+    "LANG-fr|FR-11",
+    "FOLD|FOLD-20"
+   ],
+   "prefer": [
+    "strong bets are usually value"
+   ]
+  },
+  {
+   "id": "GTO",
+   "kind": "belief",
+   "segments": [
+    "edge"
+   ],
+   "say": "GTO is useless at my stakes; teach me the game I actually play.",
+   "refs": [
+    "THEORY|THEORY-26",
+    "LEARN|LEARN-21",
+    "LANG-fr|FR-24",
+    "LANG-de|LANG-de-22"
+   ],
+   "prefer": [
+    "can't play gto against"
+   ]
+  },
+  {
+   "id": "NOTGAMBLE",
+   "kind": "belief",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "Poker isn't gambling, and I can't explain why to my family.",
+   "refs": [
+    "LUCK|LUCK-14",
+    "LUCK|LUCK-25",
+    "LANG-fr|FR-37",
+    "LANG-ko|KO-28",
+    "NOTOPIC|NOTOPIC-56"
+   ],
+   "prefer": [
+    "slots are all luck",
+    "skill game with unavoidable"
+   ]
+  },
+  {
+   "id": "BINGO",
+   "kind": "pain",
+   "segments": [
+    "app",
+    "low"
+   ],
+   "say": "Free tables are 'bingo': everyone shoves any two cards, so real poker is impossible there.",
+   "refs": [
+    "RIG|RIG-40",
+    "RIG|RIG-77",
+    "LUCK|LUCK-03",
+    "NOTOPIC|NOTOPIC-05",
+    "TABLE|TABLE-01",
+    "ROLL|ROLL-03",
+    "APP|APP-45",
+    "LANG-de|LANG-de-04",
+    "LANG-it|IT-23",
+    "CALL|CALL-15"
+   ],
+   "prefer": [
+    "bingo every hand"
+   ]
+  },
+  {
+   "id": "BOARD",
+   "kind": "pain",
+   "segments": [
+    "app",
+    "viewer"
+   ],
+   "say": "I can't tell which hand wins: the board plays, kickers, split pots, what beats what.",
+   "refs": [
+    "FOLLOW|FOLLOW-04",
+    "FOLLOW|FOLLOW-01",
+    "FOLLOW|FOLLOW-02",
+    "THEORY|THEORY-15",
+    "RIG|RIG-35",
+    "LEARN|LEARN-15",
+    "LANG-ru|RU-11",
+    "FOLLOW|FOLLOW-22"
+   ],
+   "prefer": [
+    "pair of 2 can be stronger",
+    "out kicked",
+    "how did he win"
+   ]
+  },
+  {
+   "id": "EXPLAIN",
+   "kind": "ask",
+   "segments": [
+    "viewer",
+    "app"
+   ],
+   "say": "Can someone explain what happened? The words are a wall.",
+   "refs": [
+    "FOLLOW|FOLLOW-08",
+    "FOLLOW|FOLLOW-19",
+    "NOTOPIC|NOTOPIC-12",
+    "THEORY|THEORY-51",
+    "LANG-de|LANG-de-06",
+    "LANG-fr|FR-34",
+    "LEARN|LEARN-55",
+    "LANG-de|LANG-de-21"
+   ],
+   "prefer": [
+    "not fluent in poker",
+    "explain"
+   ]
+  },
+  {
+   "id": "RESULT",
+   "kind": "ask",
+   "segments": [
+    "low",
+    "edge",
+    "viewer"
+   ],
+   "say": "Did I play it badly or was I just unlucky? They judge a play by how it ended.",
+   "refs": [
+    "CALL|CALL-01",
+    "CALL|CALL-03",
+    "CALL|CALL-27",
+    "CALL|CALL-35",
+    "CALL|CALL-12",
+    "THEORY|THEORY-09",
+    "LANG-fr|FR-17",
+    "LUCK|LUCK-13",
+    "THEORY|THEORY-23",
+    "LANG-de|LANG-de-17",
+    "LANG-ru|RU-12"
+   ],
+   "prefer": [
+    "88% chance",
+    "just unlucky",
+    "he won didn't he"
+   ]
+  },
+  {
+   "id": "CANTFOLD",
+   "kind": "pain",
+   "segments": [
+    "low",
+    "app"
+   ],
+   "say": "I know I'm beat but I can't let go: I call just to see what they had.",
+   "refs": [
+    "FOLD|FOLD-06",
+    "BLUFF|BLUFF-08",
+    "FOLD|FOLD-05",
+    "NOTOPIC|NOTOPIC-33",
+    "LANG-fr|FR-51",
+    "FOLD|FOLD-62",
+    "LANG-it|IT-87"
+   ],
+   "prefer": [
+    "annual bluff",
+    "we all want to fold"
+   ]
+  },
+  {
+   "id": "BORED",
+   "kind": "pain",
+   "segments": [
+    "low",
+    "app"
+   ],
+   "say": "Folding is boring, and the hand I folded always hits; when the cards go dead I force something.",
+   "refs": [
+    "FOLD|FOLD-09",
+    "FOLD|FOLD-01",
+    "LUCK|LUCK-16",
+    "NOTOPIC|NOTOPIC-24",
+    "MIND|MIND-06",
+    "LUCK|LUCK-39"
+   ],
+   "prefer": [
+    "folded 73 off"
+   ]
+  },
+  {
+   "id": "START",
+   "kind": "ask",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "Where do I start, and what does 'study' even mean? Give me a few simple rules.",
+   "refs": [
+    "LEARN|LEARN-08",
+    "LEARN|LEARN-59",
+    "LANG-de|LANG-de-24",
+    "LANG-fr|FR-26",
+    "LANG-ru|RU-117",
+    "ROLL|ROLL-35"
+   ],
+   "prefer": [
+    "people always say",
+    "don't know where to start"
+   ]
+  },
+  {
+   "id": "MYSTAKES",
+   "kind": "pain",
+   "segments": [
+    "low"
+   ],
+   "say": "YouTube 'low stakes' isn't my low stakes: I play a $20-60 home game or freerolls.",
+   "refs": [
+    "ROLL|ROLL-16",
+    "ROLL|ROLL-37",
+    "LEARN|LEARN-21",
+    "ROLL|ROLL-01",
+    "WHY|WHY-14"
+   ],
+   "prefer": [
+    "my idea and your idea"
+   ]
+  },
+  {
+   "id": "YOYO",
+   "kind": "pain",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "I know the bankroll rule and break it: build a little, jump up, back to zero.",
+   "refs": [
+    "ROLL|ROLL-10",
+    "ROLL|ROLL-07",
+    "ROLL|ROLL-08",
+    "LANG-ru|RU-57",
+    "LANG-zh|ZH-10"
+   ],
+   "prefer": [
+    "broke back to zero"
+   ]
+  },
+  {
+   "id": "LIMP",
+   "kind": "ask",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "Why fold before the flop if nobody raised? And the charts don't cover a table where six people limp.",
+   "refs": [
+    "THEORY|THEORY-63",
+    "THEORY|THEORY-01",
+    "THEORY|THEORY-11"
+   ],
+   "prefer": [
+    "there are no bad hands"
+   ]
+  },
+  {
+   "id": "MOCKED",
+   "kind": "pain",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "Ask a question or post a hand and you get 'fold pre', 'go study', 'you suck'.",
+   "refs": [
+    "THEORY|THEORY-22",
+    "THEORY|THEORY-34",
+    "CALL|CALL-18",
+    "CALL|CALL-08",
+    "LEARN|LEARN-49",
+    "LANG-it|IT-76"
+   ],
+   "prefer": [
+    "you're cooked",
+    "you suck"
+   ]
+  },
+  {
+   "id": "STILLLOSE",
+   "kind": "trigger",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "I watched the videos and still lost, to friends who barely know the game.",
+   "refs": [
+    "LEARN|LEARN-53",
+    "LEARN|LEARN-48",
+    "LEARN|LEARN-31",
+    "THEORY|THEORY-40"
+   ],
+   "prefer": [
+    "little brother",
+    "solver told me"
+   ]
+  },
+  {
+   "id": "REVIEW",
+   "kind": "pain",
+   "segments": [
+    "low",
+    "edge"
+   ],
+   "say": "I'm told to review my hands, but I don't know which hand to look at or how to tell a mistake from bad luck.",
+   "refs": [
+    "LEARN|LEARN-35",
+    "LEARN|LEARN-22",
+    "LEARN|LEARN-07",
+    "LANG-ru|RU-101"
+   ],
+   "prefer": [
+    "which hands should be analyzed"
+   ]
+  },
+  {
+   "id": "FREECHIPS",
+   "kind": "behaviour",
+   "segments": [
+    "app"
+   ],
+   "say": "Real-money poker is banned or out of reach, so the free app is my casino and my practice.",
+   "refs": [
+    "WHERE|W04",
+    "WHERE|W09",
+    "WHY|WHY-11",
+    "APP|APP-09",
+    "LUCK|LUCK-18",
+    "LEARN|LEARN-09"
+   ],
+   "prefer": [
+    "banned in my state"
+   ]
+  },
+  {
+   "id": "RULES",
+   "kind": "ask",
+   "segments": [
+    "low",
+    "viewer"
+   ],
+   "say": "Table rules nobody taught me: who shows first, mucking, run it twice, verbal bets, slow roll.",
+   "refs": [
+    "TABLE|TABLE-15",
+    "TABLE|TABLE-36",
+    "TABLE|TABLE-26",
+    "TABLE|TABLE-09",
+    "TABLE|TABLE-16",
+    "ROLL|ROLL-33",
+    "TABLE|TABLE-04"
+   ],
+   "prefer": [
+    "bad etiquette",
+    "not a chop if you muck"
+   ]
+  },
+  {
+   "id": "WHYPLAY",
+   "kind": "behaviour",
+   "segments": [
+    "low",
+    "app"
+   ],
+   "say": "Poker is my hobby and my home game; making it a job would kill it.",
+   "refs": [
+    "WHY|WHY-01",
+    "WHY|WHY-02",
+    "WHY|WHY-14",
+    "WHY|WHY-15",
+    "APP|APP-12",
+    "APP|APP-22",
+    "WHERE|W36"
+   ],
+   "prefer": [
+    "turning it into a job",
+    "home game is the reason"
+   ]
+  },
+  {
+   "id": "APPQUIT",
+   "kind": "pain",
+   "segments": [
+    "app"
+   ],
+   "say": "What makes me quit an app: pop-ups in the middle of a hand, crashes, an update that changes everything.",
+   "refs": [
+    "APP|APP-04",
+    "APP|APP-05",
+    "APP|APP-20",
+    "LANG-it|IT-20",
+    "LANG-ru|RU-07",
+    "LANG-ru|RU-06",
+    "TABLE|TABLE-22",
+    "LUCK|LUCK-05"
+   ],
+   "prefer": [
+    "99% popups",
+    "last straw"
+   ]
+  },
+  {
+   "id": "VOTE",
+   "kind": "format",
+   "segments": [
+    "viewer",
+    "low",
+    "edge"
+   ],
+   "say": "A fold-or-call spot before the reveal makes viewers post their own answer.",
+   "refs": [
+    "FOLD|FOLD-28",
+    "FOLD|FOLD-19",
+    "LANG-ko|KO-04",
+    "LANG-it|IT-34",
+    "LANG-fr|FR-07",
+    "LANG-de|LANG-de-19"
+   ],
+   "prefer": [
+    "call or fold?",
+    "i would have folded"
+   ]
+  },
+  {
+   "id": "ALOUD",
+   "kind": "format",
+   "segments": [
+    "low",
+    "edge",
+    "viewer"
+   ],
+   "say": "They learn most from someone thinking out loud through a hand, folds and losses included.",
+   "refs": [
+    "LEARN|LEARN-25",
+    "LANG-zh|ZH-06",
+    "PROS|PROS-01",
+    "LANG-fr|FR-08",
+    "LANG-it|IT-75"
+   ],
+   "prefer": [
+    "narrated film"
+   ]
+  },
+  {
+   "id": "ERRORS",
+   "kind": "format",
+   "segments": [
+    "viewer"
+   ],
+   "say": "One wrong card graphic or unexplained number and the comments are about the error.",
+   "refs": [
+    "FOLLOW|FOLLOW-10",
+    "FOLLOW|FOLLOW-09",
+    "LANG-ko|KO-29",
+    "FOLLOW|FOLLOW-06"
+   ],
+   "prefer": [
+    "two 7 of diamonds"
+   ],
+   "lead": true
+  },
+  {
+   "id": "PREDICT",
+   "kind": "format",
+   "segments": [
+    "viewer"
+   ],
+   "say": "Viewers now expect the aces to lose in a clip: it's no longer a surprise.",
+   "refs": [
+    "PAIRS|PAIRS-44"
+   ]
+  },
+  {
+   "id": "CREATOR",
+   "kind": "follow",
+   "segments": [
+    "low",
+    "edge",
+    "viewer"
+   ],
+   "say": "They trust a creator's teaching and distrust the sponsor; real numbers earn loyalty.",
+   "refs": [
+    "LANG-fr|FR-09",
+    "LANG-fr|FR-27",
+    "NOTOPIC|NOTOPIC-07",
+    "RIG|RIG-58",
+    "LANG-it|IT-44",
+    "LANG-zh|ZH-19"
+   ],
+   "prefer": [
+    "the way they sell it",
+    "winamax"
+   ]
+  },
+  {
+   "id": "TERMS",
+   "kind": "term",
+   "segments": [
+    "app",
+    "low",
+    "viewer"
+   ],
+   "say": "Their words: cracked, bingo, run good / run bad, fish and donkey, calling station, card dead, the algorithm, hero call.",
+   "refs": [
+    "PAIRS|PAIRS-09",
+    "RIG|RIG-77",
+    "LUCK|LUCK-33",
+    "NOTOPIC|NOTOPIC-28",
+    "LANG-fr|FR-06",
+    "BLUFF|BLUFF-53",
+    "PROS|PROS-25",
+    "CALL|CALL-23",
+    "BLUFF|BLUFF-46",
+    "LUCK|LUCK-39",
+    "RIG|RIG-13",
+    "BLUFF|BLUFF-48"
+   ],
+   "prefer": [
+    "never bluff a donkey",
+    "bingo",
+    "cracked"
+   ]
+  }
+ ]
+}

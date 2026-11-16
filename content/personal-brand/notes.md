@@ -543,3 +543,16 @@ lesson, and a hook line that could open the post.
   freerolls". Members are rewarded for posting, so they post filler.
 - **Lesson:** before trusting what a community says, find out what it gets for saying it.
 - **Hook:** "35,000 forum posts looked like perfect customer research. Then I found out why they were written."
+
+## 2026-11-16: The biggest theme in the data shrank to a tenth when someone read it
+
+- **Choice:** rank what the audience believes by how many independent readers, source types and
+  languages agree, and publish no counts as "share of the audience".
+- **Rejected:** the topic sizes from the clustering. They said 15,900 people "can't follow the
+  hand" and made it the top theme.
+- **What happened:** 23 agents read 31,000 comments in batches. The reader of that theme found 13%
+  of its items were actually about it. Every theme was overstated two to seven times: the clusters
+  had grouped short sentences that merely shared a word. What survived was smaller and sharper:
+  viewers who lose with "the better hand" because they compare two cards and miss the five that play.
+- **Lesson:** a cluster is a pile of similar sentences, not a belief. Count after reading, never before.
+- **Hook:** "My data said 15,900 people had one problem. Then 23 readers checked. It was 13% of that."

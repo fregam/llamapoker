@@ -87,6 +87,11 @@
      3,023 candidates; collectors in `apps/research/src/collect/` pulled 12 months of reviews, forum
      posts, Reddit and YouTube comments (300k+ items, r/poker comments still running) into a local
      store (`apps/research/pipeline/`). Next: topic pass, codebook, reading to saturation, script pack.
+   - 2026-11-16: **audience research phase 1 written.** 23 readers read 31,000 of 379,000 items;
+     30 findings and 5 leads in `content/research/audience/` (`pack.md` for script agents,
+     `topics.md` with 22 reel ideas, `quotes.md`, `study.md` for the founder). `npm run check`
+     passes. Next: founder reads `study.md`, then the script-stage grill; phase 2 (TikTok,
+     Instagram) later.
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".

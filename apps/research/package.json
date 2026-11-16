@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test test/*.test.mjs",
+    "test": "node --test test/*.test.mjs && py -3.11 -m unittest discover -s pipeline -p \"test_*.py\"",
+    "check": "node src/check.mjs",
     "score": "node src/score-sources.mjs ../../.scratch/audience-research/sources"
   }
 }

@@ -78,3 +78,20 @@ r/Poker_Theory, GipsyTeam, Poker Académie; most of THEORY.
 ## Changes
 
 - 2026-11-15: first version, from topic pass 2.
+- 2026-11-16, after the reading (23 readers, 31,000 items):
+  - **New theme BINGO:** tables where everyone shoves any two cards (free chips, freerolls). Nine
+    readers found it; it is about how others play, so it is neither RIG nor APP.
+  - **BLUFF was framed backwards.** The talk is "never bluff at low stakes, nobody folds" and "a big
+    bet is never a bluff"; the confessed leak is calling because "he must be bluffing".
+  - **THEORY is not mostly regulars.** Among items that backed a claim: 649 edge, 345 rec, 37 reg.
+  - **The regulars rule failed** in every reader and language: jargon spreads faster than skill, and
+    German, Korean, French and Italian players use terms the list lacks. Tag by what people say about
+    themselves; publish no rec/edge/reg split.
+  - **RIG is two audiences:** free-chip reviewers (drained to sell chips) and real-money players
+    (bots, the site's RNG, favoured streamers). Many rigged stories are FOLLOW misreadings.
+  - **WHY** missed its strongest motives: a job would kill it, the home game, quitting after a loss.
+  - **PROS** splits: recreational players admire personality; the studying edge trusts teachers.
+  - **Reach figures above are topic sizes**, two to seven times the real size of each theme.
+  - **GipsyTeam** is closer to the edge profile than to regulars; **r/Poker_Theory** is where
+    beginners ask where to start.
+  - No theme fits comments about the creator and the video itself; filed under PROS or FOLLOW.

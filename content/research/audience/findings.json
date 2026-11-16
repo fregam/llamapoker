@@ -1,0 +1,1106 @@
+[
+ {
+  "id": "RIG1",
+  "kind": "belief",
+  "segments": [
+   "app"
+  ],
+  "say": "The app makes me lose so I'll buy chips; if you don't pay you don't win.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "forum"
+  ],
+  "languages": [
+   "en",
+   "it",
+   "ru"
+  ],
+  "readers": [
+   "LANG-it",
+   "LANG-ru",
+   "NOTOPIC",
+   "RIG"
+  ],
+  "sources": 9,
+  "quotes": [
+   "Q-RIG1-1",
+   "Q-RIG1-2",
+   "Q-RIG1-3"
+  ]
+ },
+ {
+  "id": "RIG2",
+  "kind": "belief",
+  "segments": [
+   "app",
+   "low"
+  ],
+  "say": "An algorithm decides whose turn it is to win; the deal isn't random.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "ru"
+  ],
+  "readers": [
+   "APP",
+   "FOLLOW",
+   "LANG-ru",
+   "NOTOPIC",
+   "RIG"
+  ],
+  "sources": 18,
+  "quotes": [
+   "Q-RIG2-1",
+   "Q-RIG2-2",
+   "Q-RIG2-3"
+  ]
+ },
+ {
+  "id": "RIG3",
+  "kind": "belief",
+  "segments": [
+   "app"
+  ],
+  "say": "I'm not playing people: the table is bots and fake accounts.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "ru"
+  ],
+  "readers": [
+   "APP",
+   "LANG-ru",
+   "NOTOPIC",
+   "RIG",
+   "TABLE"
+  ],
+  "sources": 15,
+  "quotes": [
+   "Q-RIG3-1",
+   "Q-RIG3-2",
+   "Q-RIG3-3"
+  ]
+ },
+ {
+  "id": "RIG4",
+  "kind": "belief",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "Real-money sites are rigged too: bots, an 'action' deal, favoured streamers.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "fr",
+   "ru"
+  ],
+  "readers": [
+   "LANG-de",
+   "LANG-fr",
+   "LANG-ru",
+   "RIG"
+  ],
+  "sources": 12,
+  "quotes": [
+   "Q-RIG4-1",
+   "Q-RIG4-2",
+   "Q-RIG4-3"
+  ]
+ },
+ {
+  "id": "RIG5",
+  "kind": "behaviour",
+  "segments": [
+   "app"
+  ],
+  "say": "Believers change how they play to fit the imagined algorithm: stop after a winning run, fold big hands as 'traps'.",
+  "status": "lead",
+  "source_types": [
+   "app-reviews",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "RIG"
+  ],
+  "sources": 12,
+  "quotes": [
+   "Q-RIG5-1",
+   "Q-RIG5-2",
+   "Q-RIG5-3"
+  ]
+ },
+ {
+  "id": "ACES",
+  "kind": "belief",
+  "segments": [
+   "app",
+   "low",
+   "viewer"
+  ],
+  "say": "My aces always get cracked; they never win.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "fr",
+   "it",
+   "ru"
+  ],
+  "readers": [
+   "LANG-fr",
+   "LANG-it",
+   "LANG-ru",
+   "PAIRS",
+   "RIG"
+  ],
+  "sources": 22,
+  "quotes": [
+   "Q-ACES-1",
+   "Q-ACES-2",
+   "Q-ACES-3"
+  ]
+ },
+ {
+  "id": "AKJJ",
+  "kind": "belief",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "Ace-king is the hand I lose the most with; pocket jacks are cursed.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "ko"
+  ],
+  "readers": [
+   "LANG-de",
+   "LANG-ko",
+   "PAIRS"
+  ],
+  "sources": 13,
+  "quotes": [
+   "Q-AKJJ-1",
+   "Q-AKJJ-2",
+   "Q-AKJJ-3"
+  ]
+ },
+ {
+  "id": "LUCK",
+  "kind": "belief",
+  "segments": [
+   "app",
+   "low",
+   "viewer"
+  ],
+  "say": "Better to be lucky than good: luck beats skill, so playing by the book is pointless.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "it",
+   "zh"
+  ],
+  "readers": [
+   "LANG-de",
+   "LANG-it",
+   "LANG-zh",
+   "LUCK",
+   "NOTOPIC"
+  ],
+  "sources": 15,
+  "quotes": [
+   "Q-LUCK-1",
+   "Q-LUCK-2",
+   "Q-LUCK-3"
+  ]
+ },
+ {
+  "id": "NOBLUFF",
+  "kind": "belief",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "Never bluff at low stakes: nobody folds, you can't bluff a calling station.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "fr",
+   "ru"
+  ],
+  "readers": [
+   "BLUFF",
+   "FOLD",
+   "LANG-de",
+   "LANG-fr",
+   "LANG-ru"
+  ],
+  "sources": 14,
+  "quotes": [
+   "Q-NOBLUFF-1",
+   "Q-NOBLUFF-2",
+   "Q-NOBLUFF-3"
+  ]
+ },
+ {
+  "id": "BIGBET",
+  "kind": "belief",
+  "segments": [
+   "edge"
+  ],
+  "say": "At low stakes a big river bet is never a bluff: they always have it.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "fr"
+  ],
+  "readers": [
+   "BLUFF",
+   "FOLD",
+   "LANG-fr",
+   "THEORY"
+  ],
+  "sources": 11,
+  "quotes": [
+   "Q-BIGBET-1",
+   "Q-BIGBET-2",
+   "Q-BIGBET-3"
+  ]
+ },
+ {
+  "id": "GTO",
+  "kind": "belief",
+  "segments": [
+   "edge"
+  ],
+  "say": "GTO is useless at my stakes; teach me the game I actually play.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "fr"
+  ],
+  "readers": [
+   "LANG-de",
+   "LANG-fr",
+   "LEARN",
+   "THEORY"
+  ],
+  "sources": 12,
+  "quotes": [
+   "Q-GTO-1",
+   "Q-GTO-2",
+   "Q-GTO-3"
+  ]
+ },
+ {
+  "id": "NOTGAMBLE",
+  "kind": "belief",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "Poker isn't gambling, and I can't explain why to my family.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "fr",
+   "ko"
+  ],
+  "readers": [
+   "LANG-fr",
+   "LANG-ko",
+   "LUCK",
+   "NOTOPIC"
+  ],
+  "sources": 9,
+  "quotes": [
+   "Q-NOTGAMBLE-1",
+   "Q-NOTGAMBLE-2",
+   "Q-NOTGAMBLE-3"
+  ]
+ },
+ {
+  "id": "BINGO",
+  "kind": "pain",
+  "segments": [
+   "app",
+   "low"
+  ],
+  "say": "Free tables are 'bingo': everyone shoves any two cards, so real poker is impossible there.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "it"
+  ],
+  "readers": [
+   "APP",
+   "CALL",
+   "LANG-de",
+   "LANG-it",
+   "LUCK",
+   "NOTOPIC",
+   "RIG",
+   "ROLL",
+   "TABLE"
+  ],
+  "sources": 19,
+  "quotes": [
+   "Q-BINGO-1",
+   "Q-BINGO-2",
+   "Q-BINGO-3"
+  ]
+ },
+ {
+  "id": "BOARD",
+  "kind": "pain",
+  "segments": [
+   "app",
+   "viewer"
+  ],
+  "say": "I can't tell which hand wins: the board plays, kickers, split pots, what beats what.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "ru"
+  ],
+  "readers": [
+   "FOLLOW",
+   "LANG-ru",
+   "LEARN",
+   "RIG",
+   "THEORY"
+  ],
+  "sources": 17,
+  "quotes": [
+   "Q-BOARD-1",
+   "Q-BOARD-2",
+   "Q-BOARD-3"
+  ]
+ },
+ {
+  "id": "EXPLAIN",
+  "kind": "ask",
+  "segments": [
+   "viewer",
+   "app"
+  ],
+  "say": "Can someone explain what happened? The words are a wall.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "fr"
+  ],
+  "readers": [
+   "FOLLOW",
+   "LANG-de",
+   "LANG-fr",
+   "LEARN",
+   "NOTOPIC",
+   "THEORY"
+  ],
+  "sources": 17,
+  "quotes": [
+   "Q-EXPLAIN-1",
+   "Q-EXPLAIN-2",
+   "Q-EXPLAIN-3"
+  ]
+ },
+ {
+  "id": "RESULT",
+  "kind": "ask",
+  "segments": [
+   "low",
+   "edge",
+   "viewer"
+  ],
+  "say": "Did I play it badly or was I just unlucky? They judge a play by how it ended.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "fr",
+   "ru"
+  ],
+  "readers": [
+   "CALL",
+   "LANG-de",
+   "LANG-fr",
+   "LANG-ru",
+   "LUCK",
+   "THEORY"
+  ],
+  "sources": 18,
+  "quotes": [
+   "Q-RESULT-1",
+   "Q-RESULT-2",
+   "Q-RESULT-3"
+  ]
+ },
+ {
+  "id": "CANTFOLD",
+  "kind": "pain",
+  "segments": [
+   "low",
+   "app"
+  ],
+  "say": "I know I'm beat but I can't let go: I call just to see what they had.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "fr",
+   "it"
+  ],
+  "readers": [
+   "BLUFF",
+   "FOLD",
+   "LANG-fr",
+   "LANG-it",
+   "NOTOPIC"
+  ],
+  "sources": 14,
+  "quotes": [
+   "Q-CANTFOLD-1",
+   "Q-CANTFOLD-2",
+   "Q-CANTFOLD-3"
+  ]
+ },
+ {
+  "id": "BORED",
+  "kind": "pain",
+  "segments": [
+   "low",
+   "app"
+  ],
+  "say": "Folding is boring, and the hand I folded always hits; when the cards go dead I force something.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "FOLD",
+   "LUCK",
+   "MIND",
+   "NOTOPIC"
+  ],
+  "sources": 13,
+  "quotes": [
+   "Q-BORED-1",
+   "Q-BORED-2",
+   "Q-BORED-3"
+  ]
+ },
+ {
+  "id": "START",
+  "kind": "ask",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "Where do I start, and what does 'study' even mean? Give me a few simple rules.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "fr",
+   "ru"
+  ],
+  "readers": [
+   "LANG-de",
+   "LANG-fr",
+   "LANG-ru",
+   "LEARN",
+   "ROLL"
+  ],
+  "sources": 13,
+  "quotes": [
+   "Q-START-1",
+   "Q-START-2",
+   "Q-START-3"
+  ]
+ },
+ {
+  "id": "MYSTAKES",
+  "kind": "pain",
+  "segments": [
+   "low"
+  ],
+  "say": "YouTube 'low stakes' isn't my low stakes: I play a $20-60 home game or freerolls.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "LEARN",
+   "ROLL",
+   "WHY"
+  ],
+  "sources": 11,
+  "quotes": [
+   "Q-MYSTAKES-1",
+   "Q-MYSTAKES-2",
+   "Q-MYSTAKES-3"
+  ]
+ },
+ {
+  "id": "YOYO",
+  "kind": "pain",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "I know the bankroll rule and break it: build a little, jump up, back to zero.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "ru",
+   "zh"
+  ],
+  "readers": [
+   "LANG-ru",
+   "LANG-zh",
+   "ROLL"
+  ],
+  "sources": 17,
+  "quotes": [
+   "Q-YOYO-1",
+   "Q-YOYO-2",
+   "Q-YOYO-3"
+  ]
+ },
+ {
+  "id": "LIMP",
+  "kind": "ask",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "Why fold before the flop if nobody raised? And the charts don't cover a table where six people limp.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "THEORY"
+  ],
+  "sources": 10,
+  "quotes": [
+   "Q-LIMP-1",
+   "Q-LIMP-2",
+   "Q-LIMP-3"
+  ]
+ },
+ {
+  "id": "MOCKED",
+  "kind": "pain",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "Ask a question or post a hand and you get 'fold pre', 'go study', 'you suck'.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "it"
+  ],
+  "readers": [
+   "CALL",
+   "LANG-it",
+   "LEARN",
+   "THEORY"
+  ],
+  "sources": 11,
+  "quotes": [
+   "Q-MOCKED-1",
+   "Q-MOCKED-2",
+   "Q-MOCKED-3"
+  ]
+ },
+ {
+  "id": "STILLLOSE",
+  "kind": "trigger",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "I watched the videos and still lost, to friends who barely know the game.",
+  "status": "lead",
+  "source_types": [
+   "community"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "LEARN",
+   "THEORY"
+  ],
+  "sources": 7,
+  "quotes": [
+   "Q-STILLLOSE-1",
+   "Q-STILLLOSE-2",
+   "Q-STILLLOSE-3"
+  ]
+ },
+ {
+  "id": "REVIEW",
+  "kind": "pain",
+  "segments": [
+   "low",
+   "edge"
+  ],
+  "say": "I'm told to review my hands, but I don't know which hand to look at or how to tell a mistake from bad luck.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum"
+  ],
+  "languages": [
+   "en",
+   "ru"
+  ],
+  "readers": [
+   "LANG-ru",
+   "LEARN"
+  ],
+  "sources": 9,
+  "quotes": [
+   "Q-REVIEW-1",
+   "Q-REVIEW-2",
+   "Q-REVIEW-3"
+  ]
+ },
+ {
+  "id": "FREECHIPS",
+  "kind": "behaviour",
+  "segments": [
+   "app"
+  ],
+  "say": "Real-money poker is banned or out of reach, so the free app is my casino and my practice.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "APP",
+   "LEARN",
+   "LUCK",
+   "WHERE",
+   "WHY"
+  ],
+  "sources": 17,
+  "quotes": [
+   "Q-FREECHIPS-1",
+   "Q-FREECHIPS-2",
+   "Q-FREECHIPS-3"
+  ]
+ },
+ {
+  "id": "RULES",
+  "kind": "ask",
+  "segments": [
+   "low",
+   "viewer"
+  ],
+  "say": "Table rules nobody taught me: who shows first, mucking, run it twice, verbal bets, slow roll.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "ROLL",
+   "TABLE"
+  ],
+  "sources": 10,
+  "quotes": [
+   "Q-RULES-1",
+   "Q-RULES-2",
+   "Q-RULES-3"
+  ]
+ },
+ {
+  "id": "WHYPLAY",
+  "kind": "behaviour",
+  "segments": [
+   "low",
+   "app"
+  ],
+  "say": "Poker is my hobby and my home game; making it a job would kill it.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "APP",
+   "WHERE",
+   "WHY"
+  ],
+  "sources": 20,
+  "quotes": [
+   "Q-WHYPLAY-1",
+   "Q-WHYPLAY-2",
+   "Q-WHYPLAY-3"
+  ]
+ },
+ {
+  "id": "APPQUIT",
+  "kind": "pain",
+  "segments": [
+   "app"
+  ],
+  "say": "What makes me quit an app: pop-ups in the middle of a hand, crashes, an update that changes everything.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "forum"
+  ],
+  "languages": [
+   "en",
+   "it",
+   "ru"
+  ],
+  "readers": [
+   "APP",
+   "LANG-it",
+   "LANG-ru",
+   "LUCK",
+   "TABLE"
+  ],
+  "sources": 11,
+  "quotes": [
+   "Q-APPQUIT-1",
+   "Q-APPQUIT-2",
+   "Q-APPQUIT-3"
+  ]
+ },
+ {
+  "id": "VOTE",
+  "kind": "format",
+  "segments": [
+   "viewer",
+   "low",
+   "edge"
+  ],
+  "say": "A fold-or-call spot before the reveal makes viewers post their own answer.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "de",
+   "en",
+   "fr",
+   "it",
+   "ko"
+  ],
+  "readers": [
+   "FOLD",
+   "LANG-de",
+   "LANG-fr",
+   "LANG-it",
+   "LANG-ko"
+  ],
+  "sources": 14,
+  "quotes": [
+   "Q-VOTE-1",
+   "Q-VOTE-2",
+   "Q-VOTE-3"
+  ]
+ },
+ {
+  "id": "ALOUD",
+  "kind": "format",
+  "segments": [
+   "low",
+   "edge",
+   "viewer"
+  ],
+  "say": "They learn most from someone thinking out loud through a hand, folds and losses included.",
+  "status": "lead",
+  "source_types": [
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "fr",
+   "it",
+   "zh"
+  ],
+  "readers": [
+   "LANG-fr",
+   "LANG-it",
+   "LANG-zh",
+   "LEARN",
+   "PROS"
+  ],
+  "sources": 12,
+  "quotes": [
+   "Q-ALOUD-1",
+   "Q-ALOUD-2",
+   "Q-ALOUD-3"
+  ]
+ },
+ {
+  "id": "ERRORS",
+  "kind": "format",
+  "segments": [
+   "viewer"
+  ],
+  "say": "One wrong card graphic or unexplained number and the comments are about the error.",
+  "status": "lead",
+  "source_types": [
+   "community",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "ko"
+  ],
+  "readers": [
+   "FOLLOW",
+   "LANG-ko"
+  ],
+  "sources": 10,
+  "quotes": [
+   "Q-ERRORS-1",
+   "Q-ERRORS-2",
+   "Q-ERRORS-3"
+  ]
+ },
+ {
+  "id": "PREDICT",
+  "kind": "format",
+  "segments": [
+   "viewer"
+  ],
+  "say": "Viewers now expect the aces to lose in a clip: it's no longer a surprise.",
+  "status": "lead",
+  "source_types": [
+   "youtube"
+  ],
+  "languages": [
+   "en"
+  ],
+  "readers": [
+   "PAIRS"
+  ],
+  "sources": 2,
+  "quotes": [
+   "Q-PREDICT-1",
+   "Q-PREDICT-2",
+   "Q-PREDICT-3"
+  ]
+ },
+ {
+  "id": "CREATOR",
+  "kind": "follow",
+  "segments": [
+   "low",
+   "edge",
+   "viewer"
+  ],
+  "say": "They trust a creator's teaching and distrust the sponsor; real numbers earn loyalty.",
+  "status": "finding",
+  "source_types": [
+   "community",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "fr",
+   "it",
+   "zh"
+  ],
+  "readers": [
+   "LANG-fr",
+   "LANG-it",
+   "LANG-zh",
+   "NOTOPIC",
+   "RIG"
+  ],
+  "sources": 13,
+  "quotes": [
+   "Q-CREATOR-1",
+   "Q-CREATOR-2",
+   "Q-CREATOR-3"
+  ]
+ },
+ {
+  "id": "TERMS",
+  "kind": "term",
+  "segments": [
+   "app",
+   "low",
+   "viewer"
+  ],
+  "say": "Their words: cracked, bingo, run good / run bad, fish and donkey, calling station, card dead, the algorithm, hero call.",
+  "status": "finding",
+  "source_types": [
+   "app-reviews",
+   "community",
+   "forum",
+   "youtube"
+  ],
+  "languages": [
+   "en",
+   "fr"
+  ],
+  "readers": [
+   "BLUFF",
+   "CALL",
+   "LANG-fr",
+   "LUCK",
+   "NOTOPIC",
+   "PAIRS",
+   "PROS",
+   "RIG"
+  ],
+  "sources": 22,
+  "quotes": [
+   "Q-TERMS-1",
+   "Q-TERMS-2",
+   "Q-TERMS-3"
+  ]
+ }
+]
