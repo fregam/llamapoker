@@ -1,7 +1,7 @@
 """Tests for the hook corpus (spec: .scratch/hook-dissection/spec.md). Run: python -m unittest discover apps/reels/scripts/hooks"""
 import unittest
 
-from corpus import classify
+from corpus import classify, sample
 
 
 def reel(code, views, likes=100, comments=5, caption="", ts="2026-11-01T00:00:00+0000"):
@@ -50,6 +50,31 @@ class Funnels(unittest.TestCase):
     def test_a_normal_question_in_the_caption_is_not_a_funnel(self):
         reels = [reel(f"o{i}", 40_000) for i in range(9)] + [reel("q", 300_000, caption="What would you do? Tell me in the comments")]
         self.assertFalse(flags(reels)["q"][1])
+
+
+class Sample(unittest.TestCase):
+    def test_each_real_outlier_gets_one_ordinary_twin_closest_in_date(self):
+        reels = [reel(f"o{d}", 40_000, ts=f"2026-10-{d:02d}T00:00:00+0000") for d in range(1, 21)]
+        reels += [reel("hit", 400_000, ts="2026-10-10T12:00:00+0000")]
+        picked = sample(classify(reels))
+        self.assertEqual(picked["hit"], "outlier")
+        twins = [k for k, v in picked.items() if v == "ordinary"]
+        self.assertEqual(len(twins), 1)
+        self.assertIn(twins[0], {"o10", "o11"})
+
+    def test_funnel_outliers_are_kept_apart_and_get_no_twin(self):
+        reels = [reel(f"o{d}", 40_000, ts=f"2026-10-{d:02d}T00:00:00+0000") for d in range(1, 21)]
+        reels += [reel("f", 400_000, caption="Comment GUIDE below", ts="2026-10-10T12:00:00+0000")]
+        picked = sample(classify(reels))
+        self.assertEqual(picked, {"f": "funnel"})
+
+    def test_a_twin_is_typical_not_a_flop_or_a_near_hit(self):
+        reels = [reel(f"o{d}", 40_000, ts=f"2026-10-{d:02d}T00:00:00+0000") for d in range(1, 21)]
+        reels += [reel("flop", 2_000, ts="2026-10-10T11:00:00+0000"), reel("near", 150_000, ts="2026-10-10T13:00:00+0000"),
+                  reel("hit", 400_000, ts="2026-10-10T12:00:00+0000")]
+        twins = [k for k, v in sample(classify(reels)).items() if v == "ordinary"]
+        self.assertNotIn("flop", twins)
+        self.assertNotIn("near", twins)
 
 
 if __name__ == "__main__":

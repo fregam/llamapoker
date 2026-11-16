@@ -2,6 +2,7 @@
 Spec: .scratch/hook-dissection/spec.md. Token and ids: credentials.json -> instagram (memory: instagram-api).
 
     python corpus.py fetch <username>... [--source swipe|poker|explainers|craft|stories]
+    python corpus.py sample        marks every real outlier, one ordinary twin each, and funnels apart
     python corpus.py summary
 
 Store: data/corpus.sqlite (git-ignored). An outlier has >= 100k views and >= 5x its account's median
@@ -45,6 +46,28 @@ def classify(reels: list[dict]) -> list[dict]:
         c_ratio = (r["comments"] or 0) / max(r["likes"] or 0, 1)
         r["funnel"] = bool(FUNNEL_CAPTION.search(r.get("caption") or "")) or c_ratio > max(0.2, 5 * norm)
     return reels
+
+
+def _when(ts: str) -> float:
+    return time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+
+
+def sample(reels: list[dict]) -> dict:
+    """{shortcode: 'outlier' | 'ordinary' | 'funnel'} for one account's classified reels.
+    Each real outlier gets one ordinary twin (0.5x-2x the median), the closest in date; funnel
+    outliers are kept apart (their reach came from a CTA) and get no twin."""
+    picked = {}
+    typical = [r for r in reels if not r["outlier"] and not r["funnel"] and 0.5 <= r["ratio"] <= 2.0]
+    for r in sorted((r for r in reels if r["outlier"]), key=lambda r: r["timestamp"]):
+        if r["funnel"]:
+            picked[r["shortcode"]] = "funnel"
+            continue
+        picked[r["shortcode"]] = "outlier"
+        free = [t for t in typical if t["shortcode"] not in picked]
+        if free:
+            twin = min(free, key=lambda t: abs(_when(t["timestamp"]) - _when(r["timestamp"])))
+            picked[twin["shortcode"]] = "ordinary"
+    return picked
 
 
 # ---------- store ----------
@@ -152,6 +175,19 @@ def cmd_fetch(usernames: list[str], source: str):
         time.sleep(3)
 
 
+def cmd_sample():
+    con = connect()
+    con.execute("update reels set sampled = null")
+    users = [u for (u,) in con.execute("select distinct username from reels")]
+    for u in users:
+        rows = con.execute("select shortcode, timestamp, ratio, outlier, funnel from reels where username = ?", (u,)).fetchall()
+        reels = [{"shortcode": s, "timestamp": t, "ratio": r, "outlier": bool(o), "funnel": bool(f)} for s, t, r, o, f in rows]
+        for code, kind in sample(reels).items():
+            con.execute("update reels set sampled = ? where shortcode = ?", (kind, code))
+    con.commit()
+    print(dict(con.execute("select sampled, count(*) from reels where sampled is not null group by 1").fetchall()))
+
+
 def cmd_summary():
     con = connect()
     a = con.execute("select count(*), sum(note like 'error%') from accounts").fetchone()
@@ -165,5 +201,7 @@ if __name__ == "__main__":
         src = args[args.index("--source") + 1] if "--source" in args else "swipe"
         names = [a for i, a in enumerate(args) if a != "--source" and (i == 0 or args[i - 1] != "--source")]
         cmd_fetch(names, src)
+    elif sys.argv[1] == "sample":
+        cmd_sample()
     else:
         cmd_summary()
