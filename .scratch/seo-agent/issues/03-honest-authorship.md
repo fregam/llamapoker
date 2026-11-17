@@ -1,7 +1,9 @@
 # 03 Honest authorship on the guides
 
-Status: needs-info
-Waits on: the founder's answer to the spec's open question (whose name).
+Status: ready-for-human
+Answered 2026-11-17: the founder's real name. Built in PR #41 (byline, dates, `/about`, Person
+author, tests); waits for the founder to read the visible text and merge. The method note became
+a link to `/about`, because one guide's frequencies are standard published figures, not engine output.
 
 Each guide says who wrote it, when it was last changed and how its numbers are made, on the page
 and in its structured data. Nothing fabricated: the Gentleman is never an author.

@@ -1,6 +1,6 @@
 # Spec: the SEO agent
 
-Status: needs-info (one open question, at the end; tickets 01 and 02 do not wait on it)
+Status: ready-for-agent (the open question was answered 2026-11-17: the founder's real name)
 Founder's brief, 2026-11-17: "the goal for the SEO agent is to have our site be continuously
 highly ranked"; then: "first page on Google in the shortest amount of time possible and I want it
 to stay there"; "do the necessary for it to be able to run unattended". Four reference reels,
