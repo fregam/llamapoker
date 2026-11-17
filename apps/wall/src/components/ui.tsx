@@ -34,7 +34,7 @@ export function Seg({ value, digits = 6, className = "", fit }: { value: number 
     return () => ro.disconnect();
   }, [fit, digits]);
   return (
-    <span ref={ref} className={`seg ${className}`} style={size ? { fontSize: size } : undefined} aria-label={value === null ? "no data" : String(value)}>
+    <span ref={ref} className={`seg ${className}${value === null ? " nodata" : ""}`} style={size ? { fontSize: size } : undefined} aria-label={value === null ? "no data" : String(value)}>
       {[...text].map((ch, i) => (
         <span className="cell" key={i}>
           <i aria-hidden>8</i>

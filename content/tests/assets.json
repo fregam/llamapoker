@@ -2135,6 +2135,105 @@
       "path": "media/tests/2026-11-17_video-references/outputs/ref_DfTmTeQJEOi.words.json",
       "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
       "bytes": 2
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/after_wall_amber.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/after_wall_amber.png",
+      "source": "headless Chrome screenshot of apps/wall (branch wall/design-polish), an invented busy day with nothing red, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "3df43de54e9b3e6f6ceb3669268f8b477313b4d60352ce3f3d170ba7ebee8ba5",
+      "bytes": 276556,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy-1366.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy-1366.png",
+      "source": "headless Chrome screenshot of apps/wall (branch wall/design-polish), an invented busy day, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "2dfd68301db054d659b9796356797955de5545ec44980cc4c3c4be25f9c0cef6",
+      "bytes": 198755,
+      "width": 1366,
+      "height": 768
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy-phone.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy-phone.png",
+      "source": "headless Chrome screenshot of apps/wall (branch wall/design-polish), an invented busy day, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "fe6cb2333915667695a7aafc6c41109d0e0358ca6c8fadf59d5d35ee2552e269",
+      "bytes": 155683,
+      "width": 500,
+      "height": 2400
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy-wallmode.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy-wallmode.png",
+      "source": "headless Chrome screenshot of apps/wall (branch wall/design-polish), an invented busy day, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "1d6cee694025d4897a6cbaca1a0dac8541c6830b3fae3805a86aefe00e611719",
+      "bytes": 607803,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/after_wall_busy.png",
+      "source": "headless Chrome screenshot of apps/wall (branch wall/design-polish), an invented busy day, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "067dbb2d7eca808c52466bb29b7f469170096b6259a41fa2c0a598c04e13d904",
+      "bytes": 273010,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/after_wall_real-wallmode.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/after_wall_real-wallmode.png",
+      "source": "headless Chrome screenshot of apps/wall (branch wall/design-polish), the real reading of 2026-11-17, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "d60f3e9691c6b50d65e239145101741794c1bd44067c5532bcee83b10d39b798",
+      "bytes": 541980,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/after_wall_real.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/after_wall_real.png",
+      "source": "headless Chrome screenshot of apps/wall (branch wall/design-polish), the real reading of 2026-11-17, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "92d63e3be55a64610f5c5c1f3efd26a4a2219c3f3790f5bfed078b2535bb7f29",
+      "bytes": 188507,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/before_wall_busy-phone.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/before_wall_busy-phone.png",
+      "source": "headless Chrome screenshot of apps/wall (main at eef1fa0), an invented busy day, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "8027559acdedb2621b8dfb285b978e7fd494e1a6a9b357e30f8ae0c2fa6d4c3e",
+      "bytes": 139044,
+      "width": 500,
+      "height": 2400
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/before_wall_busy-wallmode.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/before_wall_busy-wallmode.png",
+      "source": "headless Chrome screenshot of apps/wall (main at eef1fa0), an invented busy day, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "1472d2719c7e24a4aed3f1d3343e30c2aaa5a8e00b1eac8fc621760c0ea32b06",
+      "bytes": 628772,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/before_wall_busy.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/before_wall_busy.png",
+      "source": "headless Chrome screenshot of apps/wall (main at eef1fa0), an invented busy day, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "d86867e475ec967556f24e67035171641186cfe912d5891f9aee48a54f2b5af7",
+      "bytes": 261528,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "media/tests/2026-11-17_wall-look/outputs/before_wall_real.png",
+      "path": "media/tests/2026-11-17_wall-look/outputs/before_wall_real.png",
+      "source": "headless Chrome screenshot of apps/wall (main at eef1fa0), the real reading of 2026-11-17, served by apps/wall/scripts/look-preview.mjs",
+      "sha256": "009ac8ec7f934a56cfed29fc6909cb268e1a596f1a70f1c416670d53e3d94913",
+      "bytes": 134781,
+      "width": 1920,
+      "height": 1080
     }
   ]
 }
