@@ -108,6 +108,8 @@ src/
     Privacy.tsx         /privacy — what's stored (keep true when adding analytics/cookies)
     NotFound.tsx        404 page for unknown URLs
     PlayTool.tsx        "The Table" — the live tool (3-column, one-screen layout)
+    TrainerPage.tsx     /trainer: mounts Trainer in the browser over a prerendered placeholder, with a written guide
+                        below (the drills, how answers are graded); this is what search engines read
     Trainer.tsx         Five drills, grading, shot clock, session + all-time stats and leaks; compact signup after an answer
     Strategy.tsx        Static content: the rules the tool applies
     Glossary.tsx        Static content: definitions and formulas
@@ -246,8 +248,8 @@ Hotkeys are ignored while focus is in an input or select.
   on route change (`<main key={page}>`). `App` updates `document.title` and the description.
 - **Prerender.** `npm run build` renders every `prerender: true` route to HTML via
   `entry-server.tsx` and writes `dist/<route>.html` (no trailing-slash redirect on Cloudflare) with that route's title, description,
-  Open Graph tags and canonical URL. The Trainer is random on every load, so it ships as an
-  empty shell with meta. Prerendered markup carries `data-path` on `#root`; when it matches the
+  Open Graph tags and canonical URL. The Trainer is random on every load, so `TrainerPage`
+  prerenders a placeholder and a written guide and mounts the app after hydration. Prerendered markup carries `data-path` on `#root`; when it matches the
   URL, `main.tsx` **hydrates** it (`hydrateRoot`, after seeding the router's server snapshot with
   the real path), so the server HTML stays on screen instead of being painted a second time
   after the bundle runs.

@@ -5,8 +5,9 @@
  * all of it into each page's HTML, plus the sitemap).
  * Titles and descriptions target what people actually search ("poker odds calculator",
  * "poker positions explained", "online poker helper"…) — keep that when editing.
- * `prerender: true` pages are rendered to full HTML; the Trainer is random on every load,
- * so it ships as an empty shell with the right meta.
+ * `prerender: true` pages are rendered to full HTML. The Trainer is random on every load, so its
+ * page (views/TrainerPage.tsx) prerenders a placeholder plus a written guide and mounts the app
+ * in the browser.
  * `schema(site)` returns JSON-LD objects; it receives the absolute site URL ("" when unknown,
  * in which case URL-dependent schema is skipped).
  * Guides carry `published` / `modified` dates and a named author (AUTHOR); both are shown on the
@@ -152,7 +153,7 @@ export const ROUTES: Route[] = [
     title: "Free Poker Trainer — Practice Full Hands, Pot Odds & Outs | LlamaPoker",
     description:
       "Practice poker free: play whole hands against a realistic opponent, drill preflop charts, pot odds and counting outs, beat the shot clock and find your leaks.",
-    prerender: false,
+    prerender: true,
     schema: webApp(
       "LlamaPoker poker trainer",
       "/trainer",
