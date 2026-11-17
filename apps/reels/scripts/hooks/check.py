@@ -19,7 +19,7 @@ WORDS = {w: i for i, w in enumerate(
     "sixteen seventeen eighteen nineteen twenty".split())}
 N = r"(\d+|" + "|".join(WORDS) + r")"
 RATIO = re.compile(rf"\b{N}\s+in\s+{N}\b|\bevery\s+(\d+)\b", re.I)
-RULE_NAME = re.compile(r"\brule of \d\b", re.I)  # "the rule of 4" names a shortcut, it isn't a stat
+RULE_NAME = re.compile(r"\brule of \d\b|\b\d{1,2}-(?:max|handed)\b", re.I)  # "the rule of 4", "6-max": names, not stats
 NUM = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)\s*(%|percent\b)?")
 
 
@@ -93,7 +93,7 @@ def evidence_ids_in(path: Path):
 def main(run: Path) -> int:
     drafts = json.loads((run / "drafts.json").read_text(encoding="utf-8"))
     facts = {f["id"]: f for f in json.loads((run.parent / "facts.json").read_text(encoding="utf-8"))}
-    ev = evidence_ids_in(run.parent / "evidence.md") if run.name == "research" else None
+    ev = evidence_ids_in(run.parent / "evidence.md") if run.name != "control" else None
     results, fails = {}, []
     for h in drafts:
         f = check_hook(h, facts, ev)

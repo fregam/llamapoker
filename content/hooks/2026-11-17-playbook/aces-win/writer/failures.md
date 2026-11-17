@@ -1,0 +1,1 @@
+- **d08** · code/numbers · '20' matches no cited fact · "Aces cracked three times in one session feels impossible. Get aces all in before the flop 20 times against random hands, and losing at least one is 96% likely."

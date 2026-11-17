@@ -54,6 +54,9 @@ class Numbers(unittest.TestCase):
     def test_the_name_of_a_rule_is_not_a_stat(self):
         self.assertEqual(check_hook(hook("The rule of 4 and the rule of 2 both lie.", fact_ids=()), FACTS), [])
 
+    def test_a_table_size_is_not_a_stat(self):
+        self.assertEqual(check_hook(hook("At a 6-max table, or a 9-handed one, folding costs.", fact_ids=()), FACTS), [])
+
     def test_small_counts_in_words_are_not_stats(self):
         self.assertEqual(check_hook(hook("Four hearts. Two cards to come.", fact_ids=()), FACTS), [])
 
