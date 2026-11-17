@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { brought, channelOf, claudeLimits, claudeStation, countAt, departmentOf, joinedSince, results, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
+import { brought, channelOf, claudeLimits, claudeStation, countAt, departmentOf, joinedSince, results, seoThreats, subscribersByDay, threats, withJobs, work, type Facts, type ResultsFacts } from "./derive";
 import type { Job, Station, WallEvent } from "../../src/model";
 
 const sec = (iso: string) => Math.floor(new Date(iso).getTime() / 1000);
@@ -467,5 +467,63 @@ describe("claudeStation", () => {
     });
     expect(claudeStation(claudeLimits(reading("2026-11-11T18:00:00Z"), now), now)).toMatchObject({ state: "idle", message: "no session for 2 h · 5-hour 42% · weekly 18%" });
     expect(claudeStation(claudeLimits([], now), now)).toMatchObject({ state: "nodata", message: "no reading yet: the status line reports while a Claude Code session is open" });
+  });
+});
+
+describe("seoThreats", () => {
+  // `now` is 2026-11-11T20:00Z. A run as apps/seo/scripts/run.mjs posts it: the reading in meta.
+  const run = (ts: string, meta: Record<string, unknown> | null = {}): WallEvent => ({
+    id: "seo-" + ts,
+    ts,
+    kind: "run",
+    station: "seo",
+    meta: meta && { ok: true, indexedPages: ["/", "/table", "/learn/outs"], notIndexedPages: ["/about"], pageOneQueries: ["poker outs chart"], missedQueries: ["pot odds"], ...meta },
+  });
+
+  it("says nothing before the first run has reported", () => {
+    expect(seoThreats(undefined, now)).toEqual([]);
+    expect(seoThreats([], now)).toEqual([]);
+  });
+
+  it("is quiet through a normal week and raises the missing run on the ninth day", () => {
+    expect(seoThreats([run("2026-11-03T07:00:00Z")], now)).toEqual([]); // 8 days and 13 hours
+    const late = seoThreats([run("2026-11-02T19:00:00Z")], now); // 9 days and 1 hour
+    expect(late.map((t) => t.id)).toEqual(["seo:norun"]);
+    expect(late[0]).toMatchObject({ level: "amber", title: "SEO: NO RUN FOR 9 DAYS", detail: "The weekly run last reported on 2026-11-02." });
+  });
+
+  it("counts a failed run as a run that happened: its failure is the station's threat, not silence", () => {
+    expect(seoThreats([run("2026-11-10T07:00:00Z", null), run("2026-10-20T07:00:00Z")], now)).toEqual([]);
+  });
+
+  it("names the pages that left the index and the searches that left page one", () => {
+    const before = run("2026-11-03T07:00:00Z");
+    const latest = run("2026-11-10T07:00:00Z", { indexedPages: ["/", "/learn/pot-odds"], notIndexedPages: ["/about", "/table", "/learn/outs"], pageOneQueries: ["pot odds"], missedQueries: ["poker outs chart"] });
+    const t = seoThreats([before, latest], now); // any order in
+    expect(t.map((x) => x.id)).toEqual(["seo:indexed", "seo:pageone"]);
+    expect(t[0]).toMatchObject({ level: "amber", title: "SEO: 2 PAGES LEFT GOOGLE'S INDEX", detail: "Indexed on 2026-11-03, not on 2026-11-10: /table, /learn/outs." });
+    expect(t[1]).toMatchObject({ level: "amber", title: "SEO: 1 TARGET SEARCH LEFT PAGE ONE", detail: "On page one on 2026-11-03, not on 2026-11-10: poker outs chart." });
+  });
+
+  it("does not call it a loss when one target enters as another holds, or a page leaves the sitemap", () => {
+    const before = run("2026-11-03T07:00:00Z");
+    // /learn/outs is gone from the sitemap and "poker outs chart" from the target list: in neither list now.
+    const latest = run("2026-11-10T07:00:00Z", { indexedPages: ["/", "/table", "/about"], notIndexedPages: [], pageOneQueries: ["pot odds"], missedQueries: [] });
+    expect(seoThreats([latest, before], now)).toEqual([]);
+  });
+
+  it("compares the two newest runs that took a reading, skipping one that failed before it", () => {
+    const before = run("2026-10-27T07:00:00Z");
+    const failed = run("2026-11-03T07:00:00Z", null);
+    const latest = run("2026-11-10T07:00:00Z", { indexedPages: ["/"], notIndexedPages: ["/about", "/table", "/learn/outs"] });
+    expect(seoThreats([latest, failed, before], now).map((x) => x.id)).toEqual(["seo:indexed"]);
+    // and a drop two readings ago is old news once a newer reading holds
+    const steady = run("2026-11-11T07:00:00Z", { indexedPages: ["/"], notIndexedPages: ["/about", "/table", "/learn/outs"] });
+    expect(seoThreats([steady, latest, failed, before], now)).toEqual([]);
+  });
+
+  it("reaches Needs you through threats, below a failed station", () => {
+    const t = threats({ ...base, stations: [{ id: "seo", name: "SEO", state: "failed", message: "the agent step failed" }], seoRuns: [run("2026-10-30T07:00:00Z")] });
+    expect(t.map((x) => x.id).slice(0, 2)).toEqual(["fail:seo", "seo:norun"]);
   });
 });

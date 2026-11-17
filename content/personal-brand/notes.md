@@ -488,3 +488,24 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a hook raises the odds; it doesn't make the hit. Write for the person who doesn't
   follow you, and judge hooks against real pairs of hits and flops, not against a list of moves.
 - **Hook:** "I studied 911 viral reels. The 'proven hook formulas' showed up just as often in the flops."
+
+## 2026-11-17: The agent runs at 07:00. The dashboard is closed at 07:00.
+
+- **Choice:** before putting the SEO agent on the wall, ask what the wall would show the morning
+  after a run nobody watched. The answer was nothing: the run reports to a dashboard that only
+  runs while it is open, and a report to a closed dashboard was silently dropped. So reports now
+  wait in an outbox file and arrive, in order and with their original time, when the wall opens.
+  And the alarm "the weekly run did not happen" is computed by the wall, not sent by the runner.
+- **Rejected:** letting the runner post "I failed" and calling that monitoring. A run that never
+  started, on a PC that was asleep, posts nothing. Silence has to be read by the thing that is
+  still awake. Also rejected: running the real job to test it (it pushes a branch, opens a pull
+  request and spends the Claude plan); the whole run is tested with pretend `git`, `gh` and
+  `claude` on the PATH and a pretend wall.
+- **What happened:** wrapping the run so it shows as a progress trace would have killed it. The
+  wrapper stops any job that prints nothing for 20 minutes, and a headless agent prints nothing
+  until it is done. Checking the schedule turned up more: the command in the README had lost a
+  backslash-r (`scripts\run.mjs` became `scripts`, a carriage return, `un.mjs`), and no scheduled
+  task by that name was visible from a normal shell. Every run so far had been started by hand.
+- **Lesson:** an unattended job has three ways to fail quietly: it never starts, it starts and
+  cannot say so, or the thing built to watch it kills it. Test the morning after, not the run.
+- **Hook:** "My weekly AI agent reported to a dashboard that was closed every time it ran."

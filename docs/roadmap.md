@@ -53,6 +53,14 @@
    Search Console client, the score and the reading, a setup wizard for the access. Next: the
    founder runs the wizard (ticket 01), then every page indexed (02), honest authorship (03), the
    weekly unattended run (04), the wall station (05), links worth having (06).
+   **Built 2026-11-17, in a pull request (branch `feat/wall-seo`): the agent on the wall** (ticket
+   05): a `seo` station in DEVELOPMENT with the score and the next run, the run as a `job` trace
+   (`apps/seo/scripts/weekly.mjs` is what the scheduled task starts now), one `run` event per run,
+   the pull request as a card in Needs you that clears when it is merged on GitHub, and threats
+   read on the wall's side (no run for 9 days, a page left the index, a target left page one).
+   With it, for every unattended job: reports made while the wall is closed wait in an outbox and
+   arrive when it opens (`apps/wall/scripts/wall-outbox.mjs`). Left: the founder registers the
+   task with the new command.
 
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.

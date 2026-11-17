@@ -106,6 +106,7 @@ export interface Facts {
   ceiling: number | null;
   errors: string[];
   claude?: ClaudeLimits;
+  seoRuns?: WallEvent[]; // the SEO agent's newest `run` events (station seo), any order
 }
 
 const CLAUDE_WINDOWS = [
@@ -163,6 +164,66 @@ function claudeThreats(c: ClaudeLimits | undefined): Threat[] {
       detail: w.resetsAt ? `Resets at ${utcTime(w.resetsAt)}.` : "",
       fix: hit ? "Queue the work for after the reset, or move it to a cheaper model." : "Save the long runs for after the reset; keep this window for small tasks.",
     });
+  }
+  return out;
+}
+
+/** A weekly run that has not reported for this many days did not happen (a week, plus two days of grace). */
+export const SEO_SILENT_DAYS = 9;
+
+const strings = (v: unknown): string[] | null => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : null);
+const list = (items: string[]) => (items.length > 4 ? `${items.slice(0, 4).join(", ")} and ${items.length - 4} more` : items.join(", "));
+
+/**
+ * What only the wall can say about the SEO agent, from its `run` events (apps/seo/scripts/run.mjs
+ * posts one per run, with the reading in `meta`): the weekly run did not happen, a page left
+ * Google's index, a target search left page one. A dead runner cannot report its own silence, so
+ * these are read here, never posted. A failed run is the station's own red threat.
+ */
+export function seoThreats(runs: WallEvent[] | undefined, now: Date): Threat[] {
+  const sorted = [...(runs ?? [])].sort((a, b) => b.ts.localeCompare(a.ts));
+  if (!sorted.length) return [];
+  const out: Threat[] = [];
+  const silent = Math.floor(hours(sorted[0].ts, now) / 24);
+  if (silent >= SEO_SILENT_DAYS)
+    out.push({
+      id: "seo:norun",
+      level: "amber",
+      weight: 62,
+      title: `SEO: NO RUN FOR ${silent} DAYS`,
+      detail: `The weekly run last reported on ${day(sorted[0].ts)}.`,
+      fix: 'Check the scheduled task "LlamaPoker SEO agent" (Task Scheduler) and that the PC was on, then start it by hand: node apps/seo/scripts/weekly.mjs in the seo-agent worktree.',
+      evidence: sorted[0],
+    });
+  // Only runs that took a reading can be compared; a run that failed before it has no numbers.
+  const [latest, before] = sorted.filter((e) => strings(e.meta?.indexedPages) && strings(e.meta?.pageOneQueries));
+  if (latest && before) {
+    const has = (e: WallEvent, key: string) => new Set(strings(e.meta?.[key]) ?? []);
+    // Left = was in, and is now reported out. A page dropped from the sitemap, or a search dropped
+    // from the target list, is in neither of the newest lists and is not a loss.
+    const pages = [...has(before, "indexedPages")].filter((p) => has(latest, "notIndexedPages").has(p));
+    const searches = [...has(before, "pageOneQueries")].filter((q) => has(latest, "missedQueries").has(q));
+    const evidence = { latest, before };
+    if (pages.length)
+      out.push({
+        id: "seo:indexed",
+        level: "amber",
+        weight: 64,
+        title: `SEO: ${pages.length} PAGE${pages.length > 1 ? "S" : ""} LEFT GOOGLE'S INDEX`,
+        detail: `Indexed on ${day(before.ts)}, not on ${day(latest.ts)}: ${list(pages)}.`,
+        fix: "Inspect each one in Search Console (URL inspection) for the reason; this week's SEO report should name it too.",
+        evidence,
+      });
+    if (searches.length)
+      out.push({
+        id: "seo:pageone",
+        level: "amber",
+        weight: 63,
+        title: `SEO: ${searches.length} TARGET SEARCH${searches.length > 1 ? "ES" : ""} LEFT PAGE ONE`,
+        detail: `On page one on ${day(before.ts)}, not on ${day(latest.ts)}: ${list(searches)}.`,
+        fix: "Read this week's SEO report (content/seo/reports/) for the position and what the agent did about it.",
+        evidence,
+      });
   }
   return out;
 }
@@ -287,6 +348,7 @@ export function threats(f: Facts): Threat[] {
   if (f.subscribers !== null && f.delta7 === 0 && f.sends > 0)
     out.push({ id: "flat", level: "cyan", weight: 20, title: "SUBSCRIBERS FLAT 7 DAYS", detail: "No growth this week.", fix: "Look at which channel went quiet in Results." });
   out.push(...claudeThreats(f.claude));
+  out.push(...seoThreats(f.seoRuns, f.now));
   return out.sort((a, b) => b.weight - a.weight);
 }
 
