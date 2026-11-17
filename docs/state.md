@@ -92,7 +92,15 @@ the end. Last update: 2026-11-17 (SEO agent started).
 
 ## Waiting on the founder
 
-- **SEO, 2026-11-17 later:** the wizard ran and the key works. Baseline reading: 3 of 13 pages
+- **SEO, 2026-11-17 night:** PRs #40 (agent), #41 (byline, dates, `/about`) and #42 (Trainer text)
+  merged by the founder's word and checked live. After the founder requested indexing by hand:
+  12 of 14 pages indexed (out: `/learn/online-poker-helper`, `/about`). First real run of
+  `apps/seo/scripts/run.mjs`: reading, branch and pull request worked; the agent step hit the
+  Claude 5-hour limit, and the runner wrongly reported success (fixed: a failed agent step now
+  fails the run). Still waiting on the founder: yes or no on `apps/seo/targets.json`; request
+  indexing for `/about` and `/learn/online-poker-helper`; register the weekly task after one
+  clean run.
+- **SEO, 2026-11-17 later (superseded by the line above):** the wizard ran and the key works. Baseline reading: 3 of 13 pages
   indexed, 0 of 18 target searches on page one, 32 impressions. The ten missing pages are "unknown
   to Google" (never crawled); the sitemap is read without errors. Waiting on the founder: merge
   PR #40 (the agent) and PR #41 (byline, dates, About page: read the visible text first); request

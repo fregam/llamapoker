@@ -13,6 +13,14 @@ move, a report is written, and a pull request exists.
   allowlist (no network, no push, no key), the site's checks, push, pull request, wall station.
 - The scheduled-task command, in `apps/seo/README.md`.
 
+## First real run, 2026-11-17
+
+Reading, branch, push and pull request worked. The agent step failed on the Claude plan's 5-hour
+limit and the runner still said "done": fixed, a failed agent step now ends the run failed (exit
+1, station red) with the reading's pull request kept, and a second run on the same day updates
+that day's pull request. The plan limit is a real way for an unattended run to fail: schedule it
+for an hour when nobody is using Claude (Monday 07:00 as proposed).
+
 ## Left
 
 - [ ] First real run, watched: needs ticket 01's key and this branch merged (the run starts from
