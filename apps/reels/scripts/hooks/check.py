@@ -3,7 +3,7 @@
     python check.py <run-dir>      reads drafts.json + ../facts.json (+ ../evidence.md if quote ids)
                                    writes checks.json and a fresh failures.md (the critic appends to it)
 
-A failure is {"hook", "check", "reason"}. Checks: numbers, words, length, quotes.
+A failure is {"hook", "check", "reason"}. Checks: numbers, words, quotes. Truth and brand only; length and structure are craft, judged by the critic.
 
 Numbers: digits are stats and must equal a cited fact's value, rounded as written ("85%" for 85.2).
 A ratio ("1 in 39", "one in three", "every 39 hands") is checked against a percent fact. Small
@@ -69,21 +69,11 @@ BANNED = [
 ]
 MISSPELT_BRAND = re.compile(r"\b(Llama Poker|Llamapoker|llama poker)\b")  # brand/README.md: LlamaPoker
 HANDLE = re.compile(r"\bu/\w+|(?<![\w.])@\w+|\b\S+@\S+\.\w+")
-MAX_WORDS, MAX_PROMISE_WORD = 25, 7
-
-
 def check_words(hook: dict) -> list[dict]:
     line = hook["line"]
     hits = [m.group(0) for p in BANNED for m in [re.search(p, line, re.I)] if m]
     hits += MISSPELT_BRAND.findall(line) + HANDLE.findall(line)
     return [_fail(hook, "words", f"'{h}' is off-brand or a handle") for h in hits[:1]]
-
-
-def check_length(hook: dict) -> list[dict]:
-    n, p = len(hook["line"].split()), hook.get("promise_word") or 99
-    reasons = ([f"{n} words, the cap is {MAX_WORDS}"] if n > MAX_WORDS else []) + \
-              ([f"the promise lands at word {p}, after word {MAX_PROMISE_WORD}"] if p > MAX_PROMISE_WORD else [])
-    return [_fail(hook, "length", "; ".join(reasons))] if reasons else []
 
 
 def check_quotes(hook: dict, evidence_ids) -> list[dict]:
@@ -92,7 +82,7 @@ def check_quotes(hook: dict, evidence_ids) -> list[dict]:
 
 
 def check_hook(hook: dict, facts: dict, evidence_ids=None) -> list[dict]:
-    return (check_numbers(hook, facts) + check_words(hook) + check_length(hook)
+    return (check_numbers(hook, facts) + check_words(hook)
             + check_quotes(hook, evidence_ids))
 
 

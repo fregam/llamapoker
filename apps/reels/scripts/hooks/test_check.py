@@ -72,17 +72,11 @@ class Words(unittest.TestCase):
         self.assertEqual(check_hook(hook("The app isn't rigged.", fact_ids=()), FACTS), [])
 
 
-class Length(unittest.TestCase):
-    def test_the_promise_after_word_seven_fails(self):
-        self.assertEqual(failed(check_hook(hook("Pocket aces.", fact_ids=(), promise_word=8), FACTS)), ["length"])
-
-    def test_more_than_25_words_fails(self):
-        line = " ".join(["fold"] * 26)
-        self.assertEqual(failed(check_hook(hook(line, fact_ids=()), FACTS)), ["length"])
-
-    def test_25_words_with_an_early_promise_passes(self):
-        line = " ".join(["fold"] * 25)
-        self.assertEqual(check_hook(hook(line, fact_ids=(), promise_word=7), FACTS), [])
+class NoCraftLimits(unittest.TestCase):
+    """Length and promise position are craft calls, not checks: they made writers lead with stats."""
+    def test_a_long_hook_with_a_late_promise_passes(self):
+        line = " ".join(["fold"] * 40)
+        self.assertEqual(check_hook(hook(line, fact_ids=(), promise_word=30), FACTS), [])
 
 
 class Quotes(unittest.TestCase):
