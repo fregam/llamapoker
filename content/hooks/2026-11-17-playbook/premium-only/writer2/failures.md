@@ -1,0 +1,1 @@
+- **r11** · code/numbers · '1' matches no cited fact · "Aces, kings, queens or ace-king: 1 hand in 39. The blinds: every orbit."

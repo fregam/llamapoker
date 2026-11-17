@@ -21,8 +21,10 @@ a claim) makes a hook on its own.
 
 ## Hard limits (never broken)
 
-- **True.** Every number is a fact from the topic's `facts.json`, with that fact's conditions.
-  Numbers are optional.
+- **True.** Every claim is true, not only every number: "most of the time", "it was supposed to
+  happen", "that's normal" are claims too. A number is a fact from the topic's `facts.json` with
+  that fact's conditions; a claim in words must follow from those facts or be plain common
+  knowledge at the table. Numbers are optional.
 - **Honest voice.** LlamaPoker explains; it has no wins to brag about and no confessions to make.
   Voice and banned ground: `brand/README.md`. Luck is named only to be denied.
 - **Understanding is the promise.** A hook may name a loss to explain a decision. It never offers
@@ -34,7 +36,9 @@ a claim) makes a hook on its own.
 - One open question per hook, closed by one idea in a reel of about a minute.
 - Sky Tan's ladder is a useful way to sharpen a line: topic → problem → vivid → the thing they
   already tried (villain) → reframe. A hook can be great without climbing it.
-- Spoken English, read aloud at about 2.4 words a second.
+- Spoken English, read aloud at about 2.4 words a second: 12 words take 5 seconds. The hits in
+  the playbook land in their first sentence; a hook whose turn arrives in sentence three has
+  already lost most of the scroll.
 
 ## Run order (one topic, one arm)
 

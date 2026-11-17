@@ -1,0 +1,106 @@
+[
+ {
+  "topic": "premium-only",
+  "pool_id": "p06",
+  "source": "writer2/r01",
+  "line": "You folded all night, finally raised kings, and everyone folded.",
+  "words": 10,
+  "fact_ids": [],
+  "mechanism": "scenario_label",
+  "critic_rank": 4
+ },
+ {
+  "topic": "premium-only",
+  "pool_id": "p10",
+  "source": "writer/d10",
+  "line": "He folds for an hour, then raises, and the whole table folds. They didn't read his cards. They read his clock.",
+  "words": 21,
+  "fact_ids": [],
+  "mechanism": "scenario_label",
+  "critic_rank": 1
+ },
+ {
+  "topic": "premium-only",
+  "pool_id": "p29",
+  "source": "writer2/r18",
+  "line": "Ever played four hands in a whole session and called it discipline?",
+  "words": 12,
+  "fact_ids": [],
+  "mechanism": "counterintuitive_claim",
+  "critic_rank": 5
+ },
+ {
+  "topic": "premium-only",
+  "pool_id": "p13",
+  "source": "writer2/r19",
+  "line": "After an hour of folding, your bluff looks exactly like aces.",
+  "words": 11,
+  "fact_ids": [],
+  "mechanism": "counterintuitive_claim",
+  "critic_rank": 6
+ },
+ {
+  "topic": "aces-win",
+  "pool_id": "p31",
+  "source": "writer2/r14",
+  "line": "Year one, you think aces never lose. Year two, you think they always do.",
+  "words": 14,
+  "fact_ids": [],
+  "mechanism": "scenario_label",
+  "critic_rank": 3
+ },
+ {
+  "topic": "aces-win",
+  "pool_id": "p06",
+  "source": "writer2/r01",
+  "line": "Your aces lost to five-two offsuit, and that proves nothing.",
+  "words": 10,
+  "fact_ids": [],
+  "mechanism": "counterintuitive_claim",
+  "critic_rank": 1
+ },
+ {
+  "topic": "aces-win",
+  "pool_id": "p09",
+  "source": "writer2/r03",
+  "line": "If you've never lost an all-in with pocket aces, you haven't had enough of them.",
+  "words": 15,
+  "fact_ids": [
+   "aa-lose-once-in-20"
+  ],
+  "mechanism": "counterintuitive_claim",
+  "critic_rank": 2
+ },
+ {
+  "topic": "aces-win",
+  "pool_id": "p14",
+  "source": "writer2/r05",
+  "line": "Aces all in, he flips jack-ten, river straight. What did you do wrong?",
+  "words": 13,
+  "fact_ids": [],
+  "mechanism": "mid_action_start",
+  "critic_rank": 6
+ },
+ {
+  "topic": "draw-hits",
+  "pool_id": "p27",
+  "source": "writer2/r01",
+  "line": "'My flush draws never hit.' From the flop, seeing both cards, they hit 1 in 3.",
+  "words": 16,
+  "fact_ids": [
+   "flush-river"
+  ],
+  "mechanism": "counterintuitive_claim",
+  "critic_rank": 2
+ },
+ {
+  "topic": "draw-hits",
+  "pool_id": "p08",
+  "source": "writer2/r11",
+  "line": "Top set, all in against a flush draw, and the whole table stands up for the river.",
+  "words": 17,
+  "fact_ids": [],
+  "mechanism": "pending_risk",
+  "critic_rank": 6
+ }
+]

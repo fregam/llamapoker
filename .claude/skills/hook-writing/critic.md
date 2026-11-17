@@ -9,7 +9,7 @@ of hits and flat twins), and the topic's `facts.json`. The drafts come as a file
 
 | Limit | Fails when |
 |---|---|
-| `claim` | A number says more or other than its fact (wrong conditions, wrong population). |
+| `claim` | Any claim, in numbers or in words, says more or other than the facts support: wrong conditions, wrong population, or an unbacked "most of the time", "always", "supposed to happen", "normal". The reel must also be able to answer the question the hook asks from these facts. |
 | `honest` | LlamaPoker couldn't say it truthfully: claimed wins, students, years or results; confessions; luck as an excuse; anything in `brand/README.md`'s banned ground. |
 | `helping` | It offers winning money back, uses a loss as a reason to play more, or pokes at someone who sounds in trouble. |
 

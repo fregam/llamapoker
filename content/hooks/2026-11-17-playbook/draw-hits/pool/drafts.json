@@ -1,0 +1,307 @@
+[
+ {
+  "id": "p01",
+  "line": "Pocket aces, all in on the flop, and two of his suit are already out there. He makes the flush 35% of the time, so why does it feel like he always does?",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "Why does a 35% draw feel like it wins every time?"
+ },
+ {
+  "id": "p02",
+  "line": "There are nine hearts left, your opponent shoves, and everyone at the table tells you to call. Here's what 9 outs actually buy you on the flop: 35% by the river, and only if it's all in.",
+  "fact_ids": [
+   "flush-outs",
+   "flush-river"
+  ],
+  "open_question": "When is a flush draw a call against an all-in?"
+ },
+ {
+  "id": "p03",
+  "line": "Your mate says flush draws are worth chasing every time because they hit all night. Ask him to count: on the flop it's 35% by the river, and 19% on the very next card.",
+  "fact_ids": [
+   "flush-river",
+   "flush-turn"
+  ],
+  "open_question": "Is a flush draw worth chasing, and which number tells you?"
+ },
+ {
+  "id": "p04",
+  "line": "You fold your flush draw to a big bet and the heart comes on the river. Most players call that fold a mistake. Most of the time it's the right one.",
+  "fact_ids": [],
+  "open_question": "How do you tell a good fold from a bad one when the card you wanted comes?"
+ },
+ {
+  "id": "p05",
+  "line": "Every home game has the guy who plays any two suited cards and always gets there. From the flop, with a flush draw, he gets there 35% of the time.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "Why does the suited-cards guy seem to hit more than the maths says?"
+ },
+ {
+  "id": "p06",
+  "line": "The guy who jams every gutshot isn't brave. With two cards to come, he gets there 16% of the time.",
+  "fact_ids": [
+   "gutshot-river"
+  ],
+  "open_question": "When, if ever, is chasing a gutshot worth it?"
+ },
+ {
+  "id": "p07",
+  "line": "A flush draw on its own is not a coin flip. Even all in on the flop, it comes in 1 in 3.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "What changes when you treat a flush draw as 1 in 3 instead of a flip?"
+ },
+ {
+  "id": "p08",
+  "line": "Top set, all in against a flush draw, and the whole table stands up for the river.",
+  "fact_ids": [],
+  "open_question": "How often does that flush actually come in?"
+ },
+ {
+  "id": "p09",
+  "line": "Chasing flushes isn't the leak; paying any price to chase them is.",
+  "fact_ids": [],
+  "open_question": "What price can a flush draw afford to pay?"
+ },
+ {
+  "id": "p10",
+  "line": "You bet tiny with top pair, and the turn brought the flush. That wasn't bad luck; you made the draw cheap.",
+  "fact_ids": [],
+  "open_question": "How big should you bet so a flush draw pays to see the turn?"
+ },
+ {
+  "id": "p11",
+  "line": "Someone bets into your flush draw on the flop. You're not calling for 35%. You're calling for the next card, and that's 19%.",
+  "fact_ids": [
+   "flush-river",
+   "flush-turn"
+  ],
+  "open_question": "Which number should decide a flop call with a flush draw?"
+ },
+ {
+  "id": "p12",
+  "line": "You know the guy who chases every flush because 'they always come in'? From the flop, they come in 1 in 3.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "Why does the guy who chases every flush seem to hit more than the maths says?"
+ },
+ {
+  "id": "p13",
+  "line": "Someone tells you their worst bad beat. Ask one thing: was the draw there on the flop or only on the turn? That detail moves it from 35% to 20%.",
+  "fact_ids": [
+   "flush-river",
+   "flush-turn-to-river"
+  ],
+  "open_question": "How much does it matter which street the draw started on?"
+ },
+ {
+  "id": "p14",
+  "line": "Two hearts in your hand, two on the flop, and the third feels certain. It comes by the river 1 in 3.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "Why does the third heart feel certain when it comes 1 in 3?"
+ },
+ {
+  "id": "p15",
+  "line": "Top pair, two hearts on the flop, you bet tiny, and the turn is a heart. That wasn't bad luck. You sold a 19% shot at a discount.",
+  "fact_ids": [
+   "flush-turn"
+  ],
+  "open_question": "How big should you bet so a flush draw pays to see the turn?"
+ },
+ {
+  "id": "p16",
+  "line": "The river isn't out to get you. It completes a flush draw 1 in 5 times, and those are the ones you remember.",
+  "fact_ids": [
+   "flush-turn-to-river"
+  ],
+  "open_question": "Why do fair rivers feel rigged?"
+ },
+ {
+  "id": "p17",
+  "line": "Calling a flop bet with your flush draw buys one card, not two. That card comes in 1 in 5.",
+  "fact_ids": [
+   "flush-turn"
+  ],
+  "open_question": "Which number should decide a flop call with a flush draw?"
+ },
+ {
+  "id": "p18",
+  "line": "Open-ended straight draw or flush draw: which would you rather shove? The table swears by the flush. With two cards to come it's 31% against 35%.",
+  "fact_ids": [
+   "oesd-river",
+   "flush-river"
+  ],
+  "open_question": "Is the difference between those draws big enough to change your play?"
+ },
+ {
+  "id": "p19",
+  "line": "I hate the words 'I'm chasing till the river.' That's two calls for one flush draw.",
+  "fact_ids": [],
+  "open_question": "What does chasing to the river really cost, street by street?"
+ },
+ {
+  "id": "p20",
+  "line": "The flush draw you jam and the flush draw you call are not the same hand.",
+  "fact_ids": [],
+  "open_question": "Why does a jam see both cards for 1 in 3 while a call buys one card for 1 in 5?"
+ },
+ {
+  "id": "p21",
+  "line": "Open-ended straight flush draw on the flop: 'I'm chasing till the river.' Fine. The river only counts if the turn doesn't price you out first.",
+  "fact_ids": [],
+  "open_question": "When is a draw worth chasing street by street, not all at once?"
+ },
+ {
+  "id": "p22",
+  "line": "Half your table plays a flush draw like it's a coin flip. It's 35%, with two cards to come, and that gap decides every call they make.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "What changes when you treat a flush draw as 35% instead of 50%?"
+ },
+ {
+  "id": "p23",
+  "line": "Your flush draw bricks the turn, and your odds just fell from 1 in 3 to 1 in 5.",
+  "fact_ids": [
+   "flush-river",
+   "flush-turn-to-river"
+  ],
+  "open_question": "What should a missed turn change about how you play the draw?"
+ },
+ {
+  "id": "p24",
+  "line": "Every poker app review says the river is rigged. A flop flush draw gets there 35% of the time, and you remember every one that hit against you.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "Why do fair draws feel rigged?"
+ },
+ {
+  "id": "p25",
+  "line": "The rule of 4 says your flop flush draw is 36%. That's only true if you get to see both cards.",
+  "fact_ids": [
+   "flush-rule-of-4"
+  ],
+  "open_question": "What is your flush draw really worth when the turn brings another bet?"
+ },
+ {
+  "id": "p26",
+  "line": "The river brings the third heart and the player across from you peeks at his cards. Before you read him, know this: from the turn, that flush gets there 20% of the time.",
+  "fact_ids": [
+   "flush-turn-to-river"
+  ],
+  "open_question": "How likely was the flush before the peek told you anything?"
+ },
+ {
+  "id": "p27",
+  "line": "'My flush draws never hit.' From the flop, seeing both cards, they hit 1 in 3.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "If a flush draw hits 1 in 3, why does it feel like never?"
+ },
+ {
+  "id": "p28",
+  "line": "Chasing a gutshot feels like half a flush draw. It's less than half: 16% against 35%, with two cards to come.",
+  "fact_ids": [
+   "gutshot-river",
+   "flush-river"
+  ],
+  "open_question": "Why is a gutshot so much weaker than it feels?"
+ },
+ {
+  "id": "p29",
+  "line": "Next time someone tells you a flush bad beat, ask: flop or turn? A flush draw comes in 1 in 3 from the flop, 1 in 5 from the turn.",
+  "fact_ids": [
+   "flush-river",
+   "flush-turn-to-river"
+  ],
+  "open_question": "How much does the street of the all-in change a bad beat?"
+ },
+ {
+  "id": "p30",
+  "line": "Calling the flop and turn with a flush draw and missing isn't bad luck; it's the usual ending.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "If missing is the usual ending, when is calling a flush draw still right?"
+ },
+ {
+  "id": "p31",
+  "line": "You don't need an odds chart for a flush draw. Count 9 outs, double them, and you get 18%. The real number with one card to come is 19%.",
+  "fact_ids": [
+   "flush-outs",
+   "flush-rule-of-2",
+   "flush-turn"
+  ],
+  "open_question": "How do you turn outs into odds in two seconds?"
+ },
+ {
+  "id": "p32",
+  "line": "If your flush draws never seem to hit, here's the odd part: they miss almost exactly as often as they should.",
+  "fact_ids": [],
+  "open_question": "How often should a flush draw on the flop actually come in?"
+ },
+ {
+  "id": "p33",
+  "line": "Your two pair loses to the river flush, and it feels like it always does.",
+  "fact_ids": [],
+  "open_question": "How often does a flush draw actually get there by the river?"
+ },
+ {
+  "id": "p34",
+  "line": "You fold your flush draw, the river is a heart, and you replay it all week. That card comes 1 in 5; judge the fold on all five.",
+  "fact_ids": [
+   "flush-turn-to-river"
+  ],
+  "open_question": "How do you judge a fold when the card you wanted comes?"
+ },
+ {
+  "id": "p35",
+  "line": "Your flush draw isn't 36%. The rule of 4 rounds up, and it assumes you see both cards.",
+  "fact_ids": [
+   "flush-rule-of-4"
+  ],
+  "open_question": "What is a flush draw really worth when the turn brings another bet?"
+ },
+ {
+  "id": "p36",
+  "line": "Your open-ended straight draw comes in nearly as often as a flush draw.",
+  "fact_ids": [
+   "oesd-river",
+   "flush-river"
+  ],
+  "open_question": "Should you play an open-ender like a flush draw?"
+ },
+ {
+  "id": "p37",
+  "line": "Top set, all in on the turn, against one flush draw. The whole table stands up for the river. That flush comes in 20% of the time.",
+  "fact_ids": [
+   "flush-turn-to-river"
+  ],
+  "open_question": "Why does a 20% river feel like it lands every time?"
+ },
+ {
+  "id": "p38",
+  "line": "Calling two streets for a gutshot buys you 1 in 6.",
+  "fact_ids": [
+   "gutshot-river"
+  ],
+  "open_question": "When is a gutshot worth the calls?"
+ },
+ {
+  "id": "p39",
+  "line": "Three flushes last night, and now you call every flush draw. From the flop, it comes in 1 in 3.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": "How often does a flush draw really come in, and when is it worth the call?"
+ }
+]
