@@ -396,3 +396,18 @@ lesson, and a hook line that could open the post.
 - **Lesson:** rules written before you have results are guesses wearing a uniform. Start from
   examples that already work and a clear goal; keep only the limits you'd never break.
 - **Hook:** "My AI wrote a better hook than the system I built for it. So I deleted the system."
+
+## 2026-11-17 - I stopped generating sounds and bought the shelf
+
+- **Choice:** one sitting with a stock-audio subscription: 251 downloads turned into a library of
+  53 music tracks and 277 effect cuts, each filed by the job it does in a video (tick, deal, fold,
+  stamp, reveal), levelled the same, with the loud moment of every cut measured and written down.
+- **Rejected:** generating each effect with local AI models, one prompt at a time, and searching
+  for a sound every time a video needs one. The search is the slow part, and an agent that can't
+  hear picks badly from a catalogue of a hundred thousand files.
+- **What happened:** the links to download expire after three minutes and the catalogue only
+  talks to the AI one file at a time, so it was hours of small batches. But the video agent used
+  the library on a reel before the library was even finished.
+- **Lesson:** an agent works faster from a small shelf it knows than from a huge store it has to
+  search. Curate once, by role, and measure what it can't hear.
+- **Hook:** "My AI can't hear. So I gave it 300 sounds with the loud part marked on each one."

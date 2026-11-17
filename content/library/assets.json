@@ -21,6 +21,9 @@
     "ba8baf43-0c5c-432e-bf4c-07b173f1e4be": "Reel 001 asset: chip stack",
     "a1379fc2-eadd-4b9d-9116-f3362d47589f": "Reel 001 asset: pocket aces"
   },
+  "ignore": [
+    "media/library/audio"
+  ],
   "assets": [
     {
       "id": "gentleman_turnaround_v01",

@@ -12,7 +12,7 @@
 // Paths in the manifest are relative to the repo root. No dependencies.
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync, statSync, readdirSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -69,8 +69,13 @@ for (const asset of manifest.assets) {
 }
 
 // Every file under the library folder(s) must be listed in the manifest.
-const dirs = new Set(manifest.assets.map((a) => resolve(root, a.path.split("/").slice(0, 2).join("/"))));
-for (const d of dirs) if (existsSync(d)) for (const f of walk(d)) if (!listed.has(f)) problems.push(`unlisted file: ${rel(f)}`);
+// A manifest can own just one folder ("scope") or leave folders to another manifest ("ignore"):
+// content/library/audio.json owns media/library/audio, which content/library/assets.json ignores.
+const dirs = manifest.scope
+  ? new Set([resolve(root, manifest.scope)])
+  : new Set(manifest.assets.map((a) => resolve(root, a.path.split("/").slice(0, 2).join("/"))));
+const ignored = (manifest.ignore ?? []).map((p) => resolve(root, p) + sep);
+for (const d of dirs) if (existsSync(d)) for (const f of walk(d)) if (!listed.has(f) && !ignored.some((p) => f.startsWith(p))) problems.push(`unlisted file: ${rel(f)}`);
 
 if (!check) writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 if (problems.length) { console.error(problems.join("\n")); process.exit(1); }
