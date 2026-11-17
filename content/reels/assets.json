@@ -389,6 +389,42 @@
       "path": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_v04.mp4",
       "sha256": "dadffc767b2f4d51b3f52efc73e67969f4eca0f1d611f1468d280d2f0c1eb441",
       "bytes": 46202029
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-4.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-4.wav",
+      "sha256": "14ae05d635e48adc54871ed266eb38c5c3f888ad2fbfa2e8362ae6bc3f781be5",
+      "bytes": 2252878
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-4.words.json",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-4.words.json",
+      "sha256": "515ee55fe0c5e2615c2f22725701bf498be8da94f9f58422a2303586edd52127",
+      "bytes": 1844
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-4_clean.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-4_clean.wav",
+      "sha256": "620c281b5412ebe13de67d6d50dee0e8f6653e28f41aa254fea8780ceb32ab76",
+      "bytes": 2252878
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-7.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-7.wav",
+      "sha256": "0fefab93b9e171e7993b57f671c40a421532a26f2cbd7dec7348dc64c5e6315e",
+      "bytes": 2611278
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-7.words.json",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_vo-7.words.json",
+      "sha256": "0b7d1f55aff64b7ad9f21d9313823a81ffe2d9ccec8b4e571182ceb81669f657",
+      "bytes": 1870
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_v10.mp4",
+      "path": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_v10.mp4",
+      "sha256": "d9243c39c06569a479394d73fd83c60bc9cd3a7167602e690a65ced93be58f4a",
+      "bytes": 50528518
     }
   ]
 }

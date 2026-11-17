@@ -14,23 +14,28 @@ import { C, H, SANS, SERIF, W } from "../theme";
 
 const MONO = loadMono("normal", { weights: ["400", "500"], subsets: ["latin"] }).fontFamily;
 
-export const ACES_CROWD_FRAMES = 496;
+export const ACES_CROWD_FRAMES = 552;
 
 // ---- the numbers (engine) ----
 const WIN = data.rows.map((r) => r.win); // index 0 = 1 opponent
 const LOSS = [0, ...WIN.slice(0, 5).map((w) => 1 - w)]; // LOSS[k] = share of tiles gone with k callers
 const PCT = WIN.map((w) => Math.round(w * 100));
 
-// ---- timeline (frames, 30 fps) ----
-const HOOK_END = 40;
-const REWIND_END = 78;
-const S = [0, 80, 122, 158, 190, 218]; // S[k] = caller k sits down
-const FLASH = 234;
-const PAYOFF = 300;
-const PAYOFF2 = 342;
-const HEAL = 388;
-const FOLD = [0, 0, 440, 426, 412, 398]; // FOLD[k] = caller k folds (5 first)
-const OUTRO = 466;
+// ---- timeline (frames, 30 fps), set from the voice-over's word times (public/vo/aces-crowd/vo.wav) ----
+const BLAST = 16; // "cracked."
+const AGAIN = 37;
+const HOOK_END = 50;
+const REWIND_END = 84;
+const S = [0, 132, 239, 265, 292, 346]; // S[k] = caller k sits down: "85", "73", "64", "56", "49"
+const EVERY = 178; // "But every extra caller takes a piece"
+const FIVE = 318; // "Five callers?"
+const FLASH = 349;
+const UNDERDOG = 369;
+const PAYOFF = 404;
+const PAYOFF2 = 444;
+const HEAL = 478;
+const FOLD = [0, 0, 508, 499, 490, 481]; // FOLD[k] = caller k folds (5 first)
+const OUTRO = 524;
 const END = ACES_CROWD_FRAMES;
 
 // ---- the card ----
@@ -40,7 +45,8 @@ const PITCH = 8;
 const U = COLS / 50; // the marks below are laid out on a 50-column card
 const CARD_W = COLS * PITCH;
 const CARD_H = ROWS * PITCH;
-const HOME = { x: 540, y: 1086 }; // card centre in the stage layout
+const HOME = { x: 540, y: 1340 };
+const BIG = 1.46; // the card runs off the bottom of the frame: it is the stage, not an object on it // card centre in the stage layout
 const FOCAL = 1700;
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -164,7 +170,7 @@ function flight(t: Tile, f: number): number {
   if (t.stage === 0) return 0;
   if (f < REWIND_END) {
     // the hook: everything five callers will ever take breaks at once, then winds back
-    const out = Math.max(0, Math.min(f, HOOK_END) - (3 + (t.r / LOSS[5]) * 14));
+    const out = Math.max(0, Math.min(f, HOOK_END) - (BLAST + (t.r / LOSS[5]) * 14));
     return f <= HOOK_END ? out : out * (1 - ease((f - HOOK_END) / (REWIND_END - HOOK_END - 4)));
   }
   const out = Math.max(0, f - (S[t.stage] + 1 + t.frac * 13));
@@ -174,18 +180,21 @@ function flight(t: Tile, f: number): number {
   return 56 * (1 - easeOut((f - back) / 20));
 }
 
+/** Close-ups on the break: [first frame, length, yaw]. "Takes a piece", then callers two and four. */
+const CLOSE: [number, number, number][] = [[EVERY + 8, 40, 0.5], [S[2], 17, -0.5], [S[4], 17, 0.45]];
+
 interface Cam { zoom: number; yaw: number; pitch: number; cx: number; cy: number; dim: number }
 
 function camera(f: number): Cam {
-  const hook: Cam = { zoom: 1.62, yaw: -0.36, pitch: 0.14, cx: 610, cy: 1500, dim: 1 };
-  const home: Cam = { zoom: 1, yaw: 0, pitch: 0, cx: HOME.x, cy: HOME.y, dim: 1 };
+  const hook: Cam = { zoom: 2.3, yaw: -0.36, pitch: 0.14, cx: 640, cy: 1760, dim: 1 };
+  const home: Cam = { zoom: BIG, yaw: 0, pitch: 0, cx: HOME.x, cy: HOME.y, dim: 1 };
   const mix = (a: Cam, b: Cam, t: number): Cam => ({
     zoom: lerp(a.zoom, b.zoom, t), yaw: lerp(a.yaw, b.yaw, t), pitch: lerp(a.pitch, b.pitch, t),
     cx: lerp(a.cx, b.cx, t), cy: lerp(a.cy, b.cy, t), dim: lerp(a.dim, b.dim, t),
   });
-  if (f < HOOK_END) return { ...hook, zoom: hook.zoom + f * 0.006, yaw: hook.yaw + f * 0.004 };
+  if (f < HOOK_END) return { ...hook, zoom: hook.zoom + f * 0.003 + Math.exp(-Math.max(0, f - BLAST) / 5) * (f >= BLAST ? 0.14 : 0), yaw: hook.yaw + f * 0.002 };
   if (f < REWIND_END) {
-    const from = { ...hook, zoom: hook.zoom + HOOK_END * 0.006, yaw: hook.yaw + HOOK_END * 0.004 };
+    const from = { ...hook, zoom: hook.zoom + HOOK_END * 0.003, yaw: hook.yaw + HOOK_END * 0.002 };
     return mix(from, home, ease((f - HOOK_END) / (REWIND_END - HOOK_END)));
   }
   if (f < PAYOFF) {
@@ -201,12 +210,21 @@ function camera(f: number): Cam {
       }
     }
     const hold = ease((f - S[5] - 10) / 60);
-    return {
-      zoom: 1 + punch + hold * 0.1, yaw: 0.2 * Math.sin((f - REWIND_END) / 26) + hold * 0.12,
+    const wide: Cam = {
+      zoom: BIG * (1 + punch + hold * 0.08), yaw: 0.2 * Math.sin((f - REWIND_END) / 26) + hold * 0.12,
       pitch: 0.08 * Math.sin((f - REWIND_END) / 19) + 0.04, cx: HOME.x + shakeX, cy: HOME.y + shakeY, dim: 1,
     };
+    // callers two and four land in close-up, on the break itself
+    for (const [at, len, yaw] of CLOSE) {
+      const d = f - at;
+      if (d >= 0 && d < len) {
+        const z = 3.3 + d * 0.03;
+        return { zoom: z, yaw, pitch: 0.3, cx: 540 - 73 * z * 0.8 + shakeX * 2 - d * yaw * 5, cy: 1180 + 96 * z + shakeY * 2 + d * 3, dim: 1 };
+      }
+    }
+    return wide;
   }
-  const away: Cam = { zoom: 0.94, yaw: -0.16, pitch: 0.1, cx: 540, cy: 1150, dim: 1 };
+  const away: Cam = { zoom: BIG * 0.9, yaw: -0.16, pitch: 0.1, cx: 540, cy: 1400, dim: 1 };
   if (f < HEAL) {
     const at = camera(PAYOFF - 1);
     const c = mix(at, away, easeOut((f - PAYOFF) / 14));
@@ -290,11 +308,11 @@ function pctAt(f: number): { value: number; callers: number } {
 /** Where each caller's two cards come from and where they land, pressing on the ace. */
 const SEAT = [
   null,
-  { x: 150, y: 905, rot: -13, fx: -420, fy: -120 },
-  { x: 930, y: 960, rot: 11, fx: 420, fy: -160 },
-  { x: 165, y: 1300, rot: 9, fx: -440, fy: 140 },
-  { x: 915, y: 1330, rot: -10, fx: 440, fy: 160 },
-  { x: 540, y: 1560, rot: 3, fx: 0, fy: 460 },
+  { x: 118, y: 900, rot: -13, fx: -460, fy: -120 },
+  { x: 958, y: 985, rot: 11, fx: 460, fy: -160 },
+  { x: 112, y: 1370, rot: 9, fx: -470, fy: 140 },
+  { x: 962, y: 1455, rot: -10, fx: 470, fy: 160 },
+  { x: 500, y: 1790, rot: 4, fx: 0, fy: 520 },
 ];
 
 function Caller({ k, f }: { k: number; f: number }) {
@@ -309,7 +327,7 @@ function Caller({ k, f }: { k: number; f: number }) {
   const leave = out >= 0 ? ease(out / 14) : 0;
   const x = seat.x + seat.fx * (arrive + leave * 1.2) + (540 - seat.x) * squeeze;
   const y = seat.y + seat.fy * (arrive + leave * 1.2) + (HOME.y - seat.y) * squeeze;
-  const w = 168, h = 236;
+  const w = 206, h = 290;
   const back: React.CSSProperties = {
     position: "absolute", width: w, height: h, borderRadius: 14, boxSizing: "border-box",
     background: `repeating-linear-gradient(45deg, ${C.ink2} 0 9px, #1b1b1e 9px 10px), ${C.ink2}`,
@@ -350,19 +368,21 @@ export function AcesCrowd() {
   const under = value < 50;
   const log = f >= S[1] && f < PAYOFF && !flash;
   const dealt = Math.floor(interpolate(f, [S[1], PAYOFF], [1, data.iterations], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: (t) => t * t * t }));
-  const line = f >= HEAL + 2 ? "raise" : f >= FLASH + 5 ? "underdog" : "";
+  const line = f >= HEAL + 2 ? "raise" : f >= UNDERDOG ? "underdog" : f >= FIVE ? "five" : f >= EVERY ? "every" : "";
 
   return (
     <AbsoluteFill style={{ background: C.ink }}>
       <canvas ref={ref} width={W} height={H} style={{ position: "absolute", inset: 0 }} />
       {[1, 2, 3, 4, 5].map((k) => <Caller key={k} k={k} f={f} />)}
+      {/* in the close-ups the card runs under the stat: give the numbers their own ground */}
+      {CLOSE.some(([at, len]) => f >= at && f < at + len) && <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 672, background: C.ink, borderBottom: `2px solid ${C.ruleStrong}` }} />}
 
       {/* the hook */}
-      <Headline f={f} from={4} to={HOOK_END + 2} size={132} top={296}>
-        <span style={{ whiteSpace: "nowrap" }}>Aces cracked.</span>
-        <div style={{ ...em(C.vermilion), fontSize: 132, marginTop: 2, opacity: clamp((f - 12) / 3) }}>Again.</div>
+      <Headline f={f} from={1} to={HOOK_END + 2} size={132} top={296}>
+        <span style={{ whiteSpace: "nowrap" }}>Aces <span style={{ opacity: f >= BLAST ? 1 : 0 }}>cracked.</span></span>
+        <div style={{ ...em(C.paper), fontSize: 132, marginTop: 2, opacity: clamp((f - AGAIN) / 3) }}>Again.</div>
       </Headline>
-      <Headline f={f} from={HOOK_END + 6} to={REWIND_END + 1} size={150} top={300}>
+      <Headline f={f} from={HOOK_END + 4} to={S[1] - 6} size={150} top={300}>
         It isn’t<br /><span style={em(C.sage)}>bad luck.</span>
       </Headline>
 
@@ -379,7 +399,9 @@ export function AcesCrowd() {
             </div>
           </div>
           <div style={{ fontFamily: SERIF, fontSize: 64, lineHeight: 1, marginTop: 6, color: C.paper, height: 70 }}>
-            {line === "underdog" && <span style={{ opacity: easeOut((f - FLASH - 5) / 6) }}>You’re the <span style={em(C.vermilion)}>underdog.</span></span>}
+            {line === "every" && <span style={{ opacity: easeOut((f - EVERY) / 6), color: C.text2 }}>Every caller takes <span style={em(C.vermilion)}>a piece.</span></span>}
+            {line === "five" && <span style={{ opacity: easeOut((f - FIVE) / 5) }}>Five callers?</span>}
+            {line === "underdog" && <span style={{ opacity: easeOut((f - UNDERDOG) / 6) }}>Now you’re the <span style={em(C.vermilion)}>underdog.</span></span>}
             {line === "raise" && <span style={{ opacity: easeOut((f - HEAL - 2) / 6) }}>So raise. <span style={em(C.sage)}>Thin the crowd.</span></span>}
           </div>
         </div>
@@ -401,8 +423,8 @@ export function AcesCrowd() {
 
       {/* the deals, as they run */}
       {log && (
-        <div style={{ position: "absolute", left: 70, top: 1640, fontFamily: MONO, fontSize: 24, lineHeight: 1.5, color: C.text3, opacity: 0.7, whiteSpace: "pre" }}>
-          {[0, 1, 2].map((i) => {
+        <div style={{ position: "absolute", left: 74, top: 232, fontFamily: MONO, fontSize: 22, lineHeight: 1.5, color: C.text3, opacity: 0.8, whiteSpace: "pre" }}>
+          {[2].map((i) => {
             const h = data.hands[(Math.floor(f / 2) + i) % data.hands.length];
             return (
               <div key={i} style={{ opacity: 0.4 + i * 0.3 }}>
@@ -414,18 +436,19 @@ export function AcesCrowd() {
       )}
 
       {/* sound: a first layer, to be redone once the motion is final */}
-      <Audio src={staticFile("music/bed.wav")} volume={0.32} />
-      <Sequence from={3}><Audio src={staticFile("sfx/boom.wav")} volume={0.9} /></Sequence>
-      <Sequence from={HOOK_END}><Audio src={staticFile("sfx/whoosh.wav")} volume={0.6} /></Sequence>
+      <Audio src={staticFile("vo/aces-crowd/vo.wav")} volume={1} />
+      <Audio src={staticFile("music/bed.wav")} volume={0.16} />
+      <Sequence from={BLAST}><Audio src={staticFile("sfx/boom.wav")} volume={0.6} /></Sequence>
+      <Sequence from={HOOK_END}><Audio src={staticFile("sfx/whoosh.wav")} volume={0.4} /></Sequence>
       {[1, 2, 3, 4, 5].map((k) => (
-        <Sequence key={k} from={S[k]}><Audio src={staticFile("sfx/stamp.wav")} volume={0.55 + k * 0.07} /></Sequence>
+        <Sequence key={k} from={S[k]}><Audio src={staticFile("sfx/stamp.wav")} volume={0.3 + k * 0.05} /></Sequence>
       ))}
-      <Sequence from={FLASH}><Audio src={staticFile("sfx/boom.wav")} volume={0.8} /></Sequence>
-      <Sequence from={PAYOFF}><Audio src={staticFile("sfx/reveal.wav")} volume={0.6} /></Sequence>
+      <Sequence from={FLASH}><Audio src={staticFile("sfx/boom.wav")} volume={0.5} /></Sequence>
+      <Sequence from={PAYOFF}><Audio src={staticFile("sfx/reveal.wav")} volume={0.35} /></Sequence>
       {[5, 4, 3, 2].map((k) => (
-        <Sequence key={k} from={FOLD[k]}><Audio src={staticFile("sfx/fold.wav")} volume={0.6} /></Sequence>
+        <Sequence key={k} from={FOLD[k]}><Audio src={staticFile("sfx/fold.wav")} volume={0.4} /></Sequence>
       ))}
-      <Sequence from={OUTRO}><Audio src={staticFile("sfx/riser.wav")} volume={0.45} /></Sequence>
+      <Sequence from={OUTRO}><Audio src={staticFile("sfx/riser.wav")} volume={0.25} /></Sequence>
     </AbsoluteFill>
   );
 }
