@@ -6,7 +6,7 @@
  * Registered in Root.tsx as "aces-crowd". The last frame matches the first, so the reel loops.
  */
 
-import { useEffect, useMemo, useRef } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { loadFont as loadMono } from "@remotion/google-fonts/JetBrainsMono";
 import data from "../data/aces-crowd.json";
@@ -351,6 +351,11 @@ function Headline({ f, from, to, children, size = 128, top = 320 }: { f: number;
   );
 }
 
+/** One library sound at a frame. `tail` fades a long ring-out over that many frames so it never sits on the next words. */
+function Sfx({ at, file, volume, tail }: { at: number; file: string; volume: number; tail?: number }) {
+  return <Sequence from={Math.max(0, at)}><Audio src={staticFile(`sfx/${file}.wav`)} volume={tail ? (fr) => volume * clamp(1 - fr / tail) ** 1.5 : volume} /></Sequence>;
+}
+
 export function AcesCrowd() {
   const f = useCurrentFrame();
   const ref = useRef<HTMLCanvasElement>(null);
@@ -435,20 +440,25 @@ export function AcesCrowd() {
         </div>
       )}
 
-      {/* sound: a first layer, to be redone once the motion is final */}
+      {/* sound, from the library (content/library/audio.md; pulled with scripts/sound-lib.py use) */}
       <Audio src={staticFile("vo/aces-crowd/vo.wav")} volume={1} />
-      <Audio src={staticFile("music/bed.wav")} volume={0.16} />
-      <Sequence from={BLAST}><Audio src={staticFile("sfx/boom.wav")} volume={0.6} /></Sequence>
-      <Sequence from={HOOK_END}><Audio src={staticFile("sfx/whoosh.wav")} volume={0.4} /></Sequence>
+      <Audio src={staticFile("music/ac-bed.mp3")} volume={(fr) => 0.26 * clamp(fr / 8) * clamp((END - fr) / 20) * (1 - 0.6 * clamp((fr - PAYOFF + 8) / 8) * clamp((PAYOFF2 - fr) / 8))} />
+      <Sfx at={BLAST} file="ac-blast" volume={0.75} tail={30} />
+      <Sfx at={HOOK_END - 1} file="ac-rewind" volume={0.6} />
       {[1, 2, 3, 4, 5].map((k) => (
-        <Sequence key={k} from={S[k]}><Audio src={staticFile("sfx/stamp.wav")} volume={0.3 + k * 0.05} /></Sequence>
+        <Fragment key={k}>
+          <Sfx at={S[k] - 2} file="ac-cards" volume={0.7} />
+          <Sfx at={S[k]} file="ac-slam" volume={0.5 + k * 0.06} />
+          <Sfx at={S[k]} file="ac-thump" volume={0.22 + k * 0.07} tail={24} />
+        </Fragment>
       ))}
-      <Sequence from={FLASH}><Audio src={staticFile("sfx/boom.wav")} volume={0.5} /></Sequence>
-      <Sequence from={PAYOFF}><Audio src={staticFile("sfx/reveal.wav")} volume={0.35} /></Sequence>
-      {[5, 4, 3, 2].map((k) => (
-        <Sequence key={k} from={FOLD[k]}><Audio src={staticFile("sfx/fold.wav")} volume={0.4} /></Sequence>
-      ))}
-      <Sequence from={OUTRO}><Audio src={staticFile("sfx/riser.wav")} volume={0.25} /></Sequence>
+      {CLOSE.map(([at]) => <Sfx key={at} at={at - 1} file="ac-cut" volume={0.4} />)}
+      <Sfx at={S[5] - 81} file="ac-build" volume={0.55} />
+      <Sfx at={FLASH} file="ac-49" volume={0.7} tail={40} />
+      <Sfx at={PAYOFF2 + 14} file="ac-crowded" volume={0.5} />
+      {[5, 4, 3, 2].map((k) => <Sfx key={k} at={FOLD[k]} file="ac-fold" volume={0.6} />)}
+      <Sfx at={HEAL} file="ac-heal" volume={0.22} />
+      <Sfx at={OUTRO} file="ac-out" volume={0.5} />
     </AbsoluteFill>
   );
 }
