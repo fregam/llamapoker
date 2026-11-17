@@ -3,7 +3,8 @@
  *   hero (headline, standfirst, CTAs) + a "specimen" of the read for a real spot
  *   → what's inside (Table, Trainer, Library) → how it works → the letter (email
  *   signup, beside a plate of the brand character, public/brand/gentleman-*.webp) → FAQ. Positioned as a study, hand-review and training tool — most online
- *   poker sites forbid real-time assistance during play, and the FAQ says so plainly.
+ *   poker sites forbid real-time assistance during play, and the FAQ says so plainly
+ *   (and links the guide that explains it, /learn/online-poker-helper).
  * The specimen's numbers are what the Table shows for that exact spot (A♥5♥ on
  * K♥ 9♥ 2♣, facing 50 into 100, two random opponents); update them if the logic changes.
  * Prerendered to HTML at build time (see scripts/prerender.mjs), so no `window` at render.
@@ -205,10 +206,18 @@ export default function Home() {
       <section className="home-section">
         <h2 className="home-h2">Questions</h2>
         <dl className="faq">
-          {FAQ.map(([q, a]) => (
+          {FAQ.map(([q, a, more]) => (
             <div className="gloss-entry" key={q}>
               <dt className="gloss-term">{q}</dt>
-              <dd className="gloss-def">{a}</dd>
+              <dd className="gloss-def">
+                {a}
+                {more && (
+                  <>
+                    {" "}
+                    <Link to={more.to}>{more.label}</Link>.
+                  </>
+                )}
+              </dd>
             </div>
           ))}
         </dl>

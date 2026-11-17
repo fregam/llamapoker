@@ -7,8 +7,8 @@
   "summary": {
     "pageOne": 0,
     "targets": 18,
-    "indexed": 3,
-    "pages": 13
+    "indexed": 12,
+    "pages": 14
   },
   "totals": {
     "clicks": 0,
@@ -205,39 +205,39 @@
     },
     {
       "url": "https://llamapoker.com/table",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:18:14Z"
     },
     {
       "url": "https://llamapoker.com/trainer",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:18:15Z"
     },
     {
       "url": "https://llamapoker.com/learn",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:16:13Z"
     },
     {
       "url": "https://llamapoker.com/learn/hand-rankings",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:16:14Z"
     },
     {
       "url": "https://llamapoker.com/learn/positions",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:22:14Z"
     },
     {
       "url": "https://llamapoker.com/learn/starting-hands",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:16:13Z"
     },
     {
       "url": "https://llamapoker.com/learn/pot-odds",
@@ -259,21 +259,27 @@
     },
     {
       "url": "https://llamapoker.com/strategy",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:18:14Z"
     },
     {
       "url": "https://llamapoker.com/glossary",
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:14:13Z"
+    },
+    {
+      "url": "https://llamapoker.com/about",
       "indexed": false,
       "state": "URL is unknown to Google",
       "lastCrawl": null
     },
     {
       "url": "https://llamapoker.com/privacy",
-      "indexed": false,
-      "state": "URL is unknown to Google",
-      "lastCrawl": null
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-17T03:16:14Z"
     }
   ],
   "longQuestions": []

@@ -52,7 +52,7 @@ src/
                         dates; LEARN_PATH; AUTHOR (the named person on the guides); longDate()
   attribution.ts        First-touch channel (utm_* or referrer host) kept in sessionStorage for the visit; remember() / attribution()
   pages.test.tsx        Smoke tests: every route renders through entry-server with one <h1>; signup placement invariants
-  content/faq.ts        Home FAQ as data (visible FAQ + FAQPage structured data)
+  content/faq.ts        Home FAQ as data (visible FAQ + FAQPage structured data; an entry can link the page that answers it in full)
   styles.css            The one global stylesheet (tokens on :root, plain class names); imports fonts.css
   fonts.css             @font-face for the self-hosted brand fonts (public/fonts/), generated from Google's css2
   vite-env.d.ts         Vite client types (import.meta.env)
@@ -297,7 +297,8 @@ odds yet, and searches things like "poker odds calculator", "should I call", "po
 explained", "starting hands chart", "hand rankings", "online poker helper", "live poker tool".
 Each of those intents has a page whose `<title>`, description and `<h1>` use those words
 (see `seo.ts`). Guides link to each other (`LEARN_PATH`, "Next in the path") and to the tools; the
-colophon links the main pages from everywhere. Structured data: WebSite + FAQPage (home),
+colophon links the main pages from everywhere, including the helper guide, which the home FAQ
+("Can I use it while I'm playing online?") also links. Structured data: WebSite + FAQPage (home),
 WebApplication (Table, Trainer), Article + BreadcrumbList (guides), AboutPage (/about). Each guide
 names a real author (a `Person` linking to /about) and its `published` / `modified` dates, on the page
 and in its Article data; the sitemap carries the same `modified` as `<lastmod>`. Bump `modified` in
