@@ -20,6 +20,7 @@ OUT = REPO / "media" / "research" / "hooks"
 BIN = REPO / "apps" / "reels" / "node_modules" / "@remotion" / "compositor-win32-x64-msvc"
 FFMPEG = str(BIN / "ffmpeg.exe")
 TIMES = [0, 0.5, 1, 2, 3, 5]
+TRANSIENT = re.compile(r"Could not resolve|timed out|bytes read|Connection (reset|aborted)|Temporary failure", re.I)
 
 
 def sampled(limit=None):
@@ -57,6 +58,9 @@ def media(limit=None):
                                        "outtmpl": str(video), "ffmpeg_location": str(BIN)}) as y:
                     y.download([url])
             except Exception as e:  # deleted, private or blocked: note it and move on
+                if TRANSIENT.search(str(e)):  # network blip: leave no mark, the next run retries
+                    print(f"{code}: network error, retry later")
+                    continue
                 meta.write_text(json.dumps({"shortcode": code, "error": str(e)[:200]}), encoding="utf-8")
                 print(f"{code}: download failed")
                 continue
