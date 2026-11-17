@@ -6,10 +6,13 @@ layers, then name the **mechanisms** at work. Spec: `.scratch/hook-dissection/sp
 
 ## Your inputs, per reel (paths in your batch file)
 
-- `f_0.jpg`, `f_0.5.jpg`, `f_1.jpg`, `f_2.jpg`, `f_3.jpg`, `f_5.jpg`: frames at those seconds. Open
-  every one with the Read tool; they are images.
-- `layers.json`: `speech` (Whisper transcript of the first 15 s, with `speech_chunks` timings),
-  `cuts_first_5s` (scene cuts detected in the first 5 s), `caption_first_line`.
+- `sheet.jpg`: the frames at 0 s, 1 s and 3 s side by side (left to right). Open it with the Read
+  tool; it is an image. Open the single frames (`f_0.jpg` … `f_5.jpg`) only when text on the sheet
+  is too small to read or you need 0.5 s / 2 s / 5 s.
+- `layers.json` (tagging) or the digest `.md` (taxonomy): `speech` (Whisper transcript of the first
+  15 s, with timings), `cuts_first_5s` (scene cuts detected in the first 5 s), `caption_first_line`.
+- Whisper sometimes transcribes song lyrics, or garbles speech; a reel in another language is
+  described as that language and tagged like any other.
 
 Read only the files listed in your batch. Nothing else under `media/` or `apps/reels/scripts/hooks/data/`.
 

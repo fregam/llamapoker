@@ -22,7 +22,7 @@ TAXONOMY, BATCH, REPEAT = 150, 35, 0.10
 
 def entry(code: str) -> dict:
     d = MEDIA / code
-    return {"shortcode": code, "layers": str(d / "layers.json"),
+    return {"shortcode": code, "sheet": str(d / "sheet.jpg"), "layers": str(d / "layers.json"),
             "frames": [str(d / f) for f in FRAMES if (d / f).exists()]}
 
 
@@ -31,7 +31,7 @@ def ready(code: str) -> bool:
     if not meta.exists():
         return False
     info = json.loads(meta.read_text(encoding="utf-8"))
-    return "error" not in info and "speech" in info and bool(info.get("frames"))
+    return "error" not in info and "speech" in info and (MEDIA / code / "sheet.jpg").exists()
 
 
 def build(codes: list[str], seed: int = 17) -> dict[str, list[str]]:
@@ -56,6 +56,18 @@ def build(codes: list[str], seed: int = 17) -> dict[str, list[str]]:
     return out
 
 
+def digest(codes: list[str]) -> str:
+    """One text block per reel: what the taxonomy agents read beside the sheets."""
+    out = []
+    for c in codes:
+        info = json.loads((MEDIA / c / "layers.json").read_text(encoding="utf-8"))
+        first5 = " ".join(ch["text"] for ch in info.get("speech_chunks", []) if (ch["t"][0] or 0) < 5)
+        out.append(f"## {c}\nsheet: {MEDIA / c / 'sheet.jpg'}\ncuts in first 5 s: {info.get('cuts_first_5s')}\n"
+                   f"caption first line: {info.get('caption_first_line', '')}\n"
+                   f"speech, first 5 s: {first5 or info.get('speech', '')[:200]}\n")
+    return "\n".join(out)
+
+
 def main():
     con = sqlite3.connect(DB)
     codes = [c for (c,) in con.execute("select shortcode from reels where sampled in ('outlier','ordinary')") if ready(c)]
@@ -65,6 +77,8 @@ def main():
         if stem == "_repeats":
             (OUT / "repeats.json").write_text(json.dumps(group), encoding="utf-8")
             continue
+        if stem.startswith("taxonomy"):
+            (OUT / f"{stem}.md").write_text(digest(group), encoding="utf-8")
         (OUT / f"{stem}.json").write_text(json.dumps([entry(c) for c in group], indent=1), encoding="utf-8")
     print(f"{len(codes)} ready reels | {sum(k.startswith('batch') for k in plan)} batches | {len(plan['_repeats'])} repeats")
 

@@ -107,8 +107,29 @@ def speech():
         print(f"{info['shortcode']}: {info['speech'][:80]}")
 
 
+def sheets():
+    """sheet.jpg per reel: frames at 0, 1 and 3 s side by side, so a tagger opens one image per reel."""
+    from PIL import Image  # ComfyUI venv
+    n = 0
+    for d in sorted(p for p in OUT.iterdir() if p.is_dir()):
+        parts = [d / f"f_{t}.jpg" for t in (0, 1, 3)]
+        if (d / "sheet.jpg").exists() or not all(p.exists() for p in parts):
+            continue
+        ims = [Image.open(p).convert("RGB") for p in parts]
+        w = 360
+        ims = [im.resize((w, round(im.height * w / im.width))) for im in ims]
+        sheet = Image.new("RGB", (3 * w + 16, max(im.height for im in ims)), "white")
+        for i, im in enumerate(ims):
+            sheet.paste(im, (i * (w + 8), 0))
+        sheet.save(d / "sheet.jpg", quality=80)
+        n += 1
+    print(f"sheets: {n} new")
+
+
 if __name__ == "__main__":
-    if sys.argv[1] == "media":
+    if sys.argv[1] == "sheets":
+        sheets()
+    elif sys.argv[1] == "media":
         media(int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else None)
     else:
         speech()
