@@ -21,7 +21,12 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
   the odds and posted retention stays the real judge.
 - **Rejected:** a template library; studying only the hits; length and position rules; a
   mechanism quota.
-- **Open:** the critic's `calibration.json` still tests the old checks and needs new cases.
+- **Calibration:** before a session's first run the critic judges 25 known lines
+  (`.claude/skills/hook-writing/calibration/`) and `apps/reels/scripts/hooks/calibrate.py` scores
+  it: 10 lines must fail their limit, 13 must pass, and 7 rank pairs must hold. The pairs anchor
+  "good" to the best hooks we have (round 2, which the founder judged better than the first
+  test), never to an older batch; a better batch replaces them. Two critics on the final brief
+  both passed; the two earlier briefs failed (one too strict, one too loose).
 
 ## 2026-11-17 - The video stage starts from references, and `aces-crowd` is the new baseline
 
