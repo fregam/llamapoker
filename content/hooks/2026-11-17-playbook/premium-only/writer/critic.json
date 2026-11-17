@@ -1,0 +1,348 @@
+{
+  "verdicts": {
+    "d01": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d02": {
+      "claim": [
+        "pass",
+        "9.75 bb is wait-bb with its conditions (6-max, folding everything else); 'each one' reads as the average wait, not a guarantee."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d03": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d04": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "No banned ground; luck named only to be denied. ('Every hand he folds' overstates the cost loosely; penalised in the rank, not a limit.)"
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d05": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d06": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d07": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d08": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d09": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d10": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d11": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d12": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d13": {
+      "claim": [
+        "pass",
+        "1.5 bb per orbit at 6-max matches orbit-bb exactly."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d14": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Luck named only to be denied, as the brand allows."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d15": {
+      "claim": [
+        "pass",
+        "'About 1 in 39 hands' for AA/KK/QQ/AK matches premium-every."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d16": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d17": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d18": {
+      "claim": [
+        "pass",
+        "No number; nothing to misstate."
+      ],
+      "honest": [
+        "pass",
+        "The cooler is named only to deny it as the cause; no luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a bust-out to explain the decision before it, not to push more play."
+      ]
+    },
+    "d19": {
+      "claim": [
+        "pass",
+        "No number; 6-max and blinds are conditions, not stats."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    },
+    "d20": {
+      "claim": [
+        "pass",
+        "2.56% of hands for AA/KK/QQ/AK matches premium-share."
+      ],
+      "honest": [
+        "pass",
+        "Explains a decision; no claimed results, confession or luck excuse."
+      ],
+      "helping": [
+        "pass",
+        "Names a loss only to explain the decision; no win-back or play-more push."
+      ]
+    }
+  },
+  "rank": [
+    "d01",
+    "d10",
+    "d18",
+    "d07",
+    "d06",
+    "d03",
+    "d12",
+    "d16",
+    "d14",
+    "d19",
+    "d09",
+    "d05",
+    "d11",
+    "d13",
+    "d02",
+    "d15",
+    "d20",
+    "d04",
+    "d08",
+    "d17"
+  ],
+  "top": {
+    "d01": {
+      "why": "Every player has lived the night of folding then getting no action on kings, and the line makes the viewer need to know why it happened.",
+      "mechanism": "scenario_label"
+    },
+    "d10": {
+      "why": "A tiny scene with a twist ('they read his clock') turns a dry concept into a picture any reg recognises at the table.",
+      "mechanism": "scenario_label"
+    },
+    "d18": {
+      "why": "Opens on the most painful familiar bust-out and then denies it was the culprit, so the viewer must stay to learn what was.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d07": {
+      "why": "Starts from a lost-on-the-river session the viewer has had and moves the blame somewhere unexpected.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d06": {
+      "why": "Funny and specific: the seven-four 'just to feel something' is a confession viewers recognise in themselves and tag friends with.",
+      "mechanism": "identity_callout"
+    },
+    "d03": {
+      "why": "A relatable archetype every home-game player can name and tag, with a quick reversal from 'tough' to 'easy to read'.",
+      "mechanism": "scenario_label"
+    },
+    "d12": {
+      "why": "A then-vs-now arc that mocks the beginner path and withholds the 'third month', though it is a little long.",
+      "mechanism": "before_state"
+    },
+    "d16": {
+      "why": "Flips the nit's self-image in two short sentences with a stake, but is closer to a claim than a scene.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d14": {
+      "why": "A personal rivalry with a friend gives a stranger a stake, and 'that isn't luck' sets a question, though the premise may ring false to some.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d19": {
+      "why": "Sets up a visual race the reel must show, but 'watch what' leans on promise more than on a feeling.",
+      "mechanism": "side_by_side"
+    }
+  }
+}

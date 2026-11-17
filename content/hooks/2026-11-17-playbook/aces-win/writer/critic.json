@@ -1,0 +1,331 @@
+{
+  "verdicts": {
+    "d01": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "'rigged' named only to be denied"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d02": {
+      "claim": [
+        "pass",
+        "79% = aa-lose-once-in-10, conditions stated (10 heads-up preflop all-ins vs random hands)"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d03": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "curse named only to be denied"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d04": {
+      "claim": [
+        "fail",
+        "56% is AA's share of a five-way pot against four random hands; 'three more people call' swaps random hands for callers, and 'barely better than a coin' frames a five-way share (fair share 20%) as a heads-up coin flip"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d05": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d06": {
+      "claim": [
+        "fail",
+        "facts are all-in preflop equities; a limp-trap sees flops with live callers, so 85% vs 56% says something about limping the facts don't measure (and a 56% share of a five-way pot is not a worse result than 85% heads-up)"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d07": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d09": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "q-42 is a real comment ('I always fold aces pre-flop'), though likely a joke; borderline but not invented"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d10": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d11": {
+      "claim": [
+        "pass",
+        "64% = aa-vs-3, stated as all in preflop vs three random hands"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d12": {
+      "claim": [
+        "pass",
+        "14% = aa-lose-1 (14.47), conditions stated"
+      ],
+      "honest": [
+        "pass",
+        "luck named only to be denied"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d13": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d14": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "'that part isn't rigged' could be read as conceding something else is; borderline, not a claim"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d15": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d16": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d17": {
+      "claim": [
+        "pass",
+        "73% = aa-vs-2, conditions stated"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d18": {
+      "claim": [
+        "pass",
+        "14% = aa-lose-1, conditions stated"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d19": {
+      "claim": [
+        "pass",
+        "14% = aa-lose-1 and 56% = aa-vs-4, preflop all-in vs random hands carried through"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "no money-back promise, no loss as a reason to play, no one in trouble poked"
+      ]
+    },
+    "d20": {
+      "claim": [
+        "pass",
+        "no number, or every number matches its fact with its conditions"
+      ],
+      "honest": [
+        "pass",
+        "explains; no wins, results, confessions or luck excuse"
+      ],
+      "helping": [
+        "pass",
+        "echoes a loss to say the decision was right; doesn't poke the quitting player behind the source quote"
+      ]
+    }
+  },
+  "rank": [
+    "d07",
+    "d03",
+    "d01",
+    "d15",
+    "d20",
+    "d16",
+    "d05",
+    "d02",
+    "d12",
+    "d18",
+    "d10",
+    "d13",
+    "d14",
+    "d09",
+    "d17",
+    "d19",
+    "d11"
+  ],
+  "top": {
+    "d07": {
+      "why": "Drops the viewer into a hand they have lived, mid-action, and ends on a question only the reel can answer: bad beat or normal Tuesday?",
+      "mechanism": "mid_action_start"
+    },
+    "d03": {
+      "why": "Names a type every player knows and wants to tag, then flips the curse into a counting mistake in two short beats.",
+      "mechanism": "scenario_label"
+    },
+    "d01": {
+      "why": "Opens on the most-felt loss in poker, with a vivid garbage hand, then contradicts the 'rigged' belief the viewer half holds.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d15": {
+      "why": "A one-line truth about memory that any player recognises in themselves, short and quotable.",
+      "mechanism": "scenario_label"
+    },
+    "d20": {
+      "why": "Runner-runner told in three hammer beats lands the pain, and 'nothing' is a dry verdict that disagrees with how the viewer feels.",
+      "mechanism": "mid_action_start"
+    },
+    "d16": {
+      "why": "A short-stack scene with real stakes and a promise about the feeling, not the maths, which reaches beyond study-minded viewers.",
+      "mechanism": "mid_action_start"
+    },
+    "d05": {
+      "why": "Borrows the angry 'rigged' review everyone has read and promises a number that sides with no one.",
+      "mechanism": "found_artifact"
+    },
+    "d02": {
+      "why": "79% is a surprising, personal stake (your next ten all-ins), but it is still a stat opening rather than a scene.",
+      "mechanism": "specific_figure"
+    },
+    "d12": {
+      "why": "Denies luck with a hard number and lands a dry closer ('on the schedule'), though it reads closer to a lesson title.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d18": {
+      "why": "The 'you just remember those' turn makes the fact about the viewer, but the opening clause is a textbook line.",
+      "mechanism": "counterintuitive_claim"
+    }
+  }
+}
