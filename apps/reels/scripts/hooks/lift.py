@@ -22,6 +22,33 @@ OUT = REPO / "content" / "research" / "hooks" / "lift.md"
 MIN_OUT, MIN_AGREE, Z = 8, 0.7, 1.645
 
 
+MEDIA = REPO / "media" / "research" / "hooks"
+CTX = ("format", "audio", "text_style", "face_at_0s", "annotation", "caption_cta", "language")
+
+
+def features(row: dict, code: str) -> set:
+    """The reel's mechanisms plus derived context features (prefixed so they read apart in the table)."""
+    ms = set(row.get("mechanisms") or [])
+    out = set(ms)
+    out.add(f"n_mechanisms={min(len(ms), 3)}{'+' if len(ms) >= 3 else ''}")
+    ctx = row.get("context") or {}
+    for k in CTX:
+        v = ctx.get(k)
+        if isinstance(v, str) and v.strip():
+            v = v.strip().lower()
+            if k == "language":
+                v = "english" if v.startswith("english") else "other"
+            out.add(f"{k}={v[:40]}")
+        elif isinstance(v, bool):
+            out.add(f"{k}={'yes' if v else 'no'}")
+    meta = MEDIA / code / "layers.json"
+    if meta.exists():
+        cuts = json.loads(meta.read_text(encoding="utf-8")).get("cuts_first_5s")
+        if isinstance(cuts, int):
+            out.add(f"cuts_5s={min(cuts, 3)}{'+' if cuts >= 3 else ''}")
+    return out
+
+
 def load_tags() -> dict[str, list[set]]:
     tags = defaultdict(list)
     for f in sorted(glob.glob(str(BLIND / "tags-*.jsonl"))):
@@ -33,7 +60,7 @@ def load_tags() -> dict[str, list[set]]:
                 row = json.loads(line)
             except json.JSONDecodeError:
                 continue
-            tags[row["shortcode"]].append(set(row.get("mechanisms") or []))
+            tags[row["shortcode"]].append(features(row, row["shortcode"]))
     return tags
 
 
