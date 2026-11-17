@@ -77,7 +77,10 @@ def speech():
     from transformers import pipeline  # ComfyUI venv
     asr = pipeline("automatic-speech-recognition", model="openai/whisper-large-v3",
                    torch_dtype=torch.float16, device="cuda:0")
-    for meta in sorted(OUT.glob("*/layers.json")):
+    for code, _, _ in sampled():
+        meta = OUT / code / "layers.json"
+        if not meta.exists():
+            continue
         info = json.loads(meta.read_text(encoding="utf-8"))
         if "speech" in info or "error" in info:
             continue

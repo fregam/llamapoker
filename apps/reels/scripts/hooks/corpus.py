@@ -2,7 +2,7 @@
 Spec: .scratch/hook-dissection/spec.md. Token and ids: credentials.json -> instagram (memory: instagram-api).
 
     python corpus.py fetch <username>... [--source swipe|poker|explainers|craft|stories]
-    python corpus.py sample        marks every real outlier, one ordinary twin each, and funnels apart
+    python corpus.py sample        marks each account's 6 strongest real outliers, one ordinary twin each, and funnels apart
     python corpus.py summary
 
 Store: data/corpus.sqlite (git-ignored). An outlier has >= 100k views and >= 5x its account's median
@@ -52,15 +52,20 @@ def _when(ts: str) -> float:
     return time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
 
 
-def sample(reels: list[dict]) -> dict:
+def sample(reels: list[dict], cap: int | None = None) -> dict:
     """{shortcode: 'outlier' | 'ordinary' | 'funnel'} for one account's classified reels.
     Each real outlier gets one ordinary twin (0.5x-2x the median), the closest in date; funnel
-    outliers are kept apart (their reach came from a CTA) and get no twin."""
+    outliers are kept apart (their reach came from a CTA) and get no twin. With `cap`, only the
+    account's `cap` strongest real outliers (by ratio) are kept, so no creator dominates the set."""
     picked = {}
+    real = sorted((r for r in reels if r["outlier"] and not r["funnel"]), key=lambda r: -r["ratio"])
+    keep = {r["shortcode"] for r in (real[:cap] if cap else real)}
     typical = [r for r in reels if not r["outlier"] and not r["funnel"] and 0.5 <= r["ratio"] <= 2.0]
     for r in sorted((r for r in reels if r["outlier"]), key=lambda r: r["timestamp"]):
         if r["funnel"]:
             picked[r["shortcode"]] = "funnel"
+            continue
+        if r["shortcode"] not in keep:
             continue
         picked[r["shortcode"]] = "outlier"
         free = [t for t in typical if t["shortcode"] not in picked]
@@ -177,6 +182,9 @@ def cmd_fetch(usernames: list[str], source: str):
         time.sleep(3)
 
 
+CAP = 6  # strongest real outliers per account in the tagging set
+
+
 def cmd_sample():
     con = connect()
     con.execute("update reels set sampled = null")
@@ -184,7 +192,7 @@ def cmd_sample():
     for u in users:
         rows = con.execute("select shortcode, timestamp, ratio, outlier, funnel from reels where username = ?", (u,)).fetchall()
         reels = [{"shortcode": s, "timestamp": t, "ratio": r, "outlier": bool(o), "funnel": bool(f)} for s, t, r, o, f in rows]
-        for code, kind in sample(reels).items():
+        for code, kind in sample(reels, cap=CAP).items():
             con.execute("update reels set sampled = ? where shortcode = ?", (kind, code))
     con.commit()
     print(dict(con.execute("select sampled, count(*) from reels where sampled is not null group by 1").fetchall()))

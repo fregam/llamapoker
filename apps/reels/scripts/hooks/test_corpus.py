@@ -76,6 +76,13 @@ class Sample(unittest.TestCase):
         self.assertNotIn("flop", twins)
         self.assertNotIn("near", twins)
 
+    def test_a_cap_keeps_each_accounts_strongest_outliers_with_their_twins(self):
+        reels = [reel(f"o{d}", 40_000, ts=f"2026-10-{d:02d}T00:00:00+0000") for d in range(1, 29)]
+        reels += [reel(f"h{v}", v * 1000, ts=f"2026-10-{v // 100:02d}T12:00:00+0000") for v in (300, 500, 900)]
+        picked = sample(classify(reels), cap=2)
+        self.assertEqual(sorted(k for k, v in picked.items() if v == "outlier"), ["h500", "h900"])
+        self.assertEqual(sum(v == "ordinary" for v in picked.values()), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
