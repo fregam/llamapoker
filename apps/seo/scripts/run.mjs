@@ -101,6 +101,11 @@ async function main() {
   run("git", ["add", "content/seo/scoreboard"]);
   run("git", ["commit", "-m", q(`SEO reading ${date}`)]);
 
+  // The agent has no network, so the site's dependencies must be in place before it starts,
+  // or it cannot run the checks on its own change (found on the first run, 2026-11-17).
+  const web = resolve(repoRoot, "apps/web");
+  if (!dry && !existsSync(resolve(web, "node_modules"))) run("npm", ["ci"], { cwd: web });
+
   let agentFailed = false;
   if (!flags.has("--no-agent")) {
     const agent = run(
@@ -126,8 +131,6 @@ async function main() {
   const changed = dry ? "" : run("git", ["status", "--porcelain"], { capture: true }).stdout.trim();
   const touchesSite = /apps\/web\//.test(changed);
   if (touchesSite) {
-    const web = resolve(repoRoot, "apps/web");
-    if (!existsSync(resolve(web, "node_modules"))) run("npm", ["ci"], { cwd: web });
     const ok =
       run("npx", ["tsc", "--noEmit"], { cwd: web, allowFail: true }).status === 0 &&
       run("npm", ["test"], { cwd: web, allowFail: true }).status === 0;
