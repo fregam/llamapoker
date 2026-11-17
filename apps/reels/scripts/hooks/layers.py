@@ -31,11 +31,41 @@ def sampled(limit=None):
     return rows[:limit] if limit else rows
 
 
-def cuts_in_first(path: Path, seconds=5, threshold=0.3) -> int:
-    r = subprocess.run([FFMPEG, "-hide_banner", "-t", str(seconds), "-i", str(path), "-vf",
-                        f"select='gt(scene,{threshold})',showinfo", "-f", "null", "-"],
-                       capture_output=True, text=True, errors="replace")
-    return len(re.findall(r"pts_time:", r.stderr))
+def cuts_in_first(path: Path, seconds=5) -> int:
+    """Hard cuts in the first `seconds`: a frame whose 16-bin grey histogram moves > 0.5 (or whose
+    pixels move > 45/255 on average) from the last; hits within 0.25 s are one cut. PyAV decodes
+    (the bundled ffmpeg has no null muxer, so its scene filter returned 0 for every reel)."""
+    import av
+    import numpy as np
+    cuts, prev, last = 0, None, -1.0
+    with av.open(str(path)) as c:
+        for f in c.decode(video=0):
+            if f.time is None or f.time > seconds:
+                break
+            g = f.to_ndarray(width=48, height=64, format="gray").astype(np.int16)
+            h = np.histogram(g, bins=16, range=(0, 256))[0] / g.size
+            if prev is not None and (np.abs(h - prev[1]).sum() > 0.5 or np.abs(g - prev[0]).mean() > 45):
+                if f.time - last > 0.25:
+                    cuts += 1
+                last = f.time
+            prev = (g, h)
+    return cuts
+
+
+def recount():
+    """Rewrites cuts_first_5s for every laid-out reel."""
+    for meta in sorted(OUT.glob("*/layers.json")):
+        info = json.loads(meta.read_text(encoding="utf-8"))
+        video = meta.parent / "reel.mp4"
+        if "error" in info or not video.exists():
+            continue
+        try:
+            info["cuts_first_5s"] = cuts_in_first(video)
+        except Exception as e:
+            print(f"{meta.parent.name}: {e}")
+            continue
+        meta.write_text(json.dumps(info, indent=2, ensure_ascii=False), encoding="utf-8")
+    print("recount done")
 
 
 def media(limit=None):
@@ -127,7 +157,9 @@ def sheets():
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "sheets":
+    if sys.argv[1] == "recount":
+        recount()
+    elif sys.argv[1] == "sheets":
         sheets()
     elif sys.argv[1] == "media":
         media(int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else None)

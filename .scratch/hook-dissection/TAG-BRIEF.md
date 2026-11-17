@@ -36,10 +36,13 @@ first**, a **POV / you-scene**, a **list promise**… These are examples, not th
 - **Taxonomy run (two agents, separate samples, merged afterwards):** read your mixed sample, then write your `taxonomy-<a|b>.md`: 12–25 mechanisms, each with
   a one-line definition, how to recognise it in each layer, and 2 example shortcodes. Merge near-duplicates;
   split a mechanism that covers two different moves. A reel can carry several.
-- **Tagging runs (many agents):** use `taxonomy.md` as written. For each reel write one JSON line to your
-  output file: `{"shortcode", "spoken": {...}, "on_screen": "...", "first_frame": "...", "pace": "...",
-  "caption_cta": "...", "mechanisms": ["..."], "new_mechanism": null | "name: definition"}`. Propose a new
-  mechanism only when none fits; it is logged, never silently added.
+- **Tagging runs (many agents):** use `content/research/hooks/taxonomy.md` as written. For each reel write
+  one JSON line (one object per line, UTF-8) to your output file:
+  `{"shortcode", "spoken": "first ~5 s in plain words, or 'song' / 'none'", "on_screen": "text at 0–3 s,
+  short", "first_frame": "what is at 0 s and what changes by 1 s and 3 s", "mechanisms": ["ids"],
+  "context": {format, audio, transcript_reliable, language, text_style, face_at_0s, annotation,
+  series_marker, caption_cta, sponsored, repost}, "new_mechanism": null | "name: definition"}`.
+  Propose a new mechanism only when none fits; it is logged, never silently added.
 
 You don't know which reels performed. Don't guess: describe what is there.
 
