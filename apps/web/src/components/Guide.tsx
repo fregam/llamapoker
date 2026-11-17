@@ -1,7 +1,8 @@
 /**
  * Shared frame for the Learn guides:
  *   <Guide path title lead>  breadcrumb (Learn / this guide), the page's single <h1>, a
- *                            standfirst, the content, then "Next in the path" and links
+ *                            standfirst, the byline (author, date last changed, how the
+ *                            numbers are made; from seo.ts), the content, then "Next in the path" and links
  *                            back to the tools — internal links that help both readers
  *                            and search engines.
  *   <Callout to label>       an inline "try it in the tool" box.
@@ -9,17 +10,18 @@
  * Used by: views/Learn.tsx and every guide (HandRankings, Positions, StartingHands, PotOdds, Outs,
  * PokerHelper).
  * Uses: components/Link, components/Signup (the letter form at the foot of every guide, source
- * "guide-<slug>"), seo (LEARN_PATH, routeFor).
+ * "guide-<slug>"), seo (AUTHOR, LEARN_PATH, longDate, routeFor).
  */
 
 import { ReactNode } from "react";
 import { Link } from "./Link";
-import { LEARN_PATH, routeFor } from "../seo";
+import { AUTHOR, LEARN_PATH, longDate, routeFor } from "../seo";
 import { Signup } from "./Signup";
 
 export function Guide({ path, title, lead, children }: { path: string; title: string; lead: ReactNode; children: ReactNode }) {
   const i = LEARN_PATH.indexOf(path);
   const next = i >= 0 && i < LEARN_PATH.length - 1 ? LEARN_PATH[i + 1] : null;
+  const route = routeFor(path);
   return (
     <article className="strategy guide">
       <nav className="crumbs" aria-label="Breadcrumb">
@@ -29,6 +31,16 @@ export function Guide({ path, title, lead, children }: { path: string; title: st
       </nav>
       <h1 className="page-title">{title}</h1>
       <p className="lead">{lead}</p>
+      <p className="byline">
+        By <Link to={AUTHOR.path}>{AUTHOR.name}</Link>
+        {route.modified && (
+          <>
+            {" · "}Updated <time dateTime={route.modified}>{longDate(route.modified)}</time>
+          </>
+        )}
+        {" · "}
+        <Link to={AUTHOR.path}>How the numbers are made</Link>
+      </p>
       {children}
       <footer className="guide-foot">
         <Signup source={`guide-${path.split("/").pop()}`} compact />

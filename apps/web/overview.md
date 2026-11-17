@@ -48,7 +48,8 @@ src/
   App.tsx               Masthead + nav, routes → pages, city backdrop, colophon (compact signup unless the page has
                         one inline: INLINE_SIGNUP); sets <title>; calls attribution.remember() after mount
   router.ts             Tiny router: usePath(), navigate(), setServerPath() for the prerender
-  seo.ts                Route table: path → page, title, description, prerender, JSON-LD schema; LEARN_PATH
+  seo.ts                Route table: path → page, title, description, prerender, JSON-LD schema, published/modified
+                        dates; LEARN_PATH; AUTHOR (the named person on the guides); longDate()
   attribution.ts        First-touch channel (utm_* or referrer host) kept in sessionStorage for the visit; remember() / attribution()
   pages.test.tsx        Smoke tests: every route renders through entry-server with one <h1>; signup placement invariants
   content/faq.ts        Home FAQ as data (visible FAQ + FAQPage structured data)
@@ -86,7 +87,7 @@ src/
     Charts.tsx          EquityGauge, PotBar (used); Donut (unused leftover)
     Explain.tsx         <Explain> disclosure, <Formula>, <Term> tooltip
     Link.tsx            <a href> that navigates client-side (router.ts)
-    Guide.tsx           Learn-guide frame: breadcrumb, h1, lead, "next in the path", tool links, compact signup; <Callout>
+    Guide.tsx           Learn-guide frame: breadcrumb, h1, lead, byline (author, date last changed, link to /about), "next in the path", tool links, compact signup; <Callout>
     RangeChart.tsx      Read-only 13×13 chart (layers: 3-bet / call / raise), used by Starting hands
     TableDiagram.tsx    SVG 6-max table: seats, dealer button, order of action pre/postflop
     Signup.tsx          Email capture: JSON POST to /api/subscribe with source + attribution (honeypot "company",
@@ -102,9 +103,13 @@ src/
     PokerHelper.tsx     /learn/online-poker-helper — catches "poker helper" searches; honest RTA guidance
     PotOdds.tsx         /learn/pot-odds: the price of a call, formula, bet-size → equity-needed chart (odds.potOdds)
     Outs.tsx            /learn/outs: counting outs, common draws, rule of 2 and 4, full outs chart (exact odds)
+    About.tsx           /about: who makes the site (seo.ts AUTHOR), how the numbers are computed, how the guides are
+                        written, what it is for; the page every guide byline links to. Keep every statement true
     Privacy.tsx         /privacy — what's stored (keep true when adding analytics/cookies)
     NotFound.tsx        404 page for unknown URLs
     PlayTool.tsx        "The Table" — the live tool (3-column, one-screen layout)
+    TrainerPage.tsx     /trainer: mounts Trainer in the browser over a prerendered placeholder, with a written guide
+                        below (the drills, how answers are graded); this is what search engines read
     Trainer.tsx         Five drills, grading, shot clock, session + all-time stats and leaks; compact signup after an answer
     Strategy.tsx        Static content: the rules the tool applies
     Glossary.tsx        Static content: definitions and formulas
@@ -243,8 +248,8 @@ Hotkeys are ignored while focus is in an input or select.
   on route change (`<main key={page}>`). `App` updates `document.title` and the description.
 - **Prerender.** `npm run build` renders every `prerender: true` route to HTML via
   `entry-server.tsx` and writes `dist/<route>.html` (no trailing-slash redirect on Cloudflare) with that route's title, description,
-  Open Graph tags and canonical URL. The Trainer is random on every load, so it ships as an
-  empty shell with meta. Prerendered markup carries `data-path` on `#root`; when it matches the
+  Open Graph tags and canonical URL. The Trainer is random on every load, so `TrainerPage`
+  prerenders a placeholder and a written guide and mounts the app after hydration. Prerendered markup carries `data-path` on `#root`; when it matches the
   URL, `main.tsx` **hydrates** it (`hydrateRoot`, after seeding the router's server snapshot with
   the real path), so the server HTML stays on screen instead of being painted a second time
   after the bundle runs.
@@ -293,7 +298,10 @@ explained", "starting hands chart", "hand rankings", "online poker helper", "liv
 Each of those intents has a page whose `<title>`, description and `<h1>` use those words
 (see `seo.ts`). Guides link to each other (`LEARN_PATH`, "Next in the path") and to the tools; the
 colophon links the main pages from everywhere. Structured data: WebSite + FAQPage (home),
-WebApplication (Table, Trainer), Article + BreadcrumbList (guides). The guides' charts and
+WebApplication (Table, Trainer), Article + BreadcrumbList (guides), AboutPage (/about). Each guide
+names a real author (a `Person` linking to /about) and its `published` / `modified` dates, on the page
+and in its Article data; the sitemap carries the same `modified` as `<lastmod>`. Bump `modified` in
+`seo.ts` only when a guide's content changes. The guides' charts and
 percentages are generated from `poker/ranges.ts`, so content and tool can never disagree.
 The Table helps beginners in place: seat buttons show full names on hover, a "What's this?"
 link next to the seat, and a three-step "New here?" guide in the empty readout.

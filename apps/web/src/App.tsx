@@ -14,10 +14,11 @@ import { useEffect, useState } from "react";
 import PlayTool from "./views/PlayTool";
 import Strategy from "./views/Strategy";
 import Glossary from "./views/Glossary";
-import Trainer from "./views/Trainer";
+import TrainerPage from "./views/TrainerPage";
 import Home from "./views/Home";
 import Privacy from "./views/Privacy";
 import NotFound from "./views/NotFound";
+import About from "./views/About";
 import Learn from "./views/Learn";
 import Positions from "./views/Positions";
 import StartingHands from "./views/StartingHands";
@@ -75,7 +76,7 @@ function Page({ page }: { page: PageId }) {
     case "tool":
       return <PlayTool />;
     case "trainer":
-      return <Trainer />;
+      return <TrainerPage />;
     case "strategy":
       return <Strategy />;
     case "glossary":
@@ -96,6 +97,8 @@ function Page({ page }: { page: PageId }) {
       return <PotOdds />;
     case "outs":
       return <Outs />;
+    case "about":
+      return <About />;
     default:
       return <NotFound />;
   }
@@ -163,6 +166,7 @@ export default function App() {
             <Link to="/learn/pot-odds">Pot odds</Link>
             <Link to="/learn/outs">Outs chart</Link>
             <Link to="/strategy">Strategy</Link>
+            <Link to="/about">About</Link>
             <Link to="/privacy">Privacy</Link>
           </span>
         </footer>

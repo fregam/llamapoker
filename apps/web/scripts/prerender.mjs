@@ -5,7 +5,7 @@
 // Also writes:
 //   dist/404.html     the empty app shell; Cloudflare Pages serves it, with a 404, for unknown URLs
 //   dist/robots.txt   allow everything, point at the sitemap
-//   dist/sitemap.xml
+//   dist/sitemap.xml  every route, with <lastmod> where the route has a `modified` date
 // The site URL is https://llamapoker.com; set SITE_URL to build for another address
 // (SITE_URL="" skips canonical links and the sitemap).
 
@@ -75,7 +75,10 @@ writeFileSync(join(DIST, "404.html"), page(NOT_FOUND, "", `<meta name="robots" c
 
 writeFileSync(join(DIST, "robots.txt"), `User-agent: *\nAllow: /\n${site ? `\nSitemap: ${site}/sitemap.xml\n` : ""}`);
 if (site) {
-  const urls = ROUTES.map((r) => `  <url><loc>${site}${r.path === "/" ? "/" : r.path}</loc></url>`).join("\n");
+  // <lastmod> only where the route table records a real content date (src/seo.ts `modified`).
+  const urls = ROUTES.map(
+    (r) => `  <url><loc>${site}${r.path === "/" ? "/" : r.path}</loc>${r.modified ? `<lastmod>${r.modified}</lastmod>` : ""}</url>`
+  ).join("\n");
   writeFileSync(
     join(DIST, "sitemap.xml"),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
