@@ -525,3 +525,23 @@ lesson, and a hook line that could open the post.
 - **Lesson:** an unattended job has three ways to fail quietly: it never starts, it starts and
   cannot say so, or the thing built to watch it kills it. Test the morning after, not the run.
 - **Hook:** "My weekly AI agent reported to a dashboard that was closed every time it ran."
+
+## 2026-11-17: "It looks cheap" was not a colour problem
+
+- **Choice:** the founder said the command center looked cheap. Before touching anything, take a
+  screenshot of it as it really was that morning, and a second one of an invented busy day served
+  from a file, so the real data store stayed clean. Then keep the palette and the layout and change
+  only how bright each thing is: numbers and states at full brightness with glow, sentences one
+  step down, labels two steps down. Swap the gamer-looking monospace for a plain one.
+- **Rejected:** a redesign. The colours and the layout were decisions already made, and the busy
+  screenshot showed they worked. Also rejected: filling the big empty panel with something
+  invented. It got a chart of the one series that already existed (subscribers by day).
+- **What happened:** the two screenshots told different stories. The real one was more than half
+  empty; the busy one had a pane cut off at the bottom and timestamps wrapping onto two lines.
+  The rewrite then broke the feed in a way neither picture had shown before: a style named
+  `.feed` also hit the layout box named `feed`, a trap that had been sitting there for the budget
+  pane all along. A second reviewer caught two sentences in these very notes that were not true.
+- **Lesson:** "cheap" usually means everything is shouting at the same volume. Turn most of it
+  down and the same design looks expensive. And judge a screen on its emptiest day and its
+  busiest, never on one.
+- **Hook:** "My dashboard looked cheap. I kept the three colours and only turned the volume down."

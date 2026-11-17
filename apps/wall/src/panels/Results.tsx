@@ -6,6 +6,8 @@
  * into its evidence. Snapshots stored before this layout have no `results`: they say so.
  */
 import type { ChannelRow } from "../model";
+import { useState } from "react";
+import { shiftDay } from "../lib/api";
 import { Pane, Seg, Evidence, Empty, signed } from "../components/ui";
 import type { PanelProps } from "./registry";
 
@@ -45,6 +47,7 @@ export function Results({ state, open, setOpen, wall, flash, phone }: PanelProps
           </div>
         </div>
       </div>
+      <Trend values={r.rows.find((row) => row.channel === "newsletter")?.spark ?? []} day={state.day} live={state.live} />
       <ul className="rows">
         {(phone ? r.rows.filter((row) => row.channel === "newsletter") : r.rows).map((row) => (
           <Row key={row.channel} row={row} opened={open === "row:" + row.channel} toggle={() => !wall && setOpen(open === "row:" + row.channel ? null : "row:" + row.channel)} />
@@ -105,5 +108,74 @@ function Spark({ values }: { values: number[] }) {
     <svg className="spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-label="last 30 days">
       <polyline points={pts} />
     </svg>
+  );
+}
+
+/**
+ * The leading number over the days the wall has of it (the Newsletter row's 30-day series), drawn
+ * large in whatever height the channel rows leave; the stylesheet hides it when they leave none.
+ * One line, the range on the left, the newest value at its end; pointing at it reads a day. The
+ * series has one point per calendar day ending on the reading's day (derive.ts subscribersByDay),
+ * which is what lets the dates be counted back from `day`.
+ */
+function Trend({ values, day, live }: { values: number[]; day: string; live: boolean }) {
+  const [at, setAt] = useState<number | null>(null);
+  if (values.length < 2) return null;
+  const n = values.length;
+  const lo = Math.min(...values);
+  const hi = Math.max(...values);
+  const pad = Math.max((hi - lo) * 0.15, 0.5);
+  const y = (v: number) => 100 - ((v - (lo - pad)) / (hi - lo + 2 * pad)) * 100;
+  const x = (i: number) => (i / (n - 1)) * 100;
+  const pts = values.map((v, i) => `${x(i)},${y(v)}`).join(" ");
+  const shown = at ?? n - 1;
+  const date = (i: number) => shiftDay(day, i - (n - 1)).slice(5);
+  return (
+    <div className="trend">
+      <div className="trend-in">
+        <div className="trend-h">
+          <span>SUBSCRIBERS · LAST {n} DAYS</span>
+          <span>
+            <b>{signed(values[n - 1] - values[0])}</b> SINCE {date(0)}
+          </span>
+        </div>
+        <div
+          className="trend-plot"
+          onMouseMove={(e) => {
+            const box = e.currentTarget.getBoundingClientRect();
+            setAt(Math.max(0, Math.min(n - 1, Math.round(((e.clientX - box.left) / box.width) * (n - 1)))));
+          }}
+          onMouseLeave={() => setAt(null)}
+        >
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label={`Subscribers over the last ${n} days: ${values[0]} to ${values[n - 1]}`}>
+            <defs>
+              <linearGradient id="trend-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#6fe3ff" stopOpacity="0.16" />
+                <stop offset="1" stopColor="#6fe3ff" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <line className="grid" x1="0" x2="100" y1={y(hi)} y2={y(hi)} />
+            <line className="grid" x1="0" x2="100" y1={y(lo)} y2={y(lo)} />
+            <polygon points={`0,100 ${pts} 100,100`} fill="url(#trend-fill)" />
+            <polyline className="line" points={pts} />
+            {at !== null && <line className="cross" x1={x(at)} x2={x(at)} y1="0" y2="100" />}
+          </svg>
+          <span className="y" style={{ top: `${y(hi)}%` }}>{hi}</span>
+          {hi !== lo && <span className="y" style={{ top: `${y(lo)}%` }}>{lo}</span>}
+          <span className="dot" style={{ left: `${x(shown)}%`, top: `${y(values[shown])}%` }} />
+          {at === null ? (
+            <span className="end" style={{ top: `${y(values[n - 1])}%` }}>{values[n - 1]}</span>
+          ) : (
+            <span className="tip" style={{ left: `${x(at)}%` }}>
+              {date(at)} · <b>{values[at]}</b>
+            </span>
+          )}
+        </div>
+        <div className="trend-x">
+          <span>{date(0)}</span>
+          <span>{live ? "TODAY" : date(n - 1)}</span>
+        </div>
+      </div>
+    </div>
   );
 }

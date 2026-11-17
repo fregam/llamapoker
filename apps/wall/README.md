@@ -14,7 +14,7 @@ spec `.scratch/wall-layout/spec.md`):
 
 | Panel (key) | Question it answers | Reads |
 |---|---|---|
-| Results (1) | How are we doing? Money first, subscribers as the leading number, then each channel. | `revenue`, `followers`, `post` events; Beehiiv |
+| Results (1) | How are we doing? Money first, subscribers as the leading number, their trend over the stored days (drawn in the height the rows leave, gone when they leave none), then each channel. | `revenue`, `followers`, `post` events; Beehiiv |
 | Needs you (2) | What is going wrong or waiting on me, and what do I do first? (threats above approvals) | stations, jobs, queue, flags, costs |
 | Work (3) | What is being made to improve it, and is any of it stuck? One line per department, CONTENT and DEVELOPMENT, opening down to the job traces (research agents included). | stations, jobs, site probe |
 | Live feed (4) | What just happened? | events |
@@ -237,7 +237,11 @@ What the tests cover:
 - **Pull request cards** (`scripts/pr-cards.test.mjs`) against a pretend wall and a pretend GitHub.
 - The SEO runner's reports are tested in `apps/seo` (`src/run.test.mjs`, the whole run with
   pretend commands and a pretend wall).
-- Not covered by tests: the panels' look (checked by eye with screenshots).
+- Not covered by tests: the panels' look, checked by eye. `node scripts/look-preview.mjs` (with
+  the wall running) serves the built wall with three readings and writes nothing: the real one
+  (:8791), an invented busy day (:8792) and that day with nothing red (:8793). Look at each at
+  1920x1080, with `?mode=wall`, at 1366x768 and at phone width. The set from the 2026-11-17 look
+  pass is in `media/tests/2026-11-17_wall-look/outputs/` (before and after).
 
 `npm run dev` runs `vite build --watch` and `wrangler pages dev` together (`scripts/dev.mjs`),
 passing the Beehiiv keys from `credentials.json` as bindings for that process only. A `.dev.vars`
@@ -278,11 +282,16 @@ time control to have that day. A Workers cron that fetches it is the next step.
 - `src/components/` — pane frame, segment digits, meters, evidence drawer, command bar, and the
   threat list and approval cards that Needs you shows.
 - `src/styles.css` — the one stylesheet (VFD on true black; cyan data, orange chrome accents and
-  waiting, red failure).
+  waiting, red failure). Brightness does the hierarchy: numbers and states are full cyan and the
+  only things that glow, sentences are a softer cyan, labels dimmer; nothing under 11 px. Text is
+  IBM Plex Mono, labels Chakra Petch, big digits DSEG7. The grid areas carry the panel names as
+  classes (`area feed`), so inner blocks are written `.pane .feed`.
 - `vscode-theme/` — the same look as a VS Code theme ("Wall VFD"); change it with `styles.css`.
   Bump its `version` when you change it, so VS Code picks it up after reinstalling.
 - `scripts/wall-event.mjs` — write to the store from the PC. `scripts/dev.mjs` — local run, plus
   the upkeep while it is open (the outbox let in, pull request cards kept true).
+- `scripts/look-preview.mjs` — the built wall with a real, a busy and an amber reading, for
+  checking the look without touching the store.
 - `scripts/wall-outbox.mjs` — reports that survive the wall being closed (`send`, `flush`).
 - `scripts/pr-cards.mjs` — clears a pull request's card when GitHub says it is merged or closed.
 - `scripts/claude-statusline.mjs` — the Claude Code status line that reports the plan limits;

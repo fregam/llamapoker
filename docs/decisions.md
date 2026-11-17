@@ -3,6 +3,24 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-17 - The wall's look: brightness does the hierarchy
+
+- **What:** inside the look already decided (true black, cyan data, orange chrome and waiting, red
+  failure), the wall gets one more rule: only numbers and states are full cyan and only they glow;
+  sentences are a softer cyan, labels dimmer, nothing under 11 px. Text moves from Share Tech Mono
+  to IBM Plex Mono; the tick rule along each pane's top becomes one hairline under the title; a
+  missing reading's dashes are lit low. Results draws the subscribers trend in the height its rows
+  leave. Experiments and budget is two columns, so the Claude limits no longer fall below the pane.
+- **Why:** the founder said it looked cheap. The cause was not the palette: every word was the same
+  bright cyan at 11 to 13 px with wide letter-spacing, so nothing led the eye, and more than half
+  of Results was empty while the budget pane was cut off. Before and after:
+  `media/tests/2026-11-17_wall-look/outputs/`.
+- **Rejected:** a new palette or layout (both are decided, and the wall read well once it was
+  calmer); filling the empty Results space with a panel that has no data (the spec forbids it; the
+  trend is the Newsletter row's own series). Cyan, orange and red are unchanged; the two dimmer
+  cyans moved (`#49a9c4` to `#5c9fb4`, `#2a6f85` to `#3d7a8e`, the second because it was too dark
+  to read at 11 px) and the VS Code theme follows them (0.1.2, reinstall to pick it up).
+
 ## 2026-11-17 - Hook first, and the script stage before the repeatable video stage
 
 - **What:** a reel starts from the chosen hook; the script is written to pay off that hook and
