@@ -3,6 +3,18 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-17 - Hook first, and the script stage before the repeatable video stage
+
+- **What:** a reel starts from the chosen hook; the script is written to pay off that hook and
+  says, beat by beat, what is seen as well as what is said; the picture is built from the script.
+  The script stage is built next. The repeatable video stage is extracted only after two or three
+  more reels have been made from real scripts.
+- **Why:** the hook writer's top two hooks were put on `aces-crowd`, whose body was written for
+  another opening, and the founder saw at once that the rest no longer matched the beginning. And
+  one hand-made video is too little to know what repeats: a stage built from it would remake that
+  one reel.
+- **Rejected:** making the video stage repeatable first; scripts that carry words only.
+
 ## 2026-11-17 - The hook writer works from a playbook of real hits, with truth as its only rule
 
 - **What:** the hook writer (`.claude/skills/hook-writing/`) has one goal, a line that stops a
