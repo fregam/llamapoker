@@ -44,9 +44,36 @@ og card and the X banner (`apps/web/public/og.png`, `brand/social/x-banner.png`)
 3. Add its entry to `assets.json` (prompt verbatim), then run `node scripts/media-manifest.mjs`
    and `--check`.
 
+## Sound library
+
+Music and sound effects for every video, kept so that making one never means searching for a sound.
+All of it comes from Epidemic Sound (the founder's subscription, through its connector).
+
+- **Files:** `media/library/audio/`: `music/<mood>/` (full tracks), `sfx/<role>/` (cuts ready to
+  drop on a cue: 48 kHz mono, peak -6 dBFS, 20 ms of lead-in; `-tNN` is one take out of a recording
+  with several), `sfx-raw/<role>/` (the untouched downloads).
+- **Catalogue:** `audio.md`, grouped by role, with length and where each cut is loudest. Read this
+  to choose. **Manifest:** `audio.json` (Epidemic Sound id, title, artist, bpm, tags, measured
+  level, sha256). Verify with `node scripts/media-manifest.mjs --check content/library/audio.json`.
+- **Sources:** `audio-sources.jsonl`, the curated list the library is built from (one Epidemic
+  Sound id per line, with its role). The manifest and catalogue are generated from it.
+- **Use:** `python scripts/sound-lib.py find <words>` then `python scripts/sound-lib.py use <id>`
+  (copies it into `apps/reels/public/`, a music bed at -20 dBFS RMS as mp3, and notes the source in
+  `apps/reels/sound-sources.json`).
+- **Add a sound:** search and download through the Epidemic Sound connector (a download link lives
+  about three minutes), add a line to `audio-sources.jsonl`, pipe `<id> <link>` lines into
+  `python scripts/sound-lib.py fetch`, then `python scripts/sound-lib.py build`. Never overwrite a
+  file: a changed sound is a `v02`.
+- **Licence:** not verified from here. Epidemic Sound clearance normally depends on an active
+  subscription and on the publishing channels being linked to it: the founder confirms the plan
+  covers Instagram, TikTok and YouTube before the first reel with this music is posted.
+
 ## History
 
 - 2026-11-09: v01 (GPT Image 2.5, warm paper, 19th-century club) retired as off-brand. The
   FLUX paper sheets were never accepted. On-brand library started as drafts in `media/tests/`.
 - 2026-11-12: the FLUX and on-brand drafts and the 3D Gentleman files (used only by the
   shelved Blender work) were deleted; their manifest entries are in git history.
+- 2026-11-17: sound library added: 53 tracks in 14 moods (161 minutes) and 277 effect cuts in 54
+  roles, from 251 Epidemic Sound downloads (3.6 GB). Chosen by title, tags and measurement; not yet
+  listened to by the founder.

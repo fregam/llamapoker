@@ -1,0 +1,251 @@
+{"id":"44159e2b-7d97-48c5-bcf1-0de21b0ed7c3","kind":"sfx","role":"chip-handle","title":"Poker Chips Handling Palm"}
+{"id":"5a2536b3-2ec2-4b9b-bc45-00abbf620352","kind":"music","role":"tension","title":"Soundbed","artist":"Blue Saga","bpm":75,"tags":["ambient","drone","mysterious","suspense","pulses"]}
+{"id":"8965b418-6ebf-40fa-be12-99e42ed6c801","kind":"sfx","role":"chip-single","title":"Poker Chip Single Drop On Table"}
+{"id":"0074bc36-7139-4eb5-9594-1873efa1d625","kind":"sfx","role":"chip-single","title":"Poker Chip Single Set Down On Wooden Table"}
+{"id":"4feffa56-b830-4590-a3cc-bb0d96ecb127","kind":"sfx","role":"chip-single","title":"Poker Chip Single Drop On Table Spin"}
+{"id":"303ed5d8-17e1-49a6-9680-a9e5fd54bea1","kind":"sfx","role":"chip-stack","title":"Poker Chips Handling Stack Flip"}
+{"id":"0e042461-d67a-4d72-ad9a-4c5c8f105c79","kind":"sfx","role":"chip-stack","title":"Poker Chips Handling Stacking Flip"}
+{"id":"fb52dac4-458e-4b44-87a9-939d3be348ae","kind":"sfx","role":"chip-stack","title":"Poker Chips Handling Stacking Fast"}
+{"id":"676d4be1-a3b5-4af4-b161-f6181b17c271","kind":"sfx","role":"chip-stack","title":"Poker Chips Stack Knock Over"}
+{"id":"491fbda7-6ec6-45a4-b510-4b4382f949c1","kind":"sfx","role":"chip-stack","title":"Poker Chips Stack On Another In Hand"}
+{"id":"65dd2d4f-54ff-4592-866b-4592e9c0bf98","kind":"sfx","role":"chip-shuffle","title":"Poker Chips Stack Shuffle","mode":"whole"}
+{"id":"b9b8fa61-3b8b-409d-ba2b-bc8f7ab67af1","kind":"sfx","role":"chip-shuffle","title":"Poker Chips Stack Shuffle In Hand","mode":"whole"}
+{"id":"84c66dcb-3aa2-4317-86dc-eef48b063be1","kind":"sfx","role":"chip-push","title":"Poker Chips Drop Onto Pile On Wooden Felt Table"}
+{"id":"b70006ac-4cbb-40e2-93e2-3466c9a6d50e","kind":"sfx","role":"chip-push","title":"Poker Chips Many Throw On Wooden Table"}
+{"id":"558983c7-6852-482a-bc18-1b64e0a1e810","kind":"sfx","role":"chip-push","title":"Poker Chips Handful Throw Onto Wooden Felt Table 02"}
+{"id":"d5f15474-53fe-46e2-8f5a-a599125e2a99","kind":"sfx","role":"chip-push","title":"Poker Chips Handful Throw Onto Wooden Felt Table"}
+{"id":"65feecd9-ed24-4db4-b495-01afacb2e433","kind":"sfx","role":"chip-push","title":"Poker Chips Handful Set Down On Wooden Felt Table"}
+{"id":"5ce5dd56-3beb-4e46-acde-3f5ebbfdf047","kind":"sfx","role":"chip-push","title":"Poker Chips Pick Up From Wooden Table"}
+{"id":"77f9e407-393a-45a3-b170-ab1a0761c68e","kind":"sfx","role":"card-deal","title":"Playing Card Dealing Table Flip Singles"}
+{"id":"56a27d55-c7a5-4717-9531-61aad159dd26","kind":"sfx","role":"card-deal","title":"Dealing Cards On Wooden Board Slow 01"}
+{"id":"080f147a-12ed-44c6-91b5-f08a26580427","kind":"sfx","role":"card-deal","title":"Dealing Cards On Wooden Board Slow 02"}
+{"id":"c7bc849d-144c-40cc-8ba8-aeabbda3a56e","kind":"sfx","role":"card-deal-run","title":"Dealing Cards On Wooden Board Fast 02","mode":"whole"}
+{"id":"64b4de33-c762-4636-9198-ef131144aefe","kind":"sfx","role":"card-deal-run","title":"Dealing Cards On Wooden Board Medium","mode":"whole"}
+{"id":"8ee5e5a9-ad54-454e-a792-a639196b560f","kind":"sfx","role":"card-flip","title":"Playing Card Single Turn Over On Table Flip"}
+{"id":"595ad5e3-5573-4d12-b231-666ea5205adc","kind":"sfx","role":"card-flip","title":"Playing Card Turn Over On Table 02"}
+{"id":"0fd48091-e870-4b04-afce-da1b34cc60a8","kind":"sfx","role":"card-flip","title":"Playing Card Turn Over On Table"}
+{"id":"75851aab-5f8b-457d-88fe-86d65ad62676","kind":"sfx","role":"card-flip","title":"Playing Card Turn Over On Table 03"}
+{"id":"7b6febcd-62bb-4d21-9208-37c71b35c585","kind":"sfx","role":"card-flip","title":"Playing Card On Top Of Deck Turn Over"}
+{"id":"8b3a9f7c-0a59-484d-86a6-9a7d9ea1a579","kind":"sfx","role":"card-shuffle","title":"Playing Cards Shuffle Fast","mode":"whole"}
+{"id":"23807ea6-2dd9-4187-98de-ad18d975cb4f","kind":"sfx","role":"card-shuffle","title":"Playing Cards Deck Shuffle Short Few Cards 02","mode":"whole"}
+{"id":"3b973bf5-2bef-420c-ad51-f3d9eb78f1f6","kind":"sfx","role":"card-shuffle","title":"Playing Cards Deck Shuffle Short Few Cards 01","mode":"whole"}
+{"id":"fcd95a2f-984a-4625-a344-163e4177a787","kind":"sfx","role":"card-shuffle","title":"Playing Cards Shuffle x4"}
+{"id":"7ba11c28-0aeb-49cf-ba7f-856a3eae3733","kind":"sfx","role":"card-shuffle","title":"Cards Shuffling Riffling On Cardboard"}
+{"id":"551a738b-95d6-4eca-ad4c-51cfbfa0e17c","kind":"sfx","role":"card-slide","title":"Playing Cards Hand Slide On Table 02"}
+{"id":"863f9a1a-fb17-4daa-8fc4-25dd292da51d","kind":"sfx","role":"card-slide","title":"Playing Cards Hand Slide On Table"}
+{"id":"4a018eba-b422-4bc8-891d-5a32b290e17c","kind":"sfx","role":"card-slide","title":"Playing Card Single Slide Pass On Table"}
+{"id":"82940a2d-c86c-47ed-ae3c-2cf82509cb96","kind":"sfx","role":"card-muck","title":"Playing Cards Deck Throw Down On Table 02"}
+{"id":"8d9dd150-f518-49c9-b21d-e99b9edb8bdd","kind":"sfx","role":"card-muck","title":"Playing Cards Many Throw Down On Table Slide"}
+{"id":"52bea5d4-3c9a-4ed3-bb64-6e79660f9454","kind":"sfx","role":"coin","title":"Coin Money Drop Coins"}
+{"id":"5d79a178-dc71-4117-9a5d-ea3ce194c813","kind":"sfx","role":"coin","title":"Coin Money Drop"}
+{"id":"8e7e3f28-f5cc-4f6c-9342-7e762b5b98a6","kind":"sfx","role":"coin","title":"Coin Money Coins Drop 01"}
+{"id":"6002100f-09d7-4b52-a72a-85a7f9c75b44","kind":"sfx","role":"coin","title":"Coin Money Coins Drop 02"}
+{"id":"081238b1-c591-4866-8e23-5501145c2664","kind":"sfx","role":"tick","title":"UI Click Button Generic x2"}
+{"id":"d637e4e8-6846-496b-84f9-19f3f7b59539","kind":"sfx","role":"tick","title":"UI Button Simple Select"}
+{"id":"46216b97-17a4-48ec-a7ec-999132ef096a","kind":"sfx","role":"tick","title":"UI Button Confirm Dull"}
+{"id":"326f0f67-5371-452f-aec4-65f1c0a654b0","kind":"sfx","role":"blip","title":"UI Button Type Zap"}
+{"id":"3297dd2d-1f6c-45e8-9c9a-283f34f161b5","kind":"sfx","role":"blip","title":"UI Button Ping Select","mode":"whole"}
+{"id":"9da883ac-6b03-4df0-b8e6-cd85c7c926a5","kind":"sfx","role":"pop","title":"UI Pops Glass"}
+{"id":"7cce069c-4a3a-4746-b5c8-94a653fab587","kind":"sfx","role":"pop","title":"UI Button Bubbly Select"}
+{"id":"19edc18a-387f-4987-9110-75d1abecc3fa","kind":"sfx","role":"pop","title":"UI Button Bubbly Option"}
+{"id":"b359f164-2fc5-4d46-9442-6b155977b8ac","kind":"sfx","role":"pop","title":"Bubble Single Pop 02"}
+{"id":"bd01f3a5-e11b-4be3-86be-dc351b466f9b","kind":"sfx","role":"pop","title":"Cartoon Pop Various"}
+{"id":"d80cb785-d7e9-41a3-a337-6ab57f8e4e67","kind":"sfx","role":"reveal","title":"Alert Ding Complex Shine","mode":"whole"}
+{"id":"ca606dde-a0ba-4749-beb3-40e412003ce6","kind":"sfx","role":"chime","title":"Alert Tonal Soft Confirm Chime","mode":"whole"}
+{"id":"725bc978-eeca-4592-83ec-e76f2be36c98","kind":"sfx","role":"chime","title":"Alert Chime Delay Bright Positive","mode":"whole"}
+{"id":"750b3bb7-497d-4e08-a828-198e0121bba2","kind":"sfx","role":"chime","title":"Alert Chime Bell Bright Positive","mode":"whole"}
+{"id":"4877a30a-717b-4e11-ab6a-8f9d25b5f8d1","kind":"sfx","role":"pluck","title":"UI Pings Tings Generic High","mode":"whole"}
+{"id":"fa5cf124-455f-48af-a76f-74672dcf88f8","kind":"sfx","role":"chime","title":"Chime Twinkle Wood Positive Short 02","mode":"whole"}
+{"id":"93505bfe-e95d-4b5f-96aa-508d405b7013","kind":"sfx","role":"whoosh-short","title":"Swish Short Bright Fast Flyby","mode":"whole"}
+{"id":"3ee6b80c-edf2-43e8-b527-3483817a5e9a","kind":"sfx","role":"whoosh-short","title":"Whoosh Short Car Fast Dry","mode":"whole"}
+{"id":"ccc11958-9b93-4268-b3a7-4a3079f7cef9","kind":"sfx","role":"whoosh-short","title":"Swish Deep Short Roll Fast","mode":"whole"}
+{"id":"a841407e-22a5-416c-a1bc-fb3732e96456","kind":"sfx","role":"whoosh-short","title":"Swish Short Tonal Flyby","mode":"whole"}
+{"id":"be924dac-4c67-4815-b348-f88a8b57e609","kind":"sfx","role":"whoosh-short","title":"Whoosh Short Low Dry","mode":"whole"}
+{"id":"bf1e97b7-996e-4b60-9306-d595088f9b9c","kind":"sfx","role":"whoosh-deep","title":"Whoosh Transition Riser Fast Deep Mysterious","mode":"whole"}
+{"id":"689b1489-8811-4963-a9af-28187d5c7486","kind":"sfx","role":"whoosh-deep","title":"Whoosh Deep Low Cinematic","mode":"whole"}
+{"id":"a9946ddf-b02a-4798-8822-05f6c7e89e0d","kind":"sfx","role":"whoosh-deep","title":"Whoosh Low Sub Cinematic 01","mode":"whole"}
+{"id":"df647a35-a9dc-4da5-baf0-e6cb4223dc89","kind":"sfx","role":"whoosh-deep","title":"Whoosh Airy Tonal Bass","mode":"whole"}
+{"id":"0e356c2f-1089-4faa-8143-326dbeee3085","kind":"sfx","role":"impact","title":"Cinematic Impact Hit Electric Tonne","mode":"whole"}
+{"id":"eb8d9968-205e-48d5-8510-bc2c738a5970","kind":"sfx","role":"impact","title":"Cinematic Impact Hit Slam Braam","mode":"whole"}
+{"id":"e139df4c-47e3-43ee-bd61-0e1df40e735b","kind":"sfx","role":"impact","title":"Cinematic Hit Thud Bright Airy","mode":"whole"}
+{"id":"b8dc45d1-f812-4a71-ab50-57c5e9db8b4e","kind":"sfx","role":"impact","title":"Impact Hit Big Dark Cinematic Mysterious","mode":"whole"}
+{"id":"1c520f5c-f859-43aa-9406-ad01e927b81e","kind":"sfx","role":"riser-hit","title":"Cinematic Riser Aggressive Epic Big Deep Hit 03","mode":"whole"}
+{"id":"e4152766-9adc-4889-a7dd-e14eda89ad41","kind":"sfx","role":"riser-hit","title":"Cinematic Riser Aggressive Epic Big Deep Hit 01","mode":"whole"}
+{"id":"6d82b75c-2d2f-40b3-9e1b-4d822c1173d5","kind":"sfx","role":"boom","title":"Boom Low Hit","mode":"whole"}
+{"id":"8b884170-f07c-4bc7-96a5-c03b7e7286b5","kind":"sfx","role":"boom","title":"Boom Bass Low Thump","mode":"whole"}
+{"id":"d106e784-e06e-4673-ae48-a36e145a715d","kind":"sfx","role":"boom","title":"Boom Impact Dark Cinematic Low Hit","mode":"whole"}
+{"id":"81aabc76-1757-4b6e-9b12-13f86f41a57c","kind":"sfx","role":"boom","title":"Boom Bass Low Short Sustain","mode":"whole"}
+{"id":"2f0a40ab-f23a-4927-a911-1d70459d52e7","kind":"sfx","role":"boom","title":"Boom Cinematic Deep Impact","mode":"whole"}
+{"id":"7aa69876-60e5-4d60-a1c6-dd48ce5edcc7","kind":"sfx","role":"riser-long","title":"Riser Cinematic Reverse Impact Crescendo Tension Build 01","mode":"whole"}
+{"id":"8a4614ce-2b38-4dc5-8eb0-d64a35fbc204","kind":"sfx","role":"riser-long","title":"Riser Transition Build Up Charge Eerie Futuristic","mode":"whole"}
+{"id":"fe632d0d-bcf3-48e9-b766-477e8d04d259","kind":"sfx","role":"riser-short","title":"Riser Short Build Up Mysterious Suspense","mode":"whole"}
+{"id":"f49e5a72-8c82-441c-86ae-a53a85c4dfc9","kind":"sfx","role":"riser-short","title":"Riser Short Fast Build Up Suspenseful","mode":"whole"}
+{"id":"566b642a-4341-4ad7-961a-d25000cf8341","kind":"sfx","role":"riser-short","title":"Riser Cymbal Reverse Crescendo Suspense Climax 02","mode":"whole"}
+{"id":"dc8b6a4f-88c8-423c-b2fb-21747d1b66f8","kind":"sfx","role":"riser-short","title":"Riser Cymbal Reverse Crescendo Suspense Climax 03","mode":"whole"}
+{"id":"d827ad40-aa6e-42d1-ae01-926228319a4a","kind":"sfx","role":"riser-short","title":"Riser Cymbal Reverse Crescendo Suspense Climax 01","mode":"whole"}
+{"id":"4d27d5aa-c121-4ce7-a21d-7c14bcf1e36f","kind":"sfx","role":"riser-short","title":"Cymbal Swell Crescendo Short Choked 02","mode":"whole"}
+{"id":"42ace3cc-24e4-4b99-be50-580e0cfb47d1","kind":"sfx","role":"table-knock","title":"Knocking On Wood"}
+{"id":"e0d3bcb0-bc63-40ec-9cb7-fa7c82921573","kind":"sfx","role":"table-knock","title":"Knock Wood Fingers Fast","mode":"whole"}
+{"id":"6f53c05f-5533-4d06-a5de-48b18d916e1b","kind":"sfx","role":"table-knock","title":"Knock Thin Wood","mode":"whole"}
+{"id":"d530c5b9-3047-42fe-a06a-7c479d637b60","kind":"sfx","role":"stamp","title":"Rubber Stamp Document 01","mode":"whole"}
+{"id":"c966287b-936b-4108-9b47-01c3ae8f9921","kind":"sfx","role":"stamp","title":"Paper Binder Large Down On Surface","mode":"whole"}
+{"id":"0f12a95b-51d9-4049-be59-0a4290efe722","kind":"sfx","role":"stamp","title":"Stapler Stapling Paper","mode":"whole"}
+{"id":"90d532b7-6505-4d3b-ac07-ed20623b076d","kind":"sfx","role":"stamp","title":"Hole Punch Through Multiple Pages Of Paper","mode":"whole"}
+{"id":"1b808b71-b0fb-4350-8728-fb7a9bd8e59e","kind":"sfx","role":"paper-rip","title":"Cheque Rip From Book Stub 03","mode":"whole"}
+{"id":"9111d4b6-f528-43a7-b830-d15f19544227","kind":"sfx","role":"win","title":"Game Jingle Positive Event Chord","mode":"whole"}
+{"id":"aeb943d7-5e04-41da-b194-03ea975d6a6b","kind":"sfx","role":"win","title":"Notification Positive Win Achievement 02","mode":"whole"}
+{"id":"b4283bb1-2afa-4701-9bc2-4da770fae03b","kind":"sfx","role":"win","title":"Achievement Notification Positive Magic Win Chiming","mode":"whole"}
+{"id":"00f10036-4bfa-4638-a5d1-64b2e61cc464","kind":"sfx","role":"win","title":"Game Points Jingle 02","mode":"whole"}
+{"id":"9906413b-7c6c-4b9a-ae58-be464cc8c14e","kind":"sfx","role":"win","title":"Game Points Jingle 01","mode":"whole"}
+{"id":"735d4ba7-14cc-4885-9a33-849374a981a3","kind":"sfx","role":"wrong","title":"Notification Error Wrong Negative","mode":"whole"}
+{"id":"e678ba5f-27c4-4b45-816c-7ab25caee1bb","kind":"sfx","role":"wrong","title":"Notification Error Wrong Negative 02","mode":"whole"}
+{"id":"cb68563b-8a6d-49f7-874e-adf15dda41e9","kind":"sfx","role":"wrong","title":"Buzzer Wrong Answer Incorrect Error","mode":"whole"}
+{"id":"01cb1376-7651-4ae5-a0bf-d717ae2ea374","kind":"sfx","role":"wrong","title":"Alert Denied Error Negative Variations 02"}
+{"id":"2c9bd6e5-d7db-4730-afbd-d6eeefb5492d","kind":"sfx","role":"wrong","title":"Notification Negative Denied Error","mode":"whole"}
+{"id":"6caad476-d3e4-44ad-afa1-1e9187c46bd0","kind":"sfx","role":"cash","title":"Cash Register Kaching Money","mode":"whole"}
+{"id":"78cd1e0c-f70d-41d6-9836-1b1da0bd1a9a","kind":"sfx","role":"cash","title":"Cash Register Open","mode":"whole"}
+{"id":"2c3fec8f-f862-4165-82aa-603d1e8d2ec5","kind":"sfx","role":"cash","title":"Cash Register Vintage 1912 Transaction Mechanism Bell","mode":"whole"}
+{"id":"0bb3e88b-e4b9-402b-b7d4-ecaf3a230121","kind":"sfx","role":"cash","title":"Antique Cash Register Button Press","mode":"whole"}
+{"id":"9380ee49-b1e9-4914-a1cc-2315c723f1e7","kind":"sfx","role":"clock","title":"Clock Double Ticking","mode":"whole"}
+{"id":"695dccc9-4001-4e6c-9e0d-31762b4e0a57","kind":"sfx","role":"clock","title":"Antique Desk Clock Ticking Fast","mode":"whole"}
+{"id":"e725d39c-6608-401d-a40c-9e27c497d7ac","kind":"sfx","role":"clock","title":"Old Alarm Clock Ticking","mode":"whole"}
+{"id":"2065a536-430b-49fe-907d-42b82b8fbb63","kind":"sfx","role":"clock","title":"Designed Ticking Clock Slow Loop","mode":"whole"}
+{"id":"84b44e32-dfcc-41f7-a7d3-e32cf50dad70","kind":"sfx","role":"heartbeat","title":"Human Heartbeat","mode":"whole"}
+{"id":"44f4869f-f2d2-4666-b2f5-4c639c60ae91","kind":"sfx","role":"heartbeat","title":"Heartbeat Designed Evil Fat Bass","mode":"whole"}
+{"id":"eb62a05e-e1e4-414a-88d4-f8bd13e675b2","kind":"sfx","role":"heartbeat","title":"Heartbeat Through Chest Steady Rhythm","mode":"whole"}
+{"id":"5a122ab1-454c-4b90-8d81-3023c65c201e","kind":"sfx","role":"heartbeat","title":"Heartbeat Through Chest Irregular Getting Faster","mode":"whole"}
+{"id":"fa4bc40b-5280-46a3-a29c-184db7b48be6","kind":"sfx","role":"glitch","title":"Glitch Data Processing 11","mode":"whole"}
+{"id":"b81e28af-5b80-4b44-a425-1e5f88e9d545","kind":"sfx","role":"glitch","title":"Glitch Digital Pulse","mode":"whole"}
+{"id":"ce8c2f91-5e6c-483e-a5de-58b3d3ae18b3","kind":"sfx","role":"glitch","title":"Glitch Data Processing 06","mode":"whole"}
+{"id":"5424863f-2378-4f80-8344-52566f83b335","kind":"sfx","role":"glitch","title":"Glitch Data Processing 12","mode":"whole"}
+{"id":"5a00a3bb-83a8-4032-9740-7e438e579aa3","kind":"sfx","role":"typewriter","title":"Typewriter Vintage Keys 09"}
+{"id":"8a684780-b3bb-410d-a1f0-e8215cfc586c","kind":"sfx","role":"typewriter","title":"Typewriter Vintage Keys 10"}
+{"id":"0ba7d055-9293-4a2b-9bfe-b8aad3f306cb","kind":"sfx","role":"typewriter","title":"Typewriter Vintage Keys 07"}
+{"id":"a899a98f-a341-4354-a752-626e8c9c9339","kind":"sfx","role":"typewriter-run","title":"Typewriter Vintage Keys 01","mode":"whole"}
+{"id":"12926cd0-4be9-419c-91ec-1eb5a01de407","kind":"sfx","role":"page-turn","title":"Notepad Page Turn 07","mode":"whole"}
+{"id":"3e3e1af7-6d5b-4f09-a227-97575f34af7a","kind":"sfx","role":"page-turn","title":"Paper Thick Turn Page","mode":"whole"}
+{"id":"af766588-9c36-4ab8-9d46-59da44d531c1","kind":"sfx","role":"page-turn","title":"Notepad Page Turn 01","mode":"whole"}
+{"id":"8b65534c-0f74-44b4-b6f8-1f11a64118c6","kind":"sfx","role":"page-turn","title":"Notepad Page Turn 06","mode":"whole"}
+{"id":"d4a0d493-57e4-4d39-9514-3340d60cb7d6","kind":"sfx","role":"pencil","title":"Pencil Scribble On Cardboard Sheet","mode":"whole"}
+{"id":"f3ac2d96-8af5-41e0-8ecb-c08f76248acf","kind":"sfx","role":"pencil","title":"Pencil Scribble Out On Paper","mode":"whole"}
+{"id":"3f8a2aea-0ee0-419f-ab41-e7d9204b1ae9","kind":"sfx","role":"pencil","title":"Pencil Scribble Fast On Paper","mode":"whole"}
+{"id":"488d469a-79d5-4486-8158-100570ccbaf7","kind":"sfx","role":"pencil","title":"Pencil Scribble Scrub Out On Cardboard Sheet","mode":"whole"}
+{"id":"df87e4fc-ebfc-459d-bad7-94e50c139692","kind":"sfx","role":"ambience-casino","title":"Casino Slot Machines Coins Melodies Light Walla 03","mode":"whole"}
+{"id":"97a5c9be-b23f-4333-8be7-d65c3c00ebfb","kind":"sfx","role":"ambience-casino","title":"Casino Slot Machines Coins Melodies Light Walla 18","mode":"whole"}
+{"id":"791c9dbe-af2c-47d7-85fc-b47eb4182708","kind":"sfx","role":"ambience-room","title":"Room Tone Living Room Quiet Traffic Through Window","mode":"whole"}
+{"id":"2797899d-0d19-4dc8-a349-9edd6ff1c528","kind":"sfx","role":"ambience-room","title":"Room Tone Very Quiet Garage A 01","mode":"whole"}
+{"id":"51c54e28-3680-4cca-8834-f42d4c57367a","kind":"sfx","role":"gasp","title":"Reaction Female Gasp 02","mode":"whole"}
+{"id":"039bb99b-a59c-4dad-9405-0234c5202e41","kind":"sfx","role":"gasp","title":"Reaction Male Gasp 03","mode":"whole"}
+{"id":"87af00f4-de5d-44b4-9106-1b040aa320c3","kind":"sfx","role":"gasp","title":"Reaction Male Gasp 02","mode":"whole"}
+{"id":"91eafea5-4043-45ea-a631-57b5c24bd13a","kind":"sfx","role":"gasp","title":"Reaction Female Gasp 01","mode":"whole"}
+{"id":"54498922-1afd-4148-b4e4-f41566761c67","kind":"sfx","role":"cheer","title":"Cheering Small Medium Group Interior Applause","mode":"whole"}
+{"id":"d549377c-9e44-483a-9e57-019b9e12d1bf","kind":"sfx","role":"cheer","title":"Applause Short Shouting Cheering","mode":"whole"}
+{"id":"dbbb0119-73df-44fa-85cf-916a2c2ffaa9","kind":"sfx","role":"cheer","title":"Cheering Applause Medium Audience Short 02","mode":"whole"}
+{"id":"eabac36f-764b-4c7a-8d2e-e0f4103cc2f1","kind":"sfx","role":"cheer","title":"Light Applause Cheering Whistling Medium Audience 02","mode":"whole"}
+{"id":"e0dce2a5-524e-4730-8391-35cb5817d51d","kind":"sfx","role":"drone","title":"Drone Musical Deep Dark Distorted Distant","mode":"whole"}
+{"id":"6f58bbcb-b5bb-460f-8073-ad8954425b2c","kind":"sfx","role":"drone","title":"Drone Eerie Tension In The Air Bass","mode":"whole"}
+{"id":"54e34fc2-46d0-46f2-a873-42cdccfd9d53","kind":"sfx","role":"drone","title":"Drone Bassy Tension","mode":"whole"}
+{"id":"9de72a20-fe0e-452a-b824-614bed0b4ba1","kind":"sfx","role":"drone","title":"Drone Musical Classic Tension Bass Harmonics 01","mode":"whole"}
+{"id":"39771c97-320c-4334-bf66-c1bff708a283","kind":"sfx","role":"stinger","title":"Stinger Suspense Orchestral Rise Big Impact Horns","mode":"whole"}
+{"id":"469fe4bb-7d71-4385-8bf1-e5d1bc6262f1","kind":"sfx","role":"stinger","title":"Stinger Orchestral Hit Strings Transition","mode":"whole"}
+{"id":"c912245c-b29b-4964-b8e4-0fd247a0ad99","kind":"sfx","role":"stinger","title":"Stinger Orchestral Strings Tension Riser Suspense Swell","mode":"whole"}
+{"id":"7c35f032-2c5d-4abe-b908-823b0901978f","kind":"sfx","role":"stinger","title":"Stinger Orchestral Impact Harp Dramatic Tonal Tail","mode":"whole"}
+{"id":"bf4716be-4f43-4a79-8c21-f3325bc3f8cf","kind":"sfx","role":"shimmer","title":"Magic Shimmer Transform Sparkle Twinkle 04","mode":"whole"}
+{"id":"59869c0c-1388-480e-b06d-4592db0c3415","kind":"sfx","role":"shimmer","title":"Magic Spell Bright Shimmer","mode":"whole"}
+{"id":"bb7365a3-baf0-49f4-869c-9612519008ba","kind":"sfx","role":"shimmer","title":"Magic Shimmer Twinkle Glimmer Positive 02","mode":"whole"}
+{"id":"ec863bd3-4878-4ca6-9224-c8fd644a3a12","kind":"sfx","role":"shimmer","title":"Magic Shimmer Cleanse Twinkle Glimmer Short 05","mode":"whole"}
+{"id":"663d9cdd-37fc-41cd-9a1a-3d6391eddaba","kind":"sfx","role":"record-scratch","title":"Vinyl Record Scratch 08","mode":"whole"}
+{"id":"a3f3ff46-b01d-4937-b6b3-6a815a3e7e03","kind":"sfx","role":"record-scratch","title":"Vinyl Record Scratch 17","mode":"whole"}
+{"id":"6b5baed5-e758-45ad-a445-4ebea06e65ec","kind":"sfx","role":"record-scratch","title":"Vinyl Record Scratch 01","mode":"whole"}
+{"id":"075b129e-49ec-4155-b840-1f167fefa6c8","kind":"sfx","role":"shutter","title":"Zenit Camera Shutter 01","mode":"whole"}
+{"id":"cad01d18-bc44-4deb-b361-689f382d2e6c","kind":"sfx","role":"shutter","title":"Digital Camera Canon EOS 5D Shutter","mode":"whole"}
+{"id":"723aa2bf-f067-4951-b62b-a95200b2d666","kind":"sfx","role":"shutter","title":"Zenit Camera Shutter 02","mode":"whole"}
+{"id":"3dbdd803-afe1-4da5-a398-5b0f297629c5","kind":"sfx","role":"bell","title":"Bell Ding Typewriter","mode":"whole"}
+{"id":"06dbcd9d-b37e-4cca-bb9f-a959463fc220","kind":"sfx","role":"bell","title":"Call Bell Elevator Ding","mode":"whole"}
+{"id":"ae2ef60a-b88b-4f2b-838e-d59cee17d63d","kind":"sfx","role":"bell","title":"Reception Desk Bell Single Ring 05","mode":"whole"}
+{"id":"6aae2c40-1830-46cf-bd20-b5faab1fea99","kind":"sfx","role":"bell","title":"Reception Desk Bell Rings x4","mode":"whole"}
+{"id":"0d62d319-3857-4800-b5ad-b68edfb3b8c5","kind":"sfx","role":"counter","title":"Beeps Timer Digital Count","mode":"whole"}
+{"id":"4198c1b0-f4b3-4f4b-bf78-857498ea1bee","kind":"sfx","role":"counter","title":"Beep Digital Count 6","mode":"whole"}
+{"id":"8f704576-f82f-402f-adb1-a64cc808ba02","kind":"sfx","role":"counter","title":"Relay Ramp Up Number Counter 04","mode":"whole"}
+{"id":"f119170d-1030-47ab-b2be-1307db963452","kind":"sfx","role":"counter","title":"Relay Ramp Up Number Counter 02","mode":"whole"}
+{"id":"576fb3b5-7f22-41c9-9c76-424a300d1d0e","kind":"sfx","role":"counter","title":"Relay Ramp Up Number Counter 03","mode":"whole"}
+{"id":"6e879a49-b293-4850-a109-f59c77c72606","kind":"sfx","role":"swipe","title":"UI Short Swish Swipe Open Close Variations 04"}
+{"id":"618d73e5-15a5-4fbc-876d-7d65bd5976fe","kind":"sfx","role":"swipe","title":"UI Motion Swipe 06","mode":"whole"}
+{"id":"33c031ff-653e-4842-b145-e2830616b1eb","kind":"sfx","role":"swipe","title":"UI Motion Swipe 08","mode":"whole"}
+{"id":"fe8bc994-bf82-4488-b320-2c4710adf02c","kind":"sfx","role":"swipe","title":"UI Motion Swipe 05","mode":"whole"}
+{"id":"ed8248b0-59f8-44f3-8a3f-9185018d39a8","kind":"sfx","role":"swipe","title":"UI Motion Swipe 01","mode":"whole"}
+{"id":"76375f7e-89d9-45ed-8c45-1ba5741e11cd","kind":"music","role":"tension","title":"Vestige","artist":"Lennon Hutton","bpm":105,"tags":["minimalism","mysterious","suspense","pulses"]}
+{"id":"23a7aedb-ca72-4784-9176-f0b69b18397d","kind":"music","role":"tension","title":"Fragment","artist":"Lennon Hutton","bpm":105,"tags":["minimalism","mysterious","dreamy","pulses"]}
+{"id":"3c1ad0de-8456-4677-86fe-bb3153624738","kind":"music","role":"tension","title":"Trace","artist":"Lennon Hutton","bpm":156,"tags":["electronic","minimalism","dreamy","suspense","pulses"]}
+{"id":"386e7d4b-7b08-4a2a-8e34-5a4c38253689","kind":"music","role":"cinematic","title":"Impossible Theory","artist":"Rachel Sandy","bpm":149,"tags":["orchestral","build","drama","hopeful","suspense"]}
+{"id":"caebde53-8306-4a0d-a2bd-3262bc641d89","kind":"music","role":"cinematic","title":"Mind Bender","artist":"Philip Ayers","bpm":120,"tags":["orchestral hybrid","cinematic","adventure","epic","suspense"]}
+{"id":"34b72f66-f0d1-4298-9a54-0d717f322d67","kind":"music","role":"hiphop","title":"Liberty City","artist":"DonVayei","bpm":93,"tags":["hip hop","old school hip hop","beats","dreamy","laid back"]}
+{"id":"29f46264-0ebf-4a99-b792-c05e10969712","kind":"music","role":"funk","title":"Don't Funk with Me","artist":"Daniel Fridell","bpm":97,"tags":["funk","beats","quirky","sexy"]}
+{"id":"c4b8d080-6a05-46c0-9c88-f1b49f953a8a","kind":"music","role":"funk","title":"The Get Down","artist":"Daniel Fridell","bpm":97,"tags":["funk","1970s","beats","funny","happy"]}
+{"id":"7205c264-04f8-44c7-ba02-ca329b9d397c","kind":"music","role":"funk","title":"Plastic Lizard","artist":"Daniel Fridell","credit":"Daniel Fridell, Sven Andersson","bpm":86,"tags":["funk","funny","happy"]}
+{"id":"a0e14665-c124-48f0-bab5-7c440635879c","kind":"music","role":"funk","title":"Sunshine Funk","artist":"Daniel Fridell","bpm":95,"tags":["funk","1970s","1980s","beats","happy"]}
+{"id":"5079b22e-9a59-4ad6-b530-933d44b82529","kind":"music","role":"jazz","title":"The Blue Tiger","artist":"Guto Lucena","bpm":90,"tags":["cool jazz","jazz","laid back","sneaking","sneaky"]}
+{"id":"a9395841-3b1b-4966-bf69-c614c76ae9b1","kind":"music","role":"jazz","title":"A Grey Day","artist":"Guto Lucena","bpm":106,"tags":["jazz","dark","mysterious"]}
+{"id":"306ddbdd-55ee-4fbf-a38e-f546bc37adde","kind":"music","role":"jazz","title":"Dubious Intentions","artist":"Ludvig Moulin","bpm":118,"tags":["jazz","funny","quirky"]}
+{"id":"83c25e73-58b8-4bea-b5fa-1cb11d673015","kind":"music","role":"jazz","title":"Easy Breezy","artist":"Megan Wofford","bpm":160,"tags":["jazz","big band","swing","acoustic","happy","laid back"]}
+{"id":"33ec3ae0-9ff4-48d3-a112-b22252beaddf","kind":"music","role":"jazz","title":"Swingin'","artist":"Megan Wofford","bpm":180,"tags":["jazz","big band","swing","happy","laid back"]}
+{"id":"3357f145-cf7c-4906-80f0-3c9c6c470bb9","kind":"music","role":"lofi","title":"Iced Chai","artist":"baegel","credit":"baegel, Jobii","bpm":75,"tags":["lo-fi hip hop","beats","laid back","relaxing"]}
+{"id":"5154cb79-e469-4304-ac04-5cd4ef2c816e","kind":"music","role":"lofi","title":"Low Orbit","artist":"Jobii","bpm":69,"tags":["lo-fi hip hop","beats","dreamy","laid back","relaxing"]}
+{"id":"7c1a1c68-466c-473a-bbfd-b3d2f737d243","kind":"music","role":"lofi","title":"Cloudbreak","artist":"Jobii","bpm":69,"tags":["lo-fi hip hop","beats","dreamy","laid back"]}
+{"id":"3f5929b2-0dac-476e-a80d-973314aac07b","kind":"music","role":"trap","title":"Constellations","artist":"Daniel Jorge","bpm":150,"tags":["trap","beats","dark","dreamy"]}
+{"id":"8c0a363f-0407-4908-a012-b6620fccc175","kind":"music","role":"trap","title":"Stay Outside","artist":"Toby Tranter","bpm":137,"tags":["trap","beats","dark","restless"]}
+{"id":"a9a6fec3-6d6e-46f7-99b7-6f8250dbc87a","kind":"music","role":"phonk","title":"BACK2BACK","artist":"STRLGHT","credit":"STRLGHT, ROONIN","bpm":124,"tags":["drift phonk","dark","eccentric","vocal presence"]}
+{"id":"2081801a-bc2a-4cbb-ba89-834823fad6ca","kind":"music","role":"phonk","title":"CROSH","artist":"Azucares","bpm":165,"tags":["drift phonk","angry","restless","vocal presence"]}
+{"id":"5df18e4e-b2c3-426d-853e-c2a8c037e518","kind":"music","role":"piano","title":"Everything Will Be Alright","artist":"Sayuri Hayashi Egnell","tags":["solo piano","relaxing","sentimental"]}
+{"id":"0ee8aa15-455a-43f4-8730-46d53295eac3","kind":"music","role":"piano","title":"Hoppfull","artist":"William Claeson","tags":["solo piano","hopeful","peaceful"]}
+{"id":"3cde129e-0ff6-4801-8b95-ef66ddf59479","kind":"music","role":"quirky","title":"Keeping My Head in the Sand","artist":"Speedy The Spider","bpm":136,"tags":["comedy","happy","quirky"]}
+{"id":"93a9fb57-871c-3a5e-a86b-9617c78dadfd","kind":"music","role":"elegant","title":"Waltz of the Dead","artist":"Mike Franklyn","bpm":138,"tags":["elegant","mysterious","mystery","horror"]}
+{"id":"b40c6266-de82-4a0f-a624-0760e3efc750","kind":"music","role":"upbeat","title":"Me Time (Instrumental Version)","artist":"Zorro","bpm":109,"tags":["indie pop","dreamy","happy"]}
+{"id":"10cdcb7d-e251-444a-af68-4f989b23a593","kind":"music","role":"cinematic","title":"Last Frontier","artist":"Hampus Naeselius","bpm":87,"tags":["orchestral hybrid","cinematic","build","dark","epic","mysterious","suspense"]}
+{"id":"ca38b60c-cea8-4ad1-877d-74aa39296755","kind":"music","role":"cinematic","title":"The Right Stuff","artist":"Hampus Naeselius","bpm":106,"tags":["orchestral hybrid","action","build","dark","epic","suspense","vocal presence"]}
+{"id":"7e7ba1a6-fcf4-4b6b-af48-9eed7647022a","kind":"music","role":"cinematic","title":"Below the Line","artist":"Hampus Naeselius","bpm":127,"tags":["orchestral hybrid","action","dark","epic","suspense","vocal presence"]}
+{"id":"5068df00-a2f3-4adb-a355-e640e2690b97","kind":"music","role":"elegant","title":"Whispers in the Wind","artist":"Eva Hummingbird","bpm":174,"tags":["string ensemble","elegant","eccentric"]}
+{"id":"bfbcae1e-88e3-3b16-89d0-e0c2136f960b","kind":"music","role":"elegant","title":"Kaiserquartett Menuetto","artist":"Joseph Haydn","bpm":185,"tags":["string ensemble","classical","elegant"]}
+{"id":"b5f5faa1-b933-317a-97e0-7eb83e21f0d5","kind":"music","role":"elegant","title":"String Quartet Allegro","artist":"Thommy Andersson","credit":"Traditional; produced by Thommy Andersson","bpm":95,"tags":["string ensemble","classical","elegant","happy"]}
+{"id":"bee76149-dd00-40d7-9221-306572a3282a","kind":"music","role":"synthwave","title":"Forgotten","artist":"AGST","bpm":90,"tags":["synthwave","dreamy","happy"]}
+{"id":"074f286d-9921-4836-b368-d3c0b63fb1d4","kind":"music","role":"synthwave","title":"Time","artist":"Purple Dive","bpm":98,"tags":["synthwave","1980s","dark","dreamy","vocal presence"]}
+{"id":"67ad284a-a646-4972-a7b1-dc8732424b1e","kind":"music","role":"synthwave","title":"RISE","artist":"Ballpoint","bpm":97,"tags":["synthwave","1980s","mysterious","restless","vocal presence"]}
+{"id":"1815a286-4ea3-4d4e-a637-2b3563337889","kind":"music","role":"saloon","title":"Fat and Muscles","artist":"Martin Landstrom","bpm":153,"tags":["ragtime","1900s","funny","happy"]}
+{"id":"0da2d148-046a-40b8-aa43-e5a8a3ae6c84","kind":"music","role":"saloon","title":"Freezing Hands Meet Piano","artist":"Harry Edvino","bpm":123,"tags":["ragtime","vaudeville","solo piano","funny","happy"]}
+{"id":"60624800-500f-4a40-8d5e-80e68a1bfb2d","kind":"music","role":"saloon","title":"Sunny Blues","artist":"Will Harrison","bpm":178,"tags":["ragtime","classic blues","happy","laid back"]}
+{"id":"203cc987-93c2-4ff4-b83c-d2aa01c9b838","kind":"sfx","role":"pluck","title":"Ping String Pluck 02","mode":"whole"}
+{"id":"43a28c04-6e83-4cd5-b0d5-7c9db3c8044d","kind":"sfx","role":"pluck","title":"Ping String Pluck","mode":"whole"}
+{"id":"2a42c45f-282a-42bf-a8c6-3f6d789250a8","kind":"sfx","role":"pluck","title":"Plucked Guitar String Hits"}
+{"id":"69e18d09-5f54-4f92-8527-d889c65dccab","kind":"sfx","role":"pluck","title":"Violin Plucks Single","mode":"whole"}
+{"id":"d5f8c2ec-fbc8-4630-ac84-3c5ecc975681","kind":"sfx","role":"tick","title":"Metronome Ticking"}
+{"id":"04ae55c2-c90c-4a88-b3f8-10e8921d782a","kind":"sfx","role":"tick","title":"Mechanical Tick Slow Clocks 01"}
+{"id":"2b0734c4-3f2a-4d54-ac33-3d3920176882","kind":"sfx","role":"tick","title":"Wooden Pole Hit Wood 03","mode":"whole"}
+{"id":"f03f9842-8805-4bc1-8079-f1087ba0e639","kind":"sfx","role":"tick","title":"Wooden Pole Hit Wood 02","mode":"whole"}
+{"id":"05d5b9a5-32d2-418b-a357-373101a03a4b","kind":"sfx","role":"reveal","title":"Shimmer Holy Cleanse Positive Twinkle Glimmer 09","mode":"whole"}
+{"id":"b6aa3977-f9e4-41f5-950f-131f52c90c5a","kind":"sfx","role":"reveal","title":"Shimmer Holy Cleanse Positive Twinkle Glimmer 02","mode":"whole"}
+{"id":"caaa5d4f-4a09-4fd5-bad7-5b0f23143888","kind":"sfx","role":"reveal","title":"Shimmer Buff Power Up Twinkle Glimmer Positive 07","mode":"whole"}
+{"id":"fc1a1ef7-14f3-49ac-8a3a-9db1b588c68f","kind":"sfx","role":"blip","title":"Beep Computer Generic Digital Noise 02","mode":"whole"}
+{"id":"732a83ed-d9f6-436a-9d44-16b31a5157b7","kind":"sfx","role":"blip","title":"Beep Bright Sharp Short","mode":"whole"}
+{"id":"29df19b6-05d7-4aba-bf2a-c9ae5b372a49","kind":"sfx","role":"blip","title":"Glitch Short Blips"}
+{"id":"643b24da-bf99-430d-b769-f0c2632b577d","kind":"sfx","role":"rewind","title":"Tape Cassette Deck Rewind","mode":"whole"}
+{"id":"f2c96e92-c270-4238-ac59-b5d846c3b2af","kind":"sfx","role":"rewind","title":"Vinyl Music Rewind 03","mode":"whole"}
+{"id":"b6e4fe72-4807-4052-989f-b3ade207b02a","kind":"sfx","role":"rewind","title":"Record Rewind Reversed Vibration 02","mode":"whole"}
+{"id":"bcbe8d6c-22b2-4903-a77d-c13a8171a38d","kind":"sfx","role":"slam","title":"Slam Against Table Heavy","mode":"whole"}
+{"id":"6053c087-be0a-4c98-93f0-50f797cee83d","kind":"sfx","role":"slam","title":"Paper Sheet Thick Hits With Hand 01"}
+{"id":"bc6116c7-c818-4bfe-bef1-634018d40eba","kind":"sfx","role":"slam","title":"Wad Of Notes Bang Table"}
+{"id":"f140fdc3-5287-46c3-bb99-6d862895d17f","kind":"sfx","role":"ambience-murmur","title":"Walla Small Room 01","mode":"whole"}
+{"id":"5da8d8bf-618c-4b2b-80ab-61bcd8627ab1","kind":"sfx","role":"ambience-murmur","title":"Indoor Large Crowd Walla 02","mode":"whole"}
+{"id":"cf6f83da-f3bc-4738-85bf-4ff2130e6d91","kind":"sfx","role":"ambience-table","title":"Poker Chips Stack Handling Bed","mode":"whole"}
+{"id":"36097ca2-d87a-45be-8cdb-0517e2e2ab1b","kind":"music","role":"hiphop","title":"One for Yamada","artist":"baegel","bpm":88,"tags":["boom bap","old school hip hop","hopeful","laid back"]}
+{"id":"55d1eebd-8a16-4309-84a8-f25ada048305","kind":"music","role":"hiphop","title":"Vibin'","artist":"DonVayei","bpm":98,"tags":["boom bap","happy","restless"]}
+{"id":"ed64a520-20e0-38fc-89d7-e171c2a40e1c","kind":"music","role":"hiphop","title":"Motor City Swang","artist":"Sarah the Illstrumentalist","bpm":88,"tags":["boom bap","hip hop","hopeful","laid back"]}
+{"id":"6a4eba53-d701-4a6f-b94e-b0bf31ecb096","kind":"music","role":"quirky","title":"Pitfall","artist":"Arthur Benson","bpm":124,"tags":["orchestral","comedy","quirky","sneaking","sneaky"]}
+{"id":"8e1d93c8-9023-4371-9492-9ba9b562330e","kind":"music","role":"quirky","title":"Sneaky Business","artist":"J.R. Productions","bpm":120,"tags":["quirky","sneaking","sneaky"]}
+{"id":"1b846f54-f51a-429e-a77c-20fdbcf5f0c4","kind":"music","role":"quirky","title":"Bats and Rats","artist":"Ludvig Moulin","bpm":114,"tags":["vaudeville","mysterious","quirky"]}
+{"id":"caa8da28-e1be-45e8-b19f-a3f7205f39e3","kind":"music","role":"upbeat","title":"Natalie (Instrumental Version)","artist":"Particle House","bpm":96,"tags":["pop","happy","sentimental"]}
+{"id":"8cb73850-fc7d-43b5-ac35-6e81fed83733","kind":"music","role":"upbeat","title":"Anything for You (Instrumental Version)","artist":"Adelyn Paik","bpm":130,"tags":["pop","euphoric","happy","hopeful"]}
+{"id":"fedd6dee-a6c4-4fb6-9699-0f14069fb285","kind":"music","role":"upbeat","title":"Can I See You Again (Instrumental Version)","artist":"JAKE SING","bpm":118,"tags":["indie pop","k-pop","hopeful","laid back"]}
+{"id":"c0339563-a161-4032-840e-67738c240442","kind":"music","role":"synthwave","title":"Chrome Dreams","artist":"Ben Elson","bpm":95,"tags":["synthwave","1980s","dark"]}
+{"id":"2e5598c9-de18-4c94-a830-b7ef7b7a09fc","kind":"music","role":"synthwave","title":"Cosmic Countdown","artist":"Ben Elson","bpm":100,"tags":["synthwave","1980s","dark","restless"]}
+{"id":"c3ab9399-2bc5-46f0-9fa4-7c7c81ff7278","kind":"music","role":"trap","title":"Nasty","artist":"Cushy","bpm":123,"tags":["hard trap","beats","dark","suspense"]}
+{"id":"e7d120ea-eabe-4e58-b3ed-dc8cf1958f38","kind":"music","role":"trap","title":"Campaign","artist":"Dylan Sitts","bpm":137,"tags":["trap","hip hop","beats","dark","restless"]}

@@ -113,12 +113,23 @@ The voice-over is the spine. Everything on screen happens because a word was jus
   of move (tick = a count, a row, a cell; pluck = a hand lighting; deal = a card; fold = a fold;
   chip = chips; stamp = a number landing; reveal = a result; whoosh = a scene change or an object
   flying to its dock, softer). **Never a sound on the captions**: words are not events.
+- **Take sounds from the library first** (`content/library/audio.md`: 53 tracks in 14 moods, 277
+  effect cuts in 54 roles; `content/library/README.md`, "Sound library"). From the repo root:
+  `python scripts/sound-lib.py find card flip`, then `python scripts/sound-lib.py use <id> --as <name>`
+  copies the cut to `public/sfx/<name>.wav`, and `use <track-id> --as <name> --seconds 90` writes a
+  bed to `public/music/<name>.mp3` at −20 dBFS RMS (the level `<Music>` assumes). When a cut's loud
+  moment is late (a slide before the slap, the top of a riser), `use` prints the `delay` that lands
+  it on the cue. The vocabulary above maps to these roles: tick → `tick`, `counter`, `clock`;
+  pluck → `pluck`, `pop`; deal → `card-deal`, `card-flip`; fold → `card-muck`, `card-slide`;
+  chip → `chip-single`, `chip-stack`, `chip-push`; stamp → `stamp`, `slam`, `impact`, `boom`;
+  reveal → `reveal`, `chime`, `shimmer`, `win`; whoosh → `whoosh-short`, `whoosh-deep`, `swipe`;
+  riser → `riser-short`, `riser-long`, `riser-hit`. Generate a sound only if the library has no
+  role for it, and then add it to the library.
 - Files: `public/sfx/<name>.wav` (48 kHz mono, peak −6 dBFS, the hit 20 ms in so it lands on the
   cue; whooshes are swells and are placed with `delay={-10}`) and `public/music/bed.wav`. The
   effects are generated locally by MOSS-SoundEffect v2 (`scripts/sfx-moss.py`, candidates in
-  `media/tests/2026-11-11_sfx-board/`); the bed is still the synthesised placeholder from
-  `scripts/sfx-synth.py` until ACE-Step 1.5 runs (`scripts/music-comfy.mjs`, needs the ComfyUI
-  Desktop core updated). `sfx-synth.py` also regenerates a provisional effects set with the same
+  `media/tests/2026-11-11_sfx-board/`); `public/music/bed.wav` is the old synthesised placeholder, kept only for reels 002 and 003;
+  new reels take their bed from the library. `sfx-synth.py` also regenerates a provisional effects set with the same
   names if ever needed.
 - Voice cleaning: `scripts/vo-enhance.py --file <in> <out>` (DeepFilterNet 3 on the system Python
   3.11, re-levels to −16 LUFS) on the whole recording before it is tightened and cut (see "Voice");
@@ -195,6 +206,7 @@ src/narration.ts        Script markup → timeline (line starts, word moments, c
 src/stage.tsx           Narration, Captions, Enter, Move (an object travelling across scenes), Shake, Stat, Tag, SeatRing, Ledger, useNarration
 src/sound.tsx           Music (ducked bed), Sfx, Ticks, Hit (riser+stamp+boom)
 public/sfx/, public/music/  Effects and the bed (see "Sound")
+sound-sources.json      Which library sound each file in public/ was copied from (written by sound-lib.py use)
 src/components.tsx      Frame (kicker, hairline border, reading line), PlayingCard, legacy Caption/BigNumber
 src/teaching.tsx        Engraving (screen blend + fade), RangeGrid (ghost/hot), Counter, ChipStack, Seat, DotRow
 src/scripts/<id>.json   The spoken script with caption/cue markup (source of truth for the voice lines)
@@ -257,5 +269,5 @@ decide, measurements only narrow):
 
 Covers: `cover-only-aces`, `cover-will-it-get-there`, `cover-should-you-call`.
 
-No music baked in; add a quiet track in the app when posting. Remotion is free for individuals and
+Music comes from the sound library (see "Sound"), baked into the render. Remotion is free for individuals and
 companies of up to three people; check its licence if the team grows.

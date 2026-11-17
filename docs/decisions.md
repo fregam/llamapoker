@@ -3,6 +3,21 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-17 - The video stage starts from references, and `aces-crowd` is the new baseline
+
+- **What:** every earlier video rule is scrapped (editing grammar, pacing rules, the host +
+  draw-on direction; plumbing and fonts are open again). The method: the founder sends reference
+  videos, Claude builds and compares until its result beats them for our viewer, and the founder
+  judges side by side. Posted retention numbers take over as judge once we post. First result the
+  founder liked: `aces-crowd` v12 (`apps/reels/src/reels/AcesCrowd.tsx`), 18 s, one ace built from
+  8,000 tiles that breaks as callers join, numbers from the engine, voice-timed, sound from the
+  library. References: `media/tests/2026-11-17_video-references/`.
+- **Why:** building a look from the ground up, rule by rule, was too slow and produced reels the
+  founder did not like. Rules written before results were the bottleneck (same lesson as hooks).
+- **Kept as hard limits:** true numbers, 18+ study-tool positioning, no cloned real voice or face
+  without consent. The Instagram safe area is a measured fact, checked like spelling.
+- **Rejected:** comparing against reel 002; a rulebook up front.
+
 ## 2026-11-17 - The SEO agent gets a goal and a score, and Google's docs outrank the reels (score, runtime and tiers proposed)
 
 - **What:** the SEO agent's brief is one outcome: page one of Google for the 18 searches in

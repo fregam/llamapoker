@@ -384,6 +384,47 @@ lesson, and a hook line that could open the post.
 - **Lesson:** when you're building the factory, stop hand-making the product.
 - **Hook:** "I had a reel I knew would flop. Fixing it was the wrong move."
 
+## 2026-11-17 - My AI beat its own rulebook, so I threw out the video rules too
+
+- **Choice:** scrapped every rule for the video stage, including a visual direction I had picked
+  myself. The new method: send the AI reference videos, let it iterate until its result beats them
+  against the goal.
+- **Rejected:** building the look from the ground up, rule by rule, test round by test round. It
+  worked, but far too slowly to get a good result soon.
+- **What happened:** in the hook work, an unconstrained hook from the AI beat the rule-bound
+  system the same AI was running. The rules, set before we knew anything, were the bottleneck.
+- **Lesson:** rules written before you have results are guesses wearing a uniform. Start from
+  examples that already work and a clear goal; keep only the limits you'd never break.
+- **Hook:** "My AI wrote a better hook than the system I built for it. So I deleted the system."
+
+## 2026-11-17 - I stopped generating sounds and bought the shelf
+
+- **Choice:** one sitting with a stock-audio subscription: 251 downloads turned into a library of
+  53 music tracks and 277 effect cuts, each filed by the job it does in a video (tick, deal, fold,
+  stamp, reveal), levelled the same, with the loud moment of every cut measured and written down.
+- **Rejected:** generating each effect with local AI models, one prompt at a time, and searching
+  for a sound every time a video needs one. The search is the slow part, and an agent that can't
+  hear picks badly from a catalogue of a hundred thousand files.
+- **What happened:** the links to download expire after three minutes and the catalogue only
+  talks to the AI one file at a time, so it was hours of small batches. But the video agent used
+  the library on a reel before the library was even finished.
+- **Lesson:** an agent works faster from a small shelf it knows than from a huge store it has to
+  search. Curate once, by role, and measure what it can't hear.
+- **Hook:** "My AI can't hear. So I gave it 300 sounds with the loud part marked on each one."
+
+## 2026-11-17 - Nine reference videos in, one reel I liked out, same night
+
+- **Choice:** sent the AI nine reels I admire and one instruction: keep going until yours is
+  better. It built an ace of spades from 8,000 tiles that shatters as players join the hand, with
+  win rates from our own engine (85% against one player, 49% against five).
+- **Rejected:** approving a plan first, or judging against our old reel. The AI stopped once at a
+  version it admitted wasn't good enough; I asked it to remind me what I had asked for.
+- **What happened:** twelve versions. It started the voice generator itself, found the take had
+  background noise, cleaned it, and re-timed every beat to the spoken words. Another AI session
+  had built a sound library in parallel, and the reel's sound was swapped onto it in minutes.
+- **Lesson:** "work until it's better than this" is a brief. "Follow these 40 rules" is a cage.
+- **Hook:** "I stopped giving my AI rules and gave it nine videos to beat."
+
 
 ## 2026-11-17 - I fact-checked four SEO reels before building anything from them
 

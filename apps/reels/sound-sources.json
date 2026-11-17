@@ -1,0 +1,68 @@
+{
+ "music/ac-bed.mp3": {
+  "id": "tension_soundbed-blue-saga",
+  "es_id": "5a2536b3-2ec2-4b9b-bc45-00abbf620352",
+  "title": "Soundbed",
+  "artist": "Blue Saga"
+ },
+ "sfx/ac-49.wav": {
+  "id": "impact_cinematic-impact-hit-slam-braam",
+  "es_id": "eb8d9968-205e-48d5-8510-bc2c738a5970",
+  "title": "Cinematic Impact Hit Slam Braam"
+ },
+ "sfx/ac-blast.wav": {
+  "id": "boom_boom-impact-dark-cinematic-low-hit",
+  "es_id": "d106e784-e06e-4673-ae48-a36e145a715d",
+  "title": "Boom Impact Dark Cinematic Low Hit"
+ },
+ "sfx/ac-build.wav": {
+  "id": "riser-short_riser-short-fast-build-up-suspenseful",
+  "es_id": "f49e5a72-8c82-441c-86ae-a53a85c4dfc9",
+  "title": "Riser Short Fast Build Up Suspenseful"
+ },
+ "sfx/ac-cards.wav": {
+  "id": "card-muck_playing-cards-many-throw-down-on-table-slide",
+  "es_id": "8d9dd150-f518-49c9-b21d-e99b9edb8bdd",
+  "title": "Playing Cards Many Throw Down On Table Slide"
+ },
+ "sfx/ac-crowded.wav": {
+  "id": "boom_boom-low-hit",
+  "es_id": "6d82b75c-2d2f-40b3-9e1b-4d822c1173d5",
+  "title": "Boom Low Hit"
+ },
+ "sfx/ac-cut.wav": {
+  "id": "whoosh-short_swish-deep-short-roll-fast",
+  "es_id": "ccc11958-9b93-4268-b3a7-4a3079f7cef9",
+  "title": "Swish Deep Short Roll Fast"
+ },
+ "sfx/ac-fold.wav": {
+  "id": "card-slide_playing-cards-hand-slide-on-table-02",
+  "es_id": "551a738b-95d6-4eca-ad4c-51cfbfa0e17c",
+  "title": "Playing Cards Hand Slide On Table 02"
+ },
+ "sfx/ac-heal.wav": {
+  "id": "shimmer_magic-shimmer-cleanse-twinkle-glimmer-short-05",
+  "es_id": "ec863bd3-4878-4ca6-9224-c8fd644a3a12",
+  "title": "Magic Shimmer Cleanse Twinkle Glimmer Short 05"
+ },
+ "sfx/ac-out.wav": {
+  "id": "whoosh-short_whoosh-short-low-dry",
+  "es_id": "be924dac-4c67-4815-b348-f88a8b57e609",
+  "title": "Whoosh Short Low Dry"
+ },
+ "sfx/ac-rewind.wav": {
+  "id": "riser-short_riser-cymbal-reverse-crescendo-suspense-climax-02",
+  "es_id": "566b642a-4341-4ad7-961a-d25000cf8341",
+  "title": "Riser Cymbal Reverse Crescendo Suspense Climax 02"
+ },
+ "sfx/ac-slam.wav": {
+  "id": "stamp_paper-binder-large-down-on-surface",
+  "es_id": "c966287b-936b-4108-9b47-01c3ae8f9921",
+  "title": "Paper Binder Large Down On Surface"
+ },
+ "sfx/ac-thump.wav": {
+  "id": "boom_boom-bass-low-thump",
+  "es_id": "8b884170-f07c-4bc7-96a5-c03b7e7286b5",
+  "title": "Boom Bass Low Thump"
+ }
+}

@@ -12,6 +12,10 @@ media/
     characters/<name>/<name>_<sheet>_v<NN>.png      sheet = turnaround | expressions | poses
     locations/<place>_plate_v<NN>.png
     props/props_sheet_v<NN>.png
+    audio/                         the sound library (manifest: content/library/audio.json)
+      music/<mood>/<mood>_<title>-<artist>_v<NN>.wav        full tracks as downloaded
+      sfx/<role>/<role>_<what>[-tNN]_v<NN>.wav              drop-in cuts (48 kHz mono, peak -6 dBFS)
+      sfx-raw/<role>/<role>_<what>_v<NN>.wav                the downloads the cuts were made from
   reels/<YYYY-MM-DD>_<slug>/       one folder per reel (manifest: content/reels/assets.json)
     keyframes/ motion/ clips/ audio/{vo,music,sfx}/ edit/ renders/
   tests/<YYYY-MM-DD>_<slug>/       bake-offs and model tests (manifest: content/tests/assets.json,

@@ -367,6 +367,1774 @@
       "bytes": 53043,
       "width": 800,
       "height": 1100
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/a.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/a.json",
+      "sha256": "00f0a11d4b861b081ffdeeb4573bd63ddd554aec713b6ff1c8a22bf25bc4da5f",
+      "bytes": 28
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/b.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/b.json",
+      "sha256": "72be7b5d2912632f1e20f2899ca73d4e8cf002dc3e6894d85da6f9cf829ceda1",
+      "bytes": 35
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/base.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/base.json",
+      "sha256": "da3708924ea4e8846ff4eb572d245b970942dc268a2692e80b81f4d7235bd486",
+      "bytes": 15
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/c.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/c.json",
+      "sha256": "5b9a2b9c105d5f66cf025fdfcb3fa99f85e41dea5a301a290123baa24c465e56",
+      "bytes": 31
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/d-input.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/d-input.json",
+      "sha256": "a17e84f6bb00b87eb3e87d2d886e9db8a8878a71504f56f6e5a291b80dadf361",
+      "bytes": 27
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/boom_146977.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/boom_146977.mp3",
+      "sha256": "412a697d1a44edb17fdd413a820b0a5aed51bc159bd4b15c2e2f59a170ae3f47",
+      "bytes": 17951
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/chip_445142.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/chip_445142.mp3",
+      "sha256": "5eb3336d4b8b173912eaa717fe3e4b2b130a25a08dbe5def64b73f08b39cf247",
+      "bytes": 282337
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/deal_571577.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/deal_571577.mp3",
+      "sha256": "d50fa67b0bdc84e241ceb543ca334e61afe62445ca68552dcaf0f63fa2283f58",
+      "bytes": 22285
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/fold_571574.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/fold_571574.mp3",
+      "sha256": "f12ed4e83155765eec1b08c7479973fa28b199b2779cbe3f4b3705b711f5cbfa",
+      "bytes": 9602
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/pluck_383870.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/pluck_383870.mp3",
+      "sha256": "3c2a4d112b49f50049e23744ed6168d2a48b65bc359e8a6b0b4042dde43eee57",
+      "bytes": 59664
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/reveal_445141.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/reveal_445141.mp3",
+      "sha256": "abb6a6bd36a6e13ed333c7e49fc62739f5daaa759c429b416aa5386c2ca22ca5",
+      "bytes": 411452
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/riser_23127.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/riser_23127.mp3",
+      "sha256": "1fc9fcfd4c4f9bb9955b99594bb9f83890133c259f6d1d0af23f641057662849",
+      "bytes": 47328
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/shuffle_678227.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/shuffle_678227.mp3",
+      "sha256": "0f6fb6d02c619dabd51e1b5435641eae9c946c0bb4b19abab0089e6a1fcb91e9",
+      "bytes": 49059
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/stamp_448474.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/stamp_448474.mp3",
+      "sha256": "5fadc9962b8fbc81f63551baffa5734ecaefb2f97780c761daba524faae35ae2",
+      "bytes": 133440
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/tick_96127.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/tick_96127.mp3",
+      "sha256": "b39b077f8293c2fcf2823b973aca7f2d553c55db95101ee41242bf028717e216",
+      "bytes": 3549
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/foley-src/whoosh_60026.mp3",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/foley-src/whoosh_60026.mp3",
+      "sha256": "2c634c18f58e97f8be4685708e5f9eb60bd10cd084436e978e9b319570ae42fb",
+      "bytes": 13358
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-1.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-1.mp4",
+      "sha256": "e84580226c79bcac859800f70bf98485f839b4bb542dd1c7df1952758f9114ea",
+      "bytes": 5681737
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-2.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-2.mp4",
+      "sha256": "5200e58ae0ef25b84ddb333e2a2711492f50193f4048f0668d61bc038034ee7d",
+      "bytes": 7868664
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-3.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-3.mp4",
+      "sha256": "b9c1e055253c64d6f3ce32544ce734eddd8f774a66641c1dc9bcd21caf0cb7d6",
+      "bytes": 5682620
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-4.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-4.mp4",
+      "sha256": "3df59adc8a1a903cb38137adca5285e7ec106a6ea5b887d2f600fc7eb93e4edd",
+      "bytes": 5468113
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-4_mmaudio-foley.wav",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_clip-4_mmaudio-foley.wav",
+      "sha256": "3e44f07f0be54a92d20a0acb052fefd5c48841f47ce9c302df4f8b4ae4e1348b",
+      "bytes": 2368264
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_current.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-01/outputs/round-01_current.mp4",
+      "sha256": "7bfb0b7c18e1d082f7b3ea5fab481618a148ee6bb478f3998a780ca95d62b6f0",
+      "bytes": 5614524
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-1.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-1.mp4",
+      "sha256": "0083121bd1b87b3688233983dfeb151b843e3cc88660d66dcc179f8c4a88d909",
+      "bytes": 8045845
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-2.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-2.mp4",
+      "sha256": "4af5ea1ed73b1fae292df982744ac1a7507d4ca9c1e611d28b6e085f6237314a",
+      "bytes": 7664856
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-2_mmaudio-foley.wav",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-2_mmaudio-foley.wav",
+      "sha256": "96b5032118fe9329692be30e454f65d5837fd1915b4d5c660e7e2e55bf229674",
+      "bytes": 2368264
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-3.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-3.mp4",
+      "sha256": "459e70b755b4d7613adc1ea9149906938c2e9f4a40f9ced9dbc01634e2a27fa3",
+      "bytes": 7868852
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-4.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_clip-4.mp4",
+      "sha256": "55f84219b39921864cf6966e93bea469eb6b61272ff2740e124eefc5fc324cae",
+      "bytes": 7869690
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_current.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/outputs/round-02_current.mp4",
+      "sha256": "5200e58ae0ef25b84ddb333e2a2711492f50193f4048f0668d61bc038034ee7d",
+      "bytes": 7868664
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/r2-blur.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/r2-blur.json",
+      "sha256": "516f19d6f75e6f49c30024583520c548a1c799b0820f3a2fc1c45adcc5591b4e",
+      "bytes": 40
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/r2-d-input.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/r2-d-input.json",
+      "sha256": "2cddbdc280ec9bdd99a44bef7b62715decfb060fd39984fcf029066c10806cac",
+      "bytes": 41
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/r2-quiet.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/r2-quiet.json",
+      "sha256": "bd01713b0753e32bf548fbabe680a227f6fc207d4a6fed43d7ba36bfea019561",
+      "bytes": 49
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-02/r2-rec.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-02/r2-rec.json",
+      "sha256": "69fb18177a4193d0166e920ea8476e405208ccd9a88d86b280be3a696fce24f4",
+      "bytes": 45
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-1.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-1.mp4",
+      "sha256": "13aa0b3ed1dadd86925dc35059409ab04b4249ee5d2fac1be5dc0406fe26bed8",
+      "bytes": 7828205
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-2.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-2.mp4",
+      "sha256": "0ecd7cff379f1616eca976f08bee581da1f393b5fb49a5fbf62adb0663d1a848",
+      "bytes": 7582150
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-3.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-3.mp4",
+      "sha256": "efb6d33ccf5e587f61e1928c6dbe23a990f315bf978b2d46428d709557e73624",
+      "bytes": 13091562
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-4.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_clip-4.mp4",
+      "sha256": "7a22a5e0e434d04cac54fcee175c96f2cca2d2e53c92ef198309f5681c6567e9",
+      "bytes": 7829107
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_current.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/outputs/round-03_current.mp4",
+      "sha256": "459e70b755b4d7613adc1ea9149906938c2e9f4a40f9ced9dbc01634e2a27fa3",
+      "bytes": 7868852
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/r3-drift.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/r3-drift.json",
+      "sha256": "a02eecb0e9c1db73ec497079a829fa6ee56a3959e5b38c971b787cf35b2b01af",
+      "bytes": 62
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/r3-fill.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/r3-fill.json",
+      "sha256": "c194939c4bebaee088694fec67dfc4cb80c3f8ef07e24a0b659e3fdfe08e9499",
+      "bytes": 61
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-03/r3-short.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-03/r3-short.json",
+      "sha256": "7535f79d4a0c9e274f17b604570f7e312c15d089858dc6acf282f159460de9c5",
+      "bytes": 70
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_current.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_current.mp4",
+      "sha256": "2624754fbf61f803500d0f0f972c3432ba8cfdd30e4353e448a31bd19ccc7fbe",
+      "bytes": 1989965
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_draw-on.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_draw-on.mp4",
+      "sha256": "922fbfdc35a8b6c886fd94de7e8cd456e1ceb11785a8488c0680c63281a27df7",
+      "bytes": 2083879
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_engraved-3d.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_engraved-3d.mp4",
+      "sha256": "9f53cc55c33b3aa15958aa82ae66dd2f46ef80db29fd5b8c913fe24ddc572904",
+      "bytes": 85885383
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_engraved-3d_web.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_engraved-3d_web.mp4",
+      "sha256": "5691bcdec884eb1ba541e8aee8784d732e87bb0bd0acfed7a7aaeb68d8cea4f1",
+      "bytes": 9456460
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_gentleman-host.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/outputs/round-04_gentleman-host.mp4",
+      "sha256": "8852c179806c3a02b07b76c46c3ecd9a4f3a0e2e925262cf35e6ac7598ac8005",
+      "bytes": 4703221
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/sf-drawon.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/sf-drawon.json",
+      "sha256": "dcfbf2a440c6ad8ceed1db95e2e60497a400a36c41ecff19c064cb212fd7f43a",
+      "bytes": 18
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/sf-engraved3d.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/sf-engraved3d.json",
+      "sha256": "6f19586058f45b3bbee40813272f670fd6caea88701f2774f235feeda864471f",
+      "bytes": 22
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-04/sf-gentleman.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-04/sf-gentleman.json",
+      "sha256": "2749197f17abee7e35711959187e59df79b58a7a30dcb633774bedd431a2a15a",
+      "bytes": 21
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_current.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_current.mp4",
+      "sha256": "4e9559fa7adb124cc294a0d31ebae7818eeaa123e75b46ef57480552049e0a2f",
+      "bytes": 2072980
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_draw-on.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_draw-on.mp4",
+      "sha256": "922fbfdc35a8b6c886fd94de7e8cd456e1ceb11785a8488c0680c63281a27df7",
+      "bytes": 2083879
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host-draw-on.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host-draw-on.mp4",
+      "sha256": "08c7fd2cf5dcec99f881eee29123aebc05f519cfa10ba0d267dc6a59dcc33ed8",
+      "bytes": 4855289
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host.mp4",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/outputs/round-05_host.mp4",
+      "sha256": "ea2bfeac51948b96ca581e80079026a769dffe0cef1173b0727f2f7332cadb1c",
+      "bytes": 4703221
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-ab/round-05/sf-gentleman-drawon.json",
+      "path": "media/tests/2026-11-12_motion-ab/round-05/sf-gentleman-drawon.json",
+      "sha256": "5347e33bf6deba4e2203fa6900af6681093c7c99f44b6310d7f0b41285cf1d8d",
+      "bytes": 28
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/01_kurzgesagt_organs.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/01_kurzgesagt_organs.en-orig.json3",
+      "sha256": "53332e754823bfdf4ba5a8e1a3efa082fb2044b946ba5223e3bb51824c4d08c5",
+      "bytes": 27183
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/01_kurzgesagt_organs.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/01_kurzgesagt_organs.mp4",
+      "sha256": "c61c6c458f4fd4685b22fbe205062dfd4f47235894464d510f20eb614007f97d",
+      "bytes": 7559778
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/02_kurzgesagt_nuclear-war.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/02_kurzgesagt_nuclear-war.en-orig.json3",
+      "sha256": "84e9fe3a085a365ee690114b36b58ee7baf0ba02b8b9cf3e1b569c6a44d907b2",
+      "bytes": 49803
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/02_kurzgesagt_nuclear-war.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/02_kurzgesagt_nuclear-war.mp4",
+      "sha256": "bd08ddf29a2885191898eef75cbc7df7a784775ba1418e48ad70396bf3fe286d",
+      "bytes": 11436742
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/03_3blue1brown_medical-test.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/03_3blue1brown_medical-test.en-orig.json3",
+      "sha256": "284e64fb65f9fb5e7ed7dbaa0847da9be1a70d2b8a5b051f9336c506e8d5549d",
+      "bytes": 17384
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/03_3blue1brown_medical-test.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/03_3blue1brown_medical-test.mp4",
+      "sha256": "fe29fcfbe081a9359e13276f8a62279cf6555674f90e2268121f0fbe82ba5db0",
+      "bytes": 7813875
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/04_primer_rock-paper-scissors.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/04_primer_rock-paper-scissors.en-orig.json3",
+      "sha256": "60b0f1f20d48b77aff573cfa548a5408f8ae34f62c1496f8cca3ce1bd0c7048a",
+      "bytes": 9439
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/04_primer_rock-paper-scissors.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/04_primer_rock-paper-scissors.mp4",
+      "sha256": "62f5fc9f8039043e6f5ed888618b762a6814fd34667226ca83c2246b6818c4e3",
+      "bytes": 1966688
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/05_zackdfilms_dobermans.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/05_zackdfilms_dobermans.en-orig.json3",
+      "sha256": "c65b315565868b2873736afde566bd842e0f31fa757c3a43d97470e66f65ac02",
+      "bytes": 8516
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/05_zackdfilms_dobermans.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/05_zackdfilms_dobermans.mp4",
+      "sha256": "8ae10ef7e29881179b416b9d4360cca77bf30e95634ec9e2958174c7c235d6cc",
+      "bytes": 30459911
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/06_fireship_computers-math.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/06_fireship_computers-math.en-orig.json3",
+      "sha256": "982d5493dbdb00ed0db5e8d47c53007e0af634a2727324db38bfff895019102d",
+      "bytes": 20154
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/06_fireship_computers-math.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/06_fireship_computers-math.mp4",
+      "sha256": "88fe0d8e56446473fb873de1f8f31a4d883d874dce4164b26773041df9a8d62e",
+      "bytes": 7106540
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/07_johnnyharris_nuclear-bomb.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/07_johnnyharris_nuclear-bomb.en-orig.json3",
+      "sha256": "ef24eb902460b7442d360b579f22e4441c6e93408d2e94334e2b640e0be401ed",
+      "bytes": 28290
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/07_johnnyharris_nuclear-bomb.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/07_johnnyharris_nuclear-bomb.mp4",
+      "sha256": "07433b297bfdac73a0aec323d8306bbfaeff629cb08f260a569ffe9a761eade1",
+      "bytes": 25810016
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/08_reallifelore_canada-south.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/08_reallifelore_canada-south.en-orig.json3",
+      "sha256": "62ef6858e12f9cd99b8b8f4eff75d11bb5da4cb000929ae8e00932fd7fabb194",
+      "bytes": 22211
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/08_reallifelore_canada-south.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/08_reallifelore_canada-south.mp4",
+      "sha256": "920e4411b627ee3d619eccc72f2301fa7e05a724d36aa30fbe63611363ad185d",
+      "bytes": 27017643
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/09_sideprojects_boomerang.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/09_sideprojects_boomerang.en-orig.json3",
+      "sha256": "ac7fcdd33c674054f6f7bac96c50f1c4dea91cb32f2dc0f69317a44f9a86d06f",
+      "bytes": 22751
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/09_sideprojects_boomerang.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/09_sideprojects_boomerang.mp4",
+      "sha256": "965973945aec68780093a7477e248f1fb812c5c54e3f9092fabc07e72f4a80da",
+      "bytes": 19368390
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/10_economicsexplained_china-debt.en-orig.json3",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/10_economicsexplained_china-debt.en-orig.json3",
+      "sha256": "005c5ae8053fad252c854b34db50518cea4ba525743c07715c3f8ec6ab3d9bd1",
+      "bytes": 23635
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/inputs/10_economicsexplained_china-debt.mp4",
+      "path": "media/tests/2026-11-12_motion-refs/inputs/10_economicsexplained_china-debt.mp4",
+      "sha256": "4fa4b52a1d575b034fa3badd39cbbd5ee8acce3e633ca2fe843f415b707d3368",
+      "bytes": 26777328
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-01.png",
+      "sha256": "320a96fb72846cad4fb8146bcf7cf88822e9478fca3e1d3f7b9d19d118f970e5",
+      "bytes": 738410,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-02.png",
+      "sha256": "cf2acd31ffb3665a258367418c89ca2491cebc7e4c6b90a2d23500cbcd1533a9",
+      "bytes": 641973,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-03.png",
+      "sha256": "d7d2b6deee74d8161e6bfa06964202180a7894da8b4603335d7e798918f0eb1f",
+      "bytes": 600324,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-04.png",
+      "sha256": "e2ab630564c1a2b6b930fe0f6692402820a2dbfc3e3c7f459789ecb2712402e4",
+      "bytes": 356613,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-05.png",
+      "sha256": "7d6914fcbba97c5d40110701c2534a1fed0311563d411116c0bd5b2eae78a16e",
+      "bytes": 494488,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-06.png",
+      "sha256": "677dc894b0d9848cf0fa71d17dd5cc80e11e64e30d3baa62b81d56bca98eef34",
+      "bytes": 867847,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-07.png",
+      "sha256": "f4081edca7db7abdf8764569610a14241d939cfe06e0aa20b6d8150cf45b8597",
+      "bytes": 1337306,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-08.png",
+      "sha256": "8e30dd0969ecb118bf6a11f97913a50f1d30d50f5ffbeacd369b9ebcbbf523ee",
+      "bytes": 741080,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-09.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-09.png",
+      "sha256": "c454c6ade138c665f63eaceaa930a848ad2bf183e161216c0c664ea7ebb0b43f",
+      "bytes": 681452,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-10.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet-10.png",
+      "sha256": "99be3cfaaa630421c2be0842beac9efddaffee4efeb6359122d16f5a76e65831",
+      "bytes": 572373,
+      "width": 2160,
+      "height": 960
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.sheet.png",
+      "sha256": "34f0be3d85596f0d5882e6722c5df547ccc35afd5edcb83dff26c3c1d65c08c5",
+      "bytes": 1999117,
+      "width": 2160,
+      "height": 3072
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/01_kurzgesagt_organs.teardown.json",
+      "sha256": "e605e57774e7c69257d67b33be4de20c42a6f4e7cfccbe1d330449ada36a4ba8",
+      "bytes": 487
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-01.png",
+      "sha256": "fad8245f7f38fef087c7848d2cd6f3c2b21a409421da5407f439e8bf7734aafb",
+      "bytes": 1392337,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-02.png",
+      "sha256": "03ef84b10869d0008a76733a68ed50c39bc2a10e8bcd88139aa69425a7c4a343",
+      "bytes": 1345778,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-03.png",
+      "sha256": "6463f615eb0cbea4aaea6b1b9fff915b3e63eaf03d4efb6d02a282fdd46ef55b",
+      "bytes": 1280093,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-04.png",
+      "sha256": "a8d923956f794faec494528c51baad6f96476b8dcf720443eba885413d9a255f",
+      "bytes": 2061584,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-05.png",
+      "sha256": "9c739a729ca9affb87a64570cbf0b64667ec8ff32217679254ba92c94ffeab25",
+      "bytes": 2218827,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-06.png",
+      "sha256": "7f039e9466947d0f6718b44f172cc47088db61da47a578facf351ce1eb836906",
+      "bytes": 2880954,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-07.png",
+      "sha256": "ab19a0ca8f3104fce0f5eb347179549dc33930a7e86e5a37b4bd67e0d385967a",
+      "bytes": 1474964,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-08.png",
+      "sha256": "2ff685420aa21ab73ea1b04b7565e6d84b5a3454bfc9e202633b24304a6e4333",
+      "bytes": 1051995,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-09.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-09.png",
+      "sha256": "224b9752fb5b6286cee5e71167f0f8ec49b696e266df908e4379c10fee9e3d28",
+      "bytes": 1249299,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-10.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-10.png",
+      "sha256": "4e831b13158e71995c898dce40be55612a3006f3a26b50fe544abf88f981fbe6",
+      "bytes": 1205601,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-11.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-11.png",
+      "sha256": "f06c057e34e24c8aa2af11534e3b51da7be6399f06d4016af64a49c1d56cc284",
+      "bytes": 2244775,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-12.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-12.png",
+      "sha256": "cee626e8b6976fe5e2fb7697b72f17c4e0ac48b53cc2a6c250cb7ae135fac33b",
+      "bytes": 3411581,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-13.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-13.png",
+      "sha256": "1ff5aeac8933bafb3a7621a08b5f347270a4fb1e8016475b3d756ca5042e3072",
+      "bytes": 1002442,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-14.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-14.png",
+      "sha256": "eb3bdb9a68607ac85cc0f83b82e2d6775db29b0babe47573c45ab5ac6d845117",
+      "bytes": 3121356,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-15.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-15.png",
+      "sha256": "c3d90ef7b89b15a57b33070e75d26ade5e314735d7680dbffc8bad70bba60c12",
+      "bytes": 1718199,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-16.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-16.png",
+      "sha256": "838dfd881285208cfd5598cff1d4daff0764bb956c4c2f8a93d010f807f41b5e",
+      "bytes": 1233824,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-17.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-17.png",
+      "sha256": "45b95f80ff0dbb2f0398d758c6267dd9b76617ad15d43ac2c40bf56f0d0f8a25",
+      "bytes": 1334428,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-18.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-18.png",
+      "sha256": "38f285403d6520247a9151c69963098fe33315549e295ced4eb847c38a89fee3",
+      "bytes": 1978003,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-19.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-19.png",
+      "sha256": "be5f44857c8cd1bc33c266f0b156acdf0bc5153688415ec093b80281a8ab0834",
+      "bytes": 1715094,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-20.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet-20.png",
+      "sha256": "bebf8916113f01facc514a2e2eed26aa24a65e4b300cc17574c68bfca1d2b47e",
+      "bytes": 1648884,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.sheet.png",
+      "sha256": "9acaa8f15168baa4755b2aa6ca954646ee2d0228f788b75dc0fcddf7c71adb3b",
+      "bytes": 9180324,
+      "width": 2160,
+      "height": 6144
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/02_kurzgesagt_nuclear-war.teardown.json",
+      "sha256": "3d118b76c4b94239b3119ab5451e98fa8b23d5d2e14829b03c3291d9bb0962b2",
+      "bytes": 592
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-01.png",
+      "sha256": "311b191d29cf2b712989f60c9ed7d96d15ca29cc22f65e0c5b226048f42cbcaf",
+      "bytes": 702328,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-02.png",
+      "sha256": "8ff69a23ac1e75c8f2abefdfa2b66b16ea57d64e570483a2f8b713d97b09143c",
+      "bytes": 547032,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-03.png",
+      "sha256": "033ba04ac1d6c2ed8ab6d0422b0a7f5880c50c9ada11828d042df5b31ff3770b",
+      "bytes": 1035534,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-04.png",
+      "sha256": "2164587ff4a2b5a709bde05ef341a9a5c52e02879ed9ac49b2ce8126d88d11d3",
+      "bytes": 199203,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-05.png",
+      "sha256": "862560e041eb4bd33ed5d1cd25dc0c6b39f6d028ac52dc54c621534bca7c3eb5",
+      "bytes": 558849,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-06.png",
+      "sha256": "1572f0403ee746e1768a4e222ade327542c5cc5b39bd9fc15c4c5c0299cfa88e",
+      "bytes": 721045,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-07.png",
+      "sha256": "04665ac854805a85f2f0b95c36e5dc35b8d6308f61ab30282898a2e9a83ca4d0",
+      "bytes": 269024,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet-08.png",
+      "sha256": "c3913115c2e86f79cbf51d6a845b3e8ef8a22193753c71a641a35713ce65f483",
+      "bytes": 82639,
+      "width": 2160,
+      "height": 960
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.sheet.png",
+      "sha256": "3b7dffff4c352a5e05cfbce8a8c21ee506d0cd2140b796451bfd22433d3f333b",
+      "bytes": 960052,
+      "width": 2160,
+      "height": 2304
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/03_3blue1brown_medical-test.teardown.json",
+      "sha256": "47d17c3b3f3831e60c7ab30edfcf752bf45012da66178bff140e39c1ab10979d",
+      "bytes": 407
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-01.png",
+      "sha256": "2079417108f3bd5d99bd0911d7d73a05fdc94b2b939d86145bab785609f0104b",
+      "bytes": 730241,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-02.png",
+      "sha256": "ff076c64b16dc9fc67e6edc572eaad69bd1d078508f479bc9df2e0b94219a382",
+      "bytes": 496640,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-03.png",
+      "sha256": "5310071d09c6237c2f69aa012f99059c22f9a84f3025f5aca0bde1d13f7fa757",
+      "bytes": 571171,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-04.png",
+      "sha256": "cd2f8e8f6f26752571ce78fe87af6b106a6ba43cd070be4c8c3fcef288d1dee7",
+      "bytes": 622668,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-05.png",
+      "sha256": "15c2b426627491cb2cc971f4fb1279420460103b58a04543962a4fdedd94e5d4",
+      "bytes": 737397,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet-06.png",
+      "sha256": "e6b74f6fbb1febb9dbf4da34fb4d5d5e6f676e7bfba3dd207a082fc2acb00c88",
+      "bytes": 475399,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.sheet.png",
+      "sha256": "f4324b91db77414b97337a2949828b1e52e8fb8029fe0c4273d23060d71852a4",
+      "bytes": 794746,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/04_primer_rock-paper-scissors.teardown.json",
+      "sha256": "fdb1b9fac066241ca727279da05cfec23410817fcc075892e2f7f695239359b0",
+      "bytes": 411
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-01.png",
+      "sha256": "901d0829c4e194445ee13b4b6a419a77d54a5c9e566d0804a1f14d71f8122ca0",
+      "bytes": 2852352,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-02.png",
+      "sha256": "e1f764b31209772277ce7826a8c3494e94b845289fa92632bb36bcf1bcf6243d",
+      "bytes": 3646790,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-03.png",
+      "sha256": "d11cd53e7b5a3430cb60b6835c90597242a520423724938e659903195b7443a6",
+      "bytes": 2207783,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet-04.png",
+      "sha256": "c5f2ccc0f09b407ba292d6467622c05623e58b69ed3803a85449a85ad926c2cc",
+      "bytes": 2770347,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.sheet.png",
+      "sha256": "63cd1da725bfa6fdf140a7b343a4d558e2abf0422c423444da3e5d7a6a01c97f",
+      "bytes": 2720296,
+      "width": 2160,
+      "height": 1536
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/05_zackdfilms_dobermans.teardown.json",
+      "sha256": "6c0aad99d3a6df02c64550daafcd2ab7b60a3940d4011f70f5fbb9cca8dc77db",
+      "bytes": 403
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-01.png",
+      "sha256": "33eb6846520fefb719be271d1181b3acb014daf070924cf008c3aec6df9343c6",
+      "bytes": 833290,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-02.png",
+      "sha256": "11c5cce8265db566e4495c3d28ce3f324dc824c02b82a9c4daface0341e8bc33",
+      "bytes": 694771,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-03.png",
+      "sha256": "06a2e299df3ce5efeff041f5db48e6660a9a9dfc3b587c1a3e79cbdccb96942d",
+      "bytes": 1071005,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-04.png",
+      "sha256": "b87cb8b7f044b6ef3e975b3661e7066a50708bf9b7e6af254961ba75b06ead29",
+      "bytes": 1153610,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-05.png",
+      "sha256": "416f63581c0c68f75a52f6018c2737a43b56d797e199c8923e0d9dbe3b730cde",
+      "bytes": 384694,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-06.png",
+      "sha256": "f5b3aa1dc25218f30d6a5f1b05f38a066d9490821a4e170240b081c5e810f084",
+      "bytes": 1570002,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet-07.png",
+      "sha256": "9fa6473c55960145375cf0c8590ccf577f31735e9ddb2b54af333d78adbf9293",
+      "bytes": 614239,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.sheet.png",
+      "sha256": "29d15eeccd4c24ca0c489be80b6ecd25dfad460d57aba0670a49f78db90f7674",
+      "bytes": 1566119,
+      "width": 2160,
+      "height": 2304
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/06_fireship_computers-math.teardown.json",
+      "sha256": "66afe7d21e1e1769b8aa47a44cf2900735e500860214d258092b1a997a924020",
+      "bytes": 527
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-01.png",
+      "sha256": "7711bbbf5692d992e57c2ac6b90e911c0601f79c0eb8e593052402f49a1ba58f",
+      "bytes": 4187203,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-02.png",
+      "sha256": "6c1215d6a1c4d153661176db06133f422d3cc0f624174d6196bab1a6706cd7aa",
+      "bytes": 3795070,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-03.png",
+      "sha256": "b13a8dcce78b339e102cf70a7f00392bc3b7b7b29c4d82e5914517e3f05caa0c",
+      "bytes": 2904265,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-04.png",
+      "sha256": "94ef493532915b17bbb6c13c4cc7d6a7b961d05d6d58d59ddfe7bc361b606e34",
+      "bytes": 3287168,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-05.png",
+      "sha256": "ef5650eac71be5a51623395815cbe7da554ecfe1aeab99b03cee7c3d971c44f8",
+      "bytes": 1857459,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-06.png",
+      "sha256": "29cb1854b8d47cff734fdc2cecf08b5b06c83d89f8ba682b47f6738e1e19bb01",
+      "bytes": 3479706,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-07.png",
+      "sha256": "e09ef7657878e8bcbc7b324c9a9d628d0cbac14062e712f88be3a3b723182732",
+      "bytes": 3798111,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-08.png",
+      "sha256": "2c9bfbc5f8aa9a5f8b2df5983e42982428536f630cc5c877716b982a9fa38eef",
+      "bytes": 3382057,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-09.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-09.png",
+      "sha256": "b3aeb57f51b70c58677aea728e9e97fe2af39c0eb4e94ac295ea8ce2a70e9310",
+      "bytes": 3401180,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-10.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-10.png",
+      "sha256": "4a027da5a7d33f64565bf786bd2428e847c510a29af7d30575d19ed94915ee42",
+      "bytes": 2799099,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-11.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-11.png",
+      "sha256": "651586c369657685057d6c000006a8239cff1100f0b0b647d41fbb8580b5164c",
+      "bytes": 3247851,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-12.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-12.png",
+      "sha256": "c3d38cfa4e9c32bbce0b32112e5704a41935e00ecbc35f156b78e4d6a7ee0489",
+      "bytes": 3541906,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-13.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-13.png",
+      "sha256": "7c2bf3d52cf1eae1ef2a466cdcfbda1b03f71996639ea972a5cdb9ab4ad2c779",
+      "bytes": 3292715,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-14.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-14.png",
+      "sha256": "0c93b6c896bb78ed3b7d6d25dadcbf4cd00a3d915095061af8eb6df347bf6743",
+      "bytes": 2410962,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-15.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet-15.png",
+      "sha256": "54873263a7124dd8ce232f65d5044e1ed42336e15e2fb20887395c86d5556039",
+      "bytes": 63744,
+      "width": 2160,
+      "height": 960
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.sheet.png",
+      "sha256": "3464a144a5e79c680d033a3b593489635aa463fd320c42feac89362659108ec6",
+      "bytes": 7161937,
+      "width": 2160,
+      "height": 4608
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/07_johnnyharris_nuclear-bomb.teardown.json",
+      "sha256": "bd2b0c9540565eb4b907975de47476bd7c8079c8773661e3e41968101772a70e",
+      "bytes": 430
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-01.png",
+      "sha256": "c376991866d31258f8ca711f7c78008a4d30fcc060378cae241439a7cca9add8",
+      "bytes": 4609866,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-02.png",
+      "sha256": "68d45fb4e903e4e64a2c20b5147091892499e33e80a3409877e336408ea7d584",
+      "bytes": 4878223,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-03.png",
+      "sha256": "7e0fdadb11d5ba1d1779645c35ae712ad14265df6caeeb09f8d9d65704493fc8",
+      "bytes": 4456070,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-04.png",
+      "sha256": "a556fa9cba731959f9ac13647ec73dec6a52a86b97f91f09e35d913ab53808f9",
+      "bytes": 4337424,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-05.png",
+      "sha256": "6fc4288d2a050535bb39a80122e18f7723e8da596b5cf1dd9cff9324ed1a13a8",
+      "bytes": 4064276,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-06.png",
+      "sha256": "35cc103f2e9aee2cce3f3420d972f1a8dae26cab4ae22815d2d6a1eb180416d1",
+      "bytes": 3808865,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-07.png",
+      "sha256": "55c48350049c6793b5cf893e644481bab362b9e2a88668c2806bdb230a230433",
+      "bytes": 3527991,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet-08.png",
+      "sha256": "d3ec75f19702db10c0f21b96de69e4866fada76b56b731413ea40883661b05b6",
+      "bytes": 953216,
+      "width": 2160,
+      "height": 960
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.sheet.png",
+      "sha256": "48bf2b3517621c2549695115161e4e4e7b89fb1a03e1ae712229e01937dab45f",
+      "bytes": 6471444,
+      "width": 2160,
+      "height": 2304
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/08_reallifelore_canada-south.teardown.json",
+      "sha256": "6b5cc63806e25b08522cc5c3dba7fb7e4b21b7714c25ab0322333aa8ac825191",
+      "bytes": 411
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-01.png",
+      "sha256": "7b5930b323a8bee61aa7251e48306041188258bf69c7b4c876c1f8d4ac2df580",
+      "bytes": 3070797,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-02.png",
+      "sha256": "51061f4907364f151448a250993201cbd99e9748d2a87e7b01387dd48e876a8d",
+      "bytes": 2176663,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-03.png",
+      "sha256": "f55d8eccade8bbf0d23a4be2f2c3c53a15545612a306ce6e2eeaf96026b4e01b",
+      "bytes": 1563065,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-04.png",
+      "sha256": "670e6d3f3f7d2d4d8a970359593113f888eaec9b34aff8d30ebc85063983d26a",
+      "bytes": 3878756,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-05.png",
+      "sha256": "5f200c40e4dbeb96ad02cfbcd3abcbc2f419c6cdb41b7e6d2e7804f5550d7f29",
+      "bytes": 4180410,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-06.png",
+      "sha256": "b5d2816f6aded1ae18350c20702fc6fe825adb0c01ad870373ecfb6a9ed079c9",
+      "bytes": 2103064,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet-07.png",
+      "sha256": "de1c20a41e9bce1ca4abdff87eb117cec54f20d2d65f613a7e13f4669e5afba7",
+      "bytes": 4500959,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.sheet.png",
+      "sha256": "cd7813f1d3b1b1678410020273e5ebd88b0ce96b65dfc5922c6f348432c1da70",
+      "bytes": 4909653,
+      "width": 2160,
+      "height": 2304
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/09_sideprojects_boomerang.teardown.json",
+      "sha256": "093028bbf14bb47c0c6b22240ccbf44ef30042d80bcc770e6db728b58465a3e0",
+      "bytes": 577
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-01.png",
+      "sha256": "974edab2c0b7eaf43aa9102fcbf2212f8234fe4e60153e4365a34d11f98f2163",
+      "bytes": 3548150,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-02.png",
+      "sha256": "05992235962d9fbfc0b77ac70d7dce6559c1a98405731231246d7d8d15b8f214",
+      "bytes": 5379438,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-03.png",
+      "sha256": "f76cd7953cd47d71282355ea7547a864d31f00736748bfb8deda7f2a0c1ed031",
+      "bytes": 3261441,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-04.png",
+      "sha256": "3e77dd293c74dc64fd33c82de5eaaf6bd0af2cef790b7763c769b7dcd22ce4fc",
+      "bytes": 4135001,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-05.png",
+      "sha256": "596bdb51bc827b4d13d24d9ac7cb8412eb12a4ba331c221b35c2a03a9a22f738",
+      "bytes": 4552928,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-06.png",
+      "sha256": "26fe986f18d2b65998b0ca62139836e051a3d0a2c6e8a4a1ccb8563a2b604ccd",
+      "bytes": 5299678,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-07.png",
+      "sha256": "b0c5133c0e0aa5d628977b52f8b706e573a7582be239e4a6f2ca82ff53cb2c7d",
+      "bytes": 4479712,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet-08.png",
+      "sha256": "f6be5430eddfe49763ada3f18b6503fd82393f87309a983a5a329a60703f5d61",
+      "bytes": 2508656,
+      "width": 2160,
+      "height": 960
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.sheet.png",
+      "sha256": "153c933e6ae0d525bdd38219531097612cfe3d67f75b379f0a85787e5934987c",
+      "bytes": 7430859,
+      "width": 2160,
+      "height": 2304
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/10_economicsexplained_china-debt.teardown.json",
+      "sha256": "95f717e12aabf2de29d19498f26b1b404b56401a850520fb803c8023977e0929",
+      "bytes": 410
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-01.png",
+      "sha256": "04244f4f3c00e1234f92fee9eac152800ef5a084b9c30b4b4eaacdba1cee8f10",
+      "bytes": 564805,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-02.png",
+      "sha256": "457256ba54f08780c654f88fd45d3dd88a3053486a7b88cdfbcbe08933f1384d",
+      "bytes": 745829,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-03.png",
+      "sha256": "f14cd99a2ed0bfe4e03b956dc3ec33e935115f8fa8ae7cd70eb7c45f37cb1d76",
+      "bytes": 690855,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-04.png",
+      "sha256": "23220e92265105eaf0ab88bb684eac07923401e19b43a93353c15cfd2149a3c2",
+      "bytes": 429763,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-05.png",
+      "sha256": "40baba4c424b082e81211759fd2915fc652e35b93988908bbe9bb00dff07cc85",
+      "bytes": 577675,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-06.png",
+      "sha256": "5837ae8b47156e8908d33cba49b118ce37ab242cfa9a89d6f02daef19ccd840a",
+      "bytes": 563419,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-07.png",
+      "sha256": "a36923650208532a6d4e08a17f98764fc1a147012cf64e909228cf713929f082",
+      "bytes": 399903,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-08.png",
+      "sha256": "7169d74c95f68f5aec697b4aeaf1d8a3f4127ff03c6ea67945e1f973d02f0b8f",
+      "bytes": 444512,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-09.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-09.png",
+      "sha256": "698768639ed254104a1c1ab725852ac4531de49d53a366887f07edad1cf1d875",
+      "bytes": 864583,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-10.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-10.png",
+      "sha256": "c992eec93690ed315042d303e9b7c21a40b9ab2dec938b4e20fce8a4d1e78f10",
+      "bytes": 721029,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-11.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet-11.png",
+      "sha256": "cfa8dec759cbd08f86da3fad97e255a52446bda3b942f8299102ef46d85a56db",
+      "bytes": 1061554,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.sheet.png",
+      "sha256": "4e259f622d0a6746573cbccc648f8f265d3fdf37c8ce83ef64cd6adb403fc92f",
+      "bytes": 1931150,
+      "width": 2160,
+      "height": 3456
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/only-aces.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/only-aces.teardown.json",
+      "sha256": "1efab7c8310ba0c3d54308094c88c8415359b4d7e65eeac0dfc57075c9c630cd",
+      "bytes": 391
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-01.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-01.png",
+      "sha256": "9e8e03a764a42cda321248fc50554e74d5fd87c5729727e551ee15f44200b89a",
+      "bytes": 505567,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-02.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-02.png",
+      "sha256": "250264aec78c3419a0b25d17b8a833080bf690c5ec6bfb4b844f2c6b9300c59a",
+      "bytes": 475377,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-03.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-03.png",
+      "sha256": "f3519d0534719b42fab6d5b8fdf54d6ce936ad10efc821060f4a4356343fb9bf",
+      "bytes": 439817,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-04.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-04.png",
+      "sha256": "eef1cc19fcd336fa54e5fb7b5ec255603c8b9565c4354f0460e7c32412254b81",
+      "bytes": 482103,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-05.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-05.png",
+      "sha256": "4a0fa3104de8f86a9497cf0dc133442bde26946229662c84978aeaa2dc886139",
+      "bytes": 525237,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-06.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-06.png",
+      "sha256": "55b941bccaffe10827e041631f32c53a2dbfc85be48cec142eb3f99dd4e74810",
+      "bytes": 418344,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-07.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-07.png",
+      "sha256": "45d28d45777c49b0ec15f37a9b2fedccc74412ffc1277f0fe596ac5b208589ae",
+      "bytes": 664418,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-08.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-08.png",
+      "sha256": "d5a1038e7b5071519136b774fc73a365c758833e1485e6407c7433043aecf0be",
+      "bytes": 1272918,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-09.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet-09.png",
+      "sha256": "6628b3762a383ede99af7a6a7efb8f7a80043dee430dd83ac5031542fb2e629e",
+      "bytes": 291151,
+      "width": 2160,
+      "height": 960
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet.png",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.sheet.png",
+      "sha256": "b6a386304ee02d82f5e2f9b2931c63ff2245af95dce57b18130f9c8098554082",
+      "bytes": 1379550,
+      "width": 2160,
+      "height": 2688
+    },
+    {
+      "id": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.teardown.json",
+      "path": "media/tests/2026-11-12_motion-refs/teardown/will-it-get-there.teardown.json",
+      "sha256": "a3fb4454f07709178f5aaad71c707839c370763649416abc264366abe3ecc28f",
+      "bytes": 399
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/dense_first3s_a.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/dense_first3s_a.jpg",
+      "sha256": "dde39817c8de96580aa9661426748891b1e1f5abca33cf9ec5a4d5b81c2b34b7",
+      "bytes": 848593,
+      "width": 2040,
+      "height": 2416
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/dense_first3s_b.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/dense_first3s_b.jpg",
+      "sha256": "1aa557a683f513748ff341cb51fdef87b54616e72a491c3a0876d996abba53e8",
+      "bytes": 518773,
+      "width": 2040,
+      "height": 2416
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/dense_moments.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/dense_moments.jpg",
+      "sha256": "ce5588512fcbdfc2998a14b823b5f937b8a469d51907430dad1106f026d77300",
+      "bytes": 732786,
+      "width": 2040,
+      "height": 2416
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_DcgnHXLK2Sc_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_DcgnHXLK2Sc_sheet1.jpg",
+      "sha256": "3ae6aa3099e456112a6abd2b1708badda70f8586ce321f98d12860ba867f1432",
+      "bytes": 234253,
+      "width": 2160,
+      "height": 755
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_DdFE-HlRKiB_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_DdFE-HlRKiB_sheet1.jpg",
+      "sha256": "827c820e10062d104d87e1af5d1eda4f659c4cdcae8a9727317806d8b5a79521",
+      "bytes": 662931,
+      "width": 2160,
+      "height": 2400
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_DdYSmRfAMPm_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_DdYSmRfAMPm_sheet1.jpg",
+      "sha256": "82526987c65aa1351dd267de8fe319ee4adc23742b3a7e164fee07a86bf7a0ca",
+      "bytes": 1045457,
+      "width": 2160,
+      "height": 2880
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_Dee4c-QgT1g_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_Dee4c-QgT1g_sheet1.jpg",
+      "sha256": "ee0fb1060a661911d0fe963ec157e20ab58b329f72f01fc9bff24db95c25240f",
+      "bytes": 1104161,
+      "width": 2160,
+      "height": 2880
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_DeTlbu_tH5Y_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_DeTlbu_tH5Y_sheet1.jpg",
+      "sha256": "ff48c19efeeac2619bcc6f5dba8d0894829253d13db1aa3a766f37fa81edda4c",
+      "bytes": 425210,
+      "width": 2160,
+      "height": 2400
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_DfDe9kPO-td_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_DfDe9kPO-td_sheet1.jpg",
+      "sha256": "deed7e7866fff7a684c4a0ae872bcb320c0d0b62cef4aed9848ce423f0836404",
+      "bytes": 504497,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_DfII6u2Nl_p_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_DfII6u2Nl_p_sheet1.jpg",
+      "sha256": "6f1bae078e901fa0cafddbe6100add0c023917ab80f534c12a8ffd53f308ccdd",
+      "bytes": 821389,
+      "width": 2160,
+      "height": 2880
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_Dfn_UQfgHVO_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_Dfn_UQfgHVO_sheet1.jpg",
+      "sha256": "f6a247db5a23f63dfc87ce52d9b396e60402e1762a791ea847c70c8431b53faf",
+      "bytes": 487611,
+      "width": 2160,
+      "height": 1920
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/frames/ref_DfTmTeQJEOi_sheet1.jpg",
+      "path": "media/tests/2026-11-17_video-references/frames/ref_DfTmTeQJEOi_sheet1.jpg",
+      "sha256": "82e2e22477761277a5cbc0abab39120bbafaaa66f4ba976a73b28dcca2eba6db",
+      "bytes": 662255,
+      "width": 2160,
+      "height": 2400
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DcgnHXLK2Sc.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DcgnHXLK2Sc.info.json",
+      "sha256": "6012c150e7c66cea165d14602aded4bb914fb50280eed29f064614f25a5954e2",
+      "bytes": 32200
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DcgnHXLK2Sc.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DcgnHXLK2Sc.mp4",
+      "sha256": "6d8e1835342718673ec4b9ec00b69119e847a5ffec6247e4257638a28f544027",
+      "bytes": 4014873
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DdFE-HlRKiB.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DdFE-HlRKiB.info.json",
+      "sha256": "c76e9d4f8c7b6883f8a1aaf4ccf8c1b4eb5082d247c07f283f8543cfcb65f0a5",
+      "bytes": 29573
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DdFE-HlRKiB.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DdFE-HlRKiB.mp4",
+      "sha256": "707d68f2ae548131944223b743bba6f1ecbca8703bafc7c7a95118f0908abd2c",
+      "bytes": 3281596
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DdYSmRfAMPm.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DdYSmRfAMPm.info.json",
+      "sha256": "9bb8cf379b10a476584a7b0a66822a3a8af900ca502e44b2f32b43914c9fe8fa",
+      "bytes": 32266
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DdYSmRfAMPm.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DdYSmRfAMPm.mp4",
+      "sha256": "c11fc6a37f5c6f87f053669234f731c81af11e8dc39ed6c19cc28ff02c12e3f4",
+      "bytes": 23862227
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_Dee4c-QgT1g.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_Dee4c-QgT1g.info.json",
+      "sha256": "562b58ebd7385e4c2b5f3d783d9d21cd10be4ff1bf0a89d98f3aa4a0369a4117",
+      "bytes": 33849
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_Dee4c-QgT1g.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_Dee4c-QgT1g.mp4",
+      "sha256": "7d5b66523f487b9c2eb9e89a5cce0574530e525772565f9e7144ea9e233462e5",
+      "bytes": 24422619
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DeTlbu_tH5Y.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DeTlbu_tH5Y.info.json",
+      "sha256": "27682de7640bf6ff78b86f29deb9ae393b0b8bf88f668424f0faf251df61a87b",
+      "bytes": 30263
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DeTlbu_tH5Y.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DeTlbu_tH5Y.mp4",
+      "sha256": "0a34462308b8059d35592e51c1025ba405acb5c26c43d1049eef3e7e7fe667da",
+      "bytes": 2243674
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DfDe9kPO-td.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DfDe9kPO-td.info.json",
+      "sha256": "04d1c55487bea39bb76bb618a5022bdbd0485a9392525dfcfc51552c0090222f",
+      "bytes": 27772
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DfDe9kPO-td.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DfDe9kPO-td.mp4",
+      "sha256": "129336cb3828e22ffe96d2da268161d913f9dd085bcc38cfe299b8b5eec8f8f4",
+      "bytes": 2360469
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DfII6u2Nl_p.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DfII6u2Nl_p.info.json",
+      "sha256": "46b7a0f14f4de26f5d87152f239100cd846359fda030fd4e869fc2ece9e3638a",
+      "bytes": 28569
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DfII6u2Nl_p.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DfII6u2Nl_p.mp4",
+      "sha256": "de821df2f8c80eccc69ff78da74a82768da3fe60477fc9859cdeed21141bd9bd",
+      "bytes": 12066952
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_Dfn_UQfgHVO.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_Dfn_UQfgHVO.info.json",
+      "sha256": "2ab8ad2d4804f3b71e1faa433a9f8df8d8a1e970fd8ef662f0020c263f820e3d",
+      "bytes": 24879
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_Dfn_UQfgHVO.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_Dfn_UQfgHVO.mp4",
+      "sha256": "57b1270061a3952a5e7be47e9095d08c1944df8273e43c958530ebd51919e915",
+      "bytes": 1946090
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DfTmTeQJEOi.info.json",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DfTmTeQJEOi.info.json",
+      "sha256": "1ec8337e4567b51be50b4cffb4f4e08be95af860919863c5c6e5a85bcd8d91f3",
+      "bytes": 31072
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/inputs/ref_DfTmTeQJEOi.mp4",
+      "path": "media/tests/2026-11-17_video-references/inputs/ref_DfTmTeQJEOi.mp4",
+      "sha256": "adf575804038b2ceb9bd2461ee47687a808df0de636adfc0d3b9d8dc98f8e755",
+      "bytes": 6934474
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_DcgnHXLK2Sc.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_DcgnHXLK2Sc.words.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "bytes": 2
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_DdFE-HlRKiB.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_DdFE-HlRKiB.words.json",
+      "sha256": "aa10d27440da58baecb05675deb1f66e0e4b8eef26d2ded9a238681b27fd4bc6",
+      "bytes": 817
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_DdYSmRfAMPm.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_DdYSmRfAMPm.words.json",
+      "sha256": "f1fd1e07c41744402e1a6a6a8023d8f8331257835a306a3af9609d9ecb8d5549",
+      "bytes": 13596
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_Dee4c-QgT1g.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_Dee4c-QgT1g.words.json",
+      "sha256": "94dd538d2dc430c40ab260d1d794bf89c8d0bb259b07b8b5497c1f6b159cbe0b",
+      "bytes": 10482
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_DeTlbu_tH5Y.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_DeTlbu_tH5Y.words.json",
+      "sha256": "1d778b471d8ff6a2d3ab918556f2f6e64abd5c38f1ee484b7cf4a4fe947d35dd",
+      "bytes": 1098
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_DfDe9kPO-td.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_DfDe9kPO-td.words.json",
+      "sha256": "0eedf08d4d9e74ca6df4abf4f24c1a99464c187993bf19d6e5965d6413743dc8",
+      "bytes": 498
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_DfII6u2Nl_p.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_DfII6u2Nl_p.words.json",
+      "sha256": "60cb06d25fc7154f1c9b9a1770cc0b4bc12c68db2d7056f35edadc4cfba4ef29",
+      "bytes": 6158
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_Dfn_UQfgHVO.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_Dfn_UQfgHVO.words.json",
+      "sha256": "223ebac4264e1571fa79ffdb0be567cd12c3e97593b905a4506dad6c95afeb4b",
+      "bytes": 1425
+    },
+    {
+      "id": "media/tests/2026-11-17_video-references/outputs/ref_DfTmTeQJEOi.words.json",
+      "path": "media/tests/2026-11-17_video-references/outputs/ref_DfTmTeQJEOi.words.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "bytes": 2
     }
   ]
 }
