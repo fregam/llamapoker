@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Claude Code hook: shows research subagents on the wall, one trace each under the `research`
-// station (CONTENT), from launch to finish. Pure logic in claude-agents-lib.mjs.
+// station (CONTENT), from launch to finish; and the hook writer's writer and critic agents the
+// same way under `hooks`. Below, "research" means "shown on the wall". Pure logic in
+// claude-agents-lib.mjs.
 //
 // Set once, for every project, in ~/.claude/settings.json (README, "Research on the wall"):
 // PreToolUse with matcher "Agent|Task", SubagentStart and SubagentStop, each running

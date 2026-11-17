@@ -27,7 +27,8 @@ for an hour when nobody is using Claude (Monday 07:00 as proposed).
       `origin/main`). Check in particular that the allowlist and the two `Read(...)` denials hold
       in headless mode, that the skill loads, and that the pull request opens.
 - [ ] The founder registers the scheduled task.
-- [ ] Run through `job` so it shows as a trace on the wall (ticket 05).
+- [x] Run through `job` so it shows as a trace on the wall (ticket 05): `scripts/weekly.mjs`,
+      which the scheduled task now starts.
 
 ## Original work list
 

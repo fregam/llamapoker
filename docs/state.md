@@ -1,9 +1,26 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-17 (hook writer shipped).
+the end. Last update: 2026-11-17 (the SEO agent and the hook writer on the wall, PR #48).
 
 ## Done 2026-11-17
+
+- **The SEO agent on the wall** (ticket 05, branch `feat/wall-seo`, worktree
+  `.claude/worktrees/wall-seo`, PR #48, merged on the founder's word): station, `job` trace, `run` events, the pull
+  request's card, three wall-side threats; plus an outbox so a run at 07:00 with the wall closed
+  loses nothing, and pull request cards that clear when GitHub says merged. Checked on a
+  throwaway wall (port 8799, its own store): the 2026-11-17 reading replayed from the outbox, a
+  lost page raised its threat, the real launcher ran through `job` and reported a refused run in
+  red, and the card of the merged pull request #43 cleared through `gh`. Not checked: a full real
+  run (it pushes, opens a pull request and spends the Claude plan); its steps are covered by
+  `apps/seo/src/run.test.mjs` with pretend commands.
+- **The hook writer on the wall** (same branch): its writer and critic agents show as traces under
+  a `hooks` station in CONTENT, through the Claude Code hooks already installed for research.
+  Checked by tests only; the first real hook run should be watched. Looked at and left out, by
+  the wall's rule of no panel without data: the sound library (a catalogue, nothing runs), video
+  v2 (its renders already go through `job`), the hook corpus scripts (`corpus.py`, `layers.py`:
+  one-off and finished; put `job` in front if they run again), and the Instagram token's expiry
+  on 2027-01-15 (worth a threat once a fetcher uses the token; today nothing on the wall reads it).
 
 - **Hook writer shipped** (merged to `main`): playbook from 911 Instagram reels in
   `content/research/hooks/` (taxonomy, lift table, blind pair test), skill rebuilt goal-first in
@@ -99,6 +116,19 @@ the end. Last update: 2026-11-17 (hook writer shipped).
   which fail CI) are left open for a deliberate upgrade later.
 
 ## Waiting on the founder
+
+- **SEO on the wall, 2026-11-17 (PR #48 merged):** (1) register
+  or replace the scheduled task with the command in `apps/seo/README.md` (it starts `weekly.mjs`
+  now). No task named "LlamaPoker SEO agent" was visible from a normal PowerShell on 2026-11-17,
+  and no run has left a log in the `seo-agent` worktree: check with
+  `Get-ScheduledTask "LlamaPoker SEO agent"`. The command that was in the README until today was
+  broken (`scripts\run.mjs` had lost its `\r`), so a task registered by pasting it never
+  started the run. Before registering, bring the `seo-agent` worktree to `origin/main` (two git
+  commands in the README; it has no `weekly.mjs` yet). (2) Get `main` into the checkout the wall
+  runs from (the main checkout is on `reels/video-v2`), restart the wall, run
+  `node apps/seo/scripts/wall-report.mjs` once. Pull request cards on the wall have no call or
+  fold: they link to GitHub (`docs/decisions.md`; say so if you want CALL to merge). (3) Still open from before: request indexing for
+  `/about` and `/learn/online-poker-helper`.
 
 - **SEO, 2026-11-17 night:** PRs #40 (agent), #41 (byline, dates, `/about`) and #42 (Trainer text)
   merged by the founder's word and checked live. After the founder requested indexing by hand:

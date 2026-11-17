@@ -49,7 +49,7 @@ llamapoker.com). Everything writes through the API with the ingest key:
 POST /api/event     { kind, station?, subject?, amount?, unit?, cost?, channel?, text?, meta? }  (or an array)
 POST /api/station   { id, name, state: ok|idle|waiting|failed|paused|nodata, message?, lastRun?, nextRun?, department?: content|development }
 POST /api/job       { id, station, label, state: running|done|failed|stuck, percent?, phase?, output?, tail?, department? }
-POST /api/queue     { kind, title, preview }          POST /api/queue/<id>  { action: call|fold|raise, note? }
+POST /api/queue     { kind, title, preview, id? }     POST /api/queue/<id>  { action: call|fold|raise, note? }
 POST /api/flags     { key: paused|budget_ceiling|experiments, value }
 GET  /api/state[?day=YYYY-MM-DD]                      the whole reading (src/model.ts WallState)
 ```
@@ -84,6 +84,40 @@ script that reads the platform's numbers and posts a `followers` reading and a `
 new or updated post, run daily as `job --dept content node scripts/fetch-<channel>.mjs`. Its row
 appears in Results on the first reading; its failures show under CONTENT and in Needs you, like
 any job. The wall never calls a social API itself: everything comes through the event store.
+
+A piece sent to the queue with its own `id` may be sent again: while it waits, its card is brought
+up to date; once decided, it stays decided.
+
+**Reports while the wall is closed.** The wall runs only while it is open on this PC, and
+unattended jobs report at hours when it is not. A job that must not lose its report sends it
+through `scripts/wall-outbox.mjs` (`send("event" | "station" | "queue", body)`): a report that gets
+no answer is kept in `logs/wall-outbox.jsonl` in the main checkout and delivered in order, by the
+next `send` or by the wall itself about 20 seconds after it starts (then every minute; the
+terminal says how many came in). An event keeps the id and the time it was first sent with, so it
+lands once and at the moment it happened. `node apps/wall/scripts/wall-outbox.mjs` sends what
+waits by hand. `job` does not use it: a trace of a job that ended while the wall was closed is
+not news.
+
+**Pull requests in Needs you.** An agent that opens a pull request for the founder posts a card
+with the id `pr-<number>` and the kind `pull-request` (preview: the link, then the report). The
+pull request is merged or closed on GitHub, and the wall mirrors that: `scripts/pr-cards.mjs` asks
+`gh` about each waiting card of that kind and clears it when the pull request is merged (called)
+or closed (folded), with a line in the feed. The wall runs it when it starts and every ten
+minutes; by hand, `node apps/wall/scripts/pr-cards.mjs`. Such a card has no CALL, FOLD or RAISE:
+it shows OPEN ON GITHUB instead, because nothing on the wall merges a pull request and a button
+would only hide the card while the pull request stayed open (decision 2026-11-17).
+
+**The SEO agent.** The weekly run (`apps/seo/scripts/weekly.mjs`, see `apps/seo/README.md`) shows
+as a `weekly-run` trace under the **seo** station in DEVELOPMENT, and leaves the station ok with
+the score ("page one 2/18, indexed 9/13") and its next run, or red with the reason (a key that
+stopped working is named as that). Each run posts one `run` event with the reading in `meta`
+(`pageOneQueries`, `missedQueries`, `indexedPages`, `notIndexedPages`, the four counts), and its
+pull request as a card. Three threats are read on the wall's side from those events, because a
+run that did not happen cannot report itself: **no run for 9 days**, **a page left Google's
+index**, **a target search left page one** (the two newest runs that took a reading, compared by
+name, so one target entering never hides another leaving). All amber; a failed run is the
+station's own red threat. `node apps/seo/scripts/wall-report.mjs` puts an existing reading on
+the wall (the first one to compare against, or after the store was reset).
 
 **Claude plan limits.** Claude Code's status line is the source: on every refresh it pipes its
 session JSON, which for a subscriber carries the 5-hour and weekly limits (`rate_limits`:
@@ -135,6 +169,15 @@ cross (they run async): a stop that lands first leaves a note its start picks up
 never lets a late "running" reopen a finished job. A research run that is plain code (`npm run score`) goes through `job
 --station research` like any other job.
 
+**The hook writer on the wall.** The same hooks show the hook writer's agents
+(`.claude/skills/hook-writing/`: the writer and the critic) as traces under a **hooks** station in
+CONTENT, with "Hook agent started / done" in the feed and the same amber threat for one that
+never said it finished. An agent is the hook writer's when its brief points at the skill
+(`skills/hook-writing`, "hook writer", "hook critic") or at a run folder under `content/hooks/`;
+that is asked before research, because the research arm's briefs say "research". The word "hook"
+alone is not enough (it also names Claude Code's hooks), and agents that study hooks (the corpus,
+the tagging) stay under research. Nothing to set up beyond the hooks block above.
+
 **Local jobs** (renders, foley, teardowns, anything long): put `job` in front of the command.
 
 ```
@@ -178,16 +221,22 @@ npm run build              # dist/ for Cloudflare Pages
 What the tests cover:
 
 - **Pure logic** (`derive.test.ts`, `briefing.test.ts`, `src/lib/*.test.ts`): Results and channel
-  rows, Work departments, threats, the briefing's words, job traces, when a Work line is open.
+  rows, Work departments, threats (the SEO agent's three included), the briefing's words, job
+  traces, when a Work line is open.
 - **The store against a real D1** (`store.int.test.ts`): wrangler's `getPlatformProxy` gives an
   in-memory D1 with every migration applied; events, stations and jobs are written through the
   same functions the API uses and read back through `readState`, with Beehiiv and the site probe
   faked at `fetch`. It guards the SQL (checked by breaking the query on purpose: the tests fail).
 - **The Claude status line** (`scripts/claude-statusline.test.mjs`): which limit readings are sent
   (a missing window is never a zero), when (change, heartbeat, backoff), and the line it prints.
-- **The research hook** (`scripts/claude-agents.test.mjs`): which agents count as research, how a
-  starting agent finds its launch, and what the wall is told at each end.
+- **The agents hook** (`scripts/claude-agents.test.mjs`): which agents count as research and which
+  as the hook writer's, how a starting agent finds its launch, and what the wall is told at each end.
 - **The `job` wrapper end to end** (`scripts/job.test.mjs`) against a pretend wall.
+- **The outbox** (`scripts/wall-outbox.test.mjs`) against a pretend wall that is closed, opened and
+  made to refuse: nothing lost, order kept, a refused report dropped, a dead sender's batch taken back.
+- **Pull request cards** (`scripts/pr-cards.test.mjs`) against a pretend wall and a pretend GitHub.
+- The SEO runner's reports are tested in `apps/seo` (`src/run.test.mjs`, the whole run with
+  pretend commands and a pretend wall).
 - Not covered by tests: the panels' look (checked by eye with screenshots).
 
 `npm run dev` runs `vite build --watch` and `wrangler pages dev` together (`scripts/dev.mjs`),
@@ -232,10 +281,14 @@ time control to have that day. A Workers cron that fetches it is the next step.
   waiting, red failure).
 - `vscode-theme/` — the same look as a VS Code theme ("Wall VFD"); change it with `styles.css`.
   Bump its `version` when you change it, so VS Code picks it up after reinstalling.
-- `scripts/wall-event.mjs` — write to the store from the PC. `scripts/dev.mjs` — local run.
+- `scripts/wall-event.mjs` — write to the store from the PC. `scripts/dev.mjs` — local run, plus
+  the upkeep while it is open (the outbox let in, pull request cards kept true).
+- `scripts/wall-outbox.mjs` — reports that survive the wall being closed (`send`, `flush`).
+- `scripts/pr-cards.mjs` — clears a pull request's card when GitHub says it is merged or closed.
 - `scripts/claude-statusline.mjs` — the Claude Code status line that reports the plan limits;
   `scripts/claude-statusline-lib.mjs` its pure half, tested in `scripts/claude-statusline.test.mjs`.
-- `scripts/claude-agents.mjs` — the Claude Code hook that puts research agents on the wall;
+- `scripts/claude-agents.mjs` — the Claude Code hook that puts research agents and the hook
+  writer's agents on the wall;
   `scripts/claude-agents-lib.mjs` its pure half, tested in `scripts/claude-agents.test.mjs`.
 - `scripts/job.mjs` — the `job` wrapper; `scripts/job-lib.mjs` its pure half (what a command is,
   how far along a line says it is), tested in `scripts/job.test.mjs` (incl. end to end against a

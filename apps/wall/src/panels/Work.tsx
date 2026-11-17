@@ -168,6 +168,7 @@ function StationEvidence({ station }: { station: Station }) {
     <div className="drawer">
       <div className="drawer-h">
         {station.name.toUpperCase()} · {station.state.toUpperCase()} · {station.message ?? ""}
+        {station.nextRun ? ` · NEXT RUN ${clock(station.nextRun, "")} UTC` : ""}
       </div>
       <div className="drawer-cols">
         <Evidence

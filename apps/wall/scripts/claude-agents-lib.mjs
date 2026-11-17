@@ -1,5 +1,6 @@
-// The pure half of scripts/claude-agents.mjs: which Claude subagents are research, what the wall
-// is told when one starts and finishes, and which launch a starting agent belongs to.
+// The pure half of scripts/claude-agents.mjs: which Claude subagents belong on the wall (research
+// agents, and the hook writer's writer and critic), what the wall is told when one starts and
+// finishes, and which launch a starting agent belongs to.
 // Tested in claude-agents.test.mjs.
 //
 // Claude Code hooks pipe a JSON object on stdin. Three events are used:
@@ -23,6 +24,24 @@ export const STATION = "research";
 // Words a research brief uses. Over-including is cheap (an extra trace); missing one hides work.
 const RESEARCH = /\b(research\w*|discover\w*|scrap\w*|audience|codebook|deep[- ]?dive|bake-?off|literature|competitor\w*|tool check)\b/i;
 const RESEARCH_PATH = /(apps[\\/]research|docs[\\/]research|content[\\/]research|\.scratch[\\/]audience-research|worktrees[\\/]audience-research)/i;
+
+/** The hook writer's station: its writer and critic agents (.claude/skills/hook-writing). */
+export const HOOKS_STATION = "hooks";
+
+// A hook-writing agent is known by what its brief points at: the skill's writer.md or critic.md,
+// or a run folder under content/hooks/. The bare word "hook" is not enough: it also names Claude
+// Code's hooks. Agents that study hooks (the corpus, the tagging) are research, by their paths.
+const HOOKS = /(skills[\\/]hook-writing|content[\\/]hooks[\\/]|\bhook[- ]writ\w+|\bhook (writer|critic)\b)/i;
+
+/**
+ * Which station a launched subagent shows under, or null to stay off the wall. Hook writing is
+ * asked first: its research arm says "research" in every brief.
+ */
+export function stationOf(toolInput, cwd = "") {
+  const t = toolInput ?? {};
+  if (HOOKS.test(`${t.description ?? ""}\n${t.prompt ?? ""}`)) return HOOKS_STATION;
+  return isResearch(t, cwd) ? STATION : null;
+}
 
 /** Whether a launched subagent is research: by its type, its words, or where it works. */
 export function isResearch(toolInput, cwd = "") {
@@ -52,7 +71,8 @@ export function launch(payload, now = new Date()) {
     session: payload?.session_id ?? null,
     type: t.subagent_type ?? null,
     label: labelOf(t),
-    research: isResearch(t, payload?.cwd),
+    station: stationOf(t, payload?.cwd),
+    research: stationOf(t, payload?.cwd) !== null, // shown on the wall (the name is from when research was the only kind)
     at: now.getTime(),
   };
 }
@@ -74,20 +94,24 @@ export function candidates(pending, start, nowMs = Date.now()) {
   return [...mine.filter(same), ...mine.filter((p) => !same(p))];
 }
 
-/** The wall's job report when a research agent starts. */
+// A launch remembered by an older copy of this script has no `station`: it was research.
+const stationFor = (l) => l.station ?? STATION;
+
+/** The wall's job report when a shown agent starts. */
 export function startJob(l, now = new Date()) {
-  return { id: l.jobId, station: STATION, label: l.label, state: "running", department: "content", lostAfterSec: AGENT_LOST_SEC, startedAt: new Date(l.at || now.getTime()).toISOString() };
+  return { id: l.jobId, station: stationFor(l), label: l.label, state: "running", department: "content", lostAfterSec: AGENT_LOST_SEC, startedAt: new Date(l.at || now.getTime()).toISOString() };
 }
 
 /** The wall's job report when it finishes; the agent's last words, clipped, are its tail. */
 export function doneJob(l, stop, now = new Date()) {
   const last = clip(stop?.last_assistant_message, 600);
-  return { id: l.jobId, station: STATION, label: l.label, state: "done", department: "content", endedAt: now.toISOString(), ...(last ? { tail: last } : {}) };
+  return { id: l.jobId, station: stationFor(l), label: l.label, state: "done", department: "content", endedAt: now.toISOString(), ...(last ? { tail: last } : {}) };
 }
 
 /** The feed line for each end of a run, in the common event format (as `job` writes them). */
 export function agentEvent(kind, l, startedAt, now = new Date()) {
   const mins = startedAt ? Math.max(0, Math.round((now.getTime() - startedAt) / 60000)) : null;
-  const text = kind === "job.started" ? `Research agent started: ${l.label}` : `Research agent done: ${l.label}${mins !== null ? ` (${mins} min)` : ""}`;
-  return { kind, station: STATION, subject: l.label, text, ts: now.toISOString() };
+  const who = stationFor(l) === HOOKS_STATION ? "Hook agent" : "Research agent";
+  const text = kind === "job.started" ? `${who} started: ${l.label}` : `${who} done: ${l.label}${mins !== null ? ` (${mins} min)` : ""}`;
+  return { kind, station: stationFor(l), subject: l.label, text, ts: now.toISOString() };
 }

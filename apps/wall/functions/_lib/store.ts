@@ -102,6 +102,7 @@ interface Reads {
   results: WallEvent[]; // revenue, followers and post events of 30 days, plus each channel's last followers reading before that
   revenueEver: boolean;
   usage: WallEvent[]; // the newest Claude limit reading per window
+  seoRuns: WallEvent[]; // the SEO agent's newest runs, newest first
 }
 
 const parseEvent = (r: Record<string, unknown>): WallEvent => ({
@@ -114,7 +115,7 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
   const dayAgo = new Date(now.getTime() - DAY_MS).toISOString();
   const month = now.toISOString().slice(0, 7) + "-01T00:00:00Z";
   const thirty = new Date(now.getTime() - 30 * DAY_MS).toISOString();
-  const [feed, rows, queue, flags, spent, last, views, per, fails, res, rev, usage] = await db.batch([
+  const [feed, rows, queue, flags, spent, last, views, per, fails, res, rev, usage, seo] = await db.batch([
     // Limit readings arrive on every status line refresh: they are state, not news, so not in the feed.
     db.prepare("SELECT * FROM events WHERE kind != 'usage' ORDER BY ts DESC LIMIT 80"),
     db.prepare("SELECT * FROM stations"),
@@ -138,6 +139,9 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
       `SELECT e.* FROM events e JOIN (SELECT subject, MAX(ts) AS t FROM events WHERE kind = 'usage' AND channel = 'claude' GROUP BY subject) l
          ON e.kind = 'usage' AND e.channel = 'claude' AND e.subject = l.subject AND e.ts = l.t`,
     ),
+    // Its own read: the feed's 80 lines will not hold a weekly run for long. Twelve is enough to
+    // find the two newest runs that took a reading among failed ones.
+    db.prepare("SELECT * FROM events WHERE kind = 'run' AND station = 'seo' ORDER BY ts DESC LIMIT 12"),
   ]);
   const fl: Record<string, string> = {};
   for (const r of flags.results as { key: string; value: string }[]) fl[r.key] = r.value;
@@ -163,10 +167,11 @@ async function readStore(db: D1Database, now: Date): Promise<Reads> {
     results: (res.results as Record<string, unknown>[]).map(parseEvent),
     revenueEver: !!(rev.results[0] as { x: number }).x,
     usage: (usage.results as Record<string, unknown>[]).map(parseEvent),
+    seoRuns: (seo.results as Record<string, unknown>[]).map(parseEvent),
   };
 }
 
-const empty: Reads = { feed: [], rows: [], queue: [], flags: {}, spentMonth: 0, lastSignup: null, views: {}, perStation: {}, fails: {}, results: [], revenueEver: false, usage: [] };
+const empty: Reads = { feed: [], rows: [], queue: [], flags: {}, spentMonth: 0, lastSignup: null, views: {}, perStation: {}, fails: {}, results: [], revenueEver: false, usage: [], seoRuns: [] };
 
 // ---------- assembly ----------
 
@@ -295,6 +300,7 @@ export async function readState(env: Env, requested?: string | null): Promise<Wa
     ceiling,
     errors,
     claude,
+    seoRuns: reads.seoRuns,
   };
   const t = threats(facts);
   const res = results({
@@ -533,8 +539,12 @@ export async function upsertStation(db: D1Database, input: Record<string, unknow
 export async function addQueueItem(db: D1Database, input: Record<string, unknown>): Promise<string | null> {
   const title = str(input.title, 200);
   if (!title) return "title is required";
+  // A sender that gives its own id (a pull request's card: `pr-<number>`) may send the piece again:
+  // while it waits, the card is brought up to date; once decided, it stays decided.
   await db
-    .prepare("INSERT INTO queue (id, ts, kind, title, preview, status) VALUES (?, ?, ?, ?, ?, 'waiting')")
+    .prepare(
+      "INSERT INTO queue (id, ts, kind, title, preview, status) VALUES (?1, ?2, ?3, ?4, ?5, 'waiting') ON CONFLICT(id) DO UPDATE SET kind = ?3, title = ?4, preview = ?5 WHERE queue.status = 'waiting'",
+    )
     .bind(str(input.id, 80) ?? crypto.randomUUID(), new Date().toISOString(), str(input.kind, 40) ?? "piece", title, str(input.preview, 20000))
     .run();
   return null;

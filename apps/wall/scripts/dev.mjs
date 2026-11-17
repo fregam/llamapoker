@@ -3,11 +3,15 @@
 // serves it with the Pages Functions, a local D1 named `wall` and live reload. The Beehiiv keys come from the repo's git-ignored
 // credentials.json and are passed as bindings for this process only, so no key is copied into
 // another file (CLAUDE.md, Secrets). A `.dev.vars` file next to this app works too and wins.
+// While it runs it also lets in the reports that waited in the outbox (scripts/wall-outbox.mjs)
+// and keeps the pull request cards true to GitHub (scripts/pr-cards.mjs).
 //   npm run dev            → http://localhost:8788  (no password on localhost)
 import { execSync, spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { syncPrCards } from "./pr-cards.mjs";
+import { flush } from "./wall-outbox.mjs";
 
 const app = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // In a git worktree the git-ignored credentials.json lives only in the main checkout: fall back to it.
@@ -36,5 +40,26 @@ const stop = (code) => {
   wrangler.kill();
   process.exit(code ?? 0);
 };
+// Upkeep while the wall is open. Reports made while it was closed (an unattended run at 07:00)
+// wait in the outbox: they are let in once it answers, then checked for every minute. Cards for
+// pull requests are cleared when GitHub says the pull request is merged or closed, every ten.
+const here = { url: `http://127.0.0.1:${port}`, key: undefined };
+let ticks = 0;
+let busy = false;
+const upkeep = async () => {
+  if (busy) return;
+  busy = true;
+  try {
+    const r = await flush(here);
+    if (r.sent) console.log(`wall: ${r.sent} report${r.sent === 1 ? "" : "s"} made while the wall was closed ${r.sent === 1 ? "is" : "are"} now in`);
+    if (!r.left && ticks++ % 10 === 0) for (const c of await syncPrCards(here)) console.log(`wall: pull request #${c.number} ${c.action === "call" ? "merged" : "closed"}, its card is cleared`);
+  } catch (e) {
+    console.error(`wall: upkeep failed (${e.message})`);
+  } finally {
+    busy = false;
+  }
+};
+setTimeout(upkeep, 20000).unref();
+setInterval(upkeep, 60000).unref();
 wrangler.on("exit", stop);
 process.on("SIGINT", () => stop(0));

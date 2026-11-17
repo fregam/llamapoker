@@ -15,6 +15,21 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
   one reel.
 - **Rejected:** making the video stage repeatable first; scripts that carry words only.
 
+## 2026-11-17 - The wall mirrors pull requests; it does not merge them (*proposed*)
+
+- **What:** an agent's pull request shows in Needs you as a card that links to GitHub and has no
+  call, fold or raise. The card clears itself when GitHub says the pull request is merged or
+  closed (`apps/wall/scripts/pr-cards.mjs`, run by the wall every ten minutes).
+- **Why:** a merge to `main` is a deploy, and the branch rule wants the checks green and a human
+  at the button. A CALL that only hid the card would leave the pull request open and unseen; a
+  CALL that merged would be a second, weaker door to production.
+- **Rejected:** CALL = merge through `gh` from the wall. Possible later for the easy-to-revert
+  kind of change, once the SEO agent has four clean runs (its spec, decision 2). The founder's to
+  overturn.
+- **Also decided here:** what only the watcher can know is computed by the wall, not reported by
+  the job ("no run for 9 days", "a page left the index", "a target left page one"), and a report
+  made while the wall is closed waits in an outbox instead of being dropped.
+
 ## 2026-11-17 - The hook writer works from a playbook of real hits, with truth as its only rule
 
 - **What:** the hook writer (`.claude/skills/hook-writing/`) has one goal, a line that stops a

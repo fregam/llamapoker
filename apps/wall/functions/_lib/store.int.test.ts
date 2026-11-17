@@ -8,7 +8,7 @@
 /// <reference types="vite/client" />
 import { getPlatformProxy, type PlatformProxy } from "wrangler";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { insertEvents, normaliseEvent, normaliseJob, readState, upsertJob, upsertStation, type Env } from "./store";
+import { addQueueItem, decideQueueItem, insertEvents, normaliseEvent, normaliseJob, readState, upsertJob, upsertStation, type Env } from "./store";
 import type { WallEvent } from "../../src/model";
 
 // Every migration as text, in file-name order (Vite reads them; no Node APIs in this project).
@@ -184,5 +184,58 @@ describe("store + D1: Claude limits", () => {
     expect(s?.claude?.asof).toBe(read);
     expect(s?.threats.find((t) => t.id === "claude:five_hour")?.level).toBe("amber");
     expect(s?.feed.map((e) => e.kind)).toEqual(["run"]);
+  });
+});
+
+describe("store + D1: the SEO agent", () => {
+  const reading = (over: Record<string, unknown> = {}) => ({ ok: true, indexedPages: ["/", "/table"], notIndexedPages: ["/about"], pageOneQueries: ["poker outs chart"], missedQueries: ["pot odds"], ...over });
+
+  it("finds the weekly runs behind a busy feed and raises what changed between them", async () => {
+    fakeBeehiiv();
+    await write([
+      { kind: "run", station: "seo", subject: "seo/a", ts: iso(8 * DAY), meta: reading() },
+      { kind: "run", station: "seo", subject: "seo/b", ts: iso(DAY), meta: reading({ indexedPages: ["/"], notIndexedPages: ["/about", "/table"], pageOneQueries: [], missedQueries: ["pot odds", "poker outs chart"] }) },
+      // more than the feed holds, all newer than the runs
+      ...Array.from({ length: 90 }, (_, i) => ({ kind: "note", station: "reels", text: "note " + i, ts: iso(60000 + i) })),
+      { kind: "run", station: "reels", text: "not an SEO run", ts: iso(1000), meta: reading({ indexedPages: [] }) },
+    ]);
+    const s = await readState(env);
+    expect(s?.feed.some((e) => e.station === "seo")).toBe(false);
+    expect(s?.threats.filter((t) => t.id.startsWith("seo:")).map((t) => t.title)).toEqual(["SEO: 1 PAGE LEFT GOOGLE'S INDEX", "SEO: 1 TARGET SEARCH LEFT PAGE ONE"]);
+  });
+
+  it("raises a weekly run that stopped reporting", async () => {
+    fakeBeehiiv();
+    await write([{ kind: "run", station: "seo", ts: iso(10 * DAY), meta: reading() }]);
+    const s = await readState(env);
+    expect(s?.threats.find((t) => t.id === "seo:norun")?.title).toBe("SEO: NO RUN FOR 10 DAYS");
+  });
+
+  it("shows the station the runner reports under DEVELOPMENT, with its next run", async () => {
+    fakeBeehiiv();
+    const next = new Date(Date.now() + 6 * DAY).toISOString();
+    expect(await upsertStation(env.DB!, { id: "seo", name: "SEO", department: "development", state: "ok", message: "page one 0/18, indexed 12/14", lastRun: iso(60000), nextRun: next })).toBeNull();
+    const s = await readState(env);
+    const seo = s?.work?.find((l) => l.id === "development")?.stations.find((x) => x.id === "seo");
+    expect(seo).toMatchObject({ name: "SEO", state: "ok", message: "page one 0/18, indexed 12/14", nextRun: next });
+  });
+});
+
+describe("store + D1: approvals", () => {
+  it("keeps one card per pull request: a second send updates it while it waits, and never reopens it once decided", async () => {
+    fakeBeehiiv();
+    const db = env.DB!;
+    expect(await addQueueItem(db, { id: "pr-47", kind: "pull-request", title: "SEO 2026-11-23", preview: "first" })).toBeNull();
+    expect(await addQueueItem(db, { id: "pr-47", kind: "pull-request", title: "SEO 2026-11-23", preview: "second" })).toBeNull();
+    expect(await addQueueItem(db, { kind: "reel", title: "no id of its own" })).toBeNull();
+    let s = await readState(env);
+    expect(s?.queue.map((q) => [q.id.startsWith("pr-") ? q.id : "generated", q.preview ?? null])).toEqual([["pr-47", "second"], ["generated", null]]);
+
+    expect(await decideQueueItem(db, "pr-47", "call", "merged on GitHub")).toBeNull();
+    expect(await addQueueItem(db, { id: "pr-47", kind: "pull-request", title: "SEO 2026-11-23", preview: "third" })).toBeNull();
+    s = await readState(env);
+    expect(s?.queue.map((q) => q.title)).toEqual(["no id of its own"]);
+    const row = await db.prepare("SELECT status, preview, note FROM queue WHERE id = 'pr-47'").first();
+    expect(row).toEqual({ status: "called", preview: "second", note: "merged on GitHub" });
   });
 });
