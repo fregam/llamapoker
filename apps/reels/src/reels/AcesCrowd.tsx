@@ -10,11 +10,19 @@ import { Fragment, useEffect, useMemo, useRef } from "react";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { loadFont as loadMono } from "@remotion/google-fonts/JetBrainsMono";
 import data from "../data/aces-crowd.json";
+import hooksJson from "../data/aces-crowd-hooks.json";
 import { C, H, SANS, SERIF, W } from "../theme";
 
 const MONO = loadMono("normal", { weights: ["400", "500"], subsets: ["latin"] }).fontFamily;
 
-export const ACES_CROWD_FRAMES = 552;
+const BODY_FRAMES = 552; // the reel with opening "a"; other openings shift everything after them
+
+interface Seg { t: string; at: number; br?: boolean; em?: "paper" | "sage" | "vermilion" | "brass" }
+interface Screen { from: number; to?: number; size: number; segs: Seg[] }
+/** crowd: frames at which the five callers arrive during the opening itself (they leave on the wind-back). */
+interface Hook { line: string; vo: string; len: number; blast: number; screens: Screen[]; crowd?: number[] }
+const HOOKS = hooksJson as unknown as Record<string, Hook>;
+export type HookId = "a" | "b" | "c";
 
 // ---- the numbers (engine) ----
 const WIN = data.rows.map((r) => r.win); // index 0 = 1 opponent
@@ -36,7 +44,20 @@ const PAYOFF2 = 444;
 const HEAL = 478;
 const FOLD = [0, 0, 508, 499, 490, 481]; // FOLD[k] = caller k folds (5 first)
 const OUTRO = 524;
-const END = ACES_CROWD_FRAMES;
+const END = BODY_FRAMES;
+const REWIND = REWIND_END - HOOK_END;
+
+/** Length of the reel with a given opening. */
+export const acesCrowdFrames = (hook: HookId) => END + HOOKS[hook].len - REWIND_END;
+
+/** The reel's own clock for a frame of a given opening: pristine until the break, the break, the
+ * wind-back over the opening's last frames, then the body unchanged. */
+function clock(raw: number, h: Hook): number {
+  if (raw >= h.len) return raw - (h.len - REWIND_END);
+  if (raw < h.blast) return (raw / h.blast) * BLAST;
+  if (raw < h.len - REWIND) return Math.min(HOOK_END, BLAST + (raw - h.blast));
+  return HOOK_END + (raw - (h.len - REWIND));
+}
 
 // ---- the card ----
 const COLS = 76;
@@ -235,8 +256,9 @@ function camera(f: number): Cam {
   return mix(home, hook, ease((f - OUTRO) / (END - OUTRO)));
 }
 
-function draw(ctx: CanvasRenderingContext2D, tiles: Tile[], f: number) {
+function draw(ctx: CanvasRenderingContext2D, tiles: Tile[], f: number, push = 0) {
   const cam = camera(f);
+  cam.zoom += push; // a slow push-in while the opening line is spoken
   ctx.clearRect(0, 0, W, H);
   const cyw = Math.cos(cam.yaw), syw = Math.sin(cam.yaw), cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
   const project = (x: number, y: number, z: number) => {
@@ -315,11 +337,11 @@ const SEAT = [
   { x: 500, y: 1790, rot: 4, fx: 0, fy: 520 },
 ];
 
-function Caller({ k, f }: { k: number; f: number }) {
+function Caller({ k, f, opening }: { k: number; f: number; opening?: { inAt: number; out: number } }) {
   const seat = SEAT[k]!;
-  const inAt = f - S[k];
+  const inAt = opening ? opening.inAt : f - S[k];
   if (inAt < 0) return null;
-  const out = k >= 2 ? (f >= FOLD[k] ? f - FOLD[k] : -1) : f >= OUTRO ? f - OUTRO : -1;
+  const out = opening ? opening.out : k >= 2 ? (f >= FOLD[k] ? f - FOLD[k] : -1) : f >= OUTRO ? f - OUTRO : -1;
   if (out > 14) return null;
   // slam in past the mark, settle; lean on the ace while the table is "crowded"; leave on the fold
   const arrive = interpolate(inAt, [0, 6, 11], [1, -0.07, 0], { extrapolateRight: "clamp" });
@@ -356,19 +378,23 @@ function Sfx({ at, file, volume, tail }: { at: number; file: string; volume: num
   return <Sequence from={Math.max(0, at)}><Audio src={staticFile(`sfx/${file}.wav`)} volume={tail ? (fr) => volume * clamp(1 - fr / tail) ** 1.5 : volume} /></Sequence>;
 }
 
-export function AcesCrowd() {
-  const f = useCurrentFrame();
+export function AcesCrowd({ hook = "a" }: { hook?: HookId }) {
+  const raw = useCurrentFrame();
+  const h = HOOKS[hook];
+  const off = h.len - REWIND_END;
+  const f = clock(raw, h);
+  const push = raw < h.len ? 0.0012 * Math.min(raw, h.len - REWIND) * (1 - ease((raw - (h.len - REWIND)) / REWIND)) : 0;
   const ref = useRef<HTMLCanvasElement>(null);
   const tiles = useMemo(buildTiles, []);
   useEffect(() => {
     const ctx = ref.current?.getContext("2d");
-    if (ctx) draw(ctx, tiles, f);
-  }, [f, tiles]);
+    if (ctx) draw(ctx, tiles, f, push);
+  }, [f, push, tiles]);
 
   const { value, callers } = pctAt(f);
   const flash = f >= FLASH && f < FLASH + 5;
-  const showStat = (f >= S[1] - 4 && f < PAYOFF) || (f >= HEAL && f < END - 16);
-  const statIn = f < PAYOFF ? easeOut((f - (S[1] - 4)) / 8) : easeOut((f - HEAL) / 10) * clamp((END - 16 - f) / 8);
+  const showStat = (f >= S[1] && f < PAYOFF) || (f >= HEAL && f < END - 16);
+  const statIn = f < PAYOFF ? easeOut((f - S[1] + 1) / 4) : easeOut((f - HEAL) / 10) * clamp((END - 16 - f) / 8);
   const bump = Math.max(0, ...[1, 2, 3, 4, 5].map((k) => (f >= S[k] && f < S[k] + 10 ? 1 - (f - S[k]) / 10 : 0)));
   const under = value < 50;
   const log = f >= S[1] && f < PAYOFF && !flash;
@@ -379,17 +405,23 @@ export function AcesCrowd() {
     <AbsoluteFill style={{ background: C.ink }}>
       <canvas ref={ref} width={W} height={H} style={{ position: "absolute", inset: 0 }} />
       {[1, 2, 3, 4, 5].map((k) => <Caller key={k} k={k} f={f} />)}
+      {h.crowd && raw < h.len && [1, 2, 3, 4, 5].map((k) => <Caller key={`o${k}`} k={k} f={0} opening={{ inAt: raw - h.crowd![k - 1], out: raw >= h.len - REWIND ? raw - (h.len - REWIND) + (5 - k) * -2 : -1 }} />)}
       {/* in the close-ups the card runs under the stat: give the numbers their own ground */}
       {CLOSE.some(([at, len]) => f >= at && f < at + len) && <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 672, background: C.ink, borderBottom: `2px solid ${C.ruleStrong}` }} />}
 
-      {/* the hook */}
-      <Headline f={f} from={1} to={HOOK_END + 2} size={132} top={296}>
-        <span style={{ whiteSpace: "nowrap" }}>Aces <span style={{ opacity: f >= BLAST ? 1 : 0 }}>cracked.</span></span>
-        <div style={{ ...em(C.paper), fontSize: 132, marginTop: 2, opacity: clamp((f - AGAIN) / 3) }}>Again.</div>
-      </Headline>
-      <Headline f={f} from={HOOK_END + 4} to={S[1] - 6} size={150} top={300}>
-        It isn’t<br /><span style={em(C.sage)}>bad luck.</span>
-      </Headline>
+      {/* the opening line, each part on its spoken word; the last screen stays until the first stat */}
+      {h.screens.map((sc, i) => {
+        const to = sc.to ?? off + S[1] - 6;
+        if (raw < sc.from || raw >= to) return null;
+        const inn = easeOut((raw - sc.from) / 7);
+        return (
+          <div key={i} style={{ position: "absolute", left: 70, right: 110, top: 296, fontFamily: SERIF, fontWeight: 500, fontSize: sc.size, lineHeight: 1, letterSpacing: "-0.02em", color: C.paper, opacity: clamp((to - raw) / 3), transform: `translateY(${(1 - inn) * 46}px) scale(${lerp(1.06, 1, inn)})`, transformOrigin: "left top" }}>
+            {sc.segs.map((g, k) => (
+              <Fragment key={k}>{g.br && <br />}<span style={{ ...(g.em ? em(C[g.em]) : {}), opacity: clamp((raw - g.at) / 3) }}>{g.t}</span></Fragment>
+            ))}
+          </div>
+        );
+      })}
 
       {/* the stat */}
       {showStat && (
@@ -441,24 +473,31 @@ export function AcesCrowd() {
       )}
 
       {/* sound, from the library (content/library/audio.md; pulled with scripts/sound-lib.py use) */}
-      <Audio src={staticFile("vo/aces-crowd/vo.wav")} volume={1} />
-      <Audio src={staticFile("music/ac-bed.mp3")} volume={(fr) => 0.26 * clamp(fr / 8) * clamp((END - fr) / 20) * (1 - 0.6 * clamp((fr - PAYOFF + 8) / 8) * clamp((PAYOFF2 - fr) / 8))} />
-      <Sfx at={BLAST} file="ac-blast" volume={0.75} tail={30} />
-      <Sfx at={HOOK_END - 1} file="ac-rewind" volume={0.6} />
-      {[1, 2, 3, 4, 5].map((k) => (
-        <Fragment key={k}>
-          <Sfx at={S[k] - 2} file="ac-cards" volume={0.7} />
-          <Sfx at={S[k]} file="ac-slam" volume={0.5 + k * 0.06} />
-          <Sfx at={S[k]} file="ac-thump" volume={0.22 + k * 0.07} tail={24} />
+      <Audio src={staticFile(`vo/aces-crowd/${h.vo}.wav`)} volume={1} />
+      <Sequence from={h.len - 2}><Audio src={staticFile("vo/aces-crowd/body.wav")} volume={1} /></Sequence>
+      <Audio src={staticFile("music/ac-bed.mp3")} loop volume={(fr) => 0.26 * clamp(fr / 8) * clamp((END + off - fr) / 20) * (1 - 0.6 * clamp((fr - off - PAYOFF + 8) / 8) * clamp((PAYOFF2 + off - fr) / 8))} />
+      <Sfx at={h.blast} file="ac-blast" volume={0.75} tail={30} />
+      <Sfx at={h.len - REWIND - 1} file="ac-rewind" volume={0.6} />
+      {h.crowd?.map((at, i) => (
+        <Fragment key={at}>
+          <Sfx at={at - 2} file="ac-cards" volume={0.6} />
+          <Sfx at={at} file="ac-slam" volume={0.4 + i * 0.05} />
         </Fragment>
       ))}
-      {CLOSE.map(([at]) => <Sfx key={at} at={at - 1} file="ac-cut" volume={0.4} />)}
-      <Sfx at={S[5] - 81} file="ac-build" volume={0.55} />
-      <Sfx at={FLASH} file="ac-49" volume={0.7} tail={40} />
-      <Sfx at={PAYOFF2 + 14} file="ac-crowded" volume={0.5} />
-      {[5, 4, 3, 2].map((k) => <Sfx key={k} at={FOLD[k]} file="ac-fold" volume={0.6} />)}
-      <Sfx at={HEAL} file="ac-heal" volume={0.22} />
-      <Sfx at={OUTRO} file="ac-out" volume={0.5} />
+      {[1, 2, 3, 4, 5].map((k) => (
+        <Fragment key={k}>
+          <Sfx at={off + S[k] - 2} file="ac-cards" volume={0.7} />
+          <Sfx at={off + S[k]} file="ac-slam" volume={0.5 + k * 0.06} />
+          <Sfx at={off + S[k]} file="ac-thump" volume={0.22 + k * 0.07} tail={24} />
+        </Fragment>
+      ))}
+      {CLOSE.map(([at]) => <Sfx key={at} at={off + at - 1} file="ac-cut" volume={0.4} />)}
+      <Sfx at={off + S[5] - 81} file="ac-build" volume={0.55} />
+      <Sfx at={off + FLASH} file="ac-49" volume={0.7} tail={40} />
+      <Sfx at={off + PAYOFF2 + 14} file="ac-crowded" volume={0.5} />
+      {[5, 4, 3, 2].map((k) => <Sfx key={k} at={off + FOLD[k]} file="ac-fold" volume={0.6} />)}
+      <Sfx at={off + HEAL} file="ac-heal" volume={0.22} />
+      <Sfx at={off + OUTRO} file="ac-out" volume={0.5} />
     </AbsoluteFill>
   );
 }

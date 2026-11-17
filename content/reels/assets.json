@@ -431,6 +431,102 @@
       "path": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_v12.mp4",
       "sha256": "f49029642ec1e59585a3078a9df0b3ccf30c0254083dc4fc8570cf199c6e92a2",
       "bytes": 50528519
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-b-4.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-b-4.wav",
+      "sha256": "f5b64a6e4735b123a164ce75075d53981967c10fac6073237f0dd0a79c3b9534",
+      "bytes": 563278
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-b-4_clean.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-b-4_clean.wav",
+      "sha256": "1cc4c41cdff250dde19d0444217c5b3b5842726fe683e459b574db0430e1b85d",
+      "bytes": 563278
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-4.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-4.wav",
+      "sha256": "d2723ed6c522c19bb142aebbfdb95838987d2380c1e120881809c729b6c77efe",
+      "bytes": 883278
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-4_clean.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-4_clean.wav",
+      "sha256": "f29fd8fad621630628cb13198c63dd35f2b0a2e3bfc26368800962b5428a72ae",
+      "bytes": 883278
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-5.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-5.wav",
+      "sha256": "b467dfbb98d2bbfc22d90469b0f97745cc3d8f16030c7e2771710478a67982fd",
+      "bytes": 780878
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-5_clean.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-5_clean.wav",
+      "sha256": "dc6883c03b19d1988580aca4de3d1198e878dc10d30c3767966a75162144bb1f",
+      "bytes": 780878
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-5_cut.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-5_cut.wav",
+      "sha256": "2c0e8c17531b9b913e197ee958eb1379f10245a36ffe7684db5ba63118e19b9a",
+      "bytes": 580628
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-6.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-6.wav",
+      "sha256": "362e4d73ac178849695e897f623768dddd06ad98a5c3e792fcb4464558f6cc2a",
+      "bytes": 870478
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-6_clean.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-6_clean.wav",
+      "sha256": "6748fcba6c946bf47bc1799743e7590bc20bf7b8b3d01a2989ba01c9b471f734",
+      "bytes": 870478
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-6_cut.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-6_cut.wav",
+      "sha256": "d47e887ecf199ee094dd26dffebe49e98f545b43c7a3126277924982cbaabadf",
+      "bytes": 627436
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-7.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-7.wav",
+      "sha256": "63071b6911faf2e8f985f061982e9fb9b9d79ccf93d7764ccfdc48c49b1ceb9c",
+      "bytes": 614478
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-7_clean.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-7_clean.wav",
+      "sha256": "b242624177b30be25939b7d3377f50229d782040d359222830a03a48de1a038f",
+      "bytes": 614478
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-7_cut.wav",
+      "path": "media/reels/2026-11-17_aces-crowd/audio/vo/aces-crowd_hook-c-7_cut.wav",
+      "sha256": "b636db5b7440c72cb0957cb87be6deac80e15473b511a313e72bf737b4dd5563",
+      "bytes": 453046
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_hook-a_v14.mp4",
+      "path": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_hook-a_v14.mp4",
+      "sha256": "96a5b1c8fe016382b8bc7639cedc46476fcb44ad0f9653640ee8f4db13cf1f19",
+      "bytes": 50473695
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_hook-b_v14.mp4",
+      "path": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_hook-b_v14.mp4",
+      "sha256": "7444c24c65a81fdc84308fb87a44d32ab0ede442d440ffd6891b3f43fad33659",
+      "bytes": 54387144
+    },
+    {
+      "id": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_hook-c_v14.mp4",
+      "path": "media/reels/2026-11-17_aces-crowd/renders/aces-crowd_hook-c_v14.mp4",
+      "sha256": "46947f75ae22a772bcf16cf6b58d5f252e3c91d5a7af58ed6a8824a6f3bb60e6",
+      "bytes": 56566589
     }
   ]
 }

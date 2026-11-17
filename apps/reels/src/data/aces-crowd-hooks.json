@@ -1,0 +1,170 @@
+{
+  "$comment": "Openings for the reel aces-crowd: one entry per hook under test. len = frames before the body's voice starts; blast = the frame the ace breaks; screens = the type, each segment appearing on its spoken word (frames from public/vo/aces-crowd/<vo>.wav). The last screen stays up until the first stat. Used by src/reels/AcesCrowd.tsx.",
+  "a": {
+    "source": "Claude, written with the picture (v12)",
+    "line": "Aces cracked. Again. It isn't bad luck.",
+    "vo": "hook-a",
+    "len": 84,
+    "blast": 16,
+    "screens": [
+      {
+        "from": 1,
+        "to": 52,
+        "size": 132,
+        "segs": [
+          {
+            "t": "Aces ",
+            "at": 1
+          },
+          {
+            "t": "cracked.",
+            "at": 16
+          },
+          {
+            "t": "Again.",
+            "at": 37,
+            "br": true,
+            "em": "paper"
+          }
+        ]
+      },
+      {
+        "from": 54,
+        "size": 150,
+        "segs": [
+          {
+            "t": "It isn’t",
+            "at": 54
+          },
+          {
+            "t": "bad luck.",
+            "at": 54,
+            "br": true,
+            "em": "sage"
+          }
+        ]
+      }
+    ]
+  },
+  "b": {
+    "source": "hook writer, critic rank 1 (content/hooks/2026-11-17-aces-crowd/aces-win, d11)",
+    "line": "The home game where everybody sees every flop is the same home game where everybody swears pocket aces are cursed.",
+    "vo": "hook-b",
+    "len": 175,
+    "blast": 127,
+    "crowd": [
+      19,
+      27,
+      34,
+      41,
+      50
+    ],
+    "screens": [
+      {
+        "from": 0,
+        "to": 58,
+        "size": 88,
+        "segs": [
+          {
+            "t": "The home game where",
+            "at": 0
+          },
+          {
+            "t": "everybody sees",
+            "at": 19,
+            "br": true
+          },
+          {
+            "t": "every flop",
+            "at": 34,
+            "br": true
+          }
+        ]
+      },
+      {
+        "from": 60,
+        "size": 76,
+        "segs": [
+          {
+            "t": "is the same home game",
+            "at": 60
+          },
+          {
+            "t": "where everybody swears",
+            "at": 83,
+            "br": true
+          },
+          {
+            "t": "pocket aces are ",
+            "at": 108,
+            "br": true
+          },
+          {
+            "t": "cursed.",
+            "at": 127,
+            "em": "vermilion"
+          }
+        ]
+      }
+    ]
+  },
+  "c": {
+    "source": "hook writer, critic rank 2 (content/hooks/2026-11-17-aces-crowd/aces-win, d15)",
+    "line": "\"My aces always get cracked.\" Next time you say it, finish the sentence: against how many players?",
+    "vo": "hook-c",
+    "len": 176,
+    "blast": 32,
+    "crowd": [
+      97,
+      108,
+      119,
+      128,
+      134
+    ],
+    "screens": [
+      {
+        "from": 0,
+        "to": 48,
+        "size": 112,
+        "segs": [
+          {
+            "t": "“My aces always",
+            "at": 0
+          },
+          {
+            "t": "get cracked.”",
+            "at": 25,
+            "br": true,
+            "em": "paper"
+          }
+        ]
+      },
+      {
+        "from": 50,
+        "size": 76,
+        "segs": [
+          {
+            "t": "Next time you say it,",
+            "at": 50
+          },
+          {
+            "t": "finish the sentence:",
+            "at": 79,
+            "br": true
+          },
+          {
+            "t": "against how many ",
+            "at": 97,
+            "br": true,
+            "em": "sage"
+          },
+          {
+            "t": "players?",
+            "at": 131,
+            "em": "sage"
+          }
+        ]
+      }
+    ]
+  }
+}
