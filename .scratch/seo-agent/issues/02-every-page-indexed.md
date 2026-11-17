@@ -44,3 +44,9 @@ Google, likely still queued) and `/strategy`, `/glossary` ("Crawled - currently 
 Google fetched them and has not kept them; re-read in a week before changing anything, since
 this state is common in the first days after a crawl). The baseline file keeps the morning
 reading. `/trainer` gets text to index in PR #42.
+
+2026-11-17, first weekly run: **12 of 14 indexed** (`/about` joined the sitemap). Still out, both
+"URL is unknown to Google": `/about` (hours old, linked from every page; needs a request) and
+`/learn/online-poker-helper` (cause: one internal link from a crawled page, the last item on
+`/learn`). Move in progress: the helper guide linked from the home FAQ and the colophon of every
+page (branch `seo/2026-11-17`). Report: `content/seo/reports/2026-11-17.md`.

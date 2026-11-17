@@ -166,6 +166,7 @@ export default function App() {
             <Link to="/learn/pot-odds">Pot odds</Link>
             <Link to="/learn/outs">Outs chart</Link>
             <Link to="/strategy">Strategy</Link>
+            <Link to="/learn/online-poker-helper">Poker helpers: what's allowed</Link>
             <Link to="/about">About</Link>
             <Link to="/privacy">Privacy</Link>
           </span>
