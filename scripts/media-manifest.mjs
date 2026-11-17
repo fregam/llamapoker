@@ -25,6 +25,7 @@ const manifestPath = resolve(root, positional[0] ?? "content/library/assets.json
 
 // Width and height from the PNG IHDR chunk or the JPEG SOF marker.
 function imageSize(buf) {
+  if (buf.length < 24) return {}; // too short to be an image (an empty transcript, say)
   if (buf.readUInt32BE(0) === 0x89504e47) return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
   if (buf[0] === 0xff && buf[1] === 0xd8) {
     let i = 2;

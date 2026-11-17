@@ -383,3 +383,16 @@ lesson, and a hook line that could open the post.
   outside it is throwaway work.
 - **Lesson:** when you're building the factory, stop hand-making the product.
 - **Hook:** "I had a reel I knew would flop. Fixing it was the wrong move."
+
+## 2026-11-17 - My AI beat its own rulebook, so I threw out the video rules too
+
+- **Choice:** scrapped every rule for the video stage, including a visual direction I had picked
+  myself. The new method: send the AI reference videos, let it iterate until its result beats them
+  against the goal.
+- **Rejected:** building the look from the ground up, rule by rule, test round by test round. It
+  worked, but far too slowly to get a good result soon.
+- **What happened:** in the hook work, an unconstrained hook from the AI beat the rule-bound
+  system the same AI was running. The rules, set before we knew anything, were the bottleneck.
+- **Lesson:** rules written before you have results are guesses wearing a uniform. Start from
+  examples that already work and a clear goal; keep only the limits you'd never break.
+- **Hook:** "My AI wrote a better hook than the system I built for it. So I deleted the system."

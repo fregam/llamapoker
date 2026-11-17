@@ -1,0 +1,2463 @@
+{
+ "iterations": 400000,
+ "rows": [
+  {
+   "opponents": 1,
+   "win": 0.847875,
+   "tie": 0.0055025,
+   "lose": 0.1466225,
+   "equity": 0.85062625
+  },
+  {
+   "opponents": 2,
+   "win": 0.7320975,
+   "tie": 0.0057875,
+   "lose": 0.262115,
+   "equity": 0.73445
+  },
+  {
+   "opponents": 3,
+   "win": 0.635005,
+   "tie": 0.0056675,
+   "lose": 0.3593275,
+   "equity": 0.637198125
+  },
+  {
+   "opponents": 4,
+   "win": 0.5565475,
+   "tie": 0.0055275,
+   "lose": 0.437925,
+   "equity": 0.5587165000000001
+  },
+  {
+   "opponents": 5,
+   "win": 0.4899675,
+   "tie": 0.0053175,
+   "lose": 0.504715,
+   "equity": 0.49208166666666664
+  },
+  {
+   "opponents": 6,
+   "win": 0.433245,
+   "tie": 0.005465,
+   "lose": 0.56129,
+   "equity": 0.4354697619047619
+  },
+  {
+   "opponents": 7,
+   "win": 0.3851625,
+   "tie": 0.0054025,
+   "lose": 0.609435,
+   "equity": 0.3874105208333334
+  },
+  {
+   "opponents": 8,
+   "win": 0.3431375,
+   "tie": 0.0050625,
+   "lose": 0.6518,
+   "equity": 0.34527277777777776
+  }
+ ],
+ "hands": [
+  {
+   "board": "4d Jh 4h Kh 2c",
+   "villain": "4cAd",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "5h Qd 8h 9h 9c",
+   "villain": "Qs3h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Kc Jh 5s Jc 8s",
+   "villain": "2d2s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3c 3s 9c 2c 7s",
+   "villain": "8c3h",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Ad Kc Th 8h 6d",
+   "villain": "8d3d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9d Td 7s Qh 8c",
+   "villain": "3dQs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Js 6c 5c 6d Ts",
+   "villain": "6h6s",
+   "made": "Four of a Kind",
+   "won": false
+  },
+  {
+   "board": "Qd Th Ks 8c 4d",
+   "villain": "7cQc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "8h Ts 3c Tc 6h",
+   "villain": "8sQs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Td 4s 8d 7d 2c",
+   "villain": "6c9s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "5s 6s 7s Ac Th",
+   "villain": "4sTs",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Js 5d Td 5h Tc",
+   "villain": "7s5c",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "5h Jc 3c 7h Ks",
+   "villain": "6s4d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "5s Qs 8c 8h Jc",
+   "villain": "9hTs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "4d 7d 3c Jd Kc",
+   "villain": "QdQh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "5s Th 8h Kd 2s",
+   "villain": "Ks9d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "8s Ts Qs 2c Kc",
+   "villain": "6s2s",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "7d Kc Ac 2c 8h",
+   "villain": "9h7c",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Ts 6s Qs 9s 3c",
+   "villain": "2s8c",
+   "made": "Flush",
+   "won": true
+  },
+  {
+   "board": "Jc 8c 5h 9h 4d",
+   "villain": "TcQc",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "3h Qh Kh Ts 5d",
+   "villain": "Kd9h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Ts 9h Jd 9c 6h",
+   "villain": "Ad9s",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "5s 6c 6d 9c 4s",
+   "villain": "Tc5d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Jd Th Tc 8c 9h",
+   "villain": "2sQs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Js 4s Qc Ts Td",
+   "villain": "AdTh",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Ad Tc 6c Kh 7c",
+   "villain": "QdJh",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "2s 2c 5s 7c 3h",
+   "villain": "ThTc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Jc 8c Kh 7h 4s",
+   "villain": "5d6s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Td 6c 6h 5c 7s",
+   "villain": "6d4c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Qh 6h 2h 5h 2c",
+   "villain": "Th7h",
+   "made": "Flush",
+   "won": true
+  },
+  {
+   "board": "5c 8c Kc Js 3s",
+   "villain": "8d3d",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "3c 9s Jd 8h 7c",
+   "villain": "TsJs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "8d Td 4h Kh 2h",
+   "villain": "Kd8h",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "8h 6s Js 3c Qc",
+   "villain": "6hQs",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "9h 2h 3c 3d Qs",
+   "villain": "Ks3s",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Kd Kh 3d Qd 2h",
+   "villain": "Qs7s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Ts Qd 7h 5d Jd",
+   "villain": "Qc4h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2s Qh Th 4s 2c",
+   "villain": "JsQd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7s Th 3c 2d 8s",
+   "villain": "8h9h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7s 3c 3s 8s 5d",
+   "villain": "3hTs",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Ac Kh 6c 8h Ks",
+   "villain": "4hKd",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "Ks 6s 5c 3h 2c",
+   "villain": "5h6d",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "6h 4h Ks Th Jc",
+   "villain": "3h9h",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "7s Tc 4c 6c Qd",
+   "villain": "5hQc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "5c Qs 6d 8s 4c",
+   "villain": "5d7h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "4d Ac Kc Qd 3s",
+   "villain": "Ks7s",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "4c Jd Tc 8s 9d",
+   "villain": "AdQh",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "9d 6d 5s Qs 4d",
+   "villain": "Kd2d",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Th 6d Kh 9s Jd",
+   "villain": "Qh3d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "4c Qd Kc Ks Th",
+   "villain": "JhTs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Ac Jd 9h 7c Qh",
+   "villain": "KsTs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "6s Qh 7h 3h 5c",
+   "villain": "2s4c",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "8s 6c 8h 3c Jc",
+   "villain": "8d7c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "5c 7s Qs Th Jd",
+   "villain": "9h8s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "3s Qh 7d Jh 9d",
+   "villain": "Ac9h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7c 9d 5d 2d Qh",
+   "villain": "Qd3c",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Jd 9s 8h Td 7h",
+   "villain": "Ks4c",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "4s 6d Jd Kc 5s",
+   "villain": "3dKh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "5d Kd 9s 7h Js",
+   "villain": "KcAc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "6h 4d 2c Th 9c",
+   "villain": "8sTc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9d 3d 3h 4c Ad",
+   "villain": "3s2h",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "4h 4s 3c 7d 2c",
+   "villain": "5hAc",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Kc Qc Js Ts 4d",
+   "villain": "KsJc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3d Js 7c 3c Kh",
+   "villain": "2s3s",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "9h 8c 4s Th Qc",
+   "villain": "7dQh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3s Kc 2h 4c 9c",
+   "villain": "9d2d",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Js 9h Jc Qs 8c",
+   "villain": "7cTs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Qh 9s 7d 3d 3h",
+   "villain": "9hTs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3d Qh 9s Qd 2s",
+   "villain": "AcQc",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "3c 6h Ts 9c Kh",
+   "villain": "QsJh",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "6h Qh 5d Kd 8c",
+   "villain": "KsQc",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Jh 8c 5s 3h Kc",
+   "villain": "3d5d",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "3c Qh Ks Kh 5d",
+   "villain": "7h7s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "6d 9s 7h 6h 3d",
+   "villain": "8s6c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Jd Ad 4d Qh 5d",
+   "villain": "3dKd",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "7s 5h Tc Qd Ks",
+   "villain": "Kh6d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Js 7d Tc 4s 9h",
+   "villain": "9s9c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Td 4d 4c 7h 3h",
+   "villain": "3sTs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3h Jd Th Kc 5h",
+   "villain": "Ks8c",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9h 2h 9d 8d 4s",
+   "villain": "7d9c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Qs Kh 8d Ks 6s",
+   "villain": "Kd8c",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Jd Ks 2c 7c Kc",
+   "villain": "QdQh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Js Jd 8d 7h 6s",
+   "villain": "Jh8s",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "5s 5h 3s 8d 7c",
+   "villain": "6c4h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "2s 5c Ks Jc 9d",
+   "villain": "4hJd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9c Ad 3d Kd 8d",
+   "villain": "Jd5s",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Jd 2h Th Js 9h",
+   "villain": "9d9c",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "9d Qh 6c 9s Jd",
+   "villain": "KdTc",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "7d 7c 2c Jh 9d",
+   "villain": "JcQh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3h 9s Kh Jh Ad",
+   "villain": "4dJs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Kh 2s 6c 5c 8c",
+   "villain": "5s6d",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "3h 3d 2c Ac 5h",
+   "villain": "4dQc",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "6c 3h Kd 6s 4h",
+   "villain": "8cKs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2h Ks Qc 7d 6d",
+   "villain": "5hQs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "6c 2d 6s 8s Jc",
+   "villain": "QhJh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qc 3h 6c 8h 4d",
+   "villain": "Qd4h",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "9s 9c 5h 3c 2d",
+   "villain": "6h4h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "5c 6s Qh 4d 3c",
+   "villain": "2h9h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "9d 4d Ad Qs Qd",
+   "villain": "7c8d",
+   "made": "Flush",
+   "won": true
+  },
+  {
+   "board": "Td 9c 2c 6c Qd",
+   "villain": "3cQs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "8d Ts 3h 4s 4c",
+   "villain": "4d5h",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Ad Ks 3s Qh 3c",
+   "villain": "Kc6d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2d 5h 6s Jc 9s",
+   "villain": "Js8s",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7d 3d 3h Ad Th",
+   "villain": "QhAc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Kh 5h 4s 8s Ks",
+   "villain": "5d3c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7h 8h 7d 6s 7s",
+   "villain": "Ts8d",
+   "made": "Full House",
+   "won": true
+  },
+  {
+   "board": "9c 2c 5d 5s 2h",
+   "villain": "5c7c",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "4s 7c 8c Td 9h",
+   "villain": "8h6h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "2h 3h 7h 3d 4d",
+   "villain": "3cJh",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "2d 5d Kc Jc 8h",
+   "villain": "7d7c",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Kd 4d Th 6d Tc",
+   "villain": "Ad8d",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "4d 6c Tc 6s 5c",
+   "villain": "8cJc",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Jd 9s 4d Ac 8s",
+   "villain": "Tc7c",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "8h 9s 4d Jd 3h",
+   "villain": "QcQd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3c Ts 9c 2s 4c",
+   "villain": "6cQc",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "5s Td 2c 6s 3c",
+   "villain": "Ad4h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Kh 4h 7d 5h 2s",
+   "villain": "5c2c",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "4h 6h 6s Th 4c",
+   "villain": "AdJc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4s Kh Tc 2d Qc",
+   "villain": "JcAc",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Td 7d 9h 3d 9c",
+   "villain": "6hTs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4d 9d Ad Qc 5d",
+   "villain": "9cTd",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Qs 3s 7h 7d 2d",
+   "villain": "QdTc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "9s 3c Td 6d Jd",
+   "villain": "3dTc",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "6c Ad 5c Ks Kd",
+   "villain": "Qc7c",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9d 8d 7d Kh 9c",
+   "villain": "TsKc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qd 5s 6h Ts Kh",
+   "villain": "7cKs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2h Kc 6c 7d Jd",
+   "villain": "Js9h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Qc Tc 9c 5h Ac",
+   "villain": "Js6c",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "5h 7s 6h 3d Ad",
+   "villain": "9dAc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3d 6d Kh 3c 6s",
+   "villain": "3sJd",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "7s 4c Jc 6s 7h",
+   "villain": "Qh6d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4d Qs Qc 4h 5c",
+   "villain": "4c9h",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "4c 9d Kd 4s 8h",
+   "villain": "4h3c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Td Qc 4d 6d 7h",
+   "villain": "5d3s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "6s Ad 6c 6h 4h",
+   "villain": "8dAc",
+   "made": "Full House",
+   "won": true
+  },
+  {
+   "board": "9h 6c 2c 6d Qd",
+   "villain": "3sQs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2d 4c Kh Th 6s",
+   "villain": "5c3h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "9d 2h 3h 8h 2s",
+   "villain": "Qc8c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "6d Ac 6s Td 3h",
+   "villain": "5c3c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qd Tc 7s 7d 2h",
+   "villain": "Th7c",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Td 9d 9h Ks Ac",
+   "villain": "6d9s",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "Qd 5c 3h Tc Qh",
+   "villain": "JsJh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "9d 3h 2d 3c 5s",
+   "villain": "Jh3d",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "8h 9h Qd 4h 6c",
+   "villain": "9s3d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3d 9c Jd 7c 2s",
+   "villain": "JsJh",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "4d Ts 7c Kd 5h",
+   "villain": "8s7d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7c Tc Jc Kh 6c",
+   "villain": "Kc8c",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "8c 3s 6c 9h Qd",
+   "villain": "4dQh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2h Kd 5s Jh Qd",
+   "villain": "QhQs",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "6c 5d Tc Kh 5s",
+   "villain": "8sTh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3s Jd 7h 6d Qc",
+   "villain": "4d5h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Kc 9s Qc 4c 2h",
+   "villain": "4hAd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3h 8d 3d Jd Ts",
+   "villain": "3s2s",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "8h Jh 3c 3h 2d",
+   "villain": "2c7c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "9d 6d 4h 2h 3h",
+   "villain": "5c8d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Jh 3h Jc 9h 7c",
+   "villain": "9c2c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Js Qd 7h 3c Kc",
+   "villain": "5cKd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "4h Qd 8h 3s 6h",
+   "villain": "3h8c",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Ac 7h 8s 8c 5d",
+   "villain": "8h8d",
+   "made": "Four of a Kind",
+   "won": false
+  },
+  {
+   "board": "3s Qd 6c 4d 8d",
+   "villain": "5cQs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2c 4c 2d 6c Ts",
+   "villain": "6hAd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8c Jc Qc 7c 3d",
+   "villain": "8dAc",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Jd 4s Qc 2c 7c",
+   "villain": "6sJs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Ks Jc 5s Kc 2c",
+   "villain": "8s5c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Kc Qh Jc 4d 5s",
+   "villain": "KdTh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "8c 5d Ts 4h 3d",
+   "villain": "JdJc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "4s 6d Qd Kd 4d",
+   "villain": "9d5c",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "4d 9h Qs 8h Kc",
+   "villain": "8s4c",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Qc 6h 6s Qd 9c",
+   "villain": "3s9h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2h 4h 2c Ts 2s",
+   "villain": "JcJd",
+   "made": "Full House",
+   "won": true
+  },
+  {
+   "board": "Jd 9c Ac Kd Jh",
+   "villain": "Jc7d",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "9d 4d 3s 2c 6h",
+   "villain": "Qd9s",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7d 2h Th Qs 4s",
+   "villain": "6dTc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9d 7c 3d 2d 6s",
+   "villain": "7s9h",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "4d Qd 2d Ks 2s",
+   "villain": "Td5d",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "2c Ts Qs 5h Td",
+   "villain": "9sQd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Th 7s 6h 9d 6s",
+   "villain": "8s3h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "5d Td 8d Ac 6s",
+   "villain": "JdAd",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Qh 4h 2d 8s 8c",
+   "villain": "KhQd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7c 5c 8s 4d 4h",
+   "villain": "Qh6s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Jd 6d 4s 5s Qd",
+   "villain": "Qc4c",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Kd 5d 6d Kh 4c",
+   "villain": "3h2s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "9d 9h Jc 2c 6c",
+   "villain": "8cQc",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "4s Ts 5s 4h 2d",
+   "villain": "TdKd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Js 7c 4c 5s 7h",
+   "villain": "3h4s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Kc Ad Kh 7h 4c",
+   "villain": "7d8s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8h 7h Qs 4d 4c",
+   "villain": "QhJh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Th 5d 8s 8h 4d",
+   "villain": "8c9c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Td 2s Th 5c 2d",
+   "villain": "TcJd",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "8s Qc 7d Ac 3h",
+   "villain": "7h8c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "9h 7c Tc 3c Js",
+   "villain": "Jd6h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Ad Tc 8c 2h Js",
+   "villain": "QcAc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7d 6c 9s Tc 7c",
+   "villain": "Qh9h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qh Ac Ts 2s 6h",
+   "villain": "KcTh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3s 9s 9d 6c Th",
+   "villain": "TdAd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3s 2h 2d 7h 6h",
+   "villain": "Kh6d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "6h 7d Ac 8d Tc",
+   "villain": "7s8s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Td 8c 5c 4s 5h",
+   "villain": "5dTs",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "3s Ks 3h Qs 6d",
+   "villain": "9s9d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4c 4h 7c Kh 5h",
+   "villain": "9hKd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Kh 2c 3c Td Tc",
+   "villain": "Th5c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "4c 6h 4s 5s Qd",
+   "villain": "Qc3c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Tc Kd Qc 4s 7c",
+   "villain": "7s7h",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "6c Kc 4s 4c Js",
+   "villain": "5cAc",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "3s 9h 3c 8s 4d",
+   "villain": "4h5s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Ts 3s 9d Qh 6c",
+   "villain": "3d3h",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Kd 7d Js 8h 4d",
+   "villain": "6hKh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Qd 7s 3h 3d 5s",
+   "villain": "KhQh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "6d Th Ac 9c 2h",
+   "villain": "2c9h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7s 5h Ts 4d Td",
+   "villain": "5d2c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4c 4s Ks 7s 8d",
+   "villain": "4hJc",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "9s 4d 6c Ad Jc",
+   "villain": "KcKs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "5c 3s Kc Ks 7s",
+   "villain": "Tc7h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2h 4c 9s 5c 2s",
+   "villain": "2c6c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "8s Tc 7h 8d 2c",
+   "villain": "2d2h",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Ac 5d Ts 3s Ad",
+   "villain": "4s3h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7s Ac Jc 5c Kh",
+   "villain": "5sAd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Kc 4h Qd Th 6h",
+   "villain": "JdJc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2c Kc 8s Ks Qs",
+   "villain": "KdKh",
+   "made": "Four of a Kind",
+   "won": false
+  },
+  {
+   "board": "2h 3h 3c 2c 4s",
+   "villain": "Kh3s",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "9h 6s 8h 8d 9s",
+   "villain": "7hQh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Jd 2h 6d 3s 5c",
+   "villain": "4h9h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Jd Ad Td 3h 3c",
+   "villain": "Qd8d",
+   "made": "Flush",
+   "won": true
+  },
+  {
+   "board": "5c Kh Kc 2c 8h",
+   "villain": "8sQs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qd 4d Th 6c 8s",
+   "villain": "4cTs",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "8c Ad Qc Jd Qs",
+   "villain": "9cTd",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "9h 7d 4d Jc 5h",
+   "villain": "8hJh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Ks Qs Ad Kh Jh",
+   "villain": "Ts7c",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "Qd 6h 2d Ad Kd",
+   "villain": "KcJd",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Tc Jd 7c Ts Ks",
+   "villain": "9sJh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8d Kc Js Ad 2s",
+   "villain": "3dQs",
+   "made": "High Card",
+   "won": true
+  },
+  {
+   "board": "9s 5s 2d Kd 9h",
+   "villain": "8c9c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "3s 8s 8d Js Ts",
+   "villain": "Jh6s",
+   "made": "Flush",
+   "won": true
+  },
+  {
+   "board": "8d 5h 9d 6c 5d",
+   "villain": "4c7h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "8h Kh 4h 8s 3c",
+   "villain": "4d4s",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Ac Jc Td Kd Tc",
+   "villain": "3hTh",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "2d Ks 7c 9s Kd",
+   "villain": "5dKc",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "2s Qc Tc Kh 5d",
+   "villain": "Qd7h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Ks 5c Td 3d 2s",
+   "villain": "KhKc",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Kd 7c Ad Ac 4h",
+   "villain": "Ks3h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8d 4d Jc Ks 6h",
+   "villain": "Kh3s",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7s 5d 2d Ts 3d",
+   "villain": "AdQd",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Td 7h 8d 6d Qd",
+   "villain": "Kd6s",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "2d 9c Tc Th Js",
+   "villain": "KsQh",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "6c Kh Qc 3c Ac",
+   "villain": "5c9d",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "4c 3h 2d Ad Jh",
+   "villain": "3s7h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7c 6d Th 5d Ad",
+   "villain": "5sTd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4d Qd 4c Kd 6s",
+   "villain": "6d4h",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "4h Kd Kh 8h 3c",
+   "villain": "Ks5s",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "6d Th 2h 3s 6c",
+   "villain": "2s2d",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "3c 5s 7d 6d 8s",
+   "villain": "8h5c",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "7s 9d 4d Ks 6d",
+   "villain": "Tc9h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Kc Jc 3s Qd 8h",
+   "villain": "AdKs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "4s 9d Qh 4c 7h",
+   "villain": "6c4d",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Kd Qc Ad 6h Qs",
+   "villain": "8sAc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Js Ad Th 3s 3c",
+   "villain": "TdJh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "5c 9c 9s 3d 4s",
+   "villain": "6d2s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Jh 5h 3d Td 6d",
+   "villain": "KdAd",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "7h Tc 5c 3s 6s",
+   "villain": "Td5h",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Tc 4c 2c 4h 7h",
+   "villain": "7c2h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "5s 8s Jh Ac 8c",
+   "villain": "6hAd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3s 6s Qh 5s 2d",
+   "villain": "3h4c",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Js 8s Td 4h Jd",
+   "villain": "9h7s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Qs 5s 3c 9s Tc",
+   "villain": "6cQh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Ac 5c Qd 5s Jc",
+   "villain": "4sAd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Ad 2c Kc 8h Jc",
+   "villain": "Tc8s",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Th Tc 9s 4c 5h",
+   "villain": "9d5s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Kh 2c 8d Js 2s",
+   "villain": "KsAc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "6s Jc 8c Qh 2h",
+   "villain": "JhJs",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "6c 4c Tc 7d Ts",
+   "villain": "6dTh",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Kd 9d 2s 4s 3c",
+   "villain": "9s4h",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Kh 5c 9c 5s Jh",
+   "villain": "5d7d",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "6s Kd 2d Tc 2c",
+   "villain": "6c6h",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Th 8c 7d Ad Qd",
+   "villain": "JhQh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "4s 9h 3h 5c 6d",
+   "villain": "Qs7s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "2h Th Qh 9d Tc",
+   "villain": "7dQc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8d 9c Ac 6s 3d",
+   "villain": "6hJh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "4c 5c 5s Kh 7c",
+   "villain": "Qc9c",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "6s Jh Kh Th 5c",
+   "villain": "6hJd",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "8d 8s 3c Kc Qh",
+   "villain": "8hTs",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Td Qh Qs 3h 3s",
+   "villain": "2dQc",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "2s 6d Qs Ad Tc",
+   "villain": "Qd2d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3c Ts 8s 7c Kd",
+   "villain": "3sKc",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "5s 2c 8c Td 6h",
+   "villain": "6c7h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "4h Ks Qd 5c 8c",
+   "villain": "7d7h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Tc Qc Ad Th Jd",
+   "villain": "Ks7c",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "7h Jh 8c 8s Ac",
+   "villain": "AdTs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3d 5c 4c 2s 7d",
+   "villain": "AcTd",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "2d Qh 9s Qc Js",
+   "villain": "6s2h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7c Js Ts 2c 7d",
+   "villain": "5cJc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "5h Ts Kd Kc 3d",
+   "villain": "Td7h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qs 5c 3d 8h Qc",
+   "villain": "4s8c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3h Kh Ts 6s Qd",
+   "villain": "Qc6h",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "6d 3h 7h 5d 3c",
+   "villain": "3d7d",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Qs Ac 6d 9h 4h",
+   "villain": "4d4s",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "2c 5s 7c 2d 3d",
+   "villain": "Qh2h",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Kh 7s Qc 8c 2s",
+   "villain": "4d7c",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Tc 8c 7d 8s Jd",
+   "villain": "2s9h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "7h Qh 7c 4h 2s",
+   "villain": "2c6d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "5s Ad Kd Ts 8h",
+   "villain": "Kc5c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "5s Ad Tc Kc Jd",
+   "villain": "Qh5h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "5h 9s 4h Jd 9d",
+   "villain": "Jh8s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "6s 5s 4s Js 8d",
+   "villain": "AdKs",
+   "made": "Flush",
+   "won": true
+  },
+  {
+   "board": "Qc 2s 5d 3d Kc",
+   "villain": "3sKs",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Qd Js 8s Ts 6c",
+   "villain": "Ac9h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "3s 4c Jh Td 2c",
+   "villain": "4sQd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3d Jd Qs 8c 7s",
+   "villain": "9dJh",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2h 5h Ks 7c 9h",
+   "villain": "Kh5s",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Td 6h 6c 7s 6d",
+   "villain": "2sKc",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "Ks 4h 3c Jc 5c",
+   "villain": "6d7s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Qc 6h 4h 8h 7c",
+   "villain": "2h5d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "4h 7d Ac Ts Jd",
+   "villain": "9dAd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Qs Kd 6c Kh Ad",
+   "villain": "Ac6h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qc 7h Jh 4s 9s",
+   "villain": "Qs4c",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Th 7s Jc 2s 2c",
+   "villain": "9h8h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "7d 2d 6h Ts 5s",
+   "villain": "8s9h",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "4h 6s 8s 5h 7s",
+   "villain": "QhQd",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "6s 3s 5c Qd 6h",
+   "villain": "Qh8h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qs Td 3s Ks 7c",
+   "villain": "7sJd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9c Ks Jc 7d 7h",
+   "villain": "4d7c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "5s Kh 5h Kc Th",
+   "villain": "6s5c",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "2c 2h Qh 4c 4s",
+   "villain": "2dAc",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "Ks 7c 8d 5h 4c",
+   "villain": "7d5s",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "9d Ts 3h 8d 7c",
+   "villain": "5s6d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "3c 4s Ad Qc 4d",
+   "villain": "TdAc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7c Td 8d 8h Jd",
+   "villain": "9s5d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Kh 3h 9s Ts 8d",
+   "villain": "Jc7s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "2c Tc 7h Th Qd",
+   "villain": "QhKd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3c Jd 3h 4c 2d",
+   "villain": "9sJc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7c Ac 4d 6c 8d",
+   "villain": "Td9d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Ad 9c Th 6s 2d",
+   "villain": "Ac3c",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9c 3c 4h 2h 2d",
+   "villain": "9d9h",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "6d Td 2d 9s 4c",
+   "villain": "7h8c",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "5s Qs 8h Td 2d",
+   "villain": "9hQd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "Jh Qd 2c Ks Tc",
+   "villain": "Ac3h",
+   "made": "Straight",
+   "won": true
+  },
+  {
+   "board": "Kc Kh Jc 7d 2h",
+   "villain": "2cQd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8d 4c Td 8s Qc",
+   "villain": "Ks4d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3s 5c Kc 8d 8h",
+   "villain": "Ts8c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "2s Ad Qh 8c Qd",
+   "villain": "Qc8s",
+   "made": "Full House",
+   "won": true
+  },
+  {
+   "board": "Ac 7s 4h 9h Kh",
+   "villain": "7d4s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "3h Ts 2h Kc 4d",
+   "villain": "Kh6d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2d 4h 9s 5d Td",
+   "villain": "8c9d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "6h 3d 4h Kc Th",
+   "villain": "5d2s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Qh 6s 9d Tc Kh",
+   "villain": "6d6c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Td 7c 4d 6c Qs",
+   "villain": "8c9s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "3c 5d Js 7s 5s",
+   "villain": "JhJd",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "2c Ac Tc Jc 4s",
+   "villain": "9c7s",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "8d Ad Ac Jc Ks",
+   "villain": "9cKd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Td Kd 7c 4d 5h",
+   "villain": "7d5s",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "Kd Tc 7d 9s 6h",
+   "villain": "8h9c",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "5c Js 5h Th 4c",
+   "villain": "Jd4h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8s 9d Ac 8c 2d",
+   "villain": "JsKc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "6s Jd 9c 8c Qs",
+   "villain": "KdTs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Jd Th 4s Td 8c",
+   "villain": "2hTc",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Ac Td Kd Ts Jc",
+   "villain": "Th5h",
+   "made": "Three of a Kind",
+   "won": true
+  },
+  {
+   "board": "2h Qd Ad Jc 7d",
+   "villain": "6d8d",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Qh Td Ts 5d 4c",
+   "villain": "KcQc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "9h 7c Qd 7s Kh",
+   "villain": "ThKs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "8s 2c 3s 7d Ts",
+   "villain": "4sQs",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "2d 3h Tc 8d 8s",
+   "villain": "2sKh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4s 4h Th 3c 8s",
+   "villain": "Jd8h",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qs 4c 2c Ts 2h",
+   "villain": "6sTd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2h Jd 5s 8c 9c",
+   "villain": "TcQs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "4c Td 7h Jh Kh",
+   "villain": "JdTc",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "6c 6h Js 8c 5c",
+   "villain": "Jd6d",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "3d Qh 9d Js 5d",
+   "villain": "9hTc",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "9c Qc Th 6c Ts",
+   "villain": "QsAd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "4d Td 6h 5s Jc",
+   "villain": "Th3s",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "6d 9c 5c 9s Jd",
+   "villain": "9dJc",
+   "made": "Full House",
+   "won": false
+  },
+  {
+   "board": "4h Tc Qd 6d Jc",
+   "villain": "8h9d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Tc 6c 4c 2s 9s",
+   "villain": "9d9c",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "9c Kh Qd 2h Td",
+   "villain": "3sJs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Ac 7h Qs 4c 8h",
+   "villain": "Qc2d",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "3s 8s 8h Kh Qd",
+   "villain": "7hQs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "5c 6d 9d 3d Jc",
+   "villain": "7dKd",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "Js Kc 5h Kh 3d",
+   "villain": "Ad2h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "7s Qs Ad 2d Kc",
+   "villain": "ThKs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "5s 9c Jd Td 8d",
+   "villain": "3sQs",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "Kc 6s 5d 4h Jc",
+   "villain": "KsTd",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "5s 8h 4h Js Kd",
+   "villain": "ThTs",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "6c 8c Kd 6d Jd",
+   "villain": "4h6h",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "2c Qh 2s 3c Kd",
+   "villain": "2dJd",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "8h 4h 5c Ac 4s",
+   "villain": "5d4d",
+   "made": "Full House",
+   "won": true
+  },
+  {
+   "board": "3d 6s Kd Qs 3s",
+   "villain": "4dQd",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "5c 6s Jc 7s Ac",
+   "villain": "Js2s",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "2s 4h Jd Qc 4d",
+   "villain": "Jc9d",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Jh Js Ts 2c Qd",
+   "villain": "Jc7h",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Td 4h 6h Ts Kd",
+   "villain": "5cKh",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2c 7s 4h Tc 6s",
+   "villain": "Td8h",
+   "made": "Pair",
+   "won": true
+  },
+  {
+   "board": "5s Kd 6s Ts Ac",
+   "villain": "5dKs",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "7d 6d 2d Jc Qs",
+   "villain": "Ad3d",
+   "made": "Flush",
+   "won": false
+  },
+  {
+   "board": "9c 9d 9s Kc 8d",
+   "villain": "Kh2d",
+   "made": "Full House",
+   "won": true
+  },
+  {
+   "board": "7d 5c Ad 3h 5h",
+   "villain": "4sAc",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Qh 3d Qs Td 6h",
+   "villain": "AdQd",
+   "made": "Three of a Kind",
+   "won": false
+  },
+  {
+   "board": "Qd 5h Jd 8c 2s",
+   "villain": "Jc8s",
+   "made": "Two Pair",
+   "won": false
+  },
+  {
+   "board": "9h 7c 4d 7d 8s",
+   "villain": "Qh9c",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "2h Qs Js Th 2d",
+   "villain": "Kc9d",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "3d 8d Ks Ac 2s",
+   "villain": "3c8s",
+   "made": "Two Pair",
+   "won": true
+  },
+  {
+   "board": "Ac 3h 5h 9d 2d",
+   "villain": "4s2s",
+   "made": "Straight",
+   "won": false
+  },
+  {
+   "board": "6s 4h Qc Kh Kc",
+   "villain": "9hKs",
+   "made": "Three of a Kind",
+   "won": false
+  }
+ ]
+}
