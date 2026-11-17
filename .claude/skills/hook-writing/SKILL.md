@@ -57,5 +57,8 @@ Paths are under `content/hooks/<run>/<topic>/`; scripts are in `apps/reels/scrip
    step 3 with `failures.md` as extra input, then steps 4–5 on the new drafts; still short, keep
    what passed.
 
-Before the first run of a session, the critic passes [calibration.json](calibration.json): run it
-on those cases and compare with the expected verdicts.
+Before the first run of a session, calibrate the critic: dispatch it with
+[critic.md](critic.md) on `calibration/drafts.json` and `calibration/facts.json` (never
+`calibration/expect.json`), then `python apps/reels/scripts/hooks/calibrate.py <its critic.json>`.
+Every expectation must hold; on a miss, fix the brief and rerun. The rank cases anchor "good" to the
+best hooks we have; when a better batch ships, its lines replace the top of the pairs.

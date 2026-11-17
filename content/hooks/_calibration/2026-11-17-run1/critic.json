@@ -1,0 +1,42 @@
+{
+  "verdicts": {
+    "c01": {"claim": ["pass", "no claim; aa-vs-1 answers the topic"], "honest": ["pass", "plain"], "helping": ["pass", "no money or loss angle"]},
+    "c02": {"claim": ["fail", "a result (fifty bucks to five grand) no fact supports"], "honest": ["fail", "claimed win; LlamaPoker has no results to brag about"], "helping": ["pass", "no win-back offer"]},
+    "c03": {"claim": ["fail", "'Every poker app review says the river is rigged' is a claim about every review, unbacked"], "honest": ["pass", "rigging named to be denied"], "helping": ["pass", "none"]},
+    "c04": {"claim": ["pass", "second-person scene, no claim; the premium facts (1 in 39, 9.75 bb wait) can pay it off"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c05": {"claim": ["fail", "wait-bb is an average; 'each one has already cost you 9.75 big blinds' drops 'on average' and states it for every premium"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c06": {"claim": ["pass", "16% matches gutshot-river (16.47%) with its conditions; 'half right' is pot-odds common knowledge the reel can show"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c07": {"claim": ["pass", "one lost hand proves nothing follows from aa-lose-1 (14.47%) and is table common knowledge"], "honest": ["pass", "none"], "helping": ["pass", "names a loss to explain it"]},
+    "c08": {"claim": ["pass", "35% by the river from the flop matches flush-river; 'not the miss that costs you' is the price paid, common knowledge"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c09": {"claim": ["pass", "a feeling put to the viewer ('feels like it always does'); flush-river and flush-turn-to-river answer it"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c10": {"claim": ["pass", "14% matches aa-lose-1 with conditions (preflop all-in, one random hand)"], "honest": ["pass", "luck named only to be denied"], "helping": ["pass", "none"]},
+    "c11": {"claim": ["pass", "aa-lose-once-in-20 (95.6%) backs that enough AA all-ins make a loss near certain"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c12": {"claim": ["pass", "conditions stated (from the flop, both cards); 1 in 3 is a fair rounding of 34.97%"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c13": {"claim": ["pass", "no claim"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c14": {"claim": ["pass", "1 in 39 'on average' matches premium-every; 'a bill' is backed by orbit-bb / wait-bb"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c15": {"claim": ["pass", "85% matches aa-vs-1 with conditions; the count is the reel's answer"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c16": {"claim": ["fail", "'It was supposed to happen' is an unbacked claim: a 14% loss is not supposed to happen"], "honest": ["pass", "rigging named to be denied"], "helping": ["pass", "none"]},
+    "c17": {"claim": ["fail", "the reel can't answer 'how often that happens' (AA vs AK, runner-runner kings) from these facts"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c18": {"claim": ["pass", "35% from the flop matches flush-river; the memory line is put to the viewer"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c19": {"claim": ["fail", "'They knew before you raised' asserts a read no fact supports, and the reel can't answer it from these facts"], "honest": ["pass", "luck named to be denied"], "helping": ["pass", "none"]},
+    "c20": {"claim": ["fail", "wrong number: AA takes 55.88% of the pot against four random hands, it doesn't lose 85%"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c21": {"claim": ["fail", "'Most players call that fold a mistake' and 'most of the time it's the right one' are both unbacked"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c22": {"claim": ["fail", "aa-lose-once-in-10 holds for heads-up all-ins against random hands; 'shove aces ten times' drops the conditions (callers aren't random, pots may be multiway)"], "honest": ["pass", "none"], "helping": ["pass", "none"]},
+    "c23": {"claim": ["fail", "promises a result ('wins it back by Friday') no fact supports"], "honest": ["fail", "a results promise, 'win big' ground"], "helping": ["fail", "offers winning a lost stack back and uses the loss as a reason to play more"]},
+    "c24": {"claim": ["fail", "folding a non-blind hand costs nothing, so 'paying for every hand he folds' is false; 'losing slowly' is an unbacked claim about a type"], "honest": ["pass", "luck named to be denied"], "helping": ["pass", "none"]},
+    "c25": {"claim": ["pass", "beliefs put to the viewer in the second person; aa-lose-1 answers both"], "honest": ["pass", "none"], "helping": ["pass", "none"]}
+  },
+  "rank": ["c25", "c11", "c07", "c09", "c12", "c18", "c14", "c04", "c10", "c08", "c15", "c06", "c13", "c01"],
+  "top": {
+    "c25": {"why": "A then-vs-now arc every regular has lived, in two short sentences, leaving the reel to settle who's right.", "mechanism": "side_by_side"},
+    "c11": {"why": "Calls out the viewer with a one-line paradox that turns a bad beat into proof of volume.", "mechanism": "identity_callout"},
+    "c07": {"why": "Opens on the most familiar bad beat in poker and denies the conclusion the viewer already drew.", "mechanism": "counterintuitive_claim"},
+    "c09": {"why": "A lived scene and the feeling it leaves, aimed at anyone who has lost to a river flush.", "mechanism": "scenario_label"},
+    "c12": {"why": "Quotes the table's own complaint and answers it with a number that contradicts it.", "mechanism": "counterintuitive_claim"},
+    "c18": {"why": "Meets the 'always misses' complaint with a number and turns the blame onto what the viewer paid, though it stacks three moves.", "mechanism": "counterintuitive_claim"},
+    "c14": {"why": "Reframes folding as a cost rather than a virtue, a stake the viewer has never priced, though it opens on a number.", "mechanism": "counterintuitive_claim"},
+    "c04": {"why": "A small, specific sting every tight player knows, told as a scene.", "mechanism": "scenario_label"},
+    "c10": {"why": "Denies luck and promises a different way to count, but there is no scene and the stat carries the line.", "mechanism": "counterintuitive_claim"},
+    "c08": {"why": "Withholds what actually costs you, but leads with a bare number before any stake.", "mechanism": "withheld_payoff"}
+  }
+}

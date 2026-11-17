@@ -1,0 +1,176 @@
+[
+ {
+  "id": "c01",
+  "line": "Today we're going to look at how often pocket aces win against random hands.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c02",
+  "line": "I turned fifty bucks into five grand last month by folding more. Here's the one rule.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c03",
+  "line": "Every poker app review says the river is rigged. A flop flush draw gets there 35% of the time.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c04",
+  "line": "You folded all night, finally raised kings, and everyone folded.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c05",
+  "line": "Fold everything but aces, kings, queens and ace-king at a 6-max table, and each one has already cost you 9.75 big blinds by the time it shows up.",
+  "fact_ids": [
+   "wait-bb"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c06",
+  "line": "Would you chase a 16% shot? That's a flop gutshot by the river. 'Never chase gutshots' is half right, and the other half matters.",
+  "fact_ids": [
+   "gutshot-river"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c07",
+  "line": "Your aces lost to five-two offsuit, and that proves nothing.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c08",
+  "line": "35% by the river. That's how often a flop flush draw gets there, and it's not the miss that costs you.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c09",
+  "line": "Your two pair loses to the river flush, and it feels like it always does.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c10",
+  "line": "It's not luck. Pocket aces lose 14% of preflop all-ins against one random hand. What's off is how you count them.",
+  "fact_ids": [
+   "aa-lose-1"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c11",
+  "line": "If you've never lost an all-in with pocket aces, you haven't had enough of them.",
+  "fact_ids": [
+   "aa-lose-once-in-20"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c12",
+  "line": "'My flush draws never hit.' From the flop, seeing both cards, they hit 1 in 3.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c13",
+  "line": "Three things to know about how often pocket aces win.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c14",
+  "line": "Only 1 in 39 hands, on average, is pocket aces, kings, queens or ace-king. Folding the rest isn't discipline. It's a bill.",
+  "fact_ids": [
+   "premium-every"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c15",
+  "line": "85%: how often pocket aces win all-in preflop against one random hand. When they crack on the app, blame a count you never kept.",
+  "fact_ids": [
+   "aa-vs-1"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c16",
+  "line": "You got pocket aces all in before the flop, and lost to five-two offsuit. That wasn't the app being rigged. It was supposed to happen.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c17",
+  "line": "Rockets, all in, he shows ace-king. Turn king. River king. Here's how often that happens.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c18",
+  "line": "Your flush draw always misses? 35% by the river from the flop, and you only remember the misses you paid too much to see.",
+  "fact_ids": [
+   "flush-river"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c19",
+  "line": "The whole table folds to your pocket queens, and it's not bad luck. They knew before you raised.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c20",
+  "line": "Pocket aces lose 85% of the time against four callers.",
+  "fact_ids": [
+   "aa-vs-4"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c21",
+  "line": "You fold your flush draw to a big bet and the heart comes on the river. Most players call that fold a mistake. Most of the time it's the right one.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c22",
+  "line": "Shove aces ten times and you'll lose at least one 79% of the time.",
+  "fact_ids": [
+   "aa-lose-once-in-10"
+  ],
+  "open_question": ""
+ },
+ {
+  "id": "c23",
+  "line": "Lost your stack tonight? This one adjustment wins it back by Friday.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c24",
+  "line": "The nit at your table isn't losing slowly because he's unlucky. He's paying for every hand he folds.",
+  "fact_ids": [],
+  "open_question": ""
+ },
+ {
+  "id": "c25",
+  "line": "Year one, you think aces never lose. Year two, you think they always do.",
+  "fact_ids": [],
+  "open_question": ""
+ }
+]

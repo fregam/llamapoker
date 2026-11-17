@@ -489,6 +489,22 @@ lesson, and a hook line that could open the post.
   follow you, and judge hooks against real pairs of hits and flops, not against a list of moves.
 - **Hook:** "I studied 911 viral reels. The 'proven hook formulas' showed up just as often in the flops."
 
+## 2026-11-17: I calibrated my AI critic against my own taste, then threw that answer key away
+
+- **Choice:** the hook critic has to pass a test before it judges anything: 25 known lines where
+  the right verdict is settled. The ranking half of the test is anchored to the best hooks we have
+  made so far, and it gets replaced whenever a better batch exists.
+- **Rejected:** using the founder's picks from the first blind test as the answer key. Those picks
+  were the best of a weak batch; a critic trained to prefer them would hold every later hook down
+  to that level.
+- **What happened:** four critics took the test. The first brief was too strict (it failed a true
+  line about table behaviour). The fix made the second too loose (it passed "he's paying for every
+  hand he folds", which is false). The third wording held for two fresh critics in a row. Two test
+  lines turned out to have no clear answer, so they came out of the answer key.
+- **Lesson:** a judge is only as good as what you measure it against. Calibrate to your best work,
+  and move the bar when the work gets better.
+- **Hook:** "My AI critic was graded against my own taste. Then my taste turned out to be the low bar."
+
 ## 2026-11-17: The agent runs at 07:00. The dashboard is closed at 07:00.
 
 - **Choice:** before putting the SEO agent on the wall, ask what the wall would show the morning

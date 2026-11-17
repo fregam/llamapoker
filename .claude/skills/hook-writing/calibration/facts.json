@@ -1,0 +1,86 @@
+[
+ {
+  "id": "premium-every",
+  "claim": "on average one AA, KK, QQ or AK every this many hands",
+  "value": 39,
+  "unit": "hands",
+  "how": "1326/34, rounded"
+ },
+ {
+  "id": "premium-share",
+  "claim": "share of dealt hands that are AA, KK, QQ or AK (34 of 1,326 combos)",
+  "value": 2.56,
+  "unit": "%",
+  "how": "34/1326"
+ },
+ {
+  "id": "orbit-bb",
+  "claim": "blinds paid per orbit at a 6-max table (small 0.5 + big 1)",
+  "value": 1.5,
+  "unit": "bb",
+  "how": "0.5 + 1"
+ },
+ {
+  "id": "wait-bb",
+  "claim": "blinds paid at 6-max while waiting for one premium hand, folding everything else",
+  "value": 9.75,
+  "unit": "bb",
+  "how": "39 hands × 1.5 bb / 6 (reel 002, OnlyAces.tsx)"
+ },
+ {
+  "id": "aa-vs-1",
+  "claim": "AA's share of the pot against 1 random hand, all-in preflop and run to the river (ties split)",
+  "value": 85.26,
+  "unit": "%",
+  "how": "equityVsRandom(AsAh, [], 1, 400000)"
+ },
+ {
+  "id": "aa-vs-4",
+  "claim": "AA's share of the pot against 4 random hands, all-in preflop and run to the river (ties split)",
+  "value": 55.88,
+  "unit": "%",
+  "how": "equityVsRandom(AsAh, [], 4, 400000)"
+ },
+ {
+  "id": "aa-lose-1",
+  "claim": "how often AA loses outright to one random hand, all-in preflop and run to the river",
+  "value": 14.47,
+  "unit": "%",
+  "how": "equityVsRandom(AsAh, [], 1, 400000).lose"
+ },
+ {
+  "id": "aa-lose-once-in-10",
+  "claim": "chance AA loses at least once in 10 heads-up preflop all-ins against random hands",
+  "value": 79.06,
+  "unit": "%",
+  "how": "1 - (1 - aa-lose-1)^10"
+ },
+ {
+  "id": "aa-lose-once-in-20",
+  "claim": "chance AA loses at least once in 20 heads-up preflop all-ins against random hands",
+  "value": 95.62,
+  "unit": "%",
+  "how": "1 - (1 - aa-lose-1)^20"
+ },
+ {
+  "id": "flush-river",
+  "claim": "flop flush draw completes by the river (turn or river)",
+  "value": 34.97,
+  "unit": "%",
+  "how": "1 - 38/47 · 37/46"
+ },
+ {
+  "id": "flush-turn-to-river",
+  "claim": "a flush draw on the turn completes on the river",
+  "value": 19.57,
+  "unit": "%",
+  "how": "9/46"
+ },
+ {
+  "id": "gutshot-river",
+  "claim": "flop gutshot straight draw completes by the river",
+  "value": 16.47,
+  "unit": "%",
+  "how": "1 - 43/47 · 42/46"
+ }
+]
