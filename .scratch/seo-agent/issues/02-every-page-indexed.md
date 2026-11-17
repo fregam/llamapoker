@@ -35,3 +35,12 @@ not indexed": Google knows the URLs and has not thought them worth crawling yet.
 ## Done when
 
 The reading shows 13 of 13, or each page still out has a written cause and a move in progress.
+
+## Comments
+
+2026-11-17, a few hours after the founder requested indexing by hand: **7 of 13 indexed** (was 3).
+Still out: `/table`, `/trainer`, `/learn/positions`, `/learn/online-poker-helper` (unknown to
+Google, likely still queued) and `/strategy`, `/glossary` ("Crawled - currently not indexed":
+Google fetched them and has not kept them; re-read in a week before changing anything, since
+this state is common in the first days after a crawl). The baseline file keeps the morning
+reading. `/trainer` gets text to index in PR #42.
