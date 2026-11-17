@@ -46,6 +46,14 @@
    Cloudflare analytics (needs the API token); the first money source posting `revenue`. Later: the
    map once analytics data flows, view events from a first-party beacon.
 
+0b. **SEO agent** (`apps/seo`, spec and tickets `.scratch/seo-agent/`, started 2026-11-17). Goal:
+   page one of Google for the 18 searches in `apps/seo/targets.json`, as fast as honest work
+   allows, and kept there. Scored weekly from Search Console: target searches on page one, and
+   sitemap pages indexed (3 of 13 on 2026-11-11, which is the first thing to fix). Built: the
+   Search Console client, the score and the reading, a setup wizard for the access. Next: the
+   founder runs the wizard (ticket 01), then every page indexed (02), honest authorship (03), the
+   weekly unattended run (04), the wall station (05), links worth having (06).
+
 1. **Social accounts:** create them (Instagram, TikTok, X, YouTube) with the kit in `brand/social/`;
    set the Beehiiv logo and email header. First posts from the Learn guides.
 2. **Launch teaser video**, vertical, for TikTok and Reels, cut on the reels system (`apps/reels`).
@@ -95,7 +103,7 @@
 - Email: tighten DMARC to p=quarantine once reports are clean; Beehiiv custom sending domain (letter@llamapoker.com).
 
 - Research agent (Reddit, X, tournament results) → weekly brief in `content/`.
-- Writing and SEO agents → draft articles for review.
+- Writing agent → draft articles for review (the SEO agent is under Next, 0b).
 - Social agent → turns articles and tips into posts and reel scripts.
 - Agent rules: agents draft, a human approves before anything is published; follow
   `brand/README.md`; keys from the environment or `credentials.json`, never the repo.

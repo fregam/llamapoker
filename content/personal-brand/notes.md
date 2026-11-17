@@ -424,3 +424,18 @@ lesson, and a hook line that could open the post.
   had built a sound library in parallel, and the reel's sound was swapped onto it in minutes.
 - **Lesson:** "work until it's better than this" is a brief. "Follow these 40 rules" is a cage.
 - **Hook:** "I stopped giving my AI rules and gave it nine videos to beat."
+
+
+## 2026-11-17 - I fact-checked four SEO reels before building anything from them
+
+- **Choice:** the founder sent four viral SEO tips as the brief for an SEO agent. Before writing a
+  line of the agent, each tip was transcribed and checked against Google's own documentation.
+- **Rejected:** building the tips in as rules (one creator, four claims, and likes are not
+  evidence); ignoring them (two of the four were exactly right).
+- **What happened:** one tip's headline claim, that a "preferred source" button is a ranking
+  signal for everyone, is not in Google's page at all: the effect is per user and mostly on a
+  news surface. The backlink list is the thing Google's spam policy names. The authorship line is
+  real and applies to our own mascot. And the cleverest tip returns nothing for us, because ten of
+  our thirteen pages are not even indexed yet.
+- **Lesson:** a growth tip tells you where to look. The platform's own page tells you what is true.
+- **Hook:** "I checked four viral SEO tips against Google's own docs. One was half invented."

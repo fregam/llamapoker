@@ -5,11 +5,14 @@
  * all of it into each page's HTML, plus the sitemap).
  * Titles and descriptions target what people actually search ("poker odds calculator",
  * "poker positions explained", "online poker helper"…) — keep that when editing.
- * `prerender: true` pages are rendered to full HTML; the Trainer is random on every load,
- * so it ships as an empty shell with the right meta.
+ * `prerender: true` pages are rendered to full HTML. The Trainer is random on every load, so its
+ * page (views/TrainerPage.tsx) prerenders a placeholder plus a written guide and mounts the app
+ * in the browser.
  * `schema(site)` returns JSON-LD objects; it receives the absolute site URL ("" when unknown,
  * in which case URL-dependent schema is skipped).
- * Used by: App.tsx, entry-server.tsx (→ scripts/prerender.mjs).
+ * Guides carry `published` / `modified` dates and a named author (AUTHOR); both are shown on the
+ * page (components/Guide.tsx) and written to the Article data and the sitemap.
+ * Used by: App.tsx, components/Guide.tsx, views/About.tsx, entry-server.tsx (→ scripts/prerender.mjs).
  */
 
 import { FAQ } from "./content/faq";
@@ -28,6 +31,7 @@ export type PageId =
   | "poker-helper"
   | "pot-odds"
   | "outs"
+  | "about"
   | "notfound";
 
 export interface Route {
@@ -39,11 +43,28 @@ export interface Route {
   /** Short name for breadcrumbs and link lists. */
   name: string;
   schema?: (site: string) => object[];
+  /** First published and last meaningfully changed (YYYY-MM-DD). Shown on the guides, written to
+   *  their structured data and to the sitemap's <lastmod>. Change `modified` only when the page's
+   *  content changes, not on every build: a date that moves without the page moving is a lie. */
+  published?: string;
+  modified?: string;
 }
 
 const BRAND = { "@type": "Organization", name: "LlamaPoker" };
 
-function article(path: string, headline: string, description: string) {
+/** The person who makes the site and signs the guides. A real name, by the founder's decision
+ *  (2026-11-17); never a character or an invented expert. Shown by components/Guide.tsx. */
+export const AUTHOR = { name: "Matias Freund", path: "/about" };
+const person = (site: string) => ({ "@type": "Person", name: AUTHOR.name, ...(site ? { url: site + AUTHOR.path } : {}) });
+
+/** "2026-11-06" → "6 November 2026". Pure string work: no Date, so the prerender and the browser agree. */
+export function longDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  return `${d} ${months[m - 1]} ${y}`;
+}
+
+function article(path: string, headline: string, description: string, published: string, modified: string) {
   return (site: string): object[] => {
     const out: object[] = [
       {
@@ -51,8 +72,10 @@ function article(path: string, headline: string, description: string) {
         "@type": "Article",
         headline,
         description,
-        author: BRAND,
+        author: person(site),
         publisher: BRAND,
+        datePublished: published,
+        dateModified: modified,
         ...(site ? { mainEntityOfPage: site + path } : {}),
       },
     ];
@@ -130,7 +153,7 @@ export const ROUTES: Route[] = [
     title: "Free Poker Trainer — Practice Full Hands, Pot Odds & Outs | LlamaPoker",
     description:
       "Practice poker free: play whole hands against a realistic opponent, drill preflop charts, pot odds and counting outs, beat the shot clock and find your leaks.",
-    prerender: false,
+    prerender: true,
     schema: webApp(
       "LlamaPoker poker trainer",
       "/trainer",
@@ -157,8 +180,12 @@ export const ROUTES: Route[] = [
     schema: article(
       "/learn/hand-rankings",
       "Poker hand rankings",
-      "All ten poker hands, what beats what, how often each happens in Hold'em, and how ties are broken."
+      "All ten poker hands, what beats what, how often each happens in Hold'em, and how ties are broken.",
+      "2026-11-06",
+      "2026-11-06"
     ),
+    published: "2026-11-06",
+    modified: "2026-11-06",
   },
   {
     path: "/learn/positions",
@@ -171,8 +198,12 @@ export const ROUTES: Route[] = [
     schema: article(
       "/learn/positions",
       "Poker positions explained",
-      "Every seat at a 6-max table, the order of action and why position matters."
+      "Every seat at a 6-max table, the order of action and why position matters.",
+      "2026-11-06",
+      "2026-11-06"
     ),
+    published: "2026-11-06",
+    modified: "2026-11-06",
   },
   {
     path: "/learn/starting-hands",
@@ -185,8 +216,12 @@ export const ROUTES: Route[] = [
     schema: article(
       "/learn/starting-hands",
       "Poker starting hands chart by position",
-      "6-max preflop opening, 3-bet and calling charts for every seat, and how to read them."
+      "6-max preflop opening, 3-bet and calling charts for every seat, and how to read them.",
+      "2026-11-06",
+      "2026-11-06"
     ),
+    published: "2026-11-06",
+    modified: "2026-11-06",
   },
   {
     path: "/learn/pot-odds",
@@ -199,8 +234,12 @@ export const ROUTES: Route[] = [
     schema: article(
       "/learn/pot-odds",
       "Pot odds explained",
-      "How to calculate pot odds, the equity you need against each bet size, and when a call pays off."
+      "How to calculate pot odds, the equity you need against each bet size, and when a call pays off.",
+      "2026-11-06",
+      "2026-11-06"
     ),
+    published: "2026-11-06",
+    modified: "2026-11-06",
   },
   {
     path: "/learn/outs",
@@ -213,8 +252,12 @@ export const ROUTES: Route[] = [
     schema: article(
       "/learn/outs",
       "Poker outs and how to count them",
-      "Counting outs, common draws, the rule of 2 and 4 and a full outs chart with exact odds."
+      "Counting outs, common draws, the rule of 2 and 4 and a full outs chart with exact odds.",
+      "2026-11-06",
+      "2026-11-06"
     ),
+    published: "2026-11-06",
+    modified: "2026-11-06",
   },
   {
     path: "/learn/online-poker-helper",
@@ -227,8 +270,12 @@ export const ROUTES: Route[] = [
     schema: article(
       "/learn/online-poker-helper",
       "Online poker helpers and live poker tools: what's allowed",
-      "What poker sites and card rooms allow, why real-time assistance is banned, and how to improve legally."
+      "What poker sites and card rooms allow, why real-time assistance is banned, and how to improve legally.",
+      "2026-11-06",
+      "2026-11-06"
     ),
+    published: "2026-11-06",
+    modified: "2026-11-06",
   },
   {
     path: "/strategy",
@@ -247,6 +294,27 @@ export const ROUTES: Route[] = [
     description:
       "Plain-language definitions of equity, pot odds, break-even equity, outs, the rule of 2 and 4, implied odds, ranges, SPR and more, with worked examples.",
     prerender: true,
+  },
+  {
+    path: "/about",
+    page: "about",
+    name: "About",
+    title: "About LlamaPoker — Who Makes It and How the Numbers Are Computed",
+    description:
+      "LlamaPoker is a free poker study tool made by Matias Freund. Who is behind it, how every number on the site is computed, how the guides are written and what it is for.",
+    prerender: true,
+    schema: (site) => [
+      {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        name: "About LlamaPoker",
+        mainEntity: person(site),
+        publisher: BRAND,
+        ...(site ? { url: site + "/about" } : {}),
+      },
+    ],
+    published: "2026-11-17",
+    modified: "2026-11-17",
   },
   {
     path: "/privacy",
