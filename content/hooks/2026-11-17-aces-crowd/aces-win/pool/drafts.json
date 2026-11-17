@@ -1,0 +1,145 @@
+[
+ {
+  "id": "d01",
+  "line": "Your pocket aces don't always get cracked. You just keep letting five people try.",
+  "fact_ids": [],
+  "open_question": "Why do pocket aces seem to lose so often?"
+ },
+ {
+  "id": "d02",
+  "line": "Against one player who stays to the river, pocket aces win 85% of the time. Against five, 49%. Count the chairs before you blame the deck.",
+  "fact_ids": [
+   "aa-vs-1",
+   "aa-vs-5"
+  ],
+  "open_question": "What changes between the aces that hold and the aces that lose?"
+ },
+ {
+  "id": "d03",
+  "line": "Nobody at your table ever folds, and you still wonder why your pocket aces keep losing.",
+  "fact_ids": [],
+  "open_question": "What does a table that never folds do to pocket aces?"
+ },
+ {
+  "id": "d04",
+  "line": "Slow-play pocket aces to set a trap and you can let five players in. Against five who stay to the river, aces win only 49% of the time.",
+  "fact_ids": [
+   "aa-vs-5"
+  ],
+  "open_question": "What does letting players in cheaply cost pocket aces?"
+ },
+ {
+  "id": "d05",
+  "line": "Before you call the app rigged because your aces lost again, count how many players stayed in the hand.",
+  "fact_ids": [],
+  "open_question": "If it isn't rigged, why do aces lose so much on the app?"
+ },
+ {
+  "id": "d06",
+  "line": "You look down at pocket aces and your stomach drops, because you think you know how this ends. The reason isn't bad luck.",
+  "fact_ids": [],
+  "open_question": "What is the reason aces keep ending badly, if not luck?"
+ },
+ {
+  "id": "d07",
+  "line": "Some players feel safer holding suited connectors than pocket aces. The aces aren't the problem. The crowd in the pot is.",
+  "fact_ids": [],
+  "open_question": "Why do pocket aces feel worse to play than they should?"
+ },
+ {
+  "id": "d08",
+  "line": "Somebody at every table jokes that they just fold pocket aces now. The fix is smaller than that: fewer players in the pot.",
+  "fact_ids": [],
+  "open_question": "How much do fewer players in the pot change what aces win?"
+ },
+ {
+  "id": "d09",
+  "line": "Pocket aces lose to one player who stays to the river about 15% of the time. So why does it feel like yours lose every time?",
+  "fact_ids": [
+   "aa-lose-1"
+  ],
+  "open_question": "Why do your aces lose far more often than they do against one player?"
+ },
+ {
+  "id": "d10",
+  "line": "Pocket aces against one player who stays to the river: 85%. Against two: 73%. Three: 64%. Four: 56%. Five: 49%. That last one is your home game.",
+  "fact_ids": [
+   "aa-vs-1",
+   "aa-vs-2",
+   "aa-vs-3",
+   "aa-vs-4",
+   "aa-vs-5"
+  ],
+  "open_question": "How much does each extra player take from pocket aces?"
+ },
+ {
+  "id": "d11",
+  "line": "The home game where everybody sees every flop is the same home game where everybody swears pocket aces are cursed.",
+  "fact_ids": [],
+  "open_question": "What do those two things have to do with each other?"
+ },
+ {
+  "id": "d12",
+  "line": "You know the player who calls every bet with any two cards. Put five of him in a pot to the river and your pocket aces win 49% of the time.",
+  "fact_ids": [
+   "aa-vs-5"
+  ],
+  "open_question": "What do players who call everything do to pocket aces?"
+ },
+ {
+  "id": "d13",
+  "line": "You raised your pocket aces and four players called anyway. If all four stay to the river, your aces win 56% of the time.",
+  "fact_ids": [
+   "aa-vs-4"
+  ],
+  "open_question": "Where did the rest of the aces' edge go?"
+ },
+ {
+  "id": "d14",
+  "line": "You can lose with pocket aces and shrug. It gets easier once you start counting how many players were in the pot.",
+  "fact_ids": [],
+  "open_question": "Why does counting the players make a cracked pair of aces easier to take?"
+ },
+ {
+  "id": "d15",
+  "line": "\"My aces always get cracked.\" Next time you say it, finish the sentence: against how many players?",
+  "fact_ids": [],
+  "open_question": "How much does the number of players decide whether aces hold?"
+ },
+ {
+  "id": "d16",
+  "line": "Twenty all-ins before the flop with pocket aces, one player each time: a 96% chance you lose at least one. Now picture five players.",
+  "fact_ids": [
+   "aa-lose-once-in-20"
+  ],
+  "open_question": "If aces lose sometimes even against one player, what happens against a crowd?"
+ },
+ {
+  "id": "d17",
+  "line": "Five players who stay to the river turn pocket aces into a hand that wins 49% of the time. You didn't get unlucky. You got company.",
+  "fact_ids": [
+   "aa-vs-5"
+  ],
+  "open_question": "Why is it the company, not luck, that beats pocket aces?"
+ },
+ {
+  "id": "d18",
+  "line": "Every player who called your pocket aces had a worse hand than you. Five of them together, if they stay to the river, win about as often as you do.",
+  "fact_ids": [
+   "aa-vs-5"
+  ],
+  "open_question": "How do five worse hands add up to beat the best one?"
+ },
+ {
+  "id": "d19",
+  "line": "Pocket aces are one pair. A very good pair, and still just one pair against every player you let see the river.",
+  "fact_ids": [],
+  "open_question": "How much weaker does that one pair get with each player who sees the river?"
+ },
+ {
+  "id": "d20",
+  "line": "Stop blaming the river card for your pocket aces. Blame how many players were still there to see it.",
+  "fact_ids": [],
+  "open_question": "Why does the number of players at the river matter more than the card?"
+ }
+]

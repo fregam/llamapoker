@@ -1,0 +1,42 @@
+[
+ {
+  "id": "d11",
+  "line": "The home game where everybody sees every flop is the same home game where everybody swears pocket aces are cursed.",
+  "fact_ids": [],
+  "critic_rank": 1,
+  "why": "One sentence puts two things every home-game regular has seen side by side and leaves the viewer to ask why they go together.",
+  "mechanism": "scenario_label"
+ },
+ {
+  "id": "d15",
+  "line": "\"My aces always get cracked.\" Next time you say it, finish the sentence: against how many players?",
+  "fact_ids": [],
+  "critic_rank": 2,
+  "why": "It opens on the exact sentence the viewer has said out loud and hands it back unfinished.",
+  "mechanism": "open_question"
+ },
+ {
+  "id": "d03",
+  "line": "Nobody at your table ever folds, and you still wonder why your pocket aces keep losing.",
+  "fact_ids": [],
+  "critic_rank": 3,
+  "why": "It names the viewer's own table and their own complaint in one breath, with a dry edge that makes the answer feel obvious and still unseen.",
+  "mechanism": "scenario_label"
+ },
+ {
+  "id": "d01",
+  "line": "Your pocket aces don't always get cracked. You just keep letting five people try.",
+  "fact_ids": [],
+  "critic_rank": 4,
+  "why": "It contradicts the belief in six words and turns the blame on something the viewer does every session.",
+  "mechanism": "counterintuitive_claim"
+ },
+ {
+  "id": "d05",
+  "line": "Before you call the app rigged because your aces lost again, count how many players stayed in the hand.",
+  "fact_ids": [],
+  "critic_rank": 5,
+  "why": "Anyone who has muttered 'rigged' at an app is caught mid-thought and given something to check instead.",
+  "mechanism": "counterintuitive_claim"
+ }
+]
