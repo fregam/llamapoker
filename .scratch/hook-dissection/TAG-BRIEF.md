@@ -30,7 +30,7 @@ named as what fails them), a **mid-action start** (the video opens in the middle
 **bold claim**, a **specific number**, a **direct question**, a **visual mismatch**, a **result shown
 first**, a **POV / you-scene**, a **list promise**… These are examples, not the list.
 
-- **Taxonomy run (one agent):** read a mixed sample, then write `taxonomy.md`: 12–25 mechanisms, each with
+- **Taxonomy run (two agents, separate samples, merged afterwards):** read your mixed sample, then write your `taxonomy-<a|b>.md`: 12–25 mechanisms, each with
   a one-line definition, how to recognise it in each layer, and 2 example shortcodes. Merge near-duplicates;
   split a mechanism that covers two different moves. A reel can carry several.
 - **Tagging runs (many agents):** use `taxonomy.md` as written. For each reel write one JSON line to your

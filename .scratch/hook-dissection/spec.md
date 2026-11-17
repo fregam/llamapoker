@@ -48,12 +48,16 @@ to dissect hooks that actually performed, not to test ours.
    reels); frames at 0 / 0.5 / 1 / 2 / 3 / 5 s and a cut count for the first 5 s (ffmpeg scene
    detection or frame differencing); speech transcribed locally (Whisper via the ComfyUI venv's
    transformers, first 15 s). Agents read the frame images for on-screen text and the first frame.
-4. **Taxonomy** (agents, blind): a mixed sample of ~80 reels → a draft list of mechanisms with
-   definitions; logged changes as more reels are tagged.
-5. **Tag** (agents, blind, parallel): every sampled reel gets its mechanisms (several allowed).
+4. **Taxonomy** (agents, blind): two agents on separate mixed samples of ~150 reels each write a
+   list independently; merged (found by both = kept, by one = checked against its examples).
+5. **Tag** (agents, blind, parallel): every reel in the tagging set (6 strongest outliers per account
+   plus twins) gets its mechanisms (several allowed). ~10% are tagged twice to measure agreement;
+   mechanisms below ~70% agreement are reported as unreliable. Proposed new mechanisms are reviewed
+   once and the affected reels re-tagged.
 6. **Lift** (code): per mechanism, share in outliers ÷ share in ordinary reels, with counts and a
    simple interval; at least 8 outliers per mechanism before it is called.
-7. **Playbook** (agent, higher effort): written from the lift table and the examples.
+7. **Playbook** (agent, higher effort): written from the lift table and the examples: each strong
+   mechanism shown through 3–5 outlier openings beside their twins (the move done well vs flat).
 
 ## Privacy and media (the repo is public)
 
