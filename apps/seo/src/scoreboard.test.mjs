@@ -23,13 +23,14 @@ test("a target is on page one at position 10 or better, on its best row", () => 
     row("Poker  Outs Chart", "/learn/outs", 10),
     row("poker outs chart", "/glossary", 31),
     row("pot odds", "/table", 10.4),
+    row("poker positions explained", "/learn/positions", 3, 2),
   ]);
   assert.deepEqual(
     scores.map((s) => [s.pageOne, s.position, s.rightPage]),
     [
       [true, 10, true],
       [false, 10.4, false],
-      [false, null, null],
+      [false, 3, true], // two impressions at position 3 is noise, not page one
     ]
   );
   assert.deepEqual(summarize(scores, [{ indexed: true }, { indexed: false }]), {

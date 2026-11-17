@@ -42,8 +42,9 @@ they are in.
   "global ranking signal" is the creator's claim.
 - **For us:** Top Stories is a news surface and we publish guides, so the effect today is close to
   nothing. It costs one link, so it is worth adding where a returning reader is (the letter, the
-  colophon) once the site publishes on a rhythm. The plain link is enough; Google's script would be
-  the site's first third-party script and would need the Privacy page changed.
+  colophon) once the site publishes on a rhythm. The plain link is enough; Google's script would add a
+  second third-party script (the only one today is Cloudflare's analytics beacon) and would need
+  the Privacy page changed.
 
 ### 2. Free dofollow backlink list (`DeNvscyPd5b`, 2026-10-08)
 

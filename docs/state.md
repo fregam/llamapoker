@@ -8,8 +8,10 @@ the end. Last update: 2026-11-17 (SEO agent started).
 - **SEO agent started** on `feat/seo-agent` (worktree `.claude/worktrees/seo-agent`): the founder's
   four reference reels checked against Google's docs (`docs/research/2026-11-17-seo-reference-reels.md`);
   spec and six tickets in `.scratch/seo-agent/`; `apps/seo/` built (Search Console client with a
-  service-account key, the score, the weekly reading; 5 tests, CI job `seo`). Not yet run against
-  the real API: there is no key until the wizard is run.
+  service-account key, the score, the weekly reading; 5 tests, CI job `seo`), the agent's skill
+  (`.claude/skills/seo-agent/`) and the weekly runner (`apps/seo/scripts/run.mjs`). **Nothing runs
+  on its own yet:** the client has only met mocked responses and the runner has only been
+  dry-run, because there is no key until the wizard is run and the branch is not merged.
 - Live site checked by curl: 13 sitemap pages, all 200 with matching canonicals. Search Console
   was not re-read (the Chrome extension did not load it); the indexing numbers below are from
   2026-11-11.
@@ -90,7 +92,9 @@ the end. Last update: 2026-11-17 (SEO agent started).
 
 ## Waiting on the founder
 
-- **SEO agent access:** run `bash scripts/wizards/search-console-access.sh` in Git Bash (about ten
+- **SEO agent access:** run
+  `bash /e/Projects/poker-trainer/.claude/worktrees/seo-agent/scripts/wizards/search-console-access.sh`
+  in Git Bash (the script is on `feat/seo-agent`, not in the main checkout until it merges; about ten
   minutes: a Google Cloud project, a service account key, the account added to Search Console).
   Then read `apps/seo/targets.json` (the 18 searches it is scored on) and answer the spec's open
   question: whose name goes on the guides.

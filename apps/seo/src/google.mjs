@@ -63,7 +63,7 @@ export function searchConsole(key, { fetch = globalThis.fetch, site = SITE } = {
     /** Properties this key can read: [{ siteUrl, permissionLevel }]. */
     sites: async () => (await call("https://www.googleapis.com/webmasters/v3/sites")).siteEntry ?? [],
     /** Search performance rows: { keys: [query, page], clicks, impressions, ctr, position }. */
-    queries: async ({ startDate, endDate, dimensions = ["query", "page"], rowLimit = 5000 }) =>
+    queries: async ({ startDate, endDate, dimensions = ["query", "page"], rowLimit = 25000 }) =>
       (
         await call(`https://www.googleapis.com/webmasters/v3/sites/${siteUrl}/searchAnalytics/query`, {
           startDate,

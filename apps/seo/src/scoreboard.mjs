@@ -2,11 +2,14 @@
 // Used by: scripts/scoreboard.mjs. Tested in scoreboard.test.mjs.
 //
 // Two numbers (.scratch/seo-agent/spec.md, "The score"):
-//   pageOne  how many target searches show a llamapoker.com page at average position 10 or better
+//   pageOne  how many target searches show a llamapoker.com page at average position 10 or better,
+//            on at least 10 impressions in the window
 //   indexed  how many sitemap pages Google has in its index
 
 /** Google's first page: an average position of 10 or better. */
 export const PAGE_ONE = 10;
+/** Fewer impressions than this in the window is noise (one search of our own can do it). */
+export const MIN_IMPRESSIONS = 10;
 
 const norm = (q) => q.trim().toLowerCase().replace(/\s+/g, " ");
 
@@ -34,7 +37,7 @@ export function scoreTargets(targets, rows) {
       clicks: hit?.clicks ?? 0,
       shownPage: hit?.page ?? null,
       rightPage: hit ? new URL(hit.page).pathname === t.page : null,
-      pageOne: !!hit && hit.position <= PAGE_ONE,
+      pageOne: !!hit && hit.position <= PAGE_ONE && hit.impressions >= MIN_IMPRESSIONS,
     };
   });
 }

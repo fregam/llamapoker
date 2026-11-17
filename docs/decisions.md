@@ -3,14 +3,15 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
-## 2026-11-17 - The SEO agent gets a goal and a score, and Google's docs outrank the reels
+## 2026-11-17 - The SEO agent gets a goal and a score, and Google's docs outrank the reels (score, runtime and tiers proposed)
 
 - **What:** the SEO agent's brief is one outcome: page one of Google for the 18 searches in
   `apps/seo/targets.json`, as fast as honest work allows, and kept there. It is scored weekly from
   Search Console on two numbers (target searches at position 10 or better; sitemap pages indexed).
-  It runs weekly on the founder's PC as a headless Claude Code run. Technical changes that pass CI
-  merge themselves; visible text, new pages and the target list wait for the founder; it never
-  creates accounts, submits links or posts anywhere. Spec: `.scratch/seo-agent/spec.md`.
+  It runs weekly on the founder's PC as a headless Claude Code run. Every site change is a pull
+  request the founder merges; self-merge for small technical changes is proposed only after four
+  clean runs. The agent step has no network tools and never sees the key; it never creates
+  accounts, submits links or posts anywhere. Spec: `.scratch/seo-agent/spec.md`.
 - **Why:** "highly ranked" cannot be checked; a fixed list and a position can. Indexing is in the
   score because 10 of 13 pages were not indexed on 2026-11-11, and an unindexed page cannot rank.
   The founder's four reference reels were checked against Google's own pages

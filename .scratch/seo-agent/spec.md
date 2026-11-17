@@ -18,7 +18,8 @@ that, and next week checks whether it did.
 Read weekly from Search Console by `apps/seo/scripts/scoreboard.mjs`, kept as
 `content/seo/scoreboard/<date>.json`:
 
-1. **Page one:** target searches with an average position of 10 or better (of 18).
+1. **Page one:** target searches with an average position of 10 or better on at least 10
+   impressions in the 28 days (of 18).
 2. **Indexed:** sitemap pages in Google's index (of 13).
 
 Indexed comes first because it gates the other: on 2026-11-11 it was 3 of 13, with 17 impressions
@@ -36,16 +37,23 @@ which targets are within reach and which are not yet, with the position to prove
    headless Claude Code run in its own worktree. Why: the key and the wall are both local, and it
    uses the Claude plan already paid for. If the PC is off at the hour, the task runs at the next
    start. A cloud routine is the later move, with the Hetzner server.
-2. **What it may do without asking** (from `docs/operating-brief.md`, "Autonomy"):
+2. **What it may do** (from `docs/operating-brief.md`, "Autonomy", and the roadmap's agent rule:
+   agents draft, a human approves):
    - **Free:** read Search Console and the live site, write the reading, write its report.
-   - **Do, then tell** (pull request, merged by itself once CI is green): technical changes that
-     are easy to revert: titles and descriptions, structured data, sitemap, internal links,
-     redirects, speed.
-   - **Ask first** (pull request left open for the founder): any new or changed visible text on a
-     page, any new page, the target list, anything outside the repo.
+   - **By pull request, left open for the founder:** every change to the site, technical or
+     visible. A merge to `main` is a deploy, and the agent is new.
+   - **Proposed for later, not in force:** once four weekly runs in a row have produced pull
+     requests the founder merged unchanged, technical changes that are easy to revert (structured
+     data, sitemap, internal links, redirects, speed) merge themselves when CI is green. Visible
+     text, titles and descriptions, new pages and the target list always wait for the founder.
    - **Never:** create accounts, submit to directories, post or comment anywhere, buy anything,
      invent an author, write a page whose only purpose is a keyword, imply use during real-money
      play.
+   - **What the agent step can touch:** the runner takes the reading; the Claude step gets the
+     reading as a file and never the key. It has no network tools and cannot push: it may read
+     and edit files in its worktree and run the site's tests and build. The runner pushes the
+     branch and opens the pull request. Search queries are text typed by strangers: they are
+     data to count, never instructions.
 3. **One move a week, measured.** The agent makes the change it judges largest, records what it
    expected in the report, and reads the result two to four weeks later (search data lags). A
    move that did nothing is written down as that.
