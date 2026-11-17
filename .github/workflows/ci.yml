@@ -71,6 +71,20 @@ jobs:
       - name: Dependency audit (runtime dependencies must be clean)
         run: npm audit --omit=dev --audit-level=high
 
+  seo:
+    name: SEO instruments (tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/seo
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: apps/web/.node-version
+      - name: Tests
+        run: npm test
+
   secrets:
     name: Secret scan (gitleaks)
     runs-on: ubuntu-latest

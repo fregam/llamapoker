@@ -1,7 +1,20 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-14 (wall layout, results first).
+the end. Last update: 2026-11-17 (SEO agent started).
+
+## Done 2026-11-17
+
+- **SEO agent started** on `feat/seo-agent` (worktree `.claude/worktrees/seo-agent`): the founder's
+  four reference reels checked against Google's docs (`docs/research/2026-11-17-seo-reference-reels.md`);
+  spec and six tickets in `.scratch/seo-agent/`; `apps/seo/` built (Search Console client with a
+  service-account key, the score, the weekly reading; 5 tests, CI job `seo`), the agent's skill
+  (`.claude/skills/seo-agent/`) and the weekly runner (`apps/seo/scripts/run.mjs`). **Nothing runs
+  on its own yet:** the client has only met mocked responses and the runner has only been
+  dry-run, because there is no key until the wizard is run and the branch is not merged.
+- Live site checked by curl: 13 sitemap pages, all 200 with matching canonicals. Search Console
+  was not re-read (the Chrome extension did not load it); the indexing numbers below are from
+  2026-11-11.
 
 ## Done 2026-11-14
 
@@ -78,6 +91,19 @@ the end. Last update: 2026-11-14 (wall layout, results first).
   which fail CI) are left open for a deliberate upgrade later.
 
 ## Waiting on the founder
+
+- **SEO, 2026-11-17 later:** the wizard ran and the key works. Baseline reading: 3 of 13 pages
+  indexed, 0 of 18 target searches on page one, 32 impressions. The ten missing pages are "unknown
+  to Google" (never crawled); the sitemap is read without errors. Waiting on the founder: merge
+  PR #40 (the agent) and PR #41 (byline, dates, About page: read the visible text first); request
+  indexing for the ten pages in Search Console (URL inspection, "Request indexing"); register the
+  weekly scheduled task (`apps/seo/README.md`); say yes or no to `apps/seo/targets.json`.
+- ~~SEO agent access~~ (done): run
+  `bash /e/Projects/poker-trainer/.claude/worktrees/seo-agent/scripts/wizards/search-console-access.sh`
+  in Git Bash (the script is on `feat/seo-agent`, not in the main checkout until it merges; about ten
+  minutes: a Google Cloud project, a service account key, the account added to Search Console).
+  Then read `apps/seo/targets.json` (the 18 searches it is scored on) and answer the spec's open
+  question: whose name goes on the guides.
 
 - Add the "Wall" CI check to the branch rule. (The wall itself is local-first, not deployed:
   decision 2026-11-12.)

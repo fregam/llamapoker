@@ -13,6 +13,8 @@ Guidance for Claude Code across the LlamaPoker monorepo.
 - `apps/wall/`: the command center (private, own look by decision, not the brand). Read its
   README first: one event store under everything, panels are modules, nothing ships without its
   panel (events in the common format + a station + its failure in threats).
+- `apps/seo/`: the SEO agent's instruments (Search Console client, the score, the weekly
+  reading). Read its README; the goal and rules are in `.scratch/seo-agent/spec.md`.
 - `apps/reels/`: short vertical videos rendered from code (Remotion). Read its README for the format; numbers
   come from `apps/web/src/poker/`, colours and fonts from `brand/`.
 - `content/`: Markdown content and the calendar. Follow the voice in `brand/README.md`.
