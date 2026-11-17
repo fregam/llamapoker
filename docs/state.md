@@ -1,9 +1,15 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-17 (the SEO agent and the hook writer on the wall, PR #48).
+the end. Last update: 2026-11-17 (the wall's look pass, PR #50).
 
 ## Done 2026-11-17
+
+- **The wall's look pass** (PR #50, merged on the founder's word, "looks great"): brightness does
+  the hierarchy, IBM Plex Mono, the subscribers trend in Results, the budget pane fits. Decision in
+  `docs/decisions.md`; before and after in `media/tests/2026-11-17_wall-look/outputs/`. Left
+  unlooked-at: the raise form, the station drawer, an opened feed line, the help overlay. The VS
+  Code theme is 0.1.2 and needs reinstalling to show the two new dim cyans.
 
 - **The SEO agent on the wall** (ticket 05, branch `feat/wall-seo`, worktree
   `.claude/worktrees/wall-seo`, PR #48, merged on the founder's word): station, `job` trace, `run` events, the pull

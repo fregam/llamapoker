@@ -33,8 +33,8 @@
    the hero (a dash until the first `revenue` event), subscribers beside it, one row per channel;
    Needs you beside Results; Work as a CONTENT / DEVELOPMENT strip opening down to the job bars;
    the briefing reads results first. Look: true black with orange accents (wall and VS Code).
-   **2026-11-17, branch `wall/design-polish`, awaiting the founder's eye:** a look pass (brightness
-   hierarchy, IBM Plex Mono, subscribers trend in Results, two-column budget).
+   **Shipped 2026-11-17 (PR #50): a look pass** (brightness hierarchy, IBM Plex Mono, subscribers
+   trend in Results, two-column budget; check the look with `apps/wall/scripts/look-preview.mjs`).
    **Shipped 2026-11-15 (PR #36): Claude plan limits on the wall** (5-hour and weekly, from Claude Code's
    status line via `apps/wall/scripts/claude-statusline.mjs`): in Experiments and budget, a Claude
    station in DEVELOPMENT, threats near and at the cap.
