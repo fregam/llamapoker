@@ -3,6 +3,18 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-17 - Reel 002 is not rewritten; the first reel comes out of the factory
+
+- **What:** the planned rewrite of reel 002 is dropped, and the finished renders of 002 and 003
+  (v9) are shelved: neither is posted. The next reel is a new one, made from
+  start to finish by the factory (hook agent → founder-approved brief → script → motion → sound).
+- **Why:** the hook agent and the script stage are being built now. Rewriting 002 by hand would
+  mean making a reel outside the system we are building, and that work would be thrown away. A
+  new reel also tests the factory more fairly: 002's flaws were in its premise (answer given in
+  the hook, two payoffs, no loop), so a fixed 002 would only test a repair.
+- **Rejected:** rewriting 002 through the script stage as its first job (the 2026-11-14 plan).
+  The 002 topic can still come back as a hook-agent candidate if it scores.
+
 ## 2026-11-14 - The wall's hero is money from day one; channels come through the event store
 
 - **What:** the biggest number on the wall is money (revenue, EUR), shown as a dash with "no

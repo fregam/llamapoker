@@ -84,6 +84,8 @@
    - Next: ComfyUI Desktop update → ACE-Step bed (`scripts/music-comfy.mjs --batch 4`), swap, re-render;
      user listens to 002/003 v5; rebuild 001 "Should you call?" on this system; post 002–003; then
      "Stop limping", "The button is the best seat".
+   - 2026-11-17: superseded. 002 and 003 are shelved (not posted, not rewritten); the first reel comes out of the factory (hook
+     agent → brief → script → motion → sound). See `docs/decisions.md`.
 
 ## Later
 
