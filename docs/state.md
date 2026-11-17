@@ -97,7 +97,8 @@ the end. Last update: 2026-11-17 (SEO agent started).
   12 of 14 pages indexed (out: `/learn/online-poker-helper`, `/about`). First real run of
   `apps/seo/scripts/run.mjs`: reading, branch and pull request worked; the agent step hit the
   Claude 5-hour limit, and the runner wrongly reported success (fixed: a failed agent step now
-  fails the run). Still waiting on the founder: yes or no on `apps/seo/targets.json`; request
+  fails the run). First complete run later that night: PR #43 (reading, report, links to the helper guide),
+  merged on the founder's word; the target list approved. Still waiting on the founder: request
   indexing for `/about` and `/learn/online-poker-helper`; register the weekly task after one
   clean run.
 - **SEO, 2026-11-17 later (superseded by the line above):** the wizard ran and the key works. Baseline reading: 3 of 13 pages
