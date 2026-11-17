@@ -6,7 +6,9 @@
 //   4. the agent step: headless Claude Code with the seo-agent skill. It gets the reading as a
 //      file, no network tools and no key; it edits files and runs the site's checks
 //   5. the site's tests must pass; then commit, push, open a pull request for the founder
-// Every step reports to the wall (station `seo`). The reading is kept even when step 4 or 5 fails.
+// Every step reports to the wall (station `seo`). The reading is kept even when step 4 or 5 fails;
+// a failed agent step still ends the run as failed (exit 1, station red), with the reading's pull
+// request open. A second run on the same day updates that day's pull request.
 //
 //   node apps/seo/scripts/run.mjs            the real run
 //   node apps/seo/scripts/run.mjs --dry      print what would run; touch nothing
@@ -99,6 +101,12 @@ async function main() {
   run("git", ["add", "content/seo/scoreboard"]);
   run("git", ["commit", "-m", q(`SEO reading ${date}`)]);
 
+  // The agent has no network, so the site's dependencies must be in place before it starts,
+  // or it cannot run the checks on its own change (found on the first run, 2026-11-17).
+  const web = resolve(repoRoot, "apps/web");
+  if (!dry && !existsSync(resolve(web, "node_modules"))) run("npm", ["ci"], { cwd: web });
+
+  let agentFailed = false;
   if (!flags.has("--no-agent")) {
     const agent = run(
       "claude",
@@ -114,14 +122,15 @@ async function main() {
       ],
       { allowFail: true }
     );
-    if (agent.status !== 0) console.error(`the agent step exited ${agent.status}; the reading is kept`);
+    if (agent.status !== 0) {
+      agentFailed = true;
+      console.error(`the agent step exited ${agent.status}; the reading is kept`);
+    }
   }
 
   const changed = dry ? "" : run("git", ["status", "--porcelain"], { capture: true }).stdout.trim();
   const touchesSite = /apps\/web\//.test(changed);
   if (touchesSite) {
-    const web = resolve(repoRoot, "apps/web");
-    if (!existsSync(resolve(web, "node_modules"))) run("npm", ["ci"], { cwd: web });
     const ok =
       run("npx", ["tsc", "--noEmit"], { cwd: web, allowFail: true }).status === 0 &&
       run("npm", ["test"], { cwd: web, allowFail: true }).status === 0;
@@ -141,22 +150,18 @@ async function main() {
   run("git", ["push", "-u", "origin", branch, "--force-with-lease"]);
   const report = `content/seo/reports/${date}.md`;
   const hasReport = !dry && existsSync(resolve(repoRoot, report));
-  run("gh", [
-    "pr",
-    "create",
-    "--base",
-    "main",
-    "--head",
-    branch,
-    "--title",
-    q(`SEO ${date}`),
-    ...(hasReport ? ["--body-file", report] : ["--body", q(`SEO reading ${date}. The agent step left no report.`)]),
-  ]);
+  const body = hasReport ? ["--body-file", report] : ["--body", q(`SEO reading ${date}. The agent step left no report.`)];
+  // A second run on the same day reuses the day's pull request instead of failing on it.
+  const open = dry ? "" : run("gh", ["pr", "list", "--head", branch, "--state", "open", "--json", "number", "-q", q(".[0].number")], { capture: true }).stdout.trim();
+  if (open) run("gh", ["pr", "edit", open, ...body]);
+  else run("gh", ["pr", "create", "--base", "main", "--head", branch, "--title", q(`SEO ${date}`), ...body]);
 
   const dir = resolve(repoRoot, "content/seo/scoreboard");
   const last = !dry && existsSync(dir) ? readdirSync(dir).sort().at(-1) : null;
-  await station("waiting", `pull request ${branch} waits for you${last ? ` (reading ${last.replace(".json", "")})` : ""}`);
+  if (agentFailed) await station("failed", "the agent step failed; the reading was kept and its pull request opened");
+  else await station("waiting", `pull request ${branch} waits for you${last ? ` (reading ${last.replace(".json", "")})` : ""}`);
   await wall("/api/event", { kind: "run", station: "seo", subject: branch, text: `SEO run ${date}: pull request opened` });
+  if (agentFailed) throw new Error("the agent step failed (the reading and its pull request are kept)");
   console.log("done");
 }
 
