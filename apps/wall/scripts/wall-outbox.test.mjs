@@ -124,6 +124,19 @@ describe("flush", () => {
     expect(await flush({ url: CLOSED, file: join(dir, "no-such-folder", "outbox.jsonl") })).toEqual({ sent: 0, dropped: 0, left: 0 });
   });
 
+  it("holds its batch on disk until the last report is in, so a sender killed mid-way loses nothing", async () => {
+    for (const n of [1, 2]) await send("event", { kind: "note", text: "n" + n }, { url: CLOSED, file });
+    const url = await open();
+    const during = [];
+    answer = () => {
+      during.push(readdirSync(dir).filter((f) => f.endsWith(".sending")).length);
+      return 200;
+    };
+    expect(await flush({ url, file })).toEqual({ sent: 2, dropped: 0, left: 0 });
+    expect(during).toEqual([1, 1]); // still claimed while each report was on its way
+    expect(readdirSync(dir)).toEqual([]); // and gone once all were delivered
+  });
+
   it("takes back a batch whose sender died mid-way, and leaves a fresh one to its sender", async () => {
     const line = (text) => JSON.stringify({ at: "x", path: "event", body: { id: text, ts: "2026-11-17T07:00:00.000Z", kind: "note", text } }) + "\n";
     const dead = `${file}.111.1.sending`;

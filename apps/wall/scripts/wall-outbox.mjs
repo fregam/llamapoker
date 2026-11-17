@@ -18,7 +18,7 @@
 // main checkout (git-ignored), so a job in a worktree and the wall in the main checkout agree.
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, utimesSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -83,32 +83,45 @@ const keep = (file, lines) => {
   appendFileSync(file, lines.map((l) => l + "\n").join(""));
 };
 
-/** Every waiting line, claimed for this process: the outbox itself and any batch a dead sender left. */
+/**
+ * Every waiting line, claimed for this process: the outbox itself and any batch a dead sender
+ * left. A claimed batch stays on disk, under this process's name, until `release`: if this
+ * process dies mid-way, the next sender takes the batch back a minute later and nothing is lost
+ * (what had already been delivered is sent again, and lands on the same event, station or card).
+ */
 function claim(file) {
   const dir = dirname(file);
-  if (!existsSync(dir)) return [];
-  const mine = `${file}.${process.pid}.${Date.now()}.sending`;
   const lines = [];
+  const held = [];
+  if (!existsSync(dir)) return { lines, held };
+  const take = (path) => {
+    const mine = `${file}.${process.pid}.${Date.now()}.${held.length}.sending`;
+    try {
+      renameSync(path, mine); // atomic: two senders never hold the same lines
+      const now = new Date();
+      utimesSync(mine, now, now); // its age now means "claimed at", not "last written"
+      held.push(mine);
+      lines.push(...readFileSync(mine, "utf8").split("\n").filter(Boolean));
+    } catch {
+      /* not there, or another sender took it first */
+    }
+  };
   for (const name of readdirSync(dir).sort()) {
     const path = resolve(dir, name);
     if (!name.startsWith(basename(file) + ".") || !name.endsWith(".sending")) continue;
     try {
-      if (Date.now() - statSync(path).mtimeMs < ORPHAN_MS) continue; // another sender is on it
-      lines.push(...readFileSync(path, "utf8").split("\n").filter(Boolean));
-      rmSync(path);
+      if (Date.now() - statSync(path).mtimeMs >= ORPHAN_MS) take(path); // else another sender is on it
     } catch {
-      /* taken by someone else meanwhile */
+      /* gone meanwhile */
     }
   }
-  try {
-    renameSync(file, mine); // atomic: two senders never read the same lines
-    lines.push(...readFileSync(mine, "utf8").split("\n").filter(Boolean));
-    rmSync(mine);
-  } catch {
-    /* no outbox, or another sender claimed it first */
-  }
-  return lines;
+  take(file);
+  return { lines, held };
 }
+
+const release = (held) => {
+  for (const path of held) rmSync(path, { force: true });
+};
 
 /**
  * Sends what is waiting, oldest first, and stops at the first report the wall does not take, so
@@ -117,7 +130,7 @@ function claim(file) {
 export async function flush(opts = {}) {
   const file = opts.file ?? outboxFile();
   const where = { ...target(), ...opts };
-  const lines = claim(file);
+  const { lines, held } = claim(file);
   let sent = 0;
   let dropped = 0;
   for (let i = 0; i < lines.length; i++) {
@@ -132,12 +145,14 @@ export async function flush(opts = {}) {
     if (r === "kept") {
       // What arrived in the outbox while this ran is newer: it goes after what is put back.
       const newer = claim(file);
-      keep(file, [...lines.slice(i), ...newer]);
-      return { sent, dropped, left: lines.length - i + newer.length };
+      keep(file, [...lines.slice(i), ...newer.lines]);
+      release([...held, ...newer.held]);
+      return { sent, dropped, left: lines.length - i + newer.lines.length };
     }
     if (r === "sent") sent++;
     else dropped++;
   }
+  release(held);
   return { sent, dropped, left: 0 };
 }
 

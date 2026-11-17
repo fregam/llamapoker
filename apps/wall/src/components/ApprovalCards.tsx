@@ -3,6 +3,10 @@
  * (approve), fold (reject) or raise (send back with a note). The title opens the piece exactly as
  * it would be published. Pieces reach the queue through POST /api/queue
  * (scripts/wall-event.mjs queue …) from whatever drafts them.
+ *
+ * A pull request's card (kind `pull-request`) has no call, fold or raise: it is decided on
+ * GitHub, and scripts/pr-cards.mjs clears the card when GitHub says so. Buttons here would only
+ * hide the card while the pull request stayed open.
  */
 import { useState } from "react";
 import type { QueueItem } from "../model";
@@ -39,6 +43,9 @@ function Card({ item, day, opened, setOpen, act, wall }: { item: QueueItem; day:
       setBusy(false);
     }
   };
+  const pr = item.kind === "pull-request";
+  // Only a GitHub link becomes a link: the preview is text sent by whatever posted the card.
+  const link = pr ? (/^https:\/\/github\.com\/\S+/.exec(item.preview ?? "")?.[0] ?? null) : null;
   return (
     <li className={`card${opened ? " open" : ""}`}>
       <div className="card-h" onClick={() => setOpen(opened ? null : "queue:" + item.id)}>
@@ -47,7 +54,17 @@ function Card({ item, day, opened, setOpen, act, wall }: { item: QueueItem; day:
         <span className="when">{clock(item.ts, day)}</span>
       </div>
       {opened && <pre className="preview">{item.preview ?? "no preview attached"}</pre>}
-      {!wall && (
+      {!wall && pr && (
+        <div className="card-a">
+          {link && (
+            <a className="gh" href={link} target="_blank" rel="noreferrer">
+              OPEN ON GITHUB
+            </a>
+          )}
+          <span className="faint">merge or close it there; this card clears itself</span>
+        </div>
+      )}
+      {!wall && !pr && (
         <div className="card-a">
           <button disabled={busy} onClick={() => run(`call ${item.id}`)}>
             CALL

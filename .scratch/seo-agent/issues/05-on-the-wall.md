@@ -24,7 +24,8 @@ Nothing ships without its panel (`apps/wall/README.md`).
   - The wall is closed at 07:00 on a Monday, and a report to a closed wall was dropped. Reports
     now wait in an outbox and arrive when the wall opens (`apps/wall/scripts/wall-outbox.mjs`).
   - A card must clear when the pull request is merged on GitHub: `apps/wall/scripts/pr-cards.mjs`.
-    The wall only mirrors; CALL on the card merges nothing.
+    The wall only mirrors: the card links to GitHub and has no call, fold or raise
+    (`docs/decisions.md`, 2026-11-17; the founder's to overturn).
   - The queue took the same id twice as an error: a same-day rerun now updates its card.
   - Through `job`, the silent agent step would have been killed after 20 minutes: the run may be
     quiet for an hour.
@@ -33,10 +34,14 @@ Nothing ships without its panel (`apps/wall/README.md`).
 
 ## Left for the founder
 
+- [ ] After the merge, first bring the `seo-agent` worktree to `origin/main` (two git commands in
+      `apps/seo/README.md`): it is at `f5ec031`, which has no `weekly.mjs`, so a task pointed at
+      it before that would fail to start with nothing reported.
 - [ ] Register (or replace) the scheduled task with the command in `apps/seo/README.md`: it now
       starts `weekly.mjs`. On 2026-11-17 no task named "LlamaPoker SEO agent" was visible from a
       normal PowerShell; check with `Get-ScheduledTask "LlamaPoker SEO agent"`.
-- [ ] After the merge: pull `main` in the checkout the wall runs from, restart the wall, then
+- [ ] After the merge: get `main` into the checkout the wall runs from (the main checkout is on
+      `reels/video-v2`: merge `main` into it, or switch), restart the wall, then
       `node apps/seo/scripts/wall-report.mjs` once, so the 2026-11-17 reading is the one the
       first run is compared with.
 - [ ] Watch the first scheduled run on the wall (trace, score, card).

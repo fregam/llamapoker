@@ -63,6 +63,15 @@ describe("threats", () => {
     const t2 = threats({ ...base, lastSignup: "2026-11-01T00:00:00Z" });
     expect(t2.find((x) => x.id === "silent")?.title).toBe("SIGNUP PATH SILENT 10 DAYS");
   });
+  it("sends a pull request waiting over a day to GitHub, not to call or fold", () => {
+    const old = { ts: "2026-11-10T08:00:00Z", status: "waiting" as const };
+    const pr = { ...old, id: "pr-47", kind: "pull-request", title: "SEO 2026-11-10" };
+    const reel = { ...old, id: "r1", kind: "reel", title: "004" };
+    const fix = (queue: Facts["queue"]) => threats({ ...base, queue }).find((x) => x.id === "queue")?.fix;
+    expect(fix([pr])).toBe("Merge or close them on GitHub; their cards clear themselves.");
+    expect(fix([reel])).toBe("Call, fold or raise them (approvals panel, or the phone).");
+    expect(fix([pr, reel])).toMatch(/merge or close the pull requests on GitHub/);
+  });
   it("watches the budget ceiling", () => {
     expect(threats({ ...base, spentMonth: 41, ceiling: 50 })[0].id).toBe("budget80");
     expect(threats({ ...base, spentMonth: 51, ceiling: 50 })[0].id).toBe("budget");
@@ -361,6 +370,9 @@ describe("work lines", () => {
     expect(work([lost])[0]).toMatchObject({ word: "LOST", open: true });
   });
 
+  it("files the hook writer under CONTENT", () => {
+    expect(departmentOf({ id: "hooks", name: "hooks", state: "idle" })).toBe("content");
+  });
   it("files research under CONTENT", () => {
     expect(departmentOf({ id: "research", name: "research", state: "idle" })).toBe("content");
   });

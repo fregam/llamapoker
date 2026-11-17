@@ -286,7 +286,12 @@ export function threats(f: Facts): Threat[] {
       weight: 65,
       title: `${stale.length} PIECE${stale.length > 1 ? "S" : ""} WAITING OVER A DAY`,
       detail: stale.map((q) => q.title).join("; "),
-      fix: "Call, fold or raise them (approvals panel, or the phone).",
+      // A pull request is decided on GitHub; its card clears itself (scripts/pr-cards.mjs).
+      fix: stale.every((q) => q.kind === "pull-request")
+        ? "Merge or close them on GitHub; their cards clear themselves."
+        : stale.some((q) => q.kind === "pull-request")
+          ? "Call, fold or raise the pieces (approvals panel, or the phone); merge or close the pull requests on GitHub."
+          : "Call, fold or raise them (approvals panel, or the phone).",
     });
   if (!f.hasStore)
     out.push({
@@ -560,7 +565,7 @@ export function results(f: ResultsFacts): Results {
 
 // ---------- work: "what is being made to improve it?" ----------
 
-const CONTENT = /^(reels.*|foley|voice|teardown|research)$/;
+const CONTENT = /^(reels.*|foley|voice|teardown|research|hooks)$/;
 const NOT_WORK = new Set(["signup", "letter"]); // they feed the Newsletter row in Results
 
 /** Which Work line a station belongs to: its own department, else by name; null = not part of Work. */

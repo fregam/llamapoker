@@ -42,9 +42,17 @@ $s = New-ScheduledTaskSettingsSet -StartWhenAvailable
 Register-ScheduledTask -TaskName "LlamaPoker SEO agent" -Action $a -Trigger $t -Settings $s
 ```
 
-A task registered before 2026-11-17 starts `run.mjs` directly: replace it (run
-`Unregister-ScheduledTask "LlamaPoker SEO agent"` first, then the four lines above).
-`Get-ScheduledTask "LlamaPoker SEO agent"` shows whether it is registered.
+Before registering, the worktree must hold `weekly.mjs` (it came with ticket 05). Once, in Git Bash:
+
+```bash
+git -C /e/Projects/poker-trainer/.claude/worktrees/seo-agent fetch origin main
+git -C /e/Projects/poker-trainer/.claude/worktrees/seo-agent checkout --detach origin/main
+```
+
+After that `weekly.mjs` keeps the worktree current by itself. A task registered before 2026-11-17
+starts `run.mjs` directly: replace it (run `Unregister-ScheduledTask "LlamaPoker SEO agent"`
+first, then the four lines above). `Get-ScheduledTask "LlamaPoker SEO agent"` shows whether it is
+registered.
 
 Each run leaves a reading, a report (`content/seo/reports/<date>.md`) and one pull request for
 the founder to merge. Nothing merges itself. `Unregister-ScheduledTask "LlamaPoker SEO agent"`
@@ -67,8 +75,8 @@ Station **seo** under DEVELOPMENT (`apps/wall/README.md`, "The SEO agent"):
   the reason. A Search Console key that stopped working is named as that, before any reading.
 - One `run` event per run, with the reading in `meta`. From these the wall raises, on its own
   side: no run for 9 days, a page that left Google's index, a target search that left page one.
-- The pull request as a card in Needs you; it clears itself when the pull request is merged or
-  closed on GitHub.
+- The pull request as a card in Needs you, with a link to it. It is merged or closed on GitHub
+  (the wall has no button for that), and the card clears itself when it is.
 
 The wall is usually closed at 07:00 on a Monday. Nothing is lost: the reports wait in
 `logs/wall-outbox.jsonl` in the main checkout and arrive when the wall is next opened.

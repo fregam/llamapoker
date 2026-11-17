@@ -103,8 +103,9 @@ with the id `pr-<number>` and the kind `pull-request` (preview: the link, then t
 pull request is merged or closed on GitHub, and the wall mirrors that: `scripts/pr-cards.mjs` asks
 `gh` about each waiting card of that kind and clears it when the pull request is merged (called)
 or closed (folded), with a line in the feed. The wall runs it when it starts and every ten
-minutes; by hand, `node apps/wall/scripts/pr-cards.mjs`. CALL on such a card only records the
-decision: nothing on the wall merges a pull request.
+minutes; by hand, `node apps/wall/scripts/pr-cards.mjs`. Such a card has no CALL, FOLD or RAISE:
+it shows OPEN ON GITHUB instead, because nothing on the wall merges a pull request and a button
+would only hide the card while the pull request stayed open (decision 2026-11-17).
 
 **The SEO agent.** The weekly run (`apps/seo/scripts/weekly.mjs`, see `apps/seo/README.md`) shows
 as a `weekly-run` trace under the **seo** station in DEVELOPMENT, and leaves the station ok with
@@ -168,6 +169,15 @@ cross (they run async): a stop that lands first leaves a note its start picks up
 never lets a late "running" reopen a finished job. A research run that is plain code (`npm run score`) goes through `job
 --station research` like any other job.
 
+**The hook writer on the wall.** The same hooks show the hook writer's agents
+(`.claude/skills/hook-writing/`: the writer and the critic) as traces under a **hooks** station in
+CONTENT, with "Hook agent started / done" in the feed and the same amber threat for one that
+never said it finished. An agent is the hook writer's when its brief points at the skill
+(`skills/hook-writing`, "hook writer", "hook critic") or at a run folder under `content/hooks/`;
+that is asked before research, because the research arm's briefs say "research". The word "hook"
+alone is not enough (it also names Claude Code's hooks), and agents that study hooks (the corpus,
+the tagging) stay under research. Nothing to set up beyond the hooks block above.
+
 **Local jobs** (renders, foley, teardowns, anything long): put `job` in front of the command.
 
 ```
@@ -219,8 +229,8 @@ What the tests cover:
   faked at `fetch`. It guards the SQL (checked by breaking the query on purpose: the tests fail).
 - **The Claude status line** (`scripts/claude-statusline.test.mjs`): which limit readings are sent
   (a missing window is never a zero), when (change, heartbeat, backoff), and the line it prints.
-- **The research hook** (`scripts/claude-agents.test.mjs`): which agents count as research, how a
-  starting agent finds its launch, and what the wall is told at each end.
+- **The agents hook** (`scripts/claude-agents.test.mjs`): which agents count as research and which
+  as the hook writer's, how a starting agent finds its launch, and what the wall is told at each end.
 - **The `job` wrapper end to end** (`scripts/job.test.mjs`) against a pretend wall.
 - **The outbox** (`scripts/wall-outbox.test.mjs`) against a pretend wall that is closed, opened and
   made to refuse: nothing lost, order kept, a refused report dropped, a dead sender's batch taken back.
@@ -277,7 +287,8 @@ time control to have that day. A Workers cron that fetches it is the next step.
 - `scripts/pr-cards.mjs` — clears a pull request's card when GitHub says it is merged or closed.
 - `scripts/claude-statusline.mjs` — the Claude Code status line that reports the plan limits;
   `scripts/claude-statusline-lib.mjs` its pure half, tested in `scripts/claude-statusline.test.mjs`.
-- `scripts/claude-agents.mjs` — the Claude Code hook that puts research agents on the wall;
+- `scripts/claude-agents.mjs` — the Claude Code hook that puts research agents and the hook
+  writer's agents on the wall;
   `scripts/claude-agents-lib.mjs` its pure half, tested in `scripts/claude-agents.test.mjs`.
 - `scripts/job.mjs` — the `job` wrapper; `scripts/job-lib.mjs` its pure half (what a command is,
   how far along a line says it is), tested in `scripts/job.test.mjs` (incl. end to end against a

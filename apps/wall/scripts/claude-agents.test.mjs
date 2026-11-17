@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AGENT_LOST_SEC, PENDING_TTL_MS, agentEvent, candidates, doneJob, isResearch, labelOf, launch, startJob } from "./claude-agents-lib.mjs";
+import { AGENT_LOST_SEC, PENDING_TTL_MS, agentEvent, candidates, doneJob, isResearch, labelOf, launch, startJob, stationOf } from "./claude-agents-lib.mjs";
 
 const now = new Date("2026-11-15T18:00:00Z");
 const t = now.getTime();
@@ -45,7 +45,7 @@ describe("labelOf", () => {
 
 describe("launch and candidates", () => {
   it("remembers the launch under a job id from the tool call", () => {
-    expect(launch(pre, now)).toEqual({ jobId: "agent-toolu_01AbC", session: "s1", type: "general-purpose", label: "Discover Reddit sources", research: true, at: t });
+    expect(launch(pre, now)).toEqual({ jobId: "agent-toolu_01AbC", session: "s1", type: "general-purpose", label: "Discover Reddit sources", station: "research", research: true, at: t });
   });
   it("gives a starting agent the oldest waiting launch of its session and type", () => {
     const pending = [
@@ -76,5 +76,40 @@ describe("what the wall is told", () => {
   it("writes a feed line at each end, with the run's length at the finish", () => {
     expect(agentEvent("job.started", l, null, now).text).toBe("Research agent started: Discover Reddit sources");
     expect(agentEvent("job.done", l, t - 30 * 60000, now)).toEqual({ kind: "job.done", station: "research", subject: "Discover Reddit sources", text: "Research agent done: Discover Reddit sources (30 min)", ts: "2026-11-15T18:00:00.000Z" });
+  });
+});
+
+describe("the hook writer's agents", () => {
+  // As the hook-writing skill dispatches them: the brief names writer.md or critic.md and the run folder.
+  const writer = { description: "Write hooks: pot odds", prompt: "Follow .claude/skills/hook-writing/writer.md. Topic: pot odds. Facts: content/hooks/2026-11-17-playbook/pot-odds/facts.json", subagent_type: "general-purpose" };
+  const critic = { description: "Judge the drafts", prompt: "Follow critic.md. Drafts: content\\hooks\\2026-11-17-playbook\\pot-odds\\research\\drafts.json" };
+
+  it("go under the hooks station, also in the research arm, whose briefs say research", () => {
+    expect(stationOf(writer)).toBe("hooks");
+    expect(stationOf(critic)).toBe("hooks");
+    expect(stationOf({ description: "Hook writer, research arm", prompt: "evidence.md holds the research quotes" })).toBe("hooks");
+  });
+
+  it("leave research under research, and everything else off the wall", () => {
+    expect(stationOf({ description: "Discover Reddit sources" })).toBe("research");
+    expect(stationOf({ description: "Tag batch 12", prompt: "Read content/research/hooks/tagging.md" })).toBe("research"); // studying hooks is research
+    expect(stationOf({ description: "Fix the SubagentStop hook", prompt: "Edit apps/wall/scripts/claude-agents.mjs" })).toBeNull(); // Claude Code's hooks
+    expect(stationOf({ description: "Review PR #36", subagent_type: "Explore" })).toBeNull();
+    expect(stationOf(undefined)).toBeNull();
+  });
+
+  it("report to the wall as hook agents, traced like research ones", () => {
+    const l = launch({ session_id: "s1", tool_use_id: "toolu_02", tool_input: writer }, new Date(t - 5 * 60000));
+    expect(l).toMatchObject({ station: "hooks", research: true, label: "Write hooks: pot odds" });
+    expect(startJob(l)).toMatchObject({ id: "agent-toolu_02", station: "hooks", department: "content", state: "running", lostAfterSec: AGENT_LOST_SEC });
+    expect(doneJob(l, {}, now)).toMatchObject({ station: "hooks", state: "done" });
+    expect(agentEvent("job.started", l, null, now)).toMatchObject({ station: "hooks", text: "Hook agent started: Write hooks: pot odds" });
+    expect(agentEvent("job.done", l, l.at, now).text).toBe("Hook agent done: Write hooks: pot odds (5 min)");
+  });
+
+  it("still reads a launch remembered before stations existed as research", () => {
+    const old = { jobId: "agent-x", label: "Discover Reddit sources", research: true, at: t };
+    expect(startJob(old).station).toBe("research");
+    expect(agentEvent("job.started", old, null, now).text).toBe("Research agent started: Discover Reddit sources");
   });
 });
