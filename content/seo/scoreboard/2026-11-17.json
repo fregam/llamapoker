@@ -1,0 +1,280 @@
+{
+  "date": "2026-11-17",
+  "window": {
+    "startDate": "2026-10-18",
+    "endDate": "2026-11-15"
+  },
+  "summary": {
+    "pageOne": 0,
+    "targets": 18,
+    "indexed": 3,
+    "pages": 13
+  },
+  "totals": {
+    "clicks": 0,
+    "impressions": 32
+  },
+  "targets": [
+    {
+      "query": "poker odds calculator",
+      "page": "/table",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "poker hand calculator",
+      "page": "/table",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "should i call poker",
+      "page": "/table",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "poker trainer",
+      "page": "/trainer",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "free poker trainer",
+      "page": "/trainer",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "learn poker",
+      "page": "/learn",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "poker hand rankings",
+      "page": "/learn/hand-rankings",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "what beats what in poker",
+      "page": "/learn/hand-rankings",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "poker positions explained",
+      "page": "/learn/positions",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "poker starting hands chart",
+      "page": "/learn/starting-hands",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "pot odds",
+      "page": "/learn/pot-odds",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "pot odds formula",
+      "page": "/learn/pot-odds",
+      "position": 21.3,
+      "impressions": 4,
+      "clicks": 0,
+      "shownPage": "https://llamapoker.com/learn/pot-odds",
+      "rightPage": true,
+      "pageOne": false
+    },
+    {
+      "query": "poker outs",
+      "page": "/learn/outs",
+      "position": 74.3,
+      "impressions": 15,
+      "clicks": 0,
+      "shownPage": "https://llamapoker.com/learn/outs",
+      "rightPage": true,
+      "pageOne": false
+    },
+    {
+      "query": "poker outs chart",
+      "page": "/learn/outs",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "rule of 2 and 4 poker",
+      "page": "/learn/outs",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "online poker helper",
+      "page": "/learn/online-poker-helper",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "poker glossary",
+      "page": "/glossary",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    },
+    {
+      "query": "poker strategy for beginners",
+      "page": "/strategy",
+      "position": null,
+      "impressions": 0,
+      "clicks": 0,
+      "shownPage": null,
+      "rightPage": null,
+      "pageOne": false
+    }
+  ],
+  "pages": [
+    {
+      "url": "https://llamapoker.com/",
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-16T20:05:49Z"
+    },
+    {
+      "url": "https://llamapoker.com/table",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/trainer",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/learn",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/learn/hand-rankings",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/learn/positions",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/learn/starting-hands",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/learn/pot-odds",
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-08T07:06:37Z"
+    },
+    {
+      "url": "https://llamapoker.com/learn/outs",
+      "indexed": true,
+      "state": "Submitted and indexed",
+      "lastCrawl": "2026-11-08T08:25:48Z"
+    },
+    {
+      "url": "https://llamapoker.com/learn/online-poker-helper",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/strategy",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/glossary",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    },
+    {
+      "url": "https://llamapoker.com/privacy",
+      "indexed": false,
+      "state": "URL is unknown to Google",
+      "lastCrawl": null
+    }
+  ],
+  "longQuestions": []
+}
