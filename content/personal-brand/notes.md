@@ -372,3 +372,14 @@ lesson, and a hook line that could open the post.
   only speaks at the end. Same alarm, wrong for half the work.
 - **Hook:** "My AI agents were doing research all afternoon and my dashboard said nothing was happening."
 
+
+## 2026-11-17 - I stopped fixing the reel and kept building the machine
+
+- **Choice:** dropped the hand rewrite of a reel that was fated to flop. The next reel will be
+  the first one the content factory makes from start to finish.
+- **Rejected:** rewriting it as the factory's first job (fixing a bad premise only tests a
+  repair, and doing it by hand while the hook agent is half built means doing it twice).
+- **What happened:** the founder caught it: once the system is being built, any reel made
+  outside it is throwaway work.
+- **Lesson:** when you're building the factory, stop hand-making the product.
+- **Hook:** "I had a reel I knew would flop. Fixing it was the wrong move."

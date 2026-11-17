@@ -108,7 +108,7 @@ the end. Last update: 2026-11-14 (wall layout, results first).
 ## Blocked
 
 - Letter 001 send: on the welcome email and footer address (above).
-- Reels 002/003 posting: on the two quality rounds and the founder's approval.
+- ~~Reels 002/003 posting~~: shelved 2026-11-17; the first reel comes out of the factory.
 - Phase 1 measurement (event store): on the Cloudflare API token and the merges above.
 
 ## Known facts worth keeping (verified 2026-11-11)
