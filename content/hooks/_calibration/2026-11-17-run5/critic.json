@@ -1,0 +1,42 @@
+{
+  "verdicts": {
+    "c01": {"claim": ["pass", "states a topic, asserts nothing"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "no loss or money angle"]},
+    "c02": {"claim": ["fail", "a personal result (fifty bucks into five grand by folding more) that no fact supports"], "honest": ["fail", "claimed winnings: LlamaPoker has no wins to brag about"], "helping": ["pass", "does not offer money back or push a losing player to play more"]},
+    "c03": {"claim": ["fail", "'every poker app review says the river is rigged' is a claim about every review with no fact behind it; the 35% itself matches flush-river"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains, no money offer"]},
+    "c04": {"claim": ["pass", "a second-person scene; a table folding to the tight player's rare raise is common table behaviour"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "names a frustration to explain it"]},
+    "c05": {"claim": ["fail", "wait-bb (9.75 bb) is an average over a 39-hand average wait; 'each one has already cost you' says it as a certainty"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a cost, no offer to win it back"]},
+    "c06": {"claim": ["pass", "16% is gutshot-river (16.47%) with its conditions, flop to river; 'half right' is answerable from that chance"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a decision"]},
+    "c07": {"claim": ["pass", "second-person scene; 'proves nothing' follows from aces losing 14% against a random hand (aa-lose-1)"], "honest": ["pass", "no brag; luck not used as an excuse"], "helping": ["pass", "names a loss to explain it"]},
+    "c08": {"claim": ["pass", "35% by the river from the flop matches flush-river (34.97%); the cost line gives no figure and the turn-only fact (19.57%) lets the reel answer it"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a decision"]},
+    "c09": {"claim": ["pass", "a feeling put to the viewer in the second person ('it feels like it always does'), not a claim to back"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "names a loss to explain it"]},
+    "c10": {"claim": ["pass", "14% matches aa-lose-1 (14.47%) with its conditions: preflop all-in, one random hand"], "honest": ["pass", "luck is named only to be denied"], "helping": ["pass", "explains, no money offer"]},
+    "c11": {"claim": ["pass", "follows from aa-lose-once-in-20 (95.62%): enough all-ins and a loss is all but certain; no figure is misquoted"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a loss"]},
+    "c12": {"claim": ["pass", "1 in 3 is flush-river (34.97%) rounded, with its conditions said: from the flop, seeing both cards"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains, no money offer"]},
+    "c13": {"claim": ["pass", "states a topic, asserts nothing"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "no loss or money angle"]},
+    "c14": {"claim": ["pass", "1 in 39 matches premium-every and keeps 'on average'; 'a bill' is the blinds paid while waiting (wait-bb) with no figure overstated"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a cost"]},
+    "c15": {"claim": ["pass", "85% matches aa-vs-1 (85.26%) with its conditions: all-in preflop, one random hand"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains, no money offer"]},
+    "c16": {"claim": ["fail", "'it was supposed to happen' is unbacked: aces lose to one random hand 14% of the time, which makes the loss possible, not expected"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a loss"]},
+    "c17": {"claim": ["fail", "the hook asks how often aces lose to ace-king by running kings; the facts only cover aces against random hands, so the reel cannot answer it"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a loss"]},
+    "c18": {"claim": ["pass", "35% by the river from the flop matches flush-river; 'you only remember the misses' is a memory put to the viewer, not a claim to back"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a decision"]},
+    "c19": {"claim": ["pass", "table behaviour any regular would agree with: a player who rarely raises gets credit when he does; no cost, odds or frequency asserted"], "honest": ["pass", "luck is named only to be denied"], "helping": ["pass", "explains a frustration"]},
+    "c20": {"claim": ["fail", "wrong number and wrong population: against four random hands aces hold 55.88% of the pot (aa-vs-4); 85% is their share against one"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "no money offer"]},
+    "c21": {"claim": ["fail", "'most players call that fold a mistake' and 'most of the time it's the right one' are both unbacked; no fact covers bet sizes or pot odds"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "explains a decision"]},
+    "c22": {"claim": ["fail", "79% (aa-lose-once-in-10) holds only heads-up against a random hand; 'shove aces ten times' says it as if it held for any all-in"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "no money offer"]},
+    "c23": {"claim": ["fail", "'wins it back by Friday' is a result no fact supports"], "honest": ["fail", "promises a result LlamaPoker cannot truthfully promise"], "helping": ["fail", "offers winning the money back and speaks to someone who just lost a stack"]},
+    "c24": {"claim": ["fail", "blinds are paid in two seats per orbit (orbit-bb), so 'paying for every hand he folds' states a cost that holds only in some seats as if in all; 'losing slowly' is unbacked too"], "honest": ["pass", "luck is named only to be denied"], "helping": ["pass", "explains a cost"]},
+    "c25": {"claim": ["pass", "beliefs put to the viewer in the second person, which the viewer accepts or rejects; no odds asserted"], "honest": ["pass", "no brag or confession"], "helping": ["pass", "no loss or money angle"]}
+  },
+  "rank": ["c04", "c09", "c25", "c07", "c19", "c11", "c18", "c12", "c14", "c10", "c06", "c15", "c08", "c13", "c01"],
+  "top": {
+    "c04": {"why": "Every regular has lived this exact evening, and the line stops on the sting without explaining it, so the viewer stays for the why.", "mechanism": "scenario_label"},
+    "c09": {"why": "It names the beat a stranger replays in their own head and admits the feeling before any number arrives.", "mechanism": "scenario_label"},
+    "c25": {"why": "A then-and-now arc any player recognises in themselves, self-mocking and finished in two short beats.", "mechanism": "side_by_side"},
+    "c07": {"why": "A specific, painful hand followed by a flat verdict against what the viewer concluded from it.", "mechanism": "counterintuitive_claim"},
+    "c19": {"why": "A lived frustration with a tease that the table read you, which the reel has to pay off.", "mechanism": "withheld_payoff"},
+    "c11": {"why": "It turns a boast into a tell in one sentence and dares the viewer to check their own record.", "mechanism": "counterintuitive_claim"},
+    "c18": {"why": "It opens on the viewer's own complaint and turns the blame onto what they paid, though the number sits in the middle.", "mechanism": "counterintuitive_claim"},
+    "c12": {"why": "It quotes the complaint in the viewer's own words and answers it at once, but ends on a fact rather than a stake.", "mechanism": "counterintuitive_claim"},
+    "c14": {"why": "The last two sentences attack a habit tight players are proud of, but the opening is a statistic.", "mechanism": "specific_figure"},
+    "c10": {"why": "The denial of luck is a stance, but the turn only arrives in the third sentence after a statistic.", "mechanism": "counterintuitive_claim"}
+  }
+}

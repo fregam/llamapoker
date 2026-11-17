@@ -1,0 +1,345 @@
+{
+ "verdicts": {
+  "d01": {
+   "claim": [
+    "pass",
+    "'Don't always get cracked' follows from aa-vs-1 (85%); 'you keep letting five people try' is put to the viewer about their own play; the reel answers with aa-vs-1..5."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d02": {
+   "claim": [
+    "pass",
+    "85% and 49% match aa-vs-1 and aa-vs-5, each with its player count and 'stays to the river'. The line names no population other than the fact's (any hand), so the number stands."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d03": {
+   "claim": [
+    "pass",
+    "A second-person scene the viewer accepts or rejects; the implied link (more players, aces lose more) is aa-vs-1..5."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d04": {
+   "claim": [
+    "pass",
+    "That slow-playing lets players in is table behaviour; 49% matches aa-vs-5 with 'five who stay to the river'. The line names no population other than the fact's (any hand), so the number stands."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d05": {
+   "claim": [
+    "pass",
+    "No number; tells the viewer to count players before blaming the app, which aa-vs-1..5 answers."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d06": {
+   "claim": [
+    "pass",
+    "A second-person feeling; 'the reason isn't bad luck' is answered by the player-count facts, luck named only to be denied."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d07": {
+   "claim": [
+    "pass",
+    "'Some players feel safer with suited connectors' is table talk any regular knows, said of some, not most; the crowd claim is aa-vs-1..5."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d08": {
+   "claim": [
+    "fail",
+    "'Somebody at every table' is a claim about every table that no fact backs and a regular would not agree to flatly."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d09": {
+   "claim": [
+    "pass",
+    "'About 15%' matches aa-lose-1 (14.52%) against one player to the river; 'feels like every time' is put to the viewer. The line names no population other than the fact's (any hand), so the number stands."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d10": {
+   "claim": [
+    "pass",
+    "85/73/64/56/49 match aa-vs-1..5 with 'stays to the river'; 'your home game' is put to the viewer. The line names no population other than the fact's (any hand), so the number stands."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d11": {
+   "claim": [
+    "pass",
+    "Both halves are table behaviour any regular recognises; the link between them is aa-vs-1..5."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d12": {
+   "claim": [
+    "pass",
+    "49% matches aa-vs-5, and 'any two cards, to the river' is the fact's own condition (random hands run to the river)."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d13": {
+   "claim": [
+    "fail",
+    "Wrong population: 56% (aa-vs-4) is against four random hands, but the line gives it to four players who called a raise."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d14": {
+   "claim": [
+    "pass",
+    "No number; 'you can shrug' and 'it gets easier' are put to the viewer; the count of players is what the facts cover."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d15": {
+   "claim": [
+    "pass",
+    "Quotes the viewer's own complaint and asks a question the facts answer (aa-vs-1..5)."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d16": {
+   "claim": [
+    "pass",
+    "96% matches aa-lose-once-in-20 (95.66%) with its conditions: twenty preflop all-ins, one player each. It names no other population than the fact's."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d17": {
+   "claim": [
+    "pass",
+    "49% matches aa-vs-5 with 'five players who stay to the river'; luck named only to be denied. The line names no population other than the fact's (any hand), so the number stands."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d18": {
+   "claim": [
+    "fail",
+    "Wrong population: the even split (aa-vs-5) is against five random hands, but the line gives it to players who chose to call."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d19": {
+   "claim": [
+    "pass",
+    "Aces being one pair is a plain fact of the game; no number, and the reel answers with aa-vs-1..5."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  },
+  "d20": {
+   "claim": [
+    "pass",
+    "No number; the claim that player count matters is aa-vs-1..5."
+   ],
+   "honest": [
+    "pass",
+    "Explains; no claimed wins, students or confessions; luck is not used as an excuse."
+   ],
+   "helping": [
+    "pass",
+    "Promises understanding of why aces lose; no money back, no reason to play more, no poke at someone in trouble."
+   ]
+  }
+ },
+ "rank": [
+  "d11",
+  "d15",
+  "d03",
+  "d01",
+  "d05",
+  "d06",
+  "d12",
+  "d20",
+  "d17",
+  "d07",
+  "d09",
+  "d04",
+  "d16",
+  "d02",
+  "d19",
+  "d10",
+  "d14"
+ ],
+ "top": {
+  "d11": {
+   "why": "One sentence puts two things every home-game regular has seen side by side and leaves the viewer to ask why they go together.",
+   "mechanism": "scenario_label"
+  },
+  "d15": {
+   "why": "It opens on the exact sentence the viewer has said out loud and hands it back unfinished.",
+   "mechanism": "open_question"
+  },
+  "d03": {
+   "why": "It names the viewer's own table and their own complaint in one breath, with a dry edge that makes the answer feel obvious and still unseen.",
+   "mechanism": "scenario_label"
+  },
+  "d01": {
+   "why": "It contradicts the belief in six words and turns the blame on something the viewer does every session.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "d05": {
+   "why": "Anyone who has muttered 'rigged' at an app is caught mid-thought and given something to check instead.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "d06": {
+   "why": "It opens inside a moment the viewer has felt, dread at the best hand, before promising a cause other than luck.",
+   "mechanism": "scenario_label"
+  },
+  "d12": {
+   "why": "The player who calls everything is someone the viewer can name, and five of him makes the number a scene.",
+   "mechanism": "scenario_label"
+  },
+  "d20": {
+   "why": "It takes the thing every player blames, the river card, and points at a cause the viewer controls.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "d17": {
+   "why": "It denies the bad-luck story in two short sentences and replaces it with a cause the viewer can see at their own table.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "d07": {
+   "why": "Feeling safer with suited connectors than with aces is a confession the viewer recognises, and the line says the feeling points at the wrong culprit.",
+   "mechanism": "counterintuitive_claim"
+  }
+ }
+}

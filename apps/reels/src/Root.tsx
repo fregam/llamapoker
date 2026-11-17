@@ -10,14 +10,18 @@ import { Cover } from "./covers/Cover";
 import { ContactSheet, SHEET_H, SHEET_W } from "./dev/ContactSheet";
 import { OnlyAces, ONLY_ACES_FRAMES } from "./reels/OnlyAces";
 import { WillItGetThere, WILL_IT_GET_THERE_FRAMES } from "./reels/WillItGetThere";
-import { AcesCrowd, ACES_CROWD_FRAMES } from "./reels/AcesCrowd";
+import { AcesCrowd, acesCrowdFrames, type HookId } from "./reels/AcesCrowd";
+import acesHooks from "./data/aces-crowd-hooks.json";
 import { ShouldYouCall, SHOULD_YOU_CALL_FRAMES } from "./reels/ShouldYouCall";
 import { FPS, H, W } from "./theme";
 
 export function Root() {
   return (
     <>
-      <Composition id="aces-crowd" component={AcesCrowd} durationInFrames={ACES_CROWD_FRAMES} fps={FPS} width={W} height={H} />
+      {/* one composition per opening under test: aces-crowd (hook a), aces-crowd-b, aces-crowd-c */}
+      {(Object.keys(acesHooks).filter((k) => !k.startsWith("$")) as HookId[]).map((k) => (
+        <Composition key={k} id={k === "a" ? "aces-crowd" : `aces-crowd-${k}`} component={AcesCrowd} defaultProps={{ hook: k }} durationInFrames={acesCrowdFrames(k)} fps={FPS} width={W} height={H} />
+      ))}
       <Composition id="should-you-call" component={ShouldYouCall} durationInFrames={SHOULD_YOU_CALL_FRAMES} fps={FPS} width={W} height={H} />
       <Composition id="only-aces" component={OnlyAces} durationInFrames={ONLY_ACES_FRAMES} fps={FPS} width={W} height={H} />
       <Composition id="will-it-get-there" component={WillItGetThere} durationInFrames={WILL_IT_GET_THERE_FRAMES} fps={FPS} width={W} height={H} />

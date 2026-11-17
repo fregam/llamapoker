@@ -38,7 +38,7 @@ function aces(iterations: number): Fact[] {
   const aa: [Card, Card] = [parseCard("As"), parseCard("Ah")];
   const facts: Fact[] = [];
   let headsUpLose = 0;
-  for (const n of [1, 2, 3, 4]) {
+  for (const n of [1, 2, 3, 4, 5]) {
     const r = equityVsRandom(aa, [], n, iterations);
     if (n === 1) headsUpLose = r.lose;
     facts.push({
