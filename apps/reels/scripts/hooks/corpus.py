@@ -52,7 +52,7 @@ def _when(ts: str) -> float:
     return time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
 
 
-def sample(reels: list[dict], cap: int | None = None) -> dict:
+def sample(reels: list[dict], cap: int | None = None, pairs: dict | None = None) -> dict:
     """{shortcode: 'outlier' | 'ordinary' | 'funnel'} for one account's classified reels.
     Each real outlier gets one ordinary twin (0.5x-2x the median), the closest in date; funnel
     outliers are kept apart (their reach came from a CTA) and get no twin. With `cap`, only the
@@ -72,6 +72,8 @@ def sample(reels: list[dict], cap: int | None = None) -> dict:
         if free:
             twin = min(free, key=lambda t: abs(_when(t["timestamp"]) - _when(r["timestamp"])))
             picked[twin["shortcode"]] = "ordinary"
+            if pairs is not None:
+                pairs[r["shortcode"]] = twin["shortcode"]
     return picked
 
 
@@ -189,12 +191,14 @@ def cmd_sample():
     con = connect()
     con.execute("update reels set sampled = null")
     users = [u for (u,) in con.execute("select distinct username from reels")]
+    pairs = {}
     for u in users:
         rows = con.execute("select shortcode, timestamp, ratio, outlier, funnel from reels where username = ?", (u,)).fetchall()
         reels = [{"shortcode": s, "timestamp": t, "ratio": r, "outlier": bool(o), "funnel": bool(f)} for s, t, r, o, f in rows]
-        for code, kind in sample(reels, cap=CAP).items():
+        for code, kind in sample(reels, cap=CAP, pairs=pairs).items():
             con.execute("update reels set sampled = ? where shortcode = ?", (kind, code))
     con.commit()
+    (DB.parent / "pairs.json").write_text(json.dumps(pairs, indent=1), encoding="utf-8")  # outlier -> its twin
     print(dict(con.execute("select sampled, count(*) from reels where sampled is not null group by 1").fetchall()))
 
 

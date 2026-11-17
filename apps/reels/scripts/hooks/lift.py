@@ -23,7 +23,8 @@ MIN_OUT, MIN_AGREE, Z = 8, 0.7, 1.645
 
 
 MEDIA = REPO / "media" / "research" / "hooks"
-CTX = ("format", "audio", "text_style", "face_at_0s", "annotation", "caption_cta", "language")
+CTX = ("format", "audio", "text_style", "face_at_0s", "annotation", "caption_cta", "language", "transcript_reliable")
+OURS = {"audio=voiceover", "audio=to-camera voice"}  # formats a narrated, code-rendered reel can make
 
 
 def features(row: dict, code: str) -> set:
@@ -87,8 +88,12 @@ def lift(k_out: int, n_out: int, k_ord: int, n_ord: int) -> tuple[float, float, 
     return r, r * math.exp(-Z * se), r * math.exp(Z * se)
 
 
-def table(tags, status) -> list[dict]:
-    first = {c: runs[0] for c, runs in tags.items() if c in status}
+def ours(ms: set) -> bool:
+    return bool(ms & OURS) and "language=english" in ms and "transcript_reliable=no" not in ms
+
+
+def table(tags, status, keep=lambda ms: True) -> list[dict]:
+    first = {c: runs[0] for c, runs in tags.items() if c in status and keep(runs[0])}
     n = {"outlier": 0, "ordinary": 0}
     k = defaultdict(lambda: {"outlier": 0, "ordinary": 0})
     for c, ms in first.items():
@@ -108,13 +113,25 @@ def main():
     status = dict(con.execute("select shortcode, sampled from reels where sampled in ('outlier','ordinary')"))
     tags = load_tags()
     agree = agreement(tags)
-    rows, n = table(tags, status)
+    lines = render(tags, status, agree, "All reels", lambda ms: True)
+    lines += [""] + render(tags, status, agree, "Our format only (voiceover or to-camera voice, English, readable transcript)", ours)[2:]
+    OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print("\n".join(lines))
+
+
+def render(tags, status, agree, title, keep):
+    rows, n = table(tags, status, keep)
     lines = [
         "# Hook mechanisms: lift table",
+        "",
+        f"## {title}",
         "",
         f"Tagged blind: {n['outlier']} outliers, {n['ordinary']} ordinary twins (same account, closest date, "
         "0.5–2× the account median). Lift = share among outliers ÷ share among twins; 90% interval. "
         f"Called only with ≥ {MIN_OUT} outliers and agreement ≥ {MIN_AGREE} on the double-tagged reels.",
+        "",
+        f"{len(rows)} rows at a 90% interval: about {round(len(rows) * 0.1)} would cross 1 by chance alone, so a "
+        "single row is a lead, not a law; a cluster of rows pointing the same way is stronger.",
         "",
         "| Mechanism | Outliers | Twins | Lift | 90% interval | Agreement | Verdict |",
         "|---|---:|---:|---:|---|---:|---|",
@@ -123,7 +140,9 @@ def main():
         ag, seen = agree.get(r["mechanism"], (float("nan"), 0))
         if r["out"] < MIN_OUT:
             verdict = "too few"
-        elif seen >= 4 and ag < MIN_AGREE:
+        elif seen < 3:
+            verdict = "unverified (too few double-tags)"
+        elif ag < MIN_AGREE:
             verdict = "unreliable tag"
         elif r["lo"] > 1:
             verdict = "**more in outliers**"
@@ -134,8 +153,7 @@ def main():
         agtxt = f"{ag:.2f} ({seen})" if seen else "–"
         lines.append(f"| `{r['mechanism']}` | {r['out']} ({r['out'] / n['outlier']:.0%}) | {r['ord']} ({r['ord'] / n['ordinary']:.0%}) "
                      f"| {r['lift']:.2f} | {r['lo']:.2f}–{r['hi']:.2f} | {agtxt} | {verdict} |")
-    OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("\n".join(lines))
+    return lines
 
 
 if __name__ == "__main__":

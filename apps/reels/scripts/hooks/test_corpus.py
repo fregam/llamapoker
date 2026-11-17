@@ -61,6 +61,9 @@ class Sample(unittest.TestCase):
         twins = [k for k, v in picked.items() if v == "ordinary"]
         self.assertEqual(len(twins), 1)
         self.assertIn(twins[0], {"o10", "o11"})
+        pairs = {}
+        sample(classify(reels), pairs=pairs)
+        self.assertEqual(pairs, {"hit": twins[0]})
 
     def test_funnel_outliers_are_kept_apart_and_get_no_twin(self):
         reels = [reel(f"o{d}", 40_000, ts=f"2026-10-{d:02d}T00:00:00+0000") for d in range(1, 21)]
