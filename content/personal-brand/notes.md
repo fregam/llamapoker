@@ -411,3 +411,16 @@ lesson, and a hook line that could open the post.
 - **Lesson:** an agent works faster from a small shelf it knows than from a huge store it has to
   search. Curate once, by role, and measure what it can't hear.
 - **Hook:** "My AI can't hear. So I gave it 300 sounds with the loud part marked on each one."
+
+## 2026-11-17 - Nine reference videos in, one reel I liked out, same night
+
+- **Choice:** sent the AI nine reels I admire and one instruction: keep going until yours is
+  better. It built an ace of spades from 8,000 tiles that shatters as players join the hand, with
+  win rates from our own engine (85% against one player, 49% against five).
+- **Rejected:** approving a plan first, or judging against our old reel. The AI stopped once at a
+  version it admitted wasn't good enough; I asked it to remind me what I had asked for.
+- **What happened:** twelve versions. It started the voice generator itself, found the take had
+  background noise, cleaned it, and re-timed every beat to the spoken words. Another AI session
+  had built a sound library in parallel, and the reel's sound was swapped onto it in minutes.
+- **Lesson:** "work until it's better than this" is a brief. "Follow these 40 rules" is a cage.
+- **Hook:** "I stopped giving my AI rules and gave it nine videos to beat."
