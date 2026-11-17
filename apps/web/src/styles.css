@@ -1122,6 +1122,10 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
 .crumbs { display: flex; gap: 10px; margin: 0 0 14px; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); }
 .crumbs a { color: var(--text-2); text-decoration: none; }
 .crumbs a:hover { color: var(--text); }
+/* Guide byline: who wrote it, when it last changed, how the numbers are made. */
+.byline { margin: -24px 0 40px; font-size: 13px; line-height: 1.6; color: var(--text-3); }
+.byline a { color: var(--text-2); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.byline a:hover { color: var(--text); }
 
 .guide-foot { margin-top: 44px; padding-top: 22px; border-top: 3px double var(--rule-strong); }
 .guide-next { display: flex; flex-direction: column; gap: 6px; text-decoration: none; }

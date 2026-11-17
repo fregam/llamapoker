@@ -10,7 +10,7 @@
 
 import { describe, expect, it } from "vitest";
 import { render, ROUTES, NOT_FOUND } from "./entry-server";
-import { LEARN_PATH, routeFor } from "./seo";
+import { AUTHOR, LEARN_PATH, longDate, routeFor } from "./seo";
 
 const h1 = (html: string) => (html.match(/<h1[^>]*>/g) ?? []).length;
 
@@ -48,6 +48,33 @@ describe("routes", () => {
     const html = render("/this-does-not-exist");
     expect(routeFor("/this-does-not-exist")).toBe(NOT_FOUND);
     expect(html).toContain("notfound");
+  });
+});
+
+describe("authorship", () => {
+  const guides = ROUTES.filter((r) => r.path.startsWith("/learn/"));
+
+  it("every guide names its author and its date, on the page and in its Article data", () => {
+    expect(guides.length).toBe(6);
+    for (const r of guides) {
+      const html = render(r.path);
+      expect(html, r.path).toContain(AUTHOR.name);
+      expect(html, r.path).toContain(longDate(r.modified!));
+      const article = r.schema!("https://x.test").find((o: any) => o["@type"] === "Article") as any;
+      expect(article.author, r.path).toEqual({ "@type": "Person", name: AUTHOR.name, url: "https://x.test/about" });
+      expect(article.dateModified, r.path).toBe(r.modified);
+      expect(article.datePublished <= article.dateModified, r.path).toBe(true);
+    }
+  });
+
+  it("the author's page exists and names the same person", () => {
+    expect(routeFor(AUTHOR.path).page).toBe("about");
+    expect(render(AUTHOR.path)).toContain(AUTHOR.name);
+  });
+
+  it("dates read as written, with no clock involved", () => {
+    expect(longDate("2026-11-06")).toBe("6 November 2026");
+    expect(longDate("2027-01-31")).toBe("31 January 2027");
   });
 });
 
