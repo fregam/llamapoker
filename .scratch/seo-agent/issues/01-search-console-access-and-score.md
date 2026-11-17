@@ -1,6 +1,6 @@
 # 01 Search Console access and the score
 
-Status: ready-for-human (only the last box is open)
+Status: done
 
 The agent can read Search Console without a browser, and one command gives the score.
 
@@ -15,7 +15,7 @@ the wizard `scripts/wizards/search-console-access.sh`.
 - [x] Baseline committed: `content/seo/scoreboard/2026-11-17.json`. 3 of 13 indexed, 0 of 18 on
       page one, 32 impressions and 0 clicks in 28 days. Closest targets: "pot odds formula" at
       21.3 (4 impressions), "poker outs" at 74.3 (15 impressions).
-- [ ] The founder reads `apps/seo/targets.json` and says yes or changes it.
+- [x] The founder approved `apps/seo/targets.json` as written (2026-11-17).
 
 ## Done when
 
