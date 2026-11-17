@@ -1,12 +1,12 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-17 (the SEO agent on the wall, in a pull request).
+the end. Last update: 2026-11-17 (the SEO agent and the hook writer on the wall, PR #48).
 
 ## Done 2026-11-17
 
 - **The SEO agent on the wall** (ticket 05, branch `feat/wall-seo`, worktree
-  `.claude/worktrees/wall-seo`, pull request open): station, `job` trace, `run` events, the pull
+  `.claude/worktrees/wall-seo`, PR #48, merged on the founder's word): station, `job` trace, `run` events, the pull
   request's card, three wall-side threats; plus an outbox so a run at 07:00 with the wall closed
   loses nothing, and pull request cards that clear when GitHub says merged. Checked on a
   throwaway wall (port 8799, its own store): the 2026-11-17 reading replayed from the outbox, a
@@ -117,7 +117,7 @@ the end. Last update: 2026-11-17 (the SEO agent on the wall, in a pull request).
 
 ## Waiting on the founder
 
-- **SEO on the wall, 2026-11-17:** merge the pull request from `feat/wall-seo`. Then: (1) register
+- **SEO on the wall, 2026-11-17 (PR #48 merged):** (1) register
   or replace the scheduled task with the command in `apps/seo/README.md` (it starts `weekly.mjs`
   now). No task named "LlamaPoker SEO agent" was visible from a normal PowerShell on 2026-11-17,
   and no run has left a log in the `seo-agent` worktree: check with

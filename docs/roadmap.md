@@ -53,7 +53,7 @@
    Search Console client, the score and the reading, a setup wizard for the access. Next: the
    founder runs the wizard (ticket 01), then every page indexed (02), honest authorship (03), the
    weekly unattended run (04), the wall station (05), links worth having (06).
-   **Built 2026-11-17, in a pull request (branch `feat/wall-seo`): the agent on the wall** (ticket
+   **Shipped 2026-11-17 (PR #48): the agent on the wall** (ticket
    05): a `seo` station in DEVELOPMENT with the score and the next run, the run as a `job` trace
    (`apps/seo/scripts/weekly.mjs` is what the scheduled task starts now), one `run` event per run,
    the pull request as a card in Needs you that clears when it is merged on GitHub, and threats
