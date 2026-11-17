@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import PlayTool from "./views/PlayTool";
 import Strategy from "./views/Strategy";
 import Glossary from "./views/Glossary";
-import Trainer from "./views/Trainer";
+import TrainerPage from "./views/TrainerPage";
 import Home from "./views/Home";
 import Privacy from "./views/Privacy";
 import NotFound from "./views/NotFound";
@@ -76,7 +76,7 @@ function Page({ page }: { page: PageId }) {
     case "tool":
       return <PlayTool />;
     case "trainer":
-      return <Trainer />;
+      return <TrainerPage />;
     case "strategy":
       return <Strategy />;
     case "glossary":

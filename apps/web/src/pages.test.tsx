@@ -40,8 +40,12 @@ describe("routes", () => {
     });
   }
 
-  it("the trainer (not prerendered) still renders without throwing", () => {
-    expect(() => render("/trainer")).not.toThrow();
+  it("the trainer prerenders its written guide and a placeholder, never a random hand", () => {
+    const html = render("/trainer");
+    expect(html).toContain("How the trainer works");
+    expect(html).toContain("trainer-loading");
+    expect(html).not.toContain("trainer-bar"); // the app itself mounts in the browser only
+    expect(html.replace(/<!-- -->/g, "")).toContain("you need 25% equity"); // from poker/odds, not typed
   });
 
   it("an unknown URL renders the not-found page", () => {
@@ -114,7 +118,8 @@ describe("signup path", () => {
     for (const r of ROUTES.filter((x) => x.prerender)) {
       const html = render(r.path);
       const forms = (html.match(/<form class="signup/g) ?? []).length;
-      expect(forms, r.path).toBe(1);
+      // The trainer's form appears under the readout after an answer, so its prerender has none.
+      expect(forms, r.path).toBe(r.path === "/trainer" ? 0 : 1);
     }
   });
 });

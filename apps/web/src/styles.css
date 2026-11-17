@@ -857,6 +857,13 @@ kbd {
 
 .trainer .tool-input { padding-right: 32px; }
 .trainer .tool-output { padding-left: 32px; }
+/* /trainer before the app mounts (prerender and first paint): holds the app's place so the
+   written guide below does not jump. */
+.trainer-loading { min-height: 480px; }
+.trainer-guide { margin-top: 72px; padding-top: 48px; border-top: 1px solid var(--rule-strong); }
+.trainer-guide-title { font-size: 44px; letter-spacing: -1.2px; margin-bottom: 16px; }
+.trainer-guide-lead { margin: 0 0 36px; max-width: 62ch; font-size: 17px; line-height: 1.7; color: var(--text-2); }
+.trainer-guide-lead a, .trainer-guide .strat-list a { color: var(--text); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
 .trainer-blurb { margin: 0 0 10px; font-size: 13.5px; color: var(--text-3); }
 .trainer .trainer-story { font-size: 30px; line-height: 1.15; letter-spacing: -0.6px; margin: 10px 0 6px; }
 
