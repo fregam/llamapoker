@@ -439,3 +439,52 @@ lesson, and a hook line that could open the post.
   our thirteen pages are not even indexed yet.
 - **Lesson:** a growth tip tells you where to look. The platform's own page tells you what is true.
 - **Hook:** "I checked four viral SEO tips against Google's own docs. One was half invented."
+
+## 2026-11-15: A 100-template hook library lost to a five-step ladder and a calculator
+
+- **Choice:** build hooks by climbing Sky Tan's ladder (topic → problem → vivid → the thing you
+  already tried as the villain → reframe), with the villain taken from real viewer quotes and every
+  number computed by our poker engine. A code check fails any hook whose number isn't on the
+  engine's fact sheet.
+- **Rejected:** a popular open-source skill with 100 fill-in-the-blank hook formulas. Its examples
+  invent stats ("73% of Reels die…"), claim authority we don't have, and fake confessions; every
+  account using it sounds the same.
+- **What happened:** the first test is set up blind: 30 hooks, half written with viewer quotes,
+  half without, shuffled. The founder picks without knowing which is which, and the win rule was
+  written down before a single hook exists.
+- **Lesson:** the hardest rung of a good hook is naming what the viewer already tried. Templates
+  can't know that; research can. And a number you can't prove is a number you shouldn't say.
+- **Hook:** "Every hook formula tells you to use a specific number. None of them check it's true."
+
+## 2026-11-16: The hook writer passed every check, and the founder struck 19 of 30 lines
+
+- **Choice:** stop briefing the hook writer with rules to obey; give it one objective (a hook a
+  recreational player stops for), keep only hard limits (true numbers, honest voice, where helping
+  ends), and treat every craft rule as a hypothesis it may break with a reason.
+- **Rejected:** tightening the rules further. The rules were the problem: "the promise lands within
+  7 words" plus "every number from the engine" made every writer open on a stat.
+- **What happened:** 120 drafts, every one passed the code checks, a calibrated critic picked the
+  best 30, and the founder still struck 19. The lines the founder kept opened on the viewer's situation ("Your
+  flush draw always misses?"); the ones they struck opened on a number ("35% by the river…").
+- **Lesson:** a checklist describes the output of good work, not how good work is made. An agent
+  told to pass checks will pass checks. Next step: study hooks that actually performed, per platform,
+  before writing another one.
+- **Hook:** "My AI hook writer passed every quality check. 63% of its hooks were unpostable."
+
+## 2026-11-17: 911 viral reels, dissected blind, and the hook barely predicted the hit
+
+- **Choice:** before rewriting the hook writer, find out what separates real Instagram outliers
+  from the same creator's ordinary reels. Each of 462 outliers (≥ 100k views, ≥ 5× the account's
+  median) was paired with a twin posted at about the same time, and every opening was tagged blind
+  by agents who never saw the view counts.
+- **Rejected:** copying a viral-hooks template, or studying only the hits. A study of only winners
+  finds the moves every reel uses and calls them secrets.
+- **What happened:** the moves everyone teaches (a specific number, a question, a bold claim, a
+  mid-action start) showed up just as often in the flops. Blind judges picked the hit from a pair
+  57.5% of the time, barely above a coin flip. One creator posted the same video twice, 15 hours
+  apart: 21,782 views, then 507,813. What did separate hits: openings aimed at a stranger (a
+  feeling, a relatable type, a conflict) rather than at followers (ads, promos, "part 3", niche
+  tips), and something happening on screen in the first seconds.
+- **Lesson:** a hook raises the odds; it doesn't make the hit. Write for the person who doesn't
+  follow you, and judge hooks against real pairs of hits and flops, not against a list of moves.
+- **Hook:** "I studied 911 viral reels. The 'proven hook formulas' showed up just as often in the flops."

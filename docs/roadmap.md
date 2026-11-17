@@ -94,6 +94,11 @@
      "Stop limping", "The button is the best seat".
    - 2026-11-17: superseded. 002 and 003 are shelved (not posted, not rewritten); the first reel comes out of the factory (hook
      agent → brief → script → motion → sound). See `docs/decisions.md`.
+   - Done 2026-11-17: **hook writer** (`.claude/skills/hook-writing/`), built on a playbook from 911
+     blind-tagged Instagram reels (`content/research/hooks/`; Graph API corpus in
+     `apps/reels/scripts/hooks/`). 10 verified hooks for three topics in
+     `content/hooks/2026-11-17-playbook/best-round2.json`. Next in the factory: the brief and script
+     stages, then measure 3 s retention once reels post.
    - Done 2026-11-17: sound library (`content/library/README.md`, "Sound library"): 53 music tracks and
      277 effect cuts from Epidemic Sound in `media/library/audio/`, catalogue `content/library/audio.md`,
      tool `scripts/sound-lib.py` (find / use). The sound stage picks from it instead of generating.

@@ -3,6 +3,26 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-17 - The hook writer works from a playbook of real hits, with truth as its only rule
+
+- **What:** the hook writer (`.claude/skills/hook-writing/`) has one goal, a line that stops a
+  poker player who doesn't follow us. Its hard limits: every claim true (in numbers and in words,
+  against the engine's `facts.json`), the brand voice, and where helping ends. Everything else is
+  craft guidance it may break. Its reference is `content/research/hooks/playbook.md`, built from
+  911 Instagram reels: 462 outliers (≥ 100k views, ≥ 5× the account median) blind-tagged next to
+  same-creator twins. A writer drafts, code checks the numbers, and a critic fails any unbacked
+  claim and ranks the rest against the playbook's hit/twin pairs, without knowing which round or
+  writer a line came from.
+- **Why:** the first version (a five-rung ladder, "promise within 7 words", engine numbers) passed
+  every check and the founder struck 19 of 30 lines: the rules made writers open on stats. The
+  research then showed no single move separates hits from flops (numbers, questions, bold claims
+  all lift ≈ 1). What did: openings aimed at a stranger, a scene or stake in the first sentence,
+  something happening early. Blind judges picked the hit only 57.5% of the time, so a hook raises
+  the odds and posted retention stays the real judge.
+- **Rejected:** a template library; studying only the hits; length and position rules; a
+  mechanism quota.
+- **Open:** the critic's `calibration.json` still tests the old checks and needs new cases.
+
 ## 2026-11-17 - The video stage starts from references, and `aces-crowd` is the new baseline
 
 - **What:** every earlier video rule is scrapped (editing grammar, pacing rules, the host +
