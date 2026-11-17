@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.3.31",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.3"
   }
 }

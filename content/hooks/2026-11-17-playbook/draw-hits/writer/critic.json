@@ -1,0 +1,347 @@
+{
+  "verdicts": {
+    "d01": {
+      "claim": [
+        "pass",
+        "No number; 'miss as often as they should' is true."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d02": {
+      "claim": [
+        "pass",
+        "20% rounds the turn-to-river fact (9/46); says the flush comes in, not that it wins."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d03": {
+      "claim": [
+        "pass",
+        "16% is the flop gutshot by the river; jamming sees both cards."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d04": {
+      "claim": [
+        "pass",
+        "36% is the rule-of-4 estimate, correctly conditioned on seeing both cards."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d05": {
+      "claim": [
+        "pass",
+        "35% by the river and 19% on the turn, each with its own condition."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d06": {
+      "claim": [
+        "pass",
+        "16% vs 35%, both flop-to-river, labelled two cards to come; 16.5 < 17.5 so 'less than half' holds."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d07": {
+      "claim": [
+        "pass",
+        "20% is the turn flush draw completing on the river."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d08": {
+      "claim": [
+        "pass",
+        "35% is the flop flush draw by the river."
+      ],
+      "honest": [
+        "pass",
+        "'Every poker app review' is hyperbole, not a result claim; rigging is named only to be denied."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d09": {
+      "claim": [
+        "pass",
+        "31% OESD vs 35% flush draw, both flop to river."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d10": {
+      "claim": [
+        "pass",
+        "19% is the flop flush draw hitting the turn."
+      ],
+      "honest": [
+        "pass",
+        "Luck named only to be denied."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d11": {
+      "claim": [
+        "pass",
+        "35% given with its condition (flush draw on the flop, by the river)."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d12": {
+      "claim": [
+        "fail",
+        "Sets 'chances cut in half' (the overall chance, which really falls from 35% to 20%) against 'went up a hair' (only the per-card chance, 19% to 20%); the numbers are right but the line uses them to say something false."
+      ],
+      "honest": [
+        "pass",
+        "No brag or confession."
+      ],
+      "helping": [
+        "pass",
+        "Nothing harmful."
+      ]
+    },
+    "d13": {
+      "claim": [
+        "pass",
+        "35% with two cards to come is right; 'half your table' and 'every call' are rhetoric, not facts."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d14": {
+      "claim": [
+        "pass",
+        "35% flop all-in vs 20% turn all-in, both correctly tied to the street."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d15": {
+      "claim": [
+        "pass",
+        "No number; folding a pure flush draw to a big bet is usually right."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d16": {
+      "claim": [
+        "pass",
+        "9 outs, rule of 2 = 18%, real one-card number 19%: all match."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d17": {
+      "claim": [
+        "pass",
+        "35% for a flop flush draw by the river; standard simplification (ignores whether an ace blocks his suit)."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d18": {
+      "claim": [
+        "pass",
+        "No number."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d19": {
+      "claim": [
+        "pass",
+        "Nine outs and 35% by the river match; 'only if it's all in' is about seeing both cards."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    },
+    "d20": {
+      "claim": [
+        "pass",
+        "35% by the river and 19% on the next card, both from the flop."
+      ],
+      "honest": [
+        "pass",
+        "Explains; no wins, confessions or luck excuses."
+      ],
+      "helping": [
+        "pass",
+        "No money-back offer, no chasing losses, no poking at anyone in trouble."
+      ]
+    }
+  },
+  "rank": [
+    "d17",
+    "d02",
+    "d08",
+    "d11",
+    "d15",
+    "d03",
+    "d01",
+    "d10",
+    "d14",
+    "d05",
+    "d13",
+    "d20",
+    "d19",
+    "d07",
+    "d09",
+    "d06",
+    "d04",
+    "d16",
+    "d18"
+  ],
+  "top": {
+    "d17": {
+      "why": "Opens inside the pain every player has lived (aces all in, his suit on the board) and ends on the question the reel must answer: why 35% feels like always.",
+      "mechanism": "mid_action_start"
+    },
+    "d02": {
+      "why": "A frozen moment with a stake, the whole table standing for the river, makes a stranger wait for the card before the number lands.",
+      "mechanism": "mid_action_start"
+    },
+    "d08": {
+      "why": "'The river is rigged' is the belief half of online poker shares, so it stops anyone who has ever muttered it, then turns the blame on memory.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d11": {
+      "why": "A taggable type everyone knows from their own home game, with 'always gets there' set up for the reel to puncture.",
+      "mechanism": "scenario_label"
+    },
+    "d15": {
+      "why": "Puts the viewer in the sting of folding and seeing their card come, then sides with the fold against the table, with no number needed.",
+      "mechanism": "scenario_label"
+    },
+    "d03": {
+      "why": "A short hot take on a recognisable player type that disagrees with how the table judges him.",
+      "mechanism": "scenario_label"
+    },
+    "d01": {
+      "why": "Names the feeling 'my draws never hit' and promises a twist, aimed at anyone who plays, not at students.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d10": {
+      "why": "A familiar hand that went wrong, reframed from bad luck to the viewer's own bet size, which is the villain-to-reframe ladder in one breath.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "d14": {
+      "why": "Gives the viewer a move to make the next time someone tells a bad-beat story, which is a scene everyone has sat through.",
+      "mechanism": "viewer_task"
+    },
+    "d05": {
+      "why": "A spot every player faces, corrected on the spot ('you're not calling for 35%'), though it leans toward a lesson.",
+      "mechanism": "counterintuitive_claim"
+    }
+  }
+}

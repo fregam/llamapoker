@@ -1,0 +1,207 @@
+[
+ {
+  "id": "r01",
+  "line": "Your aces lost to five-two offsuit, and that proves nothing.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-24"
+  ],
+  "open_question": "How often do pocket aces lose all in before the flop against one random hand, and why does one loss prove nothing?"
+ },
+ {
+  "id": "r02",
+  "line": "Nobody posts the aces that held.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-11",
+   "q-22",
+   "q-41"
+  ],
+  "open_question": "How often do pocket aces actually win all in before the flop against one random hand?"
+ },
+ {
+  "id": "r03",
+  "line": "If you've never lost an all-in with pocket aces, you haven't had enough of them.",
+  "fact_ids": [
+   "aa-lose-once-in-20"
+  ],
+  "quote_ids": [
+   "q-3"
+  ],
+  "open_question": "How likely is it to lose at least one of 20 preflop all-ins with aces against random hands?"
+ },
+ {
+  "id": "r04",
+  "line": "Your friend whose aces 'always get cracked' is counting wrong.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-11",
+   "q-41",
+   "q-31"
+  ],
+  "open_question": "How often do aces really lose all in before the flop against one random hand, and why does it feel like every time?"
+ },
+ {
+  "id": "r05",
+  "line": "Aces all in, he flips jack-ten, river straight. What did you do wrong?",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-5"
+  ],
+  "open_question": "Is getting aces all in before the flop still right when it loses, and how often do aces lose to one random hand?"
+ },
+ {
+  "id": "r06",
+  "line": "Get aces all in preflop ten times against one random hand: 79% chance at least one loses.",
+  "fact_ids": [
+   "aa-lose-once-in-10"
+  ],
+  "quote_ids": [
+   "q-22"
+  ],
+  "open_question": "Why does losing with aces feel constant when each all-in against a random hand is a big favourite?"
+ },
+ {
+  "id": "r07",
+  "line": "Three cracked aces in one session doesn't prove the site is rigged.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-22",
+   "q-28"
+  ],
+  "open_question": "How often do aces lose all in before the flop to a random hand, and how likely is at least one loss across 10 or 20 all-ins?"
+ },
+ {
+  "id": "r08",
+  "line": "The last time you cracked someone's aces, did you think it was rigged?",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-16",
+   "q-9"
+  ],
+  "open_question": "How often does a random hand beat aces all in before the flop, from either side of the table?"
+ },
+ {
+  "id": "r09",
+  "line": "Down to four big blinds, you finally pick up aces, and lose.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-1"
+  ],
+  "open_question": "How often do aces lose all in before the flop to one random hand, and why does that loss feel worse than it is?"
+ },
+ {
+  "id": "r10",
+  "line": "Still replaying the aces you lost last night?",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-24",
+   "q-31"
+  ],
+  "open_question": "How often should aces lose all in before the flop against a random hand, and did you actually do anything wrong?"
+ },
+ {
+  "id": "r11",
+  "line": "You look down at pocket aces and your stomach drops.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-41",
+   "q-31"
+  ],
+  "open_question": "Why dread a hand that wins 85% of the pot all in before the flop against one random hand?"
+ },
+ {
+  "id": "r12",
+  "line": "All in preflop against a random hand, aces lose less often than a die rolls a six.",
+  "fact_ids": [
+   "aa-lose-1"
+  ],
+  "quote_ids": [
+   "q-41"
+  ],
+  "open_question": "Exactly how often do aces lose to one random hand all in before the flop, and what does that look like over a few sessions?"
+ },
+ {
+  "id": "r13",
+  "line": "You stopped shoving aces after one bad loss.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-32",
+   "q-39"
+  ],
+  "open_question": "How often do aces win all in before the flop against one random hand, and is one loss a reason to change?"
+ },
+ {
+  "id": "r14",
+  "line": "Year one, you think aces never lose. Year two, you think they always do.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-31",
+   "q-41"
+  ],
+  "open_question": "Neither is true: how often do aces really win and lose all in before the flop against one random hand?"
+ },
+ {
+  "id": "r15",
+  "line": "The guy who calls your preflop aces shove with any two cards wins about 1 in 7.",
+  "fact_ids": [
+   "aa-lose-1"
+  ],
+  "quote_ids": [
+   "q-27",
+   "q-15"
+  ],
+  "open_question": "If any two cards beat aces about 1 in 7 all in before the flop, who is really making the mistake?"
+ },
+ {
+  "id": "r16",
+  "line": "Poker app reviews keep saying the same thing: lost with aces, must be rigged.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-26",
+   "q-28",
+   "q-27"
+  ],
+  "open_question": "How often should aces lose all in before the flop to a random hand on a fair deck?"
+ },
+ {
+  "id": "r17",
+  "line": "The best starting hand in poker loses about 1 in 7 all-ins before the flop against a random hand.",
+  "fact_ids": [
+   "aa-lose-1"
+  ],
+  "quote_ids": [
+   "q-3"
+  ],
+  "open_question": "What does losing about 1 in 7 look like across a month of all-ins with aces?"
+ },
+ {
+  "id": "r18",
+  "line": "You feel safer with nine-eight suited than with pocket aces.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-20"
+  ],
+  "open_question": "How much of the pot do aces actually win all in before the flop against one random hand?"
+ },
+ {
+  "id": "r19",
+  "line": "You lost with aces and asked ChatGPT what the odds were.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-19",
+   "q-12"
+  ],
+  "open_question": "How often do aces lose all in before the flop to one random hand, and over 10 all-ins?"
+ },
+ {
+  "id": "r20",
+  "line": "Losing with aces hurts so much because they usually win.",
+  "fact_ids": [],
+  "quote_ids": [
+   "q-31",
+   "q-1"
+  ],
+  "open_question": "How often do aces win and lose all in before the flop against one random hand?"
+ }
+]

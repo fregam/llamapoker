@@ -22,3 +22,6 @@ __pycache__/
 
 # job logs (apps/wall/scripts/job.mjs), cleared after 14 days
 logs/
+
+# Hook corpus store (apps/reels/scripts/hooks/corpus.py), research data, never committed
+apps/reels/scripts/hooks/data/

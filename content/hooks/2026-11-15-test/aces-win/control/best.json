@@ -1,0 +1,62 @@
+[
+  {
+    "id": "d07",
+    "line": "Cracked aces? 14% of the time, one random hand beats them all-in preflop. And that call was still a mistake you want him making.",
+    "promise": "14% of the time, one random hand beats them all-in preflop",
+    "promise_word": 3,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "Why was his call a mistake even though it won the pot?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d12",
+    "line": "Aces keep losing? They win only 56% against four random hands, all-in preflop. You didn't run bad; you invited a crowd.",
+    "promise": "56% against four random hands, all-in preflop",
+    "promise_word": 7,
+    "fact_ids": [
+      "aa-vs-4"
+    ],
+    "open_question": "How did you invite the crowd?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d18",
+    "line": "Pocket aces at 64%? Against three random hands, all-in preflop, that's the real number. Stop wishing them heads-up: this pot is better.",
+    "promise": "64% against three random hands, all-in preflop",
+    "promise_word": 4,
+    "fact_ids": [
+      "aa-vs-3"
+    ],
+    "open_question": "Why is a 64% share of this pot better for your aces than heads-up?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d16",
+    "line": "85%: how often pocket aces win all-in preflop against one random hand. When they crack on the app, blame a count you never kept.",
+    "promise": "85%: how often pocket aces win all-in preflop against one random hand",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-vs-1"
+    ],
+    "open_question": "Which count did you never keep?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d01",
+    "line": "Pocket aces win just 56% against four random hands, all-in preflop. Stop blaming the deck: it's what you did before the flop.",
+    "promise": "56% against four random hands, all-in preflop",
+    "promise_word": 5,
+    "fact_ids": [
+      "aa-vs-4"
+    ],
+    "open_question": "What did you do before the flop that dragged your aces down to 56%?",
+    "rung": 5,
+    "quote_ids": []
+  }
+]

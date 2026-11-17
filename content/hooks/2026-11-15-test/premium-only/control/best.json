@@ -1,0 +1,62 @@
+[
+  {
+    "id": "d16",
+    "line": "Premium-only? You pay 9.75 big blinds per premium hand at six-max, folding the rest. The fix isn't more hands.",
+    "promise": "9.75 big blinds per premium hand at six-max",
+    "promise_word": 4,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "If the fix isn't playing more hands, what is it?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d18",
+    "line": "Forget 'play premium only': 2.56% of hands dealt are aces, kings, queens or ace-king. Whoever told you that never counted the blinds.",
+    "promise": "2.56% of hands dealt are premium",
+    "promise_word": 5,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What do the blinds add up to while you wait?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d01",
+    "line": "Only 1 in 39 hands, on average, is pocket aces, kings, queens or ace-king. Folding the rest isn't discipline. It's a bill.",
+    "promise": "1 in 39 hands is premium, on average",
+    "promise_word": 2,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What does that bill come to by the time a premium hand arrives?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d06",
+    "line": "It's not luck: on average, 1 in 39 hands is aces, kings, queens or ace-king. Card dead is normal. Waiting it out isn't free.",
+    "promise": "1 in 39 hands is premium, on average",
+    "promise_word": 6,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What does waiting out a card-dead stretch cost?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d02",
+    "line": "Tight is right? Only 2.56% of hands dealt are aces, kings, queens or ace-king. Tight and premium-only are not the same thing.",
+    "promise": "2.56% of hands dealt are premium",
+    "promise_word": 5,
+    "fact_ids": [
+      "premium-share"
+    ],
+    "open_question": "What is the difference between playing tight and playing only premium hands?",
+    "rung": 5,
+    "quote_ids": []
+  }
+]

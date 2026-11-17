@@ -1,0 +1,76 @@
+[
+  {
+    "id": "d10",
+    "line": "Pocket aces get cracked in 14% of preflop all-ins against one random hand. Stop calling it a bad beat. It's a bill.",
+    "promise": "pocket aces get cracked in 14% of preflop all-ins against one random hand",
+    "promise_word": 6,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "what does the 14% bill pay for?",
+    "rung": 5,
+    "quote_ids": [
+      "q-3",
+      "q-10"
+    ]
+  },
+  {
+    "id": "d20",
+    "line": "85% against one random hand, all-in preflop: pocket aces don't care that you've been cracked twice tonight. The deck has no memory. You do.",
+    "promise": "pocket aces are 85% against one random hand",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-vs-1"
+    ],
+    "open_question": "what does your memory of the last two beats do to your next decision?",
+    "rung": 5,
+    "quote_ids": [
+      "q-39"
+    ]
+  },
+  {
+    "id": "d18",
+    "line": "It's not luck. Pocket aces lose 14% of preflop all-ins against one random hand. What's off is how you count them.",
+    "promise": "pocket aces lose 14% of preflop all-ins against one random hand",
+    "promise_word": 7,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "how are you miscounting your aces losses?",
+    "rung": 5,
+    "quote_ids": [
+      "q-31",
+      "q-41"
+    ]
+  },
+  {
+    "id": "d08",
+    "line": "Pocket aces lose 14% of heads-up preflop all-ins to a random hand. Three cracked in one session feels rigged. Here's why it isn't.",
+    "promise": "pocket aces lose 14% of heads-up preflop all-ins to a random hand",
+    "promise_word": 4,
+    "fact_ids": [
+      "aa-lose-1"
+    ],
+    "open_question": "why are three cracked aces in one session not a sign of rigging?",
+    "rung": 5,
+    "quote_ids": [
+      "q-22",
+      "q-12"
+    ]
+  },
+  {
+    "id": "d02",
+    "line": "96% chance pocket aces lose at least once in twenty heads-up preflop all-ins against random hands. It's not running bad. It's something duller.",
+    "promise": "96% chance pocket aces lose at least once in twenty heads-up preflop all-ins",
+    "promise_word": 1,
+    "fact_ids": [
+      "aa-lose-once-in-20"
+    ],
+    "open_question": "what is the duller thing behind the losses, if not running bad?",
+    "rung": 5,
+    "quote_ids": [
+      "q-10",
+      "q-22"
+    ]
+  }
+]

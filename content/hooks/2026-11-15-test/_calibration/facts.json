@@ -1,0 +1,20 @@
+[
+  {
+    "id": "aa-vs-1",
+    "claim": "AA's share of the pot against 1 random hand, all-in preflop and run to the river (ties split)",
+    "value": 85.26,
+    "unit": "%"
+  },
+  {
+    "id": "aa-vs-4",
+    "claim": "AA's share of the pot against 4 random hands, all-in preflop and run to the river (ties split)",
+    "value": 55.88,
+    "unit": "%"
+  },
+  {
+    "id": "wait-bb",
+    "claim": "blinds paid at 6-max while waiting for one premium hand, folding everything else",
+    "value": 9.75,
+    "unit": "bb"
+  }
+]

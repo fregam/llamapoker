@@ -1,0 +1,227 @@
+[
+  {
+    "id": "d01",
+    "line": "A flop flush draw hits 35% by the river. Not 'never', like it feels. The leak is what you pay to see it.",
+    "promise": "35% by the river for a flop flush draw",
+    "promise_word": 6,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "What price makes chasing a flush draw worth it?",
+    "rung": 5
+  },
+  {
+    "id": "d02",
+    "line": "Rule of four: flush draw, 36% by the river. True on the flop, only if you're seeing both cards. Most calls don't.",
+    "promise": "Rule of four gives a flop flush draw 36% by the river",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-rule-of-4"
+    ],
+    "open_question": "What number should you use when you only get to see one card for the price?",
+    "rung": 5
+  },
+  {
+    "id": "d03",
+    "line": "19% on the turn: your flop flush draw. Theirs hit the same. So why does it feel rigged? It's not the deck.",
+    "promise": "19% on the turn for a flop flush draw, the same for everyone",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-turn"
+    ],
+    "open_question": "If the deck isn't rigged, why do opponents' draws seem to hit more than yours?",
+    "rung": 5
+  },
+  {
+    "id": "d04",
+    "line": "His flop flush draw gets there 35% by the river. Against your top set, that's not a bad beat. It's Tuesday.",
+    "promise": "35% by the river for his flop flush draw",
+    "promise_word": 7,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "If that isn't a bad beat, what actually counts as one?",
+    "rung": 5
+  },
+  {
+    "id": "d05",
+    "line": "35% of the time, a flop flush draw gets there by the river. You'll swear it's more. There's a reason, and it isn't the dealer.",
+    "promise": "35% of the time a flop flush draw gets there by the river",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "Why does it feel like flush draws hit more often than they do?",
+    "rung": 5
+  },
+  {
+    "id": "d06",
+    "line": "A flop gutshot hits 16% by the river. 'When they hit' isn't the question. What you paid every time they didn't is.",
+    "promise": "16% by the river for a flop gutshot",
+    "promise_word": 5,
+    "fact_ids": [
+      "gutshot-river"
+    ],
+    "open_question": "How much can you pay for a gutshot before the misses outweigh the hits?",
+    "rung": 5
+  },
+  {
+    "id": "d07",
+    "line": "31% by the river: an open-ended straight draw from the flop. Shoving it isn't luck or madness. It's one number nobody checks.",
+    "promise": "31% by the river for a flop open-ended straight draw",
+    "promise_word": 1,
+    "fact_ids": [
+      "oesd-river"
+    ],
+    "open_question": "Which number decides whether shoving a straight draw is right?",
+    "rung": 5
+  },
+  {
+    "id": "d08",
+    "line": "18% with one card to come: double your nine flush outs. Easy maths. The hard part is the number you compare it to.",
+    "promise": "18% with one card to come by doubling nine flush outs",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-rule-of-2",
+      "flush-outs"
+    ],
+    "open_question": "What number do you compare your 18% against to decide the call?",
+    "rung": 5
+  },
+  {
+    "id": "d09",
+    "line": "Stop. Your flop flush draw hits 35% by the river, and 'I'm chasing till the river' is how that 35% gets expensive.",
+    "promise": "35% by the river for a flop flush draw",
+    "promise_word": 7,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "Why does chasing to the river cost more than the 35% suggests?",
+    "rung": 5
+  },
+  {
+    "id": "d10",
+    "line": "Your flop flush draw: 19% on the turn, 35% by the river. Most players price the flop call on the wrong one.",
+    "promise": "19% on the turn and 35% by the river for a flop flush draw",
+    "promise_word": 5,
+    "fact_ids": [
+      "flush-turn",
+      "flush-river"
+    ],
+    "open_question": "Which of the two numbers should price a flop call, and why?",
+    "rung": 4
+  },
+  {
+    "id": "d11",
+    "line": "35% by the river: a flop flush draw against your pocket aces. Getting cracked isn't a curse. It's a schedule, and you can read it.",
+    "promise": "35% by the river for a flop flush draw against pocket aces",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "How do you read the schedule of how often your aces get cracked by a draw?",
+    "rung": 5
+  },
+  {
+    "id": "d12",
+    "line": "Would you chase a 16% shot? That's a flop gutshot by the river. 'Never chase gutshots' is half right, and the other half matters.",
+    "promise": "16% for a flop gutshot by the river",
+    "promise_word": 5,
+    "fact_ids": [
+      "gutshot-river"
+    ],
+    "open_question": "When is chasing a gutshot actually the right call?",
+    "rung": 5
+  },
+  {
+    "id": "d13",
+    "line": "Nine outs for a flop flush draw. 35% by the river. Except some of those nine can still lose you the pot.",
+    "promise": "Nine outs for a flop flush draw, 35% by the river",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-outs",
+      "flush-river"
+    ],
+    "open_question": "Which of your nine flush outs aren't really outs?",
+    "rung": 5
+  },
+  {
+    "id": "d14",
+    "line": "An open-ended straight draw: eight outs, 31% by the river from the flop. 'Priced in' costs you, and the outs aren't why.",
+    "promise": "eight outs, 31% by the river from the flop for an open-ended straight draw",
+    "promise_word": 5,
+    "fact_ids": [
+      "oesd-outs",
+      "oesd-river"
+    ],
+    "open_question": "If the outs are right, why does 'priced in' still cost you?",
+    "rung": 4
+  },
+  {
+    "id": "d15",
+    "line": "35% by the river: the flop flush draw your home-game regular calls everything with. He's not lucky. He's paying for it.",
+    "promise": "35% by the river for a flop flush draw",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "How much does calling everything with a flush draw cost him over time?",
+    "rung": 5
+  },
+  {
+    "id": "d16",
+    "line": "20% on the river: your flush draw with one card left. 'I've come this far' isn't a reason. The pot size might be.",
+    "promise": "20% on the river for a turn flush draw",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-turn-to-river"
+    ],
+    "open_question": "What pot size makes calling with one card left correct?",
+    "rung": 5
+  },
+  {
+    "id": "d17",
+    "line": "35% by the river: a flop flush draw, online or live. If the app feels rigged, check one thing before you blame the shuffle.",
+    "promise": "35% by the river for a flop flush draw, online or live",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "What is the one thing to check before deciding the app is rigged?",
+    "rung": 5
+  },
+  {
+    "id": "d18",
+    "line": "A flop gutshot: 16% by the river. A flop flush draw: 35%. Calling both like 'a draw is a draw' is the leak.",
+    "promise": "16% by the river for a flop gutshot, 35% for a flop flush draw",
+    "promise_word": 4,
+    "fact_ids": [
+      "gutshot-river",
+      "flush-river"
+    ],
+    "open_question": "How should calling a gutshot differ from calling a flush draw?",
+    "rung": 4
+  },
+  {
+    "id": "d19",
+    "line": "35% by the river: your flop flush draw. So when the river's a heart after you folded, that fold might still be right.",
+    "promise": "35% by the river for a flop flush draw",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-river"
+    ],
+    "open_question": "How do you tell a right fold from a wrong one when the river would have hit?",
+    "rung": 5
+  },
+  {
+    "id": "d20",
+    "line": "19% on the turn: his flop flush draw. Bet small to 'keep him in' and that 19% becomes your problem. Here's the size that doesn't.",
+    "promise": "19% on the turn for his flop flush draw",
+    "promise_word": 1,
+    "fact_ids": [
+      "flush-turn"
+    ],
+    "open_question": "Which bet size stops his flush draw from having a good price?",
+    "rung": 5
+  }
+]

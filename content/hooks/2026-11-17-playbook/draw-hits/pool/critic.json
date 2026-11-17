@@ -1,0 +1,625 @@
+{
+ "verdicts": {
+  "p01": {
+   "claim": [
+    "pass",
+    "'He makes the flush 35%' = flush-river (flop draw, all in so both cards seen; with AA known it is ~36% or ~33%, 35% is the standard figure). 'Feels like he always does' is a feeling, not a claim; the reel can answer it with 1-in-3 arithmetic."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p02": {
+   "claim": [
+    "pass",
+    "'Nine hearts left' = flush-outs; '35% by the river' = flush-river; 'only if it's all in' reads as: both cards are only guaranteed all in, which holds. The table's advice is reported, not claimed."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p03": {
+   "claim": [
+    "pass",
+    "'35% by the river' = flush-river; '19% on the very next card' = flush-turn. 'Worth chasing every time' is the mate's claim, which the hook disputes; price vs equity is plain table knowledge."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p04": {
+   "claim": [
+    "fail",
+    "'Most players call that fold a mistake' and 'most of the time it's the right one' are both unbacked 'most of the time' claims; no fact covers fold correctness or what players think, and it depends on bet size"
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p05": {
+   "claim": [
+    "pass",
+    "'From the flop, with a flush draw, 35%' = flush-river ('from the flop' means by the river). 'Every home game has the guy' is an archetype idiom; 'always gets there' is his reputation, refuted by the number."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p06": {
+   "claim": [
+    "pass",
+    "'With two cards to come, 16%' = gutshot-river. 'Isn't brave' is opinion, not a factual claim."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p07": {
+   "claim": [
+    "pass",
+    "'Comes in 1 in 3' all in on the flop = flush-river (35%, nearest simple fraction). 'On its own is not a coin flip' is true: 35% is not 50%, and 'on its own' excludes combo draws."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p08": {
+   "claim": [
+    "pass",
+    "No number; a scene only. The question it raises (how often the flush comes in) is answered by flush-river or flush-turn-to-river."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p09": {
+   "claim": [
+    "pass",
+    "'Paying any price is the leak' is plain pot-odds knowledge; the price question is answered from flush-turn (19%)."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p10": {
+   "claim": [
+    "pass",
+    "No number. 'You made the draw cheap' is plain pot odds: a tiny bet gives a 19% draw (flush-turn) the price to call. Luck is named only to be denied."
+   ],
+   "honest": [
+    "pass",
+    "luck named only to be denied; explains a sizing decision"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p11": {
+   "claim": [
+    "pass",
+    "A flop bet (not a shove) guarantees one card, plain table knowledge; 35% = flush-river, 19% = flush-turn, both with the right conditions."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p12": {
+   "claim": [
+    "pass",
+    "'They always come in' is the quoted guy; '1 in 3 from the flop' = flush-river, and he chases, so he sees both cards."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p13": {
+   "claim": [
+    "fail",
+    "the numbers are for a flush draw only, but 'their worst bad beat' and 'the draw' cover any beat and any draw (a gutshot, set over set); wrong population"
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p14": {
+   "claim": [
+    "pass",
+    "Two in hand plus two on the flop = a flop flush draw; 'by the river 1 in 3' = flush-river. 'Feels certain' is a feeling."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p15": {
+   "claim": [
+    "pass",
+    "Two hearts on the flop, heart on the turn = flush-turn 19% (flop draw completes on the turn). Selling a cheap price is plain pot odds; luck is named only to be denied."
+   ],
+   "honest": [
+    "pass",
+    "luck named only to be denied; explains a sizing decision"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p16": {
+   "claim": [
+    "fail",
+    "'those are the ones you remember' is a claim about the viewer's memory that no fact or plain table knowledge supports, and the reel's question (why rivers feel rigged) hangs on it"
+   ],
+   "honest": [
+    "pass",
+    "rigging named only to be denied"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p17": {
+   "claim": [
+    "pass",
+    "A flop call buys one guaranteed card (plain table knowledge); 'comes in 1 in 5' = flush-turn 19.15%."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p18": {
+   "claim": [
+    "pass",
+    "31% vs 35% with two cards to come = oesd-river vs flush-river; a shove sees both cards. 'The table swears by the flush' is a mild reported preference that the facts confirm, not contradict."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p19": {
+   "claim": [
+    "pass",
+    "'Chasing till the river' from the flop facing bets = calls on flop and turn: plain table knowledge. 'I hate' is opinion."
+   ],
+   "honest": [
+    "pass",
+    "an opinion about a habit, not a brag or confession"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p20": {
+   "claim": [
+    "pass",
+    "A jam sees both cards (35%), a call buys one (19%): plain table knowledge plus flush-river and flush-turn."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p21": {
+   "claim": [
+    "fail",
+    "an open-ended straight flush draw is a ~15-out combo draw; facts have no numbers for it, and at ~54% by the river the claim that the turn prices it out is doubtful; the reel can't answer from these facts"
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p22": {
+   "claim": [
+    "fail",
+    "'Half your table plays a flush draw like it's a coin flip' is an unbacked population figure, and 'that gap decides every call they make' is an unbacked absolute"
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p23": {
+   "claim": [
+    "pass",
+    "Flop draw by the river 1 in 3 (flush-river) to turn draw on the river 1 in 5 (flush-turn-to-river 19.57%). Correct conditions."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p24": {
+   "claim": [
+    "fail",
+    "'Every poker app review says the river is rigged' is an unbacked absolute about a population, and 'you remember every one that hit against you' is an unbacked absolute about the viewer"
+   ],
+   "honest": [
+    "pass",
+    "rigging named only to be denied"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p25": {
+   "claim": [
+    "pass",
+    "Rule of 4 = 36% (flush-rule-of-4); 'only true if you see both cards' states a necessary condition, which holds."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p26": {
+   "claim": [
+    "fail",
+    "20% is the chance a turn flush draw completes, not the chance this player holds the flush once the heart is out; the hook offers it as a read on him (wrong conditions), and his range isn't in the facts"
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p27": {
+   "claim": [
+    "pass",
+    "The complaint is quoted; 'from the flop, seeing both cards, 1 in 3' = flush-river with its exact condition."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p28": {
+   "claim": [
+    "pass",
+    "16% vs 35% with two cards to come = gutshot-river vs flush-river; 16.47/34.97 = 0.47, so 'less than half' is true."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p29": {
+   "claim": [
+    "pass",
+    "Scoped to a flush bad beat: 1 in 3 from the flop (flush-river), 1 in 5 from the turn (flush-turn-to-river)."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p30": {
+   "claim": [
+    "pass",
+    "Calling flop and turn = both cards seen; missing is 65% (1 - flush-river), so 'the usual ending' is backed."
+   ],
+   "honest": [
+    "pass",
+    "luck named only to be denied"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p31": {
+   "claim": [
+    "pass",
+    "9 outs (flush-outs) x2 = 18% (flush-rule-of-2); one card to come from the flop is 19.15% (flush-turn)."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p32": {
+   "claim": [
+    "fail",
+    "'they miss almost exactly as often as they should' is a claim about the viewer's own results, which no fact supports; facts give the expected rate, not anyone's sample"
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p33": {
+   "claim": [
+    "pass",
+    "No number; a scene and a feeling. The question is answered by flush-river or flush-turn-to-river."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p34": {
+   "claim": [
+    "pass",
+    "A river heart after a fold is ~1 in 5 (9/46 or 9/47; flush-turn-to-river); 'judge the fold on all five' is plain logic, not a claim that the fold was right."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p35": {
+   "claim": [
+    "pass",
+    "36% is the rule of 4 (flush-rule-of-4); the real figure is 35% (flush-river), so 'isn't 36%' holds and the rule overshoots; it assumes both cards."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p36": {
+   "claim": [
+    "pass",
+    "31.45% vs 34.97% (oesd-river vs flush-river): 'nearly as often' holds, and holds for one card too."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p37": {
+   "claim": [
+    "pass",
+    "All in on the turn against one flush draw, 20% = flush-turn-to-river (19.57%; ~20.5% with both hands shown). Says 'comes in', not 'wins', so a board-pairing heart doesn't make it false."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p38": {
+   "claim": [
+    "pass",
+    "Calling flop and turn = both cards; gutshot-river 16.47% is about 1 in 6."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  },
+  "p39": {
+   "claim": [
+    "pass",
+    "'From the flop, 1 in 3' = flush-river. The scene is the viewer's own night, no claim."
+   ],
+   "honest": [
+    "pass",
+    "explains, no brag, confession or luck excuse"
+   ],
+   "helping": [
+    "pass",
+    "no win-back offer, no loss as a reason to play more, no poke at someone in trouble"
+   ]
+  }
+ },
+ "rank": [
+  "p01",
+  "p27",
+  "p37",
+  "p33",
+  "p12",
+  "p08",
+  "p06",
+  "p14",
+  "p34",
+  "p39",
+  "p30",
+  "p19",
+  "p05",
+  "p23",
+  "p29",
+  "p10",
+  "p15",
+  "p03",
+  "p20",
+  "p07",
+  "p02",
+  "p11",
+  "p17",
+  "p09",
+  "p28",
+  "p36",
+  "p18",
+  "p38",
+  "p25",
+  "p35",
+  "p31"
+ ],
+ "top": {
+  "p01": {
+   "why": "Opens inside the most famous hand in poker with the money in and a villain on a draw, then asks the exact question every player has muttered at the river.",
+   "mechanism": "open_question"
+  },
+  "p27": {
+   "why": "Quotes the viewer's own complaint word for word and answers it in one flat line that contradicts it.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "p37": {
+   "why": "A moment everyone has stood up for, the whole table waiting on one card, with the real number dropped while the tension is still on.",
+   "mechanism": "pending_risk"
+  },
+  "p33": {
+   "why": "Twelve words of a loss the viewer has lived, ending on the feeling the reel will test.",
+   "mechanism": "scenario_label"
+  },
+  "p12": {
+   "why": "A taggable type every regular knows, deflated with one number.",
+   "mechanism": "scenario_label"
+  },
+  "p08": {
+   "why": "Pure scene with a stake and the river still to come, so the viewer stays for the card.",
+   "mechanism": "pending_risk"
+  },
+  "p06": {
+   "why": "A sworn verdict on a recognisable type, backed by a number that stings.",
+   "mechanism": "scenario_label"
+  },
+  "p14": {
+   "why": "Puts the viewer's own cards on the table and names the certainty they feel before puncturing it.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "p34": {
+   "why": "The fold you replay all week is a regret anyone recognises, and the line turns it into a way to judge it.",
+   "mechanism": "scenario_label"
+  },
+  "p39": {
+   "why": "Catches the viewer the morning after a good night, about to make the mistake the number warns against.",
+   "mechanism": "scenario_label"
+  }
+ }
+}

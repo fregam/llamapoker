@@ -1,0 +1,202 @@
+[
+  {
+    "id": "d01",
+    "line": "35% by the river. That's how often a flop flush draw gets there, and it's not the miss that costs you.",
+    "promise": "a flop flush draw gets there 35% by the river",
+    "promise_word": 1,
+    "fact_ids": ["flush-river"],
+    "open_question": "if the miss isn't what costs you, what does?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d02",
+    "line": "Your flop flush draw: 35% by the river. Not a coin flip, and folding it isn't the answer either.",
+    "promise": "35% by the river for a flop flush draw",
+    "promise_word": 5,
+    "fact_ids": ["flush-river"],
+    "open_question": "if it's not a coin flip and folding is wrong too, what is the right play?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d03",
+    "line": "35% by the river. That's a flop flush draw. Stop calling the app rigged: the leak happens before the turn card.",
+    "promise": "a flop flush draw hits 35% by the river",
+    "promise_word": 1,
+    "fact_ids": ["flush-river"],
+    "open_question": "what goes wrong before the turn card?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d04",
+    "line": "Flush draw on the flop? 35% by the river. Most players play it like a sure thing, and pay for it on the turn.",
+    "promise": "35% by the river",
+    "promise_word": 6,
+    "fact_ids": ["flush-river"],
+    "open_question": "how do you play a flush draw that only gets there 35% of the time?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d05",
+    "line": "The rule of 4 says 36%. A flop flush draw really hits 35% by the river, and that's not the part the rule gets wrong.",
+    "promise": "the rule of 4 says 36%; the true figure is 35%",
+    "promise_word": 1,
+    "fact_ids": ["flush-rule-of-4", "flush-river"],
+    "open_question": "what does the rule of 4 get wrong, if not the number?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d06",
+    "line": "Missed the flush on the turn? 20% on the river. The odds aren't your problem; the bet size you're calling is.",
+    "promise": "20% on the river after missing the turn",
+    "promise_word": 7,
+    "fact_ids": ["flush-turn-to-river"],
+    "open_question": "which bet sizes make a 20% river call worth it?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d07",
+    "line": "A flush draw has 9 outs, cards that complete it: 18% with one card to come, by the rule of 2. Wrong question, though.",
+    "promise": "9 outs, 18% with one card to come by the rule of 2",
+    "promise_word": 5,
+    "fact_ids": ["flush-outs", "flush-rule-of-2"],
+    "open_question": "what is the right question to ask about a flush draw?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d08",
+    "line": "35% by the river, with two hearts in hand and two on the flop. Your friend shoves; the answer isn't in your cards.",
+    "promise": "35% by the river with a flop flush draw",
+    "promise_word": 1,
+    "fact_ids": ["flush-river"],
+    "open_question": "if the answer isn't in your cards, where is it?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d09",
+    "line": "Open-ended straight draw on the flop: 31% by the river. Players chase it like a flush draw, and pay for the difference.",
+    "promise": "an open-ended straight draw on the flop hits 31% by the river",
+    "promise_word": 7,
+    "fact_ids": ["oesd-river"],
+    "open_question": "how much does treating it like a flush draw cost?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d10",
+    "line": "16% by the river: a gutshot from the flop, one card missing in the middle. \"Still a straight draw\" is the thought that costs you.",
+    "promise": "a gutshot from the flop hits 16% by the river",
+    "promise_word": 1,
+    "fact_ids": ["gutshot-river"],
+    "open_question": "why does \"still a straight draw\" cost you?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d11",
+    "line": "A flush draw hits 35% from flop to river. Forget your gut; that number tells you exactly when calling is worth it.",
+    "promise": "a flush draw hits 35% from flop to river",
+    "promise_word": 5,
+    "fact_ids": ["flush-river"],
+    "open_question": "when is calling with a flush draw worth it?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d12",
+    "line": "9 hearts left in the deck, two cards to come, and your flush still misses more than it hits. That's not the problem.",
+    "promise": "9 outs with two cards to come still misses more than it hits",
+    "promise_word": 1,
+    "fact_ids": ["flush-outs"],
+    "open_question": "if missing isn't the problem, what is?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d13",
+    "line": "19% on the turn, 35% by the river. That's a flop flush draw, and the 35% assumes you see the river for free.",
+    "promise": "19% on the turn, 35% by the river",
+    "promise_word": 1,
+    "fact_ids": ["flush-turn", "flush-river"],
+    "open_question": "what is the draw really worth when the river isn't free?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d14",
+    "line": "Your flush draw always misses? 35% by the river from the flop, and you only remember the misses you paid too much to see.",
+    "promise": "35% by the river from the flop",
+    "promise_word": 6,
+    "fact_ids": ["flush-river"],
+    "open_question": "how much is too much to pay for a flush draw?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d15",
+    "line": "19% on the turn. That's your flop flush draw facing a bet, and 35% by the river is the number that fools you.",
+    "promise": "a flop flush draw hits 19% on the turn",
+    "promise_word": 1,
+    "fact_ids": ["flush-turn", "flush-river"],
+    "open_question": "why is 35% the wrong number when you face a flop bet?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d16",
+    "line": "Chasing a flush draw isn't wrong: 35% by the river from the flop. What's wrong is how much you pay to chase.",
+    "promise": "35% by the river from the flop",
+    "promise_word": 7,
+    "fact_ids": ["flush-river"],
+    "open_question": "how much is the right amount to pay to chase?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d17",
+    "line": "Flush draw 35%, open-ender 31%, gutshot 16%, all by the river from the flop. You call them the same; one is costing you.",
+    "promise": "35%, 31% and 16% by the river from the flop",
+    "promise_word": 3,
+    "fact_ids": ["flush-river", "oesd-river", "gutshot-river"],
+    "open_question": "which of the three draws is costing you, and why?",
+    "rung": 4,
+    "quote_ids": []
+  },
+  {
+    "id": "d18",
+    "line": "20% on the river after missing the turn. Your flush draw isn't due; the deck doesn't remember, but the pot does.",
+    "promise": "a flush draw that missed the turn hits 20% on the river",
+    "promise_word": 1,
+    "fact_ids": ["flush-turn-to-river"],
+    "open_question": "what does the pot remember, and how does it change the call?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d19",
+    "line": "35% by the river, from the flop. If you fold flush draws because they never hit, some of those folds cost more than calling.",
+    "promise": "a flop flush draw hits 35% by the river",
+    "promise_word": 1,
+    "fact_ids": ["flush-river"],
+    "open_question": "which flush-draw folds cost more than calling?",
+    "rung": 5,
+    "quote_ids": []
+  },
+  {
+    "id": "d20",
+    "line": "35% by the river: your friend's flop flush draw, the one he calls basically made. It isn't, and that's not even his biggest mistake.",
+    "promise": "a flop flush draw hits 35% by the river",
+    "promise_word": 1,
+    "fact_ids": ["flush-river"],
+    "open_question": "what is his biggest mistake with the draw?",
+    "rung": 5,
+    "quote_ids": []
+  }
+]

@@ -1,0 +1,128 @@
+{
+  "aces-win": {
+    "1": {
+      "arm": "control",
+      "id": "d07"
+    },
+    "2": {
+      "arm": "control",
+      "id": "d01"
+    },
+    "3": {
+      "arm": "research",
+      "id": "d18"
+    },
+    "4": {
+      "arm": "research",
+      "id": "d02"
+    },
+    "5": {
+      "arm": "control",
+      "id": "d18"
+    },
+    "6": {
+      "arm": "control",
+      "id": "d12"
+    },
+    "7": {
+      "arm": "research",
+      "id": "d20"
+    },
+    "8": {
+      "arm": "control",
+      "id": "d16"
+    },
+    "9": {
+      "arm": "research",
+      "id": "d10"
+    },
+    "10": {
+      "arm": "research",
+      "id": "d08"
+    }
+  },
+  "draw-hits": {
+    "1": {
+      "arm": "research",
+      "id": "d19"
+    },
+    "2": {
+      "arm": "control",
+      "id": "d18"
+    },
+    "3": {
+      "arm": "control",
+      "id": "d20"
+    },
+    "4": {
+      "arm": "research",
+      "id": "d13"
+    },
+    "5": {
+      "arm": "control",
+      "id": "d03"
+    },
+    "6": {
+      "arm": "control",
+      "id": "d01"
+    },
+    "7": {
+      "arm": "research",
+      "id": "d12"
+    },
+    "8": {
+      "arm": "research",
+      "id": "d16"
+    },
+    "9": {
+      "arm": "research",
+      "id": "d03"
+    },
+    "10": {
+      "arm": "control",
+      "id": "d14"
+    }
+  },
+  "premium-only": {
+    "1": {
+      "arm": "research",
+      "id": "d17"
+    },
+    "2": {
+      "arm": "research",
+      "id": "d18"
+    },
+    "3": {
+      "arm": "control",
+      "id": "d01"
+    },
+    "4": {
+      "arm": "research",
+      "id": "d01"
+    },
+    "5": {
+      "arm": "control",
+      "id": "d02"
+    },
+    "6": {
+      "arm": "research",
+      "id": "d02"
+    },
+    "7": {
+      "arm": "control",
+      "id": "d18"
+    },
+    "8": {
+      "arm": "control",
+      "id": "d06"
+    },
+    "9": {
+      "arm": "research",
+      "id": "d06"
+    },
+    "10": {
+      "arm": "control",
+      "id": "d16"
+    }
+  }
+}

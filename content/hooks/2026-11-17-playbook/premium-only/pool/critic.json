@@ -1,0 +1,615 @@
+{
+ "verdicts": {
+  "p01": {
+   "claim": [
+    "fail",
+    "Claims: (1) you played 7-4 because you were sick of folding (a scene, fine); (2) the waiting, not the 7-4, is to blame. Claim 2 clears the 7-4 play of fault and pins it on the premium-only wait; no fact links the wait causally to playing 7-4, and the 7-4 is still a mistake (p17 says the same idea without clearing the bad hand)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p02": {
+   "claim": [
+    "fail",
+    "Claims: (1) waiting for AA/KK/QQ/AK isn't free; (2) at 6-max, folding everything else, the wait costs 9.75 bb. Both match wait-bb with its conditions. But the question it sets, whether one premium hand wins that back, needs what a premium hand wins on average, which facts.json doesn't hold; the reel can't answer it."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p03": {
+   "claim": [
+    "fail",
+    "Claims: (1) 'only play the good hands' is the first advice every beginner gets; (2) it's the first thing good players stop doing. 'Every beginner' and 'first' (twice) are unbacked universals and orderings; also good players still play only good hands, they just count more hands as good."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p04": {
+   "claim": [
+    "fail",
+    "Claims: (1) playing only AA/KK/QQ/AK is 2.56% of hands (premium-share, correct); (2) you pay blinds through the rest (fine in words). The question it sets, whether 2.56% makes or loses money once blinds are counted, needs a premium hand's average win; not in facts.json, so the reel can't settle it."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p05": {
+   "claim": [
+    "fail",
+    "Claims: a specific player folded every hand on purpose until his stack hit zero. A reported event with no source in facts.json; folding every hand (not premium-only) isn't the topic's condition either."
+   ],
+   "honest": [
+    "fail",
+    "LlamaPoker can't truthfully report an event it has no record of"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p06": {
+   "claim": [
+    "pass",
+    "Claims: a scene: you folded all night, raised kings, everyone folded. A one-off event, not a general claim; that a tight player's raise gets folds is plain table knowledge. Reel answers 'why nobody pays you' from that."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p07": {
+   "claim": [
+    "fail",
+    "Claims: (1) after an hour of folding you raise QQ and the one caller has AA; (2) that's not bad luck. Claim 2 says the caller holding aces specifically follows from your style; a tight image narrows callers to strong hands, many of which (JJ, AK, AQ) QQ beats. The record's 'called mostly by hands that beat him' is an unbacked 'mostly'."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p08": {
+   "claim": [
+    "fail",
+    "Claims: (1) two hours card dead in a tournament, stack shrinking; (2) with AK all you can do is shove. Tournament conditions (rising blinds, antes, stack depth) aren't in facts.json, which is 6-max blind arithmetic; 'all you can do' depends on a stack size the line doesn't give, and the reel's 'what to play earlier' can't come from these facts."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p09": {
+   "claim": [
+    "pass",
+    "Claims: if you only raise with aces, your raise tells the table you have them. Follows by logic from the premise (a raise that only ever means aces reveals aces); plain table knowledge. No numbers."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p10": {
+   "claim": [
+    "pass",
+    "Claims: (1) scene: he folds for an hour, raises, the table folds; (2) they read his timing, not his cards. A one-off scene plus the plain table knowledge that a long fold streak makes a raise readable."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p11": {
+   "claim": [
+    "fail",
+    "Claims: (1) you see AA/KK/QQ/AK about 1 in 39 hands (premium-every, correct); (2) that's a lot of waiting 'to win one pot'. Claim 2 assumes the premium hand wins its pot, which no fact supports; and the question (is the wait worth it) needs a premium's average win, not in facts.json."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p12": {
+   "claim": [
+    "pass",
+    "Claims: being called a nit carries a message. Vague but true: 'nit' means a very tight player; nothing beyond plain table knowledge."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p13": {
+   "claim": [
+    "pass",
+    "Claims: after an hour of folding, your bluff looks exactly like aces. Plain table knowledge: a long fold streak makes any raise read as a premium; 'exactly like' is true of what opponents see (a raise from a tight player)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p14": {
+   "claim": [
+    "pass",
+    "Claims: playing only good hands, one river can decide your night. Hedged with 'can'; with a premium about 1 in 39 hands (premium-every) you play few pots, so each matters more: logic from the facts."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p15": {
+   "claim": [
+    "fail",
+    "Claims: (1) every home game has a guy who only plays aces; (2) he isn't the toughest player; (3) he's the easiest to read. 'Every home game' is an unbacked universal and 'the easiest to read' an unbacked superlative over the whole table (same verdict as p38)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p16": {
+   "claim": [
+    "pass",
+    "Claims: a relatable arc, month one only aces, month two anything suited. Framed as a type of player's path, not a universal; no numbers. The middle ground in general terms (position-based ranges) is plain table knowledge (same verdict as p30)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p17": {
+   "claim": [
+    "pass",
+    "Claims: (1) if you've got bored folding and played 7-4; (2) the problem started before the 7-4. Conditional on the viewer's own experience; that long folding streaks lead to boredom plays is plain table knowledge, and it doesn't clear the 7-4 of fault."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p18": {
+   "claim": [
+    "pass",
+    "Claims: your aces win less when aces are all you play. Directional only; that a player who never raises anything else gets less action with his big hands is plain table knowledge. No number given."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p19": {
+   "claim": [
+    "fail",
+    "Claims: (1) your friend who plays every hand keeps beating you, the premium-only player; (2) that isn't luck. Claim 2 says playing every hand is a real edge over premium-only; nothing in facts.json supports it, and plain table knowledge says any-two-cards loses long term, so over a night his wins are mostly variance."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p20": {
+   "claim": [
+    "fail",
+    "Claims: (1) you waited all session, got a good hand, lost it on the river; (2) the river didn't cost you the session; (3) the waiting did. The wait costs about 9.75 bb per premium (wait-bb); a pot lost on the river with a premium can be far larger, so claims 2 and 3 say more than the facts support."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p21": {
+   "claim": [
+    "pass",
+    "Claims: scene: you folded all night, raised kings, everyone folded. A one-off event; that a tight player's raise gets folds is plain table knowledge (same verdict as p06)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p22": {
+   "claim": [
+    "pass",
+    "Claims: patience at the table isn't waiting for aces. A definitional reframe; plain table knowledge that patience means good decisions, not folding everything. The reel's general answer needs no new numbers (same verdict as p39)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p23": {
+   "claim": [
+    "pass",
+    "Claims: (1) two players, same stack, 6-max; (2) one plays only premiums; (3) the blinds eat at him before his first premium arrives. Matches wait-bb (9.75 bb while waiting, 6-max, folding everything else) and premium-every; a setup, no wrong numbers."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p24": {
+   "claim": [
+    "pass",
+    "Claims: (1) you raised a premium and everyone folded; (2) you won 1.5 bb; (3) at 6-max the wait cost 9.75 bb. (3) matches wait-bb. (2) is true from table knowledge (the pot holds the small and big blind, 1.5 bb, with no antes), not from orbit-bb as cited, but the number is right."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p25": {
+   "claim": [
+    "fail",
+    "Claims: (1) card dead for hours in a tournament, AK all in, AQ hits a queen; (2) that hand isn't what knocked you out. Tournament conditions aren't in facts.json (6-max blind arithmetic), and claim 2 blames the hours of folding for the bust, a causal claim no fact supports (card dead isn't even a choice to fold playable hands)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p26": {
+   "claim": [
+    "pass",
+    "Claims: (1) folding isn't free; (2) at 6-max it costs 1.5 bb every orbit, whether you play or not. Matches orbit-bb with its condition; true."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p27": {
+   "claim": [
+    "pass",
+    "Claims: none beyond asking which hands you played; 'this one's for you' asserts nothing. The question (too tight?) is answerable: 2.56% (premium-share) is far tighter than any standard range, plain table knowledge."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p28": {
+   "claim": [
+    "pass",
+    "Claims: the player folding every hand is giving away his blinds. True: folded blinds go to whoever wins the pot; plain table knowledge."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p29": {
+   "claim": [
+    "pass",
+    "Claims: (1) a session where you played four hands; (2) calling it discipline. A question about the viewer's experience, not a stat; four premiums fits about one every 39 hands (premium-every) over a typical session, so it's consistent."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p30": {
+   "claim": [
+    "pass",
+    "Claims: (1) month one only good hands, month two so bored you play everything; (2) a third stage nobody tells you about. A relatable arc; 'nobody tells you' is framing for a reveal rather than a factual universal, borderline but passed; the middle ground is plain table knowledge (same as p16)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p31": {
+   "claim": [
+    "fail",
+    "Claims: (1) 'only play good hands' is great advice for your first week; (2) bad advice after that. The one-week timeline is invented, and 'only play good hands' isn't bad advice for good players; they widen what counts as good."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p32": {
+   "claim": [
+    "fail",
+    "Claims: (1) everyone tells beginners to play tight; (2) nobody tells them what tight costs. Both are unbacked universals, and (2) is false: the cost of tight play is standard poker teaching."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p33": {
+   "claim": [
+    "fail",
+    "Claims: (1) the nit is losing slowly; (2) not because he's unlucky; (3) he's paying for every hand he folds. (1) is unbacked (many tight players break even or win); (3) is false: you pay blinds in two seats of six per orbit (orbit-bb), folding the other hands costs nothing."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p34": {
+   "claim": [
+    "fail",
+    "Claims: (1) the tightest player thinks he's the safest; (2) everybody stopped paying him. (2) is a general assertion with an unbacked 'everybody' (unlike p06/p21's one-off scene); facts.json says nothing about action against tight players."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p35": {
+   "claim": [
+    "pass",
+    "Claims: folding a whole orbit at 6-max costs 1.5 bb. Matches orbit-bb; 'for nothing' is fair since no pot was played."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p36": {
+   "claim": [
+    "fail",
+    "Claims: (1) fold all but AA/KK/QQ/AK at 6-max; (2) each one has already cost 9.75 bb when it shows up. wait-bb is an average over the wait; 'each one' turns it into every premium, which is false (some come in the first hands). And the question (can a premium win it back) needs a premium's average win, not in facts.json."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p37": {
+   "claim": [
+    "pass",
+    "Claims: after two hours of folding you pick up jacks and won't fold them. A scene of the viewer's mindset; that a long wait makes players overplay the next decent hand is plain table knowledge."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p38": {
+   "claim": [
+    "fail",
+    "Claims: (1) every home game has one; (2) he folds all night, raises once, shows aces. 'Every home game' is an unbacked universal, and the record's 'the easiest one to play against' an unbacked superlative (same verdict as p15)."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  },
+  "p39": {
+   "claim": [
+    "pass",
+    "Claims: patience isn't waiting for aces; there's a real definition. Same claim as p22, plain table knowledge; 'here's what it actually is' promises an answer the reel can give in general terms."
+   ],
+   "honest": [
+    "pass",
+    "no wins, students, results or confessions; no luck excuse; nothing on banned ground"
+   ],
+   "helping": [
+    "pass",
+    "no money-back offer, no loss used as a reason to play more, nobody in trouble poked"
+   ]
+  }
+ },
+ "rank": [
+  "p10",
+  "p17",
+  "p24",
+  "p06",
+  "p29",
+  "p13",
+  "p37",
+  "p18",
+  "p26",
+  "p16",
+  "p21",
+  "p23",
+  "p09",
+  "p30",
+  "p28",
+  "p14",
+  "p12",
+  "p22",
+  "p39",
+  "p27",
+  "p35"
+ ],
+ "top": {
+  "p10": {
+   "why": "A recognisable table moment with a sharp turn ('they read his clock') that any player has felt from both sides of the table.",
+   "mechanism": "scenario_label"
+  },
+  "p17": {
+   "why": "Names a moment the viewer has lived and probably blamed on the cards, then moves the villain to the strategy they think is safe.",
+   "mechanism": "identity_callout"
+  },
+  "p24": {
+   "why": "A small, familiar scene with the numbers inside it: you won 1.5 and paid 9.75, a stake felt in one breath.",
+   "mechanism": "specific_figure"
+  },
+  "p06": {
+   "why": "Everyone who has played tight knows this deflating moment, told as a scene in eleven words.",
+   "mechanism": "scenario_label"
+  },
+  "p29": {
+   "why": "Turns the viewer's own virtue ('discipline') into a question they have to answer about last session.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "p13": {
+   "why": "Flips the tight player's frustration into something he can use, in one short line that sounds wrong at first.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "p37": {
+   "why": "A familiar urge after a long wait, told from inside the viewer's head, with the mistake about to happen.",
+   "mechanism": "scenario_label"
+  },
+  "p18": {
+   "why": "A short contradiction of what tight players believe about their best hands.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "p26": {
+   "why": "Calls out the belief that folding is free and answers it with a number every player pays.",
+   "mechanism": "counterintuitive_claim"
+  },
+  "p16": {
+   "why": "A then-vs-now arc most players recognise in themselves, funny in eight words.",
+   "mechanism": "side_by_side"
+  }
+ }
+}

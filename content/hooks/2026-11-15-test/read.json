@@ -1,0 +1,128 @@
+{
+  "aces-win": [
+    {
+      "n": 1,
+      "line": "Cracked aces? 14% of the time, one random hand beats them all-in preflop. And that call was still a mistake you want him making."
+    },
+    {
+      "n": 2,
+      "line": "Pocket aces win just 56% against four random hands, all-in preflop. Stop blaming the deck: it's what you did before the flop."
+    },
+    {
+      "n": 3,
+      "line": "It's not luck. Pocket aces lose 14% of preflop all-ins against one random hand. What's off is how you count them."
+    },
+    {
+      "n": 4,
+      "line": "96% chance pocket aces lose at least once in twenty heads-up preflop all-ins against random hands. It's not running bad. It's something duller."
+    },
+    {
+      "n": 5,
+      "line": "Pocket aces at 64%? Against three random hands, all-in preflop, that's the real number. Stop wishing them heads-up: this pot is better."
+    },
+    {
+      "n": 6,
+      "line": "Aces keep losing? They win only 56% against four random hands, all-in preflop. You didn't run bad; you invited a crowd."
+    },
+    {
+      "n": 7,
+      "line": "85% against one random hand, all-in preflop: pocket aces don't care that you've been cracked twice tonight. The deck has no memory. You do."
+    },
+    {
+      "n": 8,
+      "line": "85%: how often pocket aces win all-in preflop against one random hand. When they crack on the app, blame a count you never kept."
+    },
+    {
+      "n": 9,
+      "line": "Pocket aces get cracked in 14% of preflop all-ins against one random hand. Stop calling it a bad beat. It's a bill."
+    },
+    {
+      "n": 10,
+      "line": "Pocket aces lose 14% of heads-up preflop all-ins to a random hand. Three cracked in one session feels rigged. Here's why it isn't."
+    }
+  ],
+  "draw-hits": [
+    {
+      "n": 1,
+      "line": "35% by the river: your flop flush draw. So when the river's a heart after you folded, that fold might still be right."
+    },
+    {
+      "n": 2,
+      "line": "20% on the river after missing the turn. Your flush draw isn't due; the deck doesn't remember, but the pot does."
+    },
+    {
+      "n": 3,
+      "line": "35% by the river: your friend's flop flush draw, the one he calls basically made. It isn't, and that's not even his biggest mistake."
+    },
+    {
+      "n": 4,
+      "line": "Nine outs for a flop flush draw. 35% by the river. Except some of those nine can still lose you the pot."
+    },
+    {
+      "n": 5,
+      "line": "35% by the river. That's a flop flush draw. Stop calling the app rigged: the leak happens before the turn card."
+    },
+    {
+      "n": 6,
+      "line": "35% by the river. That's how often a flop flush draw gets there, and it's not the miss that costs you."
+    },
+    {
+      "n": 7,
+      "line": "Would you chase a 16% shot? That's a flop gutshot by the river. 'Never chase gutshots' is half right, and the other half matters."
+    },
+    {
+      "n": 8,
+      "line": "20% on the river: your flush draw with one card left. 'I've come this far' isn't a reason. The pot size might be."
+    },
+    {
+      "n": 9,
+      "line": "19% on the turn: your flop flush draw. Theirs hit the same. So why does it feel rigged? It's not the deck."
+    },
+    {
+      "n": 10,
+      "line": "Your flush draw always misses? 35% by the river from the flop, and you only remember the misses you paid too much to see."
+    }
+  ],
+  "premium-only": [
+    {
+      "n": 1,
+      "line": "The whole table folds to your pocket queens, and it's not bad luck. They knew before you raised."
+    },
+    {
+      "n": 2,
+      "line": "Stop calling it card dead. 1 in 39 hands is a premium, on average. Folding everything else is a choice, and it has a price."
+    },
+    {
+      "n": 3,
+      "line": "Only 1 in 39 hands, on average, is pocket aces, kings, queens or ace-king. Folding the rest isn't discipline. It's a bill."
+    },
+    {
+      "n": 4,
+      "line": "9.75 big blinds. That's what a six-handed table charges you to wait for one premium hand, folding everything else. And that's the cheap part."
+    },
+    {
+      "n": 5,
+      "line": "Tight is right? Only 2.56% of hands dealt are aces, kings, queens or ace-king. Tight and premium-only are not the same thing."
+    },
+    {
+      "n": 6,
+      "line": "The beat isn't what hurt you. Card dead two hours, finally pocket kings, they run into aces, and the damage was already done."
+    },
+    {
+      "n": 7,
+      "line": "Forget 'play premium only': 2.56% of hands dealt are aces, kings, queens or ace-king. Whoever told you that never counted the blinds."
+    },
+    {
+      "n": 8,
+      "line": "It's not luck: on average, 1 in 39 hands is aces, kings, queens or ace-king. Card dead is normal. Waiting it out isn't free."
+    },
+    {
+      "n": 9,
+      "line": "1 in 39 hands is a premium, on average. You wait, it comes, the river takes it, and it feels rigged. It's not the river."
+    },
+    {
+      "n": 10,
+      "line": "Premium-only? You pay 9.75 big blinds per premium hand at six-max, folding the rest. The fix isn't more hands."
+    }
+  ]
+}

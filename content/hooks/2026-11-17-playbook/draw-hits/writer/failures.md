@@ -1,0 +1,1 @@
+- **d12** · critic/claim · Pits the per-card chance (19% to 20%) against the viewer's belief about overall chances, which really fall from 35% to 20%; true numbers, false point · "Your flush draw misses the turn and you think your chances just got cut in half. They actually went up a hair: 19% on the turn, 20% on the river."

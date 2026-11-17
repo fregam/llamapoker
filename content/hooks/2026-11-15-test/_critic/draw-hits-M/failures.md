@@ -1,0 +1,4 @@
+- **d02** · critic/honest · "folding it isn't the answer" is a blanket rule; at a bad price folding is right · "Your flop flush draw: 35% by the river. Not a coin flip, and folding it isn't the answer either."
+- **d11** · critic/claim · 35% by the river decides a call only when both cards are seen; "exactly when calling is worth it" drops that condition · "A flush draw hits 35% from flop to river. Forget your gut; that number tells you exactly when calling is worth it."
+- **d13** · critic/gap-open · last clause hands over the why (35% assumes a free river), and 19% is already shown · "19% on the turn, 35% by the river. That's a flop flush draw, and the 35% assumes you see the river for free."
+- **d17** · critic/gap-open · 16% points straight at the gutshot, so the question answers itself · "Flush draw 35%, open-ender 31%, gutshot 16%, all by the river from the flop. You call them the same; one is costing you."

@@ -1,0 +1,72 @@
+[
+ {
+  "topic": "premium-only",
+  "id": "d01",
+  "line": "You folded all night waiting for a real hand. When kings finally came, you raised, and everyone folded.",
+  "mechanism": "scenario_label",
+  "critic_rank": 1
+ },
+ {
+  "topic": "premium-only",
+  "id": "d10",
+  "line": "He folds for an hour, then raises, and the whole table folds. They didn't read his cards. They read his clock.",
+  "mechanism": "scenario_label",
+  "critic_rank": 2
+ },
+ {
+  "topic": "premium-only",
+  "id": "d18",
+  "line": "Card dead for hours, finally ace-king, all in, and ace-queen hits a queen. That wasn't the hand that knocked you out.",
+  "mechanism": "counterintuitive_claim",
+  "critic_rank": 3
+ },
+ {
+  "topic": "premium-only",
+  "id": "d06",
+  "line": "If you've ever got so bored folding that you played seven-four just to feel something, the problem started long before the seven-four.",
+  "mechanism": "identity_callout",
+  "critic_rank": 5
+ },
+ {
+  "topic": "aces-win",
+  "id": "d07",
+  "line": "Ten minutes into the session: aces, all in, he calls with jack-ten off and rivers a straight. Was that a bad beat, or a normal Tuesday?",
+  "mechanism": "mid_action_start",
+  "critic_rank": 1
+ },
+ {
+  "topic": "aces-win",
+  "id": "d03",
+  "line": "Your friend who swears his aces always get cracked? He's not cursed. He's just counting.",
+  "mechanism": "scenario_label",
+  "critic_rank": 2
+ },
+ {
+  "topic": "aces-win",
+  "id": "d01",
+  "line": "You got pocket aces all in before the flop, and lost to five-two offsuit. That wasn't the app being rigged. It was supposed to happen.",
+  "mechanism": "counterintuitive_claim",
+  "critic_rank": 3
+ },
+ {
+  "topic": "aces-win",
+  "id": "d15",
+  "line": "Everyone remembers the night their aces got cracked. Nobody remembers all the nights they held.",
+  "mechanism": "scenario_label",
+  "critic_rank": 4
+ },
+ {
+  "topic": "draw-hits",
+  "id": "d02",
+  "line": "Top set, all in on the turn, against one flush draw. The whole table stands up for the river. That flush comes in 20% of the time.",
+  "mechanism": "mid_action_start",
+  "critic_rank": 2
+ },
+ {
+  "topic": "draw-hits",
+  "id": "d15",
+  "line": "You fold your flush draw to a big bet and the heart comes on the river. Most players call that fold a mistake. Most of the time it's the right one.",
+  "mechanism": "scenario_label",
+  "critic_rank": 5
+ }
+]

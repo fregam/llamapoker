@@ -1,0 +1,72 @@
+[
+  {
+    "id": "d17",
+    "line": "The whole table folds to your pocket queens, and it's not bad luck. They knew before you raised.",
+    "promise": "the table folding to your pocket queens isn't bad luck",
+    "promise_word": 1,
+    "fact_ids": [],
+    "open_question": "How did they know before you raised?",
+    "rung": 5,
+    "quote_ids": [
+      "q-31",
+      "q-9"
+    ]
+  },
+  {
+    "id": "d01",
+    "line": "9.75 big blinds. That's what a six-handed table charges you to wait for one premium hand, folding everything else. And that's the cheap part.",
+    "promise": "9.75 big blinds paid at six-handed while waiting for one premium, folding everything else",
+    "promise_word": 1,
+    "fact_ids": [
+      "wait-bb"
+    ],
+    "open_question": "If the blinds are the cheap part, what costs more when you only play premiums?",
+    "rung": 5,
+    "quote_ids": [
+      "q-20"
+    ]
+  },
+  {
+    "id": "d02",
+    "line": "The beat isn't what hurt you. Card dead two hours, finally pocket kings, they run into aces, and the damage was already done.",
+    "promise": "the bad beat isn't what hurt you",
+    "promise_word": 1,
+    "fact_ids": [],
+    "open_question": "What damage was done in the two hours before the kings arrived?",
+    "rung": 5,
+    "quote_ids": [
+      "q-1",
+      "q-27"
+    ]
+  },
+  {
+    "id": "d06",
+    "line": "1 in 39 hands is a premium, on average. You wait, it comes, the river takes it, and it feels rigged. It's not the river.",
+    "promise": "1 in 39 hands is a premium, on average",
+    "promise_word": 1,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "If it's not the river, what is really costing you?",
+    "rung": 5,
+    "quote_ids": [
+      "q-20"
+    ]
+  },
+  {
+    "id": "d18",
+    "line": "Stop calling it card dead. 1 in 39 hands is a premium, on average. Folding everything else is a choice, and it has a price.",
+    "promise": "1 in 39 hands is a premium, on average",
+    "promise_word": 6,
+    "fact_ids": [
+      "premium-every"
+    ],
+    "open_question": "What is the price of choosing to fold everything else?",
+    "rung": 5,
+    "quote_ids": [
+      "q-4",
+      "q-27",
+      "q-32"
+    ]
+  }
+]
