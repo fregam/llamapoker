@@ -1,0 +1,12 @@
+{
+  "name": "llamapoker-seo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The SEO agent's instruments: Search Console client, the score, the weekly reading. No dependencies.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test src/scoreboard.test.mjs",
+    "check": "node scripts/gsc-check.mjs",
+    "scoreboard": "node scripts/scoreboard.mjs"
+  }
+}

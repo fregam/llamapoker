@@ -1,0 +1,23 @@
+{
+  "note": "The searches the SEO agent is scored on: page one of Google (average position 10 or better) for each, with the page meant to win it. Beginner study intents only; nothing about use during real-money play. Changing this list changes the score, so it changes only with the founder's yes.",
+  "targets": [
+    { "query": "poker odds calculator", "page": "/table" },
+    { "query": "poker hand calculator", "page": "/table" },
+    { "query": "should i call poker", "page": "/table" },
+    { "query": "poker trainer", "page": "/trainer" },
+    { "query": "free poker trainer", "page": "/trainer" },
+    { "query": "learn poker", "page": "/learn" },
+    { "query": "poker hand rankings", "page": "/learn/hand-rankings" },
+    { "query": "what beats what in poker", "page": "/learn/hand-rankings" },
+    { "query": "poker positions explained", "page": "/learn/positions" },
+    { "query": "poker starting hands chart", "page": "/learn/starting-hands" },
+    { "query": "pot odds", "page": "/learn/pot-odds" },
+    { "query": "pot odds formula", "page": "/learn/pot-odds" },
+    { "query": "poker outs", "page": "/learn/outs" },
+    { "query": "poker outs chart", "page": "/learn/outs" },
+    { "query": "rule of 2 and 4 poker", "page": "/learn/outs" },
+    { "query": "online poker helper", "page": "/learn/online-poker-helper" },
+    { "query": "poker glossary", "page": "/glossary" },
+    { "query": "poker strategy for beginners", "page": "/strategy" }
+  ]
+}

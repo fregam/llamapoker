@@ -3,6 +3,24 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-17 - The SEO agent gets a goal and a score, and Google's docs outrank the reels
+
+- **What:** the SEO agent's brief is one outcome: page one of Google for the 18 searches in
+  `apps/seo/targets.json`, as fast as honest work allows, and kept there. It is scored weekly from
+  Search Console on two numbers (target searches at position 10 or better; sitemap pages indexed).
+  It runs weekly on the founder's PC as a headless Claude Code run. Technical changes that pass CI
+  merge themselves; visible text, new pages and the target list wait for the founder; it never
+  creates accounts, submits links or posts anywhere. Spec: `.scratch/seo-agent/spec.md`.
+- **Why:** "highly ranked" cannot be checked; a fixed list and a position can. Indexing is in the
+  score because 10 of 13 pages were not indexed on 2026-11-11, and an unindexed page cannot rank.
+  The founder's four reference reels were checked against Google's own pages
+  (`docs/research/2026-11-17-seo-reference-reels.md`): two held, one claim (a "preferred source"
+  button as a ranking signal for everyone) is not in Google's documentation, and the backlink list
+  is close to what the spam policy names.
+- **Rejected:** scoring on clicks and impressions (rewards any traffic); a paid rank tracker
+  (Search Console is free and is Google's own number); working through the backlink list; a
+  cloud scheduler now (the key and the wall are local; revisit with the Hetzner move).
+
 ## 2026-11-17 - Reel 002 is not rewritten; the first reel comes out of the factory
 
 - **What:** the planned rewrite of reel 002 is dropped, and the finished renders of 002 and 003

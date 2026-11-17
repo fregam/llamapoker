@@ -1,7 +1,18 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-14 (wall layout, results first).
+the end. Last update: 2026-11-17 (SEO agent started).
+
+## Done 2026-11-17
+
+- **SEO agent started** on `feat/seo-agent` (worktree `.claude/worktrees/seo-agent`): the founder's
+  four reference reels checked against Google's docs (`docs/research/2026-11-17-seo-reference-reels.md`);
+  spec and six tickets in `.scratch/seo-agent/`; `apps/seo/` built (Search Console client with a
+  service-account key, the score, the weekly reading; 5 tests, CI job `seo`). Not yet run against
+  the real API: there is no key until the wizard is run.
+- Live site checked by curl: 13 sitemap pages, all 200 with matching canonicals. Search Console
+  was not re-read (the Chrome extension did not load it); the indexing numbers below are from
+  2026-11-11.
 
 ## Done 2026-11-14
 
@@ -78,6 +89,11 @@ the end. Last update: 2026-11-14 (wall layout, results first).
   which fail CI) are left open for a deliberate upgrade later.
 
 ## Waiting on the founder
+
+- **SEO agent access:** run `bash scripts/wizards/search-console-access.sh` in Git Bash (about ten
+  minutes: a Google Cloud project, a service account key, the account added to Search Console).
+  Then read `apps/seo/targets.json` (the 18 searches it is scored on) and answer the spec's open
+  question: whose name goes on the guides.
 
 - Add the "Wall" CI check to the branch rule. (The wall itself is local-first, not deployed:
   decision 2026-11-12.)
