@@ -9,8 +9,8 @@ the end. Last update: 2026-11-17 (hook writer shipped).
   `content/research/hooks/` (taxonomy, lift table, blind pair test), skill rebuilt goal-first in
   `.claude/skills/hook-writing/`, 10 verified hooks in `content/hooks/2026-11-17-playbook/`.
   Corpus and media stay local (`apps/reels/scripts/hooks/data/`, `media/research/hooks/`, ~1.1k
-  reels). The Instagram token in `credentials.json` expires 2027-01-15. Open: new critic
-  calibration cases; the research branch `research/reel-craft` is not merged (audience research
+  reels). The Instagram token in `credentials.json` expires 2027-01-15. The critic is
+  calibrated (25 known lines, scored by `calibrate.py`). Open: the research branch `research/reel-craft` is not merged (audience research
   still running there).
 
 - **SEO agent started** on `feat/seo-agent` (worktree `.claude/worktrees/seo-agent`): the founder's

@@ -1,0 +1,214 @@
+{
+ "about": "Expected critic results for the calibration drafts. Never shown to the critic. Limits are truth/brand/helping verdicts. Rank pairs anchor \"good\" to the best hooks we have (round 2, 2026-11-17, which the founder judged better than the first test), never to an older, weaker batch; when a better batch exists, its lines replace the top of these pairs.",
+ "limits": {
+  "c07": {
+   "fail": [],
+   "key": "L1",
+   "why": "one result proves nothing: true",
+   "line": "Your aces lost to five-two offsuit, and that proves nothing."
+  },
+  "c11": {
+   "fail": [],
+   "key": "L2",
+   "why": "backed by aa-lose-once-in-20",
+   "line": "If you've never lost an all-in with pocket aces, you haven't had enough of them."
+  },
+  "c12": {
+   "fail": [],
+   "key": "L3",
+   "why": "34.97% said as 1 in 3",
+   "line": "'My flush draws never hit.' From the flop, seeing both cards, they hit 1 in 3."
+  },
+  "c04": {
+   "fail": [],
+   "key": "L4",
+   "why": "a scene, no claim",
+   "line": "You folded all night, finally raised kings, and everyone folded."
+  },
+  "c09": {
+   "fail": [],
+   "key": "L5",
+   "why": "a common feeling put to the viewer",
+   "line": "Your two pair loses to the river flush, and it feels like it always does."
+  },
+  "c18": {
+   "fail": [],
+   "key": "L6",
+   "why": "founder's top draws pick; second-person memory is allowed",
+   "line": "Your flush draw always misses? 35% by the river from the flop, and you only remember the misses you paid too much to see."
+  },
+  "c19": {
+   "fail": [],
+   "key": "L7",
+   "why": "founder's top premium pick; reads are table knowledge",
+   "line": "The whole table folds to your pocket queens, and it's not bad luck. They knew before you raised."
+  },
+  "c10": {
+   "fail": [],
+   "key": "L8",
+   "why": "founder's top aces pick",
+   "line": "It's not luck. Pocket aces lose 14% of preflop all-ins against one random hand. What's off is how you count them."
+  },
+  "c06": {
+   "fail": null,
+   "key": "L9",
+   "why": "open: it teases a payoff about price; critics split on whether the draw facts can deliver it (runs 3 and 4, 2026-11-17)",
+   "line": "Would you chase a 16% shot? That's a flop gutshot by the river. 'Never chase gutshots' is half right, and the other half matters."
+  },
+  "c14": {
+   "fail": [],
+   "key": "L10",
+   "why": "struck by the founder for craft, true",
+   "line": "Only 1 in 39 hands, on average, is pocket aces, kings, queens or ace-king. Folding the rest isn't discipline. It's a bill."
+  },
+  "c15": {
+   "fail": [],
+   "key": "L11",
+   "why": "struck by the founder for craft, true",
+   "line": "85%: how often pocket aces win all-in preflop against one random hand. When they crack on the app, blame a count you never kept."
+  },
+  "c08": {
+   "fail": null,
+   "key": "L12",
+   "why": "open: it teases a payoff about price; critics split on whether the draw facts can deliver it (runs 3 and 4, 2026-11-17)",
+   "line": "35% by the river. That's how often a flop flush draw gets there, and it's not the miss that costs you."
+  },
+  "c13": {
+   "fail": [],
+   "key": "L13",
+   "why": "a lesson title: true, flat",
+   "line": "Three things to know about how often pocket aces win."
+  },
+  "c01": {
+   "fail": [],
+   "key": "L14",
+   "why": "an episode opener: true, flat",
+   "line": "Today we're going to look at how often pocket aces win against random hands."
+  },
+  "c25": {
+   "fail": [],
+   "key": "L15",
+   "why": "second-person arc",
+   "line": "Year one, you think aces never lose. Year two, you think they always do."
+  },
+  "c16": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F1",
+   "why": "a 1-in-7 loss is never 'supposed to happen'",
+   "line": "You got pocket aces all in before the flop, and lost to five-two offsuit. That wasn't the app being rigged. It was supposed to happen."
+  },
+  "c21": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F2",
+   "why": "two unbacked 'most' claims",
+   "line": "You fold your flush draw to a big bet and the heart comes on the river. Most players call that fold a mistake. Most of the time it's the right one."
+  },
+  "c24": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F3",
+   "why": "folding costs only in the blinds",
+   "line": "The nit at your table isn't losing slowly because he's unlucky. He's paying for every hand he folds."
+  },
+  "c20": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F4",
+   "why": "wrong number, wrong population",
+   "line": "Pocket aces lose 85% of the time against four callers."
+  },
+  "c05": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F5",
+   "why": "an average stated as every time",
+   "line": "Fold everything but aces, kings, queens and ace-king at a 6-max table, and each one has already cost you 9.75 big blinds by the time it shows up."
+  },
+  "c17": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F6",
+   "why": "the facts can't answer it (random hands only)",
+   "line": "Rockets, all in, he shows ace-king. Turn king. River king. Here's how often that happens."
+  },
+  "c03": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F7",
+   "why": "population absolute with nothing behind it",
+   "line": "Every poker app review says the river is rigged. A flop flush draw gets there 35% of the time."
+  },
+  "c22": {
+   "fail": [
+    "claim"
+   ],
+   "key": "F8",
+   "why": "drops heads-up against random hands",
+   "line": "Shove aces ten times and you'll lose at least one 79% of the time."
+  },
+  "c02": {
+   "fail": [
+    "honest"
+   ],
+   "key": "F9",
+   "why": "claimed results",
+   "line": "I turned fifty bucks into five grand last month by folding more. Here's the one rule."
+  },
+  "c23": {
+   "fail": [
+    "helping",
+    "honest"
+   ],
+   "key": "F10",
+   "why": "winning money back",
+   "line": "Lost your stack tonight? This one adjustment wins it back by Friday."
+  }
+ },
+ "rank_pairs": [
+  {
+   "above": "c07",
+   "below": "c10",
+   "why": "round 2 (founder: better) over the first test's top aces pick"
+  },
+  {
+   "above": "c04",
+   "below": "c19",
+   "why": "round 2 over the first test's top premium pick"
+  },
+  {
+   "above": "c12",
+   "below": "c18",
+   "why": "round 2 over the first test's top draws pick"
+  },
+  {
+   "above": "c25",
+   "below": "c15",
+   "why": "round 2 over a first-test stat-led line"
+  },
+  {
+   "above": "c11",
+   "below": "c06",
+   "why": "round 2 over a first-test number-first question"
+  },
+  {
+   "above": "c04",
+   "below": "c13",
+   "why": "a scene over a lesson title"
+  },
+  {
+   "above": "c25",
+   "below": "c01",
+   "why": "an arc over an episode opener"
+  }
+ ],
+ "calibrated": "2026-11-17: runs 3 and 4 (two fresh critics, same brief) both held every expectation: content/hooks/_calibration/"
+}

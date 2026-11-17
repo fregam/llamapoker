@@ -1,0 +1,172 @@
+{
+  "verdicts": {
+    "c01": {
+      "claim": ["pass", "No claim made; the question it announces (how often aces win against random hands) is answered by aa-vs-1 and aa-vs-4."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss, no money offered."]
+    },
+    "c02": {
+      "claim": ["fail", "No fact backs fifty dollars becoming five thousand, nor a 'one rule' the reel could deliver from these facts."],
+      "honest": ["fail", "A claimed personal win and result; LlamaPoker has no wins to brag about."],
+      "helping": ["pass", "Brags about a result but does not offer to win a loss back or push a loser to play more."]
+    },
+    "c03": {
+      "claim": ["fail", "'Every poker app review says the river is rigged' is a claim about every review with no fact behind it; the 35% itself matches flush-river."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker; rigging is raised to be answered."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c04": {
+      "claim": ["pass", "A scene put to the viewer with no number; that a player who folded all night gets credit when he finally raises is plain table knowledge, and premium-every / wait-bb let the reel answer it."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Names a frustration to explain it; no money back, no push to play more."]
+    },
+    "c05": {
+      "claim": ["pass", "9.75 bb with 6-max and fold-everything-else stated matches wait-bb; 'each one' drops 'on average', which the fact itself does not carry in its wording."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Explains a cost; no win-back offer."]
+    },
+    "c06": {
+      "claim": ["pass", "16% for a flop gutshot by the river matches gutshot-river; 'half right' rests on price deciding the call, which any regular would agree with, though the facts hold only the 16%."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c07": {
+      "claim": ["pass", "A scene put to the viewer; 'proves nothing' follows from aa-lose-1 (aces lose outright to a random hand 14% of the time)."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker; no luck talk."],
+      "helping": ["pass", "Names a loss to explain it."]
+    },
+    "c08": {
+      "claim": ["pass", "35% by the river from the flop matches flush-river; the tease about what costs you can be paid off with flush-turn-to-river (19.57% with one card to come)."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Explains a cost; no win-back offer."]
+    },
+    "c09": {
+      "claim": ["pass", "A feeling put to the viewer in the second person ('it feels like it always does'), not a claim; flush-turn-to-river lets the reel answer it."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker; no luck talk."],
+      "helping": ["pass", "Names a loss to explain it."]
+    },
+    "c10": {
+      "claim": ["pass", "14% against one random hand, all-in preflop, matches aa-lose-1 with its conditions; 'how you count them' is put to the viewer."],
+      "honest": ["pass", "Luck is named only to be denied."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c11": {
+      "claim": ["pass", "No number; a claim in words that follows from aa-lose-1 and aa-lose-once-in-20 (a loss in 20 such all-ins is 95.6% likely)."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c12": {
+      "claim": ["pass", "34.97% from the flop with both cards to come is fairly spoken as 1 in 3, and the line states those conditions."],
+      "honest": ["pass", "Quotes the viewer's complaint; claims nothing about LlamaPoker."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c13": {
+      "claim": ["pass", "No claim made; the facts hold several aces figures the reel could list."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss, no money offered."]
+    },
+    "c14": {
+      "claim": ["pass", "1 in 39 on average for AA, KK, QQ or AK matches premium-every; 'it's a bill' is backed by wait-bb."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Explains a cost; no win-back offer."]
+    },
+    "c15": {
+      "claim": ["pass", "aa-vs-1 is pot share with ties split (85.26%), not a win rate, but with aa-lose-1 at 14.47% the outright win rate still rounds to 85%; conditions are stated."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c16": {
+      "claim": ["fail", "'It was supposed to happen' is unbacked: the facts say aces lose to a random hand 14% of the time, which makes the loss possible, not expected."],
+      "honest": ["pass", "Rigging is raised to be denied; nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Names a loss to explain it."]
+    },
+    "c17": {
+      "claim": ["fail", "The hook promises how often aces lose to ace-king; the facts cover aces against random hands only, so the reel can't answer its own question."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Names a loss to explain it."]
+    },
+    "c18": {
+      "claim": ["pass", "35% by the river from the flop matches flush-river with its condition; 'you only remember the misses' is a memory put to the viewer."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Mentions overpaying to explain a decision; no win-back offer."]
+    },
+    "c19": {
+      "claim": ["pass", "Rests on table knowledge that a tight player's raise gets credit; the line only implies the tight image rather than stating it, so this is the weakest pass of the three premium-hand scenes."],
+      "honest": ["pass", "Luck is named only to be denied."],
+      "helping": ["pass", "Names a frustration to explain it."]
+    },
+    "c20": {
+      "claim": ["fail", "False: aa-vs-4 gives aces 55.88% of the pot against four random hands; 85% is their share against one, and nothing supports losing 85%."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c21": {
+      "claim": ["fail", "Two unbacked 'most' claims: what most players call the fold, and that the fold is right most of the time; the facts hold completion odds only, no bet sizes or prices."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "Names a fold to explain it."]
+    },
+    "c22": {
+      "claim": ["fail", "79% belongs to ten heads-up preflop all-ins against one random hand each (aa-lose-once-in-10); the line drops the opponent condition, so the number is stated for any shove with aces."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss used as a lever."]
+    },
+    "c23": {
+      "claim": ["fail", "No fact supports one adjustment winning a stack back by Friday."],
+      "honest": ["fail", "A promised result LlamaPoker cannot truthfully give."],
+      "helping": ["fail", "Offers winning money back and speaks to someone who just lost a stack."]
+    },
+    "c24": {
+      "claim": ["pass", "That blinds eat the player who folds everything is table knowledge and is backed by orbit-bb and wait-bb; the line presupposes the nit is losing, which a regular would grant for the type it names."],
+      "honest": ["pass", "Luck is named only to be denied."],
+      "helping": ["pass", "About a type at the table, not someone in trouble."]
+    },
+    "c25": {
+      "claim": ["pass", "Two beliefs put to the viewer in the second person, not claims; aa-lose-1 and aa-vs-1 let the reel settle it."],
+      "honest": ["pass", "Nothing claimed about LlamaPoker."],
+      "helping": ["pass", "No loss used as a lever."]
+    }
+  },
+  "rank": ["c04", "c07", "c25", "c24", "c11", "c09", "c19", "c12", "c14", "c18", "c10", "c08", "c05", "c15", "c06", "c13", "c01"],
+  "top": {
+    "c04": {
+      "why": "Every tight player has lived this exact night, and the single sentence ends on the sting, so the stranger stays to find out why nobody paid him.",
+      "mechanism": "scenario_label"
+    },
+    "c07": {
+      "why": "It names the bad beat the viewer is still angry about and then flatly refuses him the conclusion he drew from it, all in one sentence.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "c25": {
+      "why": "Any player recognises himself in one of the two years and smiles at the other, which is the then-versus-now arc people tag a friend under.",
+      "mechanism": "side_by_side"
+    },
+    "c24": {
+      "why": "Everyone can picture the nit at their own table, and the line says his slow leak has a cause the viewer hasn't counted.",
+      "mechanism": "scenario_label"
+    },
+    "c11": {
+      "why": "It turns a thing players boast about into evidence of inexperience, a dare that lands in a single sentence.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "c09": {
+      "why": "It opens on a hand the viewer has lost and voices the suspicion he already holds, leaving the reel to say whether it's true.",
+      "mechanism": "scenario_label"
+    },
+    "c19": {
+      "why": "The scene of queens winning only the blinds is familiar, and 'they knew before you raised' makes the viewer want to know what gave him away.",
+      "mechanism": "withheld_payoff"
+    },
+    "c12": {
+      "why": "It starts with the viewer's own complaint in his own words and answers it at once with a figure that contradicts him.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "c14": {
+      "why": "The number comes first, but the turn from discipline to a bill puts a price on a habit tight players are proud of.",
+      "mechanism": "counterintuitive_claim"
+    },
+    "c18": {
+      "why": "It opens on the viewer's complaint and ends on an accusation about his memory, though the figure in the middle slows it.",
+      "mechanism": "counterintuitive_claim"
+    }
+  }
+}

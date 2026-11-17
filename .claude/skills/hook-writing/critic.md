@@ -9,7 +9,8 @@ of hits and flat twins), and the topic's `facts.json`. The drafts come as a file
 
 | Limit | Fails when |
 |---|---|
-| `claim` | Any claim, in numbers or in words, says more or other than the facts support: wrong conditions, wrong population, or an unbacked "most of the time", "always", "supposed to happen", "normal". The reel must also be able to answer the question the hook asks from these facts. |
+| `claim` | Any claim, in numbers or in words, says more or other than the facts support: wrong conditions, wrong population, or an unbacked "most of the time", "always", "supposed to happen", "normal". The reel must also be able to answer the question the hook asks from these facts. Plain common knowledge at the table needs no fact: a hook may state how players behave when any regular would agree (a player who rarely raises gets credit for a big hand when he does). That allowance covers behaviour only. Anything about cost, odds or how often must match a fact exactly: an average said as a certainty fails ("on average" dropped, "each one", "every time"), and so does a cost or a chance that holds only in some seats, hands or conditions said as if it held in all. |
+| | A feeling or memory put to the viewer in the second person ("it feels like the river hates you", "you replay the bad ones all week") is not a claim to back: the viewer accepts or rejects it. A claim about everyone, every review, or most players is. |
 | `honest` | LlamaPoker couldn't say it truthfully: claimed wins, students, years or results; confessions; luck as an excuse; anything in `brand/README.md`'s banned ground. |
 | `helping` | It offers winning money back, uses a loss as a reason to play more, or pokes at someone who sounds in trouble. |
 
