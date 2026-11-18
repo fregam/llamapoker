@@ -359,12 +359,12 @@ function Row({ e, money, stakeName, onDelete }: { e: Entry; money: (c: number) =
 
 /**
  * The bankroll after every entry, as one line. A single series: paper on ink, no legend (the
- * heading names it), the starting bankroll as a hairline, the high and low on the left, the first
- * and last day underneath. Hover or drag to read any point; the list below is its table view.
+ * heading names it), the starting bankroll as a dotted hairline, the low and high in the caption
+ * (HTML, so they stay readable on a phone). Hover or drag to read any point; the list below is its table view.
  */
 export function BankrollLine({ series, money }: { series: { at: string; bankroll: number }[]; money: (c: number) => string }) {
   const [hover, setHover] = useState<number | null>(null);
-  const W = 720, H = 220, L = 8, R = 8, T = 22, B = 26;
+  const W = 720, H = 200, L = 8, R = 8, T = 10, B = 10;
   const values = series.map((p) => p.bankroll);
   const lo = Math.min(...values), hi = Math.max(...values);
   const span = hi - lo || 1;
@@ -395,19 +395,15 @@ export function BankrollLine({ series, money }: { series: { at: string; bankroll
         <path className="bk-line-path" d={path} />
         {hover !== null && <line className="bk-line-cross" x1={x(at)} x2={x(at)} y1={T} y2={H - B} />}
         <circle className="bk-line-dot" cx={x(at)} cy={y(series[at].bankroll)} r={4} />
-        <text className="bk-line-label" x={L} y={12}>
-          {money(hi)}
-        </text>
-        <text className="bk-line-label" x={L} y={H - B + 14}>
-          {money(lo)}
-        </text>
-        <text className="bk-line-label" x={W - R} y={H - 2} textAnchor="end">
-          {day(last)}
-        </text>
       </svg>
       <figcaption className="bk-line-caption">
-        <strong>{money(series[at].bankroll)}</strong> · {hover === null ? "now" : day(at)}
-        {hover !== null && at > 0 && <> · entry {at} of {last}</>}
+        <span>
+          <strong>{money(series[at].bankroll)}</strong> · {hover === null ? "now" : day(at)}
+          {hover !== null && at > 0 && <> · entry {at} of {last}</>}
+        </span>
+        <span>
+          low {money(lo)} · high {money(hi)}
+        </span>
       </figcaption>
     </figure>
   );

@@ -1292,8 +1292,7 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
 .bk-line-base { stroke: var(--rule-strong); stroke-width: 1; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
 .bk-line-cross { stroke: var(--rule-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .bk-line-dot { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
-.bk-line-label { fill: var(--text-3); font-family: var(--sans); font-size: 11px; }
-.bk-line-caption { margin-top: 8px; font-size: 13px; color: var(--text-2); }
+.bk-line-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 18px; margin-top: 8px; font-size: 13px; color: var(--text-3); }
 .bk-line-caption strong { color: var(--text); font-weight: 600; }
 
 .bk-form { margin-top: 8px; }

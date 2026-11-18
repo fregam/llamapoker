@@ -1,6 +1,6 @@
 # 03 The calculator and the /bankroll page
 
-Status: ready-for-agent
+Status: done (2026-11-19, branch feat/bankroll)
 Blocked by: 01, 02
 
 `components/BankrollCalculator.tsx` (bankroll, format, how careful → the verdict as figures, the
@@ -9,7 +9,7 @@ at `/bankroll`: route in `seo.ts`, case in `App.tsx`, nav item "Bankroll", colop
 
 ## Done when
 
-- [ ] The page prerenders with one `<h1>`, renders the same HTML twice, and carries one signup form.
-- [ ] Title and description target "poker bankroll calculator" and "bankroll tracker".
-- [ ] Sage, brass and vermilion only for meaning; tokens only; fits a 390px screen.
-- [ ] 18+ and "only money you can afford to lose" are on the page.
+- [x] The page prerenders with one `<h1>`, renders the same HTML twice, and carries one signup form.
+- [x] Title and description target "poker bankroll calculator" and "bankroll tracker".
+- [x] Sage, brass and vermilion only for meaning; tokens only; fits a 390px screen.
+- [x] 18+ and "only money you can afford to lose" are on the page.

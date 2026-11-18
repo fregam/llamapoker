@@ -1,6 +1,6 @@
 # 04 The guide
 
-Status: ready-for-agent
+Status: done (2026-11-19, branch feat/bankroll)
 Blocked by: 03
 
 `views/BankrollGuide.tsx` at `/learn/bankroll-management`, in `LEARN_PATH` after Outs: what a
@@ -10,6 +10,6 @@ tournaments need more, sit & gos, what risk of ruin means, the calculator inline
 
 ## Done when
 
-- [ ] Every number on the page comes from the engine.
-- [ ] `pages.test.tsx` authorship count is 7 and passes; the guide has the compact signup.
-- [ ] Glossary gains bankroll, buy-in and risk of ruin; the Learn hub has its blurb.
+- [x] Every number on the page comes from the engine.
+- [x] `pages.test.tsx` authorship count is 7 and passes; the guide has the compact signup.
+- [x] Glossary gains bankroll, buy-in and risk of ruin; the Learn hub has its blurb.
