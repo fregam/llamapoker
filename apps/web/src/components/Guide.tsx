@@ -8,7 +8,7 @@
  *   <Callout to label>       an inline "try it in the tool" box.
  * The breadcrumb's structured data lives in seo.ts (BreadcrumbList); this is the visible one.
  * Used by: views/Learn.tsx and every guide (HandRankings, Positions, StartingHands, PotOdds, Outs,
- * PokerHelper).
+ * BankrollGuide, PokerHelper).
  * Uses: components/Link, components/Signup (the letter form at the foot of every guide, source
  * "guide-<slug>"), seo (AUTHOR, LEARN_PATH, longDate, routeFor).
  */
@@ -52,6 +52,7 @@ export function Guide({ path, title, lead, children }: { path: string; title: st
         )}
         <p className="guide-tools">
           Put it to work: <Link to="/table">the poker odds calculator</Link> · <Link to="/trainer">the trainer</Link> ·{" "}
+          <Link to="/bankroll">the bankroll calculator</Link> ·{" "}
           <Link to="/learn">all guides</Link>
         </p>
       </footer>

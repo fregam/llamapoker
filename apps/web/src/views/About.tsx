@@ -55,6 +55,13 @@ export default function About() {
             left in the deck, not estimated.
           </li>
           <li>
+            <strong>Bankroll numbers are rules plus one formula.</strong> The buy-in rules on the{" "}
+            <Link to="/bankroll">bankroll calculator</Link> are the ranges poker coaches have long taught, and they are
+            conventions. Risk of ruin for cash games uses William Chen's formula, checked in our tests against a
+            simulation; for tournaments it is a simulation over a simplified payout table, which the page describes
+            next to the number.
+          </li>
+          <li>
             <strong>The code is public.</strong> The engine and its tests are open to read at{" "}
             <a href="https://github.com/fregam/llamapoker">github.com/fregam/llamapoker</a>.
           </li>

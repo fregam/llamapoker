@@ -16,6 +16,7 @@ const BLURBS: Record<string, string> = {
   "/learn/starting-hands": "Which two-card hands to play from each seat, and what to do when someone has already raised.",
   "/learn/pot-odds": "The price of a call: one formula, and a chart of the equity you need against every bet size.",
   "/learn/outs": "Counting the cards that win you the hand, the rule of 2 and 4, and a full outs chart.",
+  "/learn/bankroll-management": "How much money to keep behind the stakes you play, and the two lines that tell you when to move up or down.",
   "/glossary": "Equity, pot odds, outs, implied odds, SPR — the numbers behind every decision, with worked examples.",
   "/strategy": "A street-by-street game plan: preflop, flop, turn and river.",
   "/learn/online-poker-helper": "What poker sites allow, why real-time helpers get accounts closed, and how to get the same edge legally.",

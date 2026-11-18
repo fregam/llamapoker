@@ -24,7 +24,7 @@ export const FAQ: [question: string, answer: string, more?: { to: string; label:
   ],
   [
     "What do you store?",
-    "Nothing about your hands leaves your device. Trainer stats are saved in your own browser. If you join the letter, we keep your email address — that's it.",
+    "Nothing about your hands leaves your device. Trainer stats and anything you log in the bankroll tracker are saved in your own browser. If you join the letter, we keep your email address — that's it.",
   ],
   ["Does it work on my phone?", "Yes. The guides and the trainer are made for it; the Table is best on a laptop, where the whole spot fits on one screen."],
 ];

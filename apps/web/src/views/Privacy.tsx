@@ -27,6 +27,12 @@ export default function Privacy() {
             local storage so they're there next time. Clearing your browser data removes them; you can also reset
             them in the Trainer.
           </li>
+          <li>
+            <strong>Your bankroll and sessions.</strong> If you use the bankroll tracker, the amounts and sessions you
+            log are saved in your browser's local storage and nowhere else. We never see them. "Delete everything" on
+            the bankroll page removes them, as does clearing your browser data, so download the file there if you want
+            a backup.
+          </li>
         </ul>
       </section>
 

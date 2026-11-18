@@ -48,6 +48,21 @@ describe("routes", () => {
     expect(html.replace(/<!-- -->/g, "")).toContain("you need 25% equity"); // from poker/odds, not typed
   });
 
+  it("the bankroll page prerenders the calculator's example and never a visitor's tracker", () => {
+    const html = render("/bankroll").replace(/<!-- -->/g, "");
+    expect(html).toContain("$0.05/$0.10"); // $500 at the standard rule, from poker/bankroll
+    expect(html).toContain("Track it from here");
+    expect(html).not.toContain("bk-tracker"); // the log is read from storage after mount only
+    expect(html).toContain("18+");
+  });
+
+  it("the bankroll guide's tables come from the engine", () => {
+    const html = render("/learn/bankroll-management").replace(/<!-- -->/g, "");
+    expect(html).toContain("30 buy-ins");
+    expect(html).toContain("100 buy-ins");
+    expect(html).toContain("23%"); // cashRuin: 30 buy-ins, 2 bb/100, SD 90
+  });
+
   it("an unknown URL renders the not-found page", () => {
     const html = render("/this-does-not-exist");
     expect(routeFor("/this-does-not-exist")).toBe(NOT_FOUND);
@@ -59,7 +74,7 @@ describe("authorship", () => {
   const guides = ROUTES.filter((r) => r.path.startsWith("/learn/"));
 
   it("every guide names its author and its date, on the page and in its Article data", () => {
-    expect(guides.length).toBe(6);
+    expect(guides.length).toBe(7);
     for (const r of guides) {
       const html = render(r.path);
       expect(html, r.path).toContain(AUTHOR.name);
