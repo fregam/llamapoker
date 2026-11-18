@@ -31,8 +31,16 @@ describe("money", () => {
     expect(parseMoney("19.99")).toBe(1999); // no float drift
   });
 
+  it("reads a decimal comma as a decimal comma, never as thousands", () => {
+    expect(parseMoney("12,50")).toBe(1250);
+    expect(parseMoney("€5,5")).toBe(550);
+    expect(parseMoney("1.250,50")).toBe(125050);
+    expect(parseMoney("1,250")).toBe(125000); // three digits after the comma: thousands
+    expect(parseMoney("1,250,000.75")).toBe(125000075);
+  });
+
   it("refuses what is not an amount", () => {
-    for (const bad of ["", "abc", "-5", "1.234", "1.2.3", "$"]) expect(parseMoney(bad), bad).toBeNull();
+    for (const bad of ["", "abc", "-5", "1.234", "1.2.3", "$", "1,2,3", "12,5,0"]) expect(parseMoney(bad), bad).toBeNull();
   });
 
   it("formats cents the way a person reads them", () => {
@@ -192,6 +200,18 @@ describe("risk of ruin, tournaments", () => {
     expect(r100).toBeGreaterThanOrEqual(r200);
     expect(r50).toBeGreaterThan(r200);
     expect(tournamentRuin(100, { field: 1000, roi: 0.1 })).toBeGreaterThan(r100);
+  });
+
+  it("one more buy-in never raises the risk, buy-in by buy-in", () => {
+    // Every simulated player meets the same run of results whatever they start with, so a bigger
+    // bankroll can only survive longer. Checked one buy-in at a time, where sampling noise would show.
+    const m = { field: 100, roi: 0.1 };
+    let prev = tournamentRuin(99, m);
+    for (let b = 100; b <= 140; b++) {
+      const r = tournamentRuin(b, m);
+      expect(r, `${b} buy-ins`).toBeLessThanOrEqual(prev);
+      prev = r;
+    }
   });
 
   it("a losing player with a short roll is nearly sure to bust; nobody busts with no bankroll left over", () => {

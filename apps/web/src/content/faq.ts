@@ -5,7 +5,10 @@
  * An entry may end with a link to the page that answers the question in full; only the home
  * page shows it (the structured data carries the question and the answer text).
  * Used by: views/Home.tsx, seo.ts.
+ * Uses: poker/bankroll (the bankroll answer prints the engine's own buy-in rule).
  */
+
+import { BUYINS } from "../poker/bankroll";
 
 export const FAQ: [question: string, answer: string, more?: { to: string; label: string }][] = [
   ["Is it free?", "Yes. No account, no download, no paywall. Everything runs in your browser."],
@@ -25,6 +28,11 @@ export const FAQ: [question: string, answer: string, more?: { to: string; label:
   [
     "What do you store?",
     "Nothing about your hands leaves your device. Trainer stats and anything you log in the bankroll tracker are saved in your own browser. If you join the letter, we keep your email address — that's it.",
+  ],
+  [
+    "How much money do I need to play a given stake?",
+    `Count buy-ins. The standard rule keeps ${BUYINS.cash.standard} buy-ins of 100 big blinds for cash games and ${BUYINS.tournament.standard} buy-ins for tournaments, and you move down a stake the day you fall under that line. The bankroll calculator works out your stake and both lines from your bankroll.`,
+    { to: "/bankroll", label: "The bankroll calculator and tracker" },
   ],
   ["Does it work on my phone?", "Yes. The guides and the trainer are made for it; the Table is best on a laptop, where the whole spot fits on one screen."],
 ];

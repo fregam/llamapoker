@@ -92,6 +92,19 @@ describe("entries and the summary", () => {
     expect(summarize(lose).ownRuin).toBe(1);
   });
 
+  it("says why the risk is certain: results at a loss, or a winner with nothing left in the bankroll", () => {
+    let win = emptyLog("$", 100000);
+    for (let i = 0; i < 30; i++) win = add(win, cash(1000, i % 2 ? 0 : 2600));
+    expect(summarize(win).ownRuinWhy).toBe("estimate");
+    const emptied = add(win, { kind: "withdrawal", cost: summarize(win).bankroll });
+    expect(summarize(emptied).ownRuin).toBe(1);
+    expect(summarize(emptied).ownRuinWhy).toBe("empty"); // a winner: "at a loss" would be false
+    let lose = emptyLog("$", 100000);
+    for (let i = 0; i < 30; i++) lose = add(lose, cash(1000, i % 2 ? 0 : 1500));
+    expect(summarize(lose).ownRuinWhy).toBe("losing");
+    expect(summarize(emptyLog()).ownRuinWhy).toBeNull();
+  });
+
   it("asks for a backup every ten sessions until one is downloaded", () => {
     let log = emptyLog();
     for (let i = 0; i < 9; i++) log = add(log, cash(1000, 1000));
@@ -186,6 +199,26 @@ describe("CSV", () => {
     expect(r.log.entries[0]).toMatchObject({ kind: "cash", at: "2026-10-01", cost: 2000, payout: 3500, bb: 10 });
     expect(r.log.entries[1]).toMatchObject({ kind: "tournament", cost: 550, payout: 0 });
     expect(fromCsv(text, r.log, id, 2).added).toBe(0); // no ids: matched by day, type and amounts
+  });
+
+  it("keeps two identical sessions from one file, and still adds nothing on a second import", () => {
+    // Two $5.50 tournaments busted on the same day are two sessions, not a duplicate.
+    const text = "date,type,money_in,money_out\n2026-10-02,tournament,5.50,\n2026-10-02,tournament,5.50,\n2026-10-02,tournament,5.50,\n";
+    const first = fromCsv(text, emptyLog(), id, 1);
+    expect(first.added).toBe(3);
+    expect(summarize(first.log).profit).toBe(-1650);
+    const second = fromCsv(text, first.log, id, 2);
+    expect(second.added).toBe(0);
+    expect(second.skipped).toBe(3);
+    // a file with one more of them adds exactly that one
+    const third = fromCsv(text + "2026-10-02,tournament,5.50,\n", first.log, id, 3);
+    expect(third.added).toBe(1);
+  });
+
+  it("reads amounts written with a decimal comma", () => {
+    const r = fromCsv('date,type,money_in,money_out\n2026-10-01,cash,"20,00","35,50"\n', emptyLog("€"), id, 1);
+    expect(r.errors).toEqual([]);
+    expect(r.log.entries[0]).toMatchObject({ cost: 2000, payout: 3550 });
   });
 
   it("reports a bad row with its line number and imports the rest", () => {

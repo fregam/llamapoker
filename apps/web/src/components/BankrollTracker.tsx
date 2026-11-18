@@ -98,12 +98,15 @@ export function BankrollTracker({ log, onChange }: { log: Log; onChange: (log: L
   }
 
   function download() {
-    const url = URL.createObjectURL(new Blob([toCsv(log)], { type: "text/csv;charset=utf-8" }));
+    // The byte-order mark makes Excel read the file as UTF-8 (€, £, notes); fromCsv strips it.
+    const url = URL.createObjectURL(new Blob(["\uFEFF", toCsv(log)], { type: "text/csv;charset=utf-8" }));
     const a = document.createElement("a");
     a.href = url;
     a.download = `llamapoker-bankroll-${today()}.csv`;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000); // after the browser has started the download
     onChange(markBackedUp(log));
   }
 
@@ -162,14 +165,22 @@ export function BankrollTracker({ log, onChange }: { log: Log; onChange: (log: L
 
       {s.ownRuin !== null ? (
         <p className="ro-note">
-          {s.ownRuin >= 0.995 ? (
+          {s.ownRuinWhy === "losing" ? (
             <>
               <strong>Your logged results are at a loss so far.</strong> No bankroll outlasts a losing game, so treat what's
               here as a budget, drop a stake, and put the hours into study. {s.sessions} sessions is still a small sample.
             </>
+          ) : s.ownRuinWhy === "empty" ? (
+            <>
+              <strong>There is no bankroll left here to risk.</strong> Your sessions are ahead overall, but everything has
+              been taken out. Log a deposit when you put money back in.
+            </>
           ) : (
             <>
-              <strong>Risk of ruin from your own results: {s.ownRuin < 0.001 ? "under 0.1%" : formatPct(s.ownRuin, s.ownRuin < 0.1 ? 1 : 0)}.</strong>{" "}
+              <strong>
+                Risk of ruin from your own results:{" "}
+                {s.ownRuin >= 0.995 ? "close to 100%" : s.ownRuin < 0.001 ? "under 0.1%" : formatPct(s.ownRuin, s.ownRuin < 0.1 ? 1 : 0)}.
+              </strong>{" "}
               That's the chance of losing all of it if you keep playing as you have and never move down. It's rough:{" "}
               {s.sessions} sessions is a small sample, and a good run makes it look safer than it is.
             </>

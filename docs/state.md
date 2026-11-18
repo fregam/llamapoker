@@ -7,13 +7,13 @@ the end. Last update: 2026-11-19 (bankroll management, branch `feat/bankroll`).
 
 - **Bankroll management, parts A and B** (branch `feat/bankroll`, worktree
   `.claude/worktrees/bankroll`, spec and tickets `.scratch/bankroll/`): the rules engine and the
-  tracker log (`apps/web/src/poker/bankroll.ts`, `bankrollLog.ts`, 41 tests), the calculator and
+  tracker log (`apps/web/src/poker/bankroll.ts`, `bankrollLog.ts`, 46 tests), the calculator and
   the tracker on `/bankroll`, the guide `/learn/bankroll-management`, a "Bankroll" nav item, new
   glossary entries, and the privacy, FAQ and About pages kept true. Checked in a real browser:
   cash, tournament, deposit and withdrawal logged, totals right, reload keeps them, delete
   everything then import the CSV restores them, no sideways scroll at 390 px. Not checked: the
-  "Download" button itself (the CSV it writes was produced by the same function and re-imported),
-  and a real phone. The founder made six calls in the grill and handed the rest over; those are
+  browser actually saving the downloaded file to disk (the button was pressed with the save
+  captured, and the bytes compared), and a real phone. The founder made six calls in the grill and handed the rest over; those are
   listed at the top of the spec to overrule.
 
 ## Done 2026-11-17

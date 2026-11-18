@@ -17,5 +17,10 @@ the tracked bankroll.
 
 ## Comments
 
-2026-11-19: checked in Chrome on the dev server. The download button was not clicked; the CSV
-was produced by `toCsv` in the page and imported through the file input after "delete everything".
+2026-11-19: checked in Chrome on the dev server, each step read back: four entries logged in euros
+with decimal commas (two identical tournaments kept as two), bankroll 860.25; the download button
+pressed with the link's click captured instead of saving a file (the bytes equal `toCsv`, with a
+byte-order mark; the link is attached, its address released a second later); "delete everything"
+empties the page and storage; a new tracker started at 1, the file imported: 4 added, start and
+currency restored, 860.25 again; a second import adds nothing. Not done: saving the file to disk
+through the browser's own download, and a real phone.

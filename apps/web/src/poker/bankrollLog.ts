@@ -125,6 +125,8 @@ export interface Summary {
   belowPeak: number;
   /** Risk of ruin from the visitor's own session results; null under OWN_RUIN_MIN sessions. */
   ownRuin: number | null;
+  /** Why it reads as it does: results at a loss ("losing"), nothing left in the bankroll ("empty"), or a real estimate. */
+  ownRuinWhy: "losing" | "empty" | "estimate" | null;
   /** True once there are sessions that the last download does not hold. */
   backupDue: boolean;
 }
@@ -153,10 +155,12 @@ export function summarize(log: Log): Summary {
 
   const results = sessions.map(delta);
   let ownRuin: number | null = null;
+  let ownRuinWhy: Summary["ownRuinWhy"] = null;
   if (results.length >= OWN_RUIN_MIN) {
     const mean = sum(results) / results.length;
     const variance = sum(results.map((r) => (r - mean) ** 2)) / (results.length - 1);
     ownRuin = ruinFromResults(bankroll, mean, variance);
+    ownRuinWhy = mean <= 0 ? "losing" : bankroll <= 0 ? "empty" : "estimate";
   }
 
   return {
@@ -175,6 +179,7 @@ export function summarize(log: Log): Summary {
     downswing,
     belowPeak: peak - run,
     ownRuin,
+    ownRuinWhy,
     backupDue: sessions.length - log.backedUp >= BACKUP_EVERY,
   };
 }
@@ -261,7 +266,11 @@ export function fromCsv(text: string, log: Log, makeId: () => string, now: numbe
   let out = log;
   const wasEmpty = log.entries.length === 0;
   const ids = new Set(log.entries.map((e) => e.id));
-  const seen = new Set(log.entries.map(signature));
+  // Rows without an id are matched by day, type and amounts, by count: the third identical row in
+  // a file is a duplicate only if the log already held three before this import.
+  const had = new Map<string, number>();
+  for (const e of log.entries) had.set(signature(e), (had.get(signature(e)) ?? 0) + 1);
+  const met = new Map<string, number>();
   const errors: string[] = [];
   let added = 0, skipped = 0;
 
@@ -298,10 +307,10 @@ export function fromCsv(text: string, log: Log, makeId: () => string, now: numbe
       ...(get("note") ? { note: get("note") } : {}),
     };
     const id = get("id");
-    if ((id && ids.has(id)) || (!id && seen.has(signature(input)))) return void skipped++;
+    if (id ? ids.has(id) : met.set(signature(input), (met.get(signature(input)) ?? 0) + 1).get(signature(input))! <= (had.get(signature(input)) ?? 0))
+      return void skipped++;
     const newId = id || makeId();
     ids.add(newId);
-    seen.add(signature(input));
     out = addEntry(out, input, newId, now);
     added++;
   });

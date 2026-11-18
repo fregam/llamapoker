@@ -32,9 +32,17 @@ export const TOURNAMENT_DEFAULTS = { field: 100, roi: 0.1, tournaments: 1000 };
 
 // ---- Money ----------------------------------------------------------------------------------
 
-/** "$1,250.50" → 125050. Null for anything that is not a plain, non-negative amount. */
+/**
+ * "$1,250.50" → 125050. Null for anything that is not a plain, non-negative amount.
+ * A comma followed by one or two last digits is a decimal comma ("12,50", "1.250,50"), as written
+ * in most of Europe; commas in groups of three are thousands. Anything else with a comma is refused
+ * rather than guessed at: reading "12,50" as 1,250 would be a silent hundredfold error.
+ */
 export function parseMoney(text: string): number | null {
-  const t = text.replace(/[\s,]/g, "").replace(/^[^\d.-]+/, "");
+  let t = text.replace(/\s/g, "").replace(/^[^\d.-]+/, "");
+  if (/^(\d+|\d{1,3}(\.\d{3})+),\d{1,2}$/.test(t)) t = t.replace(/\./g, "").replace(",", ".");
+  else if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(t)) t = t.replace(/,/g, "");
+  else if (t.includes(",")) return null;
   const m = /^(\d+)(?:\.(\d{1,2}))?$/.exec(t);
   if (!m) return null;
   return Number(m[1]) * 100 + Number((m[2] ?? "").padEnd(2, "0"));
@@ -200,9 +208,11 @@ export function tournamentRuin(
 ): number {
   if (buyins < 1) return 1;
   const edge = tournamentEdge(m);
-  const rand = rng(seed);
   let broke = 0;
   for (let p = 0; p < paths; p++) {
+    // Each simulated player has their own stream, so player p meets the same results whatever the
+    // bankroll: a bigger one can only last longer, and the answer never rises with more buy-ins.
+    const rand = rng(seed + Math.imul(p, 0x9e3779b1));
     let b = buyins;
     for (let t = 0; t < tournaments; t++) {
       if (b < 1) {
