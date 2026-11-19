@@ -168,7 +168,7 @@ export const ROUTES: Route[] = [
     name: "Bankroll calculator",
     title: "Poker Bankroll Calculator & Tracker — What Stakes Can I Play? | LlamaPoker",
     description:
-      "Free poker bankroll calculator: enter your bankroll and see the stakes it covers, when to move up and when to move down, with your risk of ruin. Then track your sessions in your browser.",
+      "Free poker bankroll calculator: enter your bankroll and see the stakes it covers, when to move up and when to move down, with your risk of ruin. Then log your sessions in the bankroll tracker, kept in your browser.",
     prerender: true,
     schema: webApp(
       "LlamaPoker bankroll calculator and tracker",

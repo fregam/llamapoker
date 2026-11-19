@@ -1,6 +1,6 @@
 # 07 Truth pages and docs
 
-Status: done (2026-11-19, branch feat/bankroll)
+Status: ready-for-human (everything done except the two search targets, which the founder approves)
 Blocked by: 03, 04, 05, 06
 
 `Privacy.tsx` (results stay in the browser, how to remove them), the home FAQ line on what is

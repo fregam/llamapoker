@@ -1302,6 +1302,7 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
 .bk-fields .num { font-size: 22px; }
 .bk-fields .bk-date { font-family: var(--sans); font-size: 15px; padding-bottom: 9px; color-scheme: dark; }
 .bk-note { grid-column: span 2; }
+.bk-fields .bk-text { font-family: var(--sans); font-size: 15px; padding-bottom: 9px; } /* words, not a number: Inter */
 .bk-more { margin: 0 0 20px; }
 .bk-more > summary { display: inline-block; list-style: none; margin-bottom: 18px; cursor: pointer; }
 .bk-more > summary::-webkit-details-marker { display: none; }

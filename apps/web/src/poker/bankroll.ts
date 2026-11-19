@@ -10,8 +10,8 @@
  *     (tournamentRuin) over a simple payout model (payouts, tournamentEdge), because tournament
  *     results are too lopsided for the formula. Same inputs, same answer: no clock, no Math.random.
  * The rules and their sources are in .scratch/bankroll/spec.md; the guide explains them to readers.
- * Used by: components/BankrollCalculator, components/BankrollTracker, views/BankrollGuide,
- * views/Glossary, poker/bankrollLog.
+ * Used by: components/BankrollCalculator, components/BankrollTracker, views/Bankroll,
+ * views/BankrollGuide, views/Glossary, content/faq, poker/bankrollLog.
  */
 
 export type Format = "cash" | "tournament";
@@ -162,9 +162,13 @@ export function rng(seed: number): () => number {
   };
 }
 
-/** Share of the prize pool for 1st, 2nd, …: the top 15% are paid, each place 1 ÷ its rank. */
+/** The share of a tournament's field that is paid, and how many players the simulation follows. */
+export const PAID_SHARE = 0.15;
+export const RUIN_PATHS = 2000;
+
+/** Share of the prize pool for 1st, 2nd, …: the top PAID_SHARE are paid, each place 1 ÷ its rank. */
 export function payouts(field: number): number[] {
-  const paid = Math.max(1, Math.round(field * 0.15));
+  const paid = Math.max(1, Math.round(field * PAID_SHARE));
   const weights = Array.from({ length: paid }, (_, i) => 1 / (i + 1));
   const total = weights.reduce((a, b) => a + b, 0);
   return weights.map((w) => w / total);
@@ -204,7 +208,7 @@ export function tournamentEdge(m: TournamentModel) {
 export function tournamentRuin(
   buyins: number,
   m: TournamentModel,
-  { tournaments = TOURNAMENT_DEFAULTS.tournaments, paths = 2000, seed = 1 }: { tournaments?: number; paths?: number; seed?: number } = {}
+  { tournaments = TOURNAMENT_DEFAULTS.tournaments, paths = RUIN_PATHS, seed = 1 }: { tournaments?: number; paths?: number; seed?: number } = {}
 ): number {
   if (buyins < 1) return 1;
   const edge = tournamentEdge(m);

@@ -19,10 +19,13 @@ import {
   CASH_DEFAULTS,
   cashRuin,
   Format,
+  FORMATS,
   formatMoney,
+  PAID_SHARE,
   parseMoney,
   Risk,
   RISKS,
+  RUIN_PATHS,
   TOURNAMENT_DEFAULTS,
   tournamentEdge,
   tournamentRuin,
@@ -36,7 +39,7 @@ const FORMAT_NAME: Record<Format, string> = { cash: "Cash games", tournament: "T
 /** Buy-ins as a person says them: "50", or "7.5" when small enough for the half to matter. */
 const count = (n: number) => (n >= 10 ? String(Math.floor(n)) : (Math.floor(n * 10) / 10).toString());
 /** A chance as a percentage, without pretending to more precision than it has. */
-const chance = (p: number) => (p >= 0.995 ? "100%" : p > 0 && p < 0.001 ? "under 0.1%" : formatPct(p, p < 0.1 ? 1 : 0));
+const chance = (p: number) => (p >= 0.995 ? "100%" : p < 0.001 ? "under 0.1%" : formatPct(p, p < 0.1 ? 1 : 0));
 const number = (text: string, fallback: number) => (text.trim() !== "" && Number.isFinite(Number(text)) ? Number(text) : fallback);
 
 export function BankrollCalculator({
@@ -63,7 +66,8 @@ export function BankrollCalculator({
   const wr = number(winRate, CASH_DEFAULTS.winRate);
   const swing = Math.max(1, number(sd, CASH_DEFAULTS.sd));
   const players = Math.min(100000, Math.max(2, Math.round(number(field, TOURNAMENT_DEFAULTS.field))));
-  const edge = number(roi, TOURNAMENT_DEFAULTS.roi * 100) / 100;
+  // Capped at 500%: beyond that the model would have this player cash more often than there are paid places.
+  const edge = Math.min(5, Math.max(-1, number(roi, TOURNAMENT_DEFAULTS.roi * 100) / 100));
   const held = a?.stake ? a.held : 0;
   const tourRuin = useMemo(
     () => (format === "tournament" && held > 0 ? tournamentRuin(held, { field: players, roi: edge }) : null),
@@ -87,7 +91,7 @@ export function BankrollCalculator({
         <div className="money">
           <span className="money-label">You play</span>
           <div className="seg" role="group" aria-label="Game type">
-            {(["cash", "tournament"] as Format[]).map((f) => (
+            {FORMATS.map((f) => (
               <button key={f} type="button" className={f === format ? "seg-btn seg-active" : "seg-btn"} aria-pressed={f === format} onClick={() => setFormat(f)}>
                 {FORMAT_NAME[f]}
               </button>
@@ -113,7 +117,7 @@ export function BankrollCalculator({
           <div className="verdict verdict-aggressive bk-verdict" aria-live="polite">
             <span className="kicker">
               <span className="kicker-dot" />
-              You're rolled for
+              Your bankroll covers
             </span>
             <p className="verdict-action">{a.stake.name}</p>
             <p className="standfirst">
@@ -202,16 +206,18 @@ export function BankrollCalculator({
               </div>
               <p>
                 <strong>What this assumes.</strong> ROI (return on investment) is what you win back on top of the buy-ins you
-                pay: 10% means $11 back for every $10 paid, on average. The top 15% of the field is paid, each place 1 ÷ its
+                pay: 10% means {money(1100)} back for every {money(1000)} paid, on average. The top {formatPct(PAID_SHARE, 0)} of the field is paid, each place 1 ÷ its
                 rank of the prize pool, and you reach each paid place {edge >= 0 ? "more" : "less"} often than an average
                 player by exactly your ROI. With these numbers you cash {formatPct(tournamentEdge({ field: players, roi: edge }).cashes, 0)} of
-                the time. We then play {TOURNAMENT_DEFAULTS.tournaments.toLocaleString("en-US")} tournaments 2,000 times over and
+                the time. We then play {TOURNAMENT_DEFAULTS.tournaments.toLocaleString("en-US")} tournaments {RUIN_PATHS.toLocaleString("en-US")} times over and
                 count the runs that go broke. Real payouts differ from site to site, so treat it as a close estimate.
               </p>
               {edge <= 0 && (
                 <p>
-                  <strong>With an ROI of zero or less, no bankroll is big enough.</strong> More buy-ins only make it last
-                  longer. That's a budget for playing, which is fine, but it isn't a bankroll.
+                  <strong>With an ROI of zero or less, no bankroll is big enough.</strong> The number above only covers the
+                  next {TOURNAMENT_DEFAULTS.tournaments.toLocaleString("en-US")} tournaments; keep playing past them and it climbs
+                  to 100%. More buy-ins only make it last longer. That's a budget for playing, which is fine, but it isn't a
+                  bankroll.
                 </p>
               )}
               <p>

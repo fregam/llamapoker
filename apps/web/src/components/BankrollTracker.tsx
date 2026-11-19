@@ -8,7 +8,7 @@
  * It is mounted in the browser only, after the log has been read from storage, so it may use the
  * clock (today's date, timestamps) and random ids freely. It is never prerendered.
  * Used by: views/Bankroll.
- * Uses: poker/bankroll, poker/bankrollLog, poker/odds (formatPct), components/Select.
+ * Uses: poker/bankroll, poker/bankrollLog, poker/odds (formatPct), seo (longDate), components/Select.
  */
 
 import { FormEvent, useRef, useState } from "react";
@@ -17,6 +17,7 @@ import {
   addEntry,
   delta,
   Entry,
+  ENTRY_KINDS,
   EntryInput,
   EntryKind,
   fromCsv,
@@ -35,7 +36,6 @@ import { longDate } from "../seo";
 import { Select } from "./Select";
 
 const KIND_NAME: Record<EntryKind, string> = { cash: "Cash game", tournament: "Tournament", deposit: "Deposit", withdrawal: "Withdrawal" };
-const KINDS: EntryKind[] = ["cash", "tournament", "deposit", "withdrawal"];
 
 function today(): string {
   const d = new Date();
@@ -75,6 +75,7 @@ export function BankrollTracker({ log, onChange }: { log: Log; onChange: (log: L
     const b = session ? (payout.trim() === "" ? 0 : parseMoney(payout)) : 0;
     if (!/^\d{4}-\d{2}-\d{2}$/.test(at)) return setError("Pick the day it happened.");
     if (a === null || (a === 0 && !session)) return setError(`"${labels[kind][0]}" needs an amount, like 20 or 5.50.`);
+    if (session && a === 0 && b === 0) return setError("A session needs at least what you put in.");
     if (b === null) return setError(`"${labels[kind][1]}" needs an amount, or leave it empty for nothing.`);
     const h = Number(hours);
     if (hours.trim() !== "" && !(h > 0 && h < 100)) return setError("Hours played should be a number, like 1.5.");
@@ -140,7 +141,7 @@ export function BankrollTracker({ log, onChange }: { log: Log; onChange: (log: L
           </span>
         </div>
         <div className="figure">
-          <span className="figure-label">Biggest downswing</span>
+          <span className="figure-label">Biggest drop from a high</span>
           <span className="figure-value">{money(s.downswing)}</span>
           <span className="figure-note">{s.belowPeak > 0 ? `${money(s.belowPeak)} under your high now` : "at your high now"}</span>
         </div>
@@ -157,7 +158,7 @@ export function BankrollTracker({ log, onChange }: { log: Log; onChange: (log: L
           {s.tournament.n > 0 && (
             <>
               <strong>Tournaments:</strong> {money(s.tournament.profit)} over {s.tournament.n}, cashed in {s.tournament.cashed}
-              {s.tournament.roi !== null && <>, ROI {formatPct(s.tournament.roi, 0)}</>}.
+              {s.tournament.roi !== null && <>, ROI (profit ÷ buy-ins paid) {formatPct(s.tournament.roi, 0)}</>}.
             </>
           )}
         </p>
@@ -199,7 +200,7 @@ export function BankrollTracker({ log, onChange }: { log: Log; onChange: (log: L
       <form className="bk-form" onSubmit={submit} noValidate>
         <h3 className="ro-title">Log it</h3>
         <div className="seg bk-kinds" role="group" aria-label="What to log">
-          {KINDS.map((k) => (
+          {ENTRY_KINDS.map((k) => (
             <button key={k} type="button" className={k === kind ? "seg-btn seg-active" : "seg-btn"} aria-pressed={k === kind} onClick={() => (setKind(k), setError(""))}>
               {KIND_NAME[k]}
             </button>
@@ -250,7 +251,7 @@ export function BankrollTracker({ log, onChange }: { log: Log; onChange: (log: L
             )}
             <label className="money bk-note">
               <span className="money-label">Note</span>
-              <input className="num" maxLength={140} value={note} onChange={(e) => setNote(e.target.value)} />
+              <input className="num bk-text" maxLength={140} value={note} onChange={(e) => setNote(e.target.value)} />
             </label>
           </div>
         </details>

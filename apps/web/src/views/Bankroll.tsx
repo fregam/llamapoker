@@ -67,7 +67,8 @@ export default function Bankroll() {
           <li>
             <strong>The rule is a number of buy-ins.</strong> For cash games, keep {BUYINS.cash.standard} buy-ins of 100 big
             blinds; for tournaments, {BUYINS.tournament.standard} buy-ins, because tournament results swing much harder.
-            Careful doubles it, aggressive trims it. The <Link to="/learn/bankroll-management">bankroll management guide</Link>{" "}
+            Careful keeps more ({BUYINS.cash.careful} and {BUYINS.tournament.careful}), aggressive fewer ({BUYINS.cash.aggressive} and{" "}
+            {BUYINS.tournament.aggressive}). The <Link to="/learn/bankroll-management">bankroll management guide</Link>{" "}
             explains where the numbers come from.
           </li>
           <li>

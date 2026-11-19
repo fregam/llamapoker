@@ -72,7 +72,10 @@ export function loadLog(): Log | null {
     if (!raw) return null;
     const l = JSON.parse(raw);
     if (l?.v !== 1 || typeof l.currency !== "string" || !Number.isInteger(l.start) || !Array.isArray(l.entries)) return null;
-    return { v: 1, currency: l.currency, start: l.start, entries: l.entries.filter(isEntry), backedUp: Number(l.backedUp) || 0 };
+    // Timestamps are what same-day entries are ordered by; an entry stored without them still loads.
+    const stamp = (n: unknown) => (typeof n === "number" && Number.isFinite(n) ? n : 0);
+    const entries = (l.entries as unknown[]).filter(isEntry).map((e) => ({ ...e, created: stamp(e.created), updated: stamp(e.updated) }));
+    return { v: 1, currency: l.currency, start: l.start, entries, backedUp: Number(l.backedUp) || 0 };
   } catch {
     return null;
   }
@@ -137,7 +140,7 @@ export function summarize(log: Log): Summary {
   const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
 
   let bankroll = log.start;
-  const series = [{ at: entries[0]?.at ?? "", bankroll }];
+  const series = [{ at: "", bankroll }]; // the starting bankroll has no day of its own
   for (const e of entries) series.push({ at: e.at, bankroll: (bankroll += delta(e)) });
 
   let run = 0, peak = 0, downswing = 0;
@@ -189,7 +192,7 @@ export const markBackedUp = (log: Log): Log => ({ ...log, backedUp: log.entries.
 
 // ---- CSV ------------------------------------------------------------------------------------
 
-export const CSV_COLUMNS = ["date", "type", "big_blind", "money_in", "money_out", "amount", "minutes", "where", "note", "currency", "id"];
+export const CSV_COLUMNS = ["date", "type", "big_blind", "money_in", "money_out", "amount", "minutes", "where", "note", "currency", "id", "logged_at"];
 
 const decimal = (cents: number) => (cents / 100).toFixed(2);
 const cell = (s: string) => (/[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s);
@@ -199,7 +202,7 @@ const cell = (s: string) => (/[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` :
  * money_in / money_out; deposits, withdrawals and the start use amount. Opens in any spreadsheet.
  */
 export function toCsv(log: Log): string {
-  const rows: string[][] = [["", "start", "", "", "", decimal(log.start), "", "", "", log.currency, "start"]];
+  const rows: string[][] = [["", "start", "", "", "", decimal(log.start), "", "", "", log.currency, "start", ""]];
   for (const e of inOrder(log.entries)) {
     const session = isSession(e);
     rows.push([
@@ -214,31 +217,47 @@ export function toCsv(log: Log): string {
       e.note ?? "",
       log.currency,
       e.id,
+      String(e.created), // when it was logged (milliseconds): keeps same-day order and survives the round trip
     ]);
   }
   return [CSV_COLUMNS, ...rows].map((r) => r.map(cell).join(",")).join("\r\n") + "\r\n";
 }
 
-/** Splits CSV text into rows of cells: quoted cells, doubled quotes, commas and line breaks inside quotes. */
+/**
+ * Splits CSV text into rows of cells: quoted cells, doubled quotes, separators and line breaks inside
+ * quotes. The separator is a comma, or a semicolon when the first line has semicolons and no commas
+ * (what a spreadsheet writes where the comma is the decimal mark).
+ */
 export function parseCsv(text: string): string[][] {
-  const rows: string[][] = [];
-  let row: string[] = [], cur = "", quoted = false;
-  const t = text.replace(/^﻿/, "");
+  return parseCsvLines(text).map((r) => r.cells);
+}
+
+/** As parseCsv, with the line of the file each row starts on (blank lines and line breaks inside quotes counted). */
+export function parseCsvLines(text: string): { cells: string[]; line: number }[] {
+  const rows: { cells: string[]; line: number }[] = [];
+  let row: string[] = [], cur = "", quoted = false, line = 1, startLine = 1;
+  const t = text.replace(/^\uFEFF/, "");
+  const first = t.split(/\r?\n/, 1)[0];
+  const sep = first.includes(";") && !first.includes(",") ? ";" : ",";
   for (let i = 0; i < t.length; i++) {
     const ch = t[i];
     if (quoted) {
       if (ch === '"' && t[i + 1] === '"') (cur += '"'), i++;
       else if (ch === '"') quoted = false;
-      else cur += ch;
+      else {
+        if (ch === "\n") line++;
+        cur += ch;
+      }
     } else if (ch === '"') quoted = true;
-    else if (ch === ",") row.push(cur), (cur = "");
+    else if (ch === sep) row.push(cur), (cur = "");
     else if (ch === "\n" || ch === "\r") {
       if (ch === "\r" && t[i + 1] === "\n") i++;
-      row.push(cur), rows.push(row), (row = []), (cur = "");
+      row.push(cur), rows.push({ cells: row, line: startLine }), (row = []), (cur = "");
+      startLine = ++line;
     } else cur += ch;
   }
-  if (cur !== "" || row.length) row.push(cur), rows.push(row);
-  return rows.filter((r) => r.some((c) => c.trim() !== ""));
+  if (cur !== "" || row.length) row.push(cur), rows.push({ cells: row, line: startLine });
+  return rows.filter((r) => r.cells.some((c) => c.trim() !== ""));
 }
 
 const signature = (e: EntryInput) => [e.at, e.kind, e.cost, e.payout, e.bb ?? "", e.minutes ?? "", e.note ?? ""].join("|");
@@ -257,8 +276,8 @@ export interface ImportResult {
  * the rest. A "start" row sets the starting bankroll and currency only when the log is still empty.
  */
 export function fromCsv(text: string, log: Log, makeId: () => string, now: number): ImportResult {
-  const rows = parseCsv(text);
-  const header = (rows[0] ?? []).map((h) => h.trim().toLowerCase());
+  const rows = parseCsvLines(text);
+  const header = (rows[0]?.cells ?? []).map((h) => h.trim().toLowerCase());
   const col = (name: string) => header.indexOf(name);
   if (col("date") < 0 || col("type") < 0)
     return { log, added: 0, skipped: 0, errors: ['The file needs a first line naming its columns, with at least "date" and "type".'] };
@@ -272,10 +291,9 @@ export function fromCsv(text: string, log: Log, makeId: () => string, now: numbe
   for (const e of log.entries) had.set(signature(e), (had.get(signature(e)) ?? 0) + 1);
   const met = new Map<string, number>();
   const errors: string[] = [];
-  let added = 0, skipped = 0;
+  let added = 0, skipped = 0, restored = 0;
 
-  rows.slice(1).forEach((r, i) => {
-    const line = i + 2;
+  rows.slice(1).forEach(({ cells: r, line }) => {
     const get = (name: string) => (col(name) >= 0 ? (r[col(name)] ?? "").trim() : "");
     const money = (name: string): number | null => (get(name) === "" ? 0 : parseMoney(get(name)));
     const kind = get("type").toLowerCase();
@@ -307,13 +325,17 @@ export function fromCsv(text: string, log: Log, makeId: () => string, now: numbe
       ...(get("note") ? { note: get("note") } : {}),
     };
     const id = get("id");
-    if (id ? ids.has(id) : met.set(signature(input), (met.get(signature(input)) ?? 0) + 1).get(signature(input))! <= (had.get(signature(input)) ?? 0))
-      return void skipped++;
+    const sig = signature(input);
+    if (!id) met.set(sig, (met.get(sig) ?? 0) + 1);
+    if (id ? ids.has(id) : met.get(sig)! <= (had.get(sig) ?? 0)) return void skipped++;
     const newId = id || makeId();
     ids.add(newId);
-    out = addEntry(out, input, newId, now);
+    const logged = Number(get("logged_at"));
+    out = addEntry(out, input, newId, Number.isFinite(logged) && logged > 0 ? logged : now);
+    if (isSession(out.entries[out.entries.length - 1])) restored++;
     added++;
   });
 
-  return { log: out, added, skipped, errors };
+  // What came from a file is already in a file: it does not count towards the next backup reminder.
+  return { log: { ...out, backedUp: out.backedUp + restored }, added, skipped, errors };
 }

@@ -65,7 +65,7 @@ describe("entries and the summary", () => {
     log = add(log, cash(1000, 2000), "2026-11-03");
     log = add(log, cash(1000, 0), "2026-11-01");
     expect(summarize(log).series).toEqual([
-      { at: "2026-11-01", bankroll: 10000 },
+      { at: "", bankroll: 10000 }, // the start has no day
       { at: "2026-11-01", bankroll: 9000 },
       { at: "2026-11-03", bankroll: 10000 },
     ]);
@@ -154,6 +154,14 @@ describe("storage", () => {
     expect(() => saveLog(emptyLog())).not.toThrow();
   });
 
+  it("an entry stored without timestamps still loads and sorts", () => {
+    const e = (id: string, payout: number) => ({ id, at: "2026-11-01", kind: "cash", cost: 1000, payout });
+    fakeStorage({ "llamapoker.bankroll.v1": JSON.stringify({ v: 1, currency: "$", start: 0, entries: [e("a", 2000), e("b", 0)] }) });
+    const log = loadLog()!;
+    expect(log.entries.map((x) => x.created)).toEqual([0, 0]);
+    expect(summarize(log).series.map((p) => p.bankroll)).toEqual([0, 1000, 0]);
+  });
+
   it("drops entries it cannot trust and keeps the rest", () => {
     const good = add(emptyLog(), cash(1000, 2000)).entries[0];
     fakeStorage({ "llamapoker.bankroll.v1": JSON.stringify({ v: 1, currency: "$", start: 0, entries: [good, { id: "x", at: "soon", kind: "cash", cost: 1, payout: 1 }, null] }) });
@@ -178,8 +186,7 @@ describe("CSV", () => {
     expect(back.added).toBe(4);
     expect(back.log.currency).toBe("€");
     expect(back.log.start).toBe(50000);
-    const strip = (l: Log) => l.entries.map(({ created, updated, ...e }) => e);
-    expect(strip(back.log)).toEqual(strip(log));
+    expect(back.log.entries).toEqual(log.entries); // ids and the time each was logged included
     expect(summarize(back.log).bankroll).toBe(summarize(log).bankroll);
   });
 
@@ -221,11 +228,36 @@ describe("CSV", () => {
     expect(r.log.entries[0]).toMatchObject({ cost: 2000, payout: 3550 });
   });
 
+  it("reads a semicolon-separated file, as a spreadsheet writes where the comma is the decimal mark", () => {
+    const r = fromCsv("date;type;money_in;money_out;note\r\n2026-10-01;cash;20,00;35,50;a, b\r\n", emptyLog("€"), id, 1);
+    expect(r.errors).toEqual([]);
+    expect(r.log.entries[0]).toMatchObject({ cost: 2000, payout: 3550, note: "a, b" });
+  });
+
+  it("the file's own byte-order mark is stripped by an escape, not an invisible character in the source", () => {
+    expect(parseCsv("\uFEFFa,b")).toEqual([["a", "b"]]);
+  });
+
   it("reports a bad row with its line number and imports the rest", () => {
     const text = "date,type,money_in,money_out,amount\n2026-10-01,cash,20,35,\n01/10/2026,cash,20,35,\n2026-10-02,roulette,1,2,\n2026-10-03,cash,twenty,35,\n2026-10-04,deposit,,,\n2026-10-05,deposit,,,100\n";
     const r = fromCsv(text, emptyLog(), id, 1);
     expect(r.added).toBe(2);
     expect(r.errors.map((e) => e.slice(0, 7))).toEqual(["Line 3:", "Line 4:", "Line 5:", "Line 6:"]);
+  });
+
+  it("counts lines as the file has them: blank lines and notes that run over two lines", () => {
+    const text = 'date,type,money_in,money_out,note\n\n2026-10-01,cash,20,35,"one\ntwo"\n\nsoon,cash,1,2,\n';
+    const r = fromCsv(text, emptyLog(), id, 1);
+    expect(r.added).toBe(1);
+    expect(r.errors).toEqual(['Line 6: date "soon" is not written as YYYY-MM-DD.']);
+  });
+
+  it("a restored log does not ask for a backup straight away", () => {
+    let log = emptyLog();
+    for (let i = 0; i < 12; i++) log = add(log, cash(1000, 1000 + i));
+    const back = fromCsv(toCsv(log), emptyLog(), id, 1).log;
+    expect(summarize(back).backupDue).toBe(false);
+    expect(summarize(add(back, cash(1000, 5))).backupDue).toBe(false); // one new session: nine to go
   });
 
   it("refuses a file without its column names", () => {

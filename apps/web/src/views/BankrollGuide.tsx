@@ -12,13 +12,14 @@
 import { Guide, Callout } from "../components/Guide";
 import { Link } from "../components/Link";
 import { BankrollCalculator, ruleRows } from "../components/BankrollCalculator";
-import { bankrollForRuin, BUYINS, CASH_DEFAULTS, CASH_STAKES, cashRuin, formatMoney, TOURNAMENT_STAKES } from "../poker/bankroll";
+import { bankrollForRuin, BUYINS, CASH_DEFAULTS, CASH_STAKES, cashRuin, formatMoney, PAID_SHARE, TOURNAMENT_STAKES } from "../poker/bankroll";
 import { formatPct } from "../poker/odds";
 
 const RULES = ruleRows();
 const { winRate, sd } = CASH_DEFAULTS;
 const std = BUYINS.cash.standard;
 const example = CASH_STAKES[2]; // $0.05/$0.10
+const ONE_IN = ["", "", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"][Math.round(1 / PAID_SHARE)] ?? String(Math.round(1 / PAID_SHARE));
 
 export default function BankrollGuide() {
   return (
@@ -163,7 +164,7 @@ export default function BankrollGuide() {
         </div>
         <p className="ro-caption">
           In a cash game you win or lose a little most days. In a tournament you lose your buy-in most of the time and
-          occasionally win many buy-ins at once, since only about one player in seven gets paid and most of the prize
+          occasionally win many buy-ins at once, since only about one player in {ONE_IN} gets paid and most of the prize
           money sits at the final table. Results that lopsided mean long stretches without a cash, even for good players,
           so the rule asks for {BUYINS.tournament.standard} buy-ins where cash asks for {std}. The bigger the field, the
           longer the dry spells: a 1,000-player tournament needs a deeper bankroll than a 100-player one.
