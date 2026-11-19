@@ -24,15 +24,15 @@
 
 ## Next
 
-0c. **Bankroll management** (spec and tickets `.scratch/bankroll/`, started 2026-11-19). Built on
-   `feat/bankroll`, waiting for the founder's merge: a calculator and a session tracker on one page,
-   `/bankroll` (buy-in rules give the stake and the move-up and move-down lines; risk of ruin behind
-   it; sessions kept in the browser with a CSV file out and in), and the guide
-   `/learn/bankroll-management` in the Learn path. Part C, a practice bankroll in the Trainer's
-   full-hand drill (play money, same rule, ticket 08), is built on `feat/bankroll-practice`, stacked
-   on the first branch. Next: the two bankroll searches proposed for `apps/seo/targets.json`; a
-   bankroll pillar on the home page (the FAQ already links it). Later, with the backend: accounts and sync
-   (the log is already versioned, with ids and timestamps).
+0c. **Bankroll management** (spec and tickets `.scratch/bankroll/`). **Shipped 2026-11-19 (PRs #51
+   and #52):** a calculator and a session tracker on one page, `/bankroll` (buy-in rules give the
+   stake and the move-up and move-down lines; risk of ruin behind it; sessions kept in the browser
+   with a CSV file out and in), the guide `/learn/bankroll-management` in the Learn path, and a
+   practice bankroll in the Trainer's full-hand drill (play money, same rule). A fourth pillar on
+   the home page; "poker bankroll calculator" and "poker bankroll management" added to the SEO
+   agent's targets (20 now). Next, from use: what the founder wants improved; request indexing for
+   the two new pages. Later, with the backend: accounts and sync (the log is already versioned,
+   with ids and timestamps).
 
 0. **The wall** (`apps/wall`): built 2026-11-11 night; local-first by decision (2026-11-12: runs on
    this PC, a VPS maybe later, never part of the site). Next, grilled 2026-11-12: **renders in The

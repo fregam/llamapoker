@@ -1,5 +1,5 @@
 {
-  "note": "The searches the SEO agent is scored on: page one of Google (average position 10 or better) for each, with the page meant to win it. Beginner study intents only; nothing about use during real-money play. Changing this list changes the score, so it changes only with the founder's yes. This list: approved by the founder 2026-11-17.",
+  "note": "The searches the SEO agent is scored on: page one of Google (average position 10 or better) for each, with the page meant to win it. Beginner study intents only; nothing about use during real-money play. Changing this list changes the score, so it changes only with the founder's yes. This list: approved by the founder 2026-11-17; the two bankroll searches added 2026-11-19 on the founder's word.",
   "targets": [
     { "query": "poker odds calculator", "page": "/table" },
     { "query": "poker hand calculator", "page": "/table" },
@@ -16,6 +16,8 @@
     { "query": "poker outs", "page": "/learn/outs" },
     { "query": "poker outs chart", "page": "/learn/outs" },
     { "query": "rule of 2 and 4 poker", "page": "/learn/outs" },
+    { "query": "poker bankroll calculator", "page": "/bankroll" },
+    { "query": "poker bankroll management", "page": "/learn/bankroll-management" },
     { "query": "online poker helper", "page": "/learn/online-poker-helper" },
     { "query": "poker glossary", "page": "/glossary" },
     { "query": "poker strategy for beginners", "page": "/strategy" }
