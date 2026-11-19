@@ -1,12 +1,17 @@
 /**
  * The Glossary page: static definitions of every term the tool uses, with worked
  * formulas. Keep it in sync when the math or terminology changes.
- * Uses: components/Explain (Formula), components/Link (to the pot odds and outs guides).
+ * Uses: components/Explain (Formula), components/Link (to the guides), poker/bankroll and
+ * poker/odds (the bankroll entries print the engine's own numbers).
  */
 
 import { ReactNode } from "react";
 import { Formula } from "../components/Explain";
 import { Link } from "../components/Link";
+import { BUYINS, CASH_DEFAULTS, cashRuin } from "../poker/bankroll";
+import { formatPct } from "../poker/odds";
+
+const RUIN_EXAMPLE = formatPct(cashRuin(BUYINS.cash.standard * 100, CASH_DEFAULTS.winRate, CASH_DEFAULTS.sd), 0);
 
 function Entry({ term, children }: { term: string; id?: string; children: ReactNode }) {
   return (
@@ -152,6 +157,43 @@ export default function Glossary() {
             There are 1,326 distinct two-card starting hands (52 × 51 ÷ 2). The 13×13 grid groups
             them into 169 types: each pair is 6 combos, each suited hand 4, each offsuit hand 12.
             "% of hands" = combos in the range ÷ 1,326.
+          </Entry>
+        </dl>
+      </section>
+
+      <section className="gloss-section">
+        <h2>Money behind the game</h2>
+        <dl>
+          <Entry term="Bankroll">
+            The money you keep for poker and nothing else, counted in buy-ins for the stake you play. The{" "}
+            <Link to="/learn/bankroll-management">bankroll management guide</Link> has the rules, and the{" "}
+            <Link to="/bankroll">bankroll calculator</Link> works out yours.
+          </Entry>
+
+          <Entry term="Buy-in">
+            What you sit down with. In a cash game the standard buy-in is 100 big blinds; in a tournament it is the
+            entry price, fee included. Bankroll rules count buy-ins: {BUYINS.cash.standard} for cash games and{" "}
+            {BUYINS.tournament.standard} for tournaments is the standard rule.
+          </Entry>
+
+          <Entry term="Variance">
+            The luck in your results: the gap between how well you played and what you won over a stretch. It evens
+            out over many thousands of hands, which is far longer than it feels.
+          </Entry>
+
+          <Entry term="Risk of ruin">
+            The chance of losing your whole bankroll before it grows for good, if you stay at one stake and never move
+            down. For cash games:
+            <Formula steps={[{ label: "Risk", expr: "e^(−2 × win rate × bankroll ÷ SD²)", result: `e.g. ${RUIN_EXAMPLE}` }]} />
+            with everything in big blinds, and the win rate and standard deviation (SD) per 100 hands. The example is{" "}
+            {BUYINS.cash.standard} buy-ins for a player winning {CASH_DEFAULTS.winRate} big blinds per 100 hands with an SD
+            of {CASH_DEFAULTS.sd}. Moving down when the bankroll falls under its line is what keeps the real risk far
+            lower. A player who does not win has a risk of ruin of 100%.
+          </Entry>
+
+          <Entry term="ROI">
+            Return on investment, the tournament player's win rate: profit ÷ the buy-ins paid. An ROI of 10% means
+            getting back $11 for every $10 spent on entries, on average.
           </Entry>
         </dl>
       </section>

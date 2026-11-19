@@ -26,6 +26,8 @@ import HandRankings from "./views/HandRankings";
 import PokerHelper from "./views/PokerHelper";
 import PotOdds from "./views/PotOdds";
 import Outs from "./views/Outs";
+import Bankroll from "./views/Bankroll";
+import BankrollGuide from "./views/BankrollGuide";
 import { CityBackdrop } from "./components/Skyline";
 import { Link } from "./components/Link";
 import { usePath } from "./router";
@@ -35,11 +37,12 @@ import { remember } from "./attribution";
 
 /** Pages that carry the letter form inline (home section, guide footers, the trainer's readout):
  *  the colophon form is for every other page, so no page shows it twice. */
-const INLINE_SIGNUP = new Set<PageId>(["home", "trainer", "positions", "starting-hands", "hand-rankings", "poker-helper", "pot-odds", "outs"]);
+const INLINE_SIGNUP = new Set<PageId>(["home", "trainer", "positions", "starting-hands", "hand-rankings", "poker-helper", "pot-odds", "outs", "bankroll-management"]);
 
 const NAV: [string, string][] = [
   ["/table", "The Table"],
   ["/trainer", "Trainer"],
+  ["/bankroll", "Bankroll"],
   ["/learn", "Learn"],
   ["/glossary", "Glossary"],
 ];
@@ -97,6 +100,10 @@ function Page({ page }: { page: PageId }) {
       return <PotOdds />;
     case "outs":
       return <Outs />;
+    case "bankroll":
+      return <Bankroll />;
+    case "bankroll-management":
+      return <BankrollGuide />;
     case "about":
       return <About />;
     default:
@@ -165,6 +172,8 @@ export default function App() {
             <Link to="/learn/starting-hands">Starting hands</Link>
             <Link to="/learn/pot-odds">Pot odds</Link>
             <Link to="/learn/outs">Outs chart</Link>
+            <Link to="/bankroll">Bankroll calculator</Link>
+            <Link to="/learn/bankroll-management">Bankroll management</Link>
             <Link to="/strategy">Strategy</Link>
             <Link to="/learn/online-poker-helper">Poker helpers: what's allowed</Link>
             <Link to="/about">About</Link>

@@ -1,7 +1,20 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-17 (the wall's look pass, PR #50).
+the end. Last update: 2026-11-19 (bankroll management, branch `feat/bankroll`).
+
+## Done 2026-11-19
+
+- **Bankroll management, parts A and B** (branch `feat/bankroll`, worktree
+  `.claude/worktrees/bankroll`, spec and tickets `.scratch/bankroll/`): the rules engine and the
+  tracker log (`apps/web/src/poker/bankroll.ts`, `bankrollLog.ts`, 46 tests), the calculator and
+  the tracker on `/bankroll`, the guide `/learn/bankroll-management`, a "Bankroll" nav item, new
+  glossary entries, and the privacy, FAQ and About pages kept true. Checked in a real browser:
+  cash, tournament, deposit and withdrawal logged, totals right, reload keeps them, delete
+  everything then import the CSV restores them, no sideways scroll at 390 px. Not checked: the
+  browser actually saving the downloaded file to disk (the button was pressed with the save
+  captured, and the bytes compared), and a real phone. The founder made six calls in the grill and handed the rest over; those are
+  listed at the top of the spec to overrule.
 
 ## Done 2026-11-17
 
@@ -122,6 +135,12 @@ the end. Last update: 2026-11-17 (the wall's look pass, PR #50).
   which fail CI) are left open for a deliberate upgrade later.
 
 ## Waiting on the founder
+
+- **Bankroll, 2026-11-19:** read `/bankroll` and the guide on the pull request's preview, then merge
+  (a merge deploys). Overrule anything under "Decided by Claude" in `.scratch/bankroll/spec.md`.
+  Say yes or no to adding "poker bankroll calculator" and "poker bankroll management" to
+  `apps/seo/targets.json`, and to a bankroll mention on the home page. Part C (a practice bankroll
+  in the Trainer) starts with a short grill: starting amount, what a bust does, chosen or assigned stake.
 
 - **SEO on the wall, 2026-11-17 (PR #48 merged):** (1) register
   or replace the scheduled task with the command in `apps/seo/README.md` (it starts `weekly.mjs`

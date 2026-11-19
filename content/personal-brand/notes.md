@@ -545,3 +545,23 @@ lesson, and a hook line that could open the post.
   down and the same design looks expensive. And judge a screen on its emptiest day and its
   busiest, never on one.
 - **Hook:** "My dashboard looked cheap. I kept the three colours and only turned the volume down."
+
+## 2026-11-19: The bankroll rule every coach teaches fails one time in four
+
+- **Choice:** the site got a bankroll calculator. The verdict is the rule every poker coach
+  teaches: keep 30 buy-ins for the stake you play. Behind it, the page shows the number nobody
+  prints next to that rule: the chance of losing all 30 if you stay at that stake and never move
+  down. For a small winner it is 23%. Both numbers are on the page, with one sentence on why they
+  are both true: the rule only works because of its second half, moving down.
+- **Rejected:** showing only the friendly rule (what every chart does), or only the scary number
+  (it needs your win rate, and beginners guess theirs too high). Also rejected: writing the
+  numbers from memory. The formula was checked against its published example and against a
+  simulation before any page used it. And no accounts: a person's poker results stay in their
+  own browser, with a file to back them up.
+- **What happened:** the founder answered five design questions, then said "do what you think
+  best, we'll see from there". So every decision made after that went into a list at the top of
+  the spec, titled so each one can be overruled in a line. To hold the risk at 5% without ever
+  moving down, that same small winner needs 61 buy-ins, twice the rule.
+- **Lesson:** a rule of thumb is half a rule when the other half is a habit. "Keep 30 buy-ins"
+  is safe only for people who drop a stake the day they fall under the line. Say the habit out loud.
+- **Hook:** "The bankroll rule every poker coach teaches goes broke one time in four. Here's the half they skip."

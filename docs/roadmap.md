@@ -24,6 +24,15 @@
 
 ## Next
 
+0c. **Bankroll management** (spec and tickets `.scratch/bankroll/`, started 2026-11-19). Built on
+   `feat/bankroll`, waiting for the founder's merge: a calculator and a session tracker on one page,
+   `/bankroll` (buy-in rules give the stake and the move-up and move-down lines; risk of ruin behind
+   it; sessions kept in the browser with a CSV file out and in), and the guide
+   `/learn/bankroll-management` in the Learn path. Next: part C, a practice bankroll in the Trainer
+   (ticket 08, its own pull request, a short grill first); the two bankroll searches proposed for
+   `apps/seo/targets.json`; a mention on the home page. Later, with the backend: accounts and sync
+   (the log is already versioned, with ids and timestamps).
+
 0. **The wall** (`apps/wall`): built 2026-11-11 night; local-first by decision (2026-11-12: runs on
    this PC, a VPS maybe later, never part of the site). Next, grilled 2026-11-12: **renders in The
    machine**: `job <command>` shows every local job (Remotion render, MMAudio, teardown) as a

@@ -31,6 +31,8 @@ export type PageId =
   | "poker-helper"
   | "pot-odds"
   | "outs"
+  | "bankroll"
+  | "bankroll-management"
   | "about"
   | "notfound";
 
@@ -161,6 +163,22 @@ export const ROUTES: Route[] = [
     ),
   },
   {
+    path: "/bankroll",
+    page: "bankroll",
+    name: "Bankroll calculator",
+    title: "Poker Bankroll Calculator & Tracker — What Stakes Can I Play? | LlamaPoker",
+    description:
+      "Free poker bankroll calculator: enter your bankroll and see the stakes it covers, when to move up and when to move down, with your risk of ruin. Then log your sessions in the bankroll tracker, kept in your browser.",
+    prerender: true,
+    schema: webApp(
+      "LlamaPoker bankroll calculator and tracker",
+      "/bankroll",
+      "Free poker bankroll calculator and session tracker: the stakes a bankroll covers by buy-in rule, move-up and move-down lines, and risk of ruin for cash games and tournaments."
+    ),
+    published: "2026-11-19",
+    modified: "2026-11-19",
+  },
+  {
     path: "/learn",
     page: "learn",
     name: "Learn",
@@ -260,6 +278,24 @@ export const ROUTES: Route[] = [
     modified: "2026-11-06",
   },
   {
+    path: "/learn/bankroll-management",
+    page: "bankroll-management",
+    name: "Bankroll management",
+    title: "Poker Bankroll Management — How Many Buy-ins You Need (Chart) | LlamaPoker",
+    description:
+      "How big a poker bankroll you need: the buy-in rule for cash games and tournaments, a chart of the bankroll each stake takes, when to move up or down, and risk of ruin in plain words.",
+    prerender: true,
+    schema: article(
+      "/learn/bankroll-management",
+      "Poker bankroll management",
+      "How many buy-ins to keep for cash games and tournaments, when to move up and down, and what risk of ruin means.",
+      "2026-11-19",
+      "2026-11-19"
+    ),
+    published: "2026-11-19",
+    modified: "2026-11-19",
+  },
+  {
     path: "/learn/online-poker-helper",
     page: "poker-helper",
     name: "Online poker helpers",
@@ -346,6 +382,7 @@ export const LEARN_PATH = [
   "/learn/starting-hands",
   "/learn/pot-odds",
   "/learn/outs",
+  "/learn/bankroll-management",
   "/glossary",
   "/strategy",
   "/learn/online-poker-helper",

@@ -1,0 +1,26 @@
+# 06 The tracker on the page
+
+Status: done (2026-11-19, branch feat/bankroll)
+Blocked by: 03, 05
+
+`components/BankrollTracker.tsx` on `/bankroll`: "Track it from here" from the calculator,
+the session form (four required fields, the rest under More), the list with delete, the figures
+(bankroll, profit, hourly, tournament ROI), the bankroll line (SVG, brand tokens), download and
+import, the backup nudge, a two-step "delete everything". Once tracking, the calculator reads
+the tracked bankroll.
+
+## Done when
+
+- [x] Nothing is read from storage during render; the prerender is the calculator alone.
+- [x] Checked in a real browser: log a cash session, a tournament and a deposit; reload; export;
+      delete everything; import; the numbers come back.
+
+## Comments
+
+2026-11-19: checked in Chrome on the dev server, each step read back: four entries logged in euros
+with decimal commas (two identical tournaments kept as two), bankroll 860.25; the download button
+pressed with the link's click captured instead of saving a file (the bytes equal `toCsv`, with a
+byte-order mark; the link is attached, its address released a second later); "delete everything"
+empties the page and storage; a new tracker started at 1, the file imported: 4 added, start and
+currency restored, 860.25 again; a second import adds nothing. Not done: saving the file to disk
+through the browser's own download, and a real phone.

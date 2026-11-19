@@ -70,6 +70,10 @@ src/
     handPlay.ts         Trainer "Full hand" engine: deal, villain play, pot/stack bookkeeping, showdown
     drills.ts           Trainer single-spot generators (mixed, preflop, call-or-fold, count the outs)
     stats.ts            Trainer stats in localStorage + findLeaks()
+    bankroll.ts         Bankroll rules: money in whole cents, the buy-in table, stake ladders, advise() (stake,
+                        move-up and move-down lines), risk of ruin (closed form for cash, seeded simulation for tournaments)
+    bankrollLog.ts      The bankroll tracker's log in localStorage: entries, summarize(), CSV out and in
+    bankroll.test.ts, bankrollLog.test.ts   Vitest suites for the two files above
     poker.test.ts       Vitest suite for all of the above
 
   hooks/
@@ -90,6 +94,10 @@ src/
     Guide.tsx           Learn-guide frame: breadcrumb, h1, lead, byline (author, date last changed, link to /about), "next in the path", tool links, compact signup; <Callout>
     RangeChart.tsx      Read-only 13×13 chart (layers: 3-bet / call / raise), used by Starting hands
     TableDiagram.tsx    SVG 6-max table: seats, dealer button, order of action pre/postflop
+    BankrollCalculator.tsx  Bankroll, game and how careful → the stake you are rolled for, both lines, risk of ruin
+                        behind <Explain>; used on /bankroll and inline in the bankroll guide
+    BankrollTracker.tsx The visitor's sessions on /bankroll: figures, the bankroll line (SVG), the log form, the list,
+                        CSV download and import; browser only, never prerendered
     Signup.tsx          Email capture: JSON POST to /api/subscribe with source + attribution (honeypot "company",
                         optional Turnstile via VITE_TURNSTILE_SITE_KEY); `compact` variant hides once joined (localStorage)
     Skyline.tsx         Decorative night-city background painted once on a <canvas> (blurred depth layers, bokeh)
@@ -103,6 +111,9 @@ src/
     PokerHelper.tsx     /learn/online-poker-helper — catches "poker helper" searches; honest RTA guidance
     PotOdds.tsx         /learn/pot-odds: the price of a call, formula, bet-size → equity-needed chart (odds.potOdds)
     Outs.tsx            /learn/outs: counting outs, common draws, rule of 2 and 4, full outs chart (exact odds)
+    Bankroll.tsx        /bankroll: the calculator, then the tracker once started; owns the log and saves it (localStorage)
+    BankrollGuide.tsx   /learn/bankroll-management: the buy-in rule, a bankroll chart per stake, moving up and down,
+                        risk of ruin; every number from poker/bankroll.ts
     About.tsx           /about: who makes the site (seo.ts AUTHOR), how the numbers are computed, how the guides are
                         written, what it is for; the page every guide byline links to. Keep every statement true
     Privacy.tsx         /privacy — what's stored (keep true when adding analytics/cookies)
@@ -242,8 +253,8 @@ Hotkeys are ignored while focus is in an input or select.
 
 ## The website layer
 
-- **Routes** are listed once in `src/seo.ts` (`/`, `/table`, `/trainer`, `/strategy`, `/glossary`,
-  `/privacy`). To add a page: add the route there, a case in `App.tsx`'s `<Page>`, and the view.
+- **Routes** are listed once in `src/seo.ts` (`/`, `/table`, `/trainer`, `/bankroll`, `/learn/...`,
+  `/strategy`, `/glossary`, `/about`, `/privacy`). To add a page: add the route there, a case in `App.tsx`'s `<Page>`, and the view.
 - **Navigation** uses `<Link to>` / `navigate()` from `router.ts` (History API). Pages remount
   on route change (`<main key={page}>`). `App` updates `document.title` and the description.
 - **Prerender.** `npm run build` renders every `prerender: true` route to HTML via
@@ -290,6 +301,22 @@ Hotkeys are ignored while focus is in an input or select.
   its token, `TURNSTILE_SECRET_KEY` in the function makes it verify that token (403 without one).
   Every outcome is one JSON log line `{event: "signup", ts, ok, reason?, source, channel, …}`,
   never the address: the first event in the common format that later events will share.
+### Bankroll
+
+`/bankroll` is one page with two states. Prerendered and on a first visit it is the calculator
+(`BankrollCalculator`) with an example bankroll: `poker/bankroll.advise()` turns bankroll, game and
+how careful into the highest stake the buy-in rule covers (`BUYINS`: cash 20 / 30 / 50, tournaments
+50 / 100 / 200), the line to move up at and the line to move down below. Risk of ruin sits behind
+`<Explain>`: `cashRuin()` is the closed form `exp(−2 × win rate × bankroll ÷ SD²)`; `tournamentRuin()`
+is a seeded simulation (same inputs, same answer; quick enough to run on a keystroke, so no worker) over a simple payout
+model. "Track it from here" creates the log (`poker/bankrollLog.ts`, key `llamapoker.bankroll.v1`,
+versioned, ids and timestamps on every entry so it can move into accounts later); from then on
+`views/Bankroll.tsx` reads it in an effect, mounts `BankrollTracker` and feeds the tracked bankroll
+to the calculator. An entry is a cash session, a tournament, a deposit or a withdrawal; its effect
+on the bankroll is always `payout − cost`, and deposits and withdrawals never count as results.
+Money is whole cents, dates are `YYYY-MM-DD` strings. The CSV file is the backup and the way in
+from a spreadsheet. Spec and decisions: `.scratch/bankroll/spec.md`.
+
 ### Search strategy (who we're found by)
 
 The core persona is a **beginner**: knows how a hand is dealt, doesn't know positions or pot
