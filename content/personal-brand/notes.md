@@ -565,3 +565,23 @@ lesson, and a hook line that could open the post.
 - **Lesson:** a rule of thumb is half a rule when the other half is a habit. "Keep 30 buy-ins"
   is safe only for people who drop a stake the day they fall under the line. Say the habit out loud.
 - **Hook:** "The bankroll rule every poker coach teaches goes broke one time in four. Here's the half they skip."
+
+## 2026-11-19: The reviewers found ten things. I then emptied the spec myself.
+
+- **Choice:** before opening the pull request for the bankroll pages, the change went to three
+  readers: one stronger model, then two separate agents, one reading only for the repo's rules
+  and one only for the spec. Every bug they found got a failing test first, then the fix.
+- **Rejected:** trusting 124 green tests. They were green and wrong in six places: two identical
+  tournaments in one imported file became one; "12,50" was read as 1,250; the tournament risk went
+  up when you added one buy-in (sampling noise, shown to a tenth of a percent); a winner who had
+  withdrawn everything was told his results were "at a loss".
+- **What happened:** the fixes went in through a small edit script that opened each file for
+  writing before checking that its edit applied. One edit did not apply, the script stopped, and
+  the spec was left at zero bytes. The next command committed and pushed it. It was caught a
+  minute later only because a later step tried to read the file. Minutes after that, a careless
+  command to count tests on the main branch overwrote the working files; everything was already
+  pushed, so nothing was lost.
+- **Lesson:** review catches what tests do not, and neither catches the tool you use to apply the
+  fixes. Check before you open a file for writing, and look at the diff summary before a push: a
+  line reading "93 deletions" on a spec is not a review fix.
+- **Hook:** "My tests were green and wrong in six places. Then my own fix script deleted the spec."

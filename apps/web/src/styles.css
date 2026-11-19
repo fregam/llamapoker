@@ -1331,3 +1331,13 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
   .bk-assume { grid-template-columns: 1fr; }
   .bk-table th, .bk-table td { padding-right: 8px; }
 }
+
+/* Trainer: the practice bankroll (side column, Full hand drill) */
+.practice-figure { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.practice-value { font-family: var(--serif); font-size: 44px; line-height: 0.95; letter-spacing: -1px; color: var(--paper); }
+.practice .ro-note, .practice .ro-caption { margin-top: 12px; }
+.practice-warn { border-left-color: var(--vermilion); }
+.practice .link-btn { color: var(--text); text-decoration-color: var(--rule-strong); }
+.practice-hint { margin: 10px 0 0; font-size: 13px; color: var(--text-3); }
+.practice-hint a { color: var(--text-2); text-underline-offset: 3px; }
+.practice-line { margin-top: 4px; }

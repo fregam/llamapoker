@@ -28,9 +28,10 @@
    `feat/bankroll`, waiting for the founder's merge: a calculator and a session tracker on one page,
    `/bankroll` (buy-in rules give the stake and the move-up and move-down lines; risk of ruin behind
    it; sessions kept in the browser with a CSV file out and in), and the guide
-   `/learn/bankroll-management` in the Learn path. Next: part C, a practice bankroll in the Trainer
-   (ticket 08, its own pull request, a short grill first); the two bankroll searches proposed for
-   `apps/seo/targets.json`; a mention on the home page. Later, with the backend: accounts and sync
+   `/learn/bankroll-management` in the Learn path. Part C, a practice bankroll in the Trainer's
+   full-hand drill (play money, same rule, ticket 08), is built on `feat/bankroll-practice`, stacked
+   on the first branch. Next: the two bankroll searches proposed for `apps/seo/targets.json`; a
+   bankroll pillar on the home page (the FAQ already links it). Later, with the backend: accounts and sync
    (the log is already versioned, with ids and timestamps).
 
 0. **The wall** (`apps/wall`): built 2026-11-11 night; local-first by decision (2026-11-12: runs on

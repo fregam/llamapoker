@@ -24,6 +24,11 @@ One entry per significant decision: what, why, what was rejected. Newest first. 
   results before 30 sessions (a number that means nothing); buy-in tiers or a formula written from
   memory (the tiers were checked against published guidance, the formula against its published
   worked example and against a simulation in the tests).
+- **Part C, the practice bankroll in the Trainer:** play money in the Full hand drill, $100 to
+  start, the same standard rule. The stake is the player's to move; the Trainer says when they are
+  under the line and counts the hands played there, and forces a move only when a buy-in can no
+  longer be covered. Rejected: assigning the stake automatically, which would remove the one habit
+  the thing exists to practise.
 
 ## 2026-11-17 - The wall's look: brightness does the hierarchy
 

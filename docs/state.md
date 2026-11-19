@@ -5,7 +5,7 @@ the end. Last update: 2026-11-19 (bankroll management, branch `feat/bankroll`).
 
 ## Done 2026-11-19
 
-- **Bankroll management, parts A and B** (branch `feat/bankroll`, worktree
+- **Bankroll management, parts A and B** (PR #51, branch `feat/bankroll`, worktree
   `.claude/worktrees/bankroll`, spec and tickets `.scratch/bankroll/`): the rules engine and the
   tracker log (`apps/web/src/poker/bankroll.ts`, `bankrollLog.ts`, 46 tests), the calculator and
   the tracker on `/bankroll`, the guide `/learn/bankroll-management`, a "Bankroll" nav item, new
@@ -136,11 +136,13 @@ the end. Last update: 2026-11-19 (bankroll management, branch `feat/bankroll`).
 
 ## Waiting on the founder
 
-- **Bankroll, 2026-11-19:** read `/bankroll` and the guide on the pull request's preview, then merge
+- **Bankroll, 2026-11-19:** read `/bankroll` and the guide on PR #51's preview, then merge
   (a merge deploys). Overrule anything under "Decided by Claude" in `.scratch/bankroll/spec.md`.
   Say yes or no to adding "poker bankroll calculator" and "poker bankroll management" to
-  `apps/seo/targets.json`, and to a bankroll mention on the home page. Part C (a practice bankroll
-  in the Trainer) starts with a short grill: starting amount, what a bust does, chosen or assigned stake.
+  `apps/seo/targets.json`, and to a bankroll pillar on the home page (the home FAQ already links
+  the calculator). Part C (a practice bankroll in the Trainer's full-hand drill) is built on
+  `feat/bankroll-practice`, stacked on the first branch: merge it second. Its choices are spec
+  decisions 17 to 21.
 
 - **SEO on the wall, 2026-11-17 (PR #48 merged):** (1) register
   or replace the scheduled task with the command in `apps/seo/README.md` (it starts `weekly.mjs`

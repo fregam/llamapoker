@@ -25,7 +25,7 @@ export default function Privacy() {
           <li>
             <strong>Trainer stats.</strong> Your accuracy, streaks and recent decisions are saved in your browser's
             local storage so they're there next time. Clearing your browser data removes them; you can also reset
-            them in the Trainer.
+            them in the Trainer. The Trainer's practice bankroll (play money) is kept the same way.
           </li>
           <li>
             <strong>Your bankroll and sessions.</strong> If you use the bankroll tracker, the amounts and sessions you
