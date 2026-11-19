@@ -16,5 +16,7 @@ In `poker/bankroll.ts`: `cashRuin` (closed form), `bankrollForRuin` (its inverse
 
 ## Comments
 
-2026-11-19: one `tournamentRuin` call (2,000 runs of 1,000 tournaments) was not timed on its own;
-the test fails above 1 s and the whole bankroll suite runs in about half a second. No worker.
+2026-11-19: timed in Vitest on the dev PC: one `tournamentRuin` call (2,000 players, 1,000
+tournaments each) takes about 17 ms for a 100-player field and 11 ms for 1,000. No worker.
+After review: each simulated player has their own seeded stream, so the risk can never rise
+with one more buy-in (tested from 99 to 140).
