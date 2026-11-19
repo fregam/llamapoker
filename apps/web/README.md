@@ -39,6 +39,9 @@ https://llamapoker.com; override with `SITE_URL` when building for another addre
   and down, risk of ruin for cash games and tournaments) and a session tracker on the same page. Sessions are kept
   in your browser only; download them as a CSV for backup, or import one from a spreadsheet. The guide is at
   `/learn/bankroll-management`.
+- **Practice bankroll** (Trainer, Full hand drill): play money that carries over between visits. Each hand's result
+  moves it at the stake you are on; you move up when the bankroll reaches the line for the next stake and move
+  down when it falls under the line for yours. Going bust is counted and starts it again.
 - **Learn** (`/learn`): a beginner path: hand rankings, positions (with a table diagram), starting-hand charts by seat (generated from the tool's ranges), and an honest guide to online poker helpers.
 - **Trainer**: five drills. **Full hand** plays a whole hand street by street against an opponent
   holding real cards from a realistic range, through to a showdown. **Mixed**, **Preflop**,

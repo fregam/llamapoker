@@ -13,7 +13,7 @@ money in the Trainer.
 ## Settled with the founder
 
 1. **Three parts, in this order.** A: a guide and a calculator. B: a tracker for real sessions.
-   C: a practice bankroll in the Trainer. A and B ship first; C is its own pull request after.
+   C: a practice bankroll in the Trainer. A and B ship first; C is its own pull request, stacked on theirs.
 2. **Formats:** cash games and tournaments. Sit & gos and spins are a paragraph in the guide and
    are logged as tournaments. Live or online is a label on a session, not a rule set.
 3. **The advice:** buy-in rules give the verdict; risk of ruin is the second number, behind
@@ -72,10 +72,24 @@ money in the Trainer.
     (bankroll, buy-in, variance, risk of ruin, ROI); two bankroll charts in the guide; a link to
     the calculator at the foot of every guide; hover on the tracker's line.
 
+## Part C, decided by Claude (overrule any of these)
+
+17. **Where:** the Full hand drill only; it is the one drill with a result in big blinds.
+18. **Start:** $100 of play money on $0.01/$0.02 (50 buy-ins; the next stake unlocks at $150).
+    Always dollars; it is not the visitor's tracker and never touches it.
+19. **The stake is chosen, not assigned.** "Move up" is offered once the bankroll reaches the line
+    for the next stake (the standard rule, 30 buy-ins). Under the line for the current stake the
+    panel says so in vermilion and offers the move down, and counts the hands played there. It
+    does not force the move: staying too high is the mistake this exists to practise.
+20. **What is forced:** a bankroll that cannot cover one buy-in at its stake drops to one it can;
+    one that cannot cover a buy-in at the lowest stake is a bust, counted and shown, and the
+    bankroll starts again at $100.
+21. **A stake change mid-hand applies to that hand.** It is play money; not worth a lock.
+
 ## Out of scope (this release)
 
 Accounts and sync; hands played, site names, field sizes and finish positions per session;
-currency conversion; editing an entry in place; part C (next pull request).
+currency conversion; editing an entry in place.
 
 ## Sources for the numbers
 

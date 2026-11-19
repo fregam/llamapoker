@@ -73,7 +73,9 @@ src/
     bankroll.ts         Bankroll rules: money in whole cents, the buy-in table, stake ladders, advise() (stake,
                         move-up and move-down lines), risk of ruin (closed form for cash, seeded simulation for tournaments)
     bankrollLog.ts      The bankroll tracker's log in localStorage: entries, summarize(), CSV out and in
-    bankroll.test.ts, bankrollLog.test.ts   Vitest suites for the two files above
+    practice.ts         The Trainer's practice bankroll (play money in localStorage): playHand(), moveUp / moveDown,
+                        practiceStatus() with the calculator's lines, forced drop and bust
+    bankroll.test.ts, bankrollLog.test.ts, practice.test.ts   Vitest suites for the three files above
     poker.test.ts       Vitest suite for all of the above
 
   hooks/
@@ -199,6 +201,14 @@ the villain respond (they continue with a pair or better using a hole card, or 8
 more often when strong), deals the next street and its action, and ends with a fold or a
 showdown (`over.heroNet` in bb). Each street is graded separately; the result screen shows the
 villain's cards and the net result ("luck included").
+
+**Practice bankroll.** In the Full hand drill, each finished hand's `heroNet` (big blinds) becomes play
+money at the stake being played (`poker/practice.playHand`), kept in localStorage
+(`llamapoker.practice.v1`). It starts at $100 on $0.01/$0.02 and uses the standard rule from
+`poker/bankroll.ts`: "Move up" appears in the side column once the bankroll holds 30 buy-ins of the
+next stake; under the line for the current stake the panel says so and offers the move down, and
+counts hands played there. Forced only: a bankroll that cannot cover one buy-in drops a stake, and
+one under a buy-in at the lowest stake is a bust (counted, then a fresh $100).
 
 **Shot clock.** Off / 20s / 10s; at zero the answer becomes fold (or check) and is marked wrong.
 
