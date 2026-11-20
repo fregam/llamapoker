@@ -1,9 +1,18 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-19 (bankroll management shipped, PRs #51 and #52).
+the end. Last update: 2026-11-19 (bankroll management shipped, PRs #51 and #52; copy research specced, PR #53).
 
 ## Done 2026-11-19
+
+- **Copy research grilled and specced** (branch `research/copy-study`, PR #53):
+  spec and 15 tickets in `.scratch/copy-research/`. Goal: better guides, judged by the weekly SEO
+  score. Ticket 01 is started: `apps/copy/` holds the store and the downloader, and the click file is
+  down; the two large files are not. Next: finish ticket 01, then the pilot (tickets 01 to 11), whose report needs the founder's
+  yes before the full run. The script-stage grill for reels is parked behind this.
+- Disks checked: the repo and all research data are on `E:` (HDD, 3,019 GB free). The only project
+  file on `C:` is the 623 MB audience-research backup, left there so it is not on the same disk
+  as its original.
 
 - **Bankroll management, all three parts, merged** (PRs #51 and #52; parts A and B: branch `feat/bankroll`, worktree
   `.claude/worktrees/bankroll`, spec and tickets `.scratch/bankroll/`): the rules engine and the

@@ -25,3 +25,6 @@ logs/
 
 # Hook corpus store (apps/reels/scripts/hooks/corpus.py), research data, never committed
 apps/reels/scripts/hooks/data/
+
+# Copy research store and downloads (apps/copy/store.py): NC-licensed data, never committed
+apps/copy/data/

@@ -3,6 +3,17 @@
 One entry per significant decision: what, why, what was rejected. Newest first. Decisions marked
 *proposed* wait for the founder.
 
+## 2026-11-19 - Copy research: the best writing is the writing that was measured to win
+
+The site's guides get rewritten from evidence, as the hooks were. "Best" is a measured winner from
+any subject on one of five scoreboards (pages searchers clicked, answers readers voted up,
+newsletters people came back to, ads that kept running, Wikipedia's featured articles), and only
+from writers who won repeatedly. Controlled experiments and our own winner-versus-ordinary pairs
+are the judges; famous copywriters and teachers supply techniques to test. The brand voice and
+the responsible-gambling rules stay hard limits. Rejected: reputation as proof, a topic filter,
+single hits, and paying for search results before trying the free click data (ORCAS). A 1% pilot
+runs before the full size. Spec: `.scratch/copy-research/spec.md`.
+
 ## 2026-11-19 - Bankroll management: rules give the verdict, risk of ruin explains it
 
 - **What:** a bankroll calculator and a session tracker on one page (`/bankroll`) and a guide
