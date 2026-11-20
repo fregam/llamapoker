@@ -545,3 +545,21 @@ lesson, and a hook line that could open the post.
   down and the same design looks expensive. And judge a screen on its emptiest day and its
   busiest, never on one.
 - **Hook:** "My dashboard looked cheap. I kept the three colours and only turned the volume down."
+
+## 2026-11-19: To learn copywriting, we asked who was clicked, not who is famous
+
+- **Choice:** before rewriting the site's guides, study what the best writing does, at scale:
+  about a million pages measured by scripts, 10,000 read blind by agents, up to 1,000 books,
+  teachers and published experiments. "Best" means measured: pages real searchers chose, answers
+  readers voted up, newsletters people came back to, ads that kept running. A writer counts only
+  after winning many times.
+- **Rejected:** starting from the famous copywriters. Nobody recorded which of their pieces
+  worked, and their habits (urgency, hype) break the brand's voice; they supply techniques to
+  test, not proof. Rejected by the founder: single hits ("not lucky beginners") and a topic
+  filter ("the best from everywhere"). Also rejected: paying for Google's result lists before
+  checking what is free. There is a free research file of 10 million real searches with the pages
+  people clicked; whether it beats rank as a scoreboard is what the pilot has to show. It already
+  has one flaw: it lists only winners, so the losers have to come from somewhere else.
+- **What happened:** planned only; a pilot at 1% runs first and reports before the full size.
+- **Lesson:** when you want to learn from the best, first decide who kept the score.
+- **Hook:** "I wanted to study the greatest copywriters. Then I asked how anyone knows they were great."

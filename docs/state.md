@@ -1,7 +1,18 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-17 (the wall's look pass, PR #50).
+the end. Last update: 2026-11-19 (copy research specced).
+
+## Done 2026-11-19
+
+- **Copy research grilled and specced** (branch `research/copy-study`, nothing committed yet):
+  spec and 15 tickets in `.scratch/copy-research/`. Goal: better guides, judged by the weekly SEO
+  score. Nothing is collected or built; the sources in the spec come from a web search and are
+  untested. Next: ticket 01, then the pilot (tickets 01 to 11), whose report needs the founder's
+  yes before the full run. The script-stage grill for reels is parked behind this.
+- Disks checked: the repo and all research data are on `E:` (HDD, 3,019 GB free). The only project
+  file on `C:` is the 623 MB audience-research backup, left there so it is not on the same disk
+  as its original.
 
 ## Done 2026-11-17
 

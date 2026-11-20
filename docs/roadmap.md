@@ -24,6 +24,13 @@
 
 ## Next
 
+- **Copy research** (grilled and specced 2026-11-19, branch `research/copy-study`, spec and 15
+  tickets in `.scratch/copy-research/`): what the best writing does, from measured winners on five
+  scoreboards (clicks, reader votes, returning readers, money, editors), proven writers only. A 1%
+  pilot first, then about 1M pages measured, 10,000 blind-tagged and up to 1,000 canon sources;
+  out come a playbook, a guide-writing skill, a critic and two or three guides rewritten as proof.
+  Next: ticket 01 (the store and the click data). This parks the script-stage grill for reels.
+
 0. **The wall** (`apps/wall`): built 2026-11-11 night; local-first by decision (2026-11-12: runs on
    this PC, a VPS maybe later, never part of the site). Next, grilled 2026-11-12: **renders in The
    machine**: `job <command>` shows every local job (Remotion render, MMAudio, teardown) as a
