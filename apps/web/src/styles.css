@@ -1050,9 +1050,9 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
 .home-section { padding: 56px 0; border-bottom: 1px solid var(--rule); }
 .home-h2 { margin: 0 0 26px; font-family: var(--serif); font-weight: 400; font-size: 48px; line-height: 1; letter-spacing: -1.4px; color: var(--paper); }
 
-.pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.pillar { display: flex; flex-direction: column; gap: 10px; padding: 0 28px 0 0; }
-.pillar + .pillar { padding-left: 28px; border-left: 1px solid var(--rule); }
+.pillars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pillar { display: flex; flex-direction: column; gap: 10px; padding: 0 22px 0 0; }
+.pillar + .pillar { padding-left: 22px; border-left: 1px solid var(--rule); }
 .pillar h3 { margin: 6px 0 0; font-family: var(--serif); font-weight: 400; font-size: 30px; letter-spacing: -0.6px; color: var(--paper); }
 .pillar p { margin: 0 0 6px; font-size: 15px; line-height: 1.7; color: var(--text-2); flex: 1; }
 .pillar-links { display: flex; gap: 18px; }
@@ -1266,3 +1266,78 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; }
 @media (hover: none) and (pointer: coarse) {
   .shortcuts { display: none; }
 }
+
+/* ---------- Bankroll (calculator, tracker, guide) ---------- */
+.bk-calc { margin: 0 0 34px; }
+.bk-inputs { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 28px; align-items: end; margin-bottom: 34px; }
+.bk-inputs .seg-btn { padding-left: 10px; padding-right: 10px; }
+.bk-amount { display: flex; align-items: baseline; gap: 6px; font-family: var(--serif); font-size: 28px; color: var(--text-2); }
+.bk-fixed { display: block; border-bottom-color: var(--rule); }
+.bk-empty { padding: 8px 0 26px; border-bottom: 1px solid var(--rule); }
+.bk-verdict .verdict-action { font-size: 58px; letter-spacing: -1.6px; }
+.bk-verdict .standfirst { margin-bottom: 0; }
+.bk-figures .figure-value { font-size: 40px; letter-spacing: -1px; overflow-wrap: anywhere; }
+.bk-up { color: var(--sage); }
+.bk-down { color: var(--vermilion); }
+.bk-ruin { display: flex; align-items: center; gap: 18px; margin: 6px 0 18px; color: var(--text); }
+.bk-ruin-value { flex: none; font-family: var(--serif); font-size: 46px; line-height: 1; letter-spacing: -1px; color: var(--paper); }
+.bk-assume { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0 0 18px; }
+.bk-track { margin: 30px 0 0; }
+
+.bk-tracker { padding: 34px 0 0; margin: 0 0 12px; border-top: 3px double var(--rule-strong); }
+.bk-tracker .ro-title { margin-top: 34px; }
+.bk-line { margin: 26px 0 0; }
+.bk-line svg { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: crosshair; }
+.bk-line-path { fill: none; stroke: var(--paper); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.bk-line-base { stroke: var(--rule-strong); stroke-width: 1; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
+.bk-line-cross { stroke: var(--rule-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.bk-line-dot { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.bk-line-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 18px; margin-top: 8px; font-size: 13px; color: var(--text-3); }
+.bk-line-caption strong { color: var(--text); font-weight: 600; }
+
+.bk-form { margin-top: 8px; }
+.bk-kinds { display: flex; flex-wrap: wrap; margin-bottom: 20px; }
+.bk-kinds .seg-btn { padding-left: 12px; padding-right: 12px; }
+.bk-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: end; margin-bottom: 20px; }
+.bk-fields .num { font-size: 22px; }
+.bk-fields .bk-date { font-family: var(--sans); font-size: 15px; padding-bottom: 9px; color-scheme: dark; }
+.bk-note { grid-column: span 2; }
+.bk-fields .bk-text { font-family: var(--sans); font-size: 15px; padding-bottom: 9px; } /* words, not a number: Inter */
+.bk-more { margin: 0 0 20px; }
+.bk-more > summary { display: inline-block; list-style: none; margin-bottom: 18px; cursor: pointer; }
+.bk-more > summary::-webkit-details-marker { display: none; }
+.bk-table td:last-child, .bk-table th:last-child { padding-right: 0; text-align: right; }
+.bk-table .tag { font-size: 14px; }
+.bk-even, .bk-move { color: var(--text-2); }
+.bk-backup { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin: 26px 0 14px; }
+.bk-wipe { display: inline-flex; gap: 18px; }
+.bk-danger { color: var(--vermilion); }
+.bk-notice-line { display: block; }
+.bk-tracker code { font-family: var(--mono); font-size: 0.9em; color: var(--text); }
+.bk-currency { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin: 0 0 44px; }
+.bk-notes { border-bottom: none; }
+
+@media (max-width: 720px) {
+  .bk-inputs { grid-template-columns: 1fr; gap: 22px; align-items: start; }
+  .bk-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .bk-verdict .verdict-action { font-size: 40px; letter-spacing: -1px; }
+  .bk-figures { grid-template-columns: 1fr; }
+  .bk-figures .figure { padding: 14px 0; }
+  .bk-figures .figure + .figure { padding-left: 0; border-left: none; border-top: 1px solid var(--rule); }
+  .bk-figures .figure-value { font-size: 34px; }
+  .bk-ruin { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .bk-assume { grid-template-columns: 1fr; }
+  .bk-table th, .bk-table td { padding-right: 8px; }
+}
+
+/* Trainer: the practice bankroll (side column, Full hand drill) */
+.practice-figure { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.practice-value { font-family: var(--serif); font-size: 44px; line-height: 0.95; letter-spacing: -1px; color: var(--paper); }
+.practice .ro-note, .practice .ro-caption { margin-top: 12px; }
+.practice-warn { border-left-color: var(--vermilion); }
+.practice .link-btn { color: var(--text); text-decoration-color: var(--rule-strong); }
+.practice-hint { margin: 10px 0 0; font-size: 13px; color: var(--text-3); }
+.practice-hint a { color: var(--text-2); text-underline-offset: 3px; }
+.practice-line { margin-top: 4px; }

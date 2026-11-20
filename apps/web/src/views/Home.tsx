@@ -140,6 +140,17 @@ export default function Home() {
           </article>
           <article className="pillar">
             <span className="step-num">03</span>
+            <h3>The Bankroll</h3>
+            <p>
+              Enter your bankroll and see the stakes it covers, when to move up and when to move down. Then log your
+              sessions and it keeps count, in your own browser. The Trainer has a play-money one to practise on.
+            </p>
+            <Link to="/bankroll" className="chip-btn chip-strong">
+              Check your bankroll →
+            </Link>
+          </article>
+          <article className="pillar">
+            <span className="step-num">04</span>
             <h3>The Library</h3>
             <p>
               A street-by-street strategy guide and a plain-language glossary — equity, pot odds, outs, SPR, ranges —

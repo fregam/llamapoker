@@ -7,7 +7,7 @@ a goal-first skill and a calibrated critic. This parks the script-stage grill fo
 
 ## Goal
 
-The site's guides (`/learn/*`, `/strategy`, `/glossary`) rank on page one for the 18 approved
+The site's guides (`/learn/*`, `/strategy`, `/glossary`) rank on page one for the approved
 searches (`apps/seo/targets.json`) and keep a beginner reading through to the tool. The research
 exists to change what gets written there. The conversion text (home, `/table`, `/trainer`, the
 signup box) is a second pass over the same collection. The letter waits until it has readers.

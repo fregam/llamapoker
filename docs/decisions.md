@@ -14,6 +14,33 @@ the responsible-gambling rules stay hard limits. Rejected: reputation as proof, 
 single hits, and paying for search results before trying the free click data (ORCAS). A 1% pilot
 runs before the full size. Spec: `.scratch/copy-research/spec.md`.
 
+## 2026-11-19 - Bankroll management: rules give the verdict, risk of ruin explains it
+
+- **What:** a bankroll calculator and a session tracker on one page (`/bankroll`) and a guide
+  (`/learn/bankroll-management`). The verdict is the buy-in rule (cash 20 / 30 / 50 buy-ins,
+  tournaments 50 / 100 / 200, by how careful): the highest stake the bankroll covers, the line to
+  move up at, the line to move down below. Risk of ruin is the second number and is labelled as
+  what it is: the chance of losing everything if you never move down. Sessions live in the
+  visitor's browser, with a CSV file as backup; no accounts yet. Settled with the founder: the
+  three parts and their order, cash and tournaments, both numbers, browser storage, one tool page.
+  Decided by Claude on the founder's word ("do what you think best"): everything listed under
+  "Decided by Claude" in `.scratch/bankroll/spec.md`.
+- **Why:** a beginner needs one answer, and the buy-in rule is the one every coach teaches. But
+  the honest number is uncomfortable: a small winner with the standard 30 buy-ins has a 23% chance
+  of losing them all if they never move down. Showing both, with the reason they differ, is what a
+  static chart cannot do. Browser storage keeps the privacy page true and costs nothing to run.
+- **Rejected:** risk of ruin as the verdict (it needs a win rate, which a beginner does not know
+  and overestimates); accounts now (the site's first database, for a feature nobody has used yet);
+  a separate page each for calculator and tracker; a risk-of-ruin number from the visitor's own
+  results before 30 sessions (a number that means nothing); buy-in tiers or a formula written from
+  memory (the tiers were checked against published guidance, the formula against its published
+  worked example and against a simulation in the tests).
+- **Part C, the practice bankroll in the Trainer:** play money in the Full hand drill, $100 to
+  start, the same standard rule. The stake is the player's to move; the Trainer says when they are
+  under the line and counts the hands played there, and forces a move only when a buy-in can no
+  longer be covered. Rejected: assigning the stake automatically, which would remove the one habit
+  the thing exists to practise.
+
 ## 2026-11-17 - The wall's look: brightness does the hierarchy
 
 - **What:** inside the look already decided (true black, cyan data, orange chrome and waiting, red

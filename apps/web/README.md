@@ -35,6 +35,13 @@ https://llamapoker.com; override with `SITE_URL` when building for another addre
 
 - **Tool**: the live calculator (below).
 - **The Table** (`/table`), **Trainer** (`/trainer`), **Strategy** (`/strategy`), **Glossary** (`/glossary`), **Privacy** (`/privacy`).
+- **Bankroll** (`/bankroll`): a bankroll calculator (the stakes your bankroll covers by buy-in rule, when to move up
+  and down, risk of ruin for cash games and tournaments) and a session tracker on the same page. Sessions are kept
+  in your browser only; download them as a CSV for backup, or import one from a spreadsheet. The guide is at
+  `/learn/bankroll-management`.
+- **Practice bankroll** (Trainer, Full hand drill): play money that carries over between visits. Each hand's result
+  moves it at the stake you are on; you move up when the bankroll reaches the line for the next stake and move
+  down when it falls under the line for yours. Going bust is counted and starts it again.
 - **Learn** (`/learn`): a beginner path: hand rankings, positions (with a table diagram), starting-hand charts by seat (generated from the tool's ranges), and an honest guide to online poker helpers.
 - **Trainer**: five drills. **Full hand** plays a whole hand street by street against an opponent
   holding real cards from a realistic range, through to a showdown. **Mixed**, **Preflop**,
@@ -92,6 +99,8 @@ Right side, **the read**:
 - `src/poker/strategy.ts` + `analyze.ts`: pot odds, all-in capping, SPR, implied odds and the
   recommended action, shared by the tool and the trainer.
 - `src/poker/stats.ts`: trainer stats in `localStorage` (still works when storage is blocked).
+- `src/poker/bankroll.ts` + `bankrollLog.ts`: the bankroll rules (buy-in table, stake ladders, risk of ruin) and
+  the tracker's log with CSV export and import; tests in `bankroll.test.ts` and `bankrollLog.test.ts`.
 - `src/poker/poker.test.ts`: tests for all of the above (e.g. AA vs one random hand ≈ 85%).
 
 Accessibility: every card and control has a screen-reader label, the readout updates via

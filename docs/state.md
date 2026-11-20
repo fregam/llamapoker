@@ -1,18 +1,29 @@
 # State
 
 What is in flight, blocked and waiting on the founder. Read at the start of every session, update at
-the end. Last update: 2026-11-19 (copy research specced).
+the end. Last update: 2026-11-19 (bankroll management shipped, PRs #51 and #52; copy research specced, PR #53).
 
 ## Done 2026-11-19
 
-- **Copy research grilled and specced** (branch `research/copy-study`, nothing committed yet):
+- **Copy research grilled and specced** (branch `research/copy-study`, PR #53):
   spec and 15 tickets in `.scratch/copy-research/`. Goal: better guides, judged by the weekly SEO
-  score. Nothing is collected or built; the sources in the spec come from a web search and are
-  untested. Next: ticket 01, then the pilot (tickets 01 to 11), whose report needs the founder's
+  score. Ticket 01 is started: `apps/copy/` holds the store and the downloader, and the click file is
+  down; the two large files are not. Next: finish ticket 01, then the pilot (tickets 01 to 11), whose report needs the founder's
   yes before the full run. The script-stage grill for reels is parked behind this.
 - Disks checked: the repo and all research data are on `E:` (HDD, 3,019 GB free). The only project
   file on `C:` is the 623 MB audience-research backup, left there so it is not on the same disk
   as its original.
+
+- **Bankroll management, all three parts, merged** (PRs #51 and #52; parts A and B: branch `feat/bankroll`, worktree
+  `.claude/worktrees/bankroll`, spec and tickets `.scratch/bankroll/`): the rules engine and the
+  tracker log (`apps/web/src/poker/bankroll.ts`, `bankrollLog.ts`, 46 tests), the calculator and
+  the tracker on `/bankroll`, the guide `/learn/bankroll-management`, a "Bankroll" nav item, new
+  glossary entries, and the privacy, FAQ and About pages kept true. Checked in a real browser:
+  cash, tournament, deposit and withdrawal logged, totals right, reload keeps them, delete
+  everything then import the CSV restores them, no sideways scroll at 390 px. Not checked: the
+  browser actually saving the downloaded file to disk (the button was pressed with the save
+  captured, and the bytes compared), and a real phone. The founder made six calls in the grill and handed the rest over; those are
+  listed at the top of the spec to overrule.
 
 ## Done 2026-11-17
 
@@ -133,6 +144,12 @@ the end. Last update: 2026-11-19 (copy research specced).
   which fail CI) are left open for a deliberate upgrade later.
 
 ## Waiting on the founder
+
+- **Bankroll, 2026-11-19 (PRs #51 and #52 merged on the founder's word, "finish this feature up
+  push and merge"):** request indexing in Search Console for `/bankroll` and
+  `/learn/bankroll-management`. Anything under "Decided by Claude" in `.scratch/bankroll/spec.md`
+  can still be overruled ("we'll improve later"). The SEO targets are 20 now (two bankroll
+  searches added on the same word); the score's "of 18" in older reports is the old list.
 
 - **SEO on the wall, 2026-11-17 (PR #48 merged):** (1) register
   or replace the scheduled task with the command in `apps/seo/README.md` (it starts `weekly.mjs`

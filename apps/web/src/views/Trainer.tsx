@@ -11,9 +11,12 @@
  * Answers are allowed only once the full simulation for this exact question has landed.
  * An optional shot clock turns a timeout into a fold / check. Results go to
  * poker/stats (all-time + leaks) and to in-memory session totals.
+ * The Full hand drill also plays for a practice bankroll (poker/practice): play money that carries
+ * over between visits, at a stake the player moves up and down by the bankroll calculator's rule.
  * Layout: drill bar on top; left = the spot, table, answers, feedback; right = your
  * stats and leaks while deciding, then <Readout showReco={false}> after answering.
- * Uses: poker/handPlay, poker/drills, poker/analyze, poker/stats, poker/cards, poker/ranges,
+ * Uses: poker/handPlay, poker/drills, poker/analyze, poker/stats, poker/practice, poker/bankroll
+ * (formatMoney), poker/cards, poker/ranges, components/Link,
  * hooks/useEquity, components/Cards, OpponentRanges (helpers), Readout.
  */
 
@@ -32,6 +35,9 @@ import { Stats, emptyStats, loadStats, recordDecision, saveStats, findLeaks, isO
 import { formatPct } from "../poker/odds";
 import { HandState, dealHand, spotOf, optionsOf, applyChoice, pretty, boardOf } from "../poker/handPlay";
 import { randomSpot, outsSpot, optionsFor } from "../poker/drills";
+import { HandOutcome, Practice, emptyPractice, loadPractice, moveDown, moveUp, playHand, practiceStatus, savePractice } from "../poker/practice";
+import { BUYINS, formatMoney } from "../poker/bankroll";
+import { Link } from "../components/Link";
 
 const STREETS = ["Preflop", "Flop", "Turn", "River"];
 
@@ -154,6 +160,8 @@ export default function Trainer() {
   const [stats, setStats] = useState<Stats>(loadStats);
   const [session, setSession] = useState({ total: 0, correct: 0, net: 0, hands: 0 });
   const [confirmReset, setConfirmReset] = useState(false);
+  const [practice, setPractice] = useState<Practice>(loadPractice);
+  const [outcome, setOutcome] = useState<HandOutcome | null>(null); // what the last full hand did to the practice bankroll
   const [left, setLeft] = useState<number | null>(null);
   const outsRef = useRef<HTMLInputElement>(null);
 
@@ -177,6 +185,12 @@ export default function Trainer() {
     setTimedOut(false);
     setOutsInput("");
     if (m === "hand") setHandMarks([]);
+    setOutcome(null);
+  }
+
+  function keepPractice(p: Practice) {
+    setPractice(p);
+    savePractice(p);
   }
 
   function submit(ans: string, timeout = false) {
@@ -221,6 +235,9 @@ export default function Trainer() {
       setHand(next);
       setNext(null);
       setSession((x) => ({ ...x, net: x.net + next.over!.heroNet, hands: x.hands + 1 }));
+      const o = playHand(practice, next.over.heroNet);
+      setOutcome(o);
+      keepPractice(o.practice);
       return;
     }
     setHand(next);
@@ -425,6 +442,27 @@ export default function Trainer() {
               <p className="ro-caption">
                 Graded on the decisions, not the cards: a good call can still lose.
               </p>
+              {outcome && (
+                <p className="ro-caption practice-line">
+                  <strong>
+                    {outcome.change > 0 ? "+" : ""}
+                    {formatMoney(outcome.change)}
+                  </strong>{" "}
+                  of play money at {outcome.stake.name}.{" "}
+                  {outcome.bust ? (
+                    <>
+                      <strong>That was the last buy-in: the practice bankroll is bust.</strong> It starts again at{" "}
+                      {formatMoney(outcome.practice.bankroll)}. This is what the move-down line is for.
+                    </>
+                  ) : outcome.droppedTo ? (
+                    <>
+                      The bankroll no longer covers a buy-in there, so you're down to <strong>{outcome.droppedTo.name}</strong>.
+                    </>
+                  ) : (
+                    <>Practice bankroll: {formatMoney(outcome.practice.bankroll)}.</>
+                  )}
+                </p>
+              )}
             </div>
           ) : question.kind === "outs" ? (
             <form className="outs-form" onSubmit={onOuts}>
@@ -509,6 +547,8 @@ export default function Trainer() {
               stats={stats}
               session={session}
               leaks={leaks}
+              practice={mode === "hand" ? practice : null}
+              onPractice={keepPractice}
               confirmReset={confirmReset}
               onReset={() => {
                 if (!confirmReset) {
@@ -532,9 +572,13 @@ function SidePanel({
   stats,
   session,
   leaks,
+  practice,
+  onPractice,
   onReset,
   confirmReset,
 }: {
+  practice: Practice | null;
+  onPractice: (p: Practice) => void;
   stats: Stats;
   session: { total: number; correct: number; net: number; hands: number };
   leaks: ReturnType<typeof findLeaks>;
@@ -573,6 +617,8 @@ function SidePanel({
           </span>
         </div>
       </div>
+
+      {practice && <PracticePanel practice={practice} onChange={onPractice} />}
 
       <section className="ro-section">
         <h3 className="ro-title">
@@ -636,5 +682,81 @@ function SidePanel({
         </section>
       )}
     </div>
+  );
+}
+
+/**
+ * The practice bankroll in the side column (Full hand drill): play money, the stake being played
+ * and the two lines from the bankroll rule. Moving up is offered once the bankroll reaches the
+ * next stake's line; under the current stake's line it says so and offers the move down.
+ */
+function PracticePanel({ practice, onChange }: { practice: Practice; onChange: (p: Practice) => void }) {
+  const [confirm, setConfirm] = useState(false);
+  const s = practiceStatus(practice);
+  const held = s.held >= 10 ? Math.floor(s.held) : Math.floor(s.held * 10) / 10;
+  return (
+    <section className="ro-section practice">
+      <h3 className="ro-title">
+        Practice bankroll <span className="ro-sub">play money, full hands</span>
+        <button
+          className="link-btn"
+          style={{ marginLeft: "auto" }}
+          onClick={() => {
+            if (!confirm) return setConfirm(true);
+            onChange(emptyPractice(practice.busts));
+            setConfirm(false);
+          }}
+        >
+          {confirm ? "click again to start over" : "start over"}
+        </button>
+      </h3>
+      <p className="practice-figure">
+        <span className="practice-value">{formatMoney(practice.bankroll)}</span>
+        <span className="figure-note">
+          {held} buy-ins at {s.stake.name}
+          {practice.busts > 0 && ` · bust ${practice.busts} time${practice.busts === 1 ? "" : "s"}`}
+        </span>
+      </p>
+      {s.underLine ? (
+        <p className="ro-note practice-warn">
+          <strong>Under the line.</strong> The rule keeps {BUYINS.cash.standard} buy-ins, {formatMoney(s.line)} at this stake. Move
+          down now and come back when the bankroll does.{" "}
+          <button className="link-btn" onClick={() => onChange(moveDown(practice))}>
+            Move down to {s.lower!.name}
+          </button>
+        </p>
+      ) : s.canMoveUp ? (
+        <p className="ro-note">
+          <strong>Rolled for {s.next!.name}.</strong> You hold {BUYINS.cash.standard} buy-ins of the bigger game. Take the
+          shot, and drop back if it goes under {formatMoney(s.moveUpAt!)}.{" "}
+          <button className="link-btn" onClick={() => onChange(moveUp(practice))}>
+            Move up
+          </button>
+        </p>
+      ) : (
+        <p className="ro-caption">
+          {s.moveUpAt !== null && (
+            <>
+              Move up to {s.next!.name} at <strong>{formatMoney(s.moveUpAt)}</strong>.{" "}
+            </>
+          )}
+          {s.lower ? (
+            <>
+              Move down below <strong>{formatMoney(s.line)}</strong>.{" "}
+              <button className="link-btn" onClick={() => onChange(moveDown(practice))}>
+                Move down
+              </button>
+            </>
+          ) : (
+            <>This is the lowest stake.</>
+          )}
+        </p>
+      )}
+      <p className="hint practice-hint">
+        Each full hand moves this by its result at the stake you're on. Same rule as the{" "}
+        <Link to="/bankroll">bankroll calculator</Link>
+        {practice.under > 0 && `; ${practice.under} hand${practice.under === 1 ? "" : "s"} played under the line so far`}.
+      </p>
+    </section>
   );
 }

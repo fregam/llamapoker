@@ -53,7 +53,10 @@ function TrainerGuide() {
           <li>
             <strong>Full hand.</strong> Play a whole hand against one opponent, street by street: preflop, flop, turn
             and river. Each decision is graded on its own, and at the end you see the opponent's cards and what the
-            hand won or lost.
+            hand won or lost. Full hands also play for a <strong>practice bankroll</strong>: play money that carries
+            over between visits, at a stake you move up and down by the same buy-in rule as the{" "}
+            <Link to="/bankroll">bankroll calculator</Link>, so the habit of moving down is practised with nothing at
+            risk.
           </li>
           <li>
             <strong>Mixed.</strong> Single spots from any street. Raise, call or fold?

@@ -563,3 +563,43 @@ lesson, and a hook line that could open the post.
 - **What happened:** planned only; a pilot at 1% runs first and reports before the full size.
 - **Lesson:** when you want to learn from the best, first decide who kept the score.
 - **Hook:** "I wanted to study the greatest copywriters. Then I asked how anyone knows they were great."
+
+## 2026-11-19: The bankroll rule every coach teaches fails one time in four
+
+- **Choice:** the site got a bankroll calculator. The verdict is the rule every poker coach
+  teaches: keep 30 buy-ins for the stake you play. Behind it, the page shows the number nobody
+  prints next to that rule: the chance of losing all 30 if you stay at that stake and never move
+  down. For a small winner it is 23%. Both numbers are on the page, with one sentence on why they
+  are both true: the rule only works because of its second half, moving down.
+- **Rejected:** showing only the friendly rule (what every chart does), or only the scary number
+  (it needs your win rate, and beginners guess theirs too high). Also rejected: writing the
+  numbers from memory. The formula was checked against its published example and against a
+  simulation before any page used it. And no accounts: a person's poker results stay in their
+  own browser, with a file to back them up.
+- **What happened:** the founder answered five design questions, then said "do what you think
+  best, we'll see from there". So every decision made after that went into a list at the top of
+  the spec, titled so each one can be overruled in a line. To hold the risk at 5% without ever
+  moving down, that same small winner needs 61 buy-ins, twice the rule.
+- **Lesson:** a rule of thumb is half a rule when the other half is a habit. "Keep 30 buy-ins"
+  is safe only for people who drop a stake the day they fall under the line. Say the habit out loud.
+- **Hook:** "The bankroll rule every poker coach teaches goes broke one time in four. Here's the half they skip."
+
+## 2026-11-19: The reviewers found ten things. I then emptied the spec myself.
+
+- **Choice:** before opening the pull request for the bankroll pages, the change went to three
+  readers: one stronger model, then two separate agents, one reading only for the repo's rules
+  and one only for the spec. Every bug they found got a failing test first, then the fix.
+- **Rejected:** trusting 124 green tests. They were green and wrong in six places: two identical
+  tournaments in one imported file became one; "12,50" was read as 1,250; the tournament risk went
+  up when you added one buy-in (sampling noise, shown to a tenth of a percent); a winner who had
+  withdrawn everything was told his results were "at a loss".
+- **What happened:** the fixes went in through a small edit script that opened each file for
+  writing before checking that its edit applied. One edit did not apply, the script stopped, and
+  the spec was left at zero bytes. The next command committed and pushed it. It was caught a
+  minute later only because a later step tried to read the file. Minutes after that, a careless
+  command to count tests on the main branch overwrote the working files; everything was already
+  pushed, so nothing was lost.
+- **Lesson:** review catches what tests do not, and neither catches the tool you use to apply the
+  fixes. Check before you open a file for writing, and look at the diff summary before a push: a
+  line reading "93 deletions" on a spec is not a review fix.
+- **Hook:** "My tests were green and wrong in six places. Then my own fix script deleted the spec."
